@@ -12,9 +12,10 @@ lazy val microservice = Project("income-tax-penalties-appeals-frontend", file(".
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     pipelineStages := Seq(gzip),
+    PlayKeys.playDefaultPort := 9188
   )
   .settings(resolvers += Resolver.jcenterRepo)
-  .settings(CodeCoverageSettings.settings: _*)
+  .settings(CodeCoverageSettings.settings *)
 
 lazy val it = project
   .enablePlugins(PlayScala)

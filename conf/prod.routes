@@ -1,3 +1,3 @@
 # Add all the application routes to the app.routes file
-->         /income-tax-penalties-appeals-frontend              app.Routes
-->         /                          health.Routes
+->         /penalties-appeals/income-tax              app.Routes
+->         /                                          health.Routes
