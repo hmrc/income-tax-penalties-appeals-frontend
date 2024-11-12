@@ -1,7 +1,7 @@
 
 # income-tax-penalties-appeals-frontend
 
-This is a placeholder README.md for a new repository
+This is Scala/Play service for Income Tax users to view and appeal their penalties.
 
 ### License
 
