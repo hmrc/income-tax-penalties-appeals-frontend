@@ -3,5 +3,6 @@ service.text = This is your new service
 service.indexPageTitle = Appeal a Self Assessment penalty
 service.indexPageHeader = Appeal a Self Assessment penalty
 error.title.prefix = Error:
+govuk.suffix = GOV.UK
 alphaBanner.message = This is a new service – your {0} will help us to improve it.
 alphaBanner.linkText = feedback
