@@ -1,2 +1,7 @@
-service.name = income-tax-penalties-appeals-frontend
+service.name = Appeal a Self Assessment penalty
 service.text = This is your new service
+service.indexPageTitle = Appeal a Self Assessment penalty
+service.indexPageHeader = Appeal a Self Assessment penalty
+error.title.prefix = Error:
+alphaBanner.message = This is a new service – your {0} will help us to improve it.
+alphaBanner.linkText = feedback
