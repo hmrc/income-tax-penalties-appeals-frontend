@@ -26,4 +26,7 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
   lazy val serviceSignOut:String = servicesConfig.getString("service-signout.url")
   lazy val ITSAPenaltiesAppealsHomeUrl = "/penalties-appeals/income-tax"
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
+  def getFeatureSwitchValue(feature: String): Boolean = config.get[Boolean](feature)
+  def selfUrl: String = servicesConfig.baseUrl("income-tax-penalties-appeals-frontend")
+
 }
