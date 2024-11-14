@@ -10,4 +10,10 @@
 # Failing to follow this rule may result in test routes deployed in production.
 
 # Add all the application routes to the prod.routes file
+
+GET        /penalties-appeals/income-tax/test-only/feature-switches                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
+POST       /penalties-appeals/income-tax/test-only/feature-switches                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
+GET        /penalties-appeals/income-tax/test-only/api/feature-switches                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers.FeatureSwitchApiController.getFeatureSwitches()
++ nocsrf
+POST       /penalties-appeals/income-tax/test-only/api/feature-switches                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers.FeatureSwitchApiController.updateFeatureSwitches()
 ->         /                          prod.Routes

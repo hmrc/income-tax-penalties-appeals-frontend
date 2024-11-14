@@ -25,7 +25,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.Future
 
 @Singleton
-class HelloWorldController @Inject()(
+class ServiceController @Inject()(
   mcc: MessagesControllerComponents,
   helloWorldPage: HelloWorldPage)(appConfig: AppConfig)
     extends FrontendController(mcc) {
