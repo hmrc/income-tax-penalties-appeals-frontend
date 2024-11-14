@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,19 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@this(layout: Layout)
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import com.google.inject.Inject
+import play.api.i18n.Lang
+import play.api.mvc.ControllerComponents
+import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
-@()(implicit request: RequestHeader, messages: Messages)
+class LanguageSwitchController @Inject()(
+  languageUtils: LanguageUtils,
+  cc: ControllerComponents
+) extends LanguageController(languageUtils, cc) {
 
-@layout(Some(titleBuilder(messages("service.indexPageTitle")))) {
-    <h1 class="govuk-heading-xl">@{messages("service.indexPageHeader")}</h1>
-    <p class="govuk-body">@{messages("service.text")}</p>
-}
+  override def languageMap: Map[String, Lang] = Map(
+    "english" -> Lang("en"),
+    "cymraeg" -> Lang("cy")
+  )
 
-@{
-    //$COVERAGE-OFF$
+  override def fallbackURL: String = routes.HelloWorldController.helloWorld.url
 }

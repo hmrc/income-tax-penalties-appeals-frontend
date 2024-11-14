@@ -15,12 +15,15 @@
  */
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
 import play.api.Configuration
 
 @Singleton
-class AppConfig @Inject()(config: Configuration) {
+class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
-
+  lazy val serviceSignOut:String = servicesConfig.getString("service-signout.url")
+  lazy val ITSAPenaltiesAppealsHomeUrl = "/penalties-appeals/income-tax"
+  val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 }

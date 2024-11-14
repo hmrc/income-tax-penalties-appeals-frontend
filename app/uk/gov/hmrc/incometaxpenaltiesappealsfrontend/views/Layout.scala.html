@@ -14,23 +14,92 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{PhaseBanner, Tag, _}
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukBackLink, GovukPhaseBanner}
+@import uk.gov.hmrc.hmrcfrontend.views.Aliases.{Cy, En}
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcAccountMenu
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.{HmrcReportTechnicalIssueHelper, HmrcStandardPage, HmrcTimeoutDialogHelper}
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.accountmenu.{AccountMenu, AccountMessages, SignOut}
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.{HmrcStandardPageParams, _}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcStandardPage
-@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.HmrcStandardPageParams
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
 
 @this(
   appConfig: AppConfig,
-  hmrcStandardPage: HmrcStandardPage
+  hmrcStandardPage: HmrcStandardPage,
+  hmrcAccountMenu: HmrcAccountMenu,
+  hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
+  hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
+  govukPhaseBanner: GovukPhaseBanner,
+  govukBackLink: GovukBackLink,
+  hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
+  link: Link
 )
+@(pageTitle: Option[String] = None, backLinkEnabled: Boolean = true)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
-@(pageTitle: Option[String] = None)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+
+@headBlock = {
+    @Some(hmrcTimeoutDialogHelper(signOutUrl = signOutUrl))
+}
+
+@accountMenu = @{
+    hmrcAccountMenu(AccountMenu(
+        signOut = SignOut(href = signOutUrl),
+        language = if(messages.lang.code == "cy") Cy else En,
+        messages = AccountMessages(messageCount = None)
+    ))
+}
+
+@beforeContent = {
+    @accountMenu
+
+    @govukPhaseBanner(PhaseBanner(
+        tag = Some(Tag(
+            content = Text("Alpha")
+        )),
+        content =   HtmlContent(messages("alphaBanner.message",
+            link(link=appConfig.alphaBannerUrl,
+                messageKey="alphaBanner.linkText",
+                inParagraph = true)
+        ))
+    ))
+
+    @if(backLinkEnabled) {
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+            @govukBackLink(BackLink.mimicsBrowserBackButtonViaJavaScript)
+            </div>
+            <div class="govuk-grid-column-one-half">
+            @hmrcLanguageSelectHelper()
+            </div>
+        </div>
+    } else {
+        @hmrcLanguageSelectHelper()
+    }
+}
+
+@content = {
+    @contentBlock
+    @hmrcReportTechnicalIssueHelper()
+}
+
+@signOutUrl =@{uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HelloWorldController.logout.url}
 
 @hmrcStandardPage(
   HmrcStandardPageParams(
+      serviceURLs = ServiceURLs(
+          serviceUrl = Some(appConfig.ITSAPenaltiesAppealsHomeUrl),
+          signOutUrl = None
+      ),
     pageTitle = pageTitle,
-    isWelshTranslationAvailable = appConfig.welshLanguageSupportEnabled
+    isWelshTranslationAvailable = appConfig.welshLanguageSupportEnabled,
+    templateOverrides = TemplateOverrides(
+        additionalHeadBlock = Some(headBlock),
+        beforeContentBlock = Some(beforeContent)
+    )
   )
-)(contentBlock)
+)(content)
 
 @{
     //$COVERAGE-OFF$
