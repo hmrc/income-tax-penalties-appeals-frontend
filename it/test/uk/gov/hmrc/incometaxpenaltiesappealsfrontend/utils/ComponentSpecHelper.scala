@@ -23,11 +23,15 @@ import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Writes
-import play.api.libs.ws.{WSClient, WSRequest, WSResponse}
+import play.api.libs.ws.{DefaultWSCookie, WSClient, WSCookie, WSRequest, WSResponse}
+import play.api.mvc.{Cookie, Session, SessionCookieBaker}
 import play.api.test.Helpers._
+import uk.gov.hmrc.crypto.PlainText
+import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
 
 trait ComponentSpecHelper
-    extends AnyWordSpec
+  extends AnyWordSpec
     with Matchers
     with CustomMatchers
     with WiremockHelper
@@ -44,13 +48,15 @@ trait ComponentSpecHelper
 
   val mockHost: String = WiremockHelper.wiremockHost
   val mockPort: String = WiremockHelper.wiremockPort.toString
-  val mockUrl: String  = s"http://$mockHost:$mockPort"
+  val mockUrl: String = s"http://$mockHost:$mockPort"
 
   def config: Map[String, String] = Map(
-    "microservice.services.des.host"                        -> mockHost,
-    "microservice.services.des.port"                        -> mockPort,
-    "auditing.enabled"                                      -> "false",
-    "play.filters.csrf.header.bypassHeaders.Csrf-Token"     -> "nocheck"
+    "microservice.services.penalties.host" -> mockHost,
+    "microservice.services.penalties.port" -> mockPort,
+    "microservice.services.auth.host" -> mockHost,
+    "microservice.services.auth.port" -> mockPort,
+    "auditing.enabled" -> "true",
+    "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck"
   )
 
   implicit val ws: WSClient = app.injector.instanceOf[WSClient]
@@ -70,33 +76,81 @@ trait ComponentSpecHelper
     super.beforeEach()
   }
 
-  def get[T](uri: String): WSResponse = {
-    await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123").get())
+  def get[T](uri: String, isAgent: Boolean = false, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
+    await(buildClient(uri)
+      .withHttpHeaders("Authorization" -> "Bearer 123")
+      .withCookies(cookie, mockSessionCookie(isAgent))
+      .withQueryStringParameters(queryParams.toSeq: _*)
+      .get())
   }
 
-  def post[T](uri: String)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def post[T](uri: String, isAgent: Boolean = false, cookie: WSCookie = enLangCookie)(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
+        .withCookies(cookie, mockSessionCookie(isAgent))
         .post(writes.writes(body).toString())
     )
   }
 
-  def put[T](uri: String)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def put[T](uri: String, isAgent: Boolean = false)(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
+        .withCookies(mockSessionCookie(isAgent))
         .put(writes.writes(body).toString())
     )
   }
 
-  def delete[T](uri: String): WSResponse = {
-    await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123").delete())
+  def delete[T](uri: String, isAgent: Boolean = false): WSResponse = {
+    await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123")
+      .withCookies(mockSessionCookie(isAgent))
+      .delete())
   }
 
   val baseUrl: String = "/penalties-appeals/income-tax"
 
   private def buildClient(path: String): WSRequest =
     ws.url(s"http://localhost:$port$baseUrl$path").withFollowRedirects(false)
+
+
+  val cyLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "cy")
+
+  val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
+
+  def mockSessionCookie(isAgent: Boolean): WSCookie = {
+
+    def makeSessionCookie(session: Session): Cookie = {
+      val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
+      val cookieBaker = app.injector.instanceOf[SessionCookieBaker]
+      val sessionCookie = cookieBaker.encodeAsCookie(session)
+      val encryptedValue = cookieCrypto.crypto.encrypt(PlainText(sessionCookie.value))
+      sessionCookie.copy(value = encryptedValue.value)
+    }
+
+    val mockSession = Session(Map(
+      SessionKeys.lastRequestTimestamp -> System.currentTimeMillis().toString,
+      SessionKeys.authToken -> "mock-bearer-token",
+      SessionKeys.sessionId -> "mock-sessionid"
+    )) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
+
+    val cookie = makeSessionCookie(mockSession)
+
+    new WSCookie() {
+      override def name: String = cookie.name
+
+      override def value: String = cookie.value
+
+      override def domain: Option[String] = cookie.domain
+
+      override def path: Option[String] = Some(cookie.path)
+
+      override def maxAge: Option[Long] = cookie.maxAge.map(_.toLong)
+
+      override def secure: Boolean = cookie.secure
+
+      override def httpOnly: Boolean = cookie.httpOnly
+    }
+  }
 
 }

@@ -37,6 +37,8 @@ trait ViewSpecHelper {
 
     lazy val getH2Elements: Elements = element.getElementsByTag("h2")
 
+    lazy val getH3Elements: Elements = element.getElementsByTag("h3")
+
     lazy val getFormElements: Elements = element.getElementsByClass("form-field-group")
 
     lazy val getLabelElement: Elements = element.getElementsByTag("label")

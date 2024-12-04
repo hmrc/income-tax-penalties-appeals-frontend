@@ -18,21 +18,12 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.HelloWorldPage
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.Future
 
 @Singleton
-class ServiceController @Inject()(
-  mcc: MessagesControllerComponents,
-  helloWorldPage: HelloWorldPage)(appConfig: AppConfig)
-    extends FrontendController(mcc) {
-
-  val helloWorld: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(helloWorldPage()))
-  }
+class SignOutController @Inject()(mcc: MessagesControllerComponents)(appConfig: AppConfig) extends FrontendController(mcc) {
 
   def logout: Action[AnyContent] = Action {
     Redirect(appConfig.serviceSignOut).withNewSession

@@ -18,8 +18,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controll
 
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, InjectedController}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services.FeatureSwitchService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services.FeatureSwitchService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitchSetting
 
@@ -27,7 +27,7 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class FeatureSwitchApiController @Inject()(featureSwitchService: FeatureSwitchService,
-                                          val config: AppConfig) extends InjectedController with FeatureSwitching {
+                                          val appConfig: AppConfig) extends InjectedController with FeatureSwitching {
 
   def getFeatureSwitches: Action[AnyContent] = Action {
     Ok(Json.toJson(featureSwitchService.getFeatureSwitches()))

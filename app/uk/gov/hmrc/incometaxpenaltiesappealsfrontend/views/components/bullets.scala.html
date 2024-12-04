@@ -1,5 +1,5 @@
-/*
- * Copyright 2024 HM Revenue & Customs
+@*
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,16 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
+@this()
 
-import com.google.inject.AbstractModule
+@(content: Seq[Html], isWarning: Boolean = false, numberList: Boolean = false, classes: String = "govuk-list")
 
-class Module extends AbstractModule {
-
-  override def configure(): Unit = {
-
-    bind(classOf[AppConfig]).asEagerSingleton()
-  }
+<ul class="@classes govuk-list--bullet @if(isWarning){govuk-warning-text__text govuk-!-margin-top-5} @if(numberList){govuk-list govuk-list--number}">
+@content.map { bullet =>
+    <li>@bullet</li>
 }
+</ul>

@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
-import com.google.inject.Inject
-import play.api.i18n.Lang
-import play.api.mvc.ControllerComponents
-import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-
-class LanguageSwitchController @Inject()(
-  languageUtils: LanguageUtils,
-  cc: ControllerComponents
-) extends LanguageController(languageUtils, cc) {
-
-  override def languageMap: Map[String, Lang] = Map(
-    "english" -> Lang("en"),
-    "cymraeg" -> Lang("cy")
-  )
-
-  override def fallbackURL: String = routes.AppealStartController.onPageLoad().url
+case class CurrentUser(mtdItId: String, arn: Option[String] = None) {
+  val isAgent: Boolean = arn.isDefined
 }

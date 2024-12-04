@@ -1,5 +1,19 @@
 service.name = Appeal a Self Assessment penalty (Welsh)
-service.text = Dyma'ch gwasanaeth newydd
-
 service.indexPageTitle = Appeal a Self Assessment penalty (Welsh)
 service.indexPageHeader = Appeal a Self Assessment penalty (Welsh)
+error.title.prefix = Error: (Welsh)
+govuk.suffix = GOV.UK
+alphaBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
+alphaBanner.linkText = feedback (Welsh)
+appeal.start.caption = Late submission penalty point: 6 July 2027 to 5 October 2027 (Welsh)
+appeal.start.header = Appeal a Self Assessment penalty (Welsh)
+appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you''ll need to ask HMRC to look at your case again. (Welsh)
+appeal.start.p2 = This service is for appealing penalties given for individual submissions. (Welsh)
+appeal.start.h3 = Before you start (Welsh)
+appeal.start.p3 = You''ll need: (Welsh)
+appeal.start.li1 = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ''a reasonable excuse'') (Welsh)
+appeal.start.li2 = the dates related to this reasonable excuse (Welsh)
+appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in a new tab) (Welsh)
+appeal.start.p4 = In some cases, you''ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later. (Welsh)
+appeal.start.p5 = If you are not asked for extra evidence, this is because we don''t need any to make a decision in your particular case. (Welsh)
+appeal.start.p6 = If we decide we do need extra evidence after reviewing your appeal, we will contact you. (Welsh)
