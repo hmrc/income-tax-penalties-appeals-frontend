@@ -86,6 +86,9 @@ trait WiremockHelper {
 
   import WiremockHelper._
 
+  val stubPort = 11111
+  val stubHost = "localhost"
+
   lazy val wmConfig: WireMockConfiguration = wireMockConfig().port(wiremockPort)
   lazy val wireMockServer: WireMockServer  = new WireMockServer(wmConfig)
 
@@ -97,4 +100,21 @@ trait WiremockHelper {
   def stopWiremock(): Unit = wireMockServer.stop()
 
   def resetWiremock(): Unit = WireMock.reset()
+
+  def resetAll(): Unit = {
+    wireMockServer.resetMappings()
+    wireMockServer.resetRequests()
+    wireMockServer.resetAll()
+  }
+
+  def start(): Unit = {
+    if (!wireMockServer.isRunning) {
+      wireMockServer.start()
+      WireMock.configureFor(stubHost, stubPort)
+    }
+  }
+
+  def stop(): Unit = {
+    wireMockServer.stop()
+  }
 }

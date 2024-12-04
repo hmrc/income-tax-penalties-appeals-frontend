@@ -24,7 +24,7 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class FeatureSwitchService @Inject()(featureSwitchRegistry: FeatureSwitchRegistry,
-                                     val config: AppConfig) extends FeatureSwitching {
+                                     val appConfig: AppConfig) extends FeatureSwitching {
 
   def getFeatureSwitches(): Seq[FeatureSwitchSetting] =
     featureSwitchRegistry.switches.map(

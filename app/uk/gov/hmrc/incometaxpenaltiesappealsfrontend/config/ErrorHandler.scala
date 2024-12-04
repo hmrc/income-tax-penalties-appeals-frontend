@@ -16,20 +16,19 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
 
-import javax.inject.{Inject, Singleton}
-
 import play.api.i18n.MessagesApi
 import play.api.mvc.RequestHeader
 import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ErrorTemplate
+import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ErrorHandler @Inject()(
   errorTemplate: ErrorTemplate,
-  override val messagesApi: MessagesApi
+  override val messagesApi: MessagesApi,
 )(implicit override val ec: ExecutionContext
 ) extends FrontendErrorHandler {
 
