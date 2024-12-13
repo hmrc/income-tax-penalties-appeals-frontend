@@ -37,15 +37,17 @@ reasonableExcuses.otherReason = The reason does not fit into any of the other ca
 # ----------------------------------------------------------
 honestyDeclaration.headingAndTitle = Honesty declaration
 honestyDeclaration.p1 = I confirm that:
+honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0},
 honestyDeclaration.li.1.1 = because {0},
-honestyDeclaration.li.1.2 = I was unable to send the submission due on {0}
+honestyDeclaration.li.1.1 = because {0},
+honestyDeclaration.li.1.1 = because {0},
 honestyDeclaration.li.2 = no one else was available to make the submission for me
 honestyDeclaration.li.3 = I will provide honest and accurate information in this appeal
 
 # When did the fire or flood happen page
 # ----------------------------------------------------------
 fireOrFloodReason.headingAndTitle = When did the fire or flood happen?
-fireOrFloodReason.dateHint = For example, 12 3 2018
+common.dateHint = For example, 12 3 2018
 
 
 common.continue = Continue

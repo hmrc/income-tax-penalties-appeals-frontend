@@ -22,6 +22,8 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcusePage
 
 import javax.inject.Inject
@@ -32,13 +34,15 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
                                            val authConnector: AuthConnector
                                           )(implicit mcc: MessagesControllerComponents,
                                             ec: ExecutionContext,
-                                            val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
+                                            val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport {
+
   def onPageLoad(): Action[AnyContent] = isAuthenticated {
     implicit request =>
       implicit currentUser =>
 
         Future.successful(Ok(reasonableExcusePage(
-          true
+          true,
+          ReasonableExcusesForm.form
         )))
   }
 
@@ -46,7 +50,18 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
   def submit(): Action[AnyContent] = isAuthenticated {
     implicit request =>
       implicit currentUser =>
-        Future.successful(Redirect(routes.HonestyDeclarationController.onPageLoad()))
+        ReasonableExcusesForm.form.bindFromRequest().fold(
+          formWithErrors =>
+            Future.successful(BadRequest(reasonableExcusePage(
+              true,
+              formWithErrors
+            ))),
+          reasonableExcuse =>
+            Future.successful(
+              Redirect(routes.HonestyDeclarationController.onPageLoad())
+              .addingToSession(IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse)
+            )
+        )
   }
 
 }

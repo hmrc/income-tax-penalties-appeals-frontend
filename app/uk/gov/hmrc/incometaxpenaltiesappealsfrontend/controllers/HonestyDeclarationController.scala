@@ -22,6 +22,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.HonestyDeclarationPage
 
 import javax.inject.Inject
@@ -29,24 +30,32 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarationPage,
-                                           val authConnector: AuthConnector
-                                          )(implicit mcc: MessagesControllerComponents,
-                                            ec: ExecutionContext,
-                                            val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
+                                             val authConnector: AuthConnector
+                                            )(implicit mcc: MessagesControllerComponents,
+                                              ec: ExecutionContext,
+                                              val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport {
+
   def onPageLoad(): Action[AnyContent] = isAuthenticated {
     implicit request =>
       implicit currentUser =>
+        val optReasonableExcuse = request.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
-        Future.successful(Ok(honestyDeclaration(
-          true
-        )))
+        optReasonableExcuse match {
+          case Some(reasonableExcuse) =>
+            Future.successful(Ok(honestyDeclaration(
+              true,
+              reasonableExcuse
+            )))
+          case _ =>
+            Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))
+        }
   }
 
 
   def submit(): Action[AnyContent] = isAuthenticated {
     implicit request =>
       implicit currentUser =>
-        Future.successful(Redirect(routes.FireOrFloodReasonController.onPageLoad()))
+        Future.successful(Redirect(routes.WhenDidEventHappenController.onPageLoad()))
   }
 
 }
