@@ -8,4 +8,15 @@ GET        /language/:lang          uk.gov.hmrc.incometaxpenaltiesappealsfronten
 #Initialise appeal and start page
 GET        /appeal-start            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad()
 
+#Reasonable excuse list
+GET        /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad()
+POST       /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit()
 
+
+#Honesty declaration
+GET        /honesty-declaration    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HonestyDeclarationController.onPageLoad()
+POST       /honesty-declaration    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HonestyDeclarationController.submit()
+
+# Fire or Flood Reasonable Excuse Journey
+GET        /when-did-the-fire-or-flood-happen    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.FireOrFloodReasonController.onPageLoad()
+POST       /when-did-the-fire-or-flood-happen     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.FireOrFloodReasonController.submit()

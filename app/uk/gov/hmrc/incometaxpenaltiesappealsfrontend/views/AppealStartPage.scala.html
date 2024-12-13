@@ -18,7 +18,6 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 
-
 @this(layout: Layout)
 
 @(isLate: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
@@ -45,7 +44,7 @@
     <p class="govuk-body">@messages("appeal.start.p6")</p>
 
     <div class="govuk-form-group">
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
+        <a href="@uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.onPageLoad().url" class="govuk-button">@messages("common.continue")</a>
     </div>
 
 }
