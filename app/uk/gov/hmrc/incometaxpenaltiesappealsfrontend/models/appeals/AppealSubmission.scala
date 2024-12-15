@@ -56,8 +56,7 @@ object AppealSubmission {
   //scalastyle:off
   def constructModelBasedOnReasonableExcuse(reasonableExcuse: String,
                                             isLateAppeal: Boolean,
-                                            agentReferenceNo: Option[String],
-                                            //                                            uploadedFiles: Option[Seq[UploadJourney]],
+                                            agentReferenceNo: Option[String], //                                            uploadedFiles: Option[Seq[UploadJourney]],
                                             mtdItId: String)
                                            (implicit request: Request[_]): AppealSubmission = {
     val isLPP: Boolean = !request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString)

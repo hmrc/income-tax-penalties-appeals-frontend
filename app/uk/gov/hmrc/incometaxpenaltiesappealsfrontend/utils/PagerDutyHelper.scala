@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 object PagerDutyHelper {
 
