@@ -53,6 +53,8 @@ trait ComponentSpecHelper
   def config: Map[String, String] = Map(
     "microservice.services.penalties.host" -> mockHost,
     "microservice.services.penalties.port" -> mockPort,
+    "microservice.services.income-tax-penalties-stubs.host" -> mockHost,
+    "microservice.services.income-tax-penalties-stubs.port" -> mockPort,
     "microservice.services.auth.host" -> mockHost,
     "microservice.services.auth.port" -> mockPort,
     "auditing.enabled" -> "true",

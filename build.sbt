@@ -14,6 +14,7 @@ lazy val microservice = Project("income-tax-penalties-appeals-frontend", file(".
     pipelineStages := Seq(gzip),
     PlayKeys.playDefaultPort := 9188
   )
+  .settings(Test/logBuffered := false)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(CodeCoverageSettings.settings *)
 
@@ -21,4 +22,5 @@ lazy val it = project
   .enablePlugins(PlayScala)
   .dependsOn(microservice % "test->test")
   .settings(DefaultBuildSettings.itSettings())
+  .settings(Test/logBuffered := false)
   .settings(libraryDependencies ++= AppDependencies.it)

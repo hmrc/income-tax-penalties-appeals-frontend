@@ -28,30 +28,46 @@ import java.time.LocalDate
 import scala.jdk.CollectionConverters._
 
 trait PenaltiesStub {
-  private val appealUriForLSP = "/penalties/appeals-data/late-submissions"
-  private val appealUriForLPP = "/penalties/appeals-data/late-payments"
-  private val fetchReasonableExcuseUri = "/penalties/appeals-data/reasonable-excuses"
-  private val submitAppealUri = "/penalties/appeals/submit-appeal"
+
+  private def appealUriForLSP(isStubbed: Boolean): String = {
+    if (isStubbed) "/income-tax-penalties-stubs" else "/penalties"
+  } + "/appeals-data/late-submissions"
+
+  private def appealUriForLPP(isStubbed: Boolean): String = {
+    if (isStubbed) "/income-tax-penalties-stubs" else "/penalties"
+  } + "/appeals-data/late-payments"
+
+  private def fetchReasonableExcuseUri(isStubbed: Boolean): String = {
+    if (isStubbed) "/income-tax-penalties-stubs" else "/penalties"
+  } + "/appeals-data/reasonable-excuses"
+
+  private def submitAppealUri(isStubbed: Boolean): String = {
+    if (isStubbed) "/income-tax-penalties-stubs" else "/penalties"
+  } + "/appeals/submit-appeal"
+
   private val submitAppealQueryParams = (isLPP: Boolean, penaltyNumber: String) => Map[String, StringValuePattern](
-  ("enrolmentKey" -> equalTo("HMRC-MTD-IT~MTDITID~123456789")),
-  ("isLPP" -> equalTo(isLPP.toString)),
-  ("penaltyNumber" -> equalTo(penaltyNumber)),
-  ("correlationId" -> matching(".*"))
-)
-  private val multiplePenaltiesUri = (penaltyId: String, enrolmentKey: String) =>
-    s"/penalties/appeals-data/multiple-penalties?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
+    ("enrolmentKey" -> equalTo("HMRC-MTD-IT~MTDITID~123456789")),
+    ("isLPP" -> equalTo(isLPP.toString)),
+    ("penaltyNumber" -> equalTo(penaltyNumber)),
+    ("correlationId" -> matching(".*"))
+  )
+
+  private def multiplePenaltiesUri(penaltyId: String, enrolmentKey: String, isStubbed: Boolean): String = {
+    if (isStubbed) "/income-tax-penalties-stubs" else "/penalties"
+  } + s"/appeals-data/multiple-penalties?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
 
   def successfulGetAppealDataResponse(
                                        penaltyId: String,
                                        enrolmentKey: String,
                                        isLPP: Boolean = false,
-                                       isAdditional: Boolean = false
+                                       isAdditional: Boolean = false,
+                                       isStubbed: Boolean = false
                                      ): StubMapping = {
     val typeOfPenalty =
       if (isAdditional) PenaltyTypeEnum.Additional
       else if (isLPP) PenaltyTypeEnum.Late_Payment
       else PenaltyTypeEnum.Late_Submission
-    val uri = if (isLPP) appealUriForLPP else appealUriForLSP
+    val uri = if (isLPP) appealUriForLPP(isStubbed) else appealUriForLSP(isStubbed)
     val extraAdditionalParam = if (isLPP) s"&isAdditional=$isAdditional" else ""
     stubFor(
       get(
@@ -63,21 +79,21 @@ trait PenaltiesStub {
           .withStatus(Status.OK)
           .withBody(
             Json.obj(
-                "type" -> typeOfPenalty,
+              "type" -> typeOfPenalty,
               "startDate" -> LocalDate.of(2020, 1, 1).toString,
               "endDate" -> LocalDate.of(2020, 1, 31).toString,
               "dueDate" -> LocalDate.of(2020, 3, 7).toString,
               "dateCommunicationSent" -> LocalDate.of(2020, 3, 8).toString
-              ).toString()
+            ).toString()
           )
       )
     )
   }
 
-  def successfulFetchReasonableExcuseResponse: StubMapping = {
+  def successfulFetchReasonableExcuseResponse(isStubbed: Boolean = false): StubMapping = {
 
     stubFor(
-      get(urlEqualTo(fetchReasonableExcuseUri))
+      get(urlEqualTo(fetchReasonableExcuseUri(isStubbed)))
         .willReturn(
           aResponse()
             .withStatus(Status.OK)
@@ -105,7 +121,7 @@ trait PenaltiesStub {
     )
   }
 
-  def successfulAppealSubmission(isLPP: Boolean, penaltyNumber: String): StubMapping = {
+  def successfulAppealSubmission(isLPP: Boolean, penaltyNumber: String,isStubbed: Boolean = false): StubMapping = {
     val responseBody =
       """
         |{
@@ -114,7 +130,7 @@ trait PenaltiesStub {
         |}
         |""".stripMargin
     stubFor(
-      post(urlPathMatching(submitAppealUri)).withQueryParams(submitAppealQueryParams(isLPP, penaltyNumber).asJava)
+      post(urlPathMatching(submitAppealUri(isStubbed))).withQueryParams(submitAppealQueryParams(isLPP, penaltyNumber).asJava)
         .willReturn(
           aResponse()
             .withStatus(Status.OK)
@@ -123,9 +139,9 @@ trait PenaltiesStub {
     )
   }
 
-  def successfulGetMultiplePenalties(penaltyId: String, enrolmentKey: String): StubMapping = {
+  def successfulGetMultiplePenalties(penaltyId: String, enrolmentKey: String, isStubbed: Boolean = false): StubMapping = {
     stubFor(
-      get(urlEqualTo(multiplePenaltiesUri(penaltyId, enrolmentKey)))
+      get(urlEqualTo(multiplePenaltiesUri(penaltyId, enrolmentKey, isStubbed)))
         .willReturn(
           aResponse()
             .withStatus(Status.OK)
@@ -143,19 +159,19 @@ trait PenaltiesStub {
     )
   }
 
-  def failedGetMultiplePenalties(penaltyId: String, enrolmentKey: String, status: Int = Status.INTERNAL_SERVER_ERROR): StubMapping = {
+  def failedGetMultiplePenalties(penaltyId: String, enrolmentKey: String, status: Int = Status.INTERNAL_SERVER_ERROR, isStubbed: Boolean = false): StubMapping = {
     stubFor(
-      get(urlEqualTo(multiplePenaltiesUri(penaltyId, enrolmentKey)))
+      get(urlEqualTo(multiplePenaltiesUri(penaltyId, enrolmentKey, isStubbed)))
         .willReturn(
           aResponse()
-          .withStatus(status)
+            .withStatus(status)
         )
     )
   }
 
-  def failedAppealSubmissionWithFault(isLPP: Boolean, penaltyNumber: String): StubMapping = {
+  def failedAppealSubmissionWithFault(isLPP: Boolean, penaltyNumber: String, isStubbed: Boolean = false): StubMapping = {
     stubFor(
-      post(urlPathMatching(submitAppealUri)).withQueryParams(submitAppealQueryParams(isLPP, penaltyNumber).asJava)
+      post(urlPathMatching(submitAppealUri(isStubbed))).withQueryParams(submitAppealQueryParams(isLPP, penaltyNumber).asJava)
         .willReturn(
           aResponse()
             .withFault(Fault.CONNECTION_RESET_BY_PEER)
@@ -163,9 +179,9 @@ trait PenaltiesStub {
     )
   }
 
-  def failedAppealSubmission(isLPP: Boolean, penaltyNumber: String, status: Option[Int] = None): StubMapping = {
+  def failedAppealSubmission(isLPP: Boolean, penaltyNumber: String, status: Option[Int] = None, isStubbed: Boolean = false): StubMapping = {
     stubFor(
-      post(urlPathMatching(submitAppealUri)).withQueryParams(submitAppealQueryParams(isLPP, penaltyNumber).asJava)
+      post(urlPathMatching(submitAppealUri(isStubbed))).withQueryParams(submitAppealQueryParams(isLPP, penaltyNumber).asJava)
         .willReturn(
           aResponse()
             .withStatus(status.fold(Status.INTERNAL_SERVER_ERROR)(identity))
@@ -177,12 +193,13 @@ trait PenaltiesStub {
   def failedGetAppealDataResponse(
                                    penaltyId: String,
                                    enrolmentKey: String,
-                                   status: Int = Status.INTERNAL_SERVER_ERROR
+                                   status: Int = Status.INTERNAL_SERVER_ERROR,
+                                   isStubbed: Boolean = false
                                  ): StubMapping = {
     stubFor(
       get(
         urlEqualTo(
-          appealUriForLSP + s"?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
+          appealUriForLSP(isStubbed) + s"?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
         )
       ).willReturn(
         aResponse()
@@ -192,10 +209,11 @@ trait PenaltiesStub {
   }
 
   def failedFetchReasonableExcuseListResponse(
-                                               status: Int = Status.INTERNAL_SERVER_ERROR
+                                               status: Int = Status.INTERNAL_SERVER_ERROR,
+                                               isStubbed: Boolean = false
                                              ): StubMapping = {
     stubFor(
-      get(urlEqualTo(fetchReasonableExcuseUri))
+      get(urlEqualTo(fetchReasonableExcuseUri(isStubbed)))
         .willReturn(
           aResponse()
             .withStatus(status)
@@ -203,11 +221,11 @@ trait PenaltiesStub {
     )
   }
 
-  def failedCall(penaltyId: String, enrolmentKey: String): StubMapping = {
+  def failedCall(penaltyId: String, enrolmentKey: String, isStubbed: Boolean = false): StubMapping = {
     stubFor(
       get(
         urlEqualTo(
-          appealUriForLSP + s"?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
+          appealUriForLSP(isStubbed) + s"?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
         )
       ).willReturn(
         aResponse()
@@ -216,9 +234,9 @@ trait PenaltiesStub {
     )
   }
 
-  def failedCallForFetchingReasonableExcuse: StubMapping = {
+  def failedCallForFetchingReasonableExcuse(isStubbed: Boolean = false): StubMapping = {
     stubFor(
-      get(urlEqualTo(fetchReasonableExcuseUri))
+      get(urlEqualTo(fetchReasonableExcuseUri(isStubbed)))
         .willReturn(
           aResponse()
             .withFault(Fault.CONNECTION_RESET_BY_PEER)

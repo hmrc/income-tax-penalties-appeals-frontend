@@ -24,17 +24,23 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class FeatureSwitchProviderConfig @Inject()(appConfig: AppConfig) {
 
-  lazy val selfBaseUrl: String = appConfig.selfUrl
+  lazy val selfFeatureSwitchUrl = s"${appConfig.selfUrl}/penalties-appeals/income-tax/test-only/api/feature-switches"
 
-  lazy val selfFeatureSwitchUrl = s"$selfBaseUrl/penalties/income-tax/test-only/api/feature-switches"
+  lazy val incomeTaxPenaltiesFrontendFeatureSwitchUrl = s"${appConfig.incomeTaxPenaltiesFrontendBaseUrl}/penalties/income-tax/test-only/api/feature-switches"
 
   lazy val selfFeatureSwitchProvider: FeatureSwitchProvider = FeatureSwitchProvider(
-    id = "income-tax-penalties-frontend",
-    appName = "Income Tax Penalties Frontend",
+    id = "income-tax-penalties-appeals-frontend",
+    appName = "Income Tax Penalties Appeals Frontend",
     url = selfFeatureSwitchUrl
   )
 
+  lazy val incomeTaxPenaltiesFrontendFeatureSwitchProvider: FeatureSwitchProvider = FeatureSwitchProvider(
+    id = "income-tax-penalties-frontend",
+    appName = "Income Tax Penalties Frontend",
+    url = incomeTaxPenaltiesFrontendFeatureSwitchUrl
+  )
+
   lazy val featureSwitchProviders: Seq[FeatureSwitchProvider] =
-    Seq(selfFeatureSwitchProvider)
+    Seq(selfFeatureSwitchProvider, incomeTaxPenaltiesFrontendFeatureSwitchProvider)
 
 }
