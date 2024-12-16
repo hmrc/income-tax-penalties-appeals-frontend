@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 
 
-@this(layout: Layout, govukRadios : GovukRadios, formHelper: FormWithCSRF, govukButton : GovukButton)
+@this(layout: Layout,
+      govukRadios : GovukRadios,
+      formHelper: FormWithCSRF,
+      govukButton : GovukButton)
 
 @(isLate: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
@@ -72,17 +75,20 @@
                     value = Some("unexpectedHospitalReason")
                 ),
                 RadioItem(
-                    divider = Some("or")
+                    divider = Some(messages("common.or"))
                 ),
                 RadioItem(
                     content = Text(messages("reasonableExcuses.otherReason")),
-                    value = Some("otherReason")
+                    value = Some("otherReason"),
+                    hint = Some(Hint(
+                        content = Text(messages("reasonableExcuses.otherReason.hint"))
+                    ))
                 )
             )
         ))
 
         @govukButton(Button(
-            content = Text("Continue")
+            content = Text(messages("common.continue"))
         ))
     }
 

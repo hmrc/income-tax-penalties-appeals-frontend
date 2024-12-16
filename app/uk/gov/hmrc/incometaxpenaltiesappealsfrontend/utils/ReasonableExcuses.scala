@@ -18,9 +18,10 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
 object ReasonableExcuses {
   val bereavement = "bereavement"
+  val cessation = "cessation"
   val crime = "crime"
   val fireOrFlood = "fireOrFlood"
-  val lossOfStaff = "lossOfStaff"
+  val unexpectedHospital = "unexpectedHospital"
   val technicalIssues = "technicalIssues"
   val health = "health"
   val other = "other"

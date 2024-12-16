@@ -22,17 +22,15 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, ReasonableExcuses}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys.reasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhenDidEventHappenController @Inject()(whenDidEventHappenPage: WhenDidEventHappenPage,
-                                             val authConnector: AuthConnector
+class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersPage,
+                                           val authConnector: AuthConnector
                                             )(implicit mcc: MessagesControllerComponents,
                                               ec: ExecutionContext,
                                               val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
@@ -43,7 +41,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenPage: WhenDidEven
 
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
-            Future.successful(Ok(whenDidEventHappenPage(
+            Future.successful(Ok(checkYourAnswers(
               true,
               reasonableExcuse
             )))
@@ -56,18 +54,8 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenPage: WhenDidEven
   def submit(): Action[AnyContent] = isAuthenticated {
     implicit request =>
       implicit currentUser =>
-        val optReasonableExcuse = request.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
-        optReasonableExcuse match {
-          case Some("technicalReason") =>
-            Future.successful(Redirect(routes.WhenDidEventEndController.onPageLoad()))
-          case Some("bereavementReason" | "fireOrFloodReason") =>
-            Future.successful(Redirect(routes.LateAppealController.onPageLoad()))
-          case Some("crimeReason") =>
-            Future.successful(Redirect(routes.CrimeReportedController.onPageLoad()))
-          case _ =>
-            Future.successful(Redirect(routes.AppealStartController.onPageLoad()))
-        }
+        Future.successful(Redirect(routes.AppealStartController.onPageLoad()))
   }
 
 }

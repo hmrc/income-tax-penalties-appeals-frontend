@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,14 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 
 
-@this(layout: Layout, formHelper: FormWithCSRF, govukButton : GovukButton, govukDateInput : GovukDateInput)
+@this(layout: Layout,
+      formHelper: FormWithCSRF,
+      govukButton : GovukButton,
+      govukDateInput : GovukDateInput)
 
 @(isLate: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages(s"$reasonableExcuseMessageKey.headingAndTitle"))), backLinkEnabled = false) {
-
+@layout(Some(titleBuilder(messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle"))), backLinkEnabled = true) {
 
  @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventHappenController.submit()) {
 
@@ -39,7 +41,7 @@
          )),
          fieldset = Some(Fieldset(
              legend = Some(Legend(
-                 content = Text(messages(s"$reasonableExcuseMessageKey.headingAndTitle")),
+                 content = Text(messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle")),
                  classes = "govuk-fieldset__legend--l",
                  isPageHeading = true
              ))
@@ -52,6 +54,5 @@
      ))
    </div>
  }
-
 
 }
