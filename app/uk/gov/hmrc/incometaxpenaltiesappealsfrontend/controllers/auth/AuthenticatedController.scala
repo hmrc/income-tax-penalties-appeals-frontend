@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUser
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import javax.inject.Inject

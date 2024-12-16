@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Mult
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.UnexpectedFailure
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{EnrolmentUtil, PagerDutyHelper}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
 
 import javax.inject.Inject
