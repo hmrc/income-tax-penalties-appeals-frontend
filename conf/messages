@@ -28,7 +28,7 @@ reasonableExcuses.cessationReason = Cessation of income source
 reasonableExcuses.crimeReason = Crime
 reasonableExcuses.fireOrFloodReason = Fire or flood
 reasonableExcuses.healthReason = Serious or life-threatening ill health
-reasonableExcuses.technicalIssuesReason = Technology issues
+reasonableExcuses.technicalReason = Technology issues
 reasonableExcuses.unexpectedHospitalReason = Unexpected hospital stay
 reasonableExcuses.otherReason = The reason does not fit into any of the other categories
 reasonableExcuses.otherReason.hint = You should only choose this if the reason is not covered by any of the other options.
@@ -82,18 +82,82 @@ crimeReason.unknown = I do not know
 checkYourAnswers.headingAndTitle = Check your answers
 checkYourAnswers.appealDetails.h2 = Appeal details
 checkYourAnswers.declaration.h2 = Declaration
-checkYourAnswers.reasonableExcuse = Reason for missing the submission deadline
+checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
 checkYourAnswers.declaration.text = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution.
 checkYourAnswers.change.text = Change
 
-checkYourAnswers.bereavementReason.date =  When did the person die?
-checkYourAnswers.cessationReason.date = TBC cessationReason
-checkYourAnswers.crimeReason.date =  When did the crime happen
-checkYourAnswers.fireOrFloodReason.date =  When did the fire or flood happen
-checkYourAnswers.healthReason.date = TBC healthReason
-checkYourAnswers.technicalIssuesReason.date = When did the technology issues begin?
-checkYourAnswers.unexpectedHospitalReason.date = TBC unexpectedHospitalReason
-checkYourAnswers.otherReason.date = TBC otherReason
+checkYourAnswers.bereavementReason.value =  Bereavement (someone died)
+checkYourAnswers.cessationReason.value = Cessation of income source
+checkYourAnswers.crimeReason.value =  Crime
+checkYourAnswers.fireOrFloodReason.value =  Fire or flood
+checkYourAnswers.healthReason.value = Serious or life-threatening ill health
+checkYourAnswers.technicalReason.value = Technology issues
+checkYourAnswers.unexpectedHospitalReason.value = Unexpected hospital stay
+checkYourAnswers.otherReason.value = The reason does not fit into any of the other categories
+
+checkYourAnswers.bereavementReason.date.key =  When did the person die?
+checkYourAnswers.cessationReason.date.key = TBC cessationReason
+checkYourAnswers.crimeReason.date.key =  When did the crime happen
+checkYourAnswers.fireOrFloodReason.date.key =  When did the fire or flood happen
+checkYourAnswers.healthReason.date.key = TBC healthReason
+checkYourAnswers.technicalReason.date.key = When did the technology issues begin?
+checkYourAnswers.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
+checkYourAnswers.otherReason.date.key = TBC otherReason
+checkYourAnswers.acceptAndSend = Accept and send
+checkYourAnswers.change = Change
+
+# Appeal Confirmation page
+# ----------------------------------------------------------
+
+appealConfirmation.headingAndTitle = Appeal received
+appealConfirmation.typeAndPeriod = {0}: {1} to {2} tax year
+appealConfirmation.p1 = You do not need a reference number.
+appealConfirmation.p2 = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
+appealConfirmation.whatHappensNext.h2 = What happens next
+appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
+appealConfirmation.whatHappensNext.p2 = When a decision has been made, you'll be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.link1 = Return to your Self Assessment penalties
+appealConfirmation.whatHappensNext.link2 = View your Self Assessment account
+
+appealConfirmation.feedback.h2 = Before you go
+appealConfirmation.feedback.p = Your feedback helps us make our service better.
+appealConfirmation.feedback.link = Take a short survey
+appealConfirmation.feedback.link.text = to share your feedback on this service.
+
+# View appeal details page
+# -----------------------------------------------------------
+viewAppealDetails.headingAndTitle = Appeal details
+viewAppealDetails.ni = National Insurance number
+viewAppealDetails.penaltyAppealed = Penalty appealed
+viewAppealDetails.appealDate = Appeal date
+viewAppealDetails.multiplePenalties = Do you intend to appeal both penalties for the same reason?
+viewAppealDetails.multiplePenalties.yes = Yes
+viewAppealDetails.multiplePenalties.no = No
+
+viewAppealDetails.reason = Reason for missing the payment deadline
+viewAppealDetails.bereavementReason.value =  Bereavement (someone died)
+viewAppealDetails.cessationReason.value = Cessation of income source
+viewAppealDetails.crimeReason.value =  Crime
+viewAppealDetails.fireOrFloodReason.value =  Fire or flood
+viewAppealDetails.healthReason.value = Serious or life-threatening ill health
+viewAppealDetails.technicalReason.value = Technology issues
+viewAppealDetails.unexpectedHospitalReason.value = Unexpected hospital stay
+viewAppealDetails.otherReason.value = The reason does not fit into any of the other categories
+
+viewAppealDetails.bereavementReason.date.key =  When did the person die?
+viewAppealDetails.cessationReason.date.key = TBC cessationReason
+viewAppealDetails.crimeReason.date.key =  When did the crime happen
+viewAppealDetails.fireOrFloodReason.date.key =  When did the fire or flood happen
+viewAppealDetails.healthReason.date.key = TBC healthReason
+viewAppealDetails.technicalReason.date.key = When did the technology issues begin?
+viewAppealDetails.technicalReason.date.end.key = When did the technology issues end?
+viewAppealDetails.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
+viewAppealDetails.otherReason.date.key = TBC otherReason
+
+viewAppealDetails.warn.1 = Print this page if you want to keep it.
+viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
+viewAppealDetails.printThisPage = Print this page
 
 
 common.dateHint = For example, 12 3 2018

@@ -29,8 +29,8 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersPage,
-                                           val authConnector: AuthConnector
+class ViewAppealDetailsController @Inject()(viewAppealDetailsPage: ViewAppealDetailsPage,
+                                            val authConnector: AuthConnector
                                             )(implicit mcc: MessagesControllerComponents,
                                               ec: ExecutionContext,
                                               val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
@@ -41,21 +41,13 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersPag
 
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
-            Future.successful(Ok(checkYourAnswers(
+            Future.successful(Ok(viewAppealDetailsPage(
               true,
               reasonableExcuse
             )))
           case _ =>
             Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))
         }
-  }
-
-
-  def submit(): Action[AnyContent] = isAuthenticated {
-    implicit request =>
-      implicit currentUser =>
-
-        Future.successful(Redirect(routes.ConfirmationController.onPageLoad()))
   }
 
 }

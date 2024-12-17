@@ -23,7 +23,9 @@
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.{HmrcStandardPageParams, _}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.fullWidthMainContentLayout
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
+@import uk.gov.hmrc.govukfrontend.views.html.components.TwoThirdsMainContent
 
 @this(
   appConfig: AppConfig,
@@ -33,10 +35,12 @@
   hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
   govukPhaseBanner: GovukPhaseBanner,
   govukBackLink: GovukBackLink,
+  twoThirdsMainContent: TwoThirdsMainContent,
+  fullWidthPageLayout: fullWidthMainContentLayout,
   hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
   link: Link
 )
-@(pageTitle: Option[String] = None, backLinkEnabled: Boolean = true)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+@(pageTitle: Option[String] = None, backLinkEnabled: Boolean = true, isPageFullWidth: Boolean = false)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
 
 @headBlock = {
@@ -86,6 +90,10 @@
 
 @signOutUrl =@{uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SignOutController.logout.url}
 
+@additionalScripts = {
+  <link rel="stylesheet" href='@routes.Assets.versioned("../assets/stylesheets/print.css")' type="text/css">
+}
+
 @hmrcStandardPage(
   HmrcStandardPageParams(
       serviceURLs = ServiceURLs(
@@ -96,7 +104,9 @@
     isWelshTranslationAvailable = appConfig.welshLanguageSupportEnabled,
     templateOverrides = TemplateOverrides(
         additionalHeadBlock = Some(headBlock),
-        beforeContentBlock = Some(beforeContent)
+        beforeContentBlock = Some(beforeContent),
+        additionalScriptsBlock = Some(additionalScripts),
+        mainContentLayout = if(isPageFullWidth) Some(fullWidthPageLayout(_)) else Some(twoThirdsMainContent(_))
     )
   )
 )(content)

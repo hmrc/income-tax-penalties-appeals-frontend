@@ -23,17 +23,57 @@
 @this(layout: Layout,
       govukButton : GovukButton,
       formHelper: FormWithCSRF,
-      govukWarningText : GovukWarningText)
+      govukWarningText : GovukWarningText,
+      govukSummaryList : GovukSummaryList)
 
 @(isLate: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("crimeReason.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("checkYourAnswers.headingAndTitle"))), backLinkEnabled = true) {
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit()) {
 
         <span class="govuk-caption-l">@messages("appeal.start.caption")</span>
+        <h1 class="govuk-heading-l">@messages("checkYourAnswers.headingAndTitle")</h1>
+        <h2 class="govuk-heading-m">@messages("checkYourAnswers.appealDetails.h2")</h2>
 
-
+        @govukSummaryList(SummaryList(
+            rows = Seq(
+              SummaryListRow(
+                key = Key(
+                  content = Text(messages("checkYourAnswers.reasonableExcuse.key"))
+                ),
+                value = Value(
+                  content = Text(messages(s"checkYourAnswers.$reasonableExcuseMessageKey.value"))
+                ),
+                actions = Some(Actions(
+                  items = Seq(
+                    ActionItem(
+                      href = "#",
+                      content = Text(messages("checkYourAnswers.change")),
+                      visuallyHiddenText = Some(messages("checkYourAnswers.reasonableExcuse.key"))
+                    )
+                  )
+                ))
+              ),
+              SummaryListRow(
+                key = Key(
+                  content = Text(messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key"))
+                ),
+                value = Value(
+                  content = Text("04 October 2027")
+                ),
+                actions = Some(Actions(
+                  items = Seq(
+                    ActionItem(
+                      href = "#",
+                      content = Text(messages("checkYourAnswers.change")),
+                      visuallyHiddenText = Some(messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key"))
+                    )
+                  )
+                ))
+              )
+            )
+        ))
 
         <h2 class="govuk-heading-m">@messages("checkYourAnswers.declaration.h2")</h2>
 
@@ -44,7 +84,7 @@
 
         <div class="govuk-form-group">
             @govukButton(Button(
-                content = Text(messages("common.continue"))
+                content = Text(messages("checkYourAnswers.acceptAndSend"))
             ))
         </div>
     }

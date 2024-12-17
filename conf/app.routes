@@ -22,19 +22,25 @@ GET        /when-did-the-event-happen       uk.gov.hmrc.incometaxpenaltiesappeal
 POST       /when-did-the-event-happen       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit()
 
 # When did the event end
-GET        /when-did-the-event-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad()
-POST       /when-did-the-event-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit()
+GET        /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad()
+POST       /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit()
 
 # Late appeal page
-GET        /late-appeal            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
-POST       /late-appeal            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
+GET        /late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
+POST       /late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
 
 # Crime Reasonable Excuse
 
-GET        /has-this-crime-been-reported           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad()
-POST       /has-this-crime-been-reported           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit()
+GET        /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad()
+POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit()
 
 
 # Check Your Answers page
 GET        /check-your-answers              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CheckYourAnswersController.onPageLoad()
 POST       /check-your-answers              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CheckYourAnswersController.submit()
+
+# Appeal Confirmation page
+GET        /appeal-confirmation             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ConfirmationController.onPageLoad()
+
+# Print appeal information
+GET        /appeal-details                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ViewAppealDetailsController.onPageLoad()
