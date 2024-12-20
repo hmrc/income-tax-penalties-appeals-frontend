@@ -25,13 +25,13 @@
       formHelper: FormWithCSRF,
       govukRadios : GovukRadios)
 
-@(isLate: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages("crimeReason.headingAndTitle"))), backLinkEnabled = true) {
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CrimeReportedController.submit()) {
 
-        <span class="govuk-caption-l">@messages("appeal.start.caption")</span>
+        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(

@@ -24,19 +24,19 @@
       govukButton : GovukButton,
       formHelper: FormWithCSRF)
 
-@(isLate: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
-    <span class="govuk-caption-l">@messages("appeal.start.caption")</span>
+    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
     <h1 class="govuk-heading-l">@messages("honestyDeclaration.headingAndTitle")</h1>
 
-    <p class="govuk-body">@messages("honestyDeclaration.p1")</p>
+    <p class="govuk-body" id="honestyDeclarationConfirm">@messages("honestyDeclaration.p1")</p>
 
     <ul class="govuk-list govuk-list--bullet">
-     <li>@messages(s"honestyDeclaration.li.$reasonableExcuseMessageKey", "5 November 2027")</li>
-     <li>@messages("honestyDeclaration.li.2")</li>
+     <li id="honestyDeclarationReason">@messages(s"honestyDeclaration.li.$reasonableExcuseMessageKey", "5 November 2027")</li>
+     <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {

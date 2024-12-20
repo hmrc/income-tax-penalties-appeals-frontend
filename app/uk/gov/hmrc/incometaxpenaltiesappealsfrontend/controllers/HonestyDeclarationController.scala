@@ -43,8 +43,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
             Future.successful(Ok(honestyDeclaration(
-              true,
-              reasonableExcuse
+              true, currentUser.isAgent, reasonableExcuse
             )))
           case _ =>
             Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))

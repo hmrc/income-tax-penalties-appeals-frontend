@@ -22,7 +22,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{HonestyDeclarationPage, LateAppealPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealPage
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,9 +30,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class LateAppealController @Inject()(lateAppeal: LateAppealPage,
                                      val authConnector: AuthConnector
-                                            )(implicit mcc: MessagesControllerComponents,
-                                              ec: ExecutionContext,
-                                              val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport {
+                                    )(implicit mcc: MessagesControllerComponents,
+                                      ec: ExecutionContext,
+                                      val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = isAuthenticated {
     implicit request =>
@@ -42,14 +42,12 @@ class LateAppealController @Inject()(lateAppeal: LateAppealPage,
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
             Future.successful(Ok(lateAppeal(
-              true,
-              reasonableExcuse
+              true, currentUser.isAgent, reasonableExcuse
             )))
           case _ =>
             Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))
         }
   }
-
 
   def submit(): Action[AnyContent] = isAuthenticated {
     implicit request =>

@@ -78,35 +78,35 @@ trait ComponentSpecHelper
     super.beforeEach()
   }
 
-  def get[T](uri: String, isAgent: Boolean = false, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
+  def get[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(cookie, mockSessionCookie(isAgent))
+      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
   }
 
-  def post[T](uri: String, isAgent: Boolean = false, cookie: WSCookie = enLangCookie)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def post[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie)(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
-        .withCookies(cookie, mockSessionCookie(isAgent))
+        .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
         .post(writes.writes(body).toString())
     )
   }
 
-  def put[T](uri: String, isAgent: Boolean = false)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def put[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None)(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
-        .withCookies(mockSessionCookie(isAgent))
+        .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
         .put(writes.writes(body).toString())
     )
   }
 
-  def delete[T](uri: String, isAgent: Boolean = false): WSResponse = {
+  def delete[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None): WSResponse = {
     await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(mockSessionCookie(isAgent))
+      .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
       .delete())
   }
 
@@ -120,7 +120,7 @@ trait ComponentSpecHelper
 
   val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
 
-  def mockSessionCookie(isAgent: Boolean): WSCookie = {
+  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String]): WSCookie = {
 
     def makeSessionCookie(session: Session): Cookie = {
       val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
@@ -134,7 +134,9 @@ trait ComponentSpecHelper
       SessionKeys.lastRequestTimestamp -> System.currentTimeMillis().toString,
       SessionKeys.authToken -> "mock-bearer-token",
       SessionKeys.sessionId -> "mock-sessionid"
-    )) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
+    ) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
+      ++ {if(reasonableExcuse.isDefined) Map(IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse.getOrElse("")) else Map.empty}
+    )
 
     val cookie = makeSessionCookie(mockSession)
 

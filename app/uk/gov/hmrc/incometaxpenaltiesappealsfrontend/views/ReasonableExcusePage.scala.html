@@ -25,11 +25,11 @@
       formHelper: FormWithCSRF,
       govukButton : GovukButton)
 
-@(isLate: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"))), backLinkEnabled = true) {
 
-    <span class="govuk-caption-l">@messages("appeal.start.caption")</span>
+    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.submit()) {
 

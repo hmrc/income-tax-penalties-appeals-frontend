@@ -26,8 +26,8 @@ GET        /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappeal
 POST       /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit()
 
 # Late appeal page
-GET        /late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
-POST       /late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
+GET        /making-a-late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
+POST       /making-a-late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
 
 # Crime Reasonable Excuse
 

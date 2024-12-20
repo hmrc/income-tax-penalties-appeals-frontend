@@ -95,12 +95,12 @@ checkYourAnswers.technicalReason.value = Technology issues
 checkYourAnswers.unexpectedHospitalReason.value = Unexpected hospital stay
 checkYourAnswers.otherReason.value = The reason does not fit into any of the other categories
 
-checkYourAnswers.bereavementReason.date.key =  When did the person die?
+checkYourAnswers.bereavementReason.date.key =  When did the person die
 checkYourAnswers.cessationReason.date.key = TBC cessationReason
 checkYourAnswers.crimeReason.date.key =  When did the crime happen
 checkYourAnswers.fireOrFloodReason.date.key =  When did the fire or flood happen
 checkYourAnswers.healthReason.date.key = TBC healthReason
-checkYourAnswers.technicalReason.date.key = When did the technology issues begin?
+checkYourAnswers.technicalReason.date.key = When did the technology issues begin
 checkYourAnswers.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
 checkYourAnswers.otherReason.date.key = TBC otherReason
 checkYourAnswers.acceptAndSend = Accept and send

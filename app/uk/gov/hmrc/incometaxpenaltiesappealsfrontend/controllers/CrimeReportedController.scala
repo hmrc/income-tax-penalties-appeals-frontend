@@ -42,8 +42,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
             Future.successful(Ok(hasTheCrimeBeenReportedPage(
-              true,
-              reasonableExcuse
+              true, currentUser.isAgent, reasonableExcuse
             )))
           case _ =>
             Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))

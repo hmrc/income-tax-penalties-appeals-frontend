@@ -41,8 +41,7 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
       implicit currentUser =>
 
         Future.successful(Ok(reasonableExcusePage(
-          true,
-          ReasonableExcusesForm.form
+          true, currentUser.isAgent, ReasonableExcusesForm.form
         )))
   }
 
@@ -53,7 +52,7 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
         ReasonableExcusesForm.form.bindFromRequest().fold(
           formWithErrors =>
             Future.successful(BadRequest(reasonableExcusePage(
-              true,
+              true, currentUser.isAgent,
               formWithErrors
             ))),
           reasonableExcuse =>

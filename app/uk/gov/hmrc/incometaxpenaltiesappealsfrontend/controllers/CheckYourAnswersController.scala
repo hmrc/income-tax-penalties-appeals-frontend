@@ -31,9 +31,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersPage,
                                            val authConnector: AuthConnector
-                                            )(implicit mcc: MessagesControllerComponents,
-                                              ec: ExecutionContext,
-                                              val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
+                                          )(implicit mcc: MessagesControllerComponents,
+                                            ec: ExecutionContext,
+                                            val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
   def onPageLoad(): Action[AnyContent] = isAuthenticated {
     implicit request =>
       implicit currentUser =>
@@ -42,8 +42,7 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersPag
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
             Future.successful(Ok(checkYourAnswers(
-              true,
-              reasonableExcuse
+              true, currentUser.isAgent, reasonableExcuse
             )))
           case _ =>
             Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))

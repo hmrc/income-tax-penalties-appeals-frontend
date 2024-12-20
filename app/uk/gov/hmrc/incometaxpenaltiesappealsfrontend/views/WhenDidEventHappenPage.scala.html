@@ -25,13 +25,13 @@
       govukButton : GovukButton,
       govukDateInput : GovukDateInput)
 
-@(isLate: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle"))), backLinkEnabled = true) {
 
  @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventHappenController.submit()) {
 
-     <span class="govuk-caption-l">@messages("appeal.start.caption")</span>
+     <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
      @govukDateInput(DateInput(
          id = reasonableExcuseMessageKey,
@@ -48,11 +48,11 @@
          ))
      ))
 
-   <div class="govuk-form-group">
-     @govukButton(Button(
-      content = Text(messages("common.continue"))
-     ))
-   </div>
+     <div class="govuk-form-group">
+       @govukButton(Button(
+        content = Text(messages("common.continue"))
+       ))
+     </div>
  }
 
 }
