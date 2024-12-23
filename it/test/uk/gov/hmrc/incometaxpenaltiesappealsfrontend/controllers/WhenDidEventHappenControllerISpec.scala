@@ -28,7 +28,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
   val crimeReasonMessage: String = "When did the crime happen?"
   val fireOrFloodReasonReasonMessage: String = "When did the fire or flood happen?"
   val healthReasonMessage: String = "TBC healthReason"
-  val technicalReasonMessage: String = "When did the technology issues begin?"
+  val technicalReasonMessage: String = "When did the software or technology issues begin?"
   val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason"
   val otherReasonMessage: String = "TBC otherReason"
 
@@ -62,7 +62,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
         }
       }
 
-      "have the correct page has correct elements" when {
+      "the page has the correct elements" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           val result = get("/when-did-the-event-happen", reasonableExcuse = Some(reason._1))

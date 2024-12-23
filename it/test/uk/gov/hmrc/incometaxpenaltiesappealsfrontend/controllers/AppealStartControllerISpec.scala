@@ -40,7 +40,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         result.status shouldBe OK
       }
     }
-    "have the correct page has correct elements" when {
+    "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/appeal-start")

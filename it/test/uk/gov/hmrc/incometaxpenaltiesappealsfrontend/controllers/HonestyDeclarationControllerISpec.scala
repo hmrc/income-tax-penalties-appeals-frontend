@@ -28,7 +28,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
   val crimeReasonMessage: String = "because I was affected by a crime, I was unable to send the submission due on 5 November 2027"
   val fireOrFloodReasonReasonMessage: String = "because of a fire or flood, I was unable to send the submission due on 5 November 2027"
   val healthReasonMessage: String = "TBC healthReason - I was unable to send the submission due on 5 November 2027"
-  val technicalReasonMessage: String = "because of technology issues, I was unable to send the submission due on 5 November 2027"
+  val technicalReasonMessage: String = "because of software or technology issues, I was unable to send the submission due on 5 November 2027"
   val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason - I was unable to send the submission due on 5 November 2027"
   val otherReasonMessage: String = "TBC otherReason - I was unable to send the submission due on 5 November 2027"
 
@@ -63,7 +63,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
         }
       }
 
-      "have the correct page has correct elements" when {
+      "the page has the correct elements" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           val result = get("/honesty-declaration", reasonableExcuse = Some(reason._1))

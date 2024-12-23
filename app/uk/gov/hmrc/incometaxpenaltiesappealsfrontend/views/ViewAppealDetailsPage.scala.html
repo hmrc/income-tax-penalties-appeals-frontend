@@ -17,22 +17,19 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import views.html.helper.CSPNonce
 
-@this(layout: Layout,
-      govukSummaryList : GovukSummaryList)
+@this(layout: Layout)
 
-@(isLate: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("viewAppealDetails.headingAndTitle"))), backLinkEnabled = true, isPageFullWidth = true) {
+@layout(Some(titleBuilder(messages("viewAppealDetails.headingAndTitle"))), backLinkEnabled = false, isPageFullWidth = true) {
 
 
     <h1 class="govuk-heading-l">@messages("viewAppealDetails.headingAndTitle")</h1>
 
-
     <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" id="nationalInsurance">
           <dt class="govuk-summary-list__key">
             @messages("viewAppealDetails.ni")
           </dt>
@@ -40,7 +37,7 @@
               QQ123456B
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" id="penaltyAppealed">
           <dt class="govuk-summary-list__key">
             @messages("viewAppealDetails.penaltyAppealed")
           </dt>
@@ -48,7 +45,7 @@
               Late payment penalty: 2027 to 2028 tax year
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" id="appealDate">
           <dt class="govuk-summary-list__key">
               @messages("viewAppealDetails.appealDate")
           </dt>
@@ -56,7 +53,7 @@
               17 March 2029
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" id="multiplePenalties">
           <dt class="govuk-summary-list__key">
             @messages("viewAppealDetails.multiplePenalties")
           </dt>
@@ -64,7 +61,7 @@
               @messages("viewAppealDetails.multiplePenalties.no")
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" id="penaltyReason">
             <dt class="govuk-summary-list__key">
             @messages("viewAppealDetails.reason")
             </dt>
@@ -72,7 +69,7 @@
                 @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.value")
             </dd>
         </div>
-        <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row" id="startDate">
             <dt class="govuk-summary-list__key">
             @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.key")
             </dt>
@@ -81,7 +78,7 @@
             </dd>
         </div>
         @if(reasonableExcuseMessageKey == "technicalReason") {
-            <div class="govuk-summary-list__row">
+            <div class="govuk-summary-list__row" id="endDate">
                 <dt class="govuk-summary-list__key">
                 @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.end.key")
                 </dt>
@@ -90,10 +87,20 @@
                 </dd>
             </div>
         }
+        @if(reasonableExcuseMessageKey == "crimeReason") {
+            <div class="govuk-summary-list__row" id="reportedCrime">
+                <dt class="govuk-summary-list__key">
+                @messages("viewAppealDetails.crimeReason.reported.key")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    Yes
+                </dd>
+            </div>
+        }
     </dl>
 
 
-   <div class="govuk-inset-text govuk-!-display-none-print">
+   <div class="govuk-inset-text govuk-!-display-none-print" id="printWarn">
      <p>
       @messages("viewAppealDetails.warn.1")
       <br>
@@ -111,9 +118,4 @@
       });
     </script>
 
-
-
-
 }
-
-

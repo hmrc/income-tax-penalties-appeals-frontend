@@ -22,9 +22,7 @@
 
 @this(layout: Layout,
         govukButton: GovukButton,
-        formHelper: FormWithCSRF,
-        govukWarningText: GovukWarningText,
-        govukSummaryList: GovukSummaryList)
+        formHelper: FormWithCSRF)
 
 @(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
@@ -36,53 +34,74 @@
         <h1 class="govuk-heading-l">@messages("checkYourAnswers.headingAndTitle")</h1>
         <h2 class="govuk-heading-m" id="appealDetails">@messages("checkYourAnswers.appealDetails.h2")</h2>
 
-        @govukSummaryList(SummaryList(
-            rows = Seq(
-                SummaryListRow(
-                    key = Key(
-                        content = Text(messages("checkYourAnswers.reasonableExcuse.key"))
-                    ),
-                    value = Value(
-                        content = Text(messages(s"checkYourAnswers.$reasonableExcuseMessageKey.value"))
-                    ),
-                    actions = Some(Actions(
-                        items = Seq(
-                            ActionItem(
-                                href = "#",
-                                content = Text(messages("checkYourAnswers.change")),
-                                visuallyHiddenText = Some(messages("checkYourAnswers.reasonableExcuse.key"))
-                            )
-                        )
-                    ))
-                ),
-                SummaryListRow(
-                    key = Key(
-                        content = Text(messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key"))
-                    ),
-                    value = Value(
-                        content = Text("04 October 2027")
-                    ),
-                    actions = Some(Actions(
-                        items = Seq(
-                            ActionItem(
-                                href = "#",
-                                content = Text(messages("checkYourAnswers.change")),
-                                visuallyHiddenText = Some(messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key"))
-                            )
-                        )
-                    ))
-                )
-            ),
-            attributes = Map("id" -> reasonableExcuseMessageKey)
-        ))
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row" id="reasonableExcuse">
+              <dt class="govuk-summary-list__key">
+                @messages("checkYourAnswers.reasonableExcuse.key")
+              </dt>
+
+              <dd class="govuk-summary-list__value">
+                @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.value")
+              </dd>
+
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages("checkYourAnswers.reasonableExcuse.key")</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row" id="reasonableExcuseDateStart">
+              <dt class="govuk-summary-list__key">
+                @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key")
+              </dt>
+
+              <dd class="govuk-summary-list__value">
+                  04 October 2027
+              </dd>
+
+                <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key")</span></a>
+              </dd>
+            </div>
+            @if(reasonableExcuseMessageKey == "technicalReason") {
+                <div class="govuk-summary-list__row" id="reasonableExcuseDateEnd">
+                    <dt class="govuk-summary-list__key">
+                    @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key.end")
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        20 October 2027
+                    </dd>
+
+                    <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key.end")</span></a>
+                    </dd>
+                </div>
+            }
+            @if(reasonableExcuseMessageKey == "crimeReason") {
+                <div class="govuk-summary-list__row" id="reportedCrime">
+                    <dt class="govuk-summary-list__key">
+                    @messages("checkYourAnswers.crimeReason.reported.key")
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        Yes
+                    </dd>
+
+                    <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages("checkYourAnswers.crimeReason.reported.key")</span></a>
+                    </dd>
+                </div>
+            }
+        </dl>
 
         <h2 class="govuk-heading-m" id="declaration">@messages("checkYourAnswers.declaration.h2")</h2>
 
-        @govukWarningText(WarningText(
-            iconFallbackText = Some("Warning"),
-            content = Text(messages("checkYourAnswers.declaration.text")),
-            attributes = Map ("id" -> s"$reasonableExcuseMessageKey-Warning")
-        ))
+        <div class="govuk-warning-text" id="declarationWarn">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                    @messages("checkYourAnswers.declaration.text.1")
+                    <br>
+                    @messages("checkYourAnswers.declaration.text.2")
+            </strong>
+        </div>
 
         <div class="govuk-form-group">
         @govukButton(Button(
@@ -91,5 +110,3 @@
         </div>
     }
 }
-
-

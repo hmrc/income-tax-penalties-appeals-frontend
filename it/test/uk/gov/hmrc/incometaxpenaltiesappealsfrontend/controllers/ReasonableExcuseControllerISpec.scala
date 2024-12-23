@@ -39,7 +39,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         result.status shouldBe OK
       }
     }
-    "have the correct page has correct elements" when {
+    "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/reason-for-missing-deadline")
@@ -56,7 +56,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         document.getElementsByAttributeValue("for", "reasonableExcuse-3").text() shouldBe "Crime"
         document.getElementsByAttributeValue("for", "reasonableExcuse-4").text() shouldBe "Fire or flood"
         document.getElementsByAttributeValue("for", "reasonableExcuse-5").text() shouldBe "Serious or life-threatening ill health"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-6").text() shouldBe "Technology issues"
+        document.getElementsByAttributeValue("for", "reasonableExcuse-6").text() shouldBe "Software or technology issues"
         document.getElementsByAttributeValue("for", "reasonableExcuse-7").text() shouldBe "Unexpected hospital stay"
         document.getElementsByAttributeValue("for", "reasonableExcuse-9").text() shouldBe "The reason does not fit into any of the other categories"
         document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
@@ -79,7 +79,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         document.getElementsByAttributeValue("for", "reasonableExcuse-3").text() shouldBe "Crime"
         document.getElementsByAttributeValue("for", "reasonableExcuse-4").text() shouldBe "Fire or flood"
         document.getElementsByAttributeValue("for", "reasonableExcuse-5").text() shouldBe "Serious or life-threatening ill health"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-6").text() shouldBe "Technology issues"
+        document.getElementsByAttributeValue("for", "reasonableExcuse-6").text() shouldBe "Software or technology issues"
         document.getElementsByAttributeValue("for", "reasonableExcuse-7").text() shouldBe "Unexpected hospital stay"
         document.getElementsByAttributeValue("for", "reasonableExcuse-9").text() shouldBe "The reason does not fit into any of the other categories"
         document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."

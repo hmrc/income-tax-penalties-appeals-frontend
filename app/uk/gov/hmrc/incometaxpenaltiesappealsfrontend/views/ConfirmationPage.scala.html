@@ -21,7 +21,6 @@
 
 
 @this(layout: Layout,
-        govukButton: GovukButton,
         govukPanel: GovukPanel)
 
 @(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
@@ -38,7 +37,7 @@
     <p class="govuk-body" id="confirmationSecondParagraph">@messages("appealConfirmation.p2")</p>
 
     <p class="govuk-body">
-        <a class="govuk-link" href="@uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad()" id="viewOrPrint-link">@messages("appealConfirmation.viewOrPrint")</a>
+        <a class="govuk-link" target="_blank" rel="noopener noreferrer" href="@uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad()" id="viewOrPrint-link">@messages("appealConfirmation.viewOrPrint")</a>
     </p>
 
     <h2 class="govuk-heading-m" id="whatHappensNext">@messages("appealConfirmation.whatHappensNext.h2")</h2>

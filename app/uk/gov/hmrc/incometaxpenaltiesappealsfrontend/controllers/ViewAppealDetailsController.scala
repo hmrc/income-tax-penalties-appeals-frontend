@@ -42,8 +42,7 @@ class ViewAppealDetailsController @Inject()(viewAppealDetailsPage: ViewAppealDet
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
             Future.successful(Ok(viewAppealDetailsPage(
-              true,
-              reasonableExcuse
+              true, currentUser.isAgent, reasonableExcuse
             )))
           case _ =>
             Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))

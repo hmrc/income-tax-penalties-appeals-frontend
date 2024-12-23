@@ -41,7 +41,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
       }
     }
 
-    "have the correct page has correct elements" when {
+    "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/when-did-the-event-end", reasonableExcuse = Some("technicalReason"))
@@ -49,9 +49,9 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         val document = Jsoup.parse(result.body)
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "When did the technology issues end? - Appeal a Self Assessment penalty - GOV.UK"
+        document.title() shouldBe "When did the software or technology issues end? - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
-        document.getH1Elements.text() shouldBe "When did the technology issues end?"
+        document.getH1Elements.text() shouldBe "When did the software or technology issues end?"
         document.getElementById("technicalReason-hint").text() shouldBe "For example, 12 3 2018"
         document.getElementsByAttributeValue("for", "technicalReason-day").text() shouldBe "Day"
         document.getElementsByAttributeValue("for", "technicalReason-month").text() shouldBe "Month"
@@ -66,9 +66,9 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         val document = Jsoup.parse(result.body)
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "When did the technology issues end? - Appeal a Self Assessment penalty - GOV.UK"
+        document.title() shouldBe "When did the software or technology issues end? - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
-        document.getH1Elements.text() shouldBe "When did the technology issues end?"
+        document.getH1Elements.text() shouldBe "When did the software or technology issues end?"
         document.getElementById("technicalReason-hint").text() shouldBe "For example, 12 3 2018"
         document.getElementsByAttributeValue("for", "technicalReason-day").text() shouldBe "Day"
         document.getElementsByAttributeValue("for", "technicalReason-month").text() shouldBe "Month"
@@ -77,5 +77,4 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
       }
     }
   }
-
 }

@@ -28,7 +28,7 @@ reasonableExcuses.cessationReason = Cessation of income source
 reasonableExcuses.crimeReason = Crime
 reasonableExcuses.fireOrFloodReason = Fire or flood
 reasonableExcuses.healthReason = Serious or life-threatening ill health
-reasonableExcuses.technicalReason = Technology issues
+reasonableExcuses.technicalReason = Software or technology issues
 reasonableExcuses.unexpectedHospitalReason = Unexpected hospital stay
 reasonableExcuses.otherReason = The reason does not fit into any of the other categories
 reasonableExcuses.otherReason.hint = You should only choose this if the reason is not covered by any of the other options.
@@ -43,7 +43,7 @@ honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to se
 honestyDeclaration.li.crimeReason = because I was affected by a crime, I was unable to send the submission due on {0}
 honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0}
 honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
-honestyDeclaration.li.technicalReason = because of technology issues, I was unable to send the submission due on {0}
+honestyDeclaration.li.technicalReason = because of software or technology issues, I was unable to send the submission due on {0}
 honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
 honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal
@@ -55,13 +55,13 @@ whenDidEventHappen.cessationReason.headingAndTitle = TBC cessationReason
 whenDidEventHappen.crimeReason.headingAndTitle = When did the crime happen?
 whenDidEventHappen.fireOrFloodReason.headingAndTitle = When did the fire or flood happen?
 whenDidEventHappen.healthReason.headingAndTitle = TBC healthReason
-whenDidEventHappen.technicalReason.headingAndTitle = When did the technology issues begin?
+whenDidEventHappen.technicalReason.headingAndTitle = When did the software or technology issues begin?
 whenDidEventHappen.unexpectedHospitalReason.headingAndTitle = TBC unexpectedHospitalReason
 whenDidEventHappen.otherReason.headingAndTitle = TBC otherReason
 
 # When did the event end page
 # ----------------------------------------------------------
-whenDidEventEnd.technicalReason.headingAndTitle = When did the technology issues end?
+whenDidEventEnd.technicalReason.headingAndTitle = When did the software or technology issues end?
 
 
 # Late appeal page
@@ -83,7 +83,8 @@ checkYourAnswers.headingAndTitle = Check your answers
 checkYourAnswers.appealDetails.h2 = Appeal details
 checkYourAnswers.declaration.h2 = Declaration
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
-checkYourAnswers.declaration.text = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution.
+checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
+checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution.
 checkYourAnswers.change.text = Change
 
 checkYourAnswers.bereavementReason.value =  Bereavement (someone died)
@@ -91,16 +92,18 @@ checkYourAnswers.cessationReason.value = Cessation of income source
 checkYourAnswers.crimeReason.value =  Crime
 checkYourAnswers.fireOrFloodReason.value =  Fire or flood
 checkYourAnswers.healthReason.value = Serious or life-threatening ill health
-checkYourAnswers.technicalReason.value = Technology issues
+checkYourAnswers.technicalReason.value = Software or technology issues
 checkYourAnswers.unexpectedHospitalReason.value = Unexpected hospital stay
 checkYourAnswers.otherReason.value = The reason does not fit into any of the other categories
 
-checkYourAnswers.bereavementReason.date.key =  When did the person die
+checkYourAnswers.bereavementReason.date.key =  When did the person die?
 checkYourAnswers.cessationReason.date.key = TBC cessationReason
-checkYourAnswers.crimeReason.date.key =  When did the crime happen
-checkYourAnswers.fireOrFloodReason.date.key =  When did the fire or flood happen
+checkYourAnswers.crimeReason.date.key =  When did the crime happen?
+checkYourAnswers.crimeReason.reported.key =  Has this crime been reported to the police?
+checkYourAnswers.fireOrFloodReason.date.key =  When did the fire or flood happen?
 checkYourAnswers.healthReason.date.key = TBC healthReason
-checkYourAnswers.technicalReason.date.key = When did the technology issues begin
+checkYourAnswers.technicalReason.date.key = When did the software or technology issues begin?
+checkYourAnswers.technicalReason.date.key.end = When did the software or technology issues end?
 checkYourAnswers.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
 checkYourAnswers.otherReason.date.key = TBC otherReason
 checkYourAnswers.acceptAndSend = Accept and send
@@ -141,21 +144,22 @@ viewAppealDetails.cessationReason.value = Cessation of income source
 viewAppealDetails.crimeReason.value =  Crime
 viewAppealDetails.fireOrFloodReason.value =  Fire or flood
 viewAppealDetails.healthReason.value = Serious or life-threatening ill health
-viewAppealDetails.technicalReason.value = Technology issues
+viewAppealDetails.technicalReason.value = Software or technology issues
 viewAppealDetails.unexpectedHospitalReason.value = Unexpected hospital stay
 viewAppealDetails.otherReason.value = The reason does not fit into any of the other categories
 
 viewAppealDetails.bereavementReason.date.key =  When did the person die?
 viewAppealDetails.cessationReason.date.key = TBC cessationReason
-viewAppealDetails.crimeReason.date.key =  When did the crime happen
-viewAppealDetails.fireOrFloodReason.date.key =  When did the fire or flood happen
+viewAppealDetails.crimeReason.date.key =  When did the crime happen?
+viewAppealDetails.crimeReason.reported.key =  Has this crime been reported to the police?
+viewAppealDetails.fireOrFloodReason.date.key =  When did the fire or flood happen?
 viewAppealDetails.healthReason.date.key = TBC healthReason
-viewAppealDetails.technicalReason.date.key = When did the technology issues begin?
-viewAppealDetails.technicalReason.date.end.key = When did the technology issues end?
+viewAppealDetails.technicalReason.date.key = When did the software or technology issues begin?
+viewAppealDetails.technicalReason.date.end.key = When did the software or technology issues end?
 viewAppealDetails.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
 viewAppealDetails.otherReason.date.key = TBC otherReason
 
-viewAppealDetails.warn.1 = Print this page if you want to keep it.
+viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
 viewAppealDetails.printThisPage = Print this page
 

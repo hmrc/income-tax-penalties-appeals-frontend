@@ -41,7 +41,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
       }
     }
 
-    "have the correct page has correct elements" when {
+    "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/making-a-late-appeal", reasonableExcuse = Some("defaultReason"))

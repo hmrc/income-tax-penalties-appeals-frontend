@@ -24,6 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.Authentica
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys.reasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcusePage
 
 import javax.inject.Inject
@@ -57,8 +58,14 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
             ))),
           reasonableExcuse =>
             Future.successful(
-              Redirect(routes.HonestyDeclarationController.onPageLoad())
-              .addingToSession(IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse)
+
+              reasonableExcuse match {
+                case ("technicalReason" | "bereavementReason" | "fireOrFloodReason" | "crimeReason") =>
+                  Redirect (routes.HonestyDeclarationController.onPageLoad () )
+                  .addingToSession (IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse)
+                case _ =>
+                  (Redirect(routes.AppealStartController.onPageLoad()))
+              }
             )
         )
   }

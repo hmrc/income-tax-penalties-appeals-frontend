@@ -23,12 +23,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper,
 
 class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
 
-  val bereavementReasonMessage: String = "When did the person die"
+  val bereavementReasonMessage: String = "When did the person die?"
   val cessationReasonMessage: String = "TBC cessationReason"
-  val crimeReasonMessage: String = "When did the crime happen"
-  val fireOrFloodReasonReasonMessage: String = "When did the fire or flood happen"
+  val crimeReasonMessage: String = "When did the crime happen?"
+  val fireOrFloodReasonReasonMessage: String = "When did the fire or flood happen?"
   val healthReasonMessage: String = "TBC healthReason"
-  val technicalReasonMessage: String = "When did the technology issues begin"
+  val technicalReasonMessage: String = "When did the software or technology issues begin?"
   val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason"
   val otherReasonMessage: String = "TBC otherReason"
 
@@ -37,7 +37,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
   val crimeReasonValue = "Crime"
   val fireOrFloodReasonValue = "Fire or flood"
   val healthReasonValue = "Serious or life-threatening ill health"
-  val technicalReasonValue = "Technology issues"
+  val technicalReasonValue = "Software or technology issues"
   val unexpectedHospitalReasonValue = "Unexpected hospital stay"
   val otherReasonValue = "The reason does not fit into any of the other categories"
 
@@ -72,7 +72,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
         }
       }
 
-      "have the correct page has correct elements" when {
+      "the page has the correct elements" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           val result = get("/check-your-answers", reasonableExcuse = Some(reason._1))
@@ -84,14 +84,24 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
           document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
           document.getH1Elements.text() shouldBe "Check your answers"
           document.getElementById("appealDetails").text() shouldBe "Appeal details"
-          document.select(s"#${reason._1} > div:nth-child(1) > dt").text() shouldBe "Reason for missing the submission deadline"
-          document.select(s"#${reason._1} > div:nth-child(1) > dd.govuk-summary-list__value").text() shouldBe reason._2
-          document.select(s"#${reason._1} > div:nth-child(1) > dd.govuk-summary-list__actions > a").text() shouldBe "Change Reason for missing the submission deadline"
-          document.select(s"#${reason._1} >  div:nth-child(2) > dt").text() shouldBe reason._3
-          document.select(s"#${reason._1} > div:nth-child(2) > dd.govuk-summary-list__value").text() shouldBe "04 October 2027"
-          document.select(s"#${reason._1} > div:nth-child(2) > dd.govuk-summary-list__actions > a").text() shouldBe s"Change ${reason._3}"
+          document.select("#reasonableExcuse > dt").text() shouldBe "Reason for missing the submission deadline"
+          document.select("#reasonableExcuse > dd.govuk-summary-list__value").text() shouldBe reason._2
+          document.select("#reasonableExcuse > dd.govuk-summary-list__actions > a").text() shouldBe "Change Reason for missing the submission deadline"
+          document.select("#reasonableExcuseDateStart > dt").text() shouldBe reason._3
+          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__value").text() shouldBe "04 October 2027"
+          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__actions > a").text() shouldBe s"Change ${reason._3}"
+          if(reason._1 == "technicalReason"){
+          document.select("#reasonableExcuseDateEnd > dt").text() shouldBe "When did the software or technology issues end?"
+          document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__value").text() shouldBe "20 October 2027"
+          document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__actions").text() shouldBe "Change When did the software or technology issues end?"
+          }
+          if(reason._1 == "crimeReason"){
+            document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
+            document.select("#reportedCrime > dd.govuk-summary-list__value").text() shouldBe "Yes"
+            document.select("#reportedCrime > dd.govuk-summary-list__actions").text() shouldBe "Change Has this crime been reported to the police?"
+          }
           document.getElementById("declaration").text() shouldBe "Declaration"
-          document.getElementById(s"${reason._1}-Warning").text() shouldBe "! Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
+          document.select("#declarationWarn").text() shouldBe "! Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
           document.getSubmitButton.text() shouldBe "Accept and send"
         }
 
@@ -106,14 +116,24 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
           document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
           document.getH1Elements.text() shouldBe "Check your answers"
           document.getElementById("appealDetails").text() shouldBe "Appeal details"
-          document.select(s"#${reason._1} > div:nth-child(1) > dt").text() shouldBe "Reason for missing the submission deadline"
-          document.select(s"#${reason._1} > div:nth-child(1) > dd.govuk-summary-list__value").text() shouldBe reason._2
-          document.select(s"#${reason._1} > div:nth-child(1) > dd.govuk-summary-list__actions > a").text() shouldBe "Change Reason for missing the submission deadline"
-          document.select(s"#${reason._1} >  div:nth-child(2) > dt").text() shouldBe reason._3
-          document.select(s"#${reason._1} > div:nth-child(2) > dd.govuk-summary-list__value").text() shouldBe "04 October 2027"
-          document.select(s"#${reason._1} > div:nth-child(2) > dd.govuk-summary-list__actions > a").text() shouldBe s"Change ${reason._3}"
+          document.select("#reasonableExcuse > dt").text() shouldBe "Reason for missing the submission deadline"
+          document.select("#reasonableExcuse > dd.govuk-summary-list__value").text() shouldBe reason._2
+          document.select("#reasonableExcuse > dd.govuk-summary-list__actions > a").text() shouldBe "Change Reason for missing the submission deadline"
+          document.select("#reasonableExcuseDateStart > dt").text() shouldBe reason._3
+          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__value").text() shouldBe "04 October 2027"
+          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__actions > a").text() shouldBe s"Change ${reason._3}"
+          if(reason._1 == "technicalReason"){
+            document.select("#reasonableExcuseDateEnd > dt").text() shouldBe "When did the software or technology issues end?"
+            document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__value").text() shouldBe "20 October 2027"
+            document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__actions").text() shouldBe "Change When did the software or technology issues end?"
+          }
+          if(reason._1 == "crimeReason"){
+            document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
+            document.select("#reportedCrime > dd.govuk-summary-list__value").text() shouldBe "Yes"
+            document.select("#reportedCrime > dd.govuk-summary-list__actions").text() shouldBe "Change Has this crime been reported to the police?"
+          }
           document.getElementById("declaration").text() shouldBe "Declaration"
-          document.getElementById(s"${reason._1}-Warning").text() shouldBe "! Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
+          document.select("#declarationWarn").text() shouldBe "! Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
           document.getSubmitButton.text() shouldBe "Accept and send"
         }
       }

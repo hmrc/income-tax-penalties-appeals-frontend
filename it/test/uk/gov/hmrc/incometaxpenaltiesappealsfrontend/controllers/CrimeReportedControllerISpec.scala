@@ -41,7 +41,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
       }
     }
 
-    "have the correct page has correct elements" when {
+    "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/has-this-crime-been-reported", reasonableExcuse = Some("crimeReason"))
@@ -54,7 +54,6 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.getH1Elements.text() shouldBe "Has this crime been reported to the police?"
         document.getElementsByAttributeValue("for", "crimeReason").text() shouldBe "Yes"
         document.getElementsByAttributeValue("for", "crimeReason-2").text() shouldBe "No"
-        document.getElementsByAttributeValue("for", "crimeReason-3").text() shouldBe "I do not know"
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
@@ -70,9 +69,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.getH1Elements.text() shouldBe "Has this crime been reported to the police?"
         document.getElementsByAttributeValue("for", "crimeReason").text() shouldBe "Yes"
         document.getElementsByAttributeValue("for", "crimeReason-2").text() shouldBe "No"
-        document.getElementsByAttributeValue("for", "crimeReason-3").text() shouldBe "I do not know"
         document.getSubmitButton.text() shouldBe "Continue"
-
 
       }
     }
