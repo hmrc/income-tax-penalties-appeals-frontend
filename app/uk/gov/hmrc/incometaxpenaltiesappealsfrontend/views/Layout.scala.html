@@ -26,6 +26,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.fullWidthMainContentLayout
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
 @import uk.gov.hmrc.govukfrontend.views.html.components.TwoThirdsMainContent
+@import views.html.helper.CSPNonce
 
 @this(
   appConfig: AppConfig,
@@ -45,6 +46,7 @@
 
 @headBlock = {
     @Some(hmrcTimeoutDialogHelper(signOutUrl = signOutUrl))
+    <link @CSPNonce.attr rel="stylesheet" href='@routes.Assets.versioned("../assets/stylesheets/print.css")' type="text/css">
 }
 
 @accountMenu = @{
@@ -91,7 +93,7 @@
 @signOutUrl =@{uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SignOutController.logout.url}
 
 @additionalScripts = {
-  <link rel="stylesheet" href='@routes.Assets.versioned("../assets/stylesheets/print.css")' type="text/css">
+  <script @CSPNonce.attr src='@routes.Assets.versioned("../assets/javascripts/print.js")'></script>
 }
 
 @hmrcStandardPage(
