@@ -17,34 +17,34 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 
-@this(layout: Layout)
+@this(layout: Layout,
+        p:P,
+        h1: H1,
+        h2:H2,
+        list: List,
+        link: Link)
 
 @(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages("service.indexPageTitle"))), backLinkEnabled = false) {
 
     <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
-    <h1 class="govuk-heading-l">@messages("appeal.start.header")</h1>
+    @h1("appeal.start.header")
+    @p("appeal.start.p1")
+    @p("appeal.start.p2")
+    @h2("appeal.start.h2", elmId = "beforeYouStart")
+    @p("appeal.start.p3")
 
-    <p class="govuk-body">@messages("appeal.start.p1")</p>
-    <p class="govuk-body">@messages("appeal.start.p2")</p>
-    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">@messages("appeal.start.h3")</h3>
-    <p class="govuk-body">@messages("appeal.start.p3")</p>
+    @list(Seq("appeal.start.li1", "appeal.start.li2"))
 
-    <ul class="govuk-list govuk-list--bullet">
-        <li>@messages("appeal.start.li1")</li>
-        <li>@messages("appeal.start.li2")</li>
-    </ul>
+    @link(link = "#", messageKey = "appeal.start.guidanceLink",id = Some("guidanceLink"))
 
-    <p class="govuk-body"><a class="govuk-link" id="guidanceLink" rel="noreferrer noopener" target="_blank" href="#">@messages("appeal.start.guidanceLink")</a>.</p>
+    @p("appeal.start.p4")
+    @p("appeal.start.p5")
+    @p("appeal.start.p6")
 
-    <p class="govuk-body">@messages("appeal.start.p4")</p>
-    <p class="govuk-body">@messages("appeal.start.p5")</p>
-    <p class="govuk-body">@messages("appeal.start.p6")</p>
-
-    <div class="govuk-form-group">
-        <a href="@uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.onPageLoad().url" class="govuk-button">@messages("common.continue")</a>
-    </div>
+    @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.onPageLoad().url, messageKey = "common.continue", classes = Some("govuk-button"))
 
 }

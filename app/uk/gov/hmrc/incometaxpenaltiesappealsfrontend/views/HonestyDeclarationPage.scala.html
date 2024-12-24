@@ -18,11 +18,14 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 
 
 @this(layout: Layout,
       govukButton : GovukButton,
-      formHelper: FormWithCSRF)
+      formHelper: FormWithCSRF,
+        p:P,
+        h1: H1)
 
 @(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
@@ -30,9 +33,8 @@
 
     <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
-    <h1 class="govuk-heading-l">@messages("honestyDeclaration.headingAndTitle")</h1>
-
-    <p class="govuk-body" id="honestyDeclarationConfirm">@messages("honestyDeclaration.p1")</p>
+    @h1("honestyDeclaration.headingAndTitle")
+    @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
 
     <ul class="govuk-list govuk-list--bullet">
      <li id="honestyDeclarationReason">@messages(s"honestyDeclaration.li.$reasonableExcuseMessageKey", "5 November 2027")</li>

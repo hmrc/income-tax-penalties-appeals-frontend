@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,6 @@
 
 @this()
 
-@(content: Html, classes: String = "govuk-body", id: Option[String] = None)
+@(msg: String, classes: Option[String] = None, elmId: String = "pageHeading")(implicit messages: Messages)
 
-@if(id.isDefined) {
-  <p class="@classes" id="@id.get">@content</p>
-} else {
-  <p class="@classes">@content</p>
-}
+<h1 id=@elmId class="@classes.getOrElse("govuk-heading-l")">@Html(messages(msg))</h1>
