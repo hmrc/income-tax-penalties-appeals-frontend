@@ -1,11 +1,46 @@
 # microservice specific routes
 
-->         /hmrc-frontend           hmrcfrontend.Routes
-GET        /logout                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SignOutController.logout
-GET        /assets/*file            controllers.Assets.versioned(path = "/public", file: Asset)
-GET        /language/:lang          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LanguageSwitchController.switchToLanguage(lang: String)
+->         /hmrc-frontend                   hmrcfrontend.Routes
+GET        /logout                          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SignOutController.logout
+GET        /assets/*file                    controllers.Assets.versioned(path = "/public", file: Asset)
+GET        /language/:lang                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LanguageSwitchController.switchToLanguage(lang: String)
 
 #Initialise appeal and start page
-GET        /appeal-start            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad()
+GET        /appeal-start                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad()
+
+#Reasonable excuse list
+GET        /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad()
+POST       /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit()
 
 
+#Honesty declaration
+GET        /honesty-declaration             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HonestyDeclarationController.onPageLoad()
+POST       /honesty-declaration             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HonestyDeclarationController.submit()
+
+# When did the event happen
+GET        /when-did-the-event-happen       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad()
+POST       /when-did-the-event-happen       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit()
+
+# When did the event end
+GET        /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad()
+POST       /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit()
+
+# Late appeal page
+GET        /making-a-late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
+POST       /making-a-late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
+
+# Crime Reasonable Excuse
+
+GET        /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad()
+POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit()
+
+
+# Check Your Answers page
+GET        /check-your-answers              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CheckYourAnswersController.onPageLoad()
+POST       /check-your-answers              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CheckYourAnswersController.submit()
+
+# Appeal Confirmation page
+GET        /appeal-confirmation             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ConfirmationController.onPageLoad()
+
+# Print appeal information
+GET        /appeal-details                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ViewAppealDetailsController.onPageLoad()

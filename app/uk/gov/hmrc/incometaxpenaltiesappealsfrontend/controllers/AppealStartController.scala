@@ -46,7 +46,7 @@ class AppealStartController @Inject()(appealStartPage: AppealStartPage,
 
 
         Future.successful(Ok(appealStartPage(
-          true
+          true, currentUser.isAgent
         )))
   }
 

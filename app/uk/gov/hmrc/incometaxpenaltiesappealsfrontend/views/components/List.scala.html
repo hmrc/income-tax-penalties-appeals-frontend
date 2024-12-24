@@ -1,5 +1,5 @@
 @*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 
 @this()
 
-@(content: Seq[Html], isWarning: Boolean = false, numberList: Boolean = false, classes: String = "govuk-list")
+@(listOfMsg: Seq[String])(implicit messages: Messages)
 
-<ul class="@classes govuk-list--bullet @if(isWarning){govuk-warning-text__text govuk-!-margin-top-5} @if(numberList){govuk-list govuk-list--number}">
-@content.map { bullet =>
-    <li>@bullet</li>
-}
+<ul class="govuk-list govuk-list--bullet">
+
+  @for(msg <- listOfMsg) {
+   <li>@messages(msg)</li>
+  }
+
 </ul>

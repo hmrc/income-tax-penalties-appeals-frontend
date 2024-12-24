@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
+@this()
 
-object ReasonableExcuses {
-  val bereavement = "bereavement"
-  val cessation = "cessation"
-  val crime = "crime"
-  val fireOrFlood = "fireOrFlood"
-  val unexpectedHospital = "unexpectedHospital"
-  val technicalIssues = "technicalIssues"
-  val health = "health"
-  val other = "other"
-}
+@(msg: String, elmId: Option[String] = None, classes: Option[String] = None)(implicit messages: Messages)
+
+<p @if(elmId.isDefined){ id="@{elmId.get}"} class="@classes.getOrElse("govuk-body")">@Html(messages(msg))</p>

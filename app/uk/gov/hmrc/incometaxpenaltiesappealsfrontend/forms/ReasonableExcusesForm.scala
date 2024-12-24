@@ -1,5 +1,5 @@
-@*
- * Copyright 2023 HM Revenue & Customs
+/*
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this()
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
-@(content: Html, classes: String = "govuk-body", id: Option[String] = None)
+import play.api.data.Form
+import play.api.data.Forms._
 
-@if(id.isDefined) {
-  <p class="@classes" id="@id.get">@content</p>
-} else {
-  <p class="@classes">@content</p>
+object ReasonableExcusesForm {
+
+  val form: Form[String] = Form(
+    single("reasonableExcuse" -> text.verifying("reasonableExcuse.error.message", _.nonEmpty))
+  )
+
 }

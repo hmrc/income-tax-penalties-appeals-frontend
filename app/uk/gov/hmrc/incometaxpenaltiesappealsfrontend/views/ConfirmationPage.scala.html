@@ -1,0 +1,61 @@
+@*
+ * Copyright 2024 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+
+
+@this(layout: Layout,
+        govukPanel: GovukPanel,
+        p:P,
+        h1: H1,
+        h2:H2,
+        link: Link)
+
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@layout(Some(titleBuilder(messages("appealConfirmation.headingAndTitle"))), backLinkEnabled = true) {
+
+    @govukPanel(Panel(
+        title = Text(messages("appealConfirmation.headingAndTitle")),
+        content = HtmlContent(messages("appealConfirmation.typeAndPeriod", "Late payment penalty", "2027", "2028"))
+    ))
+
+    @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))
+    @p("appealConfirmation.p2", elmId = Some("confirmationSecondParagraph"))
+
+    @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad().url, messageKey = "appealConfirmation.viewOrPrint", id = Some("viewOrPrint-link"), attrTarget = true)
+
+    @h2("appealConfirmation.whatHappensNext.h2", elmId = "whatHappensNext")
+    @p("appealConfirmation.whatHappensNext.p1", elmId = Some("confirmationThirdParagraph"))
+    @p("appealConfirmation.whatHappensNext.p2", elmId = Some("confirmationFourthParagraph"))
+
+    @link(link = "#", messageKey = "appealConfirmation.whatHappensNext.link1", id = Some("returnToSA-link"))
+
+    @link(link = "#", messageKey = "appealConfirmation.whatHappensNext.link2", id = Some("viewSA-link"))
+
+    @h2("appealConfirmation.feedback.h2", elmId = "beforeYouGo")
+
+    @p("appealConfirmation.feedback.p", elmId = Some("confirmationFifthParagraph"))
+
+    <p class="govuk-body govuk-!-margin-bottom-9" id="confirmationSixthParagraph">
+        <a class="govuk-link" href="#" id="survey-link">@messages("appealConfirmation.feedback.link")</a>
+        @messages("appealConfirmation.feedback.link.text")
+    </p>
+}

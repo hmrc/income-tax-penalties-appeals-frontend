@@ -1,0 +1,20 @@
+@media print {
+
+    /* Hide unnecessary elements when printing */
+    .cbanner-govuk-cookie-banner,
+    .govuk-footer,
+    .govuk-link,
+    .govuk-button,
+    .govuk-back-link,
+    .govuk-summary-list__actions,
+    .govuk-footer__section,
+    .govuk-footer__inline-list,
+    .hmrc-report-technical-issue,
+    .hmrc-language-select,
+    .hmrc-account-menu__link,
+    .govuk-phase-banner,
+    .print-hidden {
+        display: none !important;
+    }
+
+}
