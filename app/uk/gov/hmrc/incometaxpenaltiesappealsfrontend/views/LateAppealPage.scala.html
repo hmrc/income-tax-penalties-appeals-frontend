@@ -30,21 +30,23 @@
 
 @(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("lateAppeal.headingAndTitle"))), backLinkEnabled = true) {
+@standardOrBereavement = {@if(reasonableExcuseMessageKey == "bereavementReason"){.bereavementReason} else {}}
+
+@layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle$standardOrBereavement"))), backLinkEnabled = true) {
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit()) {
 
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
-        @h1("lateAppeal.headingAndTitle")
-        @p("lateAppeal.p1", elmId = Some("infoDaysParagraph"))
+        @h1(s"lateAppeal.headingAndTitle$standardOrBereavement")
+        @p(s"lateAppeal.p1$standardOrBereavement", elmId = Some("infoDaysParagraph"))
 
         @govukCharacterCount(CharacterCount(
             id = "delayReason",
             name = "delayReason",
             maxLength = Some(5000),
             label = Label(
-                content = Text(messages("lateAppeal.charCount")),
+                content = Text(messages(s"lateAppeal.charCount$standardOrBereavement")),
                 classes = "govuk-label govuk-label--m"
             )
         ))

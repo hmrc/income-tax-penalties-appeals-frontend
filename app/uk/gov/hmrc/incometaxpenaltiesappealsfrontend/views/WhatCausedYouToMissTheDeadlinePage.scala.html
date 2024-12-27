@@ -25,31 +25,31 @@
       formHelper: FormWithCSRF,
       govukRadios : GovukRadios)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("crimeReason.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle"))), backLinkEnabled = true) {
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CrimeReportedController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.AgentsController.submit()) {
 
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
               legend = Some(Legend(
-                content = Text(messages("crimeReason.headingAndTitle")),
+                content = Text(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle")),
                 classes = "govuk-fieldset__legend--l",
                 isPageHeading = true
               ))
             )),
-            name = reasonableExcuseMessageKey,
+            name = "whatCausedYouToMissTheDeadline",
             items = Seq(
               RadioItem(
-                content = Text(messages("crimeReason.yes")),
-                value = Some("yes")
+                content = Text(messages("agents.whatCausedYouToMissTheDeadline.option.client")),
+                value = Some("client")
               ),
               RadioItem(
-                content = Text(messages("crimeReason.no")),
-                value = Some("no")
+                content = Text(messages("agents.whatCausedYouToMissTheDeadline.option.agent")),
+                value = Some("agent")
               )
             )
         ))

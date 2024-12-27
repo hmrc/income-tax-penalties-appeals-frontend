@@ -26,8 +26,8 @@ GET        /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappeal
 POST       /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit()
 
 # Late appeal page
-GET        /making-a-late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
-POST       /making-a-late-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
+GET        /making-a-late-appeal            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()
+POST       /making-a-late-appeal            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit()
 
 # Crime Reasonable Excuse
 
@@ -44,3 +44,12 @@ GET        /appeal-confirmation             uk.gov.hmrc.incometaxpenaltiesappeal
 
 # Print appeal information
 GET        /appeal-details                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ViewAppealDetailsController.onPageLoad()
+
+# Who Planned to Submit
+GET        /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AgentsController.onPageLoadWhoPlannedToSubmit()
+POST       /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AgentsController.submit()
+
+# Agents - What caused you to miss the deadline
+GET        /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AgentsController.onPageLoadWhatCausedYouToMissTheDeadline()
+POST       /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AgentsController.submit()
+
