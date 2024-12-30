@@ -61,7 +61,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
         document.getParagraphs.get(5).text() shouldBe "In some cases, you'll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
         document.getParagraphs.get(6).text() shouldBe "If you are not asked for extra evidence, this is because we don't need any to make a decision in your particular case."
-        document.getParagraphs.get(7).text() shouldBe "If we decide we do need extra evidence after reviewing your appeal, we will contact you."
+        document.getParagraphs.get(7).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
@@ -85,7 +85,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
         document.getParagraphs.get(5).text() shouldBe "In some cases, you'll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
         document.getParagraphs.get(6).text() shouldBe "If you are not asked for extra evidence, this is because we don't need any to make a decision in your particular case."
-        document.getParagraphs.get(7).text() shouldBe "If we decide we do need extra evidence after reviewing your appeal, we will contact you."
+        document.getParagraphs.get(7).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
         document.getSubmitButton.text() shouldBe "Continue"
       }
     }

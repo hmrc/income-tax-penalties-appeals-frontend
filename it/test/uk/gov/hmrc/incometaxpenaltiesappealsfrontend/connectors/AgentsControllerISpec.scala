@@ -46,7 +46,7 @@ class AgentsControllerISpec extends ComponentSpecHelper with ViewSpecHelper with
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Before the deadline, who planned to send the submission? - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
-        document.getH1Elements.text() shouldBe "Before the deadline, who planned to submit the return?"
+        document.getH1Elements.text() shouldBe "Before the deadline, who planned to send the submission?"
         document.getElementsByAttributeValue("for", "whoPlannedToSubmit").text() shouldBe "I did"
         document.getElementsByAttributeValue("for", "whoPlannedToSubmit-2").text() shouldBe "My client did"
         document.getSubmitButton.text() shouldBe "Continue"

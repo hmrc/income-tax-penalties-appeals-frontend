@@ -24,11 +24,12 @@
 @this(layout: Layout,
         govukPanel: GovukPanel,
         p:P,
-        h1: H1,
         h2:H2,
         link: Link)
 
 @(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@clientOrAgent = {@if(isAgent){agent} else {client}}
 
 @layout(Some(titleBuilder(messages("appealConfirmation.headingAndTitle"))), backLinkEnabled = true) {
 
@@ -38,17 +39,17 @@
     ))
 
     @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))
-    @p("appealConfirmation.p2", elmId = Some("confirmationSecondParagraph"))
+    @p(s"appealConfirmation.p2.$clientOrAgent", elmId = Some(s"confirmationSecondParagraph"))
 
     @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad().url, messageKey = "appealConfirmation.viewOrPrint", id = Some("viewOrPrint-link"), attrTarget = true)
 
     @h2("appealConfirmation.whatHappensNext.h2", elmId = "whatHappensNext")
     @p("appealConfirmation.whatHappensNext.p1", elmId = Some("confirmationThirdParagraph"))
-    @p("appealConfirmation.whatHappensNext.p2", elmId = Some("confirmationFourthParagraph"))
+    @p(s"appealConfirmation.whatHappensNext.p2.$clientOrAgent", elmId = Some("confirmationFourthParagraph"))
 
-    @link(link = "#", messageKey = "appealConfirmation.whatHappensNext.link1", id = Some("returnToSA-link"))
+    @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link1.$clientOrAgent", id = Some("returnToSA-link"))
 
-    @link(link = "#", messageKey = "appealConfirmation.whatHappensNext.link2", id = Some("viewSA-link"))
+    @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link2.$clientOrAgent", id = Some("viewSA-link"))
 
     @h2("appealConfirmation.feedback.h2", elmId = "beforeYouGo")
 

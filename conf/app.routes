@@ -45,7 +45,7 @@ GET        /appeal-confirmation             uk.gov.hmrc.incometaxpenaltiesappeal
 # Print appeal information
 GET        /appeal-details                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ViewAppealDetailsController.onPageLoad()
 
-# Who Planned to Submit
+# Agents - Who Planned to Submit
 GET        /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AgentsController.onPageLoadWhoPlannedToSubmit()
 POST       /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AgentsController.submit()
 

@@ -17,7 +17,7 @@ appeal.start.li3 = details of why you did not appeal sooner
 appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in new tab)
 appeal.start.p4 = In some cases, you''ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
 appeal.start.p5 = If you are not asked for extra evidence, this is because we don''t need any to make a decision in your particular case.
-appeal.start.p6 = If we decide we do need extra evidence after reviewing your appeal, we will contact you.
+appeal.start.p6 = If we decide we need extra evidence after reviewing your appeal, we will contact you.
 
 
 # Reasonable excuse
@@ -148,13 +148,17 @@ checkYourAnswers.change = Change
 appealConfirmation.headingAndTitle = Appeal received
 appealConfirmation.typeAndPeriod = {0}: {1} to {2} tax year
 appealConfirmation.p1 = You do not need a reference number.
-appealConfirmation.p2 = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.agent = This appeal has been logged against your client''s National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
-appealConfirmation.whatHappensNext.p2 = When a decision has been made, you'll be notified about the outcome of this appeal and the reasons for our decision.
-appealConfirmation.whatHappensNext.link1 = Return to your Self Assessment penalties
-appealConfirmation.whatHappensNext.link2 = View your Self Assessment account
+appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you''ll be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.p2.agent =  When a decision has been made, your client will be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.link1.client = Return to your Self Assessment penalties
+appealConfirmation.whatHappensNext.link1.agent = Return to your client''s Self Assessment penalties
+appealConfirmation.whatHappensNext.link2.client = View your Self Assessment account
+appealConfirmation.whatHappensNext.link2.agent = View your client''s Self Assessment account
 
 appealConfirmation.feedback.h2 = Before you go
 appealConfirmation.feedback.p = Your feedback helps us make our service better.
@@ -170,8 +174,8 @@ viewAppealDetails.appealDate = Appeal date
 viewAppealDetails.multiplePenalties = Do you intend to appeal both penalties for the same reason?
 viewAppealDetails.multiplePenalties.yes = Yes
 viewAppealDetails.multiplePenalties.no = No
-
-viewAppealDetails.reason = Reason for missing the payment deadline
+viewAppealDetails.whoPlanned = Before the deadline, who planned to send the submission?
+viewAppealDetails.reason = Reason for missing the submission deadline
 viewAppealDetails.bereavementReason.value =  Bereavement (someone died)
 viewAppealDetails.cessationReason.value = Cessation of income source
 viewAppealDetails.crimeReason.value =  Crime
