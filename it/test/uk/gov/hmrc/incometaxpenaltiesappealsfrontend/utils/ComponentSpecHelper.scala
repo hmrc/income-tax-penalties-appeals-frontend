@@ -81,7 +81,7 @@ trait ComponentSpecHelper
   def get[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(cookie, mockSessionCookie(isLate, isAgent, reasonableExcuse))
+      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
   }
@@ -90,7 +90,7 @@ trait ComponentSpecHelper
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
-        .withCookies(cookie, mockSessionCookie(isLate, isAgent, reasonableExcuse))
+        .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
         .post(writes.writes(body).toString())
     )
   }
@@ -99,14 +99,14 @@ trait ComponentSpecHelper
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
-        .withCookies(mockSessionCookie(isLate, isAgent, reasonableExcuse))
+        .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
         .put(writes.writes(body).toString())
     )
   }
 
   def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None): WSResponse = {
     await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(mockSessionCookie(isLate, isAgent, reasonableExcuse))
+      .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
       .delete())
   }
 
@@ -120,7 +120,7 @@ trait ComponentSpecHelper
 
   val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
 
-  def mockSessionCookie(isLate: Boolean, isAgent: Boolean, reasonableExcuse: Option[String]): WSCookie = {
+  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String]): WSCookie = {
 
     def makeSessionCookie(session: Session): Cookie = {
       val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
