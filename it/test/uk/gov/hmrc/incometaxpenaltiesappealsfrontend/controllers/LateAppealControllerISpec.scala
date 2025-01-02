@@ -23,56 +23,69 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper,
 
 class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
 
+  val reasonsList: List[(String, String)] = List(
+    ("bereavementReason", "45"),
+    ("cessationReason", "30"),
+    ("crimeReason", "30"),
+    ("fireOrFloodReason", "30"),
+    ("healthReason", "30"),
+    ("technicalReason", "30"),
+    ("unexpectedHospitalReason", "30"),
+    ("otherReason", "30")
+  )
 
-  "GET /making-a-late-appeal" should {
-    "return an OK with a view" when {
-      "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/making-a-late-appeal", reasonableExcuse = Some("defaultReason"))
+  for (reason <- reasonsList) {
 
-        result.status shouldBe OK
+    s"GET /making-a-late-appeal with ${reason._1}" should {
+      "return an OK with a view" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          val result = get("/making-a-late-appeal", reasonableExcuse = Some(reason._1))
+
+          result.status shouldBe OK
+        }
+
+        "the user is an authorised agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+          val result = get("/making-a-late-appeal", isAgent = true, reasonableExcuse = Some(reason._1))
+
+          result.status shouldBe OK
+        }
       }
 
-      "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/making-a-late-appeal", isAgent = true, reasonableExcuse = Some("defaultReason"))
+      "the page has the correct elements" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          val result = get("/making-a-late-appeal", reasonableExcuse = Some(reason._1))
 
-        result.status shouldBe OK
-      }
-    }
+          val document = Jsoup.parse(result.body)
 
-    "the page has the correct elements" when {
-      "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/making-a-late-appeal", reasonableExcuse = Some("defaultReason"))
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
+          document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
+          document.getElementsByAttributeValue("for", "delayReason").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+          document.getElementById("delayReason-info").text() shouldBe "You can enter up to 5000 characters"
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
 
-        val document = Jsoup.parse(result.body)
+        "the user is an authorised agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+          val result = get("/making-a-late-appeal", isAgent = true, reasonableExcuse = Some(reason._1))
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "This penalty point was issued more than 30 days ago - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
-        document.getH1Elements.text() shouldBe "This penalty point was issued more than 30 days ago"
-        document.getElementById("infoDaysParagraph").text() shouldBe "You usually need to appeal within 30 days of the date on the penalty notice."
-        document.getElementsByAttributeValue("for", "delayReason").text() shouldBe "Tell us why you could not appeal within 30 days"
-        document.getElementById("delayReason-info").text() shouldBe "You can enter up to 5000 characters"
-        document.getSubmitButton.text() shouldBe "Continue"
-      }
+          val document = Jsoup.parse(result.body)
 
-      "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/making-a-late-appeal", isAgent = true, reasonableExcuse = Some("defaultReason"))
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
+          document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
+          document.getElementsByAttributeValue("for", "delayReason").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+          document.getElementById("delayReason-info").text() shouldBe "You can enter up to 5000 characters"
+          document.getSubmitButton.text() shouldBe "Continue"
 
-        val document = Jsoup.parse(result.body)
-
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "This penalty point was issued more than 30 days ago - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
-        document.getH1Elements.text() shouldBe "This penalty point was issued more than 30 days ago"
-        document.getElementById("infoDaysParagraph").text() shouldBe "You usually need to appeal within 30 days of the date on the penalty notice."
-        document.getElementsByAttributeValue("for", "delayReason").text() shouldBe "Tell us why you could not appeal within 30 days"
-        document.getElementById("delayReason-info").text() shouldBe "You can enter up to 5000 characters"
-        document.getSubmitButton.text() shouldBe "Continue"
-
+        }
       }
     }
   }

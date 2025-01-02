@@ -23,7 +23,6 @@
         p:P,
         h1: H1,
         h2:H2,
-        list: List,
         link: Link)
 
 @(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
@@ -37,7 +36,13 @@
     @h2("appeal.start.h2", elmId = "beforeYouStart")
     @p("appeal.start.p3")
 
-    @list(Seq("appeal.start.li1", "appeal.start.li2"))
+    <ul class="govuk-list govuk-list--bullet">
+        <li>@messages("appeal.start.li1")</li>
+        <li>@messages("appeal.start.li2")</li>
+        @if(isLate) {
+            <li>@messages("appeal.start.li3")</li>
+        }
+    </ul>
 
     @link(link = "#", messageKey = "appeal.start.guidanceLink",id = Some("guidanceLink"))
 

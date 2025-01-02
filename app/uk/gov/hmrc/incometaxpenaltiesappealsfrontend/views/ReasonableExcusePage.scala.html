@@ -27,6 +27,8 @@
 
 @(isLate: Boolean, isAgent: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
+@standardOrAgent = {@if(isAgent){agent} else {standard}}
+
 @layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"))), backLinkEnabled = true) {
 
     <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
@@ -42,7 +44,7 @@
                 ))
             )),
             hint = Some(Hint(
-                content = Text(messages("reasonableExcuses.hintText"))
+                content = Text(messages(s"reasonableExcuses.hintText.$standardOrAgent"))
             )),
             name = "reasonableExcuse",
             items = Seq(

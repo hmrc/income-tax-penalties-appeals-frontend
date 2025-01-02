@@ -58,6 +58,16 @@
               17 March 2029
           </dd>
         </div>
+         @if(isAgent) {
+            <div class="govuk-summary-list__row" id="whoPlanned">
+                <dt class="govuk-summary-list__key">
+                @messages("viewAppealDetails.whoPlanned")
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    I did
+                </dd>
+            </div>
+        }
         <div class="govuk-summary-list__row" id="multiplePenalties">
           <dt class="govuk-summary-list__key">
             @messages("viewAppealDetails.multiplePenalties")

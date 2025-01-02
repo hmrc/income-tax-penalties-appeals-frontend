@@ -13,16 +13,18 @@ appeal.start.h2 = Before you start
 appeal.start.p3 = You''ll need:
 appeal.start.li1 = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ''a reasonable excuse'')
 appeal.start.li2 = the dates related to this reasonable excuse
+appeal.start.li3 = details of why you did not appeal sooner
 appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in new tab)
 appeal.start.p4 = In some cases, you''ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
 appeal.start.p5 = If you are not asked for extra evidence, this is because we don''t need any to make a decision in your particular case.
-appeal.start.p6 = If we decide we do need extra evidence after reviewing your appeal, we will contact you.
+appeal.start.p6 = If we decide we need extra evidence after reviewing your appeal, we will contact you.
 
 
 # Reasonable excuse
 # ----------------------------------------------------------
 reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline?
-reasonableExcuses.hintText = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline.
+reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline.
+reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client''s ability to meet the deadline.
 reasonableExcuses.bereavementReason = Bereavement (someone died)
 reasonableExcuses.cessationReason = Cessation of income source
 reasonableExcuses.crimeReason = Crime
@@ -38,14 +40,42 @@ reasonableExcuses.otherReason.hint = You should only choose this if the reason i
 # ----------------------------------------------------------
 honestyDeclaration.headingAndTitle = Honesty declaration
 honestyDeclaration.p1 = I confirm that:
-honestyDeclaration.li.bereavementReason = because I was affected by someone''s death, I was unable to send the submission due on {0}
-honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
-honestyDeclaration.li.crimeReason = because I was affected by a crime, I was unable to send the submission due on {0}
-honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0}
-honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
-honestyDeclaration.li.technicalReason = because of software or technology issues, I was unable to send the submission due on {0}
-honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
-honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.bereavementReason = because I was affected by someone''s death, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.crimeReason = because I was affected by a crime, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.technicalReason = because of software or technology issues, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+
+agentPlanned.clientAffected.honestyDeclaration.li.bereavementReason = because my client was affected by someone''s death, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.crimeReason = because my client was affected by a crime, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.fireOrFloodReason = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.technicalReason = because my client was affected by software or technology issues, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+
+agentPlanned.agentAffected.honestyDeclaration.li.bereavementReason = because I was affected by someone''s death, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.crimeReason = because I was affected by a crime, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.technicalReason = because of software or technology issues, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+
+clientPlanned.clientAffected.honestyDeclaration.li.bereavementReason = because my client was affected by someone''s death, they were unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.crimeReason = because my client was affected by a crime, they were unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.fireOrFloodReason =  because of a fire or flood, my client was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.technicalReason = because of software or technology issues, my client was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal
 
 # When did the event happen page
@@ -67,8 +97,11 @@ whenDidEventEnd.technicalReason.headingAndTitle = When did the software or techn
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = This penalty point was issued more than 30 days ago
+lateAppeal.headingAndTitle.bereavementReason = This penalty point was issued more than 45 days ago
 lateAppeal.p1 = You usually need to appeal within 30 days of the date on the penalty notice.
+lateAppeal.p1.bereavementReason = You usually need to appeal within 45 days of the date on the penalty notice.
 lateAppeal.charCount = Tell us why you could not appeal within 30 days
+lateAppeal.charCount.bereavementReason = Tell us why you could not appeal within 45 days
 
 # Has the crime been reported page
 # ----------------------------------------------------------
@@ -115,13 +148,17 @@ checkYourAnswers.change = Change
 appealConfirmation.headingAndTitle = Appeal received
 appealConfirmation.typeAndPeriod = {0}: {1} to {2} tax year
 appealConfirmation.p1 = You do not need a reference number.
-appealConfirmation.p2 = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.agent = This appeal has been logged against your client''s National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
-appealConfirmation.whatHappensNext.p2 = When a decision has been made, you'll be notified about the outcome of this appeal and the reasons for our decision.
-appealConfirmation.whatHappensNext.link1 = Return to your Self Assessment penalties
-appealConfirmation.whatHappensNext.link2 = View your Self Assessment account
+appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you''ll be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.p2.agent =  When a decision has been made, your client will be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.link1.client = Return to your Self Assessment penalties
+appealConfirmation.whatHappensNext.link1.agent = Return to your client''s Self Assessment penalties
+appealConfirmation.whatHappensNext.link2.client = View your Self Assessment account
+appealConfirmation.whatHappensNext.link2.agent = View your client''s Self Assessment account
 
 appealConfirmation.feedback.h2 = Before you go
 appealConfirmation.feedback.p = Your feedback helps us make our service better.
@@ -137,8 +174,8 @@ viewAppealDetails.appealDate = Appeal date
 viewAppealDetails.multiplePenalties = Do you intend to appeal both penalties for the same reason?
 viewAppealDetails.multiplePenalties.yes = Yes
 viewAppealDetails.multiplePenalties.no = No
-
-viewAppealDetails.reason = Reason for missing the payment deadline
+viewAppealDetails.whoPlanned = Before the deadline, who planned to send the submission?
+viewAppealDetails.reason = Reason for missing the submission deadline
 viewAppealDetails.bereavementReason.value =  Bereavement (someone died)
 viewAppealDetails.cessationReason.value = Cessation of income source
 viewAppealDetails.crimeReason.value =  Crime
@@ -162,6 +199,18 @@ viewAppealDetails.otherReason.date.key = TBC otherReason
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
 viewAppealDetails.printThisPage = Print this page
+
+# Who Planned to Submit
+# ----------------------------------------------------------
+agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission?
+agents.whoPlannedToSubmit.agent = I did
+agents.whoPlannedToSubmit.client = My client did
+
+# Agents 'What caused you to miss the deadline?'
+# ----------------------------------------------------------
+agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline?
+agents.whatCausedYouToMissTheDeadline.option.client = My client did not get information to me on time
+agents.whatCausedYouToMissTheDeadline.option.agent = Something else happened to delay me
 
 
 common.dateHint = For example, 12 3 2018

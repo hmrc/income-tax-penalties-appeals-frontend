@@ -57,7 +57,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
         document.getElementById("viewOrPrint-link").text() shouldBe "View or print your appeal details (opens in new tab)"
         document.getElementById("whatHappensNext").text() shouldBe "What happens next"
         document.getElementById("confirmationThirdParagraph").text() shouldBe "We aim to make decisions about appeals within 45 days."
-        document.getElementById("confirmationFourthParagraph").text() shouldBe "When a decision has been made, youll be notified about the outcome of this appeal and the reasons for our decision."
+        document.getElementById("confirmationFourthParagraph").text() shouldBe "When a decision has been made, you'll be notified about the outcome of this appeal and the reasons for our decision."
         document.getElementById("returnToSA-link").text() shouldBe "Return to your Self Assessment penalties"
         document.getElementById("viewSA-link").text() shouldBe "View your Self Assessment account"
         document.getElementById("beforeYouGo").text() shouldBe "Before you go"
@@ -71,8 +71,21 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-
-
+        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getH1Elements.text() shouldBe "Appeal received"
+        document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 2027 to 2028 tax year"
+        document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
+        document.getElementById("confirmationSecondParagraph").text() shouldBe "This appeal has been logged against your client's National Insurance number. Please quote this number if you call HMRC about this appeal."
+        document.getElementById("viewOrPrint-link").text() shouldBe "View or print your appeal details (opens in new tab)"
+        document.getElementById("whatHappensNext").text() shouldBe "What happens next"
+        document.getElementById("confirmationThirdParagraph").text() shouldBe "We aim to make decisions about appeals within 45 days."
+        document.getElementById("confirmationFourthParagraph").text() shouldBe "When a decision has been made, your client will be notified about the outcome of this appeal and the reasons for our decision."
+        document.getElementById("returnToSA-link").text() shouldBe "Return to your client's Self Assessment penalties"
+        document.getElementById("viewSA-link").text() shouldBe "View your client's Self Assessment account"
+        document.getElementById("beforeYouGo").text() shouldBe "Before you go"
+        document.getElementById("confirmationFifthParagraph").text() shouldBe "Your feedback helps us make our service better."
+        document.getElementById("confirmationSixthParagraph").text() shouldBe "Take a short survey to share your feedback on this service."
       }
     }
   }

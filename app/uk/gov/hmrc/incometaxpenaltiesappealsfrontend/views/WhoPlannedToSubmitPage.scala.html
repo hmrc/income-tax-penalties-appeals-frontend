@@ -18,36 +18,39 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 
 
 @this(layout: Layout,
-        govukButton: GovukButton,
-        formHelper: FormWithCSRF,
-        govukCharacterCount: GovukCharacterCount,
-        p:P,
-        h1: H1)
+      govukButton : GovukButton,
+      formHelper: FormWithCSRF,
+      govukRadios : GovukRadios)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@standardOrBereavement = {@if(reasonableExcuseMessageKey == "bereavementReason"){.bereavementReason} else {}}
+@layout(Some(titleBuilder(messages("agents.whoPlannedToSubmit.headingAndTitle"))), backLinkEnabled = true) {
 
-@layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle$standardOrBereavement"))), backLinkEnabled = true) {
-
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.AgentsController.submit()) {
 
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
-        @h1(s"lateAppeal.headingAndTitle$standardOrBereavement")
-        @p(s"lateAppeal.p1$standardOrBereavement", elmId = Some("infoDaysParagraph"))
-
-        @govukCharacterCount(CharacterCount(
-            id = "delayReason",
-            name = "delayReason",
-            maxLength = Some(5000),
-            label = Label(
-                content = Text(messages(s"lateAppeal.charCount$standardOrBereavement")),
-                classes = "govuk-label govuk-label--m"
+        @govukRadios(Radios(
+            fieldset = Some(Fieldset(
+              legend = Some(Legend(
+                content = Text(messages("agents.whoPlannedToSubmit.headingAndTitle")),
+                classes = "govuk-fieldset__legend--l",
+                isPageHeading = true
+              ))
+            )),
+            name = "whoPlannedToSubmit",
+            items = Seq(
+              RadioItem(
+                content = Text(messages("agents.whoPlannedToSubmit.agent")),
+                value = Some("agent")
+              ),
+              RadioItem(
+                content = Text(messages("agents.whoPlannedToSubmit.client")),
+                value = Some("client")
+              )
             )
         ))
 

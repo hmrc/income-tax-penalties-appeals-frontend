@@ -90,7 +90,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           document.select("#appealDate > dd").text() shouldBe "17 March 2029"
           document.select("#multiplePenalties > dt").text() shouldBe "Do you intend to appeal both penalties for the same reason?"
           document.select("#multiplePenalties > dd").text() shouldBe "No"
-          document.select("#penaltyReason > dt").text() shouldBe "Reason for missing the payment deadline"
+          document.select("#penaltyReason > dt").text() shouldBe "Reason for missing the submission deadline"
           document.select("#penaltyReason > dd").text() shouldBe reason._2
           document.select("#startDate > dt").text() shouldBe reason._3
           document.select("#startDate > dd").text() shouldBe "20 January 2029"
@@ -121,9 +121,11 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           document.select("#penaltyAppealed > dd").text() shouldBe "Late payment penalty: 2027 to 2028 tax year"
           document.select("#appealDate > dt").text() shouldBe "Appeal date"
           document.select("#appealDate > dd").text() shouldBe "17 March 2029"
+          document.select("#whoPlanned > dt").text() shouldBe "Before the deadline, who planned to send the submission?"
+          document.select("#whoPlanned > dd").text() shouldBe "I did"
           document.select("#multiplePenalties > dt").text() shouldBe "Do you intend to appeal both penalties for the same reason?"
           document.select("#multiplePenalties > dd").text() shouldBe "No"
-          document.select("#penaltyReason > dt").text() shouldBe "Reason for missing the payment deadline"
+          document.select("#penaltyReason > dt").text() shouldBe "Reason for missing the submission deadline"
           document.select("#penaltyReason > dd").text() shouldBe reason._2
           document.select("#startDate > dt").text() shouldBe reason._3
           document.select("#startDate > dd").text() shouldBe "20 January 2029"

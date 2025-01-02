@@ -78,7 +78,7 @@ trait ComponentSpecHelper
     super.beforeEach()
   }
 
-  def get[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
+  def get[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
       .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
@@ -86,7 +86,7 @@ trait ComponentSpecHelper
       .get())
   }
 
-  def post[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def post[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie)(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
@@ -95,7 +95,7 @@ trait ComponentSpecHelper
     )
   }
 
-  def put[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def put[T](uri: String, isLate: Boolean = true ,isAgent: Boolean = false, reasonableExcuse: Option[String] = None)(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
@@ -104,7 +104,7 @@ trait ComponentSpecHelper
     )
   }
 
-  def delete[T](uri: String, isAgent: Boolean = false, reasonableExcuse: Option[String] = None): WSResponse = {
+  def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None): WSResponse = {
     await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123")
       .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
       .delete())
