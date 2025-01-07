@@ -23,6 +23,9 @@ object PagerDutyHelper {
   object PagerDutyKeys extends Enumeration {
     final val RECEIVED_4XX_FROM_PENALTIES = Value
     final val RECEIVED_5XX_FROM_PENALTIES = Value
+    final val RECEIVED_4XX_FROM_MESSAGE_FRONTEND = Value
+    final val RECEIVED_5XX_FROM_MESSAGE_FRONTEND = Value
+    final val INVALID_JSON_RECEIVED_FROM_MESSAGE_FRONTEND = Value
     final val RECEIVED_4XX_FROM_UPSCAN = Value
     final val RECEIVED_5XX_FROM_UPSCAN = Value
     final val FILE_UPLOAD_STATUS_NOT_FOUND_UPSCAN = Value

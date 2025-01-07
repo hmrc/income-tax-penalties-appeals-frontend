@@ -40,6 +40,10 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
     if (isEnabled(UseStubForBackend)) s"${servicesConfig.baseUrl("income-tax-penalties-stubs")}/income-tax-penalties-stubs"
     else s"${servicesConfig.baseUrl("penalties")}/penalties"
 
+  def messagesFrontendBaseUrl: String =
+    if (isEnabled(UseStubForBackend)) s"${servicesConfig.baseUrl("income-tax-penalties-stubs")}/income-tax-penalties-stubs"
+    else servicesConfig.baseUrl("message-frontend")
+
   val appName: String = servicesConfig.getString("appName")
 
   def appealLPPDataForPenaltyAndEnrolmentKey(penaltyId: String, enrolmentKey: String, isAdditional: Boolean): String = {
