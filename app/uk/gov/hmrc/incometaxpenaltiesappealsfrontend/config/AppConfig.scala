@@ -29,7 +29,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
 
   lazy val serviceSignOut:String = servicesConfig.getString("service-signout.url")
-  lazy val ITSAPenaltiesAppealsHomeUrl = "/penalties-appeals/income-tax/appeal-start"
+  lazy val ITSAPenaltiesAppealsHomeUrl = "/view-or-appeal-penalty/self-assessment/appeal-start"
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
   def getFeatureSwitchValue(feature: String): Boolean = config.get[Boolean](feature)

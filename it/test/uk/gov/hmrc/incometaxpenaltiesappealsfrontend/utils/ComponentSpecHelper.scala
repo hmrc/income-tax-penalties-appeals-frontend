@@ -114,7 +114,7 @@ trait ComponentSpecHelper
       .delete())
   }
 
-  val baseUrl: String = "/penalties-appeals/income-tax"
+  val baseUrl: String = "/view-or-appeal-penalty/self-assessment"
 
   private def buildClient(path: String): WSRequest =
     ws.url(s"http://localhost:$port$baseUrl$path").withFollowRedirects(false)
