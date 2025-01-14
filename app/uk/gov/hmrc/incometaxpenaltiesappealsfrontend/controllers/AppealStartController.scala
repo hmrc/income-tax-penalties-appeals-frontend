@@ -20,21 +20,20 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartPage
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class AppealStartController @Inject()(appealStartPage: AppealStartPage,
-                                      val authConnector: AuthConnector
-                                     )(implicit mcc: MessagesControllerComponents,
-                                       ec: ExecutionContext,
-                                       val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
-  def onPageLoad(): Action[AnyContent] = isAuthenticated {
-    implicit request =>
-      implicit currentUser =>
+                                      val authorised: AuthAction,
+                                      override val controllerComponents: MessagesControllerComponents
+                                     )(implicit ec: ExecutionContext,
+                                       val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
+  def onPageLoad(): Action[AnyContent] = authorised { implicit currentUser =>
         //      logger.debug(s"[AppealStartController][onPageLoad] - Session keys received: \n" +
         //        s"Appeal Type = ${userRequest.answers.getAnswer[PenaltyTypeEnum.Value](IncomeTaxSessionKeys.appealType)}, \n" +
         //        s"Penalty Number = ${userRequest.answers.getAnswer[String](IncomeTaxSessionKeys.penaltyNumber)}, \n" +
@@ -45,9 +44,9 @@ class AppealStartController @Inject()(appealStartPage: AppealStartPage,
         //        s"Date communication sent of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.dateCommunicationSent)}, \n")
 
 
-        Future.successful(Ok(appealStartPage(
+        Ok(appealStartPage(
           true, currentUser.isAgent
-        )))
+        ))
   }
 
   //  private def isAppealLate()(implicit userRequest: UserRequest[_]): Boolean = {

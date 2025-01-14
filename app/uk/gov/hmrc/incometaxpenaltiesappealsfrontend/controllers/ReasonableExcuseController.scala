@@ -20,45 +20,40 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys.reasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcusePage
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcusePage,
-                                           val authConnector: AuthConnector
-                                          )(implicit mcc: MessagesControllerComponents,
-                                            ec: ExecutionContext,
-                                            val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport {
+                                           val authorised: AuthAction,
+                                           override val controllerComponents: MessagesControllerComponents
+                                          )(implicit ec: ExecutionContext,
+                                            val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = isAuthenticated {
-    implicit request =>
-      implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = authorised { implicit currentUser =>
 
-        Future.successful(Ok(reasonableExcusePage(
+        Ok(reasonableExcusePage(
           true, currentUser.isAgent, ReasonableExcusesForm.form
-        )))
+        ))
   }
 
 
-  def submit(): Action[AnyContent] = isAuthenticated {
-    implicit request =>
-      implicit currentUser =>
+  def submit(): Action[AnyContent] = authorised { implicit currentUser =>
         ReasonableExcusesForm.form.bindFromRequest().fold(
           formWithErrors =>
-            Future.successful(BadRequest(reasonableExcusePage(
+            BadRequest(reasonableExcusePage(
               true, currentUser.isAgent,
               formWithErrors
-            ))),
+            )),
           reasonableExcuse =>
-            Future.successful(
-
               reasonableExcuse match {
                 case ("technicalReason" | "bereavementReason" | "fireOrFloodReason" | "crimeReason") =>
                   Redirect (routes.HonestyDeclarationController.onPageLoad () )
@@ -66,7 +61,6 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
                 case _ =>
                   (Redirect(routes.AppealStartController.onPageLoad()))
               }
-            )
         )
   }
 

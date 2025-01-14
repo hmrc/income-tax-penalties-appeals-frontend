@@ -16,12 +16,15 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar
 
+import play.api.i18n.Messages
 import play.api.libs.json.{Format, Json}
 
 case class NavLink(en: String,
                    cy: String,
                    url: String,
-                   alerts: Option[Int] = None)
+                   alerts: Option[Int] = None) {
+  def message(implicit messages: Messages): String = if (messages.lang.code.toUpperCase == "CY") cy else en
+}
 
 object NavLink {
   implicit val format: Format[NavLink] = Json.format[NavLink]

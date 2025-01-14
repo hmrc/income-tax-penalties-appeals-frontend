@@ -19,9 +19,10 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper, NavBarTesterHelper}
 
-class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+
+class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
 
   "GET /appeal-start" should {
@@ -51,17 +52,17 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         document.title() shouldBe "Appeal a Self Assessment penalty - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
         document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
-        document.getParagraphs.get(1).text() shouldBe "To appeal a late submission penalty for Self Assessment, you'll need to ask HMRC to look at your case again."
-        document.getParagraphs.get(2).text() shouldBe "This service is for appealing penalties given for individual submissions."
+        document.getParagraphs.get(0).text() shouldBe "To appeal a late submission penalty for Self Assessment, you'll need to ask HMRC to look at your case again."
+        document.getParagraphs.get(1).text() shouldBe "This service is for appealing penalties given for individual submissions."
         document.getH2Elements.get(0).text() shouldBe "Before you start"
-        document.getParagraphs.get(3).text() shouldBe "You'll need:"
-        document.getBulletPoints.get(7).text() shouldBe "a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this 'a reasonable excuse')"
-        document.getBulletPoints.get(8).text() shouldBe "the dates related to this reasonable excuse"
-        document.getBulletPoints.get(9).text() shouldBe "details of why you did not appeal sooner"
+        document.getParagraphs.get(2).text() shouldBe "You'll need:"
+        document.getBulletPoints.get(0).text() shouldBe "a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this 'a reasonable excuse')"
+        document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
+        document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
         document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
-        document.getParagraphs.get(5).text() shouldBe "In some cases, you'll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
-        document.getParagraphs.get(6).text() shouldBe "If you are not asked for extra evidence, this is because we don't need any to make a decision in your particular case."
-        document.getParagraphs.get(7).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
+        document.getParagraphs.get(4).text() shouldBe "In some cases, you'll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
+        document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don't need any to make a decision in your particular case."
+        document.getParagraphs.get(6).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
@@ -75,17 +76,17 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         document.title() shouldBe "Appeal a Self Assessment penalty - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
         document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
-        document.getParagraphs.get(1).text() shouldBe "To appeal a late submission penalty for Self Assessment, you'll need to ask HMRC to look at your case again."
-        document.getParagraphs.get(2).text() shouldBe "This service is for appealing penalties given for individual submissions."
+        document.getParagraphs.get(0).text() shouldBe "To appeal a late submission penalty for Self Assessment, you'll need to ask HMRC to look at your case again."
+        document.getParagraphs.get(1).text() shouldBe "This service is for appealing penalties given for individual submissions."
         document.getH2Elements.get(0).text() shouldBe "Before you start"
-        document.getParagraphs.get(3).text() shouldBe "You'll need:"
-        document.getBulletPoints.get(7).text() shouldBe "a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this 'a reasonable excuse')"
-        document.getBulletPoints.get(8).text() shouldBe "the dates related to this reasonable excuse"
-        document.getBulletPoints.get(9).text() shouldBe "details of why you did not appeal sooner"
+        document.getParagraphs.get(2).text() shouldBe "You'll need:"
+        document.getBulletPoints.get(0).text() shouldBe "a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this 'a reasonable excuse')"
+        document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
+        document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
         document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
-        document.getParagraphs.get(5).text() shouldBe "In some cases, you'll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
-        document.getParagraphs.get(6).text() shouldBe "If you are not asked for extra evidence, this is because we don't need any to make a decision in your particular case."
-        document.getParagraphs.get(7).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
+        document.getParagraphs.get(4).text() shouldBe "In some cases, you'll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
+        document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don't need any to make a decision in your particular case."
+        document.getParagraphs.get(6).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
         document.getSubmitButton.text() shouldBe "Continue"
       }
     }

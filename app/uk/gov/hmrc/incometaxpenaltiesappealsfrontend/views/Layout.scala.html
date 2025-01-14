@@ -27,6 +27,7 @@
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
 @import uk.gov.hmrc.govukfrontend.views.html.components.TwoThirdsMainContent
 @import views.html.helper.CSPNonce
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.RequestWithNavBar
 
 @this(
   appConfig: AppConfig,
@@ -41,11 +42,22 @@
   hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
   link: Link
 )
-@(pageTitle: Option[String] = None, backLinkEnabled: Boolean = true, isPageFullWidth: Boolean = false)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+@(
+        pageTitle: Option[String] = None,
+        backLinkEnabled: Boolean = true,
+        isPageFullWidth: Boolean = false,
+        disableSessionExpired: Boolean = false
+)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
 
 @headBlock = {
-    @Some(hmrcTimeoutDialogHelper(signOutUrl = signOutUrl))
+
+    @if(!disableSessionExpired){
+        @hmrcTimeoutDialogHelper(
+            signOutUrl = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ServiceController.logout.url,
+            keepAliveUrl = Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ServiceController.keepAlive.url)
+        )
+    }
     <link @CSPNonce.attr rel="stylesheet" href='@routes.Assets.versioned("../assets/stylesheets/print.css")' type="text/css">
 }
 
@@ -90,7 +102,7 @@
     @hmrcReportTechnicalIssueHelper()
 }
 
-@signOutUrl =@{uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SignOutController.logout.url}
+@signOutUrl =@{uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ServiceController.logout.url}
 
 @additionalScripts = {
   <script @CSPNonce.attr src='@routes.Assets.versioned("../assets/javascripts/print.js")'></script>

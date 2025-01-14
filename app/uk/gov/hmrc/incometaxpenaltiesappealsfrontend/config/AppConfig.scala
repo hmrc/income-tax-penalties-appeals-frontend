@@ -28,7 +28,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
 
-  lazy val serviceSignOut:String = servicesConfig.getString("service-signout.url")
+  lazy val serviceSignOut:String = servicesConfig.getString("signOut.url")
   lazy val ITSAPenaltiesAppealsHomeUrl = "/view-or-appeal-penalty/self-assessment/appeal-start"
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
@@ -68,5 +68,10 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val daysRequiredForLateAppeal: Int = config.get[Int]("constants.daysRequiredForLateAppeal")
 
   lazy val signInUrl: String = config.get[String]("signIn.url")
+  lazy val signOutUrl: String = config.get[String]("signOut.url")
+
+  lazy val surveyOrigin: String = servicesConfig.getString("exit-survey-origin")
+  lazy val survey = s"""${servicesConfig.getString("feedback-frontend-host")}/feedback/$surveyOrigin"""
+
 
 }

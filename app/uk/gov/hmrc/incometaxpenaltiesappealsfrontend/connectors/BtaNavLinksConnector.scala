@@ -31,10 +31,17 @@ class BtaNavLinksConnector @Inject()(val http: HttpClientV2,
                                      val config: AppConfig) extends BtaNavLinksHttpParser {
 
   def getBtaNavLinks()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[NavContent]] = {
+    implicit val hcwc: HeaderCarrier = hc.copy(extraHeaders = hc.headers(Seq(play.api.http.HeaderNames.COOKIE)))
     logger.debug(s"[BtaNavLinksConnector][getBtaNavLinks] - Requesting NavLinks from BTA")
     http
-      .get(url"${config.btaBaseUrl}/business-account/partial/nav-links")
+      .get(url"${config.btaBaseUrl}/business-account/partial/nav-links")(hcwc)
       .execute[Option[NavContent]]
+      .recover {
+        case e: Exception =>
+          logger.error(s"[BtaNavLinksConnector][getBtaNavLinks] Unexpected Exception of type ${e.getClass.getSimpleName} occurred while retrieving NavLinks from BTA with" +
+            s", returning None to gracefully continue without a NavBar being rendered.")
+          None
+      }
   }
 
 }

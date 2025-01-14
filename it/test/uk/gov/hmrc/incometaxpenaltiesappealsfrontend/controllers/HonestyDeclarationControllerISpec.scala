@@ -19,9 +19,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   val bereavementReasonMessage: String = "because I was affected by someone's death, I was unable to send the submission due on 5 November 2027"
   val cessationReasonMessage: String = "TBC cessationReason - I was unable to send the submission due on 5 November 2027"
