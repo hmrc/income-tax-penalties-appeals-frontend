@@ -16,11 +16,14 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import org.mongodb.scala.Document
+import org.mongodb.scala.result.DeleteResult
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.Application
+import play.api.inject.Injector
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Writes
 import play.api.libs.ws.{DefaultWSCookie, WSClient, WSCookie, WSRequest, WSResponse}
@@ -28,7 +31,10 @@ import play.api.mvc.{Cookie, Session, SessionCookieBaker}
 import play.api.test.Helpers._
 import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
+
+import scala.concurrent.Future
 
 trait ComponentSpecHelper
   extends AnyWordSpec
@@ -38,6 +44,8 @@ trait ComponentSpecHelper
     with BeforeAndAfterAll
     with BeforeAndAfterEach
     with GuiceOneServerPerSuite {
+
+  lazy val injector: Injector = app.injector
 
   def extraConfig(): Map[String, String] = Map.empty
 
@@ -160,5 +168,11 @@ trait ComponentSpecHelper
       override def httpOnly: Boolean = cookie.httpOnly
     }
   }
+
+  def deleteAll[A<: PlayMongoRepository[_]](repository: A): Future[DeleteResult] =
+    repository
+      .collection
+      .deleteMany(filter = Document())
+      .toFuture()
 
 }
