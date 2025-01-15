@@ -20,6 +20,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
+import scala.concurrent.duration.Duration
 
 @Singleton
 class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesConfig) extends FeatureSwitching {
@@ -68,5 +69,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val daysRequiredForLateAppeal: Int = config.get[Int]("constants.daysRequiredForLateAppeal")
 
   lazy val signInUrl: String = config.get[String]("signIn.url")
+
+  lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 
 }
