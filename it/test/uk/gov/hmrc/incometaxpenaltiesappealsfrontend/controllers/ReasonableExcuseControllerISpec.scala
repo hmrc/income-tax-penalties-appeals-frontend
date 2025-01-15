@@ -25,6 +25,8 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
 
   "GET /reason-for-missing-deadline" should {
+    testNavBar("/reason-for-missing-deadline")()
+
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

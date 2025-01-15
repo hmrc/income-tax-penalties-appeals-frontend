@@ -70,7 +70,11 @@
 }
 
 @beforeContent = {
-    @accountMenu
+
+    @{ request match {
+        case req: RequestWithNavBar => req.navBar.getOrElse(Html(""))
+        case _ => Html("")
+    }}
 
     @govukPhaseBanner(PhaseBanner(
         tag = Some(Tag(

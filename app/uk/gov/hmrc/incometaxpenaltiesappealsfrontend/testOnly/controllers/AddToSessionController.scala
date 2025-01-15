@@ -26,6 +26,6 @@ import javax.inject.{Inject, Singleton}
 class AddToSessionController @Inject()(mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
   def addToSessionAndRedirect(key: String, value: String): Action[AnyContent] = Action { implicit req =>
-    Redirect(mainRoutes.ServiceController.homePage.url).addingToSession(key -> value)
+    Redirect(mainRoutes.AppealStartController.onPageLoad().url).addingToSession(key -> value)
   }
 }

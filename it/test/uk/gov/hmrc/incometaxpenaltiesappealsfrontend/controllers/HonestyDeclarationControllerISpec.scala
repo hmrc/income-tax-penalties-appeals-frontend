@@ -47,6 +47,8 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
   for(reason <- reasonsList) {
 
     s"GET /honesty-declaration with ${reason._1}" should {
+      testNavBar(s"/honesty-declaration with ${reason._1}")()
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)

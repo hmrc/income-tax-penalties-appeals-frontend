@@ -30,18 +30,11 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class ServiceController @Inject()(
                                    val authorised: AuthAction,
-                                   withNavBar: NavBarRetrievalAction,
-                                   startPage: AppealStartPage,
                                    override val controllerComponents: MessagesControllerComponents
                                  )(implicit appConfig: AppConfig) extends FrontendBaseController  with I18nSupport {
 
-  def logout: Action[AnyContent] = Action {
-    Redirect(appConfig.serviceSignOut).withNewSession
-  }
-
-  val homePage: Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUserRequest =>
-    Ok(startPage(true, currentUserRequest.isAgent))
-      .addingToSession(IncomeTaxSessionKeys.pocAchievementDate -> LocalDate.now().toString)
+  def logout: Action[AnyContent] = authorised {
+    Redirect(appConfig.signOutUrl, Map("continue" -> Seq(appConfig.survey)))
   }
 
   val keepAlive: Action[AnyContent] = authorised { _ => NoContent }

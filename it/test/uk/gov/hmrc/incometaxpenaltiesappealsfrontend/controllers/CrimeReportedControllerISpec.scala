@@ -25,6 +25,8 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
 
   "GET /has-this-crime-been-reported" should {
+    testNavBar("/has-this-crime-been-reported")()
+
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

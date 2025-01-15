@@ -26,6 +26,9 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
 
   "GET /appeal-start" should {
+
+    testNavBar("/appeal-start")()
+
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

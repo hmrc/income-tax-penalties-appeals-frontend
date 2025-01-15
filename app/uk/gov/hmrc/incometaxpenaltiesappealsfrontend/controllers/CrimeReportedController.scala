@@ -23,8 +23,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
-import uk.gov.hmrc.play.bootstrap.frontend.controller .FrontendBaseController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,10 +33,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrimeBeenReportedPage,
                                         val authorised: AuthAction,
+                                        withNavBar: NavBarRetrievalAction,
                                         override val controllerComponents: MessagesControllerComponents
                                             )(implicit ec: ExecutionContext,
                                               val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
-  def onPageLoad(): Action[AnyContent] = authorised { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
         val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
         optReasonableExcuse match {

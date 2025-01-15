@@ -16,14 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import org.jsoup.Jsoup
+
 import play.api.http.Status.{NO_CONTENT, OK, SEE_OTHER}
 import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
 
-import java.net.URLEncoder
 
 class ServiceControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
 
@@ -48,23 +47,6 @@ class ServiceControllerISpec extends ComponentSpecHelper with ViewSpecHelper wit
 
       val result = get("/keep-alive")
       result.status shouldBe NO_CONTENT
-    }
-  }
-  "GET /view-or-appeal-penalty/self-assessment/" should {
-    "return an OK with a view" when {
-      "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/")
-
-        result.status shouldBe OK
-      }
-
-      "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/", isAgent = true)
-
-        result.status shouldBe OK
-      }
     }
   }
 }

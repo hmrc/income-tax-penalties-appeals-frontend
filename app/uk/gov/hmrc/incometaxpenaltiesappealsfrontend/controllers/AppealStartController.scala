@@ -23,6 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartPage
+import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
@@ -30,10 +31,11 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class AppealStartController @Inject()(appealStartPage: AppealStartPage,
                                       val authorised: AuthAction,
+                                      withNavBar: NavBarRetrievalAction,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit ec: ExecutionContext,
                                        val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
-  def onPageLoad(): Action[AnyContent] = authorised { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
         //      logger.debug(s"[AppealStartController][onPageLoad] - Session keys received: \n" +
         //        s"Appeal Type = ${userRequest.answers.getAnswer[PenaltyTypeEnum.Value](IncomeTaxSessionKeys.appealType)}, \n" +
         //        s"Penalty Number = ${userRequest.answers.getAnswer[String](IncomeTaxSessionKeys.penaltyNumber)}, \n" +

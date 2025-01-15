@@ -28,7 +28,6 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
 
-  lazy val serviceSignOut:String = servicesConfig.getString("signOut.url")
   lazy val ITSAPenaltiesAppealsHomeUrl = "/view-or-appeal-penalty/self-assessment/appeal-start"
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 

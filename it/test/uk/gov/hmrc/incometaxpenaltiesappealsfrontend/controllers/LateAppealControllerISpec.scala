@@ -37,6 +37,9 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
   for (reason <- reasonsList) {
 
     s"GET /making-a-late-appeal with ${reason._1}" should {
+
+      testNavBar(s"/making-a-late-appeal/${reason._1}")()
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)

@@ -25,6 +25,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
 
   "GET /when-did-the-event-end" should {
+    testNavBar("/when-did-the-event-end")()
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

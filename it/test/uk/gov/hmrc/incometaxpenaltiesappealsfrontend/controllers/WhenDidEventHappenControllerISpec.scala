@@ -46,6 +46,9 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
   for (reason <- reasonsList) {
 
     s"GET /when-did-the-event-happen with ${reason._1}" should {
+
+      testNavBar("/when-did-the-event-happen")()
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)

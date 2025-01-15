@@ -56,6 +56,9 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
   for (reason <- reasonsList) {
 
     s"GET /check-your-answers with ${reason._1}" should {
+
+      testNavBar("/check-your-answers")()
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
