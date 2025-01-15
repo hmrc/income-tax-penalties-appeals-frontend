@@ -16,15 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers
 
-import play.api.Configuration
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
-
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class DateTimeHelper @Inject()(implicit val appConfig: AppConfig) extends FeatureSwitching {
-  implicit val config: Configuration = appConfig.config
+class DateTimeHelper @Inject() {
 
   def dateTimeNow: LocalDateTime = LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
 }

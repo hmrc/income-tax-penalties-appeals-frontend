@@ -25,22 +25,6 @@ class UserAnswersRepositoryISpec extends ComponentSpecHelper {
 
   lazy val repository: UserAnswersRepository = injector.instanceOf[UserAnswersRepository]
 
-  override def beforeAll(): Unit = {
-    super.beforeAll()
-  }
-
-  override def beforeEach(): Unit = {
-    super.beforeEach()
-  }
-
-  override def afterEach(): Unit = {
-    super.afterEach()
-  }
-
-  override def afterAll(): Unit = {
-    super.afterAll()
-  }
-
   class Setup {
     await(deleteAll(repository))
   }
