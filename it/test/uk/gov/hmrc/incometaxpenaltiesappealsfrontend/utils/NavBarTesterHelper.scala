@@ -46,7 +46,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavCon
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubs
           stubBtaNavLinks()(OK, Json.toJson(btaNavContent))
-          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, origin = Some("BTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -59,7 +59,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavCon
         "render without a Nav" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubs
-          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, origin = None, queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -73,7 +73,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavCon
         "render without a Nav" in {
           stubAuth(OK, successfulAgentAuthResponse)
           runStubs
-          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, isAgent = true, origin = None, queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
