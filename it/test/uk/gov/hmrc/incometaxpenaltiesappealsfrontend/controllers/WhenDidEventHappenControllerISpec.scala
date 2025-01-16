@@ -47,7 +47,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
     s"GET /when-did-the-event-happen with ${reason._1}" should {
 
-      testNavBar("/when-did-the-event-happen")()
+      testNavBar(url = "/when-did-the-event-happen", reasonableExcuse = Some(reason._1))()
 
       "return an OK with a view" when {
         "the user is an authorised individual" in {

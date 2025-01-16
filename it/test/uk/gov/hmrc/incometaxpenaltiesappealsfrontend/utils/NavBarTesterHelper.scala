@@ -26,13 +26,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLink
 
 trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavContentFixture { _: ComponentSpecHelper with AuthStub =>
 
-  def testNavBar(url: String, queryParams: Map[String, String] = Map.empty)(runStubs: => Unit = ()): Unit = {
+  def testNavBar(url: String, queryParams: Map[String, String] = Map.empty, reasonableExcuse: Option[String] = None)(runStubs: => Unit = ()): Unit = {
     "Checking the Navigation Bar" when {
       "the origin is PTA" should {
         "render the PTA content" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubs
-          val result = get(url, origin = Some("PTA"), queryParams = queryParams)
+          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -46,7 +46,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavCon
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubs
           stubBtaNavLinks()(OK, Json.toJson(btaNavContent))
-          val result = get(url, origin = Some("BTA"), queryParams = queryParams)
+          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -59,7 +59,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavCon
         "render without a Nav" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubs
-          val result = get(url, origin = None, queryParams = queryParams)
+          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -73,7 +73,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with BtaNavCon
         "render without a Nav" in {
           stubAuth(OK, successfulAgentAuthResponse)
           runStubs
-          val result = get(url, origin = Some("BTA"), isAgent = true, queryParams = queryParams)
+          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
