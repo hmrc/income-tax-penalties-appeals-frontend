@@ -24,7 +24,7 @@ import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.Application
 import play.api.inject.Injector
-import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}
 import play.api.libs.json.Writes
 import play.api.libs.ws.{DefaultWSCookie, WSClient, WSCookie, WSRequest, WSResponse}
 import play.api.mvc.{Cookie, Session, SessionCookieBaker}
@@ -49,10 +49,14 @@ trait ComponentSpecHelper
 
   def extraConfig(): Map[String, String] = Map.empty
 
-  override lazy val app: Application = new GuiceApplicationBuilder()
+  lazy val baseApp = new GuiceApplicationBuilder()
     .configure(config ++ extraConfig())
     .configure("play.http.router" -> "testOnlyDoNotUseInAppConf.Routes")
-    .build()
+
+  def appWithOverrides(overrideModules: GuiceableModule*): Application =
+    baseApp.overrides(overrideModules: _*).build()
+
+  override lazy val app: Application = baseApp.build()
 
   val mockHost: String = WiremockHelper.wiremockHost
   val mockPort: String = WiremockHelper.wiremockPort.toString
