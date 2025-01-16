@@ -73,6 +73,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val surveyOrigin: String = servicesConfig.getString("exit-survey-origin")
   lazy val survey = s"""${servicesConfig.getString("feedback-frontend-host")}/feedback/$surveyOrigin"""
 
+  lazy val penaltiesHomePage: String = config.get[String]("urls.incomeTaxPenaltiesHome")
 
   lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 

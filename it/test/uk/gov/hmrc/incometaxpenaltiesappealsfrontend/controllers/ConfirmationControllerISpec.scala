@@ -18,11 +18,13 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "GET /appeal-confirmation" should {
 

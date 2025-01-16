@@ -20,6 +20,7 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.libs.json.Json
 import play.api.{Application, inject}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers.DateTimeHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
@@ -30,6 +31,8 @@ import java.time.temporal.ChronoUnit
 import java.time.{LocalDateTime, ZoneOffset}
 
 class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   lazy val userAnswers: UserAnswersRepository = injector.instanceOf[UserAnswersRepository]
 
