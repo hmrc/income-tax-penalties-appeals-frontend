@@ -26,7 +26,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
   "GET /appeal-confirmation" should {
 
-    testNavBar("/appeal-confirmation")()
+    testNavBar(url = "/check-your-answers", reasonableExcuse = Some("defaultReason"))()
 
     "return an OK with a view" when {
       "the user is an authorised individual" in {

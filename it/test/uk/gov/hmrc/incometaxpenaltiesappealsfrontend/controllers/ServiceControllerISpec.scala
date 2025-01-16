@@ -23,6 +23,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
 
+import java.net.URLEncoder
+
 
 class ServiceControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
 
@@ -34,10 +36,12 @@ class ServiceControllerISpec extends ComponentSpecHelper with ViewSpecHelper wit
 
       val result = get("/logout")
 
-      val expectedRedirectUrl = s"${appConfig.signOutUrl}"
+      val encodedContinueUrl = URLEncoder.encode(appConfig.survey, "UTF-8")
+      val expectedRedirectUrl = s"${appConfig.signOutUrl}?continue=$encodedContinueUrl"
 
       result.status shouldBe SEE_OTHER
       result.header(LOCATION) shouldBe Some(expectedRedirectUrl)
+
     }
   }
 

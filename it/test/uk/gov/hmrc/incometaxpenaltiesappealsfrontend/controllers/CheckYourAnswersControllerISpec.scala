@@ -57,7 +57,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
     s"GET /check-your-answers with ${reason._1}" should {
 
-      testNavBar("/check-your-answers")()
+      testNavBar(url = "/check-your-answers", reasonableExcuse = Some(reason._1))()
 
       "return an OK with a view" when {
         "the user is an authorised individual" in {

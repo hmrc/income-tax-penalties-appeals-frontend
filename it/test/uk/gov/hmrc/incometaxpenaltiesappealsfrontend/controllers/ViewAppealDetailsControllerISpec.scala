@@ -56,7 +56,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
   for (reason <- reasonsList) {
 
     s"GET /appeal-details with ${reason._1}" should {
-      testNavBar(s"/appeal-details/${reason._1}")()
+      testNavBar(url = "/appeal-details", reasonableExcuse = Some(reason._1))()
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
