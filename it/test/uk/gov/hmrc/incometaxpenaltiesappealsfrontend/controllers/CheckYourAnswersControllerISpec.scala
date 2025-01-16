@@ -19,9 +19,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   val bereavementReasonMessage: String = "When did the person die?"
   val cessationReasonMessage: String = "TBC cessationReason"
@@ -56,6 +56,9 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
   for (reason <- reasonsList) {
 
     s"GET /check-your-answers with ${reason._1}" should {
+
+      testNavBar(url = "/check-your-answers", reasonableExcuse = Some(reason._1))()
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)

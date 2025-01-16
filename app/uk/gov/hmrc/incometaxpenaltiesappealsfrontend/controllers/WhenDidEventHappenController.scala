@@ -20,50 +20,49 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.AuthenticatedController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class WhenDidEventHappenController @Inject()(whenDidEventHappenPage: WhenDidEventHappenPage,
-                                             val authConnector: AuthConnector
-                                            )(implicit mcc: MessagesControllerComponents,
-                                              ec: ExecutionContext,
-                                              val appConfig: AppConfig) extends AuthenticatedController(mcc) with I18nSupport with FeatureSwitching {
-  def onPageLoad(): Action[AnyContent] = isAuthenticated {
-    implicit request =>
-      implicit currentUser =>
-        val optReasonableExcuse = request.session.get(IncomeTaxSessionKeys.reasonableExcuse)
+                                             val authorised: AuthAction,
+                                             withNavBar: NavBarRetrievalAction,
+                                             override val controllerComponents: MessagesControllerComponents
+                                            )(implicit ec: ExecutionContext,
+                                              val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar)  { implicit currentUser =>
+        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
         optReasonableExcuse match {
           case Some(reasonableExcuse) =>
-            Future.successful(Ok(whenDidEventHappenPage(
+           Ok(whenDidEventHappenPage(
               true, currentUser.isAgent, reasonableExcuse
-            )))
+            ))
           case _ =>
-            Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))
+            Redirect(routes.ReasonableExcuseController.onPageLoad())
         }
   }
 
 
-  def submit(): Action[AnyContent] = isAuthenticated {
-    implicit request =>
-      implicit currentUser =>
-        val optReasonableExcuse = request.session.get(IncomeTaxSessionKeys.reasonableExcuse)
+  def submit(): Action[AnyContent] = authorised { implicit currentUser =>
+        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
         optReasonableExcuse match {
           case Some("technicalReason") =>
-            Future.successful(Redirect(routes.WhenDidEventEndController.onPageLoad()))
+            Redirect(routes.WhenDidEventEndController.onPageLoad())
           case Some("bereavementReason" | "fireOrFloodReason") =>
-            Future.successful(Redirect(routes.LateAppealController.onPageLoad()))
+            Redirect(routes.LateAppealController.onPageLoad())
           case Some("crimeReason") =>
-            Future.successful(Redirect(routes.CrimeReportedController.onPageLoad()))
+            Redirect(routes.CrimeReportedController.onPageLoad())
           case _ =>
-            Future.successful(Redirect(routes.AppealStartController.onPageLoad()))
+            Redirect(routes.AppealStartController.onPageLoad())
         }
   }
 

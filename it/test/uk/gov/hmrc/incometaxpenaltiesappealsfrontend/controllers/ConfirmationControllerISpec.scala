@@ -19,12 +19,15 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
 
   "GET /appeal-confirmation" should {
+
+    testNavBar(url = "/check-your-answers", reasonableExcuse = Some("defaultReason"))()
+
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

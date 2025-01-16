@@ -90,10 +90,17 @@ trait ComponentSpecHelper
     super.beforeEach()
   }
 
-  def get[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, queryParams: Map[String, String] = Map.empty): WSResponse = {
+  def get[T](
+              uri: String,
+              isLate: Boolean = true,
+              isAgent: Boolean = false,
+              reasonableExcuse: Option[String] = None,
+              cookie: WSCookie = enLangCookie,
+              queryParams: Map[String, String] = Map.empty,
+              origin: Option[String] = None): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
+      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse, origin = origin))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
   }
@@ -132,7 +139,7 @@ trait ComponentSpecHelper
 
   val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
 
-  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String]): WSCookie = {
+  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String], origin: Option[String] = None): WSCookie = {
 
     def makeSessionCookie(session: Session): Cookie = {
       val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
@@ -148,6 +155,7 @@ trait ComponentSpecHelper
       SessionKeys.sessionId -> "mock-sessionid"
     ) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
       ++ {if(reasonableExcuse.isDefined) Map(IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse.getOrElse("")) else Map.empty}
+      ++ {if(origin.isDefined) Map(IncomeTaxSessionKeys.origin -> origin.get) else Map.empty}
     )
 
     val cookie = makeSessionCookie(mockSession)

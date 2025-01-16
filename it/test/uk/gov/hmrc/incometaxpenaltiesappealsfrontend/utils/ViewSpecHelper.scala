@@ -29,21 +29,21 @@ trait ViewSpecHelper {
 
     lazy val content: Element = element.getElementsByTag("article").iterator().asScala.toList.head
 
-    lazy val getParagraphs: Elements = element.getElementsByTag("p")
+    lazy val getParagraphs: Elements = element.select("main p")
 
-    lazy val getBulletPoints: Elements = element.getElementsByTag("li")
+    lazy val getBulletPoints: Elements = element.select("main li")
 
-    lazy val getH1Elements: Elements = element.getElementsByTag("h1")
+    lazy val getH1Elements: Elements = element.select("main h1")
 
-    lazy val getH2Elements: Elements = element.getElementsByTag("h2")
+    lazy val getH2Elements: Elements = element.select("main h2")
 
-    lazy val getH3Elements: Elements = element.getElementsByTag("h3")
+    lazy val getH3Elements: Elements = element.select("main h3")
 
-    lazy val getFormElements: Elements = element.getElementsByClass("form-field-group")
+    lazy val getFormElements: Elements = element.select("main form-field-group")
 
-    lazy val getLabelElement: Elements = element.getElementsByTag("label")
+    lazy val getLabelElement: Elements = element.select("main label")
 
-    lazy val getLegendElement: Elements = element.getElementsByTag("legend")
+    lazy val getLegendElement: Elements = element.select("main legend")
 
     lazy val getErrorSummaryTitle: Elements = element.getElementsByClass("govuk-error-summary__title")
 

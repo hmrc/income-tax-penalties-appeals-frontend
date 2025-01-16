@@ -19,12 +19,13 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
 
   "GET /has-this-crime-been-reported" should {
+    testNavBar(url = "/has-this-crime-been-reported", reasonableExcuse = Some("crimeReason"))()
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

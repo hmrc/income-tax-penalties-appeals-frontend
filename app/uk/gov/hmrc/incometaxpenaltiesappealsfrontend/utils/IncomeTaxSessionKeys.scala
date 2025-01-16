@@ -17,7 +17,9 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
 object IncomeTaxSessionKeys {
+  val origin = "Origin"
   val appealType = "appealType"
+  val pocAchievementDate = "pocAchievementDate"
   val startDateOfPeriod = "periodStart"
   val endDateOfPeriod = "periodEnd"
   val dueDateOfPeriod = "periodDueDate"

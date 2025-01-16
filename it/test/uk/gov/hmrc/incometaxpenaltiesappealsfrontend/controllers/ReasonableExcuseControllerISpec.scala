@@ -19,12 +19,14 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
 
   "GET /reason-for-missing-deadline" should {
+    testNavBar("/reason-for-missing-deadline")()
+
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)

@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import play.api.mvc.{Request, WrappedRequest}
+import play.twirl.api.Html
 
-import javax.inject.{Inject, Singleton}
-
-@Singleton
-class SignOutController @Inject()(mcc: MessagesControllerComponents)(appConfig: AppConfig) extends FrontendController(mcc) {
-
-  def logout: Action[AnyContent] = Action {
-    Redirect(appConfig.serviceSignOut).withNewSession
-  }
-
+case class CurrentUserRequest[A](mtdItId: String,
+                                 arn: Option[String] = None,
+                                 override val navBar: Option[Html] = None)(implicit request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
+  val isAgent: Boolean = arn.isDefined
 }

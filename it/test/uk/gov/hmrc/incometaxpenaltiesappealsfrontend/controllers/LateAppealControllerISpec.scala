@@ -19,9 +19,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   val reasonsList: List[(String, String)] = List(
     ("bereavementReason", "45"),
@@ -37,6 +37,9 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
   for (reason <- reasonsList) {
 
     s"GET /making-a-late-appeal with ${reason._1}" should {
+
+      testNavBar(url = "/making-a-late-appeal", reasonableExcuse = Some(reason._1))()
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)

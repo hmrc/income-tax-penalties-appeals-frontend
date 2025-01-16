@@ -1,0 +1,38 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcNotificationBadge
+@import uk.gov.hmrc.hmrcfrontend.views.Aliases.NotificationBadge
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.ListLink
+
+@this(hmrcNotificationBadge : HmrcNotificationBadge)
+
+@(navLinks: Seq[ListLink])
+
+<nav id="secondary-nav-bta" class="hmrc-account-menu">
+    <ul class="hmrc-account-menu__main govuk-grid-column-full" style="padding: 0;">
+        @for(nav <- navLinks) {
+            <li>
+                <a href="@nav.url" id="nav-bar-link-@nav.message.replace(' ','-')" class="hmrc-account-menu__link">
+                    @nav.message
+                    @nav.alert.map(alert =>
+                        if(alert != "0") hmrcNotificationBadge(NotificationBadge(alert))
+                    )
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
