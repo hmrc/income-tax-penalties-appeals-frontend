@@ -39,21 +39,19 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
                                               val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
-        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
+    val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
-        optReasonableExcuse match {
-          case Some(reasonableExcuse) =>
-            Ok(honestyDeclaration(
-              true, currentUser.isAgent, reasonableExcuse
-            ))
-          case _ =>
-            Redirect(routes.ReasonableExcuseController.onPageLoad())
-        }
+    optReasonableExcuse match {
+      case Some(reasonableExcuse) =>
+        Ok(honestyDeclaration(currentUser.isAgent, reasonableExcuse))
+      case _ =>
+        Redirect(routes.ReasonableExcuseController.onPageLoad())
+    }
   }
 
 
   def submit(): Action[AnyContent] = authorised { _ =>
-        Redirect(routes.WhenDidEventHappenController.onPageLoad())
+    Redirect(routes.WhenDidEventHappenController.onPageLoad())
   }
 
 }
