@@ -19,18 +19,31 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.libs.json.{JsObject, Json}
+import play.api.libs.json.{JsObject, Json, OFormat}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 class UserAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
+
+  case class TestModel(hasDate: Boolean, date: Option[String])
+  object TestModel {
+    implicit val fmt: OFormat[TestModel] = Json.format[TestModel]
+  }
+
+  lazy val testPage2Value: TestModel = TestModel(hasDate = true, Some("bar"))
+
+  lazy val testPage1: Page[String]    = new Page[String] { val key = "page1" }
+  lazy val testPage2: Page[TestModel] = new Page[TestModel] { val key = "page2" }
+
   lazy val answersAsJson: JsObject = Json.obj(
-    "key1" -> "value1",
-    "key2" -> "value2"
+    testPage1.key -> "foo",
+    testPage2.key -> testPage2Value
   )
 
-  lazy val now: Instant = Instant.now
+  lazy val now: Instant = Instant.now.truncatedTo(ChronoUnit.MILLIS)
 
   "be writable to JSON" in {
     val model = UserAnswers("journey123", answersAsJson, now)
@@ -39,9 +52,8 @@ class UserAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite
       "data" -> answersAsJson,
       "lastUpdated" ->  Json.toJson(now)(MongoJavatimeFormats.instantWrites)
     )
-    val result = Json.toJson(model)(UserAnswers.format)
-    (result \ "journeyId").validate[String].get shouldBe (expectedResult \ "journeyId").validate[String].get
-    result shouldBe expectedResult
+
+    Json.toJson(model) shouldBe expectedResult
   }
 
   "be readable from JSON" in {
@@ -53,21 +65,23 @@ class UserAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite
     val expectedModel = UserAnswers("journey123", answersAsJson, now)
     val result = Json.fromJson(json)(UserAnswers.format)
     result.isSuccess shouldBe true
-    result.get.journeyId shouldBe expectedModel.journeyId
-    result.get.data shouldBe expectedModel.data
+    result.get shouldBe expectedModel
   }
 
   "setAnswer" should {
     "store the answer in the data field" in {
       val answers = UserAnswers("journey123", answersAsJson)
-      val newAnswers = answers.setAnswer("key3", "value3")
-      newAnswers.getAnswer[String]("key3").get shouldBe "value3"
+      val newAnswers = answers.setAnswer(testPage2, testPage2Value)
+      newAnswers.getAnswer(testPage2) shouldBe Some(testPage2Value)
     }
 
     "overwrite the answer if already present in the data field" in {
+
       val answers = UserAnswers("journey123", answersAsJson)
-      val newAnswers = answers.setAnswer("key2", "value3")
-      newAnswers.getAnswer[String]("key2").get shouldBe "value3"
+      answers.getAnswer(testPage1) shouldBe Some("foo")
+
+      val newAnswers = answers.setAnswer(testPage1, "bar")
+      newAnswers.getAnswer(testPage1) shouldBe Some("bar")
     }
   }
 
@@ -75,17 +89,14 @@ class UserAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite
     "return Some" when {
       "the answer is in the data field" in {
         val answers = UserAnswers("journey123", answersAsJson)
-        val result = answers.getAnswer[String]("key2")
-        result.isDefined shouldBe true
-        result.get shouldBe "value2"
+        answers.getAnswer(testPage1) shouldBe Some("foo")
       }
     }
 
     "return None" when {
       "the answer is not in the data field" in {
-        val answers = UserAnswers("journey123", answersAsJson)
-        val result = answers.getAnswer[String]("key3")
-        result.isEmpty shouldBe true
+        val answers = UserAnswers("journey123", answersAsJson).removeAnswer(testPage1)
+        answers.getAnswer(testPage1) shouldBe None
       }
     }
   }

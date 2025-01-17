@@ -20,7 +20,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.SessionService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, UUIDGenerator}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -31,7 +31,7 @@ import scala.concurrent.ExecutionContext
 
 class InitialisationController @Inject()(val authorised: AuthAction,
                                          override val controllerComponents: MessagesControllerComponents,
-                                         userAnswersService: SessionService,
+                                         userAnswersService: UserAnswersService,
                                          uuid: UUIDGenerator
                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
@@ -43,7 +43,7 @@ class InitialisationController @Inject()(val authorised: AuthAction,
     logger.debug(s"[InitialisationController][onPageLoad] Starting journey for penaltyId: $penaltyId, created journeyId: $journeyId")
 
     val answers = UserAnswers(journeyId)
-      .setAnswer(IncomeTaxSessionKeys.penaltyNumber, penaltyId)
+      .setAnswerForKey(IncomeTaxSessionKeys.penaltyNumber, penaltyId)
 
     userAnswersService.updateAnswers(answers).map { _ =>
       Redirect(routes.AppealStartController.onPageLoad())

@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRep
 import javax.inject.Inject
 import scala.concurrent.Future
 
-class SessionService @Inject()(userAnswersRepository: UserAnswersRepository) {
+class UserAnswersService @Inject()(userAnswersRepository: UserAnswersRepository) {
 
   def getUserAnswers(journeyId: String): Future[Option[UserAnswers]] = {
     userAnswersRepository.getUserAnswer(journeyId)

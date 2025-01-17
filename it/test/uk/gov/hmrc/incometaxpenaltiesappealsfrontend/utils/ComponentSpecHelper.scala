@@ -22,7 +22,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
-import play.api.Application
+import play.api.{Application, inject}
 import play.api.inject.Injector
 import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}
 import play.api.libs.json.Writes
@@ -47,11 +47,17 @@ trait ComponentSpecHelper
 
   lazy val injector: Injector = app.injector
 
+  val testJourneyId: String = "journeyId123"
+  lazy val mockUUIDGenerator: UUIDGenerator = new UUIDGenerator {
+    override def generateUUID: String = testJourneyId
+  }
+
   def extraConfig(): Map[String, String] = Map.empty
 
   lazy val baseApp = new GuiceApplicationBuilder()
     .configure(config ++ extraConfig())
     .configure("play.http.router" -> "testOnlyDoNotUseInAppConf.Routes")
+    .overrides(inject.bind[UUIDGenerator].toInstance(mockUUIDGenerator))
 
   def appWithOverrides(overrideModules: GuiceableModule*): Application =
     baseApp.overrides(overrideModules: _*).build()
@@ -101,35 +107,47 @@ trait ComponentSpecHelper
               reasonableExcuse: Option[String] = None,
               cookie: WSCookie = enLangCookie,
               queryParams: Map[String, String] = Map.empty,
-              origin: Option[String] = None): WSResponse = {
+              origin: Option[String] = None,
+              journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse, origin = origin))
+      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse, origin = origin, journeyId))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
   }
 
-  def post[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def post[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
-        .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
-        .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse))
+        .withHttpHeaders(
+          "Csrf-Token" -> "nocheck",
+          "Content-Type" -> "application/json",
+          "Authorization" -> "Bearer 123"
+        )
+        .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse, journeyId = journeyId))
         .post(writes.writes(body).toString())
     )
   }
 
-  def put[T](uri: String, isLate: Boolean = true ,isAgent: Boolean = false, reasonableExcuse: Option[String] = None)(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def put[T](uri: String, isLate: Boolean = true ,isAgent: Boolean = false, reasonableExcuse: Option[String] = None, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
-        .withHttpHeaders("Content-Type" -> "application/json", "Authorization" -> "Bearer 123")
-        .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
+        .withHttpHeaders(
+          "Csrf-Token" -> "nocheck",
+          "Content-Type" -> "application/json",
+          "Authorization" -> "Bearer 123"
+        )
+        .withCookies(mockSessionCookie(isAgent, reasonableExcuse, journeyId = journeyId))
         .put(writes.writes(body).toString())
     )
   }
 
-  def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None): WSResponse = {
-    await(buildClient(uri).withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(mockSessionCookie(isAgent, reasonableExcuse))
+  def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
+    await(buildClient(uri).withHttpHeaders(
+        "Csrf-Token" -> "nocheck",
+        "Authorization" -> "Bearer 123"
+      )
+      .withCookies(mockSessionCookie(isAgent, reasonableExcuse, journeyId = journeyId))
       .delete())
   }
 
@@ -143,7 +161,7 @@ trait ComponentSpecHelper
 
   val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
 
-  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String], origin: Option[String] = None): WSCookie = {
+  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String], origin: Option[String] = None, journeyId: Option[String] = None): WSCookie = {
 
     def makeSessionCookie(session: Session): Cookie = {
       val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
@@ -160,6 +178,7 @@ trait ComponentSpecHelper
     ) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
       ++ {if(reasonableExcuse.isDefined) Map(IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse.getOrElse("")) else Map.empty}
       ++ {if(origin.isDefined) Map(IncomeTaxSessionKeys.origin -> origin.get) else Map.empty}
+      ++ {if(journeyId.isDefined) Map(IncomeTaxSessionKeys.journeyId -> journeyId.get) else Map.empty}
     )
 
     val cookie = makeSessionCookie(mockSession)
