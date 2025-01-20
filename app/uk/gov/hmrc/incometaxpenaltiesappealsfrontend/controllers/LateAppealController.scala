@@ -20,6 +20,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealPage
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -31,14 +33,19 @@ class LateAppealController @Inject()(lateAppeal: LateAppealPage,
                                      val authorised: AuthAction,
                                      withNavBar: NavBarRetrievalAction,
                                      withAnswers: UserAnswersAction,
+                                     userAnswersService: UserAnswersService,
                                      override val errorHandler: ErrorHandler,
                                      override val controllerComponents: MessagesControllerComponents
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withReasonableExcuseAnswer { reasonableExcuse =>
-      //TODO: Retrieve current value and populate form on page load as part of next ticket
-      Future(Ok(lateAppeal(LateAppealForm.form(), isLate = true, isAgent = user.isAgent, reasonableExcuse)))
+      Future(Ok(lateAppeal(
+        form = fillForm(LateAppealForm.form(), LateAppealPage),
+        isLate = true,
+        isAgent = user.isAgent,
+        reasonableExcuseMessageKey = reasonableExcuse
+      )))
     }
   }
 
@@ -48,9 +55,12 @@ class LateAppealController @Inject()(lateAppeal: LateAppealPage,
         withReasonableExcuseAnswer { reasonableExcuse =>
           Future(BadRequest(lateAppeal(formWithErrors, isLate = true, isAgent = user.isAgent, reasonableExcuse)))
         },
-      lateAppealReason =>
-        //TODO: Store value as part of next ticket
-        Future(Redirect(routes.CheckYourAnswersController.onPageLoad()))
+      lateAppealReason => {
+        val updatedAnswers = user.userAnswers.setAnswer(LateAppealPage, lateAppealReason)
+        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+          Redirect(routes.CheckYourAnswersController.onPageLoad())
+        }
+      }
     )
   }
 }

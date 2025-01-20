@@ -60,6 +60,7 @@
                     case Nil => None
                     case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
                 },
+                value = form(LateAppealForm.key).value
             ))
         }
 

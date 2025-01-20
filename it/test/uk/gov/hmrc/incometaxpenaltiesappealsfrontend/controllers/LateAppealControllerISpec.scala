@@ -24,7 +24,7 @@ import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
@@ -62,23 +62,31 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
       }
 
-      "return an OK with a view" when {
-        "the user is an authorised individual" in {
+      "return an OK with a view pre-populated" when {
+        "the user is an authorised individual AND the page has already been answered" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+          userAnswersRepo.upsertUserAnswer(
+            userAnswersWithReason.setAnswer(LateAppealPage, "Some reason")
+          ).futureValue
 
           val result = get("/making-a-late-appeal")
-
           result.status shouldBe OK
+
+          val document = Jsoup.parse(result.body)
+          document.select(s"#${LateAppealForm.key}").text() shouldBe "Some reason"
         }
 
-        "the user is an authorised agent" in {
+        "the user is an authorised agent AND the page has already been answered" in {
           stubAuth(OK, successfulAgentAuthResponse)
-          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+          userAnswersRepo.upsertUserAnswer(
+            userAnswersWithReason.setAnswer(LateAppealPage, "Some reason")
+          ).futureValue
 
           val result = get("/making-a-late-appeal", isAgent = true)
-
           result.status shouldBe OK
+
+          val document = Jsoup.parse(result.body)
+          document.select(s"#${LateAppealForm.key}").text() shouldBe "Some reason"
         }
       }
 
@@ -128,7 +136,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
     "the text area content is valid" should {
 
-      "redirect to the CheckAnswers page" in {
+      "save the value to UserAnswers AND redirect to the CheckAnswers page" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
@@ -137,6 +145,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
         result.status shouldBe SEE_OTHER
         result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(LateAppealPage)) shouldBe Some("Some reason")
       }
     }
 

@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import controllers.routes
+import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Reads
 import play.api.mvc.Result
@@ -53,4 +54,7 @@ trait BaseUserAnswersController extends FrontendBaseController with I18nSupport 
       case Some(reasonableExcuse) => f(reasonableExcuse)
       case _ => withAnswer(ReasonableExcusePage) { f(_) }
     }
+
+  def fillForm[A](form: Form[A], page: Page[A])(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Form[A] =
+    user.userAnswers.getAnswer(page).fold(form)(form.fill)
 }
