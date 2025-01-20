@@ -20,7 +20,9 @@ import play.api.libs.json._
 import play.api.mvc.Request
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, Page}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import java.time.temporal.ChronoUnit
 import java.time.{LocalDate, LocalDateTime}
@@ -58,7 +60,7 @@ object AppealSubmission {
                                             isLateAppeal: Boolean,
                                             agentReferenceNo: Option[String], //                                            uploadedFiles: Option[Seq[UploadJourney]],
                                             mtdItId: String)
-                                           (implicit request: Request[_]): AppealSubmission = {
+                                           (implicit request: CurrentUserRequestWithAnswers[_]): AppealSubmission = {
     val isLPP: Boolean = !request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString)
     val isClientResponsibleForSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true) else request.session.get(IncomeTaxSessionKeys.whoPlannedToSubmitVATReturn).map(_ == "client")
     val isClientResponsibleForLateSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true)
@@ -81,7 +83,7 @@ object AppealSubmission {
       case "bereavement" =>
         baseAppealSubmission(BereavementAppealInformation(
           reasonableExcuse = reasonableExcuse,
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenDidThePersonDie).map(LocalDate.parse).get.atStartOfDay(),
           statement = None,
           lateAppeal = isLateAppeal,
@@ -94,7 +96,7 @@ object AppealSubmission {
       case "crime" =>
         baseAppealSubmission(CrimeAppealInformation(
           reasonableExcuse = reasonableExcuse,
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.dateOfCrime).map(LocalDate.parse).get.atStartOfDay(),
           reportedIssueToPolice = request.session.get(IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice).get,
           statement = None,
@@ -108,7 +110,7 @@ object AppealSubmission {
       case "fireOrFlood" =>
         baseAppealSubmission(FireOrFloodAppealInformation(
           reasonableExcuse = "fireandflood", //API spec outlines this - the frontend says 'fire or flood' (11/10/23)
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.dateOfFireOrFlood).map(LocalDate.parse).get.atStartOfDay(),
           statement = None,
           lateAppeal = isLateAppeal,
@@ -121,7 +123,7 @@ object AppealSubmission {
       case "lossOfStaff" =>
         baseAppealSubmission(LossOfStaffAppealInformation(
           reasonableExcuse = "lossOfEssentialStaff",
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenPersonLeftTheBusiness).map(LocalDate.parse).get.atStartOfDay(),
           statement = None,
           lateAppeal = isLateAppeal,
@@ -134,7 +136,7 @@ object AppealSubmission {
       case "technicalIssues" =>
         baseAppealSubmission(TechnicalIssuesAppealInformation(
           reasonableExcuse = "technicalIssue",
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenDidTechnologyIssuesBegin).map(LocalDate.parse).get.atStartOfDay(),
           endDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenDidTechnologyIssuesEnd).map(LocalDate.parse).get.atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS),
           statement = None,
@@ -150,7 +152,7 @@ object AppealSubmission {
         val isOngoingHospitalStay = request.session.get(IncomeTaxSessionKeys.hasHealthEventEnded).contains("no")
         baseAppealSubmission(HealthAppealInformation(
           reasonableExcuse = reasonableExcuse,
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           hospitalStayInvolved = isHospitalStay,
           startDateOfEvent = (if (isHospitalStay) request.session.get(IncomeTaxSessionKeys.whenHealthIssueStarted).map(LocalDate.parse(_)) else request.session.get(IncomeTaxSessionKeys.whenHealthIssueHappened).map(LocalDate.parse(_))).map(_.atStartOfDay()),
           endDateOfEvent = if (isOngoingHospitalStay) None else request.session.get(IncomeTaxSessionKeys.whenHealthIssueEnded).map(LocalDate.parse(_).atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS)),
@@ -166,7 +168,7 @@ object AppealSubmission {
       case "other" =>
         baseAppealSubmission(OtherAppealInformation(
           reasonableExcuse = reasonableExcuse,
-          honestyDeclaration = request.session.get(IncomeTaxSessionKeys.hasConfirmedDeclaration).get.toBoolean,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenDidBecomeUnable).map(LocalDate.parse).get.atStartOfDay(),
           statement = request.session.get(IncomeTaxSessionKeys.whyReturnSubmittedLate),
 //          supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),

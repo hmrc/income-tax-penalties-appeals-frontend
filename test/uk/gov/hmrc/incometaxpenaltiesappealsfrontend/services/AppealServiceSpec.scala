@@ -32,7 +32,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{InvalidJson, UnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmissionResponseModel, MultiplePenaltiesData}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, PenaltyTypeEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.HonestyDeclarationPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -51,55 +53,76 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   val testMtdItId: String = "123456789"
+  val testJourneyId: String = "journeyId1"
 
-  val fakeRequestForCrimeJourney: Request[AnyContent] = FakeRequest().withSession(
-    IncomeTaxSessionKeys.reasonableExcuse -> "crime",
-    IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-    IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
-    IncomeTaxSessionKeys.hasConfirmedDeclaration -> "true",
-    IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
-    IncomeTaxSessionKeys.penaltyNumber -> "123456789",
-    IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
-    IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-  )
+  val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+    )(
+      //TODO: These will all move to be UserAnswers as part of future stories
+      FakeRequest().withSession(
+        IncomeTaxSessionKeys.reasonableExcuse -> "crime",
+        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
+        IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
+        IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
+        IncomeTaxSessionKeys.penaltyNumber -> "123456789",
+        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
+        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
+      ))
 
-  val fakeRequestForCrimeJourneyMultiple: Request[AnyContent] = FakeRequest().withSession(
-    IncomeTaxSessionKeys.reasonableExcuse -> "crime",
-    IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-    IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
-    IncomeTaxSessionKeys.hasConfirmedDeclaration -> "true",
-    IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
-    IncomeTaxSessionKeys.penaltyNumber -> "123456789",
-    IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
-    IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
-    IncomeTaxSessionKeys.firstPenaltyChargeReference -> "123456789",
-    IncomeTaxSessionKeys.secondPenaltyChargeReference -> "123456788",
-    IncomeTaxSessionKeys.startDateOfPeriod -> "2024-01-01",
-    IncomeTaxSessionKeys.endDateOfPeriod -> "2024-01-31"
-  )
+  val fakeRequestForCrimeJourneyMultiple: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+    )(
+      //TODO: These will all move to be UserAnswers as part of future stories
+      FakeRequest().withSession(
+        IncomeTaxSessionKeys.reasonableExcuse -> "crime",
+        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
+        IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
+        IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
+        IncomeTaxSessionKeys.penaltyNumber -> "123456789",
+        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
+        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
+        IncomeTaxSessionKeys.firstPenaltyChargeReference -> "123456789",
+        IncomeTaxSessionKeys.secondPenaltyChargeReference -> "123456788",
+        IncomeTaxSessionKeys.startDateOfPeriod -> "2024-01-01",
+        IncomeTaxSessionKeys.endDateOfPeriod -> "2024-01-31"
+      ))
 
-  val fakeRequestForOtherJourney: Request[AnyContent] = FakeRequest().withSession(
-    IncomeTaxSessionKeys.reasonableExcuse -> "other",
-    IncomeTaxSessionKeys.hasConfirmedDeclaration -> "true",
-    IncomeTaxSessionKeys.whenDidBecomeUnable -> "2022-01-01",
-    IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-    IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
-    IncomeTaxSessionKeys.isUploadEvidence -> "yes",
-    IncomeTaxSessionKeys.penaltyNumber -> "123456789",
-    IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
-    IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-  )
+  val fakeRequestForOtherJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+    )(
+      //TODO: These will all move to be UserAnswers as part of future stories
+      FakeRequest().withSession(
+        IncomeTaxSessionKeys.reasonableExcuse -> "other",
+        IncomeTaxSessionKeys.whenDidBecomeUnable -> "2022-01-01",
+        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
+        IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
+        IncomeTaxSessionKeys.isUploadEvidence -> "yes",
+        IncomeTaxSessionKeys.penaltyNumber -> "123456789",
+        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
+        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
+      ))
 
-  val fakeRequestForOtherJourneyDeclinedUploads: Request[AnyContent] = FakeRequest().withSession(
-    IncomeTaxSessionKeys.reasonableExcuse -> "other",
-    IncomeTaxSessionKeys.hasConfirmedDeclaration -> "true",
-    IncomeTaxSessionKeys.whenDidBecomeUnable -> "2022-01-01",
-    IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-    IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
-    IncomeTaxSessionKeys.isUploadEvidence -> "no",
-    IncomeTaxSessionKeys.penaltyNumber -> "123456789",
-    IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-  )
+  val fakeRequestForOtherJourneyDeclinedUploads: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+    )(
+      //TODO: These will all move to be UserAnswers as part of future stories
+      FakeRequest().withSession(
+        IncomeTaxSessionKeys.reasonableExcuse -> "other",
+        IncomeTaxSessionKeys.whenDidBecomeUnable -> "2022-01-01",
+        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
+        IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
+        IncomeTaxSessionKeys.isUploadEvidence -> "no",
+        IncomeTaxSessionKeys.penaltyNumber -> "123456789",
+        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
+      ))
 
   val appealDataAsJson: JsValue = Json.parse(
     """
@@ -412,29 +435,37 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   }
 
   "isAppealLate" should {
-    val fakeRequestForAppealingBothPenalties: (LocalDate, LocalDate) => Request[AnyContent] = (lpp1Date: LocalDate, lpp2Date: LocalDate) =>
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.reasonableExcuse -> "crime",
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
-        IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
-        IncomeTaxSessionKeys.hasConfirmedDeclaration -> "true",
-        IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
-        IncomeTaxSessionKeys.penaltyNumber -> "123456789",
-        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
-        IncomeTaxSessionKeys.firstPenaltyCommunicationDate -> lpp1Date.toString,
-        IncomeTaxSessionKeys.secondPenaltyCommunicationDate -> lpp2Date.toString
-      )
+    val fakeRequestForAppealingBothPenalties: (LocalDate, LocalDate) => CurrentUserRequestWithAnswers[AnyContent] = (lpp1Date: LocalDate, lpp2Date: LocalDate) =>
+      CurrentUserRequestWithAnswers(
+        mtdItId = testMtdItId,
+        userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+      )(
+        //TODO: These will all move to be UserAnswers as part of future stories
+        FakeRequest().withSession(
+          IncomeTaxSessionKeys.reasonableExcuse -> "crime",
+          IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
+          IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
+          IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
+          IncomeTaxSessionKeys.penaltyNumber -> "123456789",
+          IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
+          IncomeTaxSessionKeys.firstPenaltyCommunicationDate -> lpp1Date.toString,
+          IncomeTaxSessionKeys.secondPenaltyCommunicationDate -> lpp2Date.toString
+        ))
 
-    val fakeRequestForAppealingSinglePenalty: LocalDate => Request[AnyContent] = (date: LocalDate) =>
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.reasonableExcuse -> "crime",
-        IncomeTaxSessionKeys.dateCommunicationSent -> date.toString,
-        IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
-        IncomeTaxSessionKeys.hasConfirmedDeclaration -> "true",
-        IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
-        IncomeTaxSessionKeys.penaltyNumber -> "123456789",
-        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString
-      )
+    val fakeRequestForAppealingSinglePenalty: LocalDate => CurrentUserRequestWithAnswers[AnyContent] = (date: LocalDate) =>
+      CurrentUserRequestWithAnswers(
+        mtdItId = testMtdItId,
+        userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+      )(
+        //TODO: These will all move to be UserAnswers as part of future stories
+        FakeRequest().withSession(
+          IncomeTaxSessionKeys.reasonableExcuse -> "crime",
+          IncomeTaxSessionKeys.dateCommunicationSent -> date.toString,
+          IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
+          IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
+          IncomeTaxSessionKeys.penaltyNumber -> "123456789",
+          IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString
+        ))
 
     "return true" when {
       "communication date of penalty > 30 days ago" in new Setup {

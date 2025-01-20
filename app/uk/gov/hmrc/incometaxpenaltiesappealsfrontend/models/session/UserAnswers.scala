@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session
 
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
 import java.time.Instant
@@ -28,17 +29,17 @@ case class UserAnswers(
                         lastUpdated: Instant = Instant.now
                       ) {
 
-  def getAnswer[A](key: String)(implicit reads: Reads[A]): Option[A] = {
-    (data \ key).validate.fold(_ => None, Some(_))
-  }
+  def getAnswer[A](page: Page[A])(implicit reads: Reads[A]): Option[A] =
+    (data \ page.key).validate.fold(_ => None, Some(_))
 
-  def setAnswer[A](key: String, value: A)(implicit writes: Writes[A]): UserAnswers = {
+  def setAnswerForKey[A](key: String, value: A)(implicit writes: Writes[A]): UserAnswers =
     UserAnswers(journeyId, data ++ Json.obj(key -> value))
-  }
 
-  def removeAnswer(key: String): UserAnswers = {
-    UserAnswers(journeyId, data - key)
-  }
+  def setAnswer[A](page: Page[A], value: A)(implicit writes: Writes[A]): UserAnswers =
+    setAnswerForKey(page.key, value)
+
+  def removeAnswer[A](page: Page[A]): UserAnswers =
+    UserAnswers(journeyId, data - page.key)
 }
 
 object UserAnswers {

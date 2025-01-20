@@ -27,7 +27,7 @@
       p:P,
       h1: H1)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 

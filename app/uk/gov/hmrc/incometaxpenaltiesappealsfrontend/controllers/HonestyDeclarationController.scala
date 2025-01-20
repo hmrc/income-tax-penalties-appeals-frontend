@@ -16,15 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.HonestyDeclarationPage
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
@@ -34,26 +32,31 @@ import scala.concurrent.{ExecutionContext, Future}
 class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarationPage,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
-                                             override val controllerComponents: MessagesControllerComponents
-                                            )(implicit ec: ExecutionContext,
-                                              val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
+                                             withAnswers: UserAnswersAction,
+                                             userAnswersService: UserAnswersService,
+                                             override val controllerComponents: MessagesControllerComponents,
+                                             override val errorHandler: ErrorHandler
+                                            )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
-        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
-
-        optReasonableExcuse match {
-          case Some(reasonableExcuse) =>
-            Ok(honestyDeclaration(
-              true, currentUser.isAgent, reasonableExcuse
-            ))
-          case _ =>
-            Redirect(routes.ReasonableExcuseController.onPageLoad())
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/
+    //      This is temporary backwards compatability to support the old Session based storage.
+    //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
+    //      must be removed!
+    user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
+      case Some(reasonableExcuse) =>
+        Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
+      case _ =>
+        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+          Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
         }
+    }
   }
 
-
-  def submit(): Action[AnyContent] = authorised { _ =>
-        Redirect(routes.WhenDidEventHappenController.onPageLoad())
+  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+    val updatedAnswers = user.userAnswers.setAnswer(HonestyDeclarationPage, true)
+    userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+      Redirect(routes.WhenDidEventHappenController.onPageLoad())
+    }
   }
-
 }

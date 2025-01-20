@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnect
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.ErrorResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, PenaltyTypeEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{EnrolmentUtil, IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
@@ -92,7 +92,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
   def submitAppeal(reasonableExcuse: String,
                    mtdItId: String,
                    optArn: Option[String]
-                  )(implicit request: Request[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+                  )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
 
     val appealType = request.session.get(IncomeTaxSessionKeys.appealType).map(PenaltyTypeEnum.withName)
     val isLPP = appealType.contains(PenaltyTypeEnum.Late_Payment) || appealType.contains(PenaltyTypeEnum.Additional)
@@ -107,7 +107,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
   private def singleAppeal(mtdItId: String, isLPP: Boolean,
                            agentReferenceNo: Option[String],
                            reasonableExcuse: String
-                          )(implicit request: Request[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+                          )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val correlationId = idGenerator.generateUUID
     val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(reasonableExcuse, isAppealLate, agentReferenceNo, mtdItId)
     val penaltyNumber = request.session.get(IncomeTaxSessionKeys.penaltyNumber).getOrElse(throw new RuntimeException("[AppealService][singleAppeal] Penalty number not found in session"))
@@ -131,7 +131,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
   private def multipleAppeal(mtdItId: String, isLPP: Boolean,
                              agentReferenceNo: Option[String],
-                             reasonableExcuse: String)(implicit request: Request[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+                             reasonableExcuse: String)(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
 
     val firstCorrelationId = idGenerator.generateUUID
     val secondCorrelationId = idGenerator.generateUUID
