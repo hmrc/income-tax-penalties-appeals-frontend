@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.fixtures
+package fixtures.messages
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.{NavContent, NavLink}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.Language
 
-trait BtaNavContentFixture {
+sealed trait i18n {
+  val lang: Language
+}
 
-  val btaNavLink: NavLink = NavLink(
-    en = "Foo",
-    cy = "Bar",
-    url = "/url",
-    alerts = Some(0)
-  )
+trait En extends i18n {
+  override val lang: Language = language.En
+}
 
-  val btaNavContent: NavContent = NavContent(
-    home = btaNavLink,
-    account = btaNavLink,
-    messages = btaNavLink,
-    help = btaNavLink,
-    forms = btaNavLink
-  )
-
+trait Cy extends i18n {
+  override val lang: Language = language.Cy
 }
