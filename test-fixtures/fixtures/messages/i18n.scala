@@ -24,9 +24,13 @@ sealed trait i18n {
 }
 
 trait En extends i18n {
+  val errorPrefix: String = "Error: "
+  val thereIsAProblem: String = "There is a problem"
   override val lang: Language = language.En
 }
 
 trait Cy extends i18n {
+  val errorPrefix: String = "Error: (Welsh)"
+  val thereIsAProblem: String = "Mae problem wedi codi"
   override val lang: Language = language.Cy
 }

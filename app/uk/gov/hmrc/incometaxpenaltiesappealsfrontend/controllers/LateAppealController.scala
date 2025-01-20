@@ -16,14 +16,11 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealPage
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
@@ -33,25 +30,27 @@ import scala.concurrent.{ExecutionContext, Future}
 class LateAppealController @Inject()(lateAppeal: LateAppealPage,
                                      val authorised: AuthAction,
                                      withNavBar: NavBarRetrievalAction,
+                                     withAnswers: UserAnswersAction,
+                                     override val errorHandler: ErrorHandler,
                                      override val controllerComponents: MessagesControllerComponents
-                                    )(implicit ec: ExecutionContext,
-                                      val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
+                                    )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
-        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
-
-        optReasonableExcuse match {
-          case Some(reasonableExcuse) =>
-            Ok(lateAppeal(
-              true, currentUser.isAgent, reasonableExcuse
-            ))
-          case _ =>
-            Redirect(routes.ReasonableExcuseController.onPageLoad())
-        }
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    withReasonableExcuseAnswer { reasonableExcuse =>
+      //TODO: Retrieve current value and populate form on page load as part of next ticket
+      Future(Ok(lateAppeal(LateAppealForm.form(), isLate = true, isAgent = user.isAgent, reasonableExcuse)))
+    }
   }
 
-  def submit(): Action[AnyContent] = authorised { _ =>
-        Redirect(routes.CheckYourAnswersController.onPageLoad())
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    LateAppealForm.form().bindFromRequest().fold(
+      formWithErrors =>
+        withReasonableExcuseAnswer { reasonableExcuse =>
+          Future(BadRequest(lateAppeal(formWithErrors, isLate = true, isAgent = user.isAgent, reasonableExcuse)))
+        },
+      lateAppealReason =>
+        //TODO: Store value as part of next ticket
+        Future(Redirect(routes.CheckYourAnswersController.onPageLoad()))
+    )
   }
-
 }

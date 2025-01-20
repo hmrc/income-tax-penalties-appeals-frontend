@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
-import fixtures.messages.MakingALateAppealMessages
+import fixtures.messages.LateAppealMessages
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -29,7 +29,7 @@ class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneA
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  Seq(MakingALateAppealMessages.English, MakingALateAppealMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(LateAppealMessages.English, LateAppealMessages.Welsh).foreach { messagesForLanguage =>
 
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 

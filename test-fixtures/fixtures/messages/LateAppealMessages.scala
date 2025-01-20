@@ -16,7 +16,7 @@
 
 package fixtures.messages
 
-object MakingALateAppealMessages {
+object LateAppealMessages {
 
   sealed trait Messages { _: i18n =>
     val errorRequired: String = "You must provide some information about why you did not appeal sooner"

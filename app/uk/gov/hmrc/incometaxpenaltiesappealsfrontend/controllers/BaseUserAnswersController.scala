@@ -16,12 +16,14 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import controllers.routes
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Reads
 import play.api.mvc.Result
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{Page, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
@@ -39,5 +41,16 @@ trait BaseUserAnswersController extends FrontendBaseController with I18nSupport 
         logger.warn(s"[BaseUserAnswersController][withAnswer] No answer found for pageKey: ${page.key}, mtditid: ${user.mtdItId}")
         //TODO: In future, redirect to a SessionTimeout page, or JourneyExpired page that the User can recover from???
         errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+    }
+
+
+  def withReasonableExcuseAnswer(f: String => Future[Result])(implicit user: CurrentUserRequestWithAnswers[_], ec: ExecutionContext): Future[Result] =
+    //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/
+    //      This is temporary backwards compatability to support the old Session based storage.
+    //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
+    //      must be removed!
+    user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
+      case Some(reasonableExcuse) => f(reasonableExcuse)
+      case _ => withAnswer(ReasonableExcusePage) { f(_) }
     }
 }
