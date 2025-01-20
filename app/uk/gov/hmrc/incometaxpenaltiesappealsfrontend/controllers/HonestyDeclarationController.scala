@@ -39,19 +39,17 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
-    }.recover { _ =>
-      //TODO: Remove this recover block code, this is to prevent JTs breaking.
-      //      This is temporary backwards compatability to support the old Session based storage.
-      //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
-      //      recover block can be removed!
-      user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
-        case Some(reasonableExcuse) =>
-          Ok(honestyDeclaration(user.isAgent, reasonableExcuse))
-        case _ =>
-          Redirect(routes.ReasonableExcuseController.onPageLoad())
-      }
+    //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/
+    //      This is temporary backwards compatability to support the old Session based storage.
+    //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
+    //      must be removed!
+    user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
+      case Some(reasonableExcuse) =>
+        Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
+      case _ =>
+        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+          Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
+        }
     }
   }
 
