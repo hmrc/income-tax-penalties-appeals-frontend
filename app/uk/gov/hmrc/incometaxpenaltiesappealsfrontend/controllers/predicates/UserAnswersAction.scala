@@ -20,14 +20,14 @@ import play.api.mvc.Results.{InternalServerError, Redirect}
 import play.api.mvc.{ActionRefiner, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.SessionService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class UserAnswersAction @Inject()(sessionService: SessionService,
+class UserAnswersAction @Inject()(sessionService: UserAnswersService,
                                   errorHandler: ErrorHandler,
                                   appConfig: AppConfig)
                                  (implicit val executionContext: ExecutionContext) extends ActionRefiner[CurrentUserRequest, CurrentUserRequestWithAnswers] {

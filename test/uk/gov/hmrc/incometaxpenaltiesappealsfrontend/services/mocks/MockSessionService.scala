@@ -20,13 +20,13 @@ import org.mockito.ArgumentMatchers.{eq => eqTo}
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.SessionService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 
 import scala.concurrent.Future
 
 trait MockSessionService extends MockitoSugar {
 
-  val mockSessionService: SessionService = mock[SessionService]
+  val mockSessionService: UserAnswersService = mock[UserAnswersService]
 
   def mockGetUserAnswers(journeyId: String)(response: Future[Option[UserAnswers]]): Unit =
     when(mockSessionService.getUserAnswers(eqTo(journeyId))).thenReturn(response)

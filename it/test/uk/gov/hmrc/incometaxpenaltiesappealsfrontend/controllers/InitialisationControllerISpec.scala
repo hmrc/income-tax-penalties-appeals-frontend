@@ -36,19 +36,13 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
 
   lazy val userAnswers: UserAnswersRepository = injector.instanceOf[UserAnswersRepository]
 
-  val testJourneyId: String = "journeyId123"
   val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
-
-  lazy val mockUUIDGenerator: UUIDGenerator = new UUIDGenerator {
-    override def generateUUID: String = testJourneyId
-  }
 
   lazy val mockDateTime: DateTimeHelper = new DateTimeHelper {
     override def dateTimeNow: LocalDateTime = testDateTime
   }
 
   override lazy val app: Application = appWithOverrides(
-    inject.bind[UUIDGenerator].toInstance(mockUUIDGenerator),
     inject.bind[DateTimeHelper].toInstance(mockDateTime)
   )
 

@@ -26,13 +26,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLink
 
 trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesStub with BtaNavContentFixture { _: ComponentSpecHelper with AuthStub =>
 
-  def testNavBar(url: String, queryParams: Map[String, String] = Map.empty, reasonableExcuse: Option[String] = None)(runStubs: => Unit = ()): Unit = {
+  def testNavBar(url: String, queryParams: Map[String, String] = Map.empty, reasonableExcuse: Option[String] = None)(runStubsAndUserAnswersSetup: => Unit = ()): Unit = {
     "Checking the Navigation Bar" when {
       "the origin is PTA" should {
         "render the PTA content" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           stubMessagesCount()(OK, Json.obj("count" -> 0))
-          runStubs
+          runStubsAndUserAnswersSetup
           val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
@@ -45,7 +45,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
       "the origin is BTA" should {
         "render the BTA content" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          runStubs
+          runStubsAndUserAnswersSetup
           stubBtaNavLinks()(OK, Json.toJson(btaNavContent))
           val result = get(url, origin = Some("BTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
@@ -59,7 +59,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
       "the origin is unknown" should {
         "render without a Nav" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          runStubs
+          runStubsAndUserAnswersSetup
           val result = get(url, origin = None, queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
@@ -73,7 +73,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
       "the user is an Agent" should {
         "render without a Nav" in {
           stubAuth(OK, successfulAgentAuthResponse)
-          runStubs
+          runStubsAndUserAnswersSetup
           val result = get(url, isAgent = true, origin = None, queryParams = queryParams, reasonableExcuse = reasonableExcuse)
 
           result.status shouldBe OK
