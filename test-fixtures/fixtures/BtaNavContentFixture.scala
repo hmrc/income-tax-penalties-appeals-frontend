@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.fixtures
+package fixtures
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.{NavContent, NavLink}
 

@@ -14,25 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.fixtures
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.{NavContent, NavLink}
-
-trait BtaNavContentFixture {
-
-  val btaNavLink: NavLink = NavLink(
-    en = "Foo",
-    cy = "Bar",
-    url = "/url",
-    alerts = Some(0)
-  )
-
-  val btaNavContent: NavContent = NavContent(
-    home = btaNavLink,
-    account = btaNavLink,
-    messages = btaNavLink,
-    help = btaNavLink,
-    forms = btaNavLink
-  )
-
+object Regexes {
+  val textArea = "^[\u000A\u000D  ˿ -~¡-ÿĀ-ʯḀ-ỿ‐-―‘-‟₠-₿ÅK]{0,}$"
 }

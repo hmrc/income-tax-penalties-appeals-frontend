@@ -17,10 +17,19 @@ lazy val microservice = Project("income-tax-penalties-appeals-frontend", file(".
   .settings(Test/logBuffered := false)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(CodeCoverageSettings.settings *)
+  .settings(inConfig(Test)(testSettings): _*)
+
+lazy val testSettings: Seq[Def.Setting[_]] = Seq(
+    unmanagedSourceDirectories += baseDirectory.value / "test-fixtures",
+    Test / javaOptions += "-Dlogger.resource=logback-test.xml",
+)
 
 lazy val it = project
   .enablePlugins(PlayScala)
   .dependsOn(microservice % "test->test")
-  .settings(DefaultBuildSettings.itSettings())
+  .settings(DefaultBuildSettings.itSettings() ++ Seq(
+      unmanagedSourceDirectories := Seq(baseDirectory.value / "test-fixtures"),
+      Test / javaOptions += "-Dlogger.resource=logback-test.xml"
+  ))
   .settings(Test/logBuffered := false)
   .settings(libraryDependencies ++= AppDependencies.it)

@@ -104,6 +104,9 @@ lateAppeal.p1 = You usually need to appeal within 30 days of the date on the pen
 lateAppeal.p1.bereavementReason = You usually need to appeal within 45 days of the date on the penalty notice.
 lateAppeal.charCount = Tell us why you could not appeal within 30 days
 lateAppeal.charCount.bereavementReason = Tell us why you could not appeal within 45 days
+lateAppeal.error.required = You must provide some information about why you did not appeal sooner
+lateAppeal.error.length = Explain the reason in {0} characters or fewer
+lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters
 
 # Has the crime been reported page
 # ----------------------------------------------------------
