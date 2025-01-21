@@ -18,16 +18,24 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
+@import uk.gov.hmrc.govukfrontend.views.Implicits._
 
 @this(layout: Layout,
       govukButton : GovukButton,
+      govukErrorSummary: GovukErrorSummary,
       formHelper: FormWithCSRF,
       govukRadios : GovukRadios)
 
-@(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhatCausedYouToMissDeadlineController.submit()) {
 
@@ -41,18 +49,9 @@
                 isPageHeading = true
               ))
             )),
-            name = "whatCausedYouToMissTheDeadline",
-            items = Seq(
-              RadioItem(
-                content = Text(messages("agents.whatCausedYouToMissTheDeadline.option.client")),
-                value = Some("client")
-              ),
-              RadioItem(
-                content = Text(messages("agents.whatCausedYouToMissTheDeadline.option.agent")),
-                value = Some("agent")
-              )
-            )
-        ))
+            name = WhatCausedYouToMissDeadlineForm.key,
+            items = AgentClientEnum.radioOptions("whatCausedYouToMissTheDeadline")
+        ).withFormField(form(WhatCausedYouToMissDeadlineForm.key)))
 
         <div class="govuk-form-group">
             @govukButton(Button(

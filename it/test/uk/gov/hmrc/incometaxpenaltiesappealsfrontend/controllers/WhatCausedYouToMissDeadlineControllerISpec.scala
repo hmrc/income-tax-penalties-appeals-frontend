@@ -16,21 +16,21 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.WhoPlannedToSubmitMessages
+import fixtures.messages.WhatCausedYouToMissDeadlineMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
@@ -42,23 +42,23 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
     super.beforeEach()
   }
 
-  s"GET /who-planned-to-submit" should {
+  s"GET /what-caused-you-to-miss-the-deadline" should {
 
-    testNavBar(url = "/who-planned-to-submit")()
+    testNavBar(url = "/what-caused-you-to-miss-the-deadline")()
 
     "return an OK with a view pre-populated" when {
       "the user is an authorised agent AND the page has already been answered" in {
         stubAuth(OK, successfulAgentAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+          UserAnswers(testJourneyId).setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
         ).futureValue
 
-        val result = get("/who-planned-to-submit", isAgent = true)
+        val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)
-        document.select(s"#${WhoPlannedToSubmitForm.key}").hasAttr("checked") shouldBe true
-        document.select(s"#${WhoPlannedToSubmitForm.key}-2").hasAttr("checked") shouldBe false
+        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe true
+        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
       }
     }
 
@@ -66,24 +66,24 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
       "the user is an authorised agent" in {
         stubAuth(OK, successfulAgentAuthResponse)
 
-        val result = get("/who-planned-to-submit", isAgent = true)
+        val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe WhoPlannedToSubmitMessages.English.serviceName
-        document.title() should include(WhoPlannedToSubmitMessages.English.titleAndHeading)
-        document.getElementById("captionSpan").text() shouldBe WhoPlannedToSubmitMessages.English.caption("6 July 2027", "5 October 2027")
-        document.getH1Elements.text() shouldBe WhoPlannedToSubmitMessages.English.titleAndHeading
-        document.getSubmitButton.text() shouldBe WhoPlannedToSubmitMessages.English.continue
+        document.getServiceName.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.serviceName
+        document.title() should include(WhatCausedYouToMissDeadlineMessages.English.titleAndHeading)
+        document.getElementById("captionSpan").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.caption("6 July 2027", "5 October 2027")
+        document.getH1Elements.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.titleAndHeading
+        document.getSubmitButton.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.continue
 
-        document.select(s"#${WhoPlannedToSubmitForm.key}").hasAttr("checked") shouldBe false
-        document.select(s"#${WhoPlannedToSubmitForm.key}-2").hasAttr("checked") shouldBe false
+        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe false
+        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
       }
     }
   }
 
-  "POST /who-planned-to-submit" when {
+  "POST /what-caused-you-to-miss-the-deadline" when {
 
     "a valid radio option has been selected" should {
 
@@ -91,12 +91,12 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
-        val result = post("/who-planned-to-submit")(Map(WhoPlannedToSubmitForm.key -> AgentClientEnum.agent))
+        val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.WhatCausedYouToMissDeadlineController.onPageLoad().url)
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
 
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhoPlannedToSubmitPage)) shouldBe Some(AgentClientEnum.agent)
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhatCausedYouToMissDeadlinePage)) shouldBe Some(AgentClientEnum.agent)
       }
     }
 
@@ -106,17 +106,17 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
-        val result = post("/who-planned-to-submit")(Map(WhoPlannedToSubmitForm.key -> ""))
+        val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> ""))
         result.status shouldBe BAD_REQUEST
 
         val document = Jsoup.parse(result.body)
 
-        document.title() should include(WhoPlannedToSubmitMessages.English.errorPrefix)
-        document.select(".govuk-error-summary__title").text() shouldBe WhoPlannedToSubmitMessages.English.thereIsAProblem
+        document.title() should include(WhatCausedYouToMissDeadlineMessages.English.errorPrefix)
+        document.select(".govuk-error-summary__title").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhoPlannedToSubmitMessages.English.errorRequired
-        error1Link.attr("href") shouldBe s"#${WhoPlannedToSubmitForm.key}"
+        error1Link.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.errorRequired
+        error1Link.attr("href") shouldBe s"#${WhatCausedYouToMissDeadlineForm.key}"
       }
     }
   }

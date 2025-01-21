@@ -16,34 +16,51 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 
 class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDeadlinePage: WhatCausedYouToMissTheDeadlinePage,
                                                       val authorised: AuthAction,
                                                       withNavBar: NavBarRetrievalAction,
+                                                      withAnswers: UserAnswersAction,
+                                                      userAnswersService: UserAnswersService,
+                                                      override val errorHandler: ErrorHandler,
                                                       override val controllerComponents: MessagesControllerComponents
-                                                     )(implicit ec: ExecutionContext,
-                                                       val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
+                                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(whatCausedYouToMissTheDeadlinePage(
-      true, currentUser.isAgent
+      fillForm(WhatCausedYouToMissDeadlineForm.form(), WhatCausedYouToMissDeadlinePage),
+      true,
+      user.isAgent
     ))
   }
 
 
-  def submit(): Action[AnyContent] = authorised { _ =>
-    Redirect(routes.LateAppealController.onPageLoad())
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    WhatCausedYouToMissDeadlineForm.form().bindFromRequest().fold(
+      formWithErrors =>
+        Future(BadRequest(whatCausedYouToMissTheDeadlinePage(
+          formWithErrors,
+          true,
+          user.isAgent
+        ))),
+      value => {
+        val updatedAnswers = user.userAnswers.setAnswer(WhatCausedYouToMissDeadlinePage, value)
+        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+          Redirect(routes.ReasonableExcuseController.onPageLoad())
+        }
+      }
+    )
   }
 }
