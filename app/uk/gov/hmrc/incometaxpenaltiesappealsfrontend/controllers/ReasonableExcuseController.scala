@@ -26,7 +26,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys.reasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcusePage
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
@@ -36,6 +38,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcusePage,
                                            val authorised: AuthAction,
                                            withNavBar: NavBarRetrievalAction,
+                                           withAnswers: UserAnswersAction,
+                                           userAnswersService: UserAnswersService,
                                            override val controllerComponents: MessagesControllerComponents
                                           )(implicit ec: ExecutionContext,
                                             val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
@@ -48,20 +52,23 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
   }
 
 
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
         ReasonableExcusesForm.form.bindFromRequest().fold(
           formWithErrors =>
-            BadRequest(reasonableExcusePage(
-              true, currentUser.isAgent,
+            Future(BadRequest(reasonableExcusePage(
+              true, user.isAgent,
               formWithErrors
-            )),
+            ))),
           reasonableExcuse =>
               reasonableExcuse match {
                 case ("technicalReason" | "bereavementReason" | "fireOrFloodReason" | "crimeReason") =>
-                  Redirect (routes.HonestyDeclarationController.onPageLoad () )
-                  .addingToSession (IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse)
+                  val updatedAnswers = user.userAnswers.setAnswer(ReasonableExcusePage, reasonableExcuse)
+                    userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+                      Redirect(routes.HonestyDeclarationController.onPageLoad ())
+                    }
+
                 case _ =>
-                  (Redirect(routes.AppealStartController.onPageLoad()))
+                  Future(Redirect(routes.AppealStartController.onPageLoad()))
               }
         )
   }
