@@ -17,28 +17,26 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
 import play.api.i18n.Messages
-import play.api.libs.json.{Format, JsResult, JsString, JsValue}
+import play.api.libs.json.{Format, JsError, JsResult, JsString, JsSuccess, JsValue}
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
+
+import scala.util.{Failure, Success, Try}
 
 object CrimeReportedEnum extends Enumeration {
   val yes: CrimeReportedEnum.Value = Value
   val no: CrimeReportedEnum.Value = Value
-  val unknown: CrimeReportedEnum.Value = Value
-
-  val apply: String => CrimeReportedEnum.Value = {
-    case "yes" => yes
-    case "no" => no
-    case "unknown" => unknown
-    case x => throw new IllegalArgumentException(s"Invalid crime reported value of '$x'")
-  }
 
   implicit val format: Format[CrimeReportedEnum.Value] = new Format[CrimeReportedEnum.Value] {
     override def writes(o: CrimeReportedEnum.Value): JsValue = JsString(o.toString)
-    override def reads(json: JsValue): JsResult[CrimeReportedEnum.Value] = json.validate[String].map(apply)
+    override def reads(json: JsValue): JsResult[CrimeReportedEnum.Value] =
+      Try(CrimeReportedEnum.withName(json.as[String])) match {
+        case Failure(_) => JsError("Invalid CrimeReportedEnum value")
+        case Success(value) => JsSuccess(value)
+      }
   }
 
-  def radioOptions()(implicit messages: Messages): Seq[RadioItem] = Seq(yes, no, unknown).map { value =>
+  def radioOptions()(implicit messages: Messages): Seq[RadioItem] = CrimeReportedEnum.values.toSeq.map { value =>
     RadioItem(
       content = Text(messages(s"crimeReason.$value")),
       value = Some(value.toString)

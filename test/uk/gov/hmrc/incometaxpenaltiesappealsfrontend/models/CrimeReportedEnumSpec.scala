@@ -29,18 +29,17 @@ class CrimeReportedEnumSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  "apply" should {
+  "calling .withName()" should {
     "return valid Enum value" when {
       "string value is valid" in {
-        CrimeReportedEnum("yes") shouldBe CrimeReportedEnum.yes
-        CrimeReportedEnum("no") shouldBe CrimeReportedEnum.no
-        CrimeReportedEnum("unknown") shouldBe CrimeReportedEnum.unknown
+        CrimeReportedEnum.withName("yes") shouldBe CrimeReportedEnum.yes
+        CrimeReportedEnum.withName("no") shouldBe CrimeReportedEnum.no
       }
     }
     "throw IllegalArgumentException" when {
       "string is not a valid Enum value" in {
-        val error = intercept[IllegalArgumentException](CrimeReportedEnum("foo"))
-        error.getMessage shouldBe "Invalid crime reported value of 'foo'"
+        val error = intercept[NoSuchElementException](CrimeReportedEnum.withName("foo"))
+        error.getMessage shouldBe "No value found for 'foo'"
       }
     }
   }
@@ -48,13 +47,11 @@ class CrimeReportedEnumSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
   "should serialise to JSON as expected" in {
     Json.toJson(CrimeReportedEnum.yes) shouldBe JsString("yes")
     Json.toJson(CrimeReportedEnum.no) shouldBe JsString("no")
-    Json.toJson(CrimeReportedEnum.unknown) shouldBe JsString("unknown")
   }
 
   "should deserialise from JSON as expected" in {
     JsString("yes").as[CrimeReportedEnum.Value] shouldBe CrimeReportedEnum.yes
     JsString("no").as[CrimeReportedEnum.Value] shouldBe CrimeReportedEnum.no
-    JsString("unknown").as[CrimeReportedEnum.Value] shouldBe CrimeReportedEnum.unknown
   }
 
   "calling .radioOptions()" when {
@@ -75,10 +72,6 @@ class CrimeReportedEnumSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
             RadioItem(
               content = Text(messagesForLanguage.no),
               value = Some(CrimeReportedEnum.no.toString)
-            ),
-            RadioItem(
-              content = Text(messagesForLanguage.unkownOption),
-              value = Some(CrimeReportedEnum.unknown.toString)
             )
           )
         }

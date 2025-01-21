@@ -88,7 +88,6 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.getH1Elements.text() shouldBe "Has this crime been reported to the police?"
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}").text() shouldBe CrimeReportedMessages.English.yes
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}-2").text() shouldBe CrimeReportedMessages.English.no
-        document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}-3").text() shouldBe CrimeReportedMessages.English.unkownOption
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
@@ -104,7 +103,6 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.getH1Elements.text() shouldBe "Has this crime been reported to the police?"
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}").text() shouldBe CrimeReportedMessages.English.yes
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}-2").text() shouldBe CrimeReportedMessages.English.no
-        document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}-3").text() shouldBe CrimeReportedMessages.English.unkownOption
         document.getSubmitButton.text() shouldBe "Continue"
 
       }
