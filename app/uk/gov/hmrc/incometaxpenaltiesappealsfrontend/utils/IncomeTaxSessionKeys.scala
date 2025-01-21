@@ -42,7 +42,6 @@ object IncomeTaxSessionKeys {
   val hasHealthEventEnded = "hasHealthEventEnded"
   val whenDidBecomeUnable = "whenDidBecomeUnable"
   val whyReturnSubmittedLate = "whyReturnSubmittedLate"
-  val whoPlannedToSubmitVATReturn = "whoPlannedToSubmitVATReturn"
   val agentSessionMtditid = "ClientMTDID"
   val whatCausedYouToMissTheDeadline = "whatCausedYouToMissTheDeadline"
   val whenDidThePersonDie = "whenDidThePersonDie"
@@ -94,7 +93,6 @@ object IncomeTaxSessionKeys {
     whenDidBecomeUnable,
     whyReturnSubmittedLate,
     hasHealthEventEnded,
-    whoPlannedToSubmitVATReturn,
     whatCausedYouToMissTheDeadline,
     whenDidThePersonDie,
     isFindOutHowToAppeal,

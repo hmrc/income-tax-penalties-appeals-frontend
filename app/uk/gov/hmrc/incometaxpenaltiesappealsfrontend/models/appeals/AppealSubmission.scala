@@ -20,7 +20,7 @@ import play.api.libs.json._
 import play.api.mvc.Request
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, Page}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, Page, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
@@ -62,9 +62,9 @@ object AppealSubmission {
                                             mtdItId: String)
                                            (implicit request: CurrentUserRequestWithAnswers[_]): AppealSubmission = {
     val isLPP: Boolean = !request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString)
-    val isClientResponsibleForSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true) else request.session.get(IncomeTaxSessionKeys.whoPlannedToSubmitVATReturn).map(_ == "client")
+    val isClientResponsibleForSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
     val isClientResponsibleForLateSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true)
-    else if (request.session.get(IncomeTaxSessionKeys.whoPlannedToSubmitVATReturn).contains("agent")) {
+    else if (request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent)) {
       request.session.get(IncomeTaxSessionKeys.whatCausedYouToMissTheDeadline).map(_ == "client")
     } else None
 
@@ -183,10 +183,10 @@ object AppealSubmission {
     }
   }
 
-  private def constructAgentDetails(agentReferenceNo: Option[String])(implicit request: Request[_]): AgentDetails =
+  private def constructAgentDetails(agentReferenceNo: Option[String])(implicit request: CurrentUserRequestWithAnswers[_]): AgentDetails =
     AgentDetails(
       agentReferenceNo = agentReferenceNo.get,
-      isExcuseRelatedToAgent = request.session.get(IncomeTaxSessionKeys.whoPlannedToSubmitVATReturn).contains("agent") &&
+      isExcuseRelatedToAgent = request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent) &&
         request.session.get(IncomeTaxSessionKeys.whatCausedYouToMissTheDeadline).contains("agent"))
 
 

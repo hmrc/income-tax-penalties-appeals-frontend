@@ -208,6 +208,8 @@ viewAppealDetails.printThisPage = Print this page
 agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission?
 agents.whoPlannedToSubmit.agent = I did
 agents.whoPlannedToSubmit.client = My client did
+agents.whoPlannedToSubmit.error.required = Tell us who planned to submit the return
+agents.whoPlannedToSubmit.error.invalid = Tell us who planned to submit the return
 
 # Agents 'What caused you to miss the deadline?'
 # ----------------------------------------------------------
