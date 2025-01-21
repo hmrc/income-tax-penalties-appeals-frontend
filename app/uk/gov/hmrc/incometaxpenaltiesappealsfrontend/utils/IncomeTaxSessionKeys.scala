@@ -31,7 +31,6 @@ object IncomeTaxSessionKeys {
   val reasonableExcuse = "reasonableExcuse"
   val dateOfCrime = "dateOfCrime"
   val dateOfFireOrFlood = "dateOfFireOrFlood"
-  val hasCrimeBeenReportedToPolice = "hasCrimeBeenReportedToPolice"
   val whenPersonLeftTheBusiness = "whenPersonLeftTheBusiness"
   val whenDidTechnologyIssuesBegin = "whenDidTechnologyIssuesBegin"
   val whenDidTechnologyIssuesEnd = "whenDidTechnologyIssuesEnd"
@@ -80,7 +79,6 @@ object IncomeTaxSessionKeys {
     reasonableExcuse,
     dateOfCrime,
     dateOfFireOrFlood,
-    hasCrimeBeenReportedToPolice,
     dateCommunicationSent,
     whenPersonLeftTheBusiness,
     whenDidTechnologyIssuesBegin,

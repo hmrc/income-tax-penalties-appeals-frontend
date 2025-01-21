@@ -45,3 +45,12 @@ agents.whatCausedYouToMissTheDeadline.client = My client did not get information
 agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay me (Welsh)
 agents.whatCausedYouToMissTheDeadline.error.required = Tell us what caused you to miss the deadline (Welsh)
 agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us what caused you to miss the deadline (Welsh)
+
+# Has the crime been reported page
+# ----------------------------------------------------------
+crimeReason.headingAndTitle = Has this crime been reported to the police? (Welsh)
+crimeReason.yes = Iawn
+crimeReason.no = Na
+crimeReason.unknown = Nid wyf yn gwybod
+crimeReason.error.required = Tell us if the police have been told about the crime (Welsh)
+crimeReason.error.invalid = Tell us if the police have been told about the crime (Welsh)

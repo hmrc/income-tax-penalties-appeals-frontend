@@ -23,6 +23,8 @@ sealed trait i18n {
   def caption(from: String, to: String) = s"Late submission penalty point: $from to $to"
   val serviceName = "Appeal a Self Assessment penalty"
   val continue = "Continue"
+  val yes: String = "Yes"
+  val no: String = "No"
   val errorPrefix: String = "Error: "
   val thereIsAProblem: String = "There is a problem"
   val lang: Language
@@ -36,6 +38,8 @@ trait Cy extends i18n {
   override def caption(from: String, to: String) = s"Late submission penalty point: $from to $to (Welsh)"
   override val serviceName = "Appeal a Self Assessment penalty (Welsh)"
   override val continue = "Continue (Welsh)"
+  override val yes: String = "Iawn"
+  override val no: String = "Na"
   override val errorPrefix: String = "Error: (Welsh)"
   override val thereIsAProblem: String = "Mae problem wedi codi"
   override val lang: Language = language.Cy

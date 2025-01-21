@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
-import play.api.data.{FieldMapping, Forms}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
 
-trait Mappings extends Formatters {
-
-  protected def text(message: String = "error.required"): FieldMapping[String] =
-    Forms.of(stringFormatter(message))
+object CrimeReportedPage extends Page[CrimeReportedEnum.Value] {
+  val key = "hasCrimeBeenReportedToPolice"
 }
