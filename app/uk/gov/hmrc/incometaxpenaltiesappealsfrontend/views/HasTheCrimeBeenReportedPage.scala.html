@@ -18,16 +18,29 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-
+@import uk.gov.hmrc.govukfrontend.views.Implicits._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
 
 @this(layout: Layout,
-      govukButton : GovukButton,
-      formHelper: FormWithCSRF,
-      govukRadios : GovukRadios)
+        govukButton : GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formHelper: FormWithCSRF,
+        govukRadios : GovukRadios)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(
+        form: Form[_],
+        isLate: Boolean,
+        isAgent: Boolean,
+        reasonableExcuseMessageKey: String
+)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("crimeReason.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("crimeReason.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CrimeReportedController.submit()) {
 
@@ -35,26 +48,16 @@
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
-              legend = Some(Legend(
-                content = Text(messages("crimeReason.headingAndTitle")),
-                classes = "govuk-fieldset__legend--l",
-                isPageHeading = true
-              ))
+                legend = Some(Legend(
+                    content = Text(messages("crimeReason.headingAndTitle")),
+                    classes = "govuk-fieldset__legend--l",
+                    isPageHeading = true
+                ))
             )),
-            name = reasonableExcuseMessageKey,
-            items = Seq(
-              RadioItem(
-                content = Text(messages("crimeReason.yes")),
-                value = Some("yes")
-              ),
-              RadioItem(
-                content = Text(messages("crimeReason.no")),
-                value = Some("no")
-              )
-            )
-        ))
-
-@*        TODO: check if agent has the additional "I don't know" radio button*@
+            name = CrimeReportedForm.key,
+            items = CrimeReportedEnum.radioOptions(),
+            classes = "govuk-radios--inline"
+        ).withFormField(form(CrimeReportedForm.key)))
 
         <div class="govuk-form-group">
             @govukButton(Button(

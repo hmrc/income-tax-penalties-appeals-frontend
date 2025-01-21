@@ -22,7 +22,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyTypeEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.CrimeAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, MultiplePenaltiesData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
@@ -294,7 +294,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           reasonableExcuse = "crime",
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
-          reportedIssueToPolice = "yes",
+          reportedIssueToPolice = CrimeReportedEnum.yes,
           statement = None,
           lateAppeal = false,
           lateAppealReason = None,
@@ -321,7 +321,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           reasonableExcuse = "crime",
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
-          reportedIssueToPolice = "yes",
+          reportedIssueToPolice = CrimeReportedEnum.yes,
           statement = None,
           lateAppeal = false,
           lateAppealReason = None,
@@ -348,7 +348,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           reasonableExcuse = "crime",
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
-          reportedIssueToPolice = "yes",
+          reportedIssueToPolice = CrimeReportedEnum.yes,
           statement = None,
           lateAppeal = false,
           lateAppealReason = None,
@@ -375,7 +375,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           reasonableExcuse = "crime",
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
-          reportedIssueToPolice = "yes",
+          reportedIssueToPolice = CrimeReportedEnum.yes,
           statement = None,
           lateAppeal = false,
           lateAppealReason = None,

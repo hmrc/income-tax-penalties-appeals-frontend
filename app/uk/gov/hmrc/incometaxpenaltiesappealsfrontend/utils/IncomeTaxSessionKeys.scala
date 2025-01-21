@@ -31,7 +31,6 @@ object IncomeTaxSessionKeys {
   val reasonableExcuse = "reasonableExcuse"
   val dateOfCrime = "dateOfCrime"
   val dateOfFireOrFlood = "dateOfFireOrFlood"
-  val hasCrimeBeenReportedToPolice = "hasCrimeBeenReportedToPolice"
   val whenPersonLeftTheBusiness = "whenPersonLeftTheBusiness"
   val whenDidTechnologyIssuesBegin = "whenDidTechnologyIssuesBegin"
   val whenDidTechnologyIssuesEnd = "whenDidTechnologyIssuesEnd"
@@ -42,9 +41,7 @@ object IncomeTaxSessionKeys {
   val hasHealthEventEnded = "hasHealthEventEnded"
   val whenDidBecomeUnable = "whenDidBecomeUnable"
   val whyReturnSubmittedLate = "whyReturnSubmittedLate"
-  val whoPlannedToSubmitVATReturn = "whoPlannedToSubmitVATReturn"
   val agentSessionMtditid = "ClientMTDID"
-  val whatCausedYouToMissTheDeadline = "whatCausedYouToMissTheDeadline"
   val whenDidThePersonDie = "whenDidThePersonDie"
   val cancelVATRegistration = "cancelVATRegistration"
   val otherRelevantInformation = "otherRelevantInformation"
@@ -82,7 +79,6 @@ object IncomeTaxSessionKeys {
     reasonableExcuse,
     dateOfCrime,
     dateOfFireOrFlood,
-    hasCrimeBeenReportedToPolice,
     dateCommunicationSent,
     whenPersonLeftTheBusiness,
     whenDidTechnologyIssuesBegin,
@@ -94,8 +90,6 @@ object IncomeTaxSessionKeys {
     whenDidBecomeUnable,
     whyReturnSubmittedLate,
     hasHealthEventEnded,
-    whoPlannedToSubmitVATReturn,
-    whatCausedYouToMissTheDeadline,
     whenDidThePersonDie,
     isFindOutHowToAppeal,
     cancelVATRegistration,

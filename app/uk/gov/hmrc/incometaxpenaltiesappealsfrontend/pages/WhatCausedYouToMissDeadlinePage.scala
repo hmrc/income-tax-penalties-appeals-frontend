@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
-import play.api.data.{FieldMapping, Forms}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 
-trait Mappings extends Formatters {
-
-  protected def text(message: String = "error.required"): FieldMapping[String] =
-    Forms.of(stringFormatter(message))
+object WhatCausedYouToMissDeadlinePage extends Page[AgentClientEnum.Value] {
+  val key = "whatCausedYouToMissTheDeadline"
 }

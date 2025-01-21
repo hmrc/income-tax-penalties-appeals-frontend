@@ -29,3 +29,28 @@ lateAppeal.charCount.bereavementReason = Tell us why you could not appeal within
 lateAppeal.error.required = You must provide some information about why you did not appeal sooner (Welsh)
 lateAppeal.error.length = Explain the reason in {0} characters or fewer (Welsh)
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
+
+# Who Planned to Submit
+# ----------------------------------------------------------
+agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission? (Welsh)
+agents.whoPlannedToSubmit.agent = I did (Welsh)
+agents.whoPlannedToSubmit.client = My client did (Welsh)
+agents.whoPlannedToSubmit.error.required = Tell us who planned to submit the return (Welsh)
+agents.whoPlannedToSubmit.error.invalid = Tell us who planned to submit the return (Welsh)
+
+# Agents 'What caused you to miss the deadline?'
+# ----------------------------------------------------------
+agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline? (Welsh)
+agents.whatCausedYouToMissTheDeadline.client = My client did not get information to me on time (Welsh)
+agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay me (Welsh)
+agents.whatCausedYouToMissTheDeadline.error.required = Tell us what caused you to miss the deadline (Welsh)
+agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us what caused you to miss the deadline (Welsh)
+
+# Has the crime been reported page
+# ----------------------------------------------------------
+crimeReason.headingAndTitle = Has this crime been reported to the police? (Welsh)
+crimeReason.yes = Iawn
+crimeReason.no = Na
+crimeReason.unknown = Nid wyf yn gwybod
+crimeReason.error.required = Tell us if the police have been told about the crime (Welsh)
+crimeReason.error.invalid = Tell us if the police have been told about the crime (Welsh)

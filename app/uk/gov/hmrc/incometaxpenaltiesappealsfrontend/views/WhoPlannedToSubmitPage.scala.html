@@ -18,41 +18,42 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+@import uk.gov.hmrc.govukfrontend.views.Implicits._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 
+@this(
+        layout: Layout,
+        govukButton : GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formHelper: FormWithCSRF,
+        govukRadios : GovukRadios
+)
 
-@this(layout: Layout,
-      govukButton : GovukButton,
-      formHelper: FormWithCSRF,
-      govukRadios : GovukRadios)
+@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@layout(Some(titleBuilder(messages("agents.whoPlannedToSubmit.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
-@layout(Some(titleBuilder(messages("agents.whoPlannedToSubmit.headingAndTitle"))), backLinkEnabled = true) {
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.AgentsController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhoPlannedToSubmitController.submit()) {
 
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
-              legend = Some(Legend(
-                content = Text(messages("agents.whoPlannedToSubmit.headingAndTitle")),
-                classes = "govuk-fieldset__legend--l",
-                isPageHeading = true
-              ))
+                legend = Some(Legend(
+                    content = Text(messages("agents.whoPlannedToSubmit.headingAndTitle")),
+                    classes = "govuk-fieldset__legend--l",
+                    isPageHeading = true
+                ))
             )),
-            name = "whoPlannedToSubmit",
-            items = Seq(
-              RadioItem(
-                content = Text(messages("agents.whoPlannedToSubmit.agent")),
-                value = Some("agent")
-              ),
-              RadioItem(
-                content = Text(messages("agents.whoPlannedToSubmit.client")),
-                value = Some("client")
-              )
-            )
-        ))
+            name = WhoPlannedToSubmitForm.key,
+            items = AgentClientEnum.radioOptions("whoPlannedToSubmit")
+        ).withFormField(form(WhoPlannedToSubmitForm.key)))
 
         <div class="govuk-form-group">
             @govukButton(Button(
