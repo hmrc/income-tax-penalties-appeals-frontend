@@ -33,8 +33,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnect
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{InvalidJson, UnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmissionResponseModel, MultiplePenaltiesData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.HonestyDeclarationPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -58,13 +58,14 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+      userAnswers = UserAnswers(testJourneyId)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
         IncomeTaxSessionKeys.reasonableExcuse -> "crime",
         IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
         IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
         IncomeTaxSessionKeys.penaltyNumber -> "123456789",
         IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
@@ -74,13 +75,14 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   val fakeRequestForCrimeJourneyMultiple: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+      userAnswers = UserAnswers(testJourneyId)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
         IncomeTaxSessionKeys.reasonableExcuse -> "crime",
         IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
         IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
         IncomeTaxSessionKeys.penaltyNumber -> "123456789",
         IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
@@ -438,13 +440,14 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     val fakeRequestForAppealingBothPenalties: (LocalDate, LocalDate) => CurrentUserRequestWithAnswers[AnyContent] = (lpp1Date: LocalDate, lpp2Date: LocalDate) =>
       CurrentUserRequestWithAnswers(
         mtdItId = testMtdItId,
-        userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+        userAnswers = UserAnswers(testJourneyId)
+          .setAnswer(HonestyDeclarationPage, true)
+          .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
       )(
         //TODO: These will all move to be UserAnswers as part of future stories
         FakeRequest().withSession(
           IncomeTaxSessionKeys.reasonableExcuse -> "crime",
           IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
-          IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
           IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
           IncomeTaxSessionKeys.penaltyNumber -> "123456789",
           IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
@@ -455,13 +458,14 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     val fakeRequestForAppealingSinglePenalty: LocalDate => CurrentUserRequestWithAnswers[AnyContent] = (date: LocalDate) =>
       CurrentUserRequestWithAnswers(
         mtdItId = testMtdItId,
-        userAnswers = UserAnswers(testJourneyId).setAnswer(HonestyDeclarationPage, true)
+        userAnswers = UserAnswers(testJourneyId)
+          .setAnswer(HonestyDeclarationPage, true)
+          .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
       )(
         //TODO: These will all move to be UserAnswers as part of future stories
         FakeRequest().withSession(
           IncomeTaxSessionKeys.reasonableExcuse -> "crime",
           IncomeTaxSessionKeys.dateCommunicationSent -> date.toString,
-          IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice -> "yes",
           IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
           IncomeTaxSessionKeys.penaltyNumber -> "123456789",
           IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString

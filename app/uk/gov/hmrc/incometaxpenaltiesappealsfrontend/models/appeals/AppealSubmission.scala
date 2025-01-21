@@ -17,12 +17,10 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals
 
 import play.api.libs.json._
-import play.api.mvc.Request
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, Page, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import java.time.temporal.ChronoUnit
 import java.time.{LocalDate, LocalDateTime}
@@ -98,7 +96,7 @@ object AppealSubmission {
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.dateOfCrime).map(LocalDate.parse).get.atStartOfDay(),
-          reportedIssueToPolice = request.session.get(IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice).get,
+          reportedIssueToPolice = request.getMandatoryAnswer(CrimeReportedPage),
           statement = None,
           lateAppeal = isLateAppeal,
           lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,

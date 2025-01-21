@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import controllers.routes
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Reads
@@ -43,7 +42,6 @@ trait BaseUserAnswersController extends FrontendBaseController with I18nSupport 
         //TODO: In future, redirect to a SessionTimeout page, or JourneyExpired page that the User can recover from???
         errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
     }
-
 
   def withReasonableExcuseAnswer(f: String => Future[Result])(implicit user: CurrentUserRequestWithAnswers[_], ec: ExecutionContext): Future[Result] =
     //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/

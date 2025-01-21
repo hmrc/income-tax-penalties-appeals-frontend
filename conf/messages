@@ -112,6 +112,8 @@ crimeReason.headingAndTitle = Has this crime been reported to the police?
 crimeReason.yes = Yes
 crimeReason.no = No
 crimeReason.unknown = I do not know
+crimeReason.error.required = Tell us if the police have been told about the crime
+crimeReason.error.invalid = Tell us if the police have been told about the crime
 
 # Check your answers page
 # ----------------------------------------------------------
