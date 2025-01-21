@@ -18,13 +18,28 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
+import org.mongodb.scala.Document
+import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
+
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+
+  override def beforeEach(): Unit = {
+    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId))
+    super.beforeEach()
+  }
 
   "GET /reason-for-missing-deadline" should {
     testNavBar("/reason-for-missing-deadline")()
@@ -32,6 +47,9 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
+        userAnswersRepo.upsertUserAnswer(
+          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, AgentClientEnum.agent)
+        ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
       }

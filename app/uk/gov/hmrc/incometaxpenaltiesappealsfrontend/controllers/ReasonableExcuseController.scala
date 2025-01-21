@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
@@ -40,14 +40,15 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
                                            withNavBar: NavBarRetrievalAction,
                                            withAnswers: UserAnswersAction,
                                            userAnswersService: UserAnswersService,
-                                           override val controllerComponents: MessagesControllerComponents
+                                           override val controllerComponents: MessagesControllerComponents,
+                                           override val errorHandler: ErrorHandler
                                           )(implicit ec: ExecutionContext,
-                                            val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
+                                            val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit currentUser =>
 
         Ok(reasonableExcusePage(
-          true, currentUser.isAgent, ReasonableExcusesForm.form
+          true, currentUser.isAgent, fillForm(ReasonableExcusesForm.form, ReasonableExcusePage)
         ))
   }
 

@@ -19,6 +19,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components.ErrorSummary
+@import uk.gov.hmrc.govukfrontend.views.Implicits._
 
 
 @this(layout: Layout,
@@ -93,7 +94,7 @@
                     ))
                 )
             )
-        ))
+        ).withFormField(form("reasonableExcuse")))
 
         @govukButton(Button(
             content = Text(messages("common.continue"))
