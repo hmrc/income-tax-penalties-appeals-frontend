@@ -42,20 +42,15 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
 
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/
-    //      This is temporary backwards compatability to support the old Session based storage.
-    //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
-    //      must be removed!
-    user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
-      case Some(reasonableExcuse) =>
-        Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, WhenDidEventHappenForm.form(reasonableExcuse))))
-      case _ =>
-        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, WhenDidEventHappenForm.form(reasonableExcuse))))
-        }
+
+    withReasonableExcuseAnswer { reasonableExcuse =>
+      Future(Ok(whenDidEventHappenView(
+        form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
+        isAgent = user.isAgent,
+        reasonableExcuseMessageKey = reasonableExcuse
+      )))
     }
   }
-
 
   def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
 

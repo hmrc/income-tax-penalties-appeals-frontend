@@ -16,8 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings
 
-import play.api.data.FieldMapping
-import play.api.data.Forms.of
+import play.api.data.{FieldMapping, Forms}
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -26,8 +25,8 @@ import java.time.LocalDate
 
 trait Mappings extends Formatters {
 
-  protected def text(errorKey: String = "error.required"): FieldMapping[String] =
-    of(stringFormatter(errorKey))
+  protected def text(message: String = "error.required"): FieldMapping[String] =
+    Forms.of(stringFormatter(message))
 
   protected def localDate(
                            invalidKey: String,
@@ -37,5 +36,5 @@ trait Mappings extends Formatters {
                            futureKey: Option[String] = None,
                            dateNotEqualOrAfterKeyAndCompareDate: Option[(String, LocalDate)] = None,
                            args: Seq[String] = Seq.empty)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): FieldMapping[LocalDate] =
-    of(new LocalDateFormatter(timeMachine)(invalidKey, allRequiredKey, twoRequiredKey,  requiredKey, futureKey, dateNotEqualOrAfterKeyAndCompareDate, args))
+    Forms.of(new LocalDateFormatter(timeMachine)(invalidKey, allRequiredKey, twoRequiredKey,  requiredKey, futureKey, dateNotEqualOrAfterKeyAndCompareDate, args))
 }
