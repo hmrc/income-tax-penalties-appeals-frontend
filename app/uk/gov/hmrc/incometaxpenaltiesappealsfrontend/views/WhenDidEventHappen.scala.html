@@ -18,35 +18,37 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import java.time.LocalDate
+@import uk.gov.hmrc.hmrcfrontend.views.Implicits.RichDateInput
+@import uk.gov.hmrc.hmrcfrontend.views.Implicits.RichErrorSummary
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components.inputDate
 
 
 @this(layout: Layout,
       formHelper: FormWithCSRF,
       govukButton : GovukButton,
-      govukDateInput : GovukDateInput)
+      govukDateInput : GovukDateInput,
+      govukErrorSummary: GovukErrorSummary,
+        dateInput: inputDate)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isAgent: Boolean, reasonableExcuseMessageKey: String, form: Form[LocalDate])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle"))), backLinkEnabled = true) {
+
+    @if(form.hasErrors) {
+        @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
+    }
 
  @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventHappenController.submit()) {
 
      <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
 
-     @govukDateInput(DateInput(
-         id = reasonableExcuseMessageKey,
-         namePrefix = Some(reasonableExcuseMessageKey),
-         hint = Some(Hint(
-             content = Text(messages("common.dateHint"))
-         )),
-         fieldset = Some(Fieldset(
-             legend = Some(Legend(
-                 content = Text(messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle")),
-                 classes = "govuk-fieldset__legend--l",
-                 isPageHeading = true
-             ))
-         ))
-     ))
+     @dateInput(
+         form = form,
+         legendContent = messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle"),
+         legendClasses = Some("govuk-fieldset__legend--l"),
+         hintText = Some(messages("common.dateHint"))
+     )
 
      <div class="govuk-form-group">
        @govukButton(Button(

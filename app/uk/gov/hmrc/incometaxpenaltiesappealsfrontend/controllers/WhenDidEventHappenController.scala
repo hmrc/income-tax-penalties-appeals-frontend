@@ -16,54 +16,79 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
+import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhenDidEventHappenController @Inject()(whenDidEventHappenPage: WhenDidEventHappenPage,
+class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEventHappen,
+                                             timeMachine: TimeMachine,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
-                                             override val controllerComponents: MessagesControllerComponents
-                                            )(implicit ec: ExecutionContext,
-                                              val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar)  { implicit currentUser =>
-        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
+                                             withAnswers: UserAnswersAction,
+                                             userAnswersService: UserAnswersService,
+                                             override val controllerComponents: MessagesControllerComponents,
+                                             override val errorHandler: ErrorHandler
+                                            )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-        optReasonableExcuse match {
-          case Some(reasonableExcuse) =>
-           Ok(whenDidEventHappenPage(
-              true, currentUser.isAgent, reasonableExcuse
-            ))
-          case _ =>
-            Redirect(routes.ReasonableExcuseController.onPageLoad())
+
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/
+    //      This is temporary backwards compatability to support the old Session based storage.
+    //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
+    //      must be removed!
+    user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
+      case Some(reasonableExcuse) =>
+        Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, new WhenDidEventHappenForm(timeMachine).form(reasonableExcuse))))
+      case _ =>
+        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+          Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, new WhenDidEventHappenForm(timeMachine).form(reasonableExcuse))))
         }
+    }
   }
 
 
-  def submit(): Action[AnyContent] = authorised { implicit currentUser =>
-        val optReasonableExcuse = currentUser.session.get(IncomeTaxSessionKeys.reasonableExcuse)
+  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
 
-        optReasonableExcuse match {
-          case Some("technicalReason") =>
-            Redirect(routes.WhenDidEventEndController.onPageLoad())
-          case Some("bereavementReason" | "fireOrFloodReason") =>
-            Redirect(routes.LateAppealController.onPageLoad())
-          case Some("crimeReason") =>
-            Redirect(routes.CrimeReportedController.onPageLoad())
-          case _ =>
-            Redirect(routes.AppealStartController.onPageLoad())
-        }
+    val optReasonableExcuse = user.session.get(IncomeTaxSessionKeys.reasonableExcuse)
+
+    optReasonableExcuse match {
+      case Some(reasonableExcuse) =>
+         new WhenDidEventHappenForm(timeMachine).form(reasonableExcuse).bindFromRequest().fold(
+          formWithErrors =>
+           Future.successful(BadRequest(whenDidEventHappenView(
+              user.isAgent,
+              reasonableExcuse,
+              formWithErrors
+            ))),
+          dateOfEvent => {
+            val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
+            userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+              reasonableExcuse match {
+                case "technicalReason" =>
+                  Redirect(routes.WhenDidEventEndController.onPageLoad())
+                case "bereavementReason" | "fireOrFloodReason" =>
+                  Redirect(routes.LateAppealController.onPageLoad())
+                case "crimeReason" =>
+                  Redirect(routes.CrimeReportedController.onPageLoad())
+                case _ =>
+                  Redirect(routes.AppealStartController.onPageLoad())
+              }
+            }
+          })
+      case _ =>
+        Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))
+    }
   }
 
 }

@@ -21,17 +21,38 @@ import play.api.data.format.Formatter
 
 trait Formatters {
 
-  private[mappings] def stringFormatter(message: String): Formatter[String] = new Formatter[String] {
+  private[mappings] def stringFormatter(errorKey: String): Formatter[String] = new Formatter[String] {
 
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] =
       data.get(key) match {
-        case Some(x) if x.trim.nonEmpty =>
-          Right(x.trim)
-        case _ =>
-          Left(Seq(FormError(key, message)))
+        case None => Left(Seq(FormError(key, errorKey)))
+        case Some(x) if x.trim.length == 0 => Left(Seq(FormError(key, errorKey)))
+        case Some(s) => Right(s.trim)
       }
 
     override def unbind(key: String, value: String): Map[String, String] =
       Map(key -> value.trim)
   }
+
+  private[mappings] def intFormatter(requiredKey: String, nonNumericKey: String, args: Seq[String] = Seq.empty): Formatter[Int] =
+    new Formatter[Int] {
+
+      val formattingCharacters = "[\\s,\\-\\(\\)\\/\\.\\\\]"
+
+      private val baseFormatter = stringFormatter(requiredKey)
+
+      override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Int] =
+        baseFormatter
+          .bind(key, data)
+          .map(_.replaceAll(formattingCharacters, ""))
+          .flatMap {
+            s =>
+              nonFatalCatch
+                .either(s.toInt)
+                .left.map(_ => Seq(FormError(key, nonNumericKey, args)))
+          }
+
+      override def unbind(key: String, value: Int): Map[String, String] =
+        baseFormatter.unbind(key, value.toString)
+    }
 }
