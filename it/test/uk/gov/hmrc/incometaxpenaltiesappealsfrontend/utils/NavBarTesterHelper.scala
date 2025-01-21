@@ -16,11 +16,11 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import fixtures.BtaNavContentFixture
 import org.jsoup.Jsoup
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.http.Status.OK
 import play.api.libs.json.Json
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.fixtures.BtaNavContentFixture
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLinksStub, MessagesStub}
 
 

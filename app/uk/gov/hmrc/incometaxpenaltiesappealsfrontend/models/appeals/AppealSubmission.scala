@@ -20,7 +20,7 @@ import play.api.libs.json._
 import play.api.mvc.Request
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, Page}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, Page}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
@@ -87,7 +87,7 @@ object AppealSubmission {
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenDidThePersonDie).map(LocalDate.parse).get.atStartOfDay(),
           statement = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         )
@@ -101,7 +101,7 @@ object AppealSubmission {
           reportedIssueToPolice = request.session.get(IncomeTaxSessionKeys.hasCrimeBeenReportedToPolice).get,
           statement = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         )
@@ -114,7 +114,7 @@ object AppealSubmission {
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.dateOfFireOrFlood).map(LocalDate.parse).get.atStartOfDay(),
           statement = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         )
@@ -127,7 +127,7 @@ object AppealSubmission {
           startDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenPersonLeftTheBusiness).map(LocalDate.parse).get.atStartOfDay(),
           statement = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         )
@@ -141,7 +141,7 @@ object AppealSubmission {
           endDateOfEvent = request.session.get(IncomeTaxSessionKeys.whenDidTechnologyIssuesEnd).map(LocalDate.parse).get.atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS),
           statement = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         )
@@ -159,7 +159,7 @@ object AppealSubmission {
           eventOngoing = isOngoingHospitalStay,
           statement = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         )
@@ -174,7 +174,7 @@ object AppealSubmission {
 //          supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),
           supportingEvidence = None,
           lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.session.get(IncomeTaxSessionKeys.lateAppealReason) else None,
+          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
 //          uploadedFiles = if (uploadedFiles.isDefined) uploadedFiles else None

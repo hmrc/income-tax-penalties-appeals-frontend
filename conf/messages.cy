@@ -17,3 +17,15 @@ appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in
 appeal.start.p4 = In some cases, you''ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later. (Welsh)
 appeal.start.p5 = If you are not asked for extra evidence, this is because we don''t need any to make a decision in your particular case. (Welsh)
 appeal.start.p6 = If we decide we do need extra evidence after reviewing your appeal, we will contact you. (Welsh)
+
+# Late appeal page
+# ----------------------------------------------------------
+lateAppeal.headingAndTitle = This penalty point was issued more than 30 days ago (Welsh)
+lateAppeal.headingAndTitle.bereavementReason = This penalty point was issued more than 45 days ago (Welsh)
+lateAppeal.p1 = You usually need to appeal within 30 days of the date on the penalty notice. (Welsh)
+lateAppeal.p1.bereavementReason = You usually need to appeal within 45 days of the date on the penalty notice. (Welsh)
+lateAppeal.charCount = Tell us why you could not appeal within 30 days (Welsh)
+lateAppeal.charCount.bereavementReason = Tell us why you could not appeal within 45 days (Welsh)
+lateAppeal.error.required = You must provide some information about why you did not appeal sooner (Welsh)
+lateAppeal.error.length = Explain the reason in {0} characters or fewer (Welsh)
+lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)

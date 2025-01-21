@@ -77,4 +77,6 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 
+  lazy val numberOfCharsInTextArea: Int = config.get[Int]("constants.numberOfCharsInTextArea")
+
 }

@@ -32,7 +32,6 @@ object IncomeTaxSessionKeys {
   val dateOfCrime = "dateOfCrime"
   val dateOfFireOrFlood = "dateOfFireOrFlood"
   val hasCrimeBeenReportedToPolice = "hasCrimeBeenReportedToPolice"
-  val lateAppealReason = "lateAppealReason"
   val whenPersonLeftTheBusiness = "whenPersonLeftTheBusiness"
   val whenDidTechnologyIssuesBegin = "whenDidTechnologyIssuesBegin"
   val whenDidTechnologyIssuesEnd = "whenDidTechnologyIssuesEnd"
@@ -84,7 +83,6 @@ object IncomeTaxSessionKeys {
     dateOfCrime,
     dateOfFireOrFlood,
     hasCrimeBeenReportedToPolice,
-    lateAppealReason,
     dateCommunicationSent,
     whenPersonLeftTheBusiness,
     whenDidTechnologyIssuesBegin,
