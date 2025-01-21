@@ -39,10 +39,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
-import javax.inject.Inject
 
-class WhenDidEventHappenForm @Inject()(timeMachine: TimeMachine) extends Mappings(timeMachine) {
-  def form(reasons: String)(implicit messages: Messages, appConfig: AppConfig): Form[LocalDate] = {
+object WhenDidEventHappenForm extends Mappings{
+  def form(reasons: String)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
     Form(
       "date" -> localDate(
         invalidKey = s"$reasons.date.error.invalid",

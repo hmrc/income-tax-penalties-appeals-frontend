@@ -32,14 +32,13 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEventHappen,
-                                             timeMachine: TimeMachine,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
                                              withAnswers: UserAnswersAction,
                                              userAnswersService: UserAnswersService,
                                              override val controllerComponents: MessagesControllerComponents,
                                              override val errorHandler: ErrorHandler
-                                            )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                            )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
@@ -49,10 +48,10 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
     //      must be removed!
     user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
       case Some(reasonableExcuse) =>
-        Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, new WhenDidEventHappenForm(timeMachine).form(reasonableExcuse))))
+        Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, WhenDidEventHappenForm.form(reasonableExcuse))))
       case _ =>
         withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, new WhenDidEventHappenForm(timeMachine).form(reasonableExcuse))))
+          Future(Ok(whenDidEventHappenView(user.isAgent, reasonableExcuse, WhenDidEventHappenForm.form(reasonableExcuse))))
         }
     }
   }
@@ -64,7 +63,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
 
     optReasonableExcuse match {
       case Some(reasonableExcuse) =>
-         new WhenDidEventHappenForm(timeMachine).form(reasonableExcuse).bindFromRequest().fold(
+          WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
           formWithErrors =>
            Future.successful(BadRequest(whenDidEventHappenView(
               user.isAgent,

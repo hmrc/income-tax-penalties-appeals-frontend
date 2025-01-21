@@ -21,13 +21,14 @@ import play.api.data.format.Formatter
 
 trait Formatters {
 
-  private[mappings] def stringFormatter(errorKey: String): Formatter[String] = new Formatter[String] {
+  private[mappings] def stringFormatter(message: String): Formatter[String] = new Formatter[String] {
 
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] =
       data.get(key) match {
-        case None => Left(Seq(FormError(key, errorKey)))
-        case Some(x) if x.trim.length == 0 => Left(Seq(FormError(key, errorKey)))
-        case Some(s) => Right(s.trim)
+        case Some(x) if x.trim.nonEmpty =>
+          Right(x.trim)
+        case _ =>
+          Left(Seq(FormError(key, message)))
       }
 
     override def unbind(key: String, value: String): Map[String, String] =
