@@ -56,9 +56,9 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmitPage: WhoPlannedT
           user.isAgent
         ))),
       whoPlannedToSubmit => {
-        val updatedAnsers = user.userAnswers.setAnswer(WhoPlannedToSubmitPage, whoPlannedToSubmit)
-        userAnswersService.updateAnswers(updatedAnsers).map { _ =>
-          Redirect(routes.ReasonableExcuseController.onPageLoad())
+        val updatedAnswers = user.userAnswers.setAnswer(WhoPlannedToSubmitPage, whoPlannedToSubmit)
+        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+          Redirect(routes.WhatCausedYouToMissDeadlineController.onPageLoad())
         }
       }
     )

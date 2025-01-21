@@ -214,8 +214,10 @@ agents.whoPlannedToSubmit.error.invalid = Tell us who planned to submit the retu
 # Agents 'What caused you to miss the deadline?'
 # ----------------------------------------------------------
 agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline?
-agents.whatCausedYouToMissTheDeadline.option.client = My client did not get information to me on time
-agents.whatCausedYouToMissTheDeadline.option.agent = Something else happened to delay me
+agents.whatCausedYouToMissTheDeadline.client = My client did not get information to me on time
+agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay me
+agents.whatCausedYouToMissTheDeadline.error.required = Tell us what caused you to miss the deadline
+agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us what caused you to miss the deadline
 
 
 common.dateHint = For example, 12 3 2018

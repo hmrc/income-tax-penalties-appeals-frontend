@@ -20,7 +20,7 @@ import play.api.libs.json._
 import play.api.mvc.Request
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, Page, WhoPlannedToSubmitPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, Page, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
@@ -65,7 +65,7 @@ object AppealSubmission {
     val isClientResponsibleForSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
     val isClientResponsibleForLateSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true)
     else if (request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent)) {
-      request.session.get(IncomeTaxSessionKeys.whatCausedYouToMissTheDeadline).map(_ == "client")
+      request.userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).map(_ == AgentClientEnum.client)
     } else None
 
     def baseAppealSubmission(appealInfo: AppealInformation) = AppealSubmission(
@@ -187,7 +187,7 @@ object AppealSubmission {
     AgentDetails(
       agentReferenceNo = agentReferenceNo.get,
       isExcuseRelatedToAgent = request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent) &&
-        request.session.get(IncomeTaxSessionKeys.whatCausedYouToMissTheDeadline).contains("agent"))
+        request.userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).contains(AgentClientEnum.agent))
 
 
   implicit val writes: Writes[AppealSubmission] = (appealSubmission: AppealSubmission) => {
