@@ -20,17 +20,23 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.Language
 
 sealed trait i18n {
+  def caption(from: String, to: String) = s"Late submission penalty point: $from to $to"
+  val serviceName = "Appeal a Self Assessment penalty"
+  val continue = "Continue"
+  val errorPrefix: String = "Error: "
+  val thereIsAProblem: String = "There is a problem"
   val lang: Language
 }
 
 trait En extends i18n {
-  val errorPrefix: String = "Error: "
-  val thereIsAProblem: String = "There is a problem"
   override val lang: Language = language.En
 }
 
 trait Cy extends i18n {
-  val errorPrefix: String = "Error: (Welsh)"
-  val thereIsAProblem: String = "Mae problem wedi codi"
+  override def caption(from: String, to: String) = s"Late submission penalty point: $from to $to (Welsh)"
+  override val serviceName = "Appeal a Self Assessment penalty (Welsh)"
+  override val continue = "Continue (Welsh)"
+  override val errorPrefix: String = "Error: (Welsh)"
+  override val thereIsAProblem: String = "Mae problem wedi codi"
   override val lang: Language = language.Cy
 }

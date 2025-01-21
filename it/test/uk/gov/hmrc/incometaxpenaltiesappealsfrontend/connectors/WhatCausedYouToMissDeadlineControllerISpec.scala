@@ -21,7 +21,7 @@ import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
 
-class AgentsControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
 
 
   "GET /who-planned-to-submit" should {
