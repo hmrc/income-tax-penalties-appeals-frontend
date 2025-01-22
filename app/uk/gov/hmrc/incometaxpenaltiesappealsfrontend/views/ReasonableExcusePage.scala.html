@@ -28,11 +28,11 @@
       errorSummary: ErrorSummary,
       govukButton : GovukButton)
 
-@(isLate: Boolean, isAgent: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isAgent: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @standardOrAgent = {@if(isAgent){agent} else {standard}}
 
-@layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
     @errorSummary(form, Some("reasonableExcuse"))
 

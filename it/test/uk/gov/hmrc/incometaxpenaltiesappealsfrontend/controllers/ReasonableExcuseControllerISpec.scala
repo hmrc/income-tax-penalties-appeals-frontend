@@ -51,14 +51,13 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reasonableExcuse)
+          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavementReason")
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
-
         val document = Jsoup.parse(result.body)
-        document.select(s"#${ReasonableExcusesForm.form}").hasAttr("checked") shouldBe true
-        document.select(s"#${ReasonableExcusesForm.form}-2").hasAttr("checked") shouldBe false
+        document.select(s"#${ReasonableExcusesForm.key}").hasAttr("checked") shouldBe true
+        document.select(s"#${ReasonableExcusesForm.key}-2").hasAttr("checked") shouldBe false
       }
 
       "the user is an authorised agent" in {
@@ -130,7 +129,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
-        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> "crime"))
+        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> "bereavementReason"))
 
         result.status shouldBe SEE_OTHER
         result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
@@ -147,16 +146,14 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> ""))
 
         result.status shouldBe BAD_REQUEST
-        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
 
         val document = Jsoup.parse(result.body)
-
         document.title() should include(ReasonableExcuseMessages.English.errorPrefix)
         document.select(".govuk-error-summary__title").text() shouldBe ReasonableExcuseMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
         error1Link.text() shouldBe ReasonableExcuseMessages.English.errorRequired
-        error1Link.attr("href") shouldBe s"#${ReasonableExcusesForm.form}"
+        error1Link.attr("href") shouldBe s"#${ReasonableExcusesForm.key}"
       }
     }
   }
