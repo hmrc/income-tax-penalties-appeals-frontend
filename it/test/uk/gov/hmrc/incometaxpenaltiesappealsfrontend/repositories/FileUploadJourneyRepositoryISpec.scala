@@ -91,16 +91,24 @@ class FileUploadJourneyRepositoryISpec extends ComponentSpecHelper with FileUplo
   }
 
 
-  "calling .getNumberOfFiles()" should {
+  "calling .getNumberOfReadyFiles()" should {
 
     "return 0 when there is no uploads for the journey" in {
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 0
+      await(repository.getNumberOfReadyFiles(testJourneyId)) shouldBe 0
     }
 
-    "return the amount of uploads" in {
-      await(repository.upsertFileUpload(testJourneyId, callbackModel))
+    "return 0 when there is no uploads that are READY for the journey" in {
+      await(repository.upsertFileUpload(testJourneyId, waitingFile))
+      await(repository.getNumberOfReadyFiles(testJourneyId)) shouldBe 0
+    }
+
+    "return a count of all READY uploads when there are some" in {
+      await(repository.upsertFileUpload(testJourneyId, waitingFile))
       await(repository.upsertFileUpload(testJourneyId, callbackModel2))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 2
+      await(repository.upsertFileUpload(testJourneyId, callbackModel2.copy(reference = "ref3")))
+      await(repository.upsertFileUpload(testJourneyId, waitingFile.copy(reference = "ref4")))
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 4
+      await(repository.getNumberOfReadyFiles(testJourneyId)) shouldBe 2
     }
   }
 
@@ -110,26 +118,26 @@ class FileUploadJourneyRepositoryISpec extends ComponentSpecHelper with FileUplo
     "remove the file in the journey if it exists" in {
       await(repository.upsertFileUpload(testJourneyId, callbackModel))
       await(repository.upsertFileUpload(testJourneyId, callbackModel2))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 2
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 2
       await(repository.removeFile(testJourneyId, fileRef1))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 1
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 1
       await(repository.getAllFiles(testJourneyId)).headOption shouldBe Some(callbackModel2)
     }
 
     "do not remove the file in the journey if the file specified doesn't exist" in {
       await(repository.upsertFileUpload(testJourneyId, callbackModel))
       await(repository.upsertFileUpload(testJourneyId, callbackModel2))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 2
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 2
       await(repository.removeFile(testJourneyId, "ref1234"))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 2
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 2
     }
 
     "do not remove the file in the journey if the journey specified doesn't exist" in {
       await(repository.upsertFileUpload(testJourneyId, callbackModel))
       await(repository.upsertFileUpload(testJourneyId, callbackModel2))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 2
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 2
       await(repository.removeFile("1235", fileRef1))
-      await(repository.getNumberOfFiles(testJourneyId)) shouldBe 2
+      await(repository.getTotalNumberOfFiles(testJourneyId)) shouldBe 2
     }
   }
 

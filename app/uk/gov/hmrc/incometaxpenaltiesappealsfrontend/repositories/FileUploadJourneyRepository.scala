@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadJourney, UploadStatus}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadJourney, UploadStatus, UploadStatusEnum}
 import uk.gov.hmrc.mongo.cache.{CacheIdType, CacheItem, DataKey, MongoCacheRepository}
 import uk.gov.hmrc.mongo.{MongoComponent, TimestampSupport}
 
@@ -58,8 +58,11 @@ class FileUploadJourneyRepository @Inject()(mongoComponent: MongoComponent,
       )
     })
 
-  def getNumberOfFiles(journeyId: String): Future[Int] =
-    findById(journeyId).map(_.fold(0)(_.data.values.size))
+  def getTotalNumberOfFiles(journeyId: String): Future[Int] =
+    getAllFiles(journeyId).map(_.size)
+
+  def getNumberOfReadyFiles(journeyId: String): Future[Int] =
+    getAllFiles(journeyId).map(_.count(_.fileStatus == UploadStatusEnum.READY))
 
   def removeFile(journeyId: String, fileReference: String): Future[Unit] =
     delete(journeyId)(DataKey(fileReference))
