@@ -16,17 +16,24 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.ReasonableExcuseMessages
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys.reasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
+import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+
+import scala.Predef.->
+
 
 class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
@@ -44,18 +51,23 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
   "GET /reason-for-missing-deadline" should {
     testNavBar("/reason-for-missing-deadline")()
 
-    "return an OK with a view" when {
+    "return an OK with a view pre-populated" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, AgentClientEnum.agent)
+          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reasonableExcuse)
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
+
+        val document = Jsoup.parse(result.body)
+        document.select(s"#${ReasonableExcusesForm.form}").hasAttr("checked") shouldBe true
+        document.select(s"#${ReasonableExcusesForm.form}-2").hasAttr("checked") shouldBe false
       }
 
       "the user is an authorised agent" in {
         stubAuth(OK, successfulAgentAuthResponse)
+
         val result = get("/reason-for-missing-deadline", isAgent = true)
 
         result.status shouldBe OK
@@ -107,6 +119,48 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
         document.getSubmitButton.text() shouldBe "Continue"
 
+      }
+    }
+  }
+
+
+  "POST /reason-for-missing-deadline" when {
+
+    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavementReason")
+
+    "a valid radio option has been selected" should {
+
+      "save the value to UserAnswers AND redirect to the Honesty Declaration page" in {
+
+        stubAuth(OK, successfulIndividualAuthResponse)
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> "crime"))
+
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+
+      }
+    }
+
+    "the selection for reasonable excuse is invalid" should {
+
+      "render a bad request with the Form Error on the page with a link to the radios in error" in {
+
+        stubAuth(OK, successfulIndividualAuthResponse)
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> ""))
+
+        result.status shouldBe BAD_REQUEST
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
+
+        val document = Jsoup.parse(result.body)
+
+        document.title() should include(ReasonableExcuseMessages.English.errorPrefix)
+        document.select(".govuk-error-summary__title").text() shouldBe ReasonableExcuseMessages.English.thereIsAProblem
+
+        val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+        error1Link.text() shouldBe ReasonableExcuseMessages.English.errorRequired
+        error1Link.attr("href") shouldBe s"#${ReasonableExcusesForm.form}"
       }
     }
   }

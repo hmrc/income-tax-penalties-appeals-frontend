@@ -24,7 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 
 import scala.util.Try
 
-object WhatCausedYouToMissDeadlineForm extends Mappings {
+object  WhatCausedYouToMissDeadlineForm extends Mappings {
 
   val key = "whatCausedYouToMissTheDeadline"
 

@@ -21,8 +21,10 @@ import play.api.data.Forms._
 
 object ReasonableExcusesForm {
 
+  val key = "reasonableExcuse"
+
   val form: Form[String] = Form(
-    single("reasonableExcuse" -> text.verifying("reasonableExcuse.error.message", _.nonEmpty))
+    single(key -> text.verifying("reasonableExcuse.error.message", _.nonEmpty))
   )
 
 }
