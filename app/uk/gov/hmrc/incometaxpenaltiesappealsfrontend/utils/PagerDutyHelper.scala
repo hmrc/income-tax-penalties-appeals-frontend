@@ -36,6 +36,7 @@ object PagerDutyHelper {
     final val INVALID_JSON_RECEIVED_FROM_PENALTIES = Value
     final val INVALID_JSON_RECEIVED_FROM_UPSCAN = Value
     final val FAILED_INITIATE_CALL_UPSCAN = Value
+    final val FAILED_UPSERT_FILE_UPSCAN = Value
     final val UPLOAD_FAILURE_UPSCAN = Value
     final val FILE_REMOVAL_FAILURE_UPSCAN = Value
     final val FILE_VERIFICATION_FAILURE_UPSCAN = Value

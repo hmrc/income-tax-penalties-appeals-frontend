@@ -16,11 +16,13 @@
 
 package fixtures
 
+import play.api.libs.json.{JsObject, Json}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, FailureReasonEnum, UploadDetails, UploadJourney, UploadStatusEnum}
+import uk.gov.hmrc.mongo.cache.CacheItem
 
-import java.time.LocalDateTime
+import java.time.{Instant, LocalDateTime}
 
-trait FileUploadFixtures {
+trait FileUploadFixtures extends BaseFixtures {
 
   val fileRef1 = "ref1"
   val fileRef2 = "ref2"
@@ -73,6 +75,16 @@ trait FileUploadFixtures {
         message = testVirusMessage
       )
     )
+  )
+
+  val createdTime: Instant = Instant.ofEpochMilli(1)
+  val updatedTime: Instant = Instant.ofEpochMilli(2)
+
+  val cacheItem: UploadJourney => CacheItem = upload => CacheItem(
+    id = testJourneyId,
+    data = Json.toJson(upload).as[JsObject],
+    createdAt = createdTime,
+    modifiedAt = updatedTime
   )
 
 }

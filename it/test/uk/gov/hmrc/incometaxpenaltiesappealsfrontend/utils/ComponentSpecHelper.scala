@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import fixtures.BaseFixtures
 import org.mongodb.scala.Document
 import org.mongodb.scala.result.DeleteResult
 import org.scalatest.matchers.should.Matchers
@@ -43,11 +44,11 @@ trait ComponentSpecHelper
     with WiremockHelper
     with BeforeAndAfterAll
     with BeforeAndAfterEach
-    with GuiceOneServerPerSuite {
+    with GuiceOneServerPerSuite
+    with BaseFixtures {
 
   lazy val injector: Injector = app.injector
 
-  val testJourneyId: String = "journeyId123"
   lazy val mockUUIDGenerator: UUIDGenerator = new UUIDGenerator {
     override def generateUUID: String = testJourneyId
   }

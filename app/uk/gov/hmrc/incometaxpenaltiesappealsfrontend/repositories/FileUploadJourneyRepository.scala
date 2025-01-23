@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadJourney, UploadStatus, UploadStatusEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.mongo.cache.{CacheIdType, CacheItem, DataKey, MongoCacheRepository}
 import uk.gov.hmrc.mongo.{MongoComponent, TimestampSupport}
 
@@ -47,22 +47,6 @@ class FileUploadJourneyRepository @Inject()(mongoComponent: MongoComponent,
 
   def getFile(journeyId: String, fileReference: String): Future[Option[UploadJourney]] =
     get[UploadJourney](journeyId)(DataKey(fileReference))
-
-  def getFormFieldsForFile(journeyId: String, fileReference: String): Future[Option[Map[String, String]]] =
-    getFile(journeyId, fileReference).map(_.flatMap(_.uploadFields))
-
-  def getStatusOfFileUpload(journeyId: String, fileReference: String): Future[Option[UploadStatus]] =
-    getFile(journeyId, fileReference).map(_.map { upload =>
-      upload.failureDetails.fold(UploadStatus(upload.fileStatus.toString))(failure =>
-        UploadStatus(failure.failureReason.toString, Some(failure.message))
-      )
-    })
-
-  def getTotalNumberOfFiles(journeyId: String): Future[Int] =
-    getAllFiles(journeyId).map(_.size)
-
-  def getNumberOfReadyFiles(journeyId: String): Future[Int] =
-    getAllFiles(journeyId).map(_.count(_.fileStatus == UploadStatusEnum.READY))
 
   def removeFile(journeyId: String, fileReference: String): Future[Unit] =
     delete(journeyId)(DataKey(fileReference))
