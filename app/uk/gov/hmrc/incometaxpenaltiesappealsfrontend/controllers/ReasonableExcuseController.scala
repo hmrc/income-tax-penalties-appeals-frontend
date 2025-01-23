@@ -53,7 +53,7 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
       formWithErrors =>
         Future(BadRequest(reasonableExcusePage(
           isAgent = user.isAgent,
-          form = fillForm(formWithErrors, ReasonableExcusePage),
+          form = formWithErrors
         ))),
       reasonableExcuse =>
         reasonableExcuse match {

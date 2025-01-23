@@ -18,14 +18,14 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components.ErrorSummary
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.govukfrontend.views.Implicits._
 
 
 @this(layout: Layout,
       govukRadios : GovukRadios,
       formHelper: FormWithCSRF,
-      errorSummary: ErrorSummary,
+      govukErrorSummary: GovukErrorSummary,
       govukButton : GovukButton)
 
 @(isAgent: Boolean, form: Form[_])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
@@ -34,8 +34,9 @@
 
 @layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
-    @errorSummary(form, Some("reasonableExcuse"))
-
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.submit()) {
 
