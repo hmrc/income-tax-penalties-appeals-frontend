@@ -42,22 +42,21 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
     Future(Ok(reasonableExcusePage(
-      form = fillForm(ReasonableExcusesForm.form, ReasonableExcusePage),
+      form = fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage),
       isAgent = currentUser.isAgent
     )))
   }
 
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    ReasonableExcusesForm.form.bindFromRequest().fold(
+    ReasonableExcusesForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(reasonableExcusePage(
           isAgent = user.isAgent,
           form = formWithErrors
         ))),
-      reasonableExcuse =>
-        reasonableExcuse match {
-          case ("technicalReason" | "bereavementReason" | "fireOrFloodReason" | "crimeReason") =>
+       {
+          case reasonableExcuse@("technicalReason" | "bereavementReason" | "fireOrFloodReason" | "crimeReason") =>
             val updatedAnswers = user.userAnswers.setAnswer(ReasonableExcusePage, reasonableExcuse)
             userAnswersService.updateAnswers(updatedAnswers).map { _ =>
               Redirect(routes.HonestyDeclarationController.onPageLoad())

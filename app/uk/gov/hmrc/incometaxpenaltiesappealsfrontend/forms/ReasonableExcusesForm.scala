@@ -18,13 +18,15 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.i18n.Messages
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
 
-object ReasonableExcusesForm {
+object ReasonableExcusesForm extends Mappings {
 
   val key = "reasonableExcuse"
 
-  val form: Form[String] = Form(
-    single(key -> text.verifying("reasonableExcuse.error.message", _.nonEmpty))
+  def form()(implicit messages: Messages): Form[String] = Form(
+    single(key -> text(messages("reasonableExcuse.error.message")))
   )
 
 }
