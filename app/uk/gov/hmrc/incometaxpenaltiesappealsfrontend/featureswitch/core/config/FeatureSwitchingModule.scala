@@ -26,7 +26,8 @@ import javax.inject.Singleton
 class FeatureSwitchingModule extends Module with FeatureSwitchRegistry {
 
   val switches: Seq[FeatureSwitch] = Seq(
-    UseStubForBackend
+    UseStubForBackend,
+    UseUpscanStub
   )
 
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
@@ -39,4 +40,9 @@ class FeatureSwitchingModule extends Module with FeatureSwitchRegistry {
 case object UseStubForBackend extends FeatureSwitch {
   override val configName: String = "features.useStubForBackend"
   override val displayName: String = "Use stub instead of Penalties backend service"
+}
+
+case object UseUpscanStub extends FeatureSwitch {
+  override val configName: String = "features.useUpscanStub"
+  override val displayName: String = "Use upscan-stub instead of upscan"
 }

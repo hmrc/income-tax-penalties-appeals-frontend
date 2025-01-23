@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
 import play.api.Configuration
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend, UseUpscanStub}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
@@ -43,6 +43,9 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   def messagesFrontendBaseUrl: String =
     if (isEnabled(UseStubForBackend)) s"${servicesConfig.baseUrl("income-tax-penalties-stubs")}/income-tax-penalties-stubs"
     else servicesConfig.baseUrl("message-frontend")
+
+  def upscanBaseUrl: String =
+    if (isEnabled(UseUpscanStub)) servicesConfig.baseUrl("upscan-stub") else servicesConfig.baseUrl("upscan")
 
   def btaBaseUrl: String = servicesConfig.baseUrl("business-tax-account")
 
