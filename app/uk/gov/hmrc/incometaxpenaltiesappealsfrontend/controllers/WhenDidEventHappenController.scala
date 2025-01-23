@@ -54,34 +54,30 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
 
   def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
 
-    val optReasonableExcuse = user.session.get(IncomeTaxSessionKeys.reasonableExcuse)
 
-    optReasonableExcuse match {
-      case Some(reasonableExcuse) =>
-          WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
-          formWithErrors =>
-           Future.successful(BadRequest(whenDidEventHappenView(
-              user.isAgent,
-              reasonableExcuse,
-              formWithErrors
-            ))),
-          dateOfEvent => {
-            val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
-            userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-              reasonableExcuse match {
-                case "technicalReason" =>
-                  Redirect(routes.WhenDidEventEndController.onPageLoad())
-                case "bereavementReason" | "fireOrFloodReason" =>
-                  Redirect(routes.LateAppealController.onPageLoad())
-                case "crimeReason" =>
-                  Redirect(routes.CrimeReportedController.onPageLoad())
-                case _ =>
-                  Redirect(routes.AppealStartController.onPageLoad())
-              }
+    withReasonableExcuseAnswer { reasonableExcuse =>
+      WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
+        formWithErrors =>
+          Future.successful(BadRequest(whenDidEventHappenView(
+            user.isAgent,
+            reasonableExcuse,
+            formWithErrors
+          ))),
+        dateOfEvent => {
+          val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
+          userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+            reasonableExcuse match {
+              case "technicalReason" =>
+                Redirect(routes.WhenDidEventEndController.onPageLoad())
+              case "bereavementReason" | "fireOrFloodReason" =>
+                Redirect(routes.LateAppealController.onPageLoad())
+              case "crimeReason" =>
+                Redirect(routes.CrimeReportedController.onPageLoad())
+              case _ =>
+                Redirect(routes.AppealStartController.onPageLoad())
             }
-          })
-      case _ =>
-        Future.successful(Redirect(routes.ReasonableExcuseController.onPageLoad()))
+          }
+        })
     }
   }
 

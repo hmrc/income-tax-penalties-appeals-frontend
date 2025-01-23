@@ -19,6 +19,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings
 import play.api.data.FormError
 import play.api.data.format.Formatter
 
+import scala.util.control.Exception.nonFatalCatch
+
 trait Formatters {
 
   private[mappings] def stringFormatter(message: String): Formatter[String] = new Formatter[String] {
