@@ -55,6 +55,70 @@ crimeReason.unknown = Nid wyf yn gwybod
 crimeReason.error.required = Tell us if the police have been told about the crime (Welsh)
 crimeReason.error.invalid = Tell us if the police have been told about the crime (Welsh)
 
+# When did the event happen page
+# ----------------------------------------------------------
+whenDidEventHappen.bereavementReason.headingAndTitle = When did the person die? (Welsh)
+whenDidEventHappen.cessationReason.headingAndTitle = TBC cessationReason (Welsh)
+whenDidEventHappen.crimeReason.headingAndTitle = When did the crime happen? (Welsh)
+whenDidEventHappen.fireOrFloodReason.headingAndTitle = When did the fire or flood happen? (Welsh)
+whenDidEventHappen.healthReason.headingAndTitle = TBC healthReason (Welsh)
+whenDidEventHappen.technicalReason.headingAndTitle = When did the software or technology issues begin? (Welsh)
+whenDidEventHappen.unexpectedHospitalReason.headingAndTitle = TBC unexpectedHospitalReason (Welsh)
+whenDidEventHappen.otherReason.headingAndTitle = TBC otherReason (Welsh)
+
+# Date input fields
+# ----------------------------------------------------------
+date.day = Diwrnod
+date.month = Mis
+date.year = Blwyddyn
+
+crimeReason.date.error.invalid = The date of the crime must be a real date (Welsh)
+fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
+technicalReason.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
+bereavementReason.date.error.invalid = The date the person died must be a real date (Welsh)
+cessationReason.date.error.invalid = TBC (Welsh)
+healthReason.date.error.invalid = TBC (Welsh)
+unexpectedHospitalReason.date.error.invalid = TBC (Welsh)
+otherReason.date.error.invalid = TBC (Welsh)
+
+crimeReason.date.error.required.all = Enter the date of the crime (Welsh)
+fireOrFloodReason.date.error.required.all = Enter the date of the fire or flood (Welsh)
+technicalReason.date.error.required.all = Enter the date when the software or technology issues began (Welsh)
+bereavementReason.date.error.required.all = Enter the date when the person died (Welsh)
+cessationReason.date.error.required.all = TBC (Welsh)
+healthReason.date.error.required.all = TBC (Welsh)
+unexpectedHospitalReason.date.error.required.all = TBC (Welsh)
+otherReason.date.error.required.all = TBC (Welsh)
+
+crimeReason.date.error.required.two = The date of the crime must include a {0} and a {1} (Welsh)
+fireOrFloodReason.date.error.required.two = The date of the fire or flood must include a {0} and a {1} (Welsh)
+technicalReason.date.error.required.two = The date the software or technology issues began must include a {0} and a {1} (Welsh)
+bereavementReason.date.error.required.two = The date the person died must include a {0} and a {1} (Welsh)
+cessationReason.date.error.required.two = TBC (Welsh)
+healthReason.date.error.required.two = TBC (Welsh)
+unexpectedHospitalReason.date.error.required.two = TBC (Welsh)
+otherReason.date.error.required.two = TBC (Welsh)
+
+crimeReason.date.error.required = The date of the crime must include a {0} (Welsh)
+fireOrFloodReason.date.error.required = The date of the fire or flood must include a {0} (Welsh)
+technicalReason.date.error.required = The date the software or technology issues began must include a {0} (Welsh)
+bereavementReason.date.error.required = The date the person died must include a {0} (Welsh)
+cessationReason.date.error.required = TBC (Welsh)
+healthReason.date.error.required = TBC (Welsh)
+unexpectedHospitalReason.date.error.required = TBC (Welsh)
+otherReason.date.error.required = TBC (Welsh)
+
+crimeReason.date.error.notInFuture = The date of the crime must be today or in the past (Welsh)
+fireOrFloodReason.date.error.notInFuture = The date of the fire or flood must be today or in the past (Welsh)
+technicalReason.date.error.notInFuture = The date the software or technology issues began must be today or in the past (Welsh)
+bereavementReason.date.error.notInFuture = The date the person died must be today or in the past (Welsh)
+cessationReason.date.error.notInFuture = TBC (Welsh)
+healthReason.date.error.notInFuture = TBC (Welsh)
+unexpectedHospitalReason.date.error.notInFuture = TBC (Welsh)
+otherReason.date.error.notInFuture = TBC (Welsh)
+
+common.dateHint = For example, 12 3 2018 (Welsh)
+
 
 # Reasonable excuse
 # ----------------------------------------------------------
@@ -71,3 +135,4 @@ reasonableExcuses.unexpectedHospitalReason = Unexpected hospital stay (Welsh)
 reasonableExcuses.otherReason = The reason does not fit into any of the other categories (Welsh)
 reasonableExcuses.otherReason.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
 reasonableExcuse.error.message = You must select an option (Welsh)
+

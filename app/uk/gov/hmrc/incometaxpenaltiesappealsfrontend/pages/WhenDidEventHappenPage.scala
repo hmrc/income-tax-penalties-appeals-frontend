@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
-import java.time.{LocalDate, LocalDateTime}
-import javax.inject.{Inject, Singleton}
+import java.time.LocalDate
 
-@Singleton
-class TimeMachine @Inject() {
-  def getCurrentDateTime: LocalDateTime = LocalDateTime.now()
-  def getCurrentDate: LocalDate = getCurrentDateTime.toLocalDate
+object WhenDidEventHappenPage extends Page[LocalDate] {
+  val key = "whenDidEventHappenDate"
 }

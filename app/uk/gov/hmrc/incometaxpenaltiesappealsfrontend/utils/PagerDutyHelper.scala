@@ -36,6 +36,7 @@ object PagerDutyHelper {
     final val INVALID_JSON_RECEIVED_FROM_PENALTIES = Value
     final val INVALID_JSON_RECEIVED_FROM_UPSCAN = Value
     final val FAILED_INITIATE_CALL_UPSCAN = Value
+    final val FAILED_UPSERT_FILE_UPSCAN = Value
     final val UPLOAD_FAILURE_UPSCAN = Value
     final val FILE_REMOVAL_FAILURE_UPSCAN = Value
     final val FILE_VERIFICATION_FAILURE_UPSCAN = Value
@@ -44,15 +45,21 @@ object PagerDutyHelper {
     final val MULTI_APPEAL_FAILURE = Value
   }
 
-  def log(methodName: String, pagerDutyKey: PagerDutyKeys.Value): Unit = {
-    logger.warn(s"$pagerDutyKey - $methodName")
+  def log(className: String,
+          methodName: String,
+          pagerDutyKey: PagerDutyKeys.Value,
+          identifiers: Map[String, String] = Map()): Unit = {
+    val ids: String = identifiers.map { case (key, value) => s"$key: $value" }.mkString(", ")
+    logger.warn(s"[$pagerDutyKey][$className][$methodName] $ids")
   }
 
-  def logStatusCode(methodName: String, code: Int)(keyOn4xx: PagerDutyKeys.Value, keyOn5xx: PagerDutyKeys.Value): Unit = {
+  def logStatusCode(className: String,
+                    methodName: String,
+                    code: Int,
+                    identifiers: Map[String, String] = Map())(keyOn4xx: PagerDutyKeys.Value, keyOn5xx: PagerDutyKeys.Value): Unit =
     code match {
-      case code if code >= 400 && code <= 499 => log(methodName, keyOn4xx)
-      case code if code >= 500 => log(methodName, keyOn5xx)
+      case code if code >= 400 && code <= 499 => log(className, methodName, keyOn4xx, identifiers)
+      case code if code >= 500 => log(className, methodName, keyOn5xx, identifiers)
       case _ =>
     }
-  }
 }

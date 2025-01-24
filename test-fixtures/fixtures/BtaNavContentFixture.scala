@@ -18,7 +18,7 @@ package fixtures
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.{NavContent, NavLink}
 
-trait BtaNavContentFixture {
+trait BtaNavContentFixture extends BaseFixtures {
 
   val btaHomeLink: NavLink = NavLink(en = "Home", cy = "Home (Welsh)", url = "/home", alerts = Some(0))
   val btaAccountLink: NavLink = NavLink(en = "Home", cy = "Home (Welsh)", url = "/home", alerts = Some(0))

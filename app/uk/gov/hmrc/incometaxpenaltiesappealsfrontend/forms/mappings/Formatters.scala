@@ -19,6 +19,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings
 import play.api.data.FormError
 import play.api.data.format.Formatter
 
+import scala.util.control.Exception.nonFatalCatch
+
 trait Formatters {
 
   private[mappings] def stringFormatter(message: String): Formatter[String] = new Formatter[String] {
@@ -34,4 +36,26 @@ trait Formatters {
     override def unbind(key: String, value: String): Map[String, String] =
       Map(key -> value.trim)
   }
+
+  private[mappings] def intFormatter(requiredKey: String, nonNumericKey: String, args: Seq[String] = Seq.empty): Formatter[Int] =
+    new Formatter[Int] {
+
+      val formattingCharacters = "[\\s,\\-\\(\\)\\/\\.\\\\]"
+
+      private val baseFormatter = stringFormatter(requiredKey)
+
+      override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Int] =
+        baseFormatter
+          .bind(key, data)
+          .map(_.replaceAll(formattingCharacters, ""))
+          .flatMap {
+            s =>
+              nonFatalCatch
+                .either(s.toInt)
+                .left.map(_ => Seq(FormError(key, nonNumericKey, args)))
+          }
+
+      override def unbind(key: String, value: Int): Map[String, String] =
+        baseFormatter.unbind(key, value.toString)
+    }
 }

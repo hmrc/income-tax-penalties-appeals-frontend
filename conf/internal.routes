@@ -1,0 +1,4 @@
+#Internal routes
+
++nocsrf
+POST       /upscan-callback/:journeyId             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal.UpscanCallbackController.callbackFromUpscan(journeyId: String)

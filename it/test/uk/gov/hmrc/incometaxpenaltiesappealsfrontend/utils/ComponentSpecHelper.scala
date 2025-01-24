@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import fixtures.BaseFixtures
 import org.mongodb.scala.Document
 import org.mongodb.scala.result.DeleteResult
 import org.scalatest.matchers.should.Matchers
@@ -43,11 +44,11 @@ trait ComponentSpecHelper
     with WiremockHelper
     with BeforeAndAfterAll
     with BeforeAndAfterEach
-    with GuiceOneServerPerSuite {
+    with GuiceOneServerPerSuite
+    with BaseFixtures {
 
   lazy val injector: Injector = app.injector
 
-  val testJourneyId: String = "journeyId123"
   lazy val mockUUIDGenerator: UUIDGenerator = new UUIDGenerator {
     override def generateUUID: String = testJourneyId
   }
@@ -79,6 +80,8 @@ trait ComponentSpecHelper
     "microservice.services.message-frontend.port" -> mockPort,
     "microservice.services.business-tax-account.host" -> mockHost,
     "microservice.services.business-tax-account.port" -> mockPort,
+    "microservice.services.upscan-initiate.host" -> mockHost,
+    "microservice.services.upscan-initiate.port" -> mockPort,
     "auditing.enabled" -> "true",
     "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck"
   )
@@ -153,9 +156,10 @@ trait ComponentSpecHelper
 
   val baseUrl: String = "/view-or-appeal-penalty/self-assessment"
 
-  private def buildClient(path: String): WSRequest =
-    ws.url(s"http://localhost:$port$baseUrl$path").withFollowRedirects(false)
-
+  private def buildClient(path: String): WSRequest = {
+    val pathBuilder = if(path.startsWith("/internal/")) path else s"$baseUrl$path"
+    ws.url(s"http://localhost:$port$pathBuilder").withFollowRedirects(false)
+  }
 
   val cyLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "cy")
 
