@@ -19,31 +19,61 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
+import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhenDidEventEndController @Inject()(whenDidEventEndPage: WhenDidEventEndPage,
+class WhenDidEventEndController @Inject()(whenDidEventEndView: WhenDidEventEndPage,
                                           val authorised: AuthAction,
                                           withNavBar: NavBarRetrievalAction,
                                           withAnswers: UserAnswersAction,
-                                          override val errorHandler: ErrorHandler,
-                                          override val controllerComponents: MessagesControllerComponents
-                                         )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                          userAnswersService: UserAnswersService,
+                                          override val controllerComponents: MessagesControllerComponents,
+                                          override val errorHandler: ErrorHandler
+                                         )(implicit ec: ExecutionContext,
+                                           val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(whenDidEventEndPage(
-        true, currentUser.isAgent, reasonableExcuse
-      )))
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    user.userAnswers.getAnswer[LocalDate](WhenDidEventHappenPage) match {
+      case Some(startDate) => withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+          Future(Ok(whenDidEventEndView(
+            form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
+            isAgent = user.isAgent,
+            reasonableExcuseMessageKey = reasonableExcuse
+          )))
+        }
+      case None => errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
     }
   }
 
-  def submit(): Action[AnyContent] = authorised { _ =>
-    Redirect(routes.LateAppealController.onPageLoad())
+
+  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+    user.userAnswers.getAnswer[LocalDate](WhenDidEventHappenPage) match {
+      case Some(startDate) => withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+        WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
+          formWithErrors =>
+            Future.successful(BadRequest(whenDidEventEndView(
+              user.isAgent,
+              reasonableExcuse,
+              formWithErrors
+            ))),
+          dateOfEvent => {
+            val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventEndPage, dateOfEvent)
+            userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+              Redirect(routes.LateAppealController.onPageLoad())
+            }
+          })
+      }
+      case None => errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+    }
   }
+
 }

@@ -33,12 +33,29 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.i18n.Messages
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers.ImplicitDateFormatter
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
-object WhenDidEventEndForm {
+import java.time.LocalDate
 
-  val form: Form[String] = Form(
-    single("reasonableExcuse" -> text.verifying("reasonableExcuse.error.message", _.nonEmpty))
-  )
+object WhenDidEventEndForm extends Mappings {
 
+  val key = "date"
+
+  def form(reasons: String, startDate: LocalDate)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
+    Form(
+      key -> localDate(
+        invalidKey = s"$reasons.end.date.error.invalid",
+        allRequiredKey = s"$reasons.end.date.error.required.all",
+        twoRequiredKey = s"$reasons.end.date.error.required.two",
+        requiredKey = s"$reasons.end.date.error.required",
+        futureKey = Some(s"$reasons.end.date.error.notInFuture"),
+        //Using the messages API as it's easier to pass in the startDate message param
+        dateNotEqualOrAfterKeyAndCompareDate = Some((messages(s"$reasons.end.date.error.endDateLessThanStartDate", ImplicitDateFormatter.dateToString(startDate)), startDate))
+      )
+    )
+  }
 }
