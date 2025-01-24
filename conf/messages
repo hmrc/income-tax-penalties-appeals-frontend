@@ -34,6 +34,7 @@ reasonableExcuses.technicalReason = Software or technology issues
 reasonableExcuses.unexpectedHospitalReason = Unexpected hospital stay
 reasonableExcuses.otherReason = The reason does not fit into any of the other categories
 reasonableExcuses.otherReason.hint = You should only choose this if the reason is not covered by any of the other options.
+reasonableExcuse.error.message = You must select an option
 
 
 # Honesty declaration

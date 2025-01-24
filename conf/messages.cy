@@ -118,3 +118,21 @@ unexpectedHospitalReason.date.error.notInFuture = TBC (Welsh)
 otherReason.date.error.notInFuture = TBC (Welsh)
 
 common.dateHint = For example, 12 3 2018 (Welsh)
+
+
+# Reasonable excuse
+# ----------------------------------------------------------
+reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline? (Welsh)
+reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline. (Welsh)
+reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client''s ability to meet the deadline. (Welsh)
+reasonableExcuses.bereavementReason = Bereavement (someone died) (Welsh)
+reasonableExcuses.cessationReason = Cessation of income source (Welsh)
+reasonableExcuses.crimeReason = Crime (Welsh)
+reasonableExcuses.fireOrFloodReason = Fire or flood (Welsh)
+reasonableExcuses.healthReason = Serious or life-threatening ill health (Welsh)
+reasonableExcuses.technicalReason = Software or technology issues (Welsh)
+reasonableExcuses.unexpectedHospitalReason = Unexpected hospital stay (Welsh)
+reasonableExcuses.otherReason = The reason does not fit into any of the other categories (Welsh)
+reasonableExcuses.otherReason.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
+reasonableExcuse.error.message = You must select an option (Welsh)
+

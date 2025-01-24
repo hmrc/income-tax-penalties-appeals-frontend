@@ -44,14 +44,7 @@ trait BaseUserAnswersController extends FrontendBaseController with I18nSupport 
     }
 
   def withReasonableExcuseAnswer(f: String => Future[Result])(implicit user: CurrentUserRequestWithAnswers[_], ec: ExecutionContext): Future[Result] =
-    //TODO: Remove this user.session code once the ReasonableExcuse page has been updated to store the answer to UserAnswers/
-    //      This is temporary backwards compatability to support the old Session based storage.
-    //      Once the ReasonableExcuse page has been updated to store the answer to UserAnswers this
-    //      must be removed!
-    user.session.get(IncomeTaxSessionKeys.reasonableExcuse) match {
-      case Some(reasonableExcuse) => f(reasonableExcuse)
-      case _ => withAnswer(ReasonableExcusePage) { f(_) }
-    }
+    withAnswer(ReasonableExcusePage)(f)
 
   def fillForm[A](form: Form[A], page: Page[A])(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Form[A] =
     user.userAnswers.getAnswer(page).fold(form)(form.fill)
