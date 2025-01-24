@@ -72,6 +72,32 @@ date.day = Diwrnod
 date.month = Mis
 date.year = Blwyddyn
 
+# NonJS File Upload Page
+# ----------------------------------------------------------
+uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal (Welsh)
+uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty. (Welsh)
+uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)
+uploadEvidence.nonJs.p3 = You can upload up to {0} files. (Welsh)
+uploadEvidence.nonJs.p4 = Each file must be smaller than 6MB. (Welsh)
+uploadEvidence.nonJs.label = Select a file (Welsh)
+
+# NonJS File Upload Page
+# ----------------------------------------------------------
+uploadEvidence.typesOfFile.heading = Types of file you can upload (Welsh)
+uploadEvidence.typesOfFile.p1 = These file types are allowed: (Welsh)
+uploadEvidence.typesOfFile.li.1 = image (.jpg, .jpeg, .png or .tiff) (Welsh)
+uploadEvidence.typesOfFile.li.2 = PDF (.pdf) (Welsh)
+uploadEvidence.typesOfFile.li.3 = email (.txt or .msg) (Welsh)
+uploadEvidence.typesOfFile.li.4 = Microsoft (Word, Excel or PowerPoint) (Welsh)
+uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF) (Welsh)
+
+# Synchronous Upscan Error
+# ----------------------------------------------------------
+uploadEvidence.error.fileTooSmall = Mae’r ffeil dan sylw yn wag. Dewiswch ffeil arall.
+uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na 6 MB. Dewiswch ffeil arall.
+uploadEvidence.error.noFileSpecified = Dewiswch ffeil.
+uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall.
+
 crimeReason.date.error.invalid = The date of the crime must be a real date (Welsh)
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
@@ -118,6 +144,9 @@ unexpectedHospitalReason.date.error.notInFuture = TBC (Welsh)
 otherReason.date.error.notInFuture = TBC (Welsh)
 
 common.dateHint = For example, 12 3 2018 (Welsh)
+common.continue = Continue (Welsh)
+common.acceptAndContinue = Accept and continue (Welsh)
+common.or = or (Welsh)
 
 
 # Reasonable excuse

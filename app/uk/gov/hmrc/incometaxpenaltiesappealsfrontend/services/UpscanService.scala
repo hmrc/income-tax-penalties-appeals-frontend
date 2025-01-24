@@ -20,12 +20,11 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney, UploadStatus, UploadStatusEnum, UpscanInitiateRequest, UpscanInitiateResponse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ExceptionHandlingUtil, TimeMachine}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
-import uk.gov.hmrc.mongo.cache.CacheItem
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ExceptionHandlingUtil, TimeMachine}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

@@ -26,8 +26,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 case class CurrentUserRequestWithAnswers[A](mtdItId: String,
                                             arn: Option[String] = None,
                                             override val navBar: Option[Html] = None,
-                                            userAnswers: UserAnswers)(implicit request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
+                                            userAnswers: UserAnswers)(implicit val request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
   val isAgent: Boolean = arn.isDefined
+  val journeyId: String = userAnswers.journeyId
 
   def getMandatoryAnswer[A](page: Page[A])(implicit reads: Reads[A]): A =
     userAnswers.getAnswer(page) match {

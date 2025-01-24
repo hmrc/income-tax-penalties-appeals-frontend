@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-import java.time.LocalDateTime
-import javax.inject.Inject
+@this(govukDetails: GovukDetails)
 
-class DateTimeHelper @Inject() {
+@(summary: String, content: Html)(implicit messages: Messages)
 
-  def dateTimeNow: LocalDateTime = LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
-}
+@govukDetails(Details(summary = HtmlContent(messages(summary)), content = HtmlContent(content)))

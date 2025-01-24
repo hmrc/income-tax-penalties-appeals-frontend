@@ -1,6 +1,9 @@
 # microservice specific routes
 
 ->         /hmrc-frontend                   hmrcfrontend.Routes
+
+->         /upload-supporting-evidence      upscan.Routes
+
 GET        /logout                          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ServiceController.logout
 GET        /keep-alive                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ServiceController.keepAlive
 GET        /assets/*file                    controllers.Assets.versioned(path = "/public", file: Asset)

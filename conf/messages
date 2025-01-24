@@ -228,6 +228,32 @@ date.day = Day
 date.month = Month
 date.year = Year
 
+# NonJS File Upload Page
+# ----------------------------------------------------------
+uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal
+uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty.
+uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed.
+uploadEvidence.nonJs.p3 = You can upload up to {0} files.
+uploadEvidence.nonJs.p4 = Each file must be smaller than 6MB.
+uploadEvidence.nonJs.label = Select a file
+
+# NonJS File Upload Page
+# ----------------------------------------------------------
+uploadEvidence.typesOfFile.heading = Types of file you can upload
+uploadEvidence.typesOfFile.p1 = These file types are allowed:
+uploadEvidence.typesOfFile.li.1 = image (.jpg, .jpeg, .png or .tiff)
+uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
+uploadEvidence.typesOfFile.li.3 = email (.txt or .msg)
+uploadEvidence.typesOfFile.li.4 = Microsoft (Word, Excel or PowerPoint)
+uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF)
+
+# Synchronous Upscan Error
+# ----------------------------------------------------------
+uploadEvidence.error.fileTooSmall = The selected file is empty. Choose another file.
+uploadEvidence.error.fileTooLarge = The selected file must be smaller than 6MB. Choose another file.
+uploadEvidence.error.noFileSpecified = Select a file.
+uploadEvidence.error.unableToUpload = The selected file could not be uploaded. Choose another file.
+
 crimeReason.date.error.invalid = The date of the crime must be a real date
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date
@@ -274,8 +300,6 @@ unexpectedHospitalReason.date.error.notInFuture = TBC
 otherReason.date.error.notInFuture = TBC
 
 common.dateHint = For example, 12 3 2018
-
-
 common.continue = Continue
 common.acceptAndContinue = Accept and continue
 common.or = or
