@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan
 
-import java.time.{LocalDate, LocalDateTime}
-import javax.inject.{Inject, Singleton}
+import play.api.libs.json._
 
-@Singleton
-class TimeMachine @Inject() {
-  def getCurrentDateTime: LocalDateTime = LocalDateTime.now()
-  def getCurrentDate: LocalDate = getCurrentDateTime.toLocalDate
+case class UpscanInitiateResponse(reference: String, uploadRequest: UploadFormFields)
+
+object UpscanInitiateResponse {
+  implicit val formats: Format[UpscanInitiateResponse] = Json.format[UpscanInitiateResponse]
 }

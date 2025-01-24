@@ -24,25 +24,97 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureReasonEnum, UploadStatus, UploadStatusEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.BadRequest
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.MockUpscanInitiateConnector
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureReasonEnum, UploadStatus, UploadStatusEnum, UpscanInitiateRequest}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.mocks.MockFileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 
+import java.time.LocalDateTime
 import scala.concurrent.{ExecutionContext, Future}
 
 class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with GuiceOneAppPerSuite
   with MockFileUploadJourneyRepository
+  with MockUpscanInitiateConnector
   with FileUploadFixtures
   with LogCapturing {
 
   val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val ec: ExecutionContext = ExecutionContext.global
 
-  val testService = new UpscanService(mockFileUploadJourneyRepository)
+  lazy val testDateTime: LocalDateTime = LocalDateTime.now()
+
+  lazy val timeMachine: TimeMachine = new TimeMachine {
+    override def getCurrentDateTime: LocalDateTime = testDateTime
+  }
+
+  val testService = new UpscanService(
+    mockUpscanInitiateConnector,
+    mockFileUploadJourneyRepository,
+    appConfig,
+    timeMachine
+  )
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
+
+  "calling .initiateNewFileUpload()" when {
+
+    val initiateRequest = UpscanInitiateRequest(testJourneyId, appConfig)
+
+    "a successful response is returned from the UpscanConnector" when {
+
+      "the response is successfully written to Mongo" should {
+
+        "return the response" in {
+          mockInitiate(testJourneyId, initiateRequest)(Future.successful(Right(initiateResponse)))
+          mockUpsertFileUpload(testJourneyId, waitingFile.copy(lastUpdated = testDateTime))(Future.successful(cacheItem(waitingFile)))
+
+          await(testService.initiateNewFileUpload(testJourneyId)) shouldBe initiateResponse
+        }
+      }
+
+      "the response fails to be written to Mongo" should {
+
+        "throw and exception with useful logging, including a PagerDuty trigger" in {
+          mockInitiate(testJourneyId, initiateRequest)(Future.successful(Right(initiateResponse)))
+          mockUpsertFileUpload(testJourneyId, waitingFile.copy(lastUpdated = testDateTime))(Future.failed(new Exception("bang")))
+
+          withCaptureOfLoggingFrom(logger) { logs =>
+            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId)))
+            logs.exists(_.getMessage.contains(s"[$FAILED_INITIATE_CALL_UPSCAN][UpscanService][initiateNewFileUpload] An exception of type Exception occurred for journeyId: $testJourneyId")) shouldBe true
+          }
+        }
+      }
+    }
+
+    "an error response is returned from the UpscanInitiateConnector" when {
+
+      "the response is a Left" should {
+
+        "throw and exception with useful logging, including a PagerDuty trigger" in {
+          mockInitiate(testJourneyId, initiateRequest)(Future.successful(Left(BadRequest)))
+          withCaptureOfLoggingFrom(logger) { logs =>
+            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId)))
+            logs.exists(_.getMessage.contains(s"[$FAILED_INITIATE_CALL_UPSCAN][UpscanService][initiateNewFileUpload] An exception of type Exception occurred for journeyId: $testJourneyId")) shouldBe true
+          }
+        }
+      }
+
+      "the response is a failed future" should {
+
+        "throw and exception with useful logging, including a PagerDuty trigger" in {
+          mockInitiate(testJourneyId, initiateRequest)(Future.failed(new Exception("bang")))
+          withCaptureOfLoggingFrom(logger) { logs =>
+            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId)))
+            logs.exists(_.getMessage.contains(s"[$FAILED_INITIATE_CALL_UPSCAN][UpscanService][initiateNewFileUpload] An exception of type Exception occurred for journeyId: $testJourneyId")) shouldBe true
+          }
+        }
+      }
+    }
+  }
 
   "calling .upsertFileUpload()" when {
 

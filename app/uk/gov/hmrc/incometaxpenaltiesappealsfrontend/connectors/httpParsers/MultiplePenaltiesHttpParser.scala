@@ -39,7 +39,7 @@ object MultiplePenaltiesHttpParser {
           response.json.validate[MultiplePenaltiesData](MultiplePenaltiesData.format) match {
             case JsSuccess(model, _) => Right(model)
             case _ =>
-              PagerDutyHelper.log("MultiplePenaltiesResponseReads", INVALID_JSON_RECEIVED_FROM_PENALTIES)
+              PagerDutyHelper.log("MultiplePenaltiesResponseReads", "read", INVALID_JSON_RECEIVED_FROM_PENALTIES)
               Left(InvalidJson)
           }
         case NO_CONTENT =>
@@ -49,7 +49,7 @@ object MultiplePenaltiesHttpParser {
           logger.warn(s"$startOfLogging Conflict status has been returned with body: ${response.body}")
           Left(UnexpectedFailure(CONFLICT, response.body))
         case status =>
-          PagerDutyHelper.logStatusCode("MultiplePenaltiesResponseReads", status)(RECEIVED_4XX_FROM_PENALTIES, RECEIVED_5XX_FROM_PENALTIES)
+          PagerDutyHelper.logStatusCode("MultiplePenaltiesResponseReads", "read", status)(RECEIVED_4XX_FROM_PENALTIES, RECEIVED_5XX_FROM_PENALTIES)
           logger.warn(s"$startOfLogging Unexpected response, status $status returned")
           Left(UnexpectedFailure(status, s"Unexpected response, status $status returned"))
       }

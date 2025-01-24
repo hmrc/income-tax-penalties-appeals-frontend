@@ -44,6 +44,8 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
     if (isEnabled(UseStubForBackend)) s"${servicesConfig.baseUrl("income-tax-penalties-stubs")}/income-tax-penalties-stubs"
     else servicesConfig.baseUrl("message-frontend")
 
+  def upscanInitiateBaseUrl: String = servicesConfig.baseUrl("upscan-initiate")
+
   def btaBaseUrl: String = servicesConfig.baseUrl("business-tax-account")
 
   val appName: String = servicesConfig.getString("appName")
@@ -78,5 +80,10 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 
   lazy val numberOfCharsInTextArea: Int = config.get[Int]("constants.numberOfCharsInTextArea")
+
+  lazy val host: String = config.get[String]("income-tax-penalties-appeals-frontend-host")
+
+  lazy val upscanMinFileSize: Int = config.get[Int]("upscan.minFileSize")
+  lazy val upscanMaxFileSize: Int = config.get[Int]("upscan.maxFileSize")
 
 }

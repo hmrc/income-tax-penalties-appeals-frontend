@@ -35,13 +35,13 @@ trait BtaNavLinksHttpParser {
             case JsSuccess(navLinks, _) =>
               navLinks
             case JsError(errors) =>
-              PagerDutyHelper.log("BtaNavLinksHttpParser: BtaNavLinksReads", INVALID_JSON_RECEIVED_FROM_BTA)
+              PagerDutyHelper.log("BtaNavLinksReads", "read", INVALID_JSON_RECEIVED_FROM_BTA)
               logger.debug(s"[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model - failures: $errors")
               logger.error("[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model, returning None to continue gracefully")
               None
           }
         case status =>
-          PagerDutyHelper.logStatusCode("BtaNavLinksHttpParser: BtaNavLinksReads", status)(RECEIVED_4XX_FROM_BTA, RECEIVED_5XX_FROM_BTA)
+          PagerDutyHelper.logStatusCode("BtaNavLinksReads", "read", status)(RECEIVED_4XX_FROM_BTA, RECEIVED_5XX_FROM_BTA)
           logger.error(s"[BtaNavLinksReads][read] Received unexpected response when calling BTA for NavLinks" +
             s", status code: $status and body: ${response.body}, returning None to continue gracefully")
           None

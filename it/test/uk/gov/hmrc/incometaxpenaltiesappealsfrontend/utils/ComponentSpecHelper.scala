@@ -80,6 +80,8 @@ trait ComponentSpecHelper
     "microservice.services.message-frontend.port" -> mockPort,
     "microservice.services.business-tax-account.host" -> mockHost,
     "microservice.services.business-tax-account.port" -> mockPort,
+    "microservice.services.upscan-initiate.host" -> mockHost,
+    "microservice.services.upscan-initiate.port" -> mockPort,
     "auditing.enabled" -> "true",
     "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck"
   )
