@@ -33,12 +33,26 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.i18n.Messages
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
-object WhenDidEventHappenForm {
+import java.time.LocalDate
 
-  val form: Form[String] = Form(
-    single("reasonableExcuse" -> text.verifying("reasonableExcuse.error.message", _.nonEmpty))
-  )
+object WhenDidEventHappenForm extends Mappings{
 
+  val key = "date"
+
+  def form(reasons: String)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
+    Form(
+      key -> localDate(
+        invalidKey = s"$reasons.date.error.invalid",
+        allRequiredKey = s"$reasons.date.error.required.all",
+        twoRequiredKey = s"$reasons.date.error.required.two",
+        requiredKey = s"$reasons.date.error.required",
+        futureKey = Some(s"$reasons.date.error.notInFuture")
+      )
+    )
+  }
 }
