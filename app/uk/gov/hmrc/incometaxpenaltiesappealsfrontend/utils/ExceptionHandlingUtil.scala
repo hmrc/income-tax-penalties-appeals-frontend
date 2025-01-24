@@ -32,7 +32,7 @@ trait ExceptionHandlingUtil {
       case e: Throwable =>
         val formattedIdentifiers = identifiers.map { case (key, value) => s"$key: $value" }.mkString(", ")
         val errorMessage = s"[$className][$methodName] An exception of type ${e.getClass.getSimpleName} occurred for $formattedIdentifiers"
-        logger.debug(errorMessage, e)
+        logger.debug(errorMessage + ", exception message: " + e.getMessage)
         pagerDutyTriggerKey.fold {
           logger.warn(errorMessage)
         }{ pdTriggerKey =>

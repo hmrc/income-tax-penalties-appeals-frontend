@@ -26,7 +26,7 @@ case class UploadJourney(reference: String,
                          uploadDetails: Option[UploadDetails] = None,
                          failureDetails: Option[FailureDetails] = None,
                          lastUpdated: LocalDateTime = LocalDateTime.now(),
-                         uploadFields: Option[Map[String, String]] = None)
+                         uploadFields: Option[UploadFormFields] = None)
 
 object UploadJourney {
   val writes: OWrites[UploadJourney] = Json.format[UploadJourney]
@@ -38,7 +38,7 @@ object UploadJourney {
       uploadDetails <- (json \ "uploadDetails").validateOpt[UploadDetails]
       failureDetails <- (json \ "failureDetails").validateOpt[FailureDetails]
       lastUpdated <- (json \ "lastUpdated").validateOpt[LocalDateTime]
-      uploadFields <- (json \ "uploadFields").validateOpt[Map[String, String]]
+      uploadFields <- (json \ "uploadFields").validateOpt[UploadFormFields]
     } yield {
       UploadJourney(
         reference,

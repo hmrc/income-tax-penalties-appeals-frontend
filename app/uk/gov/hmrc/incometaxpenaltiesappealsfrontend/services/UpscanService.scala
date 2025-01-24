@@ -17,17 +17,46 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import play.api.libs.json.Json
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadJourney, UploadStatus, UploadStatusEnum}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney, UploadStatus, UploadStatusEnum, UpscanInitiateRequest, UpscanInitiateResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.ExceptionHandlingUtil
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ExceptionHandlingUtil, TimeMachine}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
+import uk.gov.hmrc.mongo.cache.CacheItem
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpscanService @Inject()(uploadRepo: FileUploadJourneyRepository)
+class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
+                              uploadRepo: FileUploadJourneyRepository,
+                              appConfig: AppConfig,
+                              timeMachine: TimeMachine)
                              (implicit ec: ExecutionContext) extends ExceptionHandlingUtil {
+
+  def initiateNewFileUpload(journeyId: String)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
+    withExceptionHandling(
+      methodName = "initiateNewFileUpload",
+      identifiers = Map("journeyId" -> journeyId),
+      pagerDutyTriggerKey = Some(FAILED_INITIATE_CALL_UPSCAN)
+    ) {
+      upscanConnector.initiate(journeyId, UpscanInitiateRequest(journeyId, appConfig)).flatMap {
+        case Right(response) =>
+          uploadRepo.upsertFileUpload(journeyId, UploadJourney(
+            reference = response.reference,
+            fileStatus = UploadStatusEnum.WAITING,
+            uploadFields = Some(response.uploadRequest),
+            lastUpdated = timeMachine.getCurrentDateTime
+          )).map { _ =>
+            logger.info(s"[UpscanService][initiateNewFileUpload] Successfully initiated file upload for journeyId: $journeyId with fileReference: ${response.reference}")
+            response
+          }
+        case Left(error) =>
+          Future.failed(new Exception(s"Failed to initiate file upload for journeyId: $journeyId with error: $error"))
+      }
+    }
 
   def upsertFileUpload(journeyId: String, uploadJourney: UploadJourney): Future[UploadJourney] =
     withExceptionHandling(
@@ -96,7 +125,7 @@ class UpscanService @Inject()(uploadRepo: FileUploadJourneyRepository)
       })
     }
 
-  def getFormFieldsForFile(journeyId: String, fileReference: String): Future[Option[Map[String, String]]] =
+  def getFormFieldsForFile(journeyId: String, fileReference: String): Future[Option[UploadFormFields]] =
     getFile(journeyId, fileReference).map(_.flatMap(_.uploadFields)).map { formFields =>
       logger.debug(s"[UpscanService][getFormFieldsForFile] Form fields for journeyId: $journeyId and fileReference: $fileReference\n\n" + formFields.map("\n" + _))
       formFields

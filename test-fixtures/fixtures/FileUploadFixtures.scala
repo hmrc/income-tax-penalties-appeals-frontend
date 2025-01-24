@@ -17,7 +17,7 @@
 package fixtures
 
 import play.api.libs.json.{JsObject, Json}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, FailureReasonEnum, UploadDetails, UploadFormFields, UploadJourney, UploadStatusEnum, UpscanInitiateRequest, UpscanInitiateResponse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan._
 import uk.gov.hmrc.mongo.cache.CacheItem
 
 import java.time.{Instant, LocalDateTime}
@@ -27,9 +27,12 @@ trait FileUploadFixtures extends BaseFixtures {
   val fileRef1 = "ref1"
   val fileRef2 = "ref2"
   val testVirusMessage = "File has a virus"
-  val uploadFields: Map[String, String] = Map(
-    "key" -> "abcxyz",
-    "algo" -> "md5"
+  val uploadFields: UploadFormFields = UploadFormFields(
+    href = "/upload/to/upscan/url",
+    fields = Map(
+      "key" -> "abcxyz",
+      "algo" -> "md5"
+    )
   )
 
   val initiateRequest: UpscanInitiateRequest = UpscanInitiateRequest(
@@ -40,10 +43,7 @@ trait FileUploadFixtures extends BaseFixtures {
 
   val initiateResponse: UpscanInitiateResponse = UpscanInitiateResponse(
     reference = fileRef1,
-    uploadRequest = UploadFormFields(
-      href = "/upload/to/upscan/url",
-      fields = uploadFields
-    )
+    uploadRequest = uploadFields
   )
 
   val waitingFile: UploadJourney = UploadJourney(

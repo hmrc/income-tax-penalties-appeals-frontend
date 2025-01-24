@@ -50,7 +50,7 @@ object PagerDutyHelper {
           pagerDutyKey: PagerDutyKeys.Value,
           identifiers: Map[String, String] = Map()): Unit = {
     val ids: String = identifiers.map { case (key, value) => s"$key: $value" }.mkString(", ")
-    logger.warn(s"[$className][$methodName] $pagerDutyKey $ids")
+    logger.warn(s"[$pagerDutyKey][$className][$methodName] $ids")
   }
 
   def logStatusCode(className: String,

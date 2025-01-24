@@ -81,4 +81,9 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val numberOfCharsInTextArea: Int = config.get[Int]("constants.numberOfCharsInTextArea")
 
+  lazy val host: String = config.get[String]("income-tax-penalties-appeals-frontend-host")
+
+  lazy val upscanMinFileSize: Int = config.get[Int]("upscan.minFileSize")
+  lazy val upscanMaxFileSize: Int = config.get[Int]("upscan.maxFileSize")
+
 }
