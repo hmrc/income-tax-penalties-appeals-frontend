@@ -55,16 +55,16 @@ object MessageCountHttpParser {
             case JsError(errors) =>
               logger.debug(s"[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model - failures: $errors")
               logger.error("[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model")
-              PagerDutyHelper.log("MessageCountHttpParser: GetMessageCount", INVALID_JSON_RECEIVED_FROM_MESSAGE_FRONTEND)
+              PagerDutyHelper.log("GetMessageCount", "read", INVALID_JSON_RECEIVED_FROM_MESSAGE_FRONTEND)
               Left(MessagesCountResponseMalformed)
           }
         case BAD_REQUEST =>
           logger.error(s"[GetMessageCount][read]: Bad request returned with reason: ${response.body}")
-          PagerDutyHelper.log("MessageCountHttpParser: GetMessageCount", RECEIVED_4XX_FROM_MESSAGE_FRONTEND)
+          PagerDutyHelper.log("GetMessageCount", "read", RECEIVED_4XX_FROM_MESSAGE_FRONTEND)
           Left(MessagesCountResponseBadRequest)
         case status =>
           logger.error(s"[GetMessageCount][read]: Unexpected response, status $status returned with reason: ${response.body}")
-          PagerDutyHelper.logStatusCode("MessageCountHttpParser: GetMessageCount", status)(RECEIVED_4XX_FROM_MESSAGE_FRONTEND, RECEIVED_5XX_FROM_MESSAGE_FRONTEND)
+          PagerDutyHelper.logStatusCode("GetMessageCount", "read", status)(RECEIVED_4XX_FROM_MESSAGE_FRONTEND, RECEIVED_5XX_FROM_MESSAGE_FRONTEND)
           Left(MessagesCountUnexpectedFailure(status))
       }
   }

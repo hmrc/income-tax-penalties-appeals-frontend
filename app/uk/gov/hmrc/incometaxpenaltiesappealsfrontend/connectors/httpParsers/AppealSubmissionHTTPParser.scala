@@ -37,14 +37,14 @@ object AppealSubmissionHTTPParser {
           response.json.validate[AppealSubmissionResponseModel] match {
             case JsSuccess(model, _) => Right(model)
             case _ =>
-              PagerDutyHelper.log("AppealSubmissionReads", INVALID_JSON_RECEIVED_FROM_PENALTIES)
+              PagerDutyHelper.log("AppealSubmissionReads", "read", INVALID_JSON_RECEIVED_FROM_PENALTIES)
               Left(InvalidJson)
           }
         case CONFLICT =>
           logger.warn(s"$startOfLogging Conflict status has been returned with body: ${response.body}")
           Left(UnexpectedFailure(CONFLICT, response.body))
         case status =>
-          PagerDutyHelper.logStatusCode("AppealSubmissionReads", status)(RECEIVED_4XX_FROM_PENALTIES, RECEIVED_5XX_FROM_PENALTIES)
+          PagerDutyHelper.logStatusCode("AppealSubmissionReads", "read", status)(RECEIVED_4XX_FROM_PENALTIES, RECEIVED_5XX_FROM_PENALTIES)
           logger.warn(s"$startOfLogging Unexpected response, status $status returned with body: ${response.body}")
           Left(UnexpectedFailure(status, response.body))
       }
