@@ -26,14 +26,14 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLink
 
 trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesStub with BtaNavContentFixture { _: ComponentSpecHelper with AuthStub =>
 
-  def testNavBar(url: String, queryParams: Map[String, String] = Map.empty, reasonableExcuse: Option[String] = None)(runStubsAndUserAnswersSetup: => Unit = ()): Unit = {
+  def testNavBar(url: String, queryParams: Map[String, String] = Map.empty)(runStubsAndUserAnswersSetup: => Unit = ()): Unit = {
     "Checking the Navigation Bar" when {
       "the origin is PTA" should {
         "render the PTA content" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           stubMessagesCount()(OK, Json.obj("count" -> 0))
           runStubsAndUserAnswersSetup
-          val result = get(url, origin = Some("PTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, origin = Some("PTA"), queryParams = queryParams)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -47,7 +47,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubsAndUserAnswersSetup
           stubBtaNavLinks()(OK, Json.toJson(btaNavContent))
-          val result = get(url, origin = Some("BTA"), queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, origin = Some("BTA"), queryParams = queryParams)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -60,7 +60,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
         "render without a Nav" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           runStubsAndUserAnswersSetup
-          val result = get(url, origin = None, queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, origin = None, queryParams = queryParams)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -74,7 +74,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
         "render without a Nav" in {
           stubAuth(OK, successfulAgentAuthResponse)
           runStubsAndUserAnswersSetup
-          val result = get(url, isAgent = true, origin = None, queryParams = queryParams, reasonableExcuse = reasonableExcuse)
+          val result = get(url, isAgent = true, origin = None, queryParams = queryParams)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)

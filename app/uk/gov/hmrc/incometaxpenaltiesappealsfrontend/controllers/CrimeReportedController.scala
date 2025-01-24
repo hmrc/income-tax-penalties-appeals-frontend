@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.CrimeReportedPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
@@ -39,7 +39,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
                                        )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
-    withReasonableExcuseAnswer { reasonableExcuse =>
+    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(hasTheCrimeBeenReportedPage(
         form = fillForm(CrimeReportedForm.form, CrimeReportedPage),
         isLate = true,
@@ -52,7 +52,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     CrimeReportedForm.form.bindFromRequest().fold(
       formWithErrors =>
-        withReasonableExcuseAnswer { reasonableExcuse =>
+        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
           Future(BadRequest(hasTheCrimeBeenReportedPage(
             form = formWithErrors,
             isLate = true,

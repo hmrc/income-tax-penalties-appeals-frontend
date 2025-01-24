@@ -25,7 +25,7 @@ class FileUploadJourneyRepositoryISpec extends ComponentSpecHelper with FileUplo
   lazy val repository: FileUploadJourneyRepository = injector.instanceOf[FileUploadJourneyRepository]
 
   override def beforeEach(): Unit = {
-    await(deleteAll(repository))
+    deleteAll(repository)
     super.beforeEach()
   }
 

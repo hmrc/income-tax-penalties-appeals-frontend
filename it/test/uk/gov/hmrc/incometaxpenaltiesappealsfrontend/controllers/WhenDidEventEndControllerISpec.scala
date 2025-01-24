@@ -17,28 +17,44 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import org.jsoup.Jsoup
+import org.mongodb.scala.Document
+import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
+  override def beforeEach(): Unit = {
+    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "technicalReason")).futureValue
+    super.beforeEach()
+  }
+
   "GET /when-did-the-event-end" should {
-    testNavBar(url = "/when-did-the-event-end", reasonableExcuse = Some("technicalReason"))()
+
+    testNavBar(url = "/when-did-the-event-end")()
+
     "return an OK with a view" when {
+
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/when-did-the-event-end", reasonableExcuse = Some("technicalReason"))
+        val result = get("/when-did-the-event-end")
 
         result.status shouldBe OK
       }
 
       "the user is an authorised agent" in {
         stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/when-did-the-event-happen", isAgent = true, reasonableExcuse = Some("technicalReason"))
+        val result = get("/when-did-the-event-happen", isAgent = true)
 
         result.status shouldBe OK
       }
@@ -47,7 +63,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
     "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/when-did-the-event-end", reasonableExcuse = Some("technicalReason"))
+        val result = get("/when-did-the-event-end")
 
         val document = Jsoup.parse(result.body)
 
@@ -64,7 +80,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
       "the user is an authorised agent" in {
         stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/when-did-the-event-end", isAgent = true, reasonableExcuse = Some("technicalReason"))
+        val result = get("/when-did-the-event-end", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 

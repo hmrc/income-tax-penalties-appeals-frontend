@@ -28,7 +28,6 @@ object IncomeTaxSessionKeys {
   val vatAmount = "vatAmount"
   val principalChargeReference = "principalChargeReference"
   val isCaLpp = "isCaLpp"
-  val reasonableExcuse = "reasonableExcuse"
   val dateOfCrime = "dateOfCrime"
   val dateOfFireOrFlood = "dateOfFireOrFlood"
   val whenPersonLeftTheBusiness = "whenPersonLeftTheBusiness"
@@ -76,7 +75,6 @@ object IncomeTaxSessionKeys {
     endDateOfPeriod,
     dueDateOfPeriod,
     penaltyNumber,
-    reasonableExcuse,
     dateOfCrime,
     dateOfFireOrFlood,
     dateCommunicationSent,

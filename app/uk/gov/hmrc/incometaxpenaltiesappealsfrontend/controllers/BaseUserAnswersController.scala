@@ -43,9 +43,6 @@ trait BaseUserAnswersController extends FrontendBaseController with I18nSupport 
         errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
     }
 
-  def withReasonableExcuseAnswer(f: String => Future[Result])(implicit user: CurrentUserRequestWithAnswers[_], ec: ExecutionContext): Future[Result] =
-    withAnswer(ReasonableExcusePage)(f)
-
   def fillForm[A](form: Form[A], page: Page[A])(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Form[A] =
     user.userAnswers.getAnswer(page).fold(form)(form.fill)
 }

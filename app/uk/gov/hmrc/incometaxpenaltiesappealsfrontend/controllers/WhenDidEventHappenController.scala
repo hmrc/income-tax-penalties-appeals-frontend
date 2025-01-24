@@ -42,8 +42,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
 
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-
-    withReasonableExcuseAnswer { reasonableExcuse =>
+    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(whenDidEventHappenView(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
         isAgent = user.isAgent,
@@ -53,9 +52,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
-
-
-    withReasonableExcuseAnswer { reasonableExcuse =>
+    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(whenDidEventHappenView(
@@ -80,5 +77,4 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
         })
     }
   }
-
 }

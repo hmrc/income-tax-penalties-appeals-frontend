@@ -26,7 +26,7 @@ class UserAnswersRepositoryISpec extends ComponentSpecHelper {
   lazy val repository: UserAnswersRepository = injector.instanceOf[UserAnswersRepository]
 
   class Setup {
-    await(deleteAll(repository))
+    deleteAll(repository)
   }
 
   val userAnswers: UserAnswers = UserAnswers(journeyId = "journey123", data = Json.obj("key1" -> "value1", "key2" -> "value2"))
