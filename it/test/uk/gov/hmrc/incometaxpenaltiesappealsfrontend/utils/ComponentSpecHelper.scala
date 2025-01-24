@@ -154,9 +154,10 @@ trait ComponentSpecHelper
 
   val baseUrl: String = "/view-or-appeal-penalty/self-assessment"
 
-  private def buildClient(path: String): WSRequest =
-    ws.url(s"http://localhost:$port$baseUrl$path").withFollowRedirects(false)
-
+  private def buildClient(path: String): WSRequest = {
+    val pathBuilder = if(path.startsWith("/internal/")) path else s"$baseUrl$path"
+    ws.url(s"http://localhost:$port$pathBuilder").withFollowRedirects(false)
+  }
 
   val cyLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "cy")
 

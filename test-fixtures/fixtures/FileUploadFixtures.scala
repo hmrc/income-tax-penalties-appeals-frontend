@@ -28,12 +28,17 @@ trait FileUploadFixtures extends BaseFixtures {
   val fileRef2 = "ref2"
   val testVirusMessage = "File has a virus"
 
+  val uploadFields = Map(
+    "key" -> "abcxyz",
+    "algo" -> "md5"
+  )
+
   val waitingFile: UploadJourney = UploadJourney(
     reference = fileRef1,
     fileStatus = UploadStatusEnum.WAITING,
     downloadUrl = None,
     uploadDetails = None,
-    uploadFields = None
+    uploadFields = Some(uploadFields)
   )
 
   val callbackModel: UploadJourney = UploadJourney(
@@ -46,10 +51,6 @@ trait FileUploadFixtures extends BaseFixtures {
       uploadTimestamp = LocalDateTime.of(2023, 1, 1, 1, 1),
       checksum = "check1234",
       size = 2
-    )),
-    uploadFields = Some(Map(
-      "key" -> "abcxyz",
-      "algo" -> "md5"
     ))
   )
 
