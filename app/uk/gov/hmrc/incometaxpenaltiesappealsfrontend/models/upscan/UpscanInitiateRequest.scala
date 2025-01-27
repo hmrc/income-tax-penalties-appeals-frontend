@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan
 import play.api.libs.json.{Json, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal.{routes => internalRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
 
 case class UpscanInitiateRequest(callbackUrl: String,
                                  successRedirect: Option[String] = None,
@@ -32,8 +33,8 @@ object UpscanInitiateRequest {
 
   def apply(journeyId: String, appConfig: AppConfig): UpscanInitiateRequest = UpscanInitiateRequest(
     callbackUrl     = appConfig.host + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
-    successRedirect = None, //TODO: Add when Controller created for Success Redirect
-    errorRedirect   = None, //TODO: Add when Controller created for Error Redirect
+    successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
+    errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad().url),
     minimumFileSize = Some(appConfig.upscanMinFileSize),
     maximumFileSize = Some(appConfig.upscanMaxFileSize)
   )

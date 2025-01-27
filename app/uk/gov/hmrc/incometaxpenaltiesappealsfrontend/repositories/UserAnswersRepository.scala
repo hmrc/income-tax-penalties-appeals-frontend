@@ -22,9 +22,9 @@ import org.mongodb.scala.model.{IndexModel, IndexOptions, ReplaceOptions}
 import org.mongodb.scala.result.DeleteResult
 import play.api.libs.json.Format
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers.DateTimeHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
@@ -38,7 +38,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class UserAnswersRepository @Inject()(mongo: MongoComponent,
                                       appConfig: AppConfig,
-                                      dateTimeHelper: DateTimeHelper)
+                                      timeMachine: TimeMachine)
                                      (implicit ec: ExecutionContext) extends PlayMongoRepository[UserAnswers](
   collectionName = "user-answers",
   mongoComponent = mongo,
@@ -63,7 +63,7 @@ class UserAnswersRepository @Inject()(mongo: MongoComponent,
   def getUserAnswer(id: String): Future[Option[UserAnswers]] = collection.find(equal("journeyId", id)).headOption()
 
   def upsertUserAnswer(userAnswers: UserAnswers): Future[Boolean] = {
-    val userAnswersWithUpdatedTimestamp = userAnswers.copy(lastUpdated = dateTimeHelper.dateTimeNow.toInstant(ZoneOffset.UTC))
+    val userAnswersWithUpdatedTimestamp = userAnswers.copy(lastUpdated = timeMachine.getCurrentDateTime.toInstant(ZoneOffset.UTC))
     collection.replaceOne(
         filter = equal("journeyId", userAnswers.journeyId),
         replacement = userAnswersWithUpdatedTimestamp,

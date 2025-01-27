@@ -20,7 +20,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration.{Duration, FiniteDuration}
 
 @Singleton
 class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesConfig) extends FeatureSwitching {
@@ -85,5 +85,8 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val upscanMinFileSize: Int = config.get[Int]("upscan.minFileSize")
   lazy val upscanMaxFileSize: Int = config.get[Int]("upscan.maxFileSize")
+  lazy val upscanMaxNumberOfFiles: Int = config.get[Int]("upscan.maxNumberOfFiles")
+  lazy val upscanAcceptedMimeTypes: String = config.get[String]("upscan.acceptedMimeTypes")
+  lazy val upscanDelaySuccessRedirect: FiniteDuration = config.get[FiniteDuration]("upscan.delaySuccessRedirect")
 
 }

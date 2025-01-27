@@ -21,7 +21,6 @@ import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.libs.json.Json
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers.DateTimeHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -38,12 +37,12 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
 
   val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
 
-  lazy val mockDateTime: DateTimeHelper = new DateTimeHelper {
-    override def dateTimeNow: LocalDateTime = testDateTime
+  lazy val timeMachine: TimeMachine = new TimeMachine {
+    override def getCurrentDateTime: LocalDateTime = testDateTime
   }
 
   override lazy val app: Application = appWithOverrides(
-    inject.bind[DateTimeHelper].toInstance(mockDateTime)
+    inject.bind[TimeMachine].toInstance(timeMachine)
   )
 
   "GET /initialise-appeal" should {

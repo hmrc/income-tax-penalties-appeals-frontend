@@ -22,6 +22,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{BadRequest, InvalidJson, UnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.UpscanStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, WiremockMethods}
@@ -30,6 +31,7 @@ import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 import scala.concurrent.ExecutionContext
 
 class UpscanInitiateConnectorISpec extends ComponentSpecHelper with LogCapturing with WiremockMethods
+  with UpscanStub
   with FileUploadFixtures {
 
   val connector: UpscanInitiateConnector = app.injector.instanceOf[UpscanInitiateConnector]
@@ -42,7 +44,7 @@ class UpscanInitiateConnectorISpec extends ComponentSpecHelper with LogCapturing
     "a success response is returned from upscan" should {
 
       "return a Right(UpscanResponse)" in {
-        when(POST, uri = "/upscan/v2/initiate").thenReturn(status = OK, body = initiateResponse)
+        stubUpscanInitiate(status = OK, body = initiateResponse)
         await(connector.initiate(testJourneyId, initiateRequest)) shouldBe Right(initiateResponse)
       }
     }
@@ -50,13 +52,13 @@ class UpscanInitiateConnectorISpec extends ComponentSpecHelper with LogCapturing
     "return a Left when" when {
 
       "invalid Json is returned" in {
-        when(POST, uri = "/upscan/v2/initiate").thenReturn(status = OK, body = "")
+        stubUpscanInitiate(status = OK, body = "")
         await(connector.initiate(testJourneyId, initiateRequest)) shouldBe Left(InvalidJson)
       }
 
       "a 4xx is returned" in {
         withCaptureOfLoggingFrom(logger) { logs =>
-          when(POST, uri = "/upscan/v2/initiate").thenReturn(status = BAD_REQUEST, body = "")
+          stubUpscanInitiate(status = BAD_REQUEST, body = "")
           await(connector.initiate(testJourneyId, initiateRequest)) shouldBe Left(BadRequest)
 
           logs.exists(_.getMessage.contains(PagerDutyKeys.RECEIVED_4XX_FROM_UPSCAN.toString)) shouldBe true
@@ -65,7 +67,7 @@ class UpscanInitiateConnectorISpec extends ComponentSpecHelper with LogCapturing
 
       "a 5xx is returned" in {
         withCaptureOfLoggingFrom(logger) { logs =>
-          when(POST, uri = "/upscan/v2/initiate").thenReturn(status = INTERNAL_SERVER_ERROR, body = "")
+          stubUpscanInitiate(status = INTERNAL_SERVER_ERROR, body = "")
           await(connector.initiate(testJourneyId, initiateRequest)) shouldBe
             Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, s"Unexpected response, status $INTERNAL_SERVER_ERROR returned"))
 
