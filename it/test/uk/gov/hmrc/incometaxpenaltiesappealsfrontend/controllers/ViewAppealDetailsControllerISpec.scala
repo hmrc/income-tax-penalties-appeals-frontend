@@ -17,14 +17,21 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import org.jsoup.Jsoup
+import org.mongodb.scala.Document
+import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   val bereavementReasonMessage: String = "When did the person die?"
   val cessationReasonMessage: String = "TBC cessationReason"
@@ -55,22 +62,36 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
     ("otherReason", otherReasonValue, otherReasonMessage)
   )
 
+  override def beforeEach(): Unit = {
+    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    super.beforeEach()
+  }
 
   for (reason <- reasonsList) {
 
+    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reason._1)
+
     s"GET /appeal-details with ${reason._1}" should {
-      testNavBar(url = "/appeal-details", reasonableExcuse = Some(reason._1))()
+
+      testNavBar(url = "/appeal-details")(
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+      )
+
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          val result = get("/appeal-details", reasonableExcuse = Some(reason._1))
+          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+          val result = get("/appeal-details")
 
           result.status shouldBe OK
         }
 
         "the user is an authorised agent" in {
           stubAuth(OK, successfulAgentAuthResponse)
-          val result = get("/appeal-details", isAgent = true, reasonableExcuse = Some(reason._1))
+          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+          val result = get("/appeal-details", isAgent = true)
 
           result.status shouldBe OK
         }
@@ -79,7 +100,9 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
       "the page has the correct elements" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          val result = get("/appeal-details", reasonableExcuse = Some(reason._1))
+          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+          val result = get("/appeal-details")
 
           val document = Jsoup.parse(result.body)
 
@@ -112,7 +135,9 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
 
         "the user is an authorised agent" in {
           stubAuth(OK, successfulAgentAuthResponse)
-          val result = get("/appeal-details", isAgent = true, reasonableExcuse = Some(reason._1))
+          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+          val result = get("/appeal-details", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 

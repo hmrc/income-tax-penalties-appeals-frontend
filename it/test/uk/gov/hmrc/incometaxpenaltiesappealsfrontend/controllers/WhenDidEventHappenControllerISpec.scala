@@ -81,7 +81,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason.setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 4, 2))).futureValue
 
-          val result = get("/when-did-the-event-happen", reasonableExcuse = Some(reason._1))
+          val result = get("/when-did-the-event-happen")
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -94,7 +94,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           stubAuth(OK, successfulAgentAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-          val result = get("/when-did-the-event-happen", isAgent = true, reasonableExcuse = Some(reason._1))
+          val result = get("/when-did-the-event-happen", isAgent = true)
 
           result.status shouldBe OK
 
@@ -110,7 +110,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-          val result = get("/when-did-the-event-happen", reasonableExcuse = Some(reason._1))
+          val result = get("/when-did-the-event-happen")
 
           val document = Jsoup.parse(result.body)
 
@@ -129,7 +129,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           stubAuth(OK, successfulAgentAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-          val result = get("/when-did-the-event-happen", isAgent = true, reasonableExcuse = Some(reason._1))
+          val result = get("/when-did-the-event-happen", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 

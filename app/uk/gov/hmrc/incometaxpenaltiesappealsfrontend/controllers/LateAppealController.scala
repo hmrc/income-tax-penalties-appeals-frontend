@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealPage
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
@@ -39,7 +39,7 @@ class LateAppealController @Inject()(lateAppeal: LateAppealPage,
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withReasonableExcuseAnswer { reasonableExcuse =>
+    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(lateAppeal(
         form = fillForm(LateAppealForm.form(), LateAppealPage),
         isLate = true,
@@ -52,7 +52,7 @@ class LateAppealController @Inject()(lateAppeal: LateAppealPage,
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     LateAppealForm.form().bindFromRequest().fold(
       formWithErrors =>
-        withReasonableExcuseAnswer { reasonableExcuse =>
+        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
           Future(BadRequest(lateAppeal(formWithErrors, isLate = true, isAgent = user.isAgent, reasonableExcuse)))
         },
       lateAppealReason => {

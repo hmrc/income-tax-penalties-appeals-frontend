@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 import fixtures.BaseFixtures
 import org.mongodb.scala.Document
 import org.mongodb.scala.result.DeleteResult
+import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
@@ -107,19 +108,18 @@ trait ComponentSpecHelper
               uri: String,
               isLate: Boolean = true,
               isAgent: Boolean = false,
-              reasonableExcuse: Option[String] = None,
               cookie: WSCookie = enLangCookie,
               queryParams: Map[String, String] = Map.empty,
               origin: Option[String] = None,
               journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse, origin = origin, journeyId))
+      .withCookies(cookie, mockSessionCookie(isAgent, origin = origin, journeyId))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
   }
 
-  def post[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, cookie: WSCookie = enLangCookie, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def post[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, cookie: WSCookie = enLangCookie, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders(
@@ -127,12 +127,12 @@ trait ComponentSpecHelper
           "Content-Type" -> "application/json",
           "Authorization" -> "Bearer 123"
         )
-        .withCookies(cookie, mockSessionCookie(isAgent, reasonableExcuse, journeyId = journeyId))
+        .withCookies(cookie, mockSessionCookie(isAgent, journeyId = journeyId))
         .post(writes.writes(body).toString())
     )
   }
 
-  def put[T](uri: String, isLate: Boolean = true ,isAgent: Boolean = false, reasonableExcuse: Option[String] = None, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def put[T](uri: String, isLate: Boolean = true ,isAgent: Boolean = false, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders(
@@ -140,17 +140,17 @@ trait ComponentSpecHelper
           "Content-Type" -> "application/json",
           "Authorization" -> "Bearer 123"
         )
-        .withCookies(mockSessionCookie(isAgent, reasonableExcuse, journeyId = journeyId))
+        .withCookies(mockSessionCookie(isAgent, journeyId = journeyId))
         .put(writes.writes(body).toString())
     )
   }
 
-  def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, reasonableExcuse: Option[String] = None, journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
+  def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
     await(buildClient(uri).withHttpHeaders(
         "Csrf-Token" -> "nocheck",
         "Authorization" -> "Bearer 123"
       )
-      .withCookies(mockSessionCookie(isAgent, reasonableExcuse, journeyId = journeyId))
+      .withCookies(mockSessionCookie(isAgent, journeyId = journeyId))
       .delete())
   }
 
@@ -165,7 +165,7 @@ trait ComponentSpecHelper
 
   val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
 
-  def mockSessionCookie(isAgent: Boolean, reasonableExcuse: Option[String], origin: Option[String] = None, journeyId: Option[String] = None): WSCookie = {
+  def mockSessionCookie(isAgent: Boolean, origin: Option[String] = None, journeyId: Option[String] = None): WSCookie = {
 
     def makeSessionCookie(session: Session): Cookie = {
       val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
@@ -180,7 +180,6 @@ trait ComponentSpecHelper
       SessionKeys.authToken -> "mock-bearer-token",
       SessionKeys.sessionId -> "mock-sessionid"
     ) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
-      ++ {if(reasonableExcuse.isDefined) Map(IncomeTaxSessionKeys.reasonableExcuse -> reasonableExcuse.getOrElse("")) else Map.empty}
       ++ {if(origin.isDefined) Map(IncomeTaxSessionKeys.origin -> origin.get) else Map.empty}
       ++ {if(journeyId.isDefined) Map(IncomeTaxSessionKeys.journeyId -> journeyId.get) else Map.empty}
     )
@@ -204,10 +203,11 @@ trait ComponentSpecHelper
     }
   }
 
-  def deleteAll[A<: PlayMongoRepository[_]](repository: A): Future[DeleteResult] =
+  def deleteAll[A<: PlayMongoRepository[_]](repository: A): DeleteResult =
     repository
       .collection
       .deleteMany(filter = Document())
       .toFuture()
+      .futureValue
 
 }

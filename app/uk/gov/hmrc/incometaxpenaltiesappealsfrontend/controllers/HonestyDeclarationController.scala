@@ -39,7 +39,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withReasonableExcuseAnswer { reasonableExcuse =>
+    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
     }
   }

@@ -17,8 +17,12 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import org.jsoup.Jsoup
+import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
@@ -26,21 +30,29 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+
+  override def beforeEach(): Unit = {
+    deleteAll(userAnswersRepo)
+    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "defaultReason")).futureValue
+    super.beforeEach()
+  }
+
   "GET /appeal-confirmation" should {
 
-    testNavBar(url = "/check-your-answers", reasonableExcuse = Some("defaultReason"))()
+    testNavBar(url = "/check-your-answers")()
 
     "return an OK with a view" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/appeal-confirmation", reasonableExcuse = Some("defaultReason"))
+        val result = get("/appeal-confirmation")
 
         result.status shouldBe OK
       }
 
       "the user is an authorised agent" in {
         stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/appeal-confirmation", isAgent = true, reasonableExcuse = Some("defaultReason"))
+        val result = get("/appeal-confirmation", isAgent = true)
 
         result.status shouldBe OK
       }
@@ -49,7 +61,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
     "the page has the correct elements" when {
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/appeal-confirmation", reasonableExcuse = Some("defaultReason"))
+        val result = get("/appeal-confirmation")
 
         val document = Jsoup.parse(result.body)
 
@@ -72,7 +84,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
       "the user is an authorised agent" in {
         stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/appeal-confirmation", isAgent = true, reasonableExcuse = Some("defaultReason"))
+        val result = get("/appeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 
