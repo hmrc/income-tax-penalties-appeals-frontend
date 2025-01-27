@@ -23,6 +23,8 @@ object SynchronousUpscanErrorMessages {
     val errorFileTooLarge: String = "The selected file must be smaller than 6MB. Choose another file."
     val errorNoFileSelected: String = "Select a file."
     val errorUploadFailed: String = "The selected file could not be uploaded. Choose another file."
+    val errorQuarantine: String = "The selected file contains a virus. Choose another file."
+    val errorRejected: String = "The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file."
   }
 
   object English extends Messages with En
@@ -32,5 +34,7 @@ object SynchronousUpscanErrorMessages {
     override val errorFileTooLarge: String = "Mae’n rhaid i’r ffeil dan sylw fod yn llai na 6 MB. Dewiswch ffeil arall."
     override val errorNoFileSelected: String = "Dewiswch ffeil."
     override val errorUploadFailed: String = "Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall."
+    override val errorQuarantine: String = "Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall."
+    override val errorRejected: String = "Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)"
   }
 }

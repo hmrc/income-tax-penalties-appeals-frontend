@@ -23,6 +23,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.{QUARANTINE, REJECTED, UNKNOWN}
 
 class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite {
 
@@ -36,19 +37,31 @@ class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with Guice
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
       "have the correct error message for the EntityTooSmall code" in {
-        UploadDocumentForm.synchronousUpscanErrorMessages("EntityTooSmall") shouldBe messagesForLanguage.errorFileTooSmall
+        UploadDocumentForm.errorMessages("EntityTooSmall") shouldBe messagesForLanguage.errorFileTooSmall
       }
 
       "have the correct error message for the EntityTooLarge code" in {
-        UploadDocumentForm.synchronousUpscanErrorMessages("EntityTooLarge") shouldBe messagesForLanguage.errorFileTooLarge
+        UploadDocumentForm.errorMessages("EntityTooLarge") shouldBe messagesForLanguage.errorFileTooLarge
       }
 
       "have the correct error message for the InvalidArgument code" in {
-        UploadDocumentForm.synchronousUpscanErrorMessages("InvalidArgument") shouldBe messagesForLanguage.errorNoFileSelected
+        UploadDocumentForm.errorMessages("InvalidArgument") shouldBe messagesForLanguage.errorNoFileSelected
+      }
+
+      s"have the correct error message for the $QUARANTINE code" in {
+        UploadDocumentForm.errorMessages(QUARANTINE.toString) shouldBe messagesForLanguage.errorQuarantine
+      }
+
+      s"have the correct error message for the $REJECTED code" in {
+        UploadDocumentForm.errorMessages(REJECTED.toString) shouldBe messagesForLanguage.errorRejected
+      }
+
+      s"have the correct error message for the $UNKNOWN code" in {
+        UploadDocumentForm.errorMessages(UNKNOWN.toString) shouldBe messagesForLanguage.errorUploadFailed
       }
 
       "have the correct error message for any other code" in {
-        UploadDocumentForm.synchronousUpscanErrorMessages("UnableToUpload") shouldBe messagesForLanguage.errorUploadFailed
+        UploadDocumentForm.errorMessages("UnableToUpload") shouldBe messagesForLanguage.errorUploadFailed
       }
     }
   }

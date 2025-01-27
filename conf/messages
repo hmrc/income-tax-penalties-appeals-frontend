@@ -254,6 +254,11 @@ uploadEvidence.error.fileTooLarge = The selected file must be smaller than 6MB. 
 uploadEvidence.error.noFileSpecified = Select a file.
 uploadEvidence.error.unableToUpload = The selected file could not be uploaded. Choose another file.
 
+# Asynchronous Upscan Failure
+# ----------------------------------------------------------
+uploadEvidence.error.QUARANTINE = The selected file contains a virus. Choose another file.
+uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file.
+
 crimeReason.date.error.invalid = The date of the crime must be a real date
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date
