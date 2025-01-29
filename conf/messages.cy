@@ -98,6 +98,11 @@ uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn ll
 uploadEvidence.error.noFileSpecified = Dewiswch ffeil.
 uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall.
 
+# Asynchronous Upscan Error
+# ----------------------------------------------------------
+uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall.
+uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
+
 crimeReason.date.error.invalid = The date of the crime must be a real date (Welsh)
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)

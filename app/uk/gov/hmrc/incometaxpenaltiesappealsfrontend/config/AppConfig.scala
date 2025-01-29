@@ -87,6 +87,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val upscanMaxFileSize: Int = config.get[Int]("upscan.maxFileSize")
   lazy val upscanMaxNumberOfFiles: Int = config.get[Int]("upscan.maxNumberOfFiles")
   lazy val upscanAcceptedMimeTypes: String = config.get[String]("upscan.acceptedMimeTypes")
-  lazy val upscanDelaySuccessRedirect: FiniteDuration = config.get[FiniteDuration]("upscan.delaySuccessRedirect")
+  lazy val upscanCheckInterval: FiniteDuration = config.get[FiniteDuration]("upscan.checkInterval")
+  lazy val upscanTimeout: FiniteDuration = config.get[FiniteDuration]("upscan.timeout")
 
 }

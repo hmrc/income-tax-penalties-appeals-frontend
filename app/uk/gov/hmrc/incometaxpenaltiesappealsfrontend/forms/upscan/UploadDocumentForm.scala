@@ -25,10 +25,12 @@ object UploadDocumentForm {
   val key = "file"
   val form: Form[String] = Form[String](key -> text)
 
-  def synchronousUpscanErrorMessages(code: String)(implicit messages: Messages): String = code match {
-    case "EntityTooSmall"  => messages("uploadEvidence.error.fileTooSmall")
-    case "EntityTooLarge"  => messages("uploadEvidence.error.fileTooLarge")
+  def errorMessages(code: String)(implicit messages: Messages): String = code match {
+    case "EntityTooSmall" => messages("uploadEvidence.error.fileTooSmall")
+    case "EntityTooLarge" => messages("uploadEvidence.error.fileTooLarge")
     case "InvalidArgument" => messages("uploadEvidence.error.noFileSpecified")
-    case _                 => messages("uploadEvidence.error.unableToUpload")
+    case "QUARANTINE" => messages(s"uploadEvidence.error.QUARANTINE")
+    case "REJECTED" => messages(s"uploadEvidence.error.REJECTED")
+    case _ => messages("uploadEvidence.error.unableToUpload")
   }
 }

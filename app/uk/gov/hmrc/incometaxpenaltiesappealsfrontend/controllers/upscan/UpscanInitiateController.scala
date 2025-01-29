@@ -24,14 +24,15 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.BaseUserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadFormFields
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.{FAILED, READY}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, UploadFormFields, UploadJourney, UploadStatusEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.{FAILED, READY, WAITING}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadPage
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
+import scala.concurrent.duration.{FiniteDuration, MILLISECONDS}
 import scala.concurrent.{ExecutionContext, Future}
 
 class UpscanInitiateController @Inject()(nonJsUploadPage: NonJsFileUploadPage,
@@ -49,7 +50,7 @@ class UpscanInitiateController @Inject()(nonJsUploadPage: NonJsFileUploadPage,
     withFileUploadFormFields(key) { formFields =>
       errorCode match {
         case Some(code) =>
-          Future(BadRequest(nonJsUploadPage(form.withError(UploadDocumentForm.key, UploadDocumentForm.synchronousUpscanErrorMessages(code)), formFields)))
+          Future(BadRequest(nonJsUploadPage(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields)))
         case _ =>
           Future(Ok(nonJsUploadPage(form, formFields)))
       }
@@ -77,15 +78,35 @@ class UpscanInitiateController @Inject()(nonJsUploadPage: NonJsFileUploadPage,
 
 
   def onSubmitSuccessRedirect(key: String): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
-    after(appConfig.upscanDelaySuccessRedirect, actor.scheduler) {
-      upscanService.getFile(user.journeyId, key).map( _.fold {
-        logger.warn(s"[UpscanInitiateController][successRedirect] Redirecting to re-initiate with error message for journeyId: ${user.journeyId}")
-        Redirect(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload")).url)
-      } { _.fileStatus match {
-        case READY  => NotImplemented //TODO: Redirect to Success Page
-        case FAILED => NotImplemented //TODO: Redirect to Error Page
-        case _      => NotImplemented //TODO: Redirect to "It's taking longer than we expected" page
-      }})
+    waitForUpscanResponse(user.journeyId, key) { uploadJourney =>
+      (uploadJourney.fileStatus, uploadJourney.failureDetails) match {
+        case (READY, _) =>
+          Future.successful(NotImplemented) //TODO: Redirect to success page
+        case (FAILED, Some(error)) =>
+          Future.successful(Redirect(routes.UpscanInitiateController.onPageLoad(Some(key), Some(error.failureReason.toString))))
+        case _ =>
+          Future.successful(NotImplemented) //TODO: Redirect to "It's taking longer than we expected" page
+      }
     }
   }
+
+  private def waitForUpscanResponse(journeyId: String, fileReference: String, startTime: Long = System.currentTimeMillis())
+                                   (f: UploadJourney => Future[Result]): Future[Result] =
+    after(appConfig.upscanCheckInterval, actor.scheduler) {
+      upscanService.getFile(journeyId, fileReference).flatMap(_.fold {
+        logger.warn(s"[UpscanInitiateController][waitForUpscanResponse] Redirecting to re-initiate with error message for journeyId: $journeyId, fileReference: $fileReference")
+        Future(Redirect(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload")).url))
+      } { uploadJourney =>
+        uploadJourney.fileStatus match {
+          case WAITING if (System.currentTimeMillis() - startTime) <= appConfig.upscanTimeout.toMillis =>
+            waitForUpscanResponse(journeyId, fileReference, startTime)(f)
+          case status =>
+            if(status == WAITING) {
+              logger.warn(s"[UpscanInitiateController][waitForUpscanResponse] Upscan file was still $status after ${appConfig.upscanTimeout.toMillis}ms for journeyId: $journeyId, fileReference: $fileReference")
+            } else {
+              logger.info(s"[UpscanInitiateController][waitForUpscanResponse] Upscan file status is $status after ${System.currentTimeMillis() - startTime}ms for journeyId: $journeyId, fileReference: $fileReference")
+            }
+            f(uploadJourney)
+        }})
+    }
 }
