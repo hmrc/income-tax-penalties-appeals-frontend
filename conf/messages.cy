@@ -1,7 +1,7 @@
 service.name = Appeal a Self Assessment penalty (Welsh)
 service.indexPageTitle = Appeal a Self Assessment penalty (Welsh)
 service.indexPageHeader = Appeal a Self Assessment penalty (Welsh)
-error.title.prefix = Error: (Welsh)
+error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
 alphaBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
 alphaBanner.linkText = feedback (Welsh)
@@ -103,6 +103,15 @@ uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan syl
 uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall.
 uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
 
+# NonJs Upscan Check Answers (Add Another file) page
+# ----------------------------------------------------------
+uploadCheckAnswers.nonJs.headingAndTitle.plural = Rydych wedi uwchlwytho {0} o ffeiliau
+uploadCheckAnswers.nonJs.headingAndTitle.singular = Rydych wedi uwchlwytho {0} ffeil
+uploadCheckAnswers.nonJs.summaryKey = Ffeil {0}
+uploadCheckAnswers.nonJs.addAnother.legend = A ydych eisiau uwchlwytho ffeil arall?
+uploadCheckAnswers.nonJs.addAnother.error.required = Rhowch wybod i ni a ydych eisiau uwchlwytho ffeil arall
+uploadCheckAnswers.nonJs.addAnother.error.invalid = Rhowch wybod i ni a ydych eisiau uwchlwytho ffeil arall
+
 crimeReason.date.error.invalid = The date of the crime must be a real date (Welsh)
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
@@ -149,10 +158,12 @@ unexpectedHospitalReason.date.error.notInFuture = TBC (Welsh)
 otherReason.date.error.notInFuture = TBC (Welsh)
 
 common.dateHint = For example, 12 3 2018 (Welsh)
-common.continue = Continue (Welsh)
-common.acceptAndContinue = Accept and continue (Welsh)
-common.or = or (Welsh)
-
+common.continue = Yn eich blaen
+common.acceptAndContinue = Derbyn ac yn eich blaen
+common.or = neu
+common.yes = Iawn
+common.no = Na
+common.remove = Tynnu
 
 # Reasonable excuse
 # ----------------------------------------------------------

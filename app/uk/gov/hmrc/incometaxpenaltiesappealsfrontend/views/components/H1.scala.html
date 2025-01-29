@@ -16,6 +16,6 @@
 
 @this()
 
-@(msg: String, classes: Option[String] = None, elmId: String = "pageHeading")(implicit messages: Messages)
+@(msg: String, classes: Option[String] = None, elmId: String = "pageHeading", args: Seq[Any] = Seq())(implicit messages: Messages)
 
-<h1 id=@elmId class="@classes.getOrElse("govuk-heading-l")">@Html(messages(msg))</h1>
+<h1 id=@elmId class="@classes.getOrElse("govuk-heading-l")">@Html(messages(msg, args:_*))</h1>
