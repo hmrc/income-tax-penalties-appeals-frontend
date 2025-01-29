@@ -1,0 +1,73 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.{ErrorSummaryViewModel, UploadedFilesViewModel}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
+
+@this(
+        layout: Layout,
+        formHelper: FormWithCSRF,
+        govukErrorSummary: GovukErrorSummary,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        p: components.P,
+        h1: components.H1,
+        govukSummaryList: GovukSummaryList
+)
+
+@(form: Form[_], uploadedFiles: Seq[UploadedFilesViewModel], postAction: Call)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@layout(pageTitle = Some(titleBuilder(messages(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), uploadedFiles.size), Some(form)))) {
+
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
+
+    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+    @h1(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), args = Seq(uploadedFiles.size))
+
+    @govukSummaryList(SummaryList(
+        UploadedFilesViewModel.toSummaryListRows(uploadedFiles)
+    ))
+
+    @formHelper(action = postAction) {
+        @if(uploadedFiles.length < appConfig.upscanMaxNumberOfFiles) {
+
+            @govukRadios(Radios(
+                fieldset = Some(Fieldset(
+                    legend = Some(Legend(
+                        content = Text(messages("uploadCheckAnswers.nonJs.addAnother.legend")),
+                        classes = "govuk-fieldset__legend--m",
+                        isPageHeading = false
+                    ))
+                )),
+                name = UploadAnotherFileForm.key,
+                items = YesNoRadioHelper.radios(),
+                classes = "govuk-radios--inline"
+            ).withFormField(form(UploadAnotherFileForm.key)))
+        }
+
+        <div class="govuk-form-group">
+            @govukButton(Button(content = Text(messages("common.continue"))))
+        </div>
+    }
+}

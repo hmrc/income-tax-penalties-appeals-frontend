@@ -57,7 +57,7 @@ class UpscanInitiateControllerISpec extends ComponentSpecHelper with ViewSpecHel
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     fileUploadRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId))
+    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId)).futureValue
     super.beforeEach()
   }
 
@@ -99,7 +99,7 @@ class UpscanInitiateControllerISpec extends ComponentSpecHelper with ViewSpecHel
 
             "render a BadRequest, NOT call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
               stubAuth(OK, authResponse)
-              fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile)
+              fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
               val result = get(s"/upload-supporting-evidence/upload-file?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
               result.status shouldBe BAD_REQUEST
@@ -142,25 +142,25 @@ class UpscanInitiateControllerISpec extends ComponentSpecHelper with ViewSpecHel
 
             "the file status is 'READY'" should {
 
-              //TODO: Update this test in future story to test the redirect to the success page
-              s"redirect to the success page after a configured artificial delay of ${appConfig.upscanCheckInterval.toMillis}ms" in {
+              s"redirect to the File Upload Check Answers page after a configured artificial delay of ${appConfig.upscanCheckInterval.toMillis}ms" in {
 
                 stubAuth(OK, authResponse)
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
                 calculateRuntime {
                   val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
-                  result.status shouldBe NOT_IMPLEMENTED //TODO
+                  result.status shouldBe SEE_OTHER
+                  result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
               }
             }
 
-            "the file status is 'WAITING'" should {
+            "the file status is still 'WAITING' after configured wait time" should {
 
               //TODO: Update this test in future story to test the redirect to the "It's taking longer than expected" page
               s"redirect to the 'Taking longer than expected' page after a configured total wait time of ${appConfig.upscanTimeout.toMillis}ms" in {
                 stubAuth(OK, authResponse)
-                fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile)
+                fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
                 calculateRuntime {
                   val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
@@ -173,7 +173,7 @@ class UpscanInitiateControllerISpec extends ComponentSpecHelper with ViewSpecHel
 
               s"redirect to the file upload page with the failureReason as the errorCode after a configured artificial delay ${appConfig.upscanCheckInterval.toMillis}ms" in {
                 stubAuth(OK, authResponse)
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelFailed)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelFailed).futureValue
 
                 calculateRuntime {
                   val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)

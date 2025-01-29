@@ -24,18 +24,6 @@ import play.twirl.api.Html
 
 trait ViewBehaviours extends AnyWordSpec with Matchers {
 
-  trait BaseSelectors {
-    val title: String = "title"
-    val h1: String = "h1"
-    val h2: Int => String = i => s"h2:nth-of-type($i)"
-    val p: Int => String = i => s"p:nth-of-type($i)"
-    val bullet: Int => String = i => s"ul li:nth-of-type($i)"
-    val details: String = "details"
-    val detailsSummary: String = s"$details summary"
-    val label: String => String = input => s"label[for=$input]"
-    val button: String = "button.govuk-button"
-  }
-
   def concat(selectors: String*): String = selectors.mkString(" ")
 
   def asDocument(html: Html): Document = Jsoup.parse(html.toString())
@@ -46,7 +34,7 @@ trait ViewBehaviours extends AnyWordSpec with Matchers {
         s"include the message '$message'" in {
           val updatedSelect = if(selector == "title") selector else concat("main", selector)
           document.select(updatedSelect) match {
-            case elements if elements.size() == 0 =>
+            case elements if elements.isEmpty =>
               fail(s"Could not find element with CSS selector: '$updatedSelect'")
             case elements =>
               elements.first().text() should include(message)
@@ -54,5 +42,19 @@ trait ViewBehaviours extends AnyWordSpec with Matchers {
         }
       }
   }
+
+  def pageWithoutElementsRendered(checks: String*)(implicit document: Document): Unit =
+    checks foreach { selector =>
+      s"element with selector '$selector'" should {
+        "not be rendered on the page" in {
+          document.select(selector) match {
+            case elements if elements.isEmpty =>
+              succeed
+            case _ =>
+              fail(s"Found an element with CSS selector: '$selector', when expecting it not to be rendered on the page.")
+          }
+        }
+      }
+    }
 }
 

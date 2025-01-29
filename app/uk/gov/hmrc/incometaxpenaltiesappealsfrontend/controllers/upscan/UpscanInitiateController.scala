@@ -81,7 +81,7 @@ class UpscanInitiateController @Inject()(nonJsUploadPage: NonJsFileUploadPage,
     waitForUpscanResponse(user.journeyId, key) { uploadJourney =>
       (uploadJourney.fileStatus, uploadJourney.failureDetails) match {
         case (READY, _) =>
-          Future.successful(NotImplemented) //TODO: Redirect to success page
+          Future.successful(Redirect(routes.UpscanCheckAnswersController.onPageLoad()))
         case (FAILED, Some(error)) =>
           Future.successful(Redirect(routes.UpscanInitiateController.onPageLoad(Some(key), Some(error.failureReason.toString))))
         case _ =>

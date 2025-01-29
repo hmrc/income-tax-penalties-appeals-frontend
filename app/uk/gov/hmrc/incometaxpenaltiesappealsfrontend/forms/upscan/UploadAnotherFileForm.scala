@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan
 
 import play.api.data.Form
+import play.api.data.Forms.single
 import play.api.i18n.Messages
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
 
-object ViewUtils {
+object UploadAnotherFileForm extends Mappings {
 
-  def titleBuilder(title: String, form: Option[Form[_]] = None)(implicit messages: Messages): String =
-    form match {
-      case Some(f) if f.hasErrors || f.hasGlobalErrors =>s"${messages("error.title.prefix")} $title - ${messages("service.name")} - ${messages("govuk.suffix")}"
-      case _ => s"$title - ${messages("service.name")} - ${messages("govuk.suffix")}"
-    }
+  val key = "uploadAnotherFile"
 
-  def pluralOrSingular(key: String, list: Seq[_]): String =
-    key + (if(list.size == 1) ".singular" else ".plural")
+  def form()(implicit messages: Messages): Form[Boolean] = Form[Boolean](
+    single(
+      key -> boolean(
+        requiredKey = messages("uploadCheckAnswers.nonJs.addAnother.error.required"),
+        invalidKey = messages("uploadCheckAnswers.nonJs.addAnother.error.invalid")
+      )
+    )
+  )
 }

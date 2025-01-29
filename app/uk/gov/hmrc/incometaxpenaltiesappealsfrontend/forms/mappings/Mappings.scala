@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings
 
+import play.api.data.Forms.of
 import play.api.data.{FieldMapping, Forms}
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -37,4 +38,8 @@ trait Mappings extends Formatters {
                            dateNotEqualOrAfterKeyAndCompareDate: Option[(String, LocalDate)] = None,
                            args: Seq[String] = Seq.empty)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): FieldMapping[LocalDate] =
     Forms.of(new LocalDateFormatter(timeMachine)(invalidKey, allRequiredKey, twoRequiredKey,  requiredKey, futureKey, dateNotEqualOrAfterKeyAndCompareDate, args))
+
+  protected def boolean(requiredKey: String = "error.required",
+                        invalidKey: String = "error.boolean"): FieldMapping[Boolean] =
+    of(booleanFormatter(requiredKey, invalidKey))
 }
