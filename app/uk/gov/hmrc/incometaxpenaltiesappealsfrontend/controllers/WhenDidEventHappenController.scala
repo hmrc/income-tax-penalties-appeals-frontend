@@ -51,7 +51,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
     }
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
         formWithErrors =>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.helpers
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.components
 
 import play.api.i18n.Messages
 
@@ -23,7 +23,7 @@ import java.time.LocalDate
 trait ImplicitDateFormatter {
 
   implicit def dateToString(date: LocalDate)(implicit messages: Messages): String =
-    s"${date.getDayOfMonth}\u00A0${messages(s"${date.getMonthValue}")}\u00A0${date.getYear}"
+    s"${date.getDayOfMonth}\u00A0${messages(s"month.${date.getMonthValue}")}\u00A0${date.getYear}"
 
 }
 

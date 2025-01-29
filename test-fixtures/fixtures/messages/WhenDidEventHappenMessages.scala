@@ -20,11 +20,6 @@ object WhenDidEventHappenMessages {
 
   sealed trait Messages { _: i18n =>
 
-    val reasonMessage: String => String = {
-      case "bereavement" => "bereavement message"
-      case "crime" => "crime message"
-    }
-
     def errorMessageConstructor(reasonableExcuse: String, suffix: String, missing: Option[String] = None, missingTwo: Option[String] = None ): String = {
       reasonableExcuse match {
         case "bereavementReason" => suffix match {

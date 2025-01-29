@@ -55,7 +55,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEndView: WhenDidEventEndPa
   }
 
 
-  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     user.userAnswers.getAnswer[LocalDate](WhenDidEventHappenPage) match {
       case Some(startDate) => withAnswer(ReasonableExcusePage) { reasonableExcuse =>
         WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
