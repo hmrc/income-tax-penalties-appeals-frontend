@@ -29,7 +29,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDeadlinePage: WhatCausedYouToMissTheDeadlinePage,
+class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDeadline: WhatCausedYouToMissTheDeadlineView,
                                                       val authorised: AuthAction,
                                                       withNavBar: NavBarRetrievalAction,
                                                       withAnswers: UserAnswersAction,
@@ -39,7 +39,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
                                                      )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
-    Ok(whatCausedYouToMissTheDeadlinePage(
+    Ok(whatCausedYouToMissTheDeadline(
       fillForm(WhatCausedYouToMissDeadlineForm.form(), WhatCausedYouToMissDeadlinePage),
       true,
       user.isAgent
@@ -50,7 +50,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     WhatCausedYouToMissDeadlineForm.form().bindFromRequest().fold(
       formWithErrors =>
-        Future(BadRequest(whatCausedYouToMissTheDeadlinePage(
+        Future(BadRequest(whatCausedYouToMissTheDeadline(
           formWithErrors,
           true,
           user.isAgent

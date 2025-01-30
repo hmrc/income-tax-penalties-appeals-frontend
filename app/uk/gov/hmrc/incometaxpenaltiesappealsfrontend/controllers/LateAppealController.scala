@@ -22,14 +22,14 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class LateAppealController @Inject()(lateAppeal: LateAppealPage,
+class LateAppealController @Inject()(lateAppeal: LateAppealView,
                                      val authorised: AuthAction,
                                      withNavBar: NavBarRetrievalAction,
                                      withAnswers: UserAnswersAction,

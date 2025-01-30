@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -31,7 +31,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEventHappen,
+class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHappenView,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
                                              withAnswers: UserAnswersAction,
@@ -43,7 +43,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(whenDidEventHappenView(
+      Future(Ok(whenDidEventHappen(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
         isAgent = user.isAgent,
         reasonableExcuseMessageKey = reasonableExcuse
@@ -51,11 +51,11 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
     }
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(whenDidEventHappenView(
+          Future.successful(BadRequest(whenDidEventHappen(
             user.isAgent,
             reasonableExcuse,
             formWithErrors

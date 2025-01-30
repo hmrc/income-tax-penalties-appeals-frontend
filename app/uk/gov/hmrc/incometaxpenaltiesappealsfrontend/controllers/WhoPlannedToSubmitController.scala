@@ -29,7 +29,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmitPage: WhoPlannedToSubmitPage,
+class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSubmitView,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
                                              withAnswers: UserAnswersAction,
@@ -39,7 +39,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmitPage: WhoPlannedT
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
-    Ok(whoPlannedToSubmitPage(
+    Ok(whoPlannedToSubmit(
       fillForm(WhoPlannedToSubmitForm.form(), WhoPlannedToSubmitPage),
       isLate = true,
       user.isAgent
@@ -50,7 +50,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmitPage: WhoPlannedT
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     WhoPlannedToSubmitForm.form().bindFromRequest().fold(
       formWithErrors =>
-        Future(BadRequest(whoPlannedToSubmitPage(
+        Future(BadRequest(whoPlannedToSubmit(
           formWithErrors,
           isLate = true,
           user.isAgent

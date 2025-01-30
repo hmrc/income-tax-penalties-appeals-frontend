@@ -20,68 +20,63 @@ object WhenDidEventHappenMessages {
 
   sealed trait Messages { _: i18n =>
 
-    val reasonMessage: String => String = {
-      case "bereavement" => "bereavement message"
-      case "crime" => "crime message"
-    }
-
-    def errorMessageConstructor(reasonableExcuse: String, suffix: String, missing: Option[String] = None, missingTwo: Option[String] = None ): String = {
+    def errorMessageConstructor(reasonableExcuse: String, suffix: String, args: String*): String = {
       reasonableExcuse match {
         case "bereavementReason" => suffix match {
-          case "Invalid" => bereavementReasonInvalid
-          case "RequiredAll" => bereavementReasonRequiredAll
-          case "RequiredTwo" => bereavementReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => bereavementReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => bereavementReasonNotInFuture
+          case "invalid" => bereavementReasonInvalid
+          case "required.all" => bereavementReasonRequiredAll
+          case "required.two" => bereavementReasonRequiredTwo(args.head, args(1))
+          case "required" => bereavementReasonRequired(args.head)
+          case "notInFuture" => bereavementReasonNotInFuture
         }
         case "crimeReason" => suffix match {
-          case "Invalid" => crimeReasonInvalid
-          case "RequiredAll" => crimeReasonRequiredAll
-          case "RequiredTwo" => crimeReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => crimeReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => crimeReasonNotInFuture
+          case "invalid" => crimeReasonInvalid
+          case "required.all" => crimeReasonRequiredAll
+          case "required.two" => crimeReasonRequiredTwo(args.head, args(1))
+          case "required" => crimeReasonRequired(args.head)
+          case "notInFuture" => crimeReasonNotInFuture
         }
         case "fireOrFloodReason" => suffix match {
-          case "Invalid" => fireOrFloodReasonInvalid
-          case "RequiredAll" => fireOrFloodReasonRequiredAll
-          case "RequiredTwo" => fireOrFloodReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => fireOrFloodReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => fireOrFloodReasonNotInFuture
+          case "invalid" => fireOrFloodReasonInvalid
+          case "required.all" => fireOrFloodReasonRequiredAll
+          case "required.two" => fireOrFloodReasonRequiredTwo(args.head, args(1))
+          case "required" => fireOrFloodReasonRequired(args.head)
+          case "notInFuture" => fireOrFloodReasonNotInFuture
         }
         case "technicalReason" => suffix match {
-          case "Invalid" => technicalReasonInvalid
-          case "RequiredAll" => technicalReasonRequiredAll
-          case "RequiredTwo" => technicalReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => technicalReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => technicalReasonNotInFuture
+          case "invalid" => technicalReasonInvalid
+          case "required.all" => technicalReasonRequiredAll
+          case "required.two" => technicalReasonRequiredTwo(args.head, args(1))
+          case "required" => technicalReasonRequired(args.head)
+          case "notInFuture" => technicalReasonNotInFuture
         }
         case "cessationReason" => suffix match {
-          case "Invalid" => cessationReasonInvalid
-          case "RequiredAll" => cessationReasonRequiredAll
-          case "RequiredTwo" => cessationReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => cessationReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => cessationReasonNotInFuture
+          case "invalid" => cessationReasonInvalid
+          case "required.all" => cessationReasonRequiredAll
+          case "required.two" => cessationReasonRequiredTwo(args.head, args(1))
+          case "required" => cessationReasonRequired(args.head)
+          case "notInFuture" => cessationReasonNotInFuture
         }
         case "healthReason" => suffix match {
-          case "Invalid" => healthReasonInvalid
-          case "RequiredAll" => healthReasonRequiredAll
-          case "RequiredTwo" => healthReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => healthReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => healthReasonNotInFuture
+          case "invalid" => healthReasonInvalid
+          case "required.all" => healthReasonRequiredAll
+          case "required.two" => healthReasonRequiredTwo(args.head, args(1))
+          case "required" => healthReasonRequired(args.head)
+          case "notInFuture" => healthReasonNotInFuture
         }
         case "unexpectedHospitalReason" => suffix match {
-          case "Invalid" => unexpectedHospitalReasonInvalid
-          case "RequiredAll" => unexpectedHospitalReasonRequiredAll
-          case "RequiredTwo" => unexpectedHospitalReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => unexpectedHospitalReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => unexpectedHospitalReasonNotInFuture
+          case "invalid" => unexpectedHospitalReasonInvalid
+          case "required.all" => unexpectedHospitalReasonRequiredAll
+          case "required.two" => unexpectedHospitalReasonRequiredTwo(args.head, args(1))
+          case "required" => unexpectedHospitalReasonRequired(args.head)
+          case "notInFuture" => unexpectedHospitalReasonNotInFuture
         }
         case "otherReason" => suffix match {
-          case "Invalid" => otherReasonInvalid
-          case "RequiredAll" => otherReasonRequiredAll
-          case "RequiredTwo" => otherReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-          case "Required" => otherReasonRequired(missing.getOrElse(""))
-          case "NotInFuture" => otherReasonNotInFuture
+          case "invalid" => otherReasonInvalid
+          case "required.all" => otherReasonRequiredAll
+          case "required.two" => otherReasonRequiredTwo(args.head, args(1))
+          case "required" => otherReasonRequired(args.head)
+          case "notInFuture" => otherReasonNotInFuture
         }
       }
     }

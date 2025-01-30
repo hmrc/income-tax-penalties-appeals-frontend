@@ -27,7 +27,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class ViewAppealDetailsController @Inject()(viewAppealDetailsPage: ViewAppealDetailsPage,
+class ViewAppealDetailsController @Inject()(viewAppealDetails: ViewAppealDetailsView,
                                             val authorised: AuthAction,
                                             withNavBar: NavBarRetrievalAction,
                                             withAnswers: UserAnswersAction,
@@ -37,7 +37,7 @@ class ViewAppealDetailsController @Inject()(viewAppealDetailsPage: ViewAppealDet
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(viewAppealDetailsPage(
+      Future(Ok(viewAppealDetails(
         true, currentUser.isAgent, reasonableExcuse
       )))
     }

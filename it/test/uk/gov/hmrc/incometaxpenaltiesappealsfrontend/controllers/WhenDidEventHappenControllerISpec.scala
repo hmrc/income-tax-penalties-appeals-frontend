@@ -17,16 +17,14 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.WhenDidEventHappenMessages
-import org.apache.pekko.util.Helpers.Requiring
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.{CrimeReportedForm, WhenDidEventHappenForm}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
@@ -222,7 +220,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
             document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
             val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "Required", Some("day")))
+            error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required", "day")
             error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
@@ -247,7 +245,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
             document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
             val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "Required", Some("month")))
+            error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required", "month")
             error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
         }
       }
@@ -272,7 +270,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "Required", Some("year")))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required", "year")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
         }
       }
@@ -297,7 +295,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "RequiredTwo", Some("day"), Some("month")))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.two", "day", "month")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
@@ -322,7 +320,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "RequiredTwo", Some("day"), Some("year")))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.two", "day", "year")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
@@ -347,7 +345,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "RequiredTwo", Some("month"), Some("year")))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.two", "month", "year")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
         }
       }
@@ -372,7 +370,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "RequiredAll"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.all")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
@@ -397,7 +395,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "Invalid"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "invalid")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
@@ -422,7 +420,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "Invalid"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "invalid")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
         }
       }
@@ -447,7 +445,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "Invalid"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "invalid")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
         }
       }
@@ -472,7 +470,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe (WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "NotInFuture"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "notInFuture")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }

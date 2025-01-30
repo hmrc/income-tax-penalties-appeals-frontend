@@ -18,23 +18,20 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
 
-class AppealStartController @Inject()(appealStartPage: AppealStartPage,
+class AppealStartController @Inject()(appealStart: AppealStartView,
                                       val authorised: AuthAction,
                                       withNavBar: NavBarRetrievalAction,
                                       override val controllerComponents: MessagesControllerComponents
-                                     )(implicit ec: ExecutionContext,
-                                       val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
+                                     )(implicit val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
         //      logger.debug(s"[AppealStartController][onPageLoad] - Session keys received: \n" +
         //        s"Appeal Type = ${userRequest.answers.getAnswer[PenaltyTypeEnum.Value](IncomeTaxSessionKeys.appealType)}, \n" +
@@ -46,7 +43,7 @@ class AppealStartController @Inject()(appealStartPage: AppealStartPage,
         //        s"Date communication sent of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.dateCommunicationSent)}, \n")
 
 
-        Ok(appealStartPage(
+        Ok(appealStart(
           true, currentUser.isAgent
         ))
   }

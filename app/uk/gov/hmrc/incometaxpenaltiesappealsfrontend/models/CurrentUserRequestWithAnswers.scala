@@ -30,7 +30,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val isAgent: Boolean = arn.isDefined
   val journeyId: String = userAnswers.journeyId
 
-  def getMandatoryAnswer[A](page: Page[A])(implicit reads: Reads[A]): A =
+  def getMandatoryAnswer[T](page: Page[T])(implicit reads: Reads[T]): T =
     userAnswers.getAnswer(page) match {
       case Some(value) => value
       case None =>

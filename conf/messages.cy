@@ -164,6 +164,29 @@ healthReason.date.error.notInFuture = TBC (Welsh)
 unexpectedHospitalReason.date.error.notInFuture = TBC (Welsh)
 otherReason.date.error.notInFuture = TBC (Welsh)
 
+technicalReason.end.date.error.required.all = Tell us when the software or technology issues ended (Welsh)
+technicalReason.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1} (Welsh)
+technicalReason.end.date.error.required = The date the software or technology issues ended must include a {0} (Welsh)
+technicalReason.end.date.error.invalid = The date the software or technology issues ended must be a real date (Welsh)
+technicalReason.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past (Welsh)
+technicalReason.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
+
+# Months
+# -----------------------------------------------------------
+month.1 = Ionawr
+month.2 = Chwefror
+month.3 = Mawrth
+month.4 = Ebrill
+month.5 = Mai
+month.6 = Mehefin
+month.7 = Gorffennaf
+month.8 = Awst
+month.9 = Medi
+month.10 = Hydref
+month.11 = Tachwedd
+month.12 = Rhagfyr
+
+
 common.dateHint = For example, 12 3 2018 (Welsh)
 common.continue = Yn eich blaen
 common.acceptAndContinue = Derbyn ac yn eich blaen

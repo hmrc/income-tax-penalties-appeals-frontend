@@ -320,6 +320,29 @@ healthReason.date.error.notInFuture = TBC
 unexpectedHospitalReason.date.error.notInFuture = TBC
 otherReason.date.error.notInFuture = TBC
 
+technicalReason.end.date.error.required.all = Tell us when the software or technology issues ended
+technicalReason.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
+technicalReason.end.date.error.required = The date the software or technology issues ended must include a {0}
+technicalReason.end.date.error.invalid = The date the software or technology issues ended must be a real date
+technicalReason.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
+technicalReason.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
+
+# Months
+# -----------------------------------------------------------
+month.1 = January
+month.2 = February
+month.3 = March
+month.4 = April
+month.5 = May
+month.6 = June
+month.7 = July
+month.8 = August
+month.9 = September
+month.10 = October
+month.11 = November
+month.12 = December
+
+
 common.dateHint = For example, 12 3 2018
 common.continue = Continue
 common.acceptAndContinue = Accept and continue

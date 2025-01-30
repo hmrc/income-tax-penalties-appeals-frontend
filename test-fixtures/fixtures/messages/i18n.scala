@@ -28,6 +28,9 @@ sealed trait i18n {
   val no: String = "No"
   val errorPrefix: String = "Error: "
   val thereIsAProblem: String = "There is a problem"
+  val day = "day"
+  val month = "month"
+  val year = "year"
   val lang: Language
 }
 
@@ -44,5 +47,8 @@ trait Cy extends i18n {
   override val no: String = "Na"
   override val errorPrefix: String = "Gwall:"
   override val thereIsAProblem: String = "Mae problem wedi codi"
+  override val day = "diwrnod"
+  override val month = "mis"
+  override val year = "blwyddyn"
   override val lang: Language = language.Cy
 }

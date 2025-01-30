@@ -29,7 +29,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrimeBeenReportedPage,
+class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeenReportedView,
                                         val authorised: AuthAction,
                                         withNavBar: NavBarRetrievalAction,
                                         withAnswers: UserAnswersAction,
@@ -40,8 +40,8 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(hasTheCrimeBeenReportedPage(
-        form = fillForm(CrimeReportedForm.form, CrimeReportedPage),
+      Future(Ok(hasTheCrimeBeenReported(
+        form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
         isLate = true,
         isAgent = currentUser.isAgent,
         reasonableExcuseMessageKey = reasonableExcuse
@@ -50,10 +50,10 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    CrimeReportedForm.form.bindFromRequest().fold(
+    CrimeReportedForm.form().bindFromRequest().fold(
       formWithErrors =>
         withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(BadRequest(hasTheCrimeBeenReportedPage(
+          Future(BadRequest(hasTheCrimeBeenReported(
             form = formWithErrors,
             isLate = true,
             isAgent = user.isAgent,

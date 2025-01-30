@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
+import play.api.http.Status.INTERNAL_SERVER_ERROR
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
-import play.api.http.Status.INTERNAL_SERVER_ERROR
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MessageCountHttpParser.GetMessageCountResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MessageCountHttpParser.{GetMessageCountResponse, MessagesCountUnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
