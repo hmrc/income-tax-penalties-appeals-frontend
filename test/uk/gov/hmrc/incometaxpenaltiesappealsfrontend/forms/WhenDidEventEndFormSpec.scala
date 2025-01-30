@@ -48,7 +48,8 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
         behave like dateForm(
           form = form,
           fieldName = "date",
-          errorMessage = errorType => s"technicalReason.end.date.error.$errorType",
+          errorMessageKey = errorType => s"technicalReason.end.date.error.$errorType",
+          errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, args:_*),
           messagesForLanguage = messagesForLanguage
         )
 
@@ -65,8 +66,8 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
             FormError(
               key = "date.day",
               message = messagesForLanguage.errorMessageConstructor(
-                "EndDateLessThanStartDate",
-                startDate = Some(s"1 ${monthMessages.january} 2021")
+                "endDateLessThanStartDate",
+                s"1 ${monthMessages.january} 2021"
               ),
               args = Seq(monthMessages.day, monthMessages.month, monthMessages.year)
             )

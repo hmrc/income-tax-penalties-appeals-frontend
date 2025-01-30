@@ -20,16 +20,15 @@ object WhenDidEventEndMessages {
 
   sealed trait Messages { _: i18n =>
 
-    def errorMessageConstructor(suffix: String, missing: Option[String] = None, missingTwo: Option[String] = None, startDate:Option[String] = None ): String = {
+    def errorMessageConstructor(suffix: String, args: String*): String =
       suffix match {
-        case "Invalid" => technicalReasonInvalid
-        case "RequiredAll" => technicalReasonRequiredAll
-        case "RequiredTwo" => technicalReasonRequiredTwo(missing.getOrElse(""), missingTwo.getOrElse(""))
-        case "Required" => technicalReasonRequired(missing.getOrElse(""))
-        case "NotInFuture" => technicalReasonNotInFuture
-        case "EndDateLessThanStartDate" => technicalReasonEndDateLessThanStartDate(startDate.getOrElse(""))
+        case "invalid" => technicalReasonInvalid
+        case "required.all" => technicalReasonRequiredAll
+        case "required.two" => technicalReasonRequiredTwo(args.head, args(1))
+        case "required" => technicalReasonRequired(args.head)
+        case "notInFuture" => technicalReasonNotInFuture
+        case "endDateLessThanStartDate" => technicalReasonEndDateLessThanStartDate(args.head)
       }
-    }
 
     val technicalReasonInvalid = "The date the software or technology issues ended must be a real date"
     val technicalReasonRequiredAll = "Tell us when the software or technology issues ended"

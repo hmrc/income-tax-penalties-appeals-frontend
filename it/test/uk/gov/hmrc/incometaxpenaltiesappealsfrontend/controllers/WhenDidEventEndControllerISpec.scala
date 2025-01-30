@@ -154,7 +154,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("Required", Some("day"))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", "day")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
       }
     }
@@ -178,7 +178,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("Required", Some("month"))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", "month")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
       }
     }
@@ -202,7 +202,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("Required", Some("year"))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", "year")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".year"}"
       }
     }
@@ -226,7 +226,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("RequiredTwo", Some("day"), Some("month"))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", "day", "month")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
       }
     }
@@ -250,7 +250,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("RequiredTwo", Some("day"), Some("year"))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", "day", "year")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
       }
     }
@@ -274,7 +274,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("RequiredTwo", Some("month"), Some("year"))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", "month", "year")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
       }
     }
@@ -298,7 +298,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("RequiredAll")
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.all")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
       }
     }
@@ -322,7 +322,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("NotInFuture")
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("notInFuture")
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
       }
     }
@@ -363,7 +363,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("EndDateLessThanStartDate", startDate = Some(formattedDate))
+        error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("endDateLessThanStartDate", formattedDate)
         error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
       }
     }

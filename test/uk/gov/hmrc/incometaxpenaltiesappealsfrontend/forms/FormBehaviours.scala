@@ -20,6 +20,7 @@ import fixtures.messages.i18n
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.data.{Form, FormError}
+import play.api.i18n.Messages
 
 trait FormBehaviours extends AnyWordSpec with Matchers {
 
@@ -47,8 +48,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
   //scalastyle:off
   def dateForm(form: Form[_],
                fieldName: String,
-               errorMessage: String => String,
-               messagesForLanguage: i18n): Unit = {
+               errorMessageKey: String => String,
+               errorMessageValue: (String, Seq[String]) => String,
+               messagesForLanguage: i18n)(implicit messages: Messages): Unit = {
 
     "bind when the date is valid" in {
 
@@ -72,7 +74,13 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("notInFuture"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+        val error = result.errors.head
+        error shouldBe FormError(
+          key = s"$fieldName.day",
+          message = errorMessageKey("notInFuture"),
+          args = Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year)
+        )
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("notInFuture", Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
 
       "the date is not valid" in {
@@ -84,7 +92,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("invalid"), Seq())
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("invalid"), Seq())
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("invalid", Seq())
       }
 
       "the date contains strings instead of numbers" in {
@@ -96,7 +106,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("invalid"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("invalid"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("invalid", Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
 
       "the date has no day" in {
@@ -108,7 +120,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required"), Seq(messagesForLanguage.day))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("required"), Seq(messagesForLanguage.day))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required", Seq(messagesForLanguage.day))
       }
 
       "the date has no month" in {
@@ -120,7 +134,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.month", errorMessage("required"), Seq(messagesForLanguage.month))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.month", errorMessageKey("required"), Seq(messagesForLanguage.month))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required", Seq(messagesForLanguage.month))
       }
 
       "the date has no year" in {
@@ -132,7 +148,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.year", errorMessage("required"), Seq(messagesForLanguage.year))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.year", errorMessageKey("required"), Seq(messagesForLanguage.year))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required", Seq(messagesForLanguage.year))
       }
 
       "the date has a day but no month and year" in {
@@ -144,7 +162,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.month", errorMessage("required.two"), Seq(messagesForLanguage.month, messagesForLanguage.year))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.month", errorMessageKey("required.two"), Seq(messagesForLanguage.month, messagesForLanguage.year))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required.two", Seq(messagesForLanguage.month, messagesForLanguage.year))
       }
 
       "the date has a month but no day and year" in {
@@ -156,7 +176,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.two"), Seq(messagesForLanguage.day, messagesForLanguage.year))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("required.two"), Seq(messagesForLanguage.day, messagesForLanguage.year))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required.two", Seq(messagesForLanguage.day, messagesForLanguage.year))
       }
 
       "the date has a year but no day and month" in {
@@ -168,7 +190,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.two"), Seq(messagesForLanguage.day, messagesForLanguage.month))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("required.two"), Seq(messagesForLanguage.day, messagesForLanguage.month))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required.two", Seq(messagesForLanguage.day, messagesForLanguage.month))
       }
 
       "the date has no values" in {
@@ -180,7 +204,9 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.all"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("required.all"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+        messages(error.message, error.args:_*) shouldBe errorMessageValue("required.all", Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
     }
   }

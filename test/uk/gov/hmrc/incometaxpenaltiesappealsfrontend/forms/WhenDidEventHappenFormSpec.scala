@@ -54,7 +54,12 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
         val form: Form[LocalDate] = WhenDidEventHappenForm.form(reason)(messages, appConfig, timeMachine)
 
         s"WhenDidEventHappenForm with $reason" should {
-          behave like dateForm(form, "date", errorType => s"$reason.date.error.$errorType", messagesForLanguage)
+          behave like dateForm(
+            form, "date",
+            errorType => s"$reason.date.error.$errorType",
+            (errorType, args) => messagesForLanguage.errorMessageConstructor(reason, errorType, args: _*),
+            messagesForLanguage
+          )
         }
       }
     }
