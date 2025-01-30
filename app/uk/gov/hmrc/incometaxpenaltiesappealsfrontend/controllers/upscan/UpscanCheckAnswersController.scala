@@ -25,13 +25,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWi
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsUploadCheckAnswersPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsUploadCheckAnswersView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpscanCheckAnswersController @Inject()(nonJsCheckAnswersPage: NonJsUploadCheckAnswersPage,
+class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheckAnswersView,
                                              upscanService: UpscanService,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
@@ -42,7 +42,7 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswersPage: NonJsUploadC
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withNonEmptyReadyFiles { files =>
-      Future(Ok(nonJsCheckAnswersPage(
+      Future(Ok(nonJsCheckAnswers(
         UploadAnotherFileForm.form(),
         UploadedFilesViewModel(files),
         routes.UpscanCheckAnswersController.onSubmit()
@@ -55,7 +55,7 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswersPage: NonJsUploadC
       if (files.size < appConfig.upscanMaxNumberOfFiles) {
         UploadAnotherFileForm.form().bindFromRequest().fold(
           formWithErrors =>
-            Future(BadRequest(nonJsCheckAnswersPage(
+            Future(BadRequest(nonJsCheckAnswers(
               formWithErrors,
               UploadedFilesViewModel(files),
               routes.UpscanCheckAnswersController.onSubmit()

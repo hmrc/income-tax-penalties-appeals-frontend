@@ -27,7 +27,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersPage,
+class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersView,
                                            val authorised: AuthAction,
                                            withNavBar: NavBarRetrievalAction,
                                            withAnswers: UserAnswersAction,

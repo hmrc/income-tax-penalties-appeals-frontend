@@ -21,13 +21,13 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
 
-class AppealStartController @Inject()(appealStartPage: AppealStartPage,
+class AppealStartController @Inject()(appealStart: AppealStartView,
                                       val authorised: AuthAction,
                                       withNavBar: NavBarRetrievalAction,
                                       override val controllerComponents: MessagesControllerComponents
@@ -43,7 +43,7 @@ class AppealStartController @Inject()(appealStartPage: AppealStartPage,
         //        s"Date communication sent of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.dateCommunicationSent)}, \n")
 
 
-        Ok(appealStartPage(
+        Ok(appealStart(
           true, currentUser.isAgent
         ))
   }

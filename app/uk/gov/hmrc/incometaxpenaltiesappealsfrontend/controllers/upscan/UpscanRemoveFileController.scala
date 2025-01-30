@@ -26,13 +26,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWi
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsRemoveFilePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsRemoveFileView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpscanRemoveFileController @Inject()(nonJsRemoveFilePage: NonJsRemoveFilePage,
+class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
                                            upscanService: UpscanService,
                                            val authorised: AuthAction,
                                            withNavBar: NavBarRetrievalAction,
@@ -62,7 +62,7 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFilePage: NonJsRemoveFileP
   private def renderView(status: Status, form: Form[_], fileReference: String, index: Int)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
     upscanService.getFile(user.journeyId, fileReference).map(_.flatMap(UploadedFilesViewModel(_, index))).map {
       case Some(viewModel) =>
-        status(nonJsRemoveFilePage(form, viewModel, routes.UpscanRemoveFileController.onSubmit(fileReference, index)))
+        status(nonJsRemoveFile(form, viewModel, routes.UpscanRemoveFileController.onSubmit(fileReference, index)))
       case _ =>
         logger.info("[UpscanRemoveFileController][onPageLoad] User attempted to remove a file that does not exist, bouncing back to Upscan Check Answers page")
         Redirect(routes.UpscanCheckAnswersController.onPageLoad())

@@ -27,11 +27,11 @@ import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
 
-class NonJsFileUploadPageSpec extends ViewBehaviours with GuiceOneAppPerSuite with FileUploadFixtures {
+class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite with FileUploadFixtures {
 
-  lazy val uploadFilePage: NonJsFileUploadPage = app.injector.instanceOf[NonJsFileUploadPage]
+  lazy val uploadFilePage: NonJsFileUploadView = app.injector.instanceOf[NonJsFileUploadView]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]

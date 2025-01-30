@@ -19,18 +19,18 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcuseView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcusePage,
+class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseView,
                                            val authorised: AuthAction,
                                            withNavBar: NavBarRetrievalAction,
                                            withAnswers: UserAnswersAction,
@@ -41,7 +41,7 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
                                             val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
-    Future(Ok(reasonableExcusePage(
+    Future(Ok(reasonableExcuse(
       form = fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage),
       isAgent = currentUser.isAgent
     )))
@@ -51,7 +51,7 @@ class ReasonableExcuseController @Inject()(reasonableExcusePage: ReasonableExcus
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     ReasonableExcusesForm.form().bindFromRequest().fold(
       formWithErrors =>
-        Future(BadRequest(reasonableExcusePage(
+        Future(BadRequest(reasonableExcuse(
           isAgent = user.isAgent,
           form = formWithErrors
         ))),

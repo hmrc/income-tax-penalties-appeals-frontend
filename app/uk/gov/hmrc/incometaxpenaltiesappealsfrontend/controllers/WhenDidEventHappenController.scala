@@ -31,7 +31,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEventHappen,
+class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHappenView,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
                                              withAnswers: UserAnswersAction,
@@ -43,7 +43,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(whenDidEventHappenView(
+      Future(Ok(whenDidEventHappen(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
         isAgent = user.isAgent,
         reasonableExcuseMessageKey = reasonableExcuse
@@ -55,7 +55,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappenView: WhenDidEven
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(whenDidEventHappenView(
+          Future.successful(BadRequest(whenDidEventHappen(
             user.isAgent,
             reasonableExcuse,
             formWithErrors

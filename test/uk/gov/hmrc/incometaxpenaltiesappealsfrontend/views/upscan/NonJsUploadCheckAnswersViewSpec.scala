@@ -28,11 +28,11 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsUploadCheckAnswersPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsUploadCheckAnswersView
 
-class NonJsUploadCheckAnswersPageSpec extends ViewBehaviours with GuiceOneAppPerSuite with FileUploadFixtures {
+class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPerSuite with FileUploadFixtures {
 
-  lazy val uploadCheckAnswers: NonJsUploadCheckAnswersPage = app.injector.instanceOf[NonJsUploadCheckAnswersPage]
+  lazy val uploadCheckAnswers: NonJsUploadCheckAnswersView = app.injector.instanceOf[NonJsUploadCheckAnswersView]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]

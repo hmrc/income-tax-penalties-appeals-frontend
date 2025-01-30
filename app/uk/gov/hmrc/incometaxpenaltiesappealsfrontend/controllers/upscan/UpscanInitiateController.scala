@@ -28,13 +28,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusE
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpscanInitiateController @Inject()(nonJsUploadPage: NonJsFileUploadPage,
+class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
                                          upscanService: UpscanService,
                                          val authorised: AuthAction,
                                          withNavBar: NavBarRetrievalAction,
@@ -49,9 +49,9 @@ class UpscanInitiateController @Inject()(nonJsUploadPage: NonJsFileUploadPage,
     withFileUploadFormFields(key) { formFields =>
       errorCode match {
         case Some(code) =>
-          Future(BadRequest(nonJsUploadPage(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields)))
+          Future(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields)))
         case _ =>
-          Future(Ok(nonJsUploadPage(form, formFields)))
+          Future(Ok(nonJsFileUpload(form, formFields)))
       }
     }
   }

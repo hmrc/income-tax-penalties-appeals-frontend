@@ -27,7 +27,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class ConfirmationController @Inject()(confirmationPage: ConfirmationPage,
+class ConfirmationController @Inject()(confirmation: ConfirmationView,
                                        val authorised: AuthAction,
                                        withNavBar: NavBarRetrievalAction,
                                        withAnswers: UserAnswersAction,
@@ -38,7 +38,7 @@ class ConfirmationController @Inject()(confirmationPage: ConfirmationPage,
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(confirmationPage(
+      Future(Ok(confirmation(
         true, currentUser.isAgent, reasonableExcuse
       )))
     }
