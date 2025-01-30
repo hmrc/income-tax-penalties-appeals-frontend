@@ -27,6 +27,7 @@ trait BaseSelectors {
   val label: String => String = input => s"label[for=$input]"
   val button: String = "button.govuk-button"
   val legend: String = "fieldset legend"
+  val hint: String = "div.govuk-hint"
   val radio: Int => String = i => s"div.govuk-radios__item:nth-of-type($i) label"
   val summaryRowKey: Int => String = i => s"dl > div:nth-of-type($i) > dt"
   val summaryRowValue: Int => String = i => s"dl > div:nth-of-type($i) > dd:nth-of-type(1)"

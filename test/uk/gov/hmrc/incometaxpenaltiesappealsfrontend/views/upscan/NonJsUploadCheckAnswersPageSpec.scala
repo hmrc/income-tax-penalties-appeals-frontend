@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
-import fixtures.messages.NonJsUploadCheckAnswersMessages
+import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -65,6 +65,10 @@ class NonJsUploadCheckAnswersPageSpec extends ViewBehaviours with GuiceOneAppPer
           Selectors.radio(2) -> messagesForLanguage.no,
           Selectors.button -> messagesForLanguage.continue
         )
+
+        "have a remove link that redirects to the Remove File controller" in {
+          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1).url
+        }
       }
 
       s"the number of files which has been added is == ${appConfig.upscanMaxNumberOfFiles}" when {
@@ -98,6 +102,10 @@ class NonJsUploadCheckAnswersPageSpec extends ViewBehaviours with GuiceOneAppPer
           Selectors.radio(1),
           Selectors.radio(2)
         )
+
+        "have a remove link that redirects to the Remove File controller" in {
+          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1).url
+        }
       }
     }
   }

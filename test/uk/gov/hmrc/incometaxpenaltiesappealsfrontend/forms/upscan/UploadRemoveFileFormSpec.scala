@@ -14,46 +14,46 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan
 
-import fixtures.messages.NonJsUploadCheckAnswersMessages
+import fixtures.messages.upscan.NonJsRemoveFileMessages
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.FormBehaviours
 
-class UploadAnotherFileFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours {
+class UploadRemoveFileFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours {
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  Seq(NonJsUploadCheckAnswersMessages.English, NonJsUploadCheckAnswersMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(NonJsRemoveFileMessages.English, NonJsRemoveFileMessages.Welsh).foreach { messagesForLanguage =>
 
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[Boolean] = UploadAnotherFileForm.form()
+      val form: Form[Boolean] = UploadRemoveFileForm.form()
 
       behave like mandatoryField(
         form = form,
-        fieldName = UploadAnotherFileForm.key,
-        requiredError = FormError(UploadAnotherFileForm.key, messagesForLanguage.errorRequired)
+        fieldName = UploadRemoveFileForm.key,
+        requiredError = FormError(UploadRemoveFileForm.key, messagesForLanguage.errorRequired)
       )
 
       "bind valid values" in {
         Seq("true", "false").foreach { value =>
-          val result = form.bind(Map(UploadAnotherFileForm.key -> value))
+          val result = form.bind(Map(UploadRemoveFileForm.key -> value))
           result.value shouldBe Some(value.toBoolean)
         }
       }
 
       "not bind invalid values, and render error" in {
-        val result = form.bind(Map(UploadAnotherFileForm.key -> "foo"))
-        result.errors.headOption shouldBe Some(FormError(UploadAnotherFileForm.key, messagesForLanguage.errorInvalid))
+        val result = form.bind(Map(UploadRemoveFileForm.key -> "foo"))
+        result.errors.headOption shouldBe Some(FormError(UploadRemoveFileForm.key, messagesForLanguage.errorInvalid))
       }
     }
   }

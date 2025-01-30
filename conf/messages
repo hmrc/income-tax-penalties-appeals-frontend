@@ -268,6 +268,13 @@ uploadCheckAnswers.nonJs.addAnother.legend = Do you want to upload another file?
 uploadCheckAnswers.nonJs.addAnother.error.required = Tell us if you want to upload another file
 uploadCheckAnswers.nonJs.addAnother.error.invalid = Tell us if you want to upload another file
 
+# NonJs Confirm Remove File page
+# ----------------------------------------------------------
+uploadRemoveFile.nonJs.headingAndTitle = Are you sure you want to remove file {0}?
+uploadRemoveFile.nonJs.hint = Filename: {0}
+uploadRemoveFile.nonJs.error.required = Select yes if you want to remove this file
+uploadRemoveFile.nonJs.error.invalid = Select yes if you want to remove this file
+
 crimeReason.date.error.invalid = The date of the crime must be a real date
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan
 
 import fixtures.messages.SynchronousUpscanErrorMessages
 import org.scalatest.matchers.should
@@ -22,7 +22,6 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.{QUARANTINE, REJECTED, UNKNOWN}
 
 class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite {

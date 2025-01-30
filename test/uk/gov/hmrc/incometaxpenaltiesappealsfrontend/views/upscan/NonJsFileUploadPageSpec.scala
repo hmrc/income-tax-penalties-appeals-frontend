@@ -17,7 +17,8 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
-import fixtures.messages.{NonJsFileUploadMessages, SupportedFileTypeMessages}
+import fixtures.messages.SupportedFileTypeMessages
+import fixtures.messages.upscan.NonJsFileUploadMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
