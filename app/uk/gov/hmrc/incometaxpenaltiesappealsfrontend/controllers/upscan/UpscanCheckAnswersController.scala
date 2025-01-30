@@ -43,7 +43,7 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswersPage: NonJsUploadC
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withNonEmptyReadyFiles { files =>
       Future(Ok(nonJsCheckAnswersPage(
-        UploadAnotherFileForm.form,
+        UploadAnotherFileForm.form(),
         UploadedFilesViewModel(files),
         routes.UpscanCheckAnswersController.onSubmit()
       )))
@@ -53,7 +53,7 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswersPage: NonJsUploadC
   def onSubmit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withNonEmptyReadyFiles { files =>
       if (files.size < appConfig.upscanMaxNumberOfFiles) {
-        UploadAnotherFileForm.form.bindFromRequest().fold(
+        UploadAnotherFileForm.form().bindFromRequest().fold(
           formWithErrors =>
             Future(BadRequest(nonJsCheckAnswersPage(
               formWithErrors,

@@ -14,14 +14,13 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.govukfrontend.views.Implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.govukfrontend.views.Implicits._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
 
 @this(layout: Layout,
         govukButton : GovukButton,
@@ -34,7 +33,7 @@
         isLate: Boolean,
         isAgent: Boolean,
         reasonableExcuseMessageKey: String
-)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+)(implicit request: Request[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("crimeReason.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 

@@ -16,7 +16,6 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.Implicits.RichErrorSummary
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components.inputDate
@@ -31,7 +30,7 @@
       govukErrorSummary: GovukErrorSummary,
       dateInput: inputDate)
 
-@(isAgent: Boolean, reasonableExcuseMessageKey: String, form: Form[LocalDate])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(isAgent: Boolean, reasonableExcuseMessageKey: String, form: Form[LocalDate])(implicit request: Request[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages(s"whenDidEventHappen.$reasonableExcuseMessageKey.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 

@@ -39,7 +39,9 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
   val testStartDate: LocalDate = LocalDate.of(2024, 3, 2)
 
-  val userAnswer: UserAnswers = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "technicalReason").setAnswer(WhenDidEventHappenPage, testStartDate)
+  val userAnswer: UserAnswers = UserAnswers(testJourneyId)
+    .setAnswer(ReasonableExcusePage, "technicalReason")
+    .setAnswer(WhenDidEventHappenPage, testStartDate)
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue

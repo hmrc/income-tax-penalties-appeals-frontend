@@ -41,7 +41,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(hasTheCrimeBeenReportedPage(
-        form = fillForm(CrimeReportedForm.form, CrimeReportedPage),
+        form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
         isLate = true,
         isAgent = currentUser.isAgent,
         reasonableExcuseMessageKey = reasonableExcuse
@@ -50,7 +50,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReportedPage: HasTheCrime
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    CrimeReportedForm.form.bindFromRequest().fold(
+    CrimeReportedForm.form().bindFromRequest().fold(
       formWithErrors =>
         withAnswer(ReasonableExcusePage) { reasonableExcuse =>
           Future(BadRequest(hasTheCrimeBeenReportedPage(

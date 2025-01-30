@@ -36,8 +36,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.components.ImplicitDateFormatter
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{DateFormatter, TimeMachine}
 
 import java.time.LocalDate
 
@@ -54,7 +53,7 @@ object WhenDidEventEndForm extends Mappings {
         requiredKey = s"$reasons.end.date.error.required",
         futureKey = Some(s"$reasons.end.date.error.notInFuture"),
         //Using the messages API as it's easier to pass in the startDate message param
-        dateNotEqualOrAfterKeyAndCompareDate = Some((messages(s"$reasons.end.date.error.endDateLessThanStartDate", ImplicitDateFormatter.dateToString(startDate)), startDate))
+        dateNotEqualOrAfterKeyAndCompareDate = Some((messages(s"$reasons.end.date.error.endDateLessThanStartDate", DateFormatter.dateToString(startDate)), startDate))
       )
     )
   }

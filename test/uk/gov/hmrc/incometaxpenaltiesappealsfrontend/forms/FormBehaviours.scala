@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
+import fixtures.messages.i18n
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.data.{Form, FormError}
-
-import java.time.LocalDate
 
 trait FormBehaviours extends AnyWordSpec with Matchers {
 
@@ -49,25 +48,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
   def dateForm(form: Form[_],
                fieldName: String,
                errorMessage: String => String,
-               language: String): Unit = {
-
-    val day: String =
-      language match {
-        case "English" => "day"
-        case "Cymraeg" => "diwrnod"
-      }
-
-    val month: String =
-      language match {
-        case "English" => "month"
-        case "Cymraeg" => "mis"
-      }
-
-    val year: String =
-      language match {
-        case "English" => "year"
-        case "Cymraeg" => "blwyddyn"
-      }
+               messagesForLanguage: i18n): Unit = {
 
     "bind when the date is valid" in {
 
@@ -91,7 +72,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("notInFuture"), Seq(day, month, year))
+        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("notInFuture"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
 
       "the date is not valid" in {
@@ -115,7 +96,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("invalid"), Seq(day, month, year))
+        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("invalid"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
 
       "the date has no day" in {
@@ -127,7 +108,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required"), Seq(day))
+        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required"), Seq(messagesForLanguage.day))
       }
 
       "the date has no month" in {
@@ -139,7 +120,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.month", errorMessage("required"), Seq(month))
+        result.errors.head shouldBe FormError(s"$fieldName.month", errorMessage("required"), Seq(messagesForLanguage.month))
       }
 
       "the date has no year" in {
@@ -151,7 +132,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.year", errorMessage("required"), Seq(year))
+        result.errors.head shouldBe FormError(s"$fieldName.year", errorMessage("required"), Seq(messagesForLanguage.year))
       }
 
       "the date has a day but no month and year" in {
@@ -163,7 +144,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.month", errorMessage("required.two"), Seq(month, year))
+        result.errors.head shouldBe FormError(s"$fieldName.month", errorMessage("required.two"), Seq(messagesForLanguage.month, messagesForLanguage.year))
       }
 
       "the date has a month but no day and year" in {
@@ -175,7 +156,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.two"), Seq(day, year))
+        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.two"), Seq(messagesForLanguage.day, messagesForLanguage.year))
       }
 
       "the date has a year but no day and month" in {
@@ -187,7 +168,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.two"), Seq(day, month))
+        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.two"), Seq(messagesForLanguage.day, messagesForLanguage.month))
       }
 
       "the date has no values" in {
@@ -199,7 +180,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
           )
         )
         result.errors.size shouldBe 1
-        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.all"), Seq(day, month, year))
+        result.errors.head shouldBe FormError(s"$fieldName.day", errorMessage("required.all"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
     }
   }

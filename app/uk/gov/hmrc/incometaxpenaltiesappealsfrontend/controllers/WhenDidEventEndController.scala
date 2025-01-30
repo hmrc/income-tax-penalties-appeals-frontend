@@ -26,7 +26,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
-import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -42,22 +41,21 @@ class WhenDidEventEndController @Inject()(whenDidEventEndView: WhenDidEventEndPa
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    user.userAnswers.getAnswer[LocalDate](WhenDidEventHappenPage) match {
-      case Some(startDate) => withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(Ok(whenDidEventEndView(
-            form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
-            isAgent = user.isAgent,
-            reasonableExcuseMessageKey = reasonableExcuse
-          )))
-        }
-      case None => errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+    withAnswer(WhenDidEventHappenPage) { startDate =>
+      withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+        Future(Ok(whenDidEventEndView(
+          form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
+          isAgent = user.isAgent,
+          reasonableExcuseMessageKey = reasonableExcuse
+        )))
+      }
     }
   }
 
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    user.userAnswers.getAnswer[LocalDate](WhenDidEventHappenPage) match {
-      case Some(startDate) => withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+    withAnswer(WhenDidEventHappenPage) { startDate =>
+      withAnswer(ReasonableExcusePage) { reasonableExcuse =>
         WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
           formWithErrors =>
             Future.successful(BadRequest(whenDidEventEndView(
@@ -66,14 +64,12 @@ class WhenDidEventEndController @Inject()(whenDidEventEndView: WhenDidEventEndPa
               formWithErrors
             ))),
           dateOfEvent => {
-            val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventEndPage, dateOfEvent)
+            val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
             userAnswersService.updateAnswers(updatedAnswers).map { _ =>
               Redirect(routes.LateAppealController.onPageLoad())
             }
           })
       }
-      case None => errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
     }
   }
-
 }

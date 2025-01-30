@@ -173,18 +173,18 @@ technicalReason.end.date.error.endDateLessThanStartDate = The date the software 
 
 # Months
 # -----------------------------------------------------------
-month.1 = January (Welsh)
-month.2 = February (Welsh)
-month.3 = March (Welsh)
-month.4 = April (Welsh)
-month.5 = May (Welsh)
-month.6 = June (Welsh)
-month.7 = July (Welsh)
-month.8 = August (Welsh)
-month.9 = September (Welsh)
-month.10 = October (Welsh)
-month.11 = November (Welsh)
-month.12 = December (Welsh)
+month.1 = Ionawr
+month.2 = Chwefror
+month.3 = Mawrth
+month.4 = Ebrill
+month.5 = Mai
+month.6 = Mehefin
+month.7 = Gorffennaf
+month.8 = Awst
+month.9 = Medi
+month.10 = Hydref
+month.11 = Tachwedd
+month.12 = Rhagfyr
 
 
 common.dateHint = For example, 12 3 2018 (Welsh)

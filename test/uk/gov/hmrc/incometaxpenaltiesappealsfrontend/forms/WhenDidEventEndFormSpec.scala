@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
-import fixtures.messages.WhenDidEventEndMessages
+import fixtures.messages.{MonthMessages, WhenDidEventEndMessages}
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -33,7 +33,10 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
   implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  Seq(WhenDidEventEndMessages.English, WhenDidEventEndMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(
+    WhenDidEventEndMessages.English -> MonthMessages.English,
+    WhenDidEventEndMessages.Welsh -> MonthMessages.Welsh
+  ).foreach { case (messagesForLanguage, monthMessages) =>
 
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
@@ -42,7 +45,12 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
       val form: Form[LocalDate] = WhenDidEventEndForm.form("technicalReason", LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
 
       s"WhenDidEventEndForm with technicalReason" should {
-        behave like dateForm(form, "date", errorType => s"technicalReason.end.date.error.$errorType", messagesForLanguage.lang.name)
+        behave like dateForm(
+          form = form,
+          fieldName = "date",
+          errorMessage = errorType => s"technicalReason.end.date.error.$errorType",
+          messagesForLanguage = messagesForLanguage
+        )
 
         "not bind when the date entered is earlier than the date provided previously" in {
           val result = form.bind(
@@ -53,15 +61,15 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
             )
           )
           result.errors.size shouldBe 1
-
-          messagesForLanguage.lang.name match {
-            case "English" =>
-              result.errors.head shouldBe FormError("date.day",
-                "The date the software or technology issues ended must be 1\u00A0January\u00A02021 or later", Seq("day", "month", "year"))
-            case "Cymraeg" =>
-              result.errors.head shouldBe FormError("date.day",
-                "The date the software or technology issues ended must be 1\u00A0January (Welsh)\u00A02021 or later (Welsh)", Seq("diwrnod", "mis", "blwyddyn"))
-          }
+          result.errors.head shouldBe
+            FormError(
+              key = "date.day",
+              message = messagesForLanguage.errorMessageConstructor(
+                "EndDateLessThanStartDate",
+                startDate = Some(s"1 ${monthMessages.january} 2021")
+              ),
+              args = Seq(monthMessages.day, monthMessages.month, monthMessages.year)
+            )
         }
       }
     }
