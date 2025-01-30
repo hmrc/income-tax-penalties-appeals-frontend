@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan
 
 import fixtures.FileUploadFixtures
-import fixtures.messages.NonJsUploadCheckAnswersMessages
+import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document

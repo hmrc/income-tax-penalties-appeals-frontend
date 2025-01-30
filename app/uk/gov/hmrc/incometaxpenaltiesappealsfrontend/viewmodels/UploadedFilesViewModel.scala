@@ -22,35 +22,41 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{ActionItem, Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
 
 case class UploadedFilesViewModel(fileReference: String,
+                                  index: Int,
                                   filename: String,
                                   fileSize: Int)
 
 object UploadedFilesViewModel extends SummaryListRowHelper {
 
+  def apply(file: UploadJourney, index: Int): Option[UploadedFilesViewModel] = file match {
+    case UploadJourney(reference, _, _, Some(fileDetails), _, _, _) =>
+      Some(UploadedFilesViewModel(
+        fileReference = reference,
+        index = index,
+        filename = fileDetails.fileName,
+        fileSize = fileDetails.size
+      ))
+    case _ => None
+  }
+
   def apply(files: Seq[UploadJourney]): Seq[UploadedFilesViewModel] =
-    files.collect {
-      case UploadJourney(reference, _, _, Some(fileDetails), _, _, _) =>
-        UploadedFilesViewModel(
-          fileReference = reference,
-          filename = fileDetails.fileName,
-          fileSize = fileDetails.size
-        )
-    }
+    files.zipWithIndex.flatMap { case (file, index) => apply(file, index) }
 
   def toSummaryListRows(files: Seq[UploadedFilesViewModel])
                        (implicit messages: Messages): Seq[SummaryListRow] =
-    files.zipWithIndex.map { case (file, i) =>
+    files.map { file =>
       summaryListRow(
-        label = messages("uploadCheckAnswers.nonJs.summaryKey", i + 1),
+        label = messages("uploadCheckAnswers.nonJs.summaryKey", file.index + 1),
         value = HtmlFormat.escape(file.filename),
         actions = Some(Actions(
           items = Seq(
             ActionItem(
-              href = "#", //TODO: Add remove link in future story
+              href = upscanRoutes.UpscanRemoveFileController.onPageLoad(file.fileReference, file.index + 1).url,
               content = Text(messages("common.remove")),
-              visuallyHiddenText = Some(messages("uploadCheckAnswers.nonJs.summaryKey", i + 1))
+              visuallyHiddenText = Some(messages("uploadCheckAnswers.nonJs.summaryKey", file.index + 1))
             )
           )
         ))

@@ -5,3 +5,6 @@ GET       /success-redirect        uk.gov.hmrc.incometaxpenaltiesappealsfrontend
 
 GET       /check-answers           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad()
 POST      /check-answers           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit()
+
+GET       /remove-file             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int)
+POST      /remove-file             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int)

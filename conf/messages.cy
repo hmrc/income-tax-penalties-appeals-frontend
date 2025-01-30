@@ -112,6 +112,13 @@ uploadCheckAnswers.nonJs.addAnother.legend = A ydych eisiau uwchlwytho ffeil ara
 uploadCheckAnswers.nonJs.addAnother.error.required = Rhowch wybod i ni a ydych eisiau uwchlwytho ffeil arall
 uploadCheckAnswers.nonJs.addAnother.error.invalid = Rhowch wybod i ni a ydych eisiau uwchlwytho ffeil arall
 
+# NonJs Confirm Remove File page
+# ----------------------------------------------------------
+uploadRemoveFile.nonJs.headingAndTitle = A ydych yn siŵr eich bod am dynnu ffeil {0}?
+uploadRemoveFile.nonJs.hint = Filename: {0} (Welsh)
+uploadRemoveFile.nonJs.error.required = Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon
+uploadRemoveFile.nonJs.error.invalid = Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon
+
 crimeReason.date.error.invalid = The date of the crime must be a real date (Welsh)
 fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
 technicalReason.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
