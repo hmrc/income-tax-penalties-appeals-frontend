@@ -109,7 +109,14 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                            reasonableExcuse: String
                           )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val correlationId = idGenerator.generateUUID
-    val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(reasonableExcuse, isAppealLate, agentReferenceNo, mtdItId)
+    val modelFromRequest: AppealSubmission =
+      AppealSubmission.constructModelBasedOnReasonableExcuse(
+        reasonableExcuse = reasonableExcuse,
+        isLateAppeal = isAppealLate,
+        agentReferenceNo = agentReferenceNo,
+        uploadedFiles = None, //TODO: Retrieve the file uploads as part of MIPR-1406
+        mtdItId = mtdItId
+      )
     val penaltyNumber = request.session.get(IncomeTaxSessionKeys.penaltyNumber).getOrElse(throw new RuntimeException("[AppealService][singleAppeal] Penalty number not found in session"))
 
     penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, penaltyNumber, correlationId, isMultiAppeal = false).map {
@@ -135,7 +142,13 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
     val firstCorrelationId = idGenerator.generateUUID
     val secondCorrelationId = idGenerator.generateUUID
-    val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(reasonableExcuse, isAppealLate, agentReferenceNo, mtdItId)
+    val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(
+      reasonableExcuse = reasonableExcuse,
+      isLateAppeal = isAppealLate,
+      agentReferenceNo = agentReferenceNo,
+      uploadedFiles = None, //TODO: Retrieve the file uploads as part of
+      mtdItId = mtdItId
+    )
     val firstPenaltyNumber = request.session.get(IncomeTaxSessionKeys.firstPenaltyChargeReference).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
     val secondPenaltyNumber = request.session.get(IncomeTaxSessionKeys.secondPenaltyChargeReference).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Second penalty number not found in session"))
     val dateFrom = request.session.get(IncomeTaxSessionKeys.startDateOfPeriod).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Start date of period not found in session"))

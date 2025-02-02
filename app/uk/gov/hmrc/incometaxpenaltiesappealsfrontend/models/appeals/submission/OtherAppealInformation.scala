@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
 import play.api.libs.json.{Json, OFormat, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 
 import java.time.LocalDateTime
 
@@ -30,8 +31,8 @@ case class OtherAppealInformation(
                                    lateAppeal: Boolean,
                                    lateAppealReason: Option[String],
                                    isClientResponsibleForSubmission: Option[Boolean],
-                                   isClientResponsibleForLateSubmission: Option[Boolean]
-//                                   uploadedFiles: Option[Seq[UploadJourney]]
+                                   isClientResponsibleForLateSubmission: Option[Boolean],
+                                   uploadedFiles: Option[Seq[UploadJourney]]
                                  ) extends AppealInformation
 
 object OtherAppealInformation {
@@ -68,13 +69,13 @@ object OtherAppealInformation {
         Json.obj()
       )(
         isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
-      ))
-//    ).deepMerge(
-//      otherAppealInformation.uploadedFiles.fold(
-//        Json.obj()
-//      )(
-//        uploadedFiles => Json.obj("uploadedFiles" -> uploadedFiles)
-//      )
-//    )
+      )
+    ).deepMerge(
+      otherAppealInformation.uploadedFiles.fold(
+        Json.obj()
+      )(
+        uploadedFiles => Json.obj("uploadedFiles" -> uploadedFiles)
+      )
+    )
   }
 }

@@ -34,7 +34,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{Inv
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmissionResponseModel, MultiplePenaltiesData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -62,11 +62,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
         .setAnswer(ReasonableExcusePage, "crime")
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
         IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
         IncomeTaxSessionKeys.penaltyNumber -> "123456789",
         IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
         IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
@@ -79,11 +79,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
         .setAnswer(ReasonableExcusePage, "crime")
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
         IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
         IncomeTaxSessionKeys.penaltyNumber -> "123456789",
         IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
         IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
@@ -99,10 +99,10 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       userAnswers = UserAnswers(testJourneyId)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, "other")
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
-        IncomeTaxSessionKeys.whenDidBecomeUnable -> "2022-01-01",
         IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
         IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
         IncomeTaxSessionKeys.isUploadEvidence -> "yes",
@@ -117,10 +117,10 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       userAnswers = UserAnswers(testJourneyId)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, "other")
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
-        IncomeTaxSessionKeys.whenDidBecomeUnable -> "2022-01-01",
         IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
         IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
         IncomeTaxSessionKeys.isUploadEvidence -> "no",
@@ -446,11 +446,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           .setAnswer(HonestyDeclarationPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
           .setAnswer(ReasonableExcusePage, "crime")
+          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
       )(
         //TODO: These will all move to be UserAnswers as part of future stories
         FakeRequest().withSession(
           IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
-          IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
           IncomeTaxSessionKeys.penaltyNumber -> "123456789",
           IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
           IncomeTaxSessionKeys.firstPenaltyCommunicationDate -> lpp1Date.toString,
@@ -464,11 +464,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           .setAnswer(HonestyDeclarationPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
           .setAnswer(ReasonableExcusePage, "crime")
+          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
       )(
         //TODO: These will all move to be UserAnswers as part of future stories
         FakeRequest().withSession(
           IncomeTaxSessionKeys.dateCommunicationSent -> date.toString,
-          IncomeTaxSessionKeys.dateOfCrime -> "2022-01-01",
           IncomeTaxSessionKeys.penaltyNumber -> "123456789",
           IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString
         ))
