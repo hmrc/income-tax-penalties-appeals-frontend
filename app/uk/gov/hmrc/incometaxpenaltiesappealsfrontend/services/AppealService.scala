@@ -117,7 +117,8 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
         uploadedFiles = None, //TODO: Retrieve the file uploads as part of MIPR-1406
         mtdItId = mtdItId
       )
-    val penaltyNumber = request.session.get(IncomeTaxSessionKeys.penaltyNumber).getOrElse(throw new RuntimeException("[AppealService][singleAppeal] Penalty number not found in session"))
+
+    val penaltyNumber = request.userAnswers.getAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber).getOrElse(throw new RuntimeException("[AppealService][singleAppeal] Penalty number not found in session"))
 
     penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, penaltyNumber, correlationId, isMultiAppeal = false).map {
       case Left(error) =>

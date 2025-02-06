@@ -40,14 +40,14 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
       val reasonsList: List[String] = List(
-        "bereavementReason",
-        "cessationReason",
-        "crimeReason",
-        "fireOrFloodReason",
-        "healthReason",
-        "technicalReason",
-        "unexpectedHospitalReason",
-        "otherReason"
+        "bereavement",
+        "cessation",
+        "crime",
+        "fireOrFlood",
+        "health",
+        "technicalIssues",
+        "unexpectedHospital",
+        "other"
       )
 
       for(reason <- reasonsList) {

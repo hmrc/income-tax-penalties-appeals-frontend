@@ -36,14 +36,14 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   val reasonsList: List[(String, String)] = List(
-    ("bereavementReason", "45"),
-    ("cessationReason", "30"),
-    ("crimeReason", "30"),
-    ("fireOrFloodReason", "30"),
-    ("healthReason", "30"),
-    ("technicalReason", "30"),
-    ("unexpectedHospitalReason", "30"),
-    ("otherReason", "30")
+    ("bereavement", "45"),
+    ("cessation", "30"),
+    ("crime", "30"),
+    ("fireOrFlood", "30"),
+    ("health", "30"),
+    ("technicalIssues", "30"),
+    ("unexpectedHospital", "30"),
+    ("other", "30")
   )
 
   override def beforeEach(): Unit = {
@@ -132,7 +132,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
   "POST /making-a-late-appeal" when {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavementReason")
+    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
 
     "the text area content is valid" should {
 

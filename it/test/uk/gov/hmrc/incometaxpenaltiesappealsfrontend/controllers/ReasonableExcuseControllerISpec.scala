@@ -49,7 +49,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavementReason")
+          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
@@ -119,7 +119,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   "POST /reason-for-missing-deadline" when {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavementReason")
+    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
 
     "a valid radio option has been selected" should {
 
@@ -127,7 +127,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
-        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> "bereavementReason"))
+        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> "bereavement"))
 
         result.status shouldBe SEE_OTHER
         result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)

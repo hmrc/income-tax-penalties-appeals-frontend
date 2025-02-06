@@ -33,33 +33,33 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val bereavementReasonMessage: String = "When did the person die?"
-  val cessationReasonMessage: String = "TBC cessationReason"
-  val crimeReasonMessage: String = "When did the crime happen?"
-  val fireOrFloodReasonReasonMessage: String = "When did the fire or flood happen?"
-  val healthReasonMessage: String = "TBC healthReason"
-  val technicalReasonMessage: String = "When did the software or technology issues begin?"
-  val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason"
-  val otherReasonMessage: String = "TBC otherReason"
+  val bereavementMessage: String = "When did the person die?"
+  val cessationMessage: String = "TBC cessation"
+  val crimeMessage: String = "When did the crime happen?"
+  val fireOrFloodReasonMessage: String = "When did the fire or flood happen?"
+  val healthMessage: String = "TBC health"
+  val technicalIssueMessage: String = "When did the software or technology issues begin?"
+  val unexpectedHospitalMessage: String = "TBC unexpectedHospital"
+  val otherMessage: String = "TBC other"
 
-  val bereavementReasonValue = "Bereavement (someone died)"
-  val cessationReasonValue = "Cessation of income source"
-  val crimeReasonValue = "Crime"
-  val fireOrFloodReasonValue = "Fire or flood"
-  val healthReasonValue = "Serious or life-threatening ill health"
-  val technicalReasonValue = "Software or technology issues"
-  val unexpectedHospitalReasonValue = "Unexpected hospital stay"
-  val otherReasonValue = "The reason does not fit into any of the other categories"
+  val bereavementValue = "Bereavement (someone died)"
+  val cessationValue = "Cessation of income source"
+  val crimeValue = "Crime"
+  val fireOrFloodValue = "Fire or flood"
+  val healthValue = "Serious or life-threatening ill health"
+  val technicalIssueValue = "Software or technology issues"
+  val unexpectedHospitalValue = "Unexpected hospital stay"
+  val otherValue = "The reason does not fit into any of the other categories"
 
   val reasonsList: List[(String, String, String)] = List(
-    ("bereavementReason", bereavementReasonValue, bereavementReasonMessage),
-    ("cessationReason", cessationReasonValue, cessationReasonMessage),
-    ("crimeReason", crimeReasonValue, crimeReasonMessage),
-    ("fireOrFloodReason", fireOrFloodReasonValue, fireOrFloodReasonReasonMessage),
-    ("healthReason", healthReasonValue, healthReasonMessage),
-    ("technicalReason", technicalReasonValue, technicalReasonMessage),
-    ("unexpectedHospitalReason", unexpectedHospitalReasonValue, unexpectedHospitalReasonMessage),
-    ("otherReason", otherReasonValue, otherReasonMessage)
+    ("bereavement", bereavementValue, bereavementMessage),
+    ("cessation", cessationValue, cessationMessage),
+    ("crime", crimeValue, crimeMessage),
+    ("fireOrFlood", fireOrFloodValue, fireOrFloodReasonMessage),
+    ("health", healthValue, healthMessage),
+    ("technicalIssues", technicalIssueValue, technicalIssueMessage),
+    ("unexpectedHospital", unexpectedHospitalValue, unexpectedHospitalMessage),
+    ("other", otherValue, otherMessage)
   )
 
   override def beforeEach(): Unit = {
@@ -121,11 +121,11 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           document.select("#penaltyReason > dd").text() shouldBe reason._2
           document.select("#startDate > dt").text() shouldBe reason._3
           document.select("#startDate > dd").text() shouldBe "20 January 2029"
-          if(reason._1 == "technicalReason"){
+          if(reason._1 == "technicalIssues"){
             document.select("#endDate > dt").text() shouldBe "When did the software or technology issues end?"
             document.select("#endDate > dd").text() shouldBe "20 February 2029"
           }
-          if(reason._1 == "crimeReason"){
+          if(reason._1 == "crime"){
             document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
             document.select("#reportedCrime > dd").text() shouldBe "Yes"
           }
@@ -158,11 +158,11 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           document.select("#penaltyReason > dd").text() shouldBe reason._2
           document.select("#startDate > dt").text() shouldBe reason._3
           document.select("#startDate > dd").text() shouldBe "20 January 2029"
-          if(reason._1 == "technicalReason"){
+          if(reason._1 == "technicalIssues"){
             document.select("#endDate > dt").text() shouldBe "When did the software or technology issues end?"
             document.select("#endDate > dd").text() shouldBe "20 February 2029"
           }
-          if(reason._1 == "crimeReason"){
+          if(reason._1 == "crime"){
             document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
             document.select("#reportedCrime > dd").text() shouldBe "Yes"
           }

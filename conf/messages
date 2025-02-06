@@ -25,15 +25,15 @@ appeal.start.p6 = If we decide we need extra evidence after reviewing your appea
 reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline?
 reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline.
 reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client''s ability to meet the deadline.
-reasonableExcuses.bereavementReason = Bereavement (someone died)
-reasonableExcuses.cessationReason = Cessation of income source
-reasonableExcuses.crimeReason = Crime
-reasonableExcuses.fireOrFloodReason = Fire or flood
-reasonableExcuses.healthReason = Serious or life-threatening ill health
-reasonableExcuses.technicalReason = Software or technology issues
-reasonableExcuses.unexpectedHospitalReason = Unexpected hospital stay
-reasonableExcuses.otherReason = The reason does not fit into any of the other categories
-reasonableExcuses.otherReason.hint = You should only choose this if the reason is not covered by any of the other options.
+reasonableExcuses.bereavement = Bereavement (someone died)
+reasonableExcuses.cessation = Cessation of income source
+reasonableExcuses.crime = Crime
+reasonableExcuses.fireOrFlood = Fire or flood
+reasonableExcuses.health = Serious or life-threatening ill health
+reasonableExcuses.technicalIssues = Software or technology issues
+reasonableExcuses.unexpectedHospital = Unexpected hospital stay
+reasonableExcuses.other = The reason does not fit into any of the other categories
+reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
 reasonableExcuse.error.message = You must select an option
 
 
@@ -41,80 +41,80 @@ reasonableExcuse.error.message = You must select an option
 # ----------------------------------------------------------
 honestyDeclaration.headingAndTitle = Honesty declaration
 honestyDeclaration.p1 = I confirm that:
-clientSubmitted.honestyDeclaration.li.bereavementReason = because I was affected by someone''s death, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.crimeReason = because I was affected by a crime, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.technicalReason = because of software or technology issues, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.bereavement = because I was affected by someone''s death, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.crime = because I was affected by a crime, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.fireOrFlood = because of a fire or flood, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.technicalIssues = because of software or technology issues, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-agentPlanned.clientAffected.honestyDeclaration.li.bereavementReason = because my client was affected by someone''s death, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.crimeReason = because my client was affected by a crime, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.fireOrFloodReason = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.technicalReason = because my client was affected by software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone''s death, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.crime = because my client was affected by a crime, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.fireOrFlood = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.technicalIssues = because my client was affected by software or technology issues, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-agentPlanned.agentAffected.honestyDeclaration.li.bereavementReason = because I was affected by someone''s death, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.crimeReason = because I was affected by a crime, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.fireOrFloodReason = because of a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.technicalReason = because of software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.bereavement = because I was affected by someone''s death, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.crime = because I was affected by a crime, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.fireOrFlood = because of a fire or flood, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.technicalIssues = because of software or technology issues, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-clientPlanned.clientAffected.honestyDeclaration.li.bereavementReason = because my client was affected by someone''s death, they were unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.cessationReason = TBC cessationReason - I was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.crimeReason = because my client was affected by a crime, they were unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.fireOrFloodReason =  because of a fire or flood, my client was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.healthReason = TBC healthReason - I was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.technicalReason = because of software or technology issues, my client was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.unexpectedHospitalReason = TBC unexpectedHospitalReason - I was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.otherReason = TBC otherReason - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone''s death, they were unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.crime = because my client was affected by a crime, they were unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.fireOrFlood =  because of a fire or flood, my client was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.technicalIssues = because of software or technology issues, my client was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal
 
 # When did the event happen page
 # ----------------------------------------------------------
-whenDidEventHappen.bereavementReason.headingAndTitle = When did the person die?
-whenDidEventHappen.cessationReason.headingAndTitle = TBC cessationReason
-whenDidEventHappen.crimeReason.headingAndTitle = When did the crime happen?
-whenDidEventHappen.fireOrFloodReason.headingAndTitle = When did the fire or flood happen?
-whenDidEventHappen.healthReason.headingAndTitle = TBC healthReason
-whenDidEventHappen.technicalReason.headingAndTitle = When did the software or technology issues begin?
-whenDidEventHappen.unexpectedHospitalReason.headingAndTitle = TBC unexpectedHospitalReason
-whenDidEventHappen.otherReason.headingAndTitle = TBC otherReason
+whenDidEventHappen.bereavement.headingAndTitle = When did the person die?
+whenDidEventHappen.cessation.headingAndTitle = TBC cessation
+whenDidEventHappen.crime.headingAndTitle = When did the crime happen?
+whenDidEventHappen.fireOrFlood.headingAndTitle = When did the fire or flood happen?
+whenDidEventHappen.health.headingAndTitle = TBC health
+whenDidEventHappen.technicalIssues.headingAndTitle = When did the software or technology issues begin?
+whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital
+whenDidEventHappen.other.headingAndTitle = TBC other
 
 # When did the event end page
 # ----------------------------------------------------------
-whenDidEventEnd.technicalReason.headingAndTitle = When did the software or technology issues end?
+whenDidEventEnd.technicalIssues.headingAndTitle = When did the software or technology issues end?
 
 
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = This penalty point was issued more than 30 days ago
-lateAppeal.headingAndTitle.bereavementReason = This penalty point was issued more than 45 days ago
+lateAppeal.headingAndTitle.bereavement = This penalty point was issued more than 45 days ago
 lateAppeal.p1 = You usually need to appeal within 30 days of the date on the penalty notice.
-lateAppeal.p1.bereavementReason = You usually need to appeal within 45 days of the date on the penalty notice.
+lateAppeal.p1.bereavement = You usually need to appeal within 45 days of the date on the penalty notice.
 lateAppeal.charCount = Tell us why you could not appeal within 30 days
-lateAppeal.charCount.bereavementReason = Tell us why you could not appeal within 45 days
+lateAppeal.charCount.bereavement = Tell us why you could not appeal within 45 days
 lateAppeal.error.required = You must provide some information about why you did not appeal sooner
 lateAppeal.error.length = Explain the reason in {0} characters or fewer
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters
 
 # Has the crime been reported page
 # ----------------------------------------------------------
-crimeReason.headingAndTitle = Has this crime been reported to the police?
-crimeReason.yes = Yes
-crimeReason.no = No
-crimeReason.unknown = I do not know
-crimeReason.error.required = Tell us if the police have been told about the crime
-crimeReason.error.invalid = Tell us if the police have been told about the crime
+crime.headingAndTitle = Has this crime been reported to the police?
+crime.yes = Yes
+crime.no = No
+crime.unknown = I do not know
+crime.error.required = Tell us if the police have been told about the crime
+crime.error.invalid = Tell us if the police have been told about the crime
 
 # Check your answers page
 # ----------------------------------------------------------
@@ -126,25 +126,25 @@ checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making 
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution.
 checkYourAnswers.change.text = Change
 
-checkYourAnswers.bereavementReason.value =  Bereavement (someone died)
-checkYourAnswers.cessationReason.value = Cessation of income source
-checkYourAnswers.crimeReason.value =  Crime
-checkYourAnswers.fireOrFloodReason.value =  Fire or flood
-checkYourAnswers.healthReason.value = Serious or life-threatening ill health
-checkYourAnswers.technicalReason.value = Software or technology issues
-checkYourAnswers.unexpectedHospitalReason.value = Unexpected hospital stay
-checkYourAnswers.otherReason.value = The reason does not fit into any of the other categories
+checkYourAnswers.bereavement.value =  Bereavement (someone died)
+checkYourAnswers.cessation.value = Cessation of income source
+checkYourAnswers.crime.value =  Crime
+checkYourAnswers.fireOrFlood.value =  Fire or flood
+checkYourAnswers.health.value = Serious or life-threatening ill health
+checkYourAnswers.technicalIssues.value = Software or technology issues
+checkYourAnswers.unexpectedHospital.value = Unexpected hospital stay
+checkYourAnswers.other.value = The reason does not fit into any of the other categories
 
-checkYourAnswers.bereavementReason.date.key =  When did the person die?
-checkYourAnswers.cessationReason.date.key = TBC cessationReason
-checkYourAnswers.crimeReason.date.key =  When did the crime happen?
-checkYourAnswers.crimeReason.reported.key =  Has this crime been reported to the police?
-checkYourAnswers.fireOrFloodReason.date.key =  When did the fire or flood happen?
-checkYourAnswers.healthReason.date.key = TBC healthReason
-checkYourAnswers.technicalReason.date.key = When did the software or technology issues begin?
-checkYourAnswers.technicalReason.date.key.end = When did the software or technology issues end?
-checkYourAnswers.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
-checkYourAnswers.otherReason.date.key = TBC otherReason
+checkYourAnswers.bereavement.date.key =  When did the person die?
+checkYourAnswers.cessation.date.key = TBC cessation
+checkYourAnswers.crime.date.key =  When did the crime happen?
+checkYourAnswers.crime.reported.key =  Has this crime been reported to the police?
+checkYourAnswers.fireOrFlood.date.key =  When did the fire or flood happen?
+checkYourAnswers.health.date.key = TBC health
+checkYourAnswers.technicalIssues.date.key = When did the software or technology issues begin?
+checkYourAnswers.technicalIssues.date.key.end = When did the software or technology issues end?
+checkYourAnswers.unexpectedHospital.date.key = TBC unexpectedHospital
+checkYourAnswers.other.date.key = TBC other
 checkYourAnswers.acceptAndSend = Accept and send
 checkYourAnswers.change = Change
 
@@ -182,25 +182,25 @@ viewAppealDetails.multiplePenalties.yes = Yes
 viewAppealDetails.multiplePenalties.no = No
 viewAppealDetails.whoPlanned = Before the deadline, who planned to send the submission?
 viewAppealDetails.reason = Reason for missing the submission deadline
-viewAppealDetails.bereavementReason.value =  Bereavement (someone died)
-viewAppealDetails.cessationReason.value = Cessation of income source
-viewAppealDetails.crimeReason.value =  Crime
-viewAppealDetails.fireOrFloodReason.value =  Fire or flood
-viewAppealDetails.healthReason.value = Serious or life-threatening ill health
-viewAppealDetails.technicalReason.value = Software or technology issues
-viewAppealDetails.unexpectedHospitalReason.value = Unexpected hospital stay
-viewAppealDetails.otherReason.value = The reason does not fit into any of the other categories
+viewAppealDetails.bereavement.value =  Bereavement (someone died)
+viewAppealDetails.cessation.value = Cessation of income source
+viewAppealDetails.crime.value =  Crime
+viewAppealDetails.fireOrFlood.value =  Fire or flood
+viewAppealDetails.health.value = Serious or life-threatening ill health
+viewAppealDetails.technicalIssues.value = Software or technology issues
+viewAppealDetails.unexpectedHospital.value = Unexpected hospital stay
+viewAppealDetails.other.value = The reason does not fit into any of the other categories
 
-viewAppealDetails.bereavementReason.date.key =  When did the person die?
-viewAppealDetails.cessationReason.date.key = TBC cessationReason
-viewAppealDetails.crimeReason.date.key =  When did the crime happen?
-viewAppealDetails.crimeReason.reported.key =  Has this crime been reported to the police?
-viewAppealDetails.fireOrFloodReason.date.key =  When did the fire or flood happen?
-viewAppealDetails.healthReason.date.key = TBC healthReason
-viewAppealDetails.technicalReason.date.key = When did the software or technology issues begin?
-viewAppealDetails.technicalReason.date.end.key = When did the software or technology issues end?
-viewAppealDetails.unexpectedHospitalReason.date.key = TBC unexpectedHospitalReason
-viewAppealDetails.otherReason.date.key = TBC otherReason
+viewAppealDetails.bereavement.date.key =  When did the person die?
+viewAppealDetails.cessation.date.key = TBC cessation
+viewAppealDetails.crime.date.key =  When did the crime happen?
+viewAppealDetails.crime.reported.key =  Has this crime been reported to the police?
+viewAppealDetails.fireOrFlood.date.key =  When did the fire or flood happen?
+viewAppealDetails.health.date.key = TBC health
+viewAppealDetails.technicalIssues.date.key = When did the software or technology issues begin?
+viewAppealDetails.technicalIssues.date.end.key = When did the software or technology issues end?
+viewAppealDetails.unexpectedHospital.date.key = TBC unexpectedHospital
+viewAppealDetails.other.date.key = TBC other
 
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
@@ -275,57 +275,57 @@ uploadRemoveFile.nonJs.hint = Filename: {0}
 uploadRemoveFile.nonJs.error.required = Select yes if you want to remove this file
 uploadRemoveFile.nonJs.error.invalid = Select yes if you want to remove this file
 
-crimeReason.date.error.invalid = The date of the crime must be a real date
-fireOrFloodReason.date.error.invalid = The date of the fire or flood must be a real date
-technicalReason.date.error.invalid = The date the software or technology issues began must be a real date
-bereavementReason.date.error.invalid = The date the person died must be a real date
-cessationReason.date.error.invalid = TBC
-healthReason.date.error.invalid = TBC
-unexpectedHospitalReason.date.error.invalid = TBC
-otherReason.date.error.invalid = TBC
+crime.date.error.invalid = The date of the crime must be a real date
+fireOrFlood.date.error.invalid = The date of the fire or flood must be a real date
+technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date
+bereavement.date.error.invalid = The date the person died must be a real date
+cessation.date.error.invalid = TBC
+health.date.error.invalid = TBC
+unexpectedHospital.date.error.invalid = TBC
+other.date.error.invalid = TBC
 
-crimeReason.date.error.required.all = Enter the date of the crime
-fireOrFloodReason.date.error.required.all = Enter the date of the fire or flood
-technicalReason.date.error.required.all = Enter the date when the software or technology issues began
-bereavementReason.date.error.required.all = Enter the date when the person died
-cessationReason.date.error.required.all = TBC
-healthReason.date.error.required.all = TBC
-unexpectedHospitalReason.date.error.required.all = TBC
-otherReason.date.error.required.all = TBC
+crime.date.error.required.all = Enter the date of the crime
+fireOrFlood.date.error.required.all = Enter the date of the fire or flood
+technicalIssues.date.error.required.all = Enter the date when the software or technology issues began
+bereavement.date.error.required.all = Enter the date when the person died
+cessation.date.error.required.all = TBC
+health.date.error.required.all = TBC
+unexpectedHospital.date.error.required.all = TBC
+other.date.error.required.all = TBC
 
-crimeReason.date.error.required.two = The date of the crime must include a {0} and a {1}
-fireOrFloodReason.date.error.required.two = The date of the fire or flood must include a {0} and a {1}
-technicalReason.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
-bereavementReason.date.error.required.two = The date the person died must include a {0} and a {1}
-cessationReason.date.error.required.two = TBC
-healthReason.date.error.required.two = TBC
-unexpectedHospitalReason.date.error.required.two = TBC
-otherReason.date.error.required.two = TBC
+crime.date.error.required.two = The date of the crime must include a {0} and a {1}
+fireOrFlood.date.error.required.two = The date of the fire or flood must include a {0} and a {1}
+technicalIssues.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
+bereavement.date.error.required.two = The date the person died must include a {0} and a {1}
+cessation.date.error.required.two = TBC
+health.date.error.required.two = TBC
+unexpectedHospital.date.error.required.two = TBC
+other.date.error.required.two = TBC
 
-crimeReason.date.error.required = The date of the crime must include a {0}
-fireOrFloodReason.date.error.required = The date of the fire or flood must include a {0}
-technicalReason.date.error.required = The date the software or technology issues began must include a {0}
-bereavementReason.date.error.required = The date the person died must include a {0}
-cessationReason.date.error.required = TBC
-healthReason.date.error.required = TBC
-unexpectedHospitalReason.date.error.required = TBC
-otherReason.date.error.required = TBC
+crime.date.error.required = The date of the crime must include a {0}
+fireOrFlood.date.error.required = The date of the fire or flood must include a {0}
+technicalIssues.date.error.required = The date the software or technology issues began must include a {0}
+bereavement.date.error.required = The date the person died must include a {0}
+cessation.date.error.required = TBC
+health.date.error.required = TBC
+unexpectedHospital.date.error.required = TBC
+other.date.error.required = TBC
 
-crimeReason.date.error.notInFuture = The date of the crime must be today or in the past
-fireOrFloodReason.date.error.notInFuture = The date of the fire or flood must be today or in the past
-technicalReason.date.error.notInFuture = The date the software or technology issues began must be today or in the past
-bereavementReason.date.error.notInFuture = The date the person died must be today or in the past
-cessationReason.date.error.notInFuture = TBC
-healthReason.date.error.notInFuture = TBC
-unexpectedHospitalReason.date.error.notInFuture = TBC
-otherReason.date.error.notInFuture = TBC
+crime.date.error.notInFuture = The date of the crime must be today or in the past
+fireOrFlood.date.error.notInFuture = The date of the fire or flood must be today or in the past
+technicalIssues.date.error.notInFuture = The date the software or technology issues began must be today or in the past
+bereavement.date.error.notInFuture = The date the person died must be today or in the past
+cessation.date.error.notInFuture = TBC
+health.date.error.notInFuture = TBC
+unexpectedHospital.date.error.notInFuture = TBC
+other.date.error.notInFuture = TBC
 
-technicalReason.end.date.error.required.all = Tell us when the software or technology issues ended
-technicalReason.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
-technicalReason.end.date.error.required = The date the software or technology issues ended must include a {0}
-technicalReason.end.date.error.invalid = The date the software or technology issues ended must be a real date
-technicalReason.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
-technicalReason.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
+technicalIssues.end.date.error.required.all = Tell us when the software or technology issues ended
+technicalIssues.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
+technicalIssues.end.date.error.required = The date the software or technology issues ended must include a {0}
+technicalIssues.end.date.error.invalid = The date the software or technology issues ended must be a real date
+technicalIssues.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
+technicalIssues.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
 
 # Months
 # -----------------------------------------------------------
