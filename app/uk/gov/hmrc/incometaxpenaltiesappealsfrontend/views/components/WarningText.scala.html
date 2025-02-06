@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{WarningText => WarningTextModel}
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukWarningText
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 
-import play.api.libs.json.Reads
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@this(govukWarningText: GovukWarningText)
 
-trait Page[A] {
-  val key: String
+@(content: Html)(implicit messages: Messages)
 
-  def value(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Option[A] = user.userAnswers.getAnswer[A](this)
-
-}
+@govukWarningText(
+    WarningTextModel(
+        iconFallbackText = Some(messages("common.warning")),
+        content = HtmlContent(content)
+    )
+)

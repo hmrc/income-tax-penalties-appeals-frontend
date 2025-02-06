@@ -29,6 +29,20 @@ object ReasonableExcuseMessages {
     val unexpectedHospital: String = "Unexpected hospital stay"
     val other: String = "The reason does not fit into any of the other categories"
     val errorRequired: String = "You must select an option"
+
+    val cyaKey = "Reason for missing the submission deadline"
+    def cyaValue(reasonableExcuse: String): String = reasonableExcuse match {
+      case "bereavement" => bereavement
+      case "crime" => crime
+      case "fireOrFlood" => fireOrFlood
+      case "technicalIssues" => technical
+      case "cessation" => cessation
+      case "health" => health
+      case "unexpectedHospital" => unexpectedHospital
+      case "other" => other
+    }
+
+    val cyaHidden = "reason for missing the submission deadline"
   }
 
   object English extends Messages with En
@@ -44,5 +58,8 @@ object ReasonableExcuseMessages {
     override val unexpectedHospital: String = "Unexpected hospital stay (Welsh)"
     override val other: String = "The reason does not fit into any of the other categories (Welsh)"
     override val errorRequired: String = "You must select an option (Welsh)"
+
+    override val cyaKey = "Reason for missing the submission deadline (Welsh)"
+    override val cyaHidden = "reason for missing the submission deadline (Welsh)"
   }
 }

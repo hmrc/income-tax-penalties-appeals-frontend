@@ -81,6 +81,42 @@ object WhenDidEventHappenMessages {
       }
     }
 
+    val cyaKeyBereavement: String = "When did the person die?"
+    val cyaKeyCrime: String = "When did the crime happen?"
+    val cyaKeyFireOrFlood: String = "When did the fire or flood happen?"
+    val cyaKeyTechnical: String = "When did the software or technology issues begin?"
+    val cyaKeyCessation: String = "TBC cessation"
+    val cyaKeyHealth: String = "TBC health"
+    val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital"
+
+    def cyaKey(reasonableExcuse: String): String = reasonableExcuse match {
+      case "bereavement" => cyaKeyBereavement
+      case "crime" => cyaKeyCrime
+      case "fireOrFlood" => cyaKeyFireOrFlood
+      case "technicalIssues" => cyaKeyTechnical
+      case "cessation" => cyaKeyCessation
+      case "health" => cyaKeyHealth
+      case "unexpectedHospital" => cyaKeyUnexpectedHospital
+    }
+
+    val cyaHiddenBereavement: String = "when did the person die"
+    val cyaHiddenCrime: String = "when did the crime happen"
+    val cyaHiddenFireOrFlood: String = "when did the fire or flood happen"
+    val cyaHiddenTechnical: String = "when did the software or technology issues begin"
+    val cyaHiddenCessation: String = "TBC cessation"
+    val cyaHiddenHealth: String = "TBC health"
+    val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital"
+
+    def cyaHidden(reasonableExcuse: String): String = reasonableExcuse match {
+      case "bereavement" => cyaHiddenBereavement
+      case "crime" => cyaHiddenCrime
+      case "fireOrFlood" => cyaHiddenFireOrFlood
+      case "technicalIssues" => cyaHiddenTechnical
+      case "cessation" => cyaHiddenCessation
+      case "health" => cyaHiddenHealth
+      case "unexpectedHospital" => cyaHiddenUnexpectedHospital
+    }
+
     val crimeInvalid = "The date of the crime must be a real date"
     val fireOrFloodInvalid = "The date of the fire or flood must be a real date"
     val technicalIssueInvalid = "The date the software or technology issues began must be a real date"
@@ -176,5 +212,21 @@ object WhenDidEventHappenMessages {
     override val healthNotInFuture = "TBC (Welsh)"
     override val unexpectedHospitalNotInFuture = "TBC (Welsh)"
     override val otherNotInFuture = "TBC (Welsh)"
+
+    override val cyaKeyBereavement: String = "When did the person die? (Welsh)"
+    override val cyaKeyCrime: String = "When did the crime happen? (Welsh)"
+    override val cyaKeyFireOrFlood: String = "When did the fire or flood happen? (Welsh)"
+    override val cyaKeyTechnical: String = "When did the software or technology issues begin? (Welsh)"
+    override val cyaKeyCessation: String = "TBC cessation (Welsh)"
+    override val cyaKeyHealth: String = "TBC health (Welsh)"
+    override val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
+
+    override val cyaHiddenBereavement: String = "when did the person die (Welsh)"
+    override val cyaHiddenCrime: String = "when did the crime happen (Welsh)"
+    override val cyaHiddenFireOrFlood: String = "when did the fire or flood happen (Welsh)"
+    override val cyaHiddenTechnical: String = "when did the software or technology issues begin (Welsh)"
+    override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
+    override val cyaHiddenHealth: String = "TBC health (Welsh)"
+    override val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
   }
 }

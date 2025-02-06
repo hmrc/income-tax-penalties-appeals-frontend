@@ -22,6 +22,9 @@ object LateAppealMessages {
     val errorRequired: String = "You must provide some information about why you did not appeal sooner"
     val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer"
     val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
+
+    val cyaKey: Int => String = i => s"Reason for appealing after $i days"
+    val cyaHidden: Int => String = i => s"reason for appealing after $i days"
   }
 
   object English extends Messages with En
@@ -30,5 +33,8 @@ object LateAppealMessages {
     override val errorRequired: String = "You must provide some information about why you did not appeal sooner (Welsh)"
     override val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer (Welsh)"
     override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"
+
+    override val cyaKey: Int => String = i => s"Reason for appealing after $i days (Welsh)"
+    override val cyaHidden: Int => String = i => s"reason for appealing after $i days (Welsh)"
   }
 }

@@ -16,8 +16,16 @@
 
 package fixtures
 
+import play.api.test.FakeRequest
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
+
 trait BaseFixtures {
 
+  val testMtdItId = "123456789"
   val testJourneyId: String = "journeyId123"
+  val emptyUserAnswers: UserAnswers = UserAnswers(testJourneyId)
+  def userRequestWithAnswers(userAnswers: UserAnswers): CurrentUserRequestWithAnswers[_] =
+    CurrentUserRequestWithAnswers(userAnswers)(CurrentUserRequest(testMtdItId, None)(FakeRequest()))
 
 }

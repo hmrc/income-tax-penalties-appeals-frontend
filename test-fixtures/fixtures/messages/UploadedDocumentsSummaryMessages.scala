@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
+package fixtures.messages
 
-import play.api.libs.json.Reads
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+object UploadedDocumentsSummaryMessages {
 
-trait Page[A] {
-  val key: String
+  sealed trait Messages { _: i18n =>
+    val cyaKey = "Evidence to support this appeal"
+    val cyaHidden = "evidence to support this appeal"
+  }
 
-  def value(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Option[A] = user.userAnswers.getAnswer[A](this)
+  object English extends Messages with En
 
+  object Welsh extends Messages with Cy {
+    override val cyaKey = "Evidence to support this appeal (Welsh)"
+    override val cyaHidden = "evidence to support this appeal (Welsh)"
+  }
 }

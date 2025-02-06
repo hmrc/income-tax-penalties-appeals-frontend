@@ -35,15 +35,15 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val reasonsList: List[(String, String)] = List(
-    ("bereavement", "45"),
-    ("cessation", "30"),
-    ("crime", "30"),
-    ("fireOrFlood", "30"),
-    ("health", "30"),
-    ("technicalIssues", "30"),
-    ("unexpectedHospital", "30"),
-    ("other", "30")
+  val reasonsList: List[(String, Int)] = List(
+    ("bereavement", appConfig.bereavementLateDays),
+    ("cessation", appConfig.lateDays),
+    ("crime", appConfig.lateDays),
+    ("fireOrFlood", appConfig.lateDays),
+    ("health", appConfig.lateDays),
+    ("technicalIssues", appConfig.lateDays),
+    ("unexpectedHospital", appConfig.lateDays),
+    ("other", appConfig.lateDays)
   )
 
   override def beforeEach(): Unit = {

@@ -20,7 +20,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, Key, SummaryListRow, Value}
 
-trait SummaryListRowHelper {
+trait SummaryListRowHelper extends RichActionItemImplicits {
 
   def summaryListRow(label: String,
                      value: Html,

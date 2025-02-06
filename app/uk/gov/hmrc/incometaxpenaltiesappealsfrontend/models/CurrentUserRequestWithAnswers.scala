@@ -19,8 +19,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 import play.api.libs.json.Reads
 import play.api.mvc.{Request, WrappedRequest}
 import play.twirl.api.Html
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{Page, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 case class CurrentUserRequestWithAnswers[A](mtdItId: String,
@@ -37,6 +38,9 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
         logger.error(s"[AppealSubmission][mandatoryAnswer] Missing mandatory answer for page key ${page.key}, mtditid: $mtdItId")
         throw new NoSuchFieldError(s"Missing mandatory answer for page key ${page.key}, mtditid: $mtdItId")
     }
+
+  def lateAppealDays()(implicit appConfig: AppConfig): Int =
+    if(userAnswers.getAnswer(ReasonableExcusePage).exists(_.contains("bereavement"))) appConfig.bereavementLateDays else appConfig.lateDays
 }
 
 object CurrentUserRequestWithAnswers {
