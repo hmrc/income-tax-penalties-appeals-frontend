@@ -64,7 +64,7 @@ object ReasonableExcuse {
                         (implicit messages: Messages): Seq[RadioItem] = {
     val otherOptionInSeq: ReasonableExcuse = reasonableExcuses.filter(_.isOtherOption).head
     val dividerPosition = reasonableExcuses.indexOf(otherOptionInSeq)
-    val hintTextMessageKey = if(showAgentHintText) "agent.reasonableExcuses.otherReason.hintText" else "reasonableExcuses.otherReason.hintText"
+    val hintTextMessageKey = if(showAgentHintText) "agent.reasonableExcuses.other.hintText" else "reasonableExcuses.other.hintText"
     val optionsList = options(form, reasonableExcuses, hintTextMessageKey, showHintText)
     val divider = RadioItem(
       divider = Some(messages(messageKeyForDivider))

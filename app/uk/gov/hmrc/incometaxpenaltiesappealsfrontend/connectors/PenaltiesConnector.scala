@@ -26,6 +26,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Appe
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MultiplePenaltiesHttpParser.{MultiplePenaltiesResponse, MultiplePenaltiesResponseReads}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.UnexpectedFailure
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.buildItsaEnrolment
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{EnrolmentUtil, PagerDutyHelper}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
@@ -102,9 +103,11 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
   def submitAppeal(appealSubmission: AppealSubmission, mtdItId: String, isLPP: Boolean,
                    penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean)
                   (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[AppealSubmissionResponse] = {
-    logger.debug(s"[PenaltiesConnector][submitAppeal] - Submitting appeal model send to backend: ${Json.toJson(appealSubmission)}")
+
+    val url = url"${appConfig.submitAppealUrl(buildItsaEnrolment(mtdItId), isLPP, penaltyNumber, correlationId, isMultiAppeal)}"
+    logger.debug(s"[PenaltiesConnector][submitAppeal] POST $url\nSubmitting appeal model send to backend:\n${Json.toJson(appealSubmission)}")
     httpClient
-      .post(url"${appConfig.submitAppealUrl(mtdItId, isLPP, penaltyNumber, correlationId, isMultiAppeal)}")
+      .post(url)
       .withBody(Json.toJson(appealSubmission))
       .execute[AppealSubmissionResponse]
       .recover {

@@ -63,7 +63,7 @@
                 <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key")</span></a>
               </dd>
             </div>
-            @if(reasonableExcuseMessageKey == "technicalReason") {
+            @if(reasonableExcuseMessageKey == "technicalIssues") {
                 <div class="govuk-summary-list__row" id="reasonableExcuseDateEnd">
                     <dt class="govuk-summary-list__key">
                     @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key.end")
@@ -77,17 +77,17 @@
                     </dd>
                 </div>
             }
-            @if(reasonableExcuseMessageKey == "crimeReason") {
+            @if(reasonableExcuseMessageKey == "crime") {
                 <div class="govuk-summary-list__row" id="reportedCrime">
                     <dt class="govuk-summary-list__key">
-                    @messages("checkYourAnswers.crimeReason.reported.key")
+                    @messages("checkYourAnswers.crime.reported.key")
                     </dt>
                     <dd class="govuk-summary-list__value">
                         Yes
                     </dd>
 
                     <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages("checkYourAnswers.crimeReason.reported.key")</span></a>
+                        <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages("checkYourAnswers.crime.reported.key")</span></a>
                     </dd>
                 </div>
             }

@@ -38,7 +38,7 @@ object CrimeReportedEnum extends Enumeration {
 
   def radioOptions()(implicit messages: Messages): Seq[RadioItem] = CrimeReportedEnum.values.toSeq.map { value =>
     RadioItem(
-      content = Text(messages(s"crimeReason.$value")),
+      content = Text(messages(s"crime.$value")),
       value = Some(value.toString)
     )
   }

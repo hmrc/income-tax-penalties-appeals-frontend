@@ -16,10 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.AppealService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -31,21 +34,34 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            val authorised: AuthAction,
                                            withNavBar: NavBarRetrievalAction,
                                            withAnswers: UserAnswersAction,
+                                           appealService: AppealService,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
                                           )(implicit ec: ExecutionContext,
                                             val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(checkYourAnswers(
-        true, currentUser.isAgent, reasonableExcuse
+        true, user.isAgent, reasonableExcuse
       )))
     }
   }
 
-  def submit(): Action[AnyContent] = authorised { _ =>
-    Redirect(routes.ConfirmationController.onPageLoad())
-  }
 
+  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async {
+    implicit user => {
+        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+          appealService.submitAppeal(reasonableExcuse, user.mtdItId, user.arn).flatMap(_.fold(
+            status => {
+              logger.error(s"[CheckYourAnswersController][submit] Received error status '$status' when submitting appeal for MTDITID: ${user.mtdItId}, journey: ${user.journeyId}")
+              errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+            },
+            _ => {
+              Future.successful(Redirect(routes.ConfirmationController.onPageLoad()))
+            }
+          ))
+        }
+      }
+    }
 }

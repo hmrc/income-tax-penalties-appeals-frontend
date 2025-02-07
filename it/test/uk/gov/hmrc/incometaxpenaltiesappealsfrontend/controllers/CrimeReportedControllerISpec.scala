@@ -36,11 +36,11 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  val crimeReasonAnswers: UserAnswers = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "crimeReason")
+  val crimeAnswers: UserAnswers = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "crime")
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(crimeReasonAnswers).futureValue
+    userAnswersRepo.upsertUserAnswer(crimeAnswers).futureValue
     super.beforeEach()
   }
 
@@ -51,7 +51,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in {
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(crimeReasonAnswers.setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)).futureValue
+        userAnswersRepo.upsertUserAnswer(crimeAnswers.setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)).futureValue
 
         val result = get("/has-this-crime-been-reported")
         result.status shouldBe OK
