@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
 
   def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
-    ReasonableExcusePage.value.flatMap { reasonableExcuse =>
+    ReasonableExcusePage.value.collect { case reasonableExcuse@("technicalIssues" | "unexpectedHospital") =>
       WhenDidEventEndPage.value.map { endDate =>
         summaryListRow(
           label = messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.key"),
@@ -46,5 +46,5 @@ object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
         )
       }
     }
-  }
+  }.flatten
 }

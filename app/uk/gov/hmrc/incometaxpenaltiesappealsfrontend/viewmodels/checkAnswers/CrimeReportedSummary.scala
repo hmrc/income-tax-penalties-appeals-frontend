@@ -22,26 +22,28 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.CrimeReportedPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 object CrimeReportedSummary extends SummaryListRowHelper {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
-    CrimeReportedPage.value.map { crimeReported =>
-      summaryListRow(
-        label = messages("checkYourAnswers.crimeReported.key"),
-        value = Html(messages(s"common.$crimeReported")),
-        actions = Some(Actions(
-          items = Seq(
-            ActionItem(
-              content = Text(messages("common.change")),
-              href = controllers.routes.CrimeReportedController.onPageLoad().url,
-              visuallyHiddenText = Some(messages("checkYourAnswers.crimeReported.change.hidden"))
-            ).withId("changeCrimeReported")
-          ))
+  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+    Option.when(ReasonableExcusePage.value.contains("crime")) {
+      CrimeReportedPage.value.map { crimeReported =>
+        summaryListRow(
+          label = messages("checkYourAnswers.crimeReported.key"),
+          value = Html(messages(s"common.$crimeReported")),
+          actions = Some(Actions(
+            items = Seq(
+              ActionItem(
+                content = Text(messages("common.change")),
+                href = controllers.routes.CrimeReportedController.onPageLoad().url,
+                visuallyHiddenText = Some(messages("checkYourAnswers.crimeReported.change.hidden"))
+              ).withId("changeCrimeReported")
+            ))
+          )
         )
-      )
-    }
-  }
+      }
+    }.flatten
+
 }

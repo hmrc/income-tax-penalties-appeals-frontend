@@ -28,21 +28,22 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhoPlannedToSubmitSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
-    WhoPlannedToSubmitPage.value.map { whoPlannedToSubmit =>
-      summaryListRow(
-        label = messages(s"agent.checkYourAnswers.whoPlannedToSubmit.key"),
-        value = Html(messages(s"agent.checkYourAnswers.whoPlannedToSubmit.value.$whoPlannedToSubmit")),
-        actions = Some(Actions(
-          items = Seq(
-            ActionItem(
-              content = Text(messages("common.change")),
-              href = controllers.routes.WhoPlannedToSubmitController.onPageLoad().url,
-              visuallyHiddenText = Some(messages(s"agent.checkYourAnswers.whoPlannedToSubmit.change.hidden"))
-            ).withId("changeWhoPlannedToSubmit")
-          )
-        ))
-      )
-    }
-  }
+  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+    Option.when(user.isAgent) {
+      WhoPlannedToSubmitPage.value.map { whoPlannedToSubmit =>
+        summaryListRow(
+          label = messages(s"agent.checkYourAnswers.whoPlannedToSubmit.key"),
+          value = Html(messages(s"agent.checkYourAnswers.whoPlannedToSubmit.value.$whoPlannedToSubmit")),
+          actions = Some(Actions(
+            items = Seq(
+              ActionItem(
+                content = Text(messages("common.change")),
+                href = controllers.routes.WhoPlannedToSubmitController.onPageLoad().url,
+                visuallyHiddenText = Some(messages(s"agent.checkYourAnswers.whoPlannedToSubmit.change.hidden"))
+              ).withId("changeWhoPlannedToSubmit")
+            )
+          ))
+        )
+      }
+    }.flatten
 }

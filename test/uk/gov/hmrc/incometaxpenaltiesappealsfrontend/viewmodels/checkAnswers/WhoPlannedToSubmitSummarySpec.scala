@@ -42,10 +42,18 @@ class WhoPlannedToSubmitSummarySpec extends AnyWordSpec with Matchers with Guice
 
         implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
+        "when the request is not for an Agent (even if there's an answer saved)" should {
+
+          "return None" in {
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent))
+            WhoPlannedToSubmitSummary.row() shouldBe None
+          }
+        }
+
         "when there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUserAnswers)
             WhoPlannedToSubmitSummary.row() shouldBe None
           }
         }
@@ -54,7 +62,7 @@ class WhoPlannedToSubmitSummarySpec extends AnyWordSpec with Matchers with Guice
 
           "must output the expected row" in {
 
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
               emptyUserAnswers.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
             )
 

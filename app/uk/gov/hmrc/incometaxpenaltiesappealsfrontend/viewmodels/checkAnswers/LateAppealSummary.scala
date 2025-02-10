@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 class LateAppealSummary @Inject()(implicit val appConfig: AppConfig) extends SummaryListRowHelper {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
+  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     LateAppealPage.value.map { lateAppeal =>
       summaryListRow(
         label = messages("checkYourAnswers.lateAppeal.key", user.lateAppealDays()),
@@ -46,5 +46,4 @@ class LateAppealSummary @Inject()(implicit val appConfig: AppConfig) extends Sum
         ))
       )
     }
-  }
 }

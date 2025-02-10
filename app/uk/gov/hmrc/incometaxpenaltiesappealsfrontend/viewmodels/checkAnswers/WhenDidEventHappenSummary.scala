@@ -28,7 +28,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
+  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       WhenDidEventHappenPage.value.map { whenDidEventHappen =>
         summaryListRow(
@@ -46,5 +46,4 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
         )
       }
     }
-  }
 }

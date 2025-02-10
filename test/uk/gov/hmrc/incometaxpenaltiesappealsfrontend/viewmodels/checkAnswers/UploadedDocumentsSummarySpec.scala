@@ -27,12 +27,16 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with FileUploadFixtures with SummaryListRowHelper {
 
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
+  implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(ReasonableExcusePage, "other"))
 
   "UploadedDocumentsSummary" when {
 

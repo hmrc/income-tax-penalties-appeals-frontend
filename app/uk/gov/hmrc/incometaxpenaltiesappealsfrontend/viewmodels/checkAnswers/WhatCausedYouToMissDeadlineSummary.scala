@@ -28,21 +28,22 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhatCausedYouToMissDeadlineSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
-    WhatCausedYouToMissDeadlinePage.value.map { cause =>
-      summaryListRow(
-        label = messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.key"),
-        value = Html(messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.value.$cause")),
-        actions = Some(Actions(
-          items = Seq(
-            ActionItem(
-              content = Text(messages("common.change")),
-              href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad().url,
-              visuallyHiddenText = Some(messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden"))
-            ).withId("changeWhatCausedYouToMissDeadline")
-          )
-        ))
-      )
-    }
-  }
+  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+    Option.when(user.isAgent) {
+      WhatCausedYouToMissDeadlinePage.value.map { cause =>
+        summaryListRow(
+          label = messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.key"),
+          value = Html(messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.value.$cause")),
+          actions = Some(Actions(
+            items = Seq(
+              ActionItem(
+                content = Text(messages("common.change")),
+                href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad().url,
+                visuallyHiddenText = Some(messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden"))
+              ).withId("changeWhatCausedYouToMissDeadline")
+            )
+          ))
+        )
+      }
+    }.flatten
 }

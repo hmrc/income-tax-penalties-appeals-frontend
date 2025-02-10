@@ -42,10 +42,18 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
 
         implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
+        "when the request is not for an Agent (even if there's an answer saved)" should {
+
+          "return None" in {
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent))
+            WhatCausedYouToMissDeadlineSummary.row() shouldBe None
+          }
+        }
+
         "when there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUserAnswers)
             WhatCausedYouToMissDeadlineSummary.row() shouldBe None
           }
         }
@@ -54,7 +62,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
 
           "must output the expected row" in {
 
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
               emptyUserAnswers.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
             )
 

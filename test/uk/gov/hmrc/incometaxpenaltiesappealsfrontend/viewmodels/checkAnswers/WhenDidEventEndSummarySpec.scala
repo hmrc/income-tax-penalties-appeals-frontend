@@ -40,7 +40,12 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
   "WhenDidEventEndSummary" when {
 
     Seq(
+      "bereavement",
+      "crime",
+      "fireOrFlood",
       "technicalIssues",
+      "cessation",
+      "health",
       "unexpectedHospital"
     ).foreach { reason =>
 
@@ -62,27 +67,40 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
             "when there's an answer" should {
 
-              "must output the expected row" in {
+              if (Seq("technicalIssues", "unexpectedHospital").contains(reason)) {
 
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                  emptyUserAnswers
-                    .setAnswer(ReasonableExcusePage, reason)
-                    .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
-                )
+                "must output the expected row" in {
 
-                WhenDidEventEndSummary.row() shouldBe Some(summaryListRow(
-                  label = messagesForLanguage.cyaKey(reason),
-                  value = Html(dateToString(LocalDate.of(2025, 1, 1))),
-                  actions = Some(Actions(
-                    items = Seq(
-                      ActionItem(
-                        content = Text(messagesForLanguage.change),
-                        href = controllers.routes.WhenDidEventEndController.onPageLoad().url,
-                        visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
-                      ).withId("changeWhenDidEventEnd")
-                    )
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUserAnswers
+                      .setAnswer(ReasonableExcusePage, reason)
+                      .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
+                  )
+
+                  WhenDidEventEndSummary.row() shouldBe Some(summaryListRow(
+                    label = messagesForLanguage.cyaKey(reason),
+                    value = Html(dateToString(LocalDate.of(2025, 1, 1))),
+                    actions = Some(Actions(
+                      items = Seq(
+                        ActionItem(
+                          content = Text(messagesForLanguage.change),
+                          href = controllers.routes.WhenDidEventEndController.onPageLoad().url,
+                          visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
+                        ).withId("changeWhenDidEventEnd")
+                      )
+                    ))
                   ))
-                ))
+                }
+              } else {
+
+                "return None" in {
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUserAnswers
+                      .setAnswer(ReasonableExcusePage, reason)
+                      .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
+                  )
+                  WhenDidEventEndSummary.row() shouldBe None
+                }
               }
             }
           }

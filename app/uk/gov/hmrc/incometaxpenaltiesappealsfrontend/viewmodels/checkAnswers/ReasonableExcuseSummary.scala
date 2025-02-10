@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object ReasonableExcuseSummary extends SummaryListRowHelper {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
+  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.map { reasonableExcuse =>
       summaryListRow(
         label = messages("checkYourAnswers.reasonableExcuse.key"),
@@ -43,5 +43,4 @@ object ReasonableExcuseSummary extends SummaryListRowHelper {
         ))
       )
     }
-  }
 }

@@ -27,7 +27,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, CurrentUserRequestWithAnswers}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.CrimeReportedPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures with SummaryListRowHelper {
@@ -36,41 +36,67 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
 
   "CrimeReportedSummary" when {
 
-    Seq(CrimeReportedMessages.English, CrimeReportedMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(
+      "bereavement",
+      "crime",
+      "fireOrFlood",
+      "technicalIssues",
+      "cessation",
+      "health",
+      "unexpectedHospital"
+    ).foreach { reason =>
 
-      s"being rendered in lang name '${messagesForLanguage.lang.name}'" when {
+      s"for reasonableExcuse '$reason'" when {
 
-        implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
+        Seq(CrimeReportedMessages.English, CrimeReportedMessages.Welsh).foreach { messagesForLanguage =>
 
-        "when there's no answer" should {
+          s"being rendered in lang name '${messagesForLanguage.lang.name}'" when {
 
-          "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
-            CrimeReportedSummary.row() shouldBe None
-          }
-        }
+            implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-        "when there's an answer" should {
+            if (reason != "crime") {
 
-          "must output the expected row" in {
+              "return None" in {
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(ReasonableExcusePage, reason))
+                CrimeReportedSummary.row() shouldBe None
+              }
 
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-              emptyUserAnswers.setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-            )
+            } else {
 
-            CrimeReportedSummary.row() shouldBe Some(summaryListRow(
-              label = messagesForLanguage.cyaKey,
-              value = Html(messagesForLanguage.yes),
-              actions = Some(Actions(
-                items = Seq(
-                  ActionItem(
-                    content = Text(messagesForLanguage.change),
-                    href = controllers.routes.CrimeReportedController.onPageLoad().url,
-                    visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
-                  ).withId("changeCrimeReported")
-                )
-              ))
-            ))
+              "when there's no answer" should {
+
+                "return None" in {
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(ReasonableExcusePage, reason))
+                  CrimeReportedSummary.row() shouldBe None
+                }
+              }
+
+              "when there's an answer" should {
+
+                "must output the expected row" in {
+
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUserAnswers
+                      .setAnswer(ReasonableExcusePage, reason)
+                      .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
+                  )
+
+                  CrimeReportedSummary.row() shouldBe Some(summaryListRow(
+                    label = messagesForLanguage.cyaKey,
+                    value = Html(messagesForLanguage.yes),
+                    actions = Some(Actions(
+                      items = Seq(
+                        ActionItem(
+                          content = Text(messagesForLanguage.change),
+                          href = controllers.routes.CrimeReportedController.onPageLoad().url,
+                          visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                        ).withId("changeCrimeReported")
+                      )
+                    ))
+                  ))
+                }
+              }
+            }
           }
         }
       }
