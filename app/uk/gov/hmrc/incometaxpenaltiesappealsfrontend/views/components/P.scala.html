@@ -16,6 +16,6 @@
 
 @this()
 
-@(msg: String, elmId: Option[String] = None, classes: Option[String] = None)(implicit messages: Messages)
+@(msg: String, elmId: Option[String] = None, classes: Option[String] = None, args: Seq[Any] = Seq())(implicit messages: Messages)
 
-<p @if(elmId.isDefined){ id="@{elmId.get}"} class="@classes.getOrElse("govuk-body")">@Html(messages(msg))</p>
+<p @if(elmId.isDefined){ id="@{elmId.get}"} class="@classes.getOrElse("govuk-body")">@Html(messages(msg, args:_*))</p>

@@ -16,24 +16,24 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
+import fixtures.BaseFixtures
 import fixtures.messages.WhenDidEventHappenMessages
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.data.Form
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
-import java.time.LocalDate
-
-class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours {
+class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours with BaseFixtures {
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  Seq(WhenDidEventHappenMessages.English, WhenDidEventHappenMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(WhenDidEventHappenMessages.English, WhenDidEventHappenMessages.Welsh).foreach { implicit messagesForLanguage =>
 
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
@@ -51,15 +51,75 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
       )
 
       for(reason <- reasonsList) {
-        val form: Form[LocalDate] = WhenDidEventHappenForm.form(reason)(messages, appConfig, timeMachine)
 
-        s"WhenDidEventHappenForm with $reason" should {
-          behave like dateForm(
-            form, "date",
-            errorType => s"$reason.date.error.$errorType",
-            (errorType, args) => messagesForLanguage.errorMessageConstructor(reason, errorType, args: _*),
-            messagesForLanguage
-          )
+        for (isLPP <- Seq(true, false)) {
+
+          for (isAgent <- Seq(true, false)) {
+
+            s"WhenDidEventHappenForm with $reason and isLPP='$isLPP' and isAgent='$isAgent'" should {
+
+              if(reason == "other") {
+
+                if(isAgent) {
+
+                  "testing content for scenario where Client didn't get information to the agent in time" should {
+
+                    val userAnswers = emptyUserAnswers
+                      .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+                      .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
+
+                    implicit val agent: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(userAnswers)
+
+                    behave like dateForm(
+                      form = WhenDidEventHappenForm.form(reason, isLPP),
+                      fieldName = "date",
+                      errorMessageKey = errorType => s"agent.whenDidEventHappen.$reason.clientInformation.date.error.$errorType",
+                      errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(
+                        reasonableExcuse = reason,
+                        suffix = errorType,
+                        isLPP = isLPP,
+                        isAgent = true,
+                        wasClientInformationIssue = true,
+                        args = args
+                      )
+                    )
+                  }
+                } else { //Reason is 'other' BUT User is NOT an Agent
+
+                  implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+
+                  val infix = if(isLPP) ".lpp" else ".lsp"
+
+                  behave like dateForm(
+                    form = WhenDidEventHappenForm.form(reason, isLPP),
+                    fieldName = "date",
+                    errorMessageKey = errorType => s"whenDidEventHappen.$reason$infix.date.error.$errorType",
+                    errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(
+                      reasonableExcuse = reason,
+                      suffix = errorType,
+                      isLPP = isLPP,
+                      args = args
+                    )
+                  )
+                }
+              } else { //Reason is NOT 'other'
+
+                implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+
+                behave like dateForm(
+                  form = WhenDidEventHappenForm.form(reason, isLPP),
+                  fieldName = "date",
+                  errorMessageKey = errorType => s"whenDidEventHappen.$reason.date.error.$errorType",
+                  errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(
+                    reasonableExcuse = reason,
+                    suffix = errorType,
+                    isLPP = isLPP,
+                    args = args
+                  )
+                )
+              }
+            }
+          }
         }
       }
     }

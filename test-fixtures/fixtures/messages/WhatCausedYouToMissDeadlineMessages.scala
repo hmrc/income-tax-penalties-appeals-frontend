@@ -22,8 +22,8 @@ object WhatCausedYouToMissDeadlineMessages {
     val titleAndHeading = "What caused you to miss the deadline?"
     val agent: String = "Something else happened to delay me"
     val client: String = "My client did not get information to me on time"
-    val errorRequired: String = "Tell us what caused you to miss the deadline"
-    val errorInvalid: String = "Tell us what caused you to miss the deadline"
+    val errorRequired: String = "Tell us the reason the return was submitted late"
+    val errorInvalid: String = "Tell us the reason the return was submitted late"
 
     val cyaKey = "What caused you to miss the deadline?"
     val cyaHidden = "what caused you to miss the deadline"
@@ -35,8 +35,8 @@ object WhatCausedYouToMissDeadlineMessages {
     override val titleAndHeading = "What caused you to miss the deadline? (Welsh)"
     override val agent: String = "Something else happened to delay me (Welsh)"
     override val client: String = "My client did not get information to me on time (Welsh)"
-    override val errorRequired: String = "Tell us what caused you to miss the deadline (Welsh)"
-    override val errorInvalid: String = "Tell us what caused you to miss the deadline (Welsh)"
+    override val errorRequired: String = "Tell us the reason the return was submitted late (Welsh)"
+    override val errorInvalid: String = "Tell us the reason the return was submitted late (Welsh)"
 
     override val cyaKey = "What caused you to miss the deadline? (Welsh)"
     override val cyaHidden = "what caused you to miss the deadline (Welsh)"

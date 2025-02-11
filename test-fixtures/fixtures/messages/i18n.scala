@@ -22,6 +22,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.Language
 sealed trait i18n {
   def caption(from: String, to: String) = s"Late submission penalty point: $from to $to"
   val serviceName = "Appeal a Self Assessment penalty"
+  def titleWithSuffix(title: String): String = title + s" - Appeal a Self Assessment penalty - GOV.UK"
   val continue = "Continue"
   val remove = "Remove"
   val change = "Change"
@@ -42,6 +43,7 @@ trait En extends i18n {
 trait Cy extends i18n {
   override def caption(from: String, to: String) = s"Late submission penalty point: $from to $to (Welsh)"
   override val serviceName = "Appeal a Self Assessment penalty (Welsh)"
+  override def titleWithSuffix(title: String): String = title + s" - Appeal a Self Assessment penalty - GOV.UK (Welsh)"
   override val continue = "Yn eich blaen"
   override val remove = "Tynnu"
   override val change = "Newid"

@@ -7,16 +7,16 @@ alphaBanner.message = This is a new service – your {0} will help us to improve
 alphaBanner.linkText = feedback
 appeal.start.caption = Late submission penalty point: 6 July 2027 to 5 October 2027
 appeal.start.header = Appeal a Self Assessment penalty
-appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you''ll need to ask HMRC to look at your case again.
+appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again.
 appeal.start.p2 = This service is for appealing penalties given for individual submissions.
 appeal.start.h2 = Before you start
-appeal.start.p3 = You''ll need:
-appeal.start.li1 = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ''a reasonable excuse'')
+appeal.start.p3 = You’ll need:
+appeal.start.li1 = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.li2 = the dates related to this reasonable excuse
 appeal.start.li3 = details of why you did not appeal sooner
 appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in new tab)
-appeal.start.p4 = In some cases, you''ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
-appeal.start.p5 = If you are not asked for extra evidence, this is because we don''t need any to make a decision in your particular case.
+appeal.start.p4 = In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
+appeal.start.p5 = If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case.
 appeal.start.p6 = If we decide we need extra evidence after reviewing your appeal, we will contact you.
 
 
@@ -24,7 +24,7 @@ appeal.start.p6 = If we decide we need extra evidence after reviewing your appea
 # ----------------------------------------------------------
 reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline?
 reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline.
-reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client''s ability to meet the deadline.
+reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline.
 reasonableExcuses.bereavement = Bereavement (someone died)
 reasonableExcuses.cessation = Cessation of income source
 reasonableExcuses.crime = Crime
@@ -34,14 +34,14 @@ reasonableExcuses.technicalIssues = Software or technology issues
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.other = The reason does not fit into any of the other categories
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
-reasonableExcuse.error.message = You must select an option
+reasonableExcuse.error.message = Select the reason for missing the submission deadline
 
 
 # Honesty declaration
 # ----------------------------------------------------------
 honestyDeclaration.headingAndTitle = Honesty declaration
 honestyDeclaration.p1 = I confirm that:
-clientSubmitted.honestyDeclaration.li.bereavement = because I was affected by someone''s death, I was unable to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.bereavement = because I was affected by someone’s death, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.crime = because I was affected by a crime, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.fireOrFlood = because of a fire or flood, I was unable to send the submission due on {0}
@@ -50,7 +50,7 @@ clientSubmitted.honestyDeclaration.li.technicalIssues = because of software or t
 clientSubmitted.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-agentPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone''s death, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone’s death, I was unable to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.crime = because my client was affected by a crime, I was unable to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.fireOrFlood = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
@@ -59,7 +59,7 @@ agentPlanned.clientAffected.honestyDeclaration.li.technicalIssues = because my c
 agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-agentPlanned.agentAffected.honestyDeclaration.li.bereavement = because I was affected by someone''s death, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.bereavement = because I was affected by someone’s death, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.crime = because I was affected by a crime, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.fireOrFlood = because of a fire or flood, I was unable to send the submission due on {0}
@@ -68,7 +68,7 @@ agentPlanned.agentAffected.honestyDeclaration.li.technicalIssues = because of so
 agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-clientPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone''s death, they were unable to send the submission due on {0}
+clientPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone’s death, they were unable to send the submission due on {0}
 clientPlanned.clientAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
 clientPlanned.clientAffected.honestyDeclaration.li.crime = because my client was affected by a crime, they were unable to send the submission due on {0}
 clientPlanned.clientAffected.honestyDeclaration.li.fireOrFlood =  because of a fire or flood, my client was unable to send the submission due on {0}
@@ -81,28 +81,120 @@ honestyDeclaration.li.2 = I will provide honest and accurate information in this
 
 # When did the event happen page
 # ----------------------------------------------------------
+# Bereavement Messages
 whenDidEventHappen.bereavement.headingAndTitle = When did the person die?
+whenDidEventHappen.bereavement.date.error.invalid = The date must be a real date
+whenDidEventHappen.bereavement.date.error.required.all = Enter the date when the person died
+whenDidEventHappen.bereavement.date.error.required.two = The date must include a {0} and a {1}
+whenDidEventHappen.bereavement.date.error.required = The date must include a {0}
+whenDidEventHappen.bereavement.date.error.notInFuture = The date must be today or in the past
+
+# Cessation Messages
 whenDidEventHappen.cessation.headingAndTitle = TBC cessation
+whenDidEventHappen.cessation.date.error.invalid = TBC
+whenDidEventHappen.cessation.date.error.required.all = TBC
+whenDidEventHappen.cessation.date.error.required.two = TBC
+whenDidEventHappen.cessation.date.error.required = TBC
+whenDidEventHappen.cessation.date.error.notInFuture = TBC
+
+# Crime Messages
 whenDidEventHappen.crime.headingAndTitle = When did the crime happen?
+whenDidEventHappen.crime.date.error.invalid = The date of the crime must be a real date
+whenDidEventHappen.crime.date.error.required.all = Enter the date of the crime
+whenDidEventHappen.crime.date.error.required.two = The date of the crime must include a {0} and a {1}
+whenDidEventHappen.crime.date.error.required = The date of the crime must include a {0}
+whenDidEventHappen.crime.date.error.notInFuture = The date of the crime must be today or in the past
+
+# Fire or Flood Messages
 whenDidEventHappen.fireOrFlood.headingAndTitle = When did the fire or flood happen?
-whenDidEventHappen.health.headingAndTitle = TBC health
+whenDidEventHappen.fireOrFlood.date.error.invalid = The date of the fire or flood must be a real date
+whenDidEventHappen.fireOrFlood.date.error.required.all = Enter the date of the fire or flood
+whenDidEventHappen.fireOrFlood.date.error.required.two = The date of the fire or flood must include a {0} and a {1}
+whenDidEventHappen.fireOrFlood.date.error.required = The date of the fire or flood must include a {0}
+whenDidEventHappen.fireOrFlood.date.error.notInFuture = The date of the fire or flood must be today or in the past
+
+# Technical Error Messages
 whenDidEventHappen.technicalIssues.headingAndTitle = When did the software or technology issues begin?
+whenDidEventHappen.technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date
+whenDidEventHappen.technicalIssues.date.error.required.all = Tell us when the software or technology issues began
+whenDidEventHappen.technicalIssues.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
+whenDidEventHappen.technicalIssues.date.error.required = The date the software or technology issues began must include a {0}
+whenDidEventHappen.technicalIssues.date.error.notInFuture = The date the software or technology issues began must be today or in the past
+
+# Health Messages
+whenDidEventHappen.health.headingAndTitle = TBC health
+whenDidEventHappen.health.date.error.invalid = TBC
+whenDidEventHappen.health.date.error.required.all = TBC
+whenDidEventHappen.health.date.error.required.two = TBC
+whenDidEventHappen.health.date.error.required = TBC
+whenDidEventHappen.health.date.error.notInFuture = TBC
+
+# Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital
-whenDidEventHappen.other.headingAndTitle = TBC other
+whenDidEventHappen.unexpectedHospital.date.error.invalid = TBC
+whenDidEventHappen.unexpectedHospital.date.error.required.all = TBC
+whenDidEventHappen.unexpectedHospital.date.error.required.two = TBC
+whenDidEventHappen.unexpectedHospital.date.error.required = TBC
+whenDidEventHappen.unexpectedHospital.date.error.notInFuture = TBC
+
+# Other Messages - LSP
+whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you meeting the submission deadline?
+whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped you meeting the submission deadline must be a real date
+whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped you meeting the submission deadline
+whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped you meeting the submission deadline must include a {0} and a {1}
+whenDidEventHappen.other.lsp.date.error.required = The date the issue first stopped you meeting the submission deadline must include a {0}
+whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped you meeting the submission deadline must be today or in the past
+
+# Other Messages - LPP
+whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you paying the tax bill by the due date?
+whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped you paying the tax bill by the due date must be a real date
+whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped you paying the tax bill by the due date
+whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped you paying the tax bill by the due date must include a {0} and a {1}
+whenDidEventHappen.other.lpp.date.error.required = The date the issue first stopped you paying the tax bill by the due date must include a {0}
+whenDidEventHappen.other.lpp.date.error.notInFuture = The date the issue first stopped you paying the tax bill by the due date must be today or in the past
+
+# Agent - Other Messages - Client information issue
+agent.whenDidEventHappen.other.clientInformation.headingAndTitle = When did the issue first stop your client getting information to you?
+agent.whenDidEventHappen.other.clientInformation.date.error.invalid = The date when the issue first stopped your client getting information to you must be a real date
+agent.whenDidEventHappen.other.clientInformation.date.error.required.all = Tell us when the issue first stopped your client getting information to you
+agent.whenDidEventHappen.other.clientInformation.date.error.required.two = The date when the issue first stopped your client getting information to you must include a {0} and a {1}
+agent.whenDidEventHappen.other.clientInformation.date.error.required = The date when the issue first stopped your client getting information to you must include a {0}
+agent.whenDidEventHappen.other.clientInformation.date.error.notInFuture = The date when the issue first stopped your client getting information to you must be today or in the past
+
+# Agent - Other Messages - LSP
+agent.whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop your client from meeting the submission deadline?
+agent.whenDidEventHappen.other.lsp.date.error.invalid = The date when the issue first stopped your client from meeting the submission deadline must be a real date
+agent.whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped your client from meeting the submission deadline?
+agent.whenDidEventHappen.other.lsp.date.error.required.two = The date when the issue first stopped your client from meeting the submission deadline must include a {0} and a {1}
+agent.whenDidEventHappen.other.lsp.date.error.required = The date when the issue first stopped your client from meeting the submission deadline must include a {0}
+agent.whenDidEventHappen.other.lsp.date.error.notInFuture = The date when the issue first stopped your client from meeting the submission deadline must be today or in the past
+
+# Agent - Other Messages - LPP
+agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client paying the tax bill by the due date?
+agent.whenDidEventHappen.other.lpp.date.error.invalid = The date when the issue first stopped your client paying the tax bill by the due date must be a real date
+agent.whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped your client paying the tax bill by the due date
+agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
+agent.whenDidEventHappen.other.lpp.date.error.required = The date when the issue first stopped your client paying the tax bill by the due date must include a {0}
+agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past
+
 
 # When did the event end page
 # ----------------------------------------------------------
+# Technical Issues content
 whenDidEventEnd.technicalIssues.headingAndTitle = When did the software or technology issues end?
+whenDidEventEnd.technicalIssues.end.date.error.required.all = Tell us when the software or technology issues ended
+whenDidEventEnd.technicalIssues.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
+whenDidEventEnd.technicalIssues.end.date.error.required = The date the software or technology issues ended must include a {0}
+whenDidEventEnd.technicalIssues.end.date.error.invalid = The date the software or technology issues ended must be a real date
+whenDidEventEnd.technicalIssues.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
+whenDidEventEnd.technicalIssues.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
 
 
 # Late appeal page
 # ----------------------------------------------------------
-lateAppeal.headingAndTitle = This penalty point was issued more than 30 days ago
-lateAppeal.headingAndTitle.bereavement = This penalty point was issued more than 45 days ago
-lateAppeal.p1 = You usually need to appeal within 30 days of the date on the penalty notice.
-lateAppeal.p1.bereavement = You usually need to appeal within 45 days of the date on the penalty notice.
-lateAppeal.charCount = Tell us why you could not appeal within 30 days
-lateAppeal.charCount.bereavement = Tell us why you could not appeal within 45 days
+lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago
+lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice.
+lateAppeal.charCount = Tell us why you could not appeal within {0} days
 lateAppeal.error.required = You must provide some information about why you did not appeal sooner
 lateAppeal.error.length = Explain the reason in {0} characters or fewer
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters
@@ -184,16 +276,16 @@ appealConfirmation.headingAndTitle = Appeal received
 appealConfirmation.typeAndPeriod = {0}: {1} to {2} tax year
 appealConfirmation.p1 = You do not need a reference number.
 appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
-appealConfirmation.p2.agent = This appeal has been logged against your client''s National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
-appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you''ll be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you’ll be notified about the outcome of this appeal and the reasons for our decision.
 appealConfirmation.whatHappensNext.p2.agent =  When a decision has been made, your client will be notified about the outcome of this appeal and the reasons for our decision.
 appealConfirmation.whatHappensNext.link1.client = Return to your Self Assessment penalties
-appealConfirmation.whatHappensNext.link1.agent = Return to your client''s Self Assessment penalties
+appealConfirmation.whatHappensNext.link1.agent = Return to your client’s Self Assessment penalties
 appealConfirmation.whatHappensNext.link2.client = View your Self Assessment account
-appealConfirmation.whatHappensNext.link2.agent = View your client''s Self Assessment account
+appealConfirmation.whatHappensNext.link2.agent = View your client’s Self Assessment account
 
 appealConfirmation.feedback.h2 = Before you go
 appealConfirmation.feedback.p = Your feedback helps us make our service better.
@@ -240,16 +332,16 @@ viewAppealDetails.printThisPage = Print this page
 agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission?
 agents.whoPlannedToSubmit.agent = I did
 agents.whoPlannedToSubmit.client = My client did
-agents.whoPlannedToSubmit.error.required = Tell us who planned to submit the return
-agents.whoPlannedToSubmit.error.invalid = Tell us who planned to submit the return
+agents.whoPlannedToSubmit.error.required = Tell us who planned to send the submission
+agents.whoPlannedToSubmit.error.invalid = Tell us who planned to send the submission
 
 # Agents 'What caused you to miss the deadline?'
 # ----------------------------------------------------------
 agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline?
 agents.whatCausedYouToMissTheDeadline.client = My client did not get information to me on time
 agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay me
-agents.whatCausedYouToMissTheDeadline.error.required = Tell us what caused you to miss the deadline
-agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us what caused you to miss the deadline
+agents.whatCausedYouToMissTheDeadline.error.required = Tell us the reason the return was submitted late
+agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us the reason the return was submitted late
 
 # Date input fields
 # ----------------------------------------------------------
@@ -304,57 +396,6 @@ uploadRemoveFile.nonJs.hint = Filename: {0}
 uploadRemoveFile.nonJs.error.required = Select yes if you want to remove this file
 uploadRemoveFile.nonJs.error.invalid = Select yes if you want to remove this file
 
-crime.date.error.invalid = The date of the crime must be a real date
-fireOrFlood.date.error.invalid = The date of the fire or flood must be a real date
-technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date
-bereavement.date.error.invalid = The date the person died must be a real date
-cessation.date.error.invalid = TBC
-health.date.error.invalid = TBC
-unexpectedHospital.date.error.invalid = TBC
-other.date.error.invalid = TBC
-
-crime.date.error.required.all = Enter the date of the crime
-fireOrFlood.date.error.required.all = Enter the date of the fire or flood
-technicalIssues.date.error.required.all = Enter the date when the software or technology issues began
-bereavement.date.error.required.all = Enter the date when the person died
-cessation.date.error.required.all = TBC
-health.date.error.required.all = TBC
-unexpectedHospital.date.error.required.all = TBC
-other.date.error.required.all = TBC
-
-crime.date.error.required.two = The date of the crime must include a {0} and a {1}
-fireOrFlood.date.error.required.two = The date of the fire or flood must include a {0} and a {1}
-technicalIssues.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
-bereavement.date.error.required.two = The date the person died must include a {0} and a {1}
-cessation.date.error.required.two = TBC
-health.date.error.required.two = TBC
-unexpectedHospital.date.error.required.two = TBC
-other.date.error.required.two = TBC
-
-crime.date.error.required = The date of the crime must include a {0}
-fireOrFlood.date.error.required = The date of the fire or flood must include a {0}
-technicalIssues.date.error.required = The date the software or technology issues began must include a {0}
-bereavement.date.error.required = The date the person died must include a {0}
-cessation.date.error.required = TBC
-health.date.error.required = TBC
-unexpectedHospital.date.error.required = TBC
-other.date.error.required = TBC
-
-crime.date.error.notInFuture = The date of the crime must be today or in the past
-fireOrFlood.date.error.notInFuture = The date of the fire or flood must be today or in the past
-technicalIssues.date.error.notInFuture = The date the software or technology issues began must be today or in the past
-bereavement.date.error.notInFuture = The date the person died must be today or in the past
-cessation.date.error.notInFuture = TBC
-health.date.error.notInFuture = TBC
-unexpectedHospital.date.error.notInFuture = TBC
-other.date.error.notInFuture = TBC
-
-technicalIssues.end.date.error.required.all = Tell us when the software or technology issues ended
-technicalIssues.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
-technicalIssues.end.date.error.required = The date the software or technology issues ended must include a {0}
-technicalIssues.end.date.error.invalid = The date the software or technology issues ended must be a real date
-technicalIssues.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
-technicalIssues.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
 
 # Months
 # -----------------------------------------------------------

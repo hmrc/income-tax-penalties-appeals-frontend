@@ -36,23 +36,25 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.WhenDidEventHappenHelper
 
 import java.time.LocalDate
 
-object WhenDidEventHappenForm extends Mappings{
+object WhenDidEventHappenForm extends Mappings with WhenDidEventHappenHelper {
 
   val key = "date"
 
-  def form(reasons: String)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
+  def form(reason: String, isLPP: Boolean = false)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] =
     Form(
       key -> localDate(
-        invalidKey = s"$reasons.date.error.invalid",
-        allRequiredKey = s"$reasons.date.error.required.all",
-        twoRequiredKey = s"$reasons.date.error.required.two",
-        requiredKey = s"$reasons.date.error.required",
-        futureKey = Some(s"$reasons.date.error.notInFuture")
+        invalidKey = s"${messageKeyPrefix(reason, isLPP)}.date.error.invalid",
+        allRequiredKey = s"${messageKeyPrefix(reason, isLPP)}.date.error.required.all",
+        twoRequiredKey = s"${messageKeyPrefix(reason, isLPP)}.date.error.required.two",
+        requiredKey = s"${messageKeyPrefix(reason, isLPP)}.date.error.required",
+        futureKey = Some(s"${messageKeyPrefix(reason, isLPP)}.date.error.notInFuture")
       )
     )
-  }
 }
