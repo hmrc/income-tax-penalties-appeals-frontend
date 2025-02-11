@@ -120,33 +120,62 @@ crime.error.invalid = Tell us if the police have been told about the crime
 # ----------------------------------------------------------
 checkYourAnswers.headingAndTitle = Check your answers
 checkYourAnswers.appealDetails.h2 = Appeal details
-checkYourAnswers.declaration.h2 = Declaration
+
+agent.checkYourAnswers.whoPlannedToSubmit.key = Before the deadline, who planned to send the submission?
+agent.checkYourAnswers.whoPlannedToSubmit.value.agent = I did
+agent.checkYourAnswers.whoPlannedToSubmit.value.client = My client did
+agent.checkYourAnswers.whoPlannedToSubmit.change.hidden = before the deadline, who planned to send the submission
+
+agent.checkYourAnswers.whatCausedYouToMissDeadline.key = What caused you to miss the deadline?
+agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else happened to delay me
+agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time
+agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline
+
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
+checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline
+checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died)
+checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source
+checkYourAnswers.reasonableExcuse.value.crime =  Crime
+checkYourAnswers.reasonableExcuse.value.fireOrFlood =  Fire or flood
+checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill health
+checkYourAnswers.reasonableExcuse.value.technicalIssues = Software or technology issues
+checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital stay
+checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any of the other categories
+
+checkYourAnswers.crimeReported.key = Has this crime been reported to the police?
+checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police
+
+checkYourAnswers.whenDidEventHappen.bereavement.key =  When did the person die?
+checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  when did the person die
+checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation
+checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation
+checkYourAnswers.whenDidEventHappen.crime.key =  When did the crime happen?
+checkYourAnswers.whenDidEventHappen.crime.change.hidden =  when did the crime happen
+checkYourAnswers.whenDidEventHappen.fireOrFlood.key =  When did the fire or flood happen?
+checkYourAnswers.whenDidEventHappen.fireOrFlood.change.hidden =  when did the fire or flood happen
+checkYourAnswers.whenDidEventHappen.health.key = TBC health
+checkYourAnswers.whenDidEventHappen.health.change.hidden = TBC health
+checkYourAnswers.whenDidEventHappen.technicalIssues.key = When did the software or technology issues begin?
+checkYourAnswers.whenDidEventHappen.technicalIssues.change.hidden = when did the software or technology issues begin
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = TBC unexpectedHospital
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = TBC unexpectedHospital
+
+checkYourAnswers.whenDidTheEventEnd.technicalIssues.key = When did the software or technology issues end?
+checkYourAnswers.whenDidTheEventEnd.technicalIssues.change.hidden = when did the software or technology issues end
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = TBC unexpectedHospital
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = TBC unexpectedHospital
+
+checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days
+checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days
+
+checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
+checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal
+
+checkYourAnswers.declaration.h2 = Declaration
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution.
-checkYourAnswers.change.text = Change
 
-checkYourAnswers.bereavement.value =  Bereavement (someone died)
-checkYourAnswers.cessation.value = Cessation of income source
-checkYourAnswers.crime.value =  Crime
-checkYourAnswers.fireOrFlood.value =  Fire or flood
-checkYourAnswers.health.value = Serious or life-threatening ill health
-checkYourAnswers.technicalIssues.value = Software or technology issues
-checkYourAnswers.unexpectedHospital.value = Unexpected hospital stay
-checkYourAnswers.other.value = The reason does not fit into any of the other categories
-
-checkYourAnswers.bereavement.date.key =  When did the person die?
-checkYourAnswers.cessation.date.key = TBC cessation
-checkYourAnswers.crime.date.key =  When did the crime happen?
-checkYourAnswers.crime.reported.key =  Has this crime been reported to the police?
-checkYourAnswers.fireOrFlood.date.key =  When did the fire or flood happen?
-checkYourAnswers.health.date.key = TBC health
-checkYourAnswers.technicalIssues.date.key = When did the software or technology issues begin?
-checkYourAnswers.technicalIssues.date.key.end = When did the software or technology issues end?
-checkYourAnswers.unexpectedHospital.date.key = TBC unexpectedHospital
-checkYourAnswers.other.date.key = TBC other
 checkYourAnswers.acceptAndSend = Accept and send
-checkYourAnswers.change = Change
 
 # Appeal Confirmation page
 # ----------------------------------------------------------
@@ -343,6 +372,7 @@ month.11 = November
 month.12 = December
 
 
+common.warning = Warning
 common.dateHint = For example, 12 3 2018
 common.continue = Continue
 common.acceptAndContinue = Accept and continue
@@ -350,4 +380,5 @@ common.or = or
 common.yes = Yes
 common.no = No
 common.remove = Remove
+common.change = Change
 

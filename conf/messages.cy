@@ -119,6 +119,68 @@ uploadRemoveFile.nonJs.hint = Filename: {0} (Welsh)
 uploadRemoveFile.nonJs.error.required = Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon
 uploadRemoveFile.nonJs.error.invalid = Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon
 
+# Check your answers page
+# ----------------------------------------------------------
+checkYourAnswers.headingAndTitle = Check your answers (Welsh)
+checkYourAnswers.appealDetails.h2 = Appeal details (Welsh)
+
+agent.checkYourAnswers.whoPlannedToSubmit.key = Before the deadline, who planned to send the submission? (Welsh)
+agent.checkYourAnswers.whoPlannedToSubmit.value.agent = I did (Welsh)
+agent.checkYourAnswers.whoPlannedToSubmit.value.client = My client did (Welsh)
+agent.checkYourAnswers.whoPlannedToSubmit.change.hidden = before the deadline, who planned to send the submission (Welsh)
+
+agent.checkYourAnswers.whatCausedYouToMissDeadline.key = What caused you to miss the deadline? (Welsh)
+agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else happened to delay me (Welsh)
+agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time (Welsh)
+agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline (Welsh)
+
+checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline (Welsh)
+checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline (Welsh)
+checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died) (Welsh)
+checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source (Welsh)
+checkYourAnswers.reasonableExcuse.value.crime =  Crime (Welsh)
+checkYourAnswers.reasonableExcuse.value.fireOrFlood =  Fire or flood (Welsh)
+checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill health (Welsh)
+checkYourAnswers.reasonableExcuse.value.technicalIssues = Software or technology issues (Welsh)
+checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital stay (Welsh)
+checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any of the other categories (Welsh)
+
+checkYourAnswers.crimeReported.key = Has this crime been reported to the police? (Welsh)
+checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police (Welsh)
+
+checkYourAnswers.whenDidEventHappen.bereavement.key =  When did the person die? (Welsh)
+checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  when did the person die (Welsh)
+checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation (Welsh)
+checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation (Welsh)
+checkYourAnswers.whenDidEventHappen.crime.key =  When did the crime happen? (Welsh)
+checkYourAnswers.whenDidEventHappen.crime.change.hidden =  when did the crime happen (Welsh)
+checkYourAnswers.whenDidEventHappen.fireOrFlood.key =  When did the fire or flood happen? (Welsh)
+checkYourAnswers.whenDidEventHappen.fireOrFlood.change.hidden =  when did the fire or flood happen (Welsh)
+checkYourAnswers.whenDidEventHappen.health.key = TBC health (Welsh)
+checkYourAnswers.whenDidEventHappen.health.change.hidden = TBC health (Welsh)
+checkYourAnswers.whenDidEventHappen.technicalIssues.key = When did the software or technology issues begin? (Welsh)
+checkYourAnswers.whenDidEventHappen.technicalIssues.change.hidden = when did the software or technology issues begin (Welsh)
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = TBC unexpectedHospital (Welsh)
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = TBC unexpectedHospital (Welsh)
+
+checkYourAnswers.whenDidTheEventEnd.technicalIssues.key = When did the software or technology issues end? (Welsh)
+checkYourAnswers.whenDidTheEventEnd.technicalIssues.change.hidden = when did the software or technology issues end (Welsh)
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = TBC unexpectedHospital (Welsh)
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = TBC unexpectedHospital (Welsh)
+
+checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days (Welsh)
+checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days (Welsh)
+
+checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal (Welsh)
+checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal (Welsh)
+
+checkYourAnswers.declaration.h2 = Declaration (Welsh)
+checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
+checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution. (Welsh)
+
+checkYourAnswers.acceptAndSend = Accept and send (Welsh)
+
+
 crime.date.error.invalid = The date of the crime must be a real date (Welsh)
 fireOrFlood.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
 technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
@@ -187,6 +249,7 @@ month.11 = Tachwedd
 month.12 = Rhagfyr
 
 
+common.warning = Rhybudd
 common.dateHint = For example, 12 3 2018 (Welsh)
 common.continue = Yn eich blaen
 common.acceptAndContinue = Derbyn ac yn eich blaen
@@ -194,6 +257,7 @@ common.or = neu
 common.yes = Iawn
 common.no = Na
 common.remove = Tynnu
+common.change = Newid
 
 # Reasonable excuse
 # ----------------------------------------------------------

@@ -80,6 +80,8 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 
   lazy val numberOfCharsInTextArea: Int = config.get[Int]("constants.numberOfCharsInTextArea")
+  lazy val lateDays: Int = config.get[Int]("constants.lateDays")
+  lazy val bereavementLateDays: Int = config.get[Int]("constants.bereavementLateDays")
 
   lazy val host: String = config.get[String]("income-tax-penalties-appeals-frontend-host")
 

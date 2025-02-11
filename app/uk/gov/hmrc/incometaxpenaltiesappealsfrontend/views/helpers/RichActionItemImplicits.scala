@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
 
-import play.api.libs.json.Reads
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.ActionItem
 
-trait Page[A] {
-  val key: String
-
-  def value(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Option[A] = user.userAnswers.getAnswer[A](this)
-
+trait RichActionItemImplicits {
+  implicit class RichActionItem(actionItem: ActionItem) {
+    def withId(id: String): ActionItem = actionItem.copy(attributes = actionItem.attributes + ("id" -> id))
+  }
 }
+
+object RichActionItemImplicits extends RichActionItemImplicits
