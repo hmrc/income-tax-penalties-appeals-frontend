@@ -302,7 +302,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           isClientResponsibleForLateSubmission = None
         )
       )
-      val result = await(penaltiesConnector.submitAppeal(model, "HMRC-MTD-IT~MTDITID~123456789", isLPP = false, "123456789", correlationId, isMultiAppeal = true))
+      val result = await(penaltiesConnector.submitAppeal(model, "123456789", isLPP = false, "123456789", correlationId, isMultiAppeal = true))
       result.isRight shouldBe true
       result.toOption.get.status shouldBe OK
     }
@@ -329,7 +329,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           isClientResponsibleForLateSubmission = None
         )
       )
-      val result = await(penaltiesConnector.submitAppeal(model, "HMRC-MTD-IT~MTDITID~123456789", isLPP = false, "123456789", correlationId, isMultiAppeal = true))
+      val result = await(penaltiesConnector.submitAppeal(model, "123456789", isLPP = false, "123456789", correlationId, isMultiAppeal = true))
       result.isRight shouldBe true
       result.toOption.get.status shouldBe OK
     }
@@ -356,7 +356,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           isClientResponsibleForLateSubmission = None
         )
       )
-      val result = await(penaltiesConnector.submitAppeal(model, "HMRC-MTD-IT~MTDITID~123456789", isLPP = true, "123456789", correlationId, isMultiAppeal = true))
+      val result = await(penaltiesConnector.submitAppeal(model, "123456789", isLPP = true, "123456789", correlationId, isMultiAppeal = true))
       result.isRight shouldBe true
       result.toOption.get.status shouldBe OK
     }
@@ -383,7 +383,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           isClientResponsibleForLateSubmission = None
         )
       )
-      val result = await(penaltiesConnector.submitAppeal(model, "HMRC-MTD-IT~MTDITID~123456789", isLPP = true, "123456789", correlationId, isMultiAppeal = true))
+      val result = await(penaltiesConnector.submitAppeal(model, "123456789", isLPP = true, "123456789", correlationId, isMultiAppeal = true))
       result.isLeft shouldBe true
       result.left.toOption.get.status shouldBe INTERNAL_SERVER_ERROR
       result.left.toOption.get.body shouldBe "An issue occurred whilst appealing a penalty with error: Connection reset by peer"

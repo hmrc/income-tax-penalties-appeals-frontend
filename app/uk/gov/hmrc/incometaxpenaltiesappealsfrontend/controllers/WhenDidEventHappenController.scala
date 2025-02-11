@@ -64,11 +64,11 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
           val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
           userAnswersService.updateAnswers(updatedAnswers).map { _ =>
             reasonableExcuse match {
-              case "technicalReason" =>
+              case "technicalIssues" =>
                 Redirect(routes.WhenDidEventEndController.onPageLoad())
-              case "bereavementReason" | "fireOrFloodReason" =>
+              case "bereavement" | "fireOrFlood" =>
                 Redirect(routes.LateAppealController.onPageLoad())
-              case "crimeReason" =>
+              case "crime" =>
                 Redirect(routes.CrimeReportedController.onPageLoad())
               case _ =>
                 Redirect(routes.AppealStartController.onPageLoad())

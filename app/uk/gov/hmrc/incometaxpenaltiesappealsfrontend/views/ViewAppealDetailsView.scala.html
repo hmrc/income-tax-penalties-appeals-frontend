@@ -90,7 +90,7 @@
                 @Dates.dateNonBreakingSpaceSingle("20 January 2029")
             </dd>
         </div>
-        @if(reasonableExcuseMessageKey == "technicalReason") {
+        @if(reasonableExcuseMessageKey == "technicalIssues") {
             <div class="govuk-summary-list__row" id="endDate">
                 <dt class="govuk-summary-list__key">
                 @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.end.key")
@@ -100,10 +100,10 @@
                 </dd>
             </div>
         }
-        @if(reasonableExcuseMessageKey == "crimeReason") {
+        @if(reasonableExcuseMessageKey == "crime") {
             <div class="govuk-summary-list__row" id="reportedCrime">
                 <dt class="govuk-summary-list__key">
-                @messages("viewAppealDetails.crimeReason.reported.key")
+                @messages("viewAppealDetails.crime.reported.key")
                 </dt>
                 <dd class="govuk-summary-list__value">
                     Yes

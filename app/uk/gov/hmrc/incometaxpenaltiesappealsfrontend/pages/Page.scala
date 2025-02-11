@@ -16,6 +16,12 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
+import play.api.libs.json.Reads
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+
 trait Page[A] {
   val key: String
+
+  def value(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Option[A] = user.userAnswers.getAnswer[A](this)
+
 }

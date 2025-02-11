@@ -22,159 +22,211 @@ object WhenDidEventHappenMessages {
 
     def errorMessageConstructor(reasonableExcuse: String, suffix: String, args: String*): String = {
       reasonableExcuse match {
-        case "bereavementReason" => suffix match {
-          case "invalid" => bereavementReasonInvalid
-          case "required.all" => bereavementReasonRequiredAll
-          case "required.two" => bereavementReasonRequiredTwo(args.head, args(1))
-          case "required" => bereavementReasonRequired(args.head)
-          case "notInFuture" => bereavementReasonNotInFuture
+        case "bereavement" => suffix match {
+          case "invalid" => bereavementInvalid
+          case "required.all" => bereavementRequiredAll
+          case "required.two" => bereavementRequiredTwo(args.head, args(1))
+          case "required" => bereavementRequired(args.head)
+          case "notInFuture" => bereavementNotInFuture
         }
-        case "crimeReason" => suffix match {
-          case "invalid" => crimeReasonInvalid
-          case "required.all" => crimeReasonRequiredAll
-          case "required.two" => crimeReasonRequiredTwo(args.head, args(1))
-          case "required" => crimeReasonRequired(args.head)
-          case "notInFuture" => crimeReasonNotInFuture
+        case "crime" => suffix match {
+          case "invalid" => crimeInvalid
+          case "required.all" => crimeRequiredAll
+          case "required.two" => crimeRequiredTwo(args.head, args(1))
+          case "required" => crimeRequired(args.head)
+          case "notInFuture" => crimeNotInFuture
         }
-        case "fireOrFloodReason" => suffix match {
-          case "invalid" => fireOrFloodReasonInvalid
-          case "required.all" => fireOrFloodReasonRequiredAll
-          case "required.two" => fireOrFloodReasonRequiredTwo(args.head, args(1))
-          case "required" => fireOrFloodReasonRequired(args.head)
-          case "notInFuture" => fireOrFloodReasonNotInFuture
+        case "fireOrFlood" => suffix match {
+          case "invalid" => fireOrFloodInvalid
+          case "required.all" => fireOrFloodRequiredAll
+          case "required.two" => fireOrFloodRequiredTwo(args.head, args(1))
+          case "required" => fireOrFloodRequired(args.head)
+          case "notInFuture" => fireOrFloodNotInFuture
         }
-        case "technicalReason" => suffix match {
-          case "invalid" => technicalReasonInvalid
-          case "required.all" => technicalReasonRequiredAll
-          case "required.two" => technicalReasonRequiredTwo(args.head, args(1))
-          case "required" => technicalReasonRequired(args.head)
-          case "notInFuture" => technicalReasonNotInFuture
+        case "technicalIssues" => suffix match {
+          case "invalid" => technicalIssueInvalid
+          case "required.all" => technicalIssueRequiredAll
+          case "required.two" => technicalIssueRequiredTwo(args.head, args(1))
+          case "required" => technicalIssueRequired(args.head)
+          case "notInFuture" => technicalIssueNotInFuture
         }
-        case "cessationReason" => suffix match {
-          case "invalid" => cessationReasonInvalid
-          case "required.all" => cessationReasonRequiredAll
-          case "required.two" => cessationReasonRequiredTwo(args.head, args(1))
-          case "required" => cessationReasonRequired(args.head)
-          case "notInFuture" => cessationReasonNotInFuture
+        case "cessation" => suffix match {
+          case "invalid" => cessationInvalid
+          case "required.all" => cessationRequiredAll
+          case "required.two" => cessationRequiredTwo(args.head, args(1))
+          case "required" => cessationRequired(args.head)
+          case "notInFuture" => cessationNotInFuture
         }
-        case "healthReason" => suffix match {
-          case "invalid" => healthReasonInvalid
-          case "required.all" => healthReasonRequiredAll
-          case "required.two" => healthReasonRequiredTwo(args.head, args(1))
-          case "required" => healthReasonRequired(args.head)
-          case "notInFuture" => healthReasonNotInFuture
+        case "health" => suffix match {
+          case "invalid" => healthInvalid
+          case "required.all" => healthRequiredAll
+          case "required.two" => healthRequiredTwo(args.head, args(1))
+          case "required" => healthRequired(args.head)
+          case "notInFuture" => healthNotInFuture
         }
-        case "unexpectedHospitalReason" => suffix match {
-          case "invalid" => unexpectedHospitalReasonInvalid
-          case "required.all" => unexpectedHospitalReasonRequiredAll
-          case "required.two" => unexpectedHospitalReasonRequiredTwo(args.head, args(1))
-          case "required" => unexpectedHospitalReasonRequired(args.head)
-          case "notInFuture" => unexpectedHospitalReasonNotInFuture
+        case "unexpectedHospital" => suffix match {
+          case "invalid" => unexpectedHospitalInvalid
+          case "required.all" => unexpectedHospitalRequiredAll
+          case "required.two" => unexpectedHospitalRequiredTwo(args.head, args(1))
+          case "required" => unexpectedHospitalRequired(args.head)
+          case "notInFuture" => unexpectedHospitalNotInFuture
         }
-        case "otherReason" => suffix match {
-          case "invalid" => otherReasonInvalid
-          case "required.all" => otherReasonRequiredAll
-          case "required.two" => otherReasonRequiredTwo(args.head, args(1))
-          case "required" => otherReasonRequired(args.head)
-          case "notInFuture" => otherReasonNotInFuture
+        case "other" => suffix match {
+          case "invalid" => otherInvalid
+          case "required.all" => otherRequiredAll
+          case "required.two" => otherRequiredTwo(args.head, args(1))
+          case "required" => otherRequired(args.head)
+          case "notInFuture" => otherNotInFuture
         }
       }
     }
 
-    val crimeReasonInvalid = "The date of the crime must be a real date"
-    val fireOrFloodReasonInvalid = "The date of the fire or flood must be a real date"
-    val technicalReasonInvalid = "The date the software or technology issues began must be a real date"
-    val bereavementReasonInvalid = "The date the person died must be a real date"
-    val cessationReasonInvalid = "TBC"
-    val healthReasonInvalid = "TBC"
-    val unexpectedHospitalReasonInvalid = "TBC"
-    val otherReasonInvalid = "TBC"
+    val cyaKeyBereavement: String = "When did the person die?"
+    val cyaKeyCrime: String = "When did the crime happen?"
+    val cyaKeyFireOrFlood: String = "When did the fire or flood happen?"
+    val cyaKeyTechnical: String = "When did the software or technology issues begin?"
+    val cyaKeyCessation: String = "TBC cessation"
+    val cyaKeyHealth: String = "TBC health"
+    val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital"
 
-    val crimeReasonRequiredAll = "Enter the date of the crime"
-    val fireOrFloodReasonRequiredAll = "Enter the date of the fire or flood"
-    val technicalReasonRequiredAll = "Enter the date when the software or technology issues began"
-    val bereavementReasonRequiredAll = "Enter the date when the person died"
-    val cessationReasonRequiredAll = "TBC"
-    val healthReasonRequiredAll = "TBC"
-    val unexpectedHospitalReasonRequiredAll = "TBC"
-    val otherReasonRequiredAll = "TBC"
+    def cyaKey(reasonableExcuse: String): String = reasonableExcuse match {
+      case "bereavement" => cyaKeyBereavement
+      case "crime" => cyaKeyCrime
+      case "fireOrFlood" => cyaKeyFireOrFlood
+      case "technicalIssues" => cyaKeyTechnical
+      case "cessation" => cyaKeyCessation
+      case "health" => cyaKeyHealth
+      case "unexpectedHospital" => cyaKeyUnexpectedHospital
+    }
 
-    def crimeReasonRequiredTwo(missing: String, missingTwo: String) = s"The date of the crime must include a $missing and a $missingTwo"
-    def fireOrFloodReasonRequiredTwo(missing: String, missingTwo: String) = s"The date of the fire or flood must include a $missing and a $missingTwo"
-    def technicalReasonRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues began must include a $missing and a $missingTwo"
-    def bereavementReasonRequiredTwo(missing: String, missingTwo: String) = s"The date the person died must include a $missing and a $missingTwo"
-    def cessationReasonRequiredTwo(missing: String, missingTwo: String) = "TBC"
-    def healthReasonRequiredTwo(missing: String, missingTwo: String) = "TBC"
-    def unexpectedHospitalReasonRequiredTwo(missing: String, missingTwo: String) = "TBC"
-    def otherReasonRequiredTwo(missing: String, missingTwo: String) = "TBC"
+    val cyaHiddenBereavement: String = "when did the person die"
+    val cyaHiddenCrime: String = "when did the crime happen"
+    val cyaHiddenFireOrFlood: String = "when did the fire or flood happen"
+    val cyaHiddenTechnical: String = "when did the software or technology issues begin"
+    val cyaHiddenCessation: String = "TBC cessation"
+    val cyaHiddenHealth: String = "TBC health"
+    val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital"
+
+    def cyaHidden(reasonableExcuse: String): String = reasonableExcuse match {
+      case "bereavement" => cyaHiddenBereavement
+      case "crime" => cyaHiddenCrime
+      case "fireOrFlood" => cyaHiddenFireOrFlood
+      case "technicalIssues" => cyaHiddenTechnical
+      case "cessation" => cyaHiddenCessation
+      case "health" => cyaHiddenHealth
+      case "unexpectedHospital" => cyaHiddenUnexpectedHospital
+    }
+
+    val crimeInvalid = "The date of the crime must be a real date"
+    val fireOrFloodInvalid = "The date of the fire or flood must be a real date"
+    val technicalIssueInvalid = "The date the software or technology issues began must be a real date"
+    val bereavementInvalid = "The date the person died must be a real date"
+    val cessationInvalid = "TBC"
+    val healthInvalid = "TBC"
+    val unexpectedHospitalInvalid = "TBC"
+    val otherInvalid = "TBC"
+
+    val crimeRequiredAll = "Enter the date of the crime"
+    val fireOrFloodRequiredAll = "Enter the date of the fire or flood"
+    val technicalIssueRequiredAll = "Enter the date when the software or technology issues began"
+    val bereavementRequiredAll = "Enter the date when the person died"
+    val cessationRequiredAll = "TBC"
+    val healthRequiredAll = "TBC"
+    val unexpectedHospitalRequiredAll = "TBC"
+    val otherRequiredAll = "TBC"
+
+    def crimeRequiredTwo(missing: String, missingTwo: String) = s"The date of the crime must include a $missing and a $missingTwo"
+    def fireOrFloodRequiredTwo(missing: String, missingTwo: String) = s"The date of the fire or flood must include a $missing and a $missingTwo"
+    def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues began must include a $missing and a $missingTwo"
+    def bereavementRequiredTwo(missing: String, missingTwo: String) = s"The date the person died must include a $missing and a $missingTwo"
+    def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC"
+    def healthRequiredTwo(missing: String, missingTwo: String) = "TBC"
+    def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = "TBC"
+    def otherRequiredTwo(missing: String, missingTwo: String) = "TBC"
 
 
-    def crimeReasonRequired(missing: String) = s"The date of the crime must include a $missing"
-    def fireOrFloodReasonRequired(missing: String) = s"The date of the fire or flood must include a $missing"
-    def technicalReasonRequired(missing: String) = s"The date the software or technology issues began must include a $missing"
-    def bereavementReasonRequired(missing: String) = s"The date the person died must include a $missing"
-    def cessationReasonRequired(missing: String) = "TBC"
-    def healthReasonRequired(missing: String) = "TBC"
-    def unexpectedHospitalReasonRequired(missing: String) = "TBC"
-    def otherReasonRequired(missing: String) = "TBC"
+    def crimeRequired(missing: String) = s"The date of the crime must include a $missing"
+    def fireOrFloodRequired(missing: String) = s"The date of the fire or flood must include a $missing"
+    def technicalIssueRequired(missing: String) = s"The date the software or technology issues began must include a $missing"
+    def bereavementRequired(missing: String) = s"The date the person died must include a $missing"
+    def cessationRequired(missing: String) = "TBC"
+    def healthRequired(missing: String) = "TBC"
+    def unexpectedHospitalRequired(missing: String) = "TBC"
+    def otherRequired(missing: String) = "TBC"
 
-    val crimeReasonNotInFuture = "The date of the crime must be today or in the past"
-    val fireOrFloodReasonNotInFuture = "The date of the fire or flood must be today or in the past"
-    val technicalReasonNotInFuture = "The date the software or technology issues began must be today or in the past"
-    val bereavementReasonNotInFuture = "The date the person died must be today or in the past"
-    val cessationReasonNotInFuture = "TBC"
-    val healthReasonNotInFuture = "TBC"
-    val unexpectedHospitalReasonNotInFuture = "TBC"
-    val otherReasonNotInFuture = "TBC"
+    val crimeNotInFuture = "The date of the crime must be today or in the past"
+    val fireOrFloodNotInFuture = "The date of the fire or flood must be today or in the past"
+    val technicalIssueNotInFuture = "The date the software or technology issues began must be today or in the past"
+    val bereavementNotInFuture = "The date the person died must be today or in the past"
+    val cessationNotInFuture = "TBC"
+    val healthNotInFuture = "TBC"
+    val unexpectedHospitalNotInFuture = "TBC"
+    val otherNotInFuture = "TBC"
 
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val crimeReasonInvalid = "The date of the crime must be a real date (Welsh)"
-    override val fireOrFloodReasonInvalid = "The date of the fire or flood must be a real date (Welsh)"
-    override val technicalReasonInvalid = "The date the software or technology issues began must be a real date (Welsh)"
-    override val bereavementReasonInvalid = "The date the person died must be a real date (Welsh)"
-    override val cessationReasonInvalid = "TBC (Welsh)"
-    override val healthReasonInvalid = "TBC (Welsh)"
-    override val unexpectedHospitalReasonInvalid = "TBC (Welsh)"
-    override val otherReasonInvalid = "TBC (Welsh)"
+    override val crimeInvalid = "The date of the crime must be a real date (Welsh)"
+    override val fireOrFloodInvalid = "The date of the fire or flood must be a real date (Welsh)"
+    override val technicalIssueInvalid = "The date the software or technology issues began must be a real date (Welsh)"
+    override val bereavementInvalid = "The date the person died must be a real date (Welsh)"
+    override val cessationInvalid = "TBC (Welsh)"
+    override val healthInvalid = "TBC (Welsh)"
+    override val unexpectedHospitalInvalid = "TBC (Welsh)"
+    override val otherInvalid = "TBC (Welsh)"
 
-    override val crimeReasonRequiredAll = "Enter the date of the crime (Welsh)"
-    override val fireOrFloodReasonRequiredAll = "Enter the date of the fire or flood (Welsh)"
-    override val technicalReasonRequiredAll = "Enter the date when the software or technology issues began (Welsh)"
-    override val bereavementReasonRequiredAll = "Enter the date when the person died (Welsh)"
-    override val cessationReasonRequiredAll = "TBC (Welsh)"
-    override val healthReasonRequiredAll = "TBC (Welsh)"
-    override val unexpectedHospitalReasonRequiredAll = "TBC (Welsh)"
-    override val otherReasonRequiredAll = "TBC (Welsh)"
+    override val crimeRequiredAll = "Enter the date of the crime (Welsh)"
+    override val fireOrFloodRequiredAll = "Enter the date of the fire or flood (Welsh)"
+    override val technicalIssueRequiredAll = "Enter the date when the software or technology issues began (Welsh)"
+    override val bereavementRequiredAll = "Enter the date when the person died (Welsh)"
+    override val cessationRequiredAll = "TBC (Welsh)"
+    override val healthRequiredAll = "TBC (Welsh)"
+    override val unexpectedHospitalRequiredAll = "TBC (Welsh)"
+    override val otherRequiredAll = "TBC (Welsh)"
 
-    override def crimeReasonRequiredTwo(missing: String, missingTwo: String) = s"The date of the crime must include a $missing and a $missingTwo (Welsh)"
-    override def fireOrFloodReasonRequiredTwo(missing: String, missingTwo: String) = s"The date of the fire or flood must include a $missing and a $missingTwo (Welsh)"
-    override def technicalReasonRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues began must include a $missing and a $missingTwo (Welsh)"
-    override def bereavementReasonRequiredTwo(missing: String, missingTwo: String) = s"The date the person died must include a $missing and a $missingTwo (Welsh)"
-    override def cessationReasonRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
-    override def healthReasonRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
-    override def unexpectedHospitalReasonRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
-    override def otherReasonRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
+    override def crimeRequiredTwo(missing: String, missingTwo: String) = s"The date of the crime must include a $missing and a $missingTwo (Welsh)"
+    override def fireOrFloodRequiredTwo(missing: String, missingTwo: String) = s"The date of the fire or flood must include a $missing and a $missingTwo (Welsh)"
+    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues began must include a $missing and a $missingTwo (Welsh)"
+    override def bereavementRequiredTwo(missing: String, missingTwo: String) = s"The date the person died must include a $missing and a $missingTwo (Welsh)"
+    override def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
+    override def healthRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
+    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
+    override def otherRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
 
-    override def crimeReasonRequired(missing: String) = s"The date of the crime must include a $missing (Welsh)"
-    override def fireOrFloodReasonRequired(missing: String) = s"The date of the fire or flood must include a $missing (Welsh)"
-    override def technicalReasonRequired(missing: String) = s"The date the software or technology issues began must include a $missing (Welsh)"
-    override def bereavementReasonRequired(missing: String) = s"The date the person died must include a $missing (Welsh)"
-    override def cessationReasonRequired(missing: String) = "TBC (Welsh)"
-    override def healthReasonRequired(missing: String) = "TBC (Welsh)"
-    override def unexpectedHospitalReasonRequired(missing: String) = "TBC (Welsh)"
-    override def otherReasonRequired(missing: String) = "TBC (Welsh)"
+    override def crimeRequired(missing: String) = s"The date of the crime must include a $missing (Welsh)"
+    override def fireOrFloodRequired(missing: String) = s"The date of the fire or flood must include a $missing (Welsh)"
+    override def technicalIssueRequired(missing: String) = s"The date the software or technology issues began must include a $missing (Welsh)"
+    override def bereavementRequired(missing: String) = s"The date the person died must include a $missing (Welsh)"
+    override def cessationRequired(missing: String) = "TBC (Welsh)"
+    override def healthRequired(missing: String) = "TBC (Welsh)"
+    override def unexpectedHospitalRequired(missing: String) = "TBC (Welsh)"
+    override def otherRequired(missing: String) = "TBC (Welsh)"
 
-    override val crimeReasonNotInFuture = "The date of the crime must be today or in the past (Welsh)"
-    override val fireOrFloodReasonNotInFuture = "The date of the fire or flood must be today or in the past (Welsh)"
-    override val technicalReasonNotInFuture = "The date the software or technology issues began must be today or in the past (Welsh)"
-    override val bereavementReasonNotInFuture = "The date the person died must be today or in the past (Welsh)"
-    override val cessationReasonNotInFuture = "TBC (Welsh)"
-    override val healthReasonNotInFuture = "TBC (Welsh)"
-    override val unexpectedHospitalReasonNotInFuture = "TBC (Welsh)"
-    override val otherReasonNotInFuture = "TBC (Welsh)"
+    override val crimeNotInFuture = "The date of the crime must be today or in the past (Welsh)"
+    override val fireOrFloodNotInFuture = "The date of the fire or flood must be today or in the past (Welsh)"
+    override val technicalIssueNotInFuture = "The date the software or technology issues began must be today or in the past (Welsh)"
+    override val bereavementNotInFuture = "The date the person died must be today or in the past (Welsh)"
+    override val cessationNotInFuture = "TBC (Welsh)"
+    override val healthNotInFuture = "TBC (Welsh)"
+    override val unexpectedHospitalNotInFuture = "TBC (Welsh)"
+    override val otherNotInFuture = "TBC (Welsh)"
+
+    override val cyaKeyBereavement: String = "When did the person die? (Welsh)"
+    override val cyaKeyCrime: String = "When did the crime happen? (Welsh)"
+    override val cyaKeyFireOrFlood: String = "When did the fire or flood happen? (Welsh)"
+    override val cyaKeyTechnical: String = "When did the software or technology issues begin? (Welsh)"
+    override val cyaKeyCessation: String = "TBC cessation (Welsh)"
+    override val cyaKeyHealth: String = "TBC health (Welsh)"
+    override val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
+
+    override val cyaHiddenBereavement: String = "when did the person die (Welsh)"
+    override val cyaHiddenCrime: String = "when did the crime happen (Welsh)"
+    override val cyaHiddenFireOrFlood: String = "when did the fire or flood happen (Welsh)"
+    override val cyaHiddenTechnical: String = "when did the software or technology issues begin (Welsh)"
+    override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
+    override val cyaHiddenHealth: String = "TBC health (Welsh)"
+    override val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
   }
 }

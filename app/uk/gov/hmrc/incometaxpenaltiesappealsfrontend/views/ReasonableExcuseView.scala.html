@@ -57,41 +57,41 @@
             errorMessage = form("reasonableExcuse").error.map(err => ErrorMessage(content = Text(messages(err.message)))),
             items = Seq(
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.bereavementReason")),
-                    value = Some("bereavementReason")
+                    content = Text(messages("reasonableExcuses.bereavement")),
+                    value = Some("bereavement")
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.cessationReason")),
-                    value = Some("cessationReason")
+                    content = Text(messages("reasonableExcuses.cessation")),
+                    value = Some("cessation")
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.crimeReason")),
-                    value = Some("crimeReason")
+                    content = Text(messages("reasonableExcuses.crime")),
+                    value = Some("crime")
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.fireOrFloodReason")),
-                    value = Some("fireOrFloodReason")
+                    content = Text(messages("reasonableExcuses.fireOrFlood")),
+                    value = Some("fireOrFlood")
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.healthReason")),
-                    value = Some("healthReason")
+                    content = Text(messages("reasonableExcuses.health")),
+                    value = Some("health")
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.technicalReason")),
-                    value = Some("technicalReason")
+                    content = Text(messages("reasonableExcuses.technicalIssues")),
+                    value = Some("technicalIssues")
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.unexpectedHospitalReason")),
-                    value = Some("unexpectedHospitalReason")
+                    content = Text(messages("reasonableExcuses.unexpectedHospital")),
+                    value = Some("unexpectedHospital")
                 ),
                 RadioItem(
                     divider = Some(messages("common.or"))
                 ),
                 RadioItem(
-                    content = Text(messages("reasonableExcuses.otherReason")),
-                    value = Some("otherReason"),
+                    content = Text(messages("reasonableExcuses.other")),
+                    value = Some("other"),
                     hint = Some(Hint(
-                        content = Text(messages("reasonableExcuses.otherReason.hint"))
+                        content = Text(messages("reasonableExcuses.other.hint"))
                     ))
                 )
             )

@@ -40,7 +40,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
   val testStartDate: LocalDate = LocalDate.of(2024, 3, 2)
 
   val userAnswer: UserAnswers = UserAnswers(testJourneyId)
-    .setAnswer(ReasonableExcusePage, "technicalReason")
+    .setAnswer(ReasonableExcusePage, "technicalIssues")
     .setAnswer(WhenDidEventHappenPage, testStartDate)
 
   override def beforeEach(): Unit = {

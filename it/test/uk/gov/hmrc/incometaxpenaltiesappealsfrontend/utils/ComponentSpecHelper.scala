@@ -111,15 +111,21 @@ trait ComponentSpecHelper
               cookie: WSCookie = enLangCookie,
               queryParams: Map[String, String] = Map.empty,
               origin: Option[String] = None,
-              journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
+              journeyId: Option[String] = Some(testJourneyId),
+              otherSessionValues: Map[String,String] = Map()): WSResponse = {
     await(buildClient(uri)
       .withHttpHeaders("Authorization" -> "Bearer 123")
-      .withCookies(cookie, mockSessionCookie(isAgent, origin = origin, journeyId))
+      .withCookies(cookie, mockSessionCookie(isAgent, origin = origin, journeyId, otherSessionValues = otherSessionValues))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
   }
 
-  def post[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, cookie: WSCookie = enLangCookie, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def post[T](uri: String,
+              isLate: Boolean = true,
+              isAgent: Boolean = false,
+              cookie: WSCookie = enLangCookie,
+              journeyId: Option[String] = Some(testJourneyId),
+              otherSessionValues: Map[String,String] = Map())(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders(
@@ -127,12 +133,16 @@ trait ComponentSpecHelper
           "Content-Type" -> "application/json",
           "Authorization" -> "Bearer 123"
         )
-        .withCookies(cookie, mockSessionCookie(isAgent, journeyId = journeyId))
+        .withCookies(cookie, mockSessionCookie(isAgent, journeyId = journeyId, otherSessionValues = otherSessionValues))
         .post(writes.writes(body).toString())
     )
   }
 
-  def put[T](uri: String, isLate: Boolean = true ,isAgent: Boolean = false, journeyId: Option[String] = Some(testJourneyId))(body: T)(implicit writes: Writes[T]): WSResponse = {
+  def put[T](uri: String,
+             isLate: Boolean = true ,
+             isAgent: Boolean = false,
+             journeyId: Option[String] = Some(testJourneyId),
+             otherSessionValues: Map[String,String] = Map())(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders(
@@ -140,17 +150,21 @@ trait ComponentSpecHelper
           "Content-Type" -> "application/json",
           "Authorization" -> "Bearer 123"
         )
-        .withCookies(mockSessionCookie(isAgent, journeyId = journeyId))
+        .withCookies(mockSessionCookie(isAgent, journeyId = journeyId, otherSessionValues = otherSessionValues))
         .put(writes.writes(body).toString())
     )
   }
 
-  def delete[T](uri: String, isLate: Boolean = true, isAgent: Boolean = false, journeyId: Option[String] = Some(testJourneyId)): WSResponse = {
+  def delete[T](uri: String,
+                isLate: Boolean = true,
+                isAgent: Boolean = false,
+                journeyId: Option[String] = Some(testJourneyId),
+                otherSessionValues: Map[String,String] = Map()): WSResponse = {
     await(buildClient(uri).withHttpHeaders(
         "Csrf-Token" -> "nocheck",
         "Authorization" -> "Bearer 123"
       )
-      .withCookies(mockSessionCookie(isAgent, journeyId = journeyId))
+      .withCookies(mockSessionCookie(isAgent, journeyId = journeyId, otherSessionValues = otherSessionValues))
       .delete())
   }
 
@@ -165,7 +179,10 @@ trait ComponentSpecHelper
 
   val enLangCookie: WSCookie = DefaultWSCookie("PLAY_LANG", "en")
 
-  def mockSessionCookie(isAgent: Boolean, origin: Option[String] = None, journeyId: Option[String] = None): WSCookie = {
+  def mockSessionCookie(isAgent: Boolean,
+                        origin: Option[String] = None,
+                        journeyId: Option[String] = None,
+                        otherSessionValues: Map[String,String] = Map()): WSCookie = {
 
     def makeSessionCookie(session: Session): Cookie = {
       val cookieCrypto = app.injector.instanceOf[SessionCookieCrypto]
@@ -182,6 +199,7 @@ trait ComponentSpecHelper
     ) ++ {if(isAgent) Map(IncomeTaxSessionKeys.agentSessionMtditid -> "123456789") else Map.empty}
       ++ {if(origin.isDefined) Map(IncomeTaxSessionKeys.origin -> origin.get) else Map.empty}
       ++ {if(journeyId.isDefined) Map(IncomeTaxSessionKeys.journeyId -> journeyId.get) else Map.empty}
+      ++ otherSessionValues
     )
 
     val cookie = makeSessionCookie(mockSession)

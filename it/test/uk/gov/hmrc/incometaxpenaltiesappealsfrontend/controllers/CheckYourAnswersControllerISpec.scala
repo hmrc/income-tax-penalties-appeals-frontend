@@ -16,62 +16,57 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.ReasonableExcuseMessages
+import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
-import play.api.http.Status.OK
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK, SEE_OTHER}
+import play.api.libs.json.Json
+import play.api.test.Helpers.LOCATION
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, PenaltiesStub}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, ViewSpecHelper}
 
-class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+import java.time.LocalDate
+
+class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper
+  with AuthStub with NavBarTesterHelper with PenaltiesStub {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  val errorHandler = app.injector.instanceOf[ErrorHandler]
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val bereavementReasonMessage: String = "When did the person die?"
-  val cessationReasonMessage: String = "TBC cessationReason"
-  val crimeReasonMessage: String = "When did the crime happen?"
-  val fireOrFloodReasonReasonMessage: String = "When did the fire or flood happen?"
-  val healthReasonMessage: String = "TBC healthReason"
-  val technicalReasonMessage: String = "When did the software or technology issues begin?"
-  val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason"
-  val otherReasonMessage: String = "TBC otherReason"
+  object Selectors extends BaseSelectors {
+    override val prefix: String = "main"
+  }
 
-  val bereavementReasonValue = "Bereavement (someone died)"
-  val cessationReasonValue = "Cessation of income source"
-  val crimeReasonValue = "Crime"
-  val fireOrFloodReasonValue = "Fire or flood"
-  val healthReasonValue = "Serious or life-threatening ill health"
-  val technicalReasonValue = "Software or technology issues"
-  val unexpectedHospitalReasonValue = "Unexpected hospital stay"
-  val otherReasonValue = "The reason does not fit into any of the other categories"
-
-  val reasonsList: List[(String, String, String)] = List(
-    ("bereavementReason", bereavementReasonValue, bereavementReasonMessage),
-    ("cessationReason", cessationReasonValue, cessationReasonMessage),
-    ("crimeReason", crimeReasonValue, crimeReasonMessage),
-    ("fireOrFloodReason", fireOrFloodReasonValue, fireOrFloodReasonReasonMessage),
-    ("healthReason", healthReasonValue, healthReasonMessage),
-    ("technicalReason", technicalReasonValue, technicalReasonMessage),
-    ("unexpectedHospitalReason", unexpectedHospitalReasonValue, unexpectedHospitalReasonMessage),
-    ("otherReason", otherReasonValue, otherReasonMessage)
+  val reasonsList: Seq[String] = List(
+    "bereavement",
+    "cessation",
+    "crime",
+    "fireOrFlood",
+    "health",
+    "technicalIssues",
+    "unexpectedHospital",
+    "other"
   )
 
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
+    disable(UseStubForBackend)
     super.beforeEach()
   }
 
   for (reason <- reasonsList) {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reason._1)
+    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reason)
 
-    s"GET /check-your-answers with ${reason._1}" should {
+    s"GET /check-your-answers with reasonableExcuse='$reason'" should {
 
       testNavBar(url = "/check-your-answers")(
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
@@ -110,25 +105,12 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
           document.title() shouldBe "Check your answers - Appeal a Self Assessment penalty - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
           document.getH1Elements.text() shouldBe "Check your answers"
-          document.getElementById("appealDetails").text() shouldBe "Appeal details"
-          document.select("#reasonableExcuse > dt").text() shouldBe "Reason for missing the submission deadline"
-          document.select("#reasonableExcuse > dd.govuk-summary-list__value").text() shouldBe reason._2
-          document.select("#reasonableExcuse > dd.govuk-summary-list__actions > a").text() shouldBe "Change Reason for missing the submission deadline"
-          document.select("#reasonableExcuseDateStart > dt").text() shouldBe reason._3
-          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__value").text() shouldBe "04 October 2027"
-          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__actions > a").text() shouldBe s"Change ${reason._3}"
-          if(reason._1 == "technicalReason"){
-          document.select("#reasonableExcuseDateEnd > dt").text() shouldBe "When did the software or technology issues end?"
-          document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__value").text() shouldBe "20 October 2027"
-          document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__actions").text() shouldBe "Change When did the software or technology issues end?"
-          }
-          if(reason._1 == "crimeReason"){
-            document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
-            document.select("#reportedCrime > dd.govuk-summary-list__value").text() shouldBe "Yes"
-            document.select("#reportedCrime > dd.govuk-summary-list__actions").text() shouldBe "Change Has this crime been reported to the police?"
-          }
-          document.getElementById("declaration").text() shouldBe "Declaration"
-          document.select("#declarationWarn").text() shouldBe "! Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
+          document.select(Selectors.h2(1)).text() shouldBe "Appeal details"
+          document.select(Selectors.summaryRowKey(1)).text() shouldBe ReasonableExcuseMessages.English.cyaKey
+          document.select(Selectors.summaryRowValue(1)).text() shouldBe ReasonableExcuseMessages.English.cyaValue(reason)
+          document.select(Selectors.summaryRowAction(1,1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
+          document.select(Selectors.h2(2)).text() shouldBe "Declaration"
+          document.select(Selectors.warning).text() shouldBe "Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
           document.getSubmitButton.text() shouldBe "Accept and send"
         }
 
@@ -144,29 +126,76 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
           document.title() shouldBe "Check your answers - Appeal a Self Assessment penalty - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
           document.getH1Elements.text() shouldBe "Check your answers"
-          document.getElementById("appealDetails").text() shouldBe "Appeal details"
-          document.select("#reasonableExcuse > dt").text() shouldBe "Reason for missing the submission deadline"
-          document.select("#reasonableExcuse > dd.govuk-summary-list__value").text() shouldBe reason._2
-          document.select("#reasonableExcuse > dd.govuk-summary-list__actions > a").text() shouldBe "Change Reason for missing the submission deadline"
-          document.select("#reasonableExcuseDateStart > dt").text() shouldBe reason._3
-          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__value").text() shouldBe "04 October 2027"
-          document.select("#reasonableExcuseDateStart > dd.govuk-summary-list__actions > a").text() shouldBe s"Change ${reason._3}"
-          if(reason._1 == "technicalReason"){
-            document.select("#reasonableExcuseDateEnd > dt").text() shouldBe "When did the software or technology issues end?"
-            document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__value").text() shouldBe "20 October 2027"
-            document.select("#reasonableExcuseDateEnd > dd.govuk-summary-list__actions").text() shouldBe "Change When did the software or technology issues end?"
-          }
-          if(reason._1 == "crimeReason"){
-            document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
-            document.select("#reportedCrime > dd.govuk-summary-list__value").text() shouldBe "Yes"
-            document.select("#reportedCrime > dd.govuk-summary-list__actions").text() shouldBe "Change Has this crime been reported to the police?"
-          }
-          document.getElementById("declaration").text() shouldBe "Declaration"
-          document.select("#declarationWarn").text() shouldBe "! Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
+          document.select(Selectors.h2(1)).text() shouldBe "Appeal details"
+          document.select(Selectors.summaryRowKey(1)).text() shouldBe ReasonableExcuseMessages.English.cyaKey
+          document.select(Selectors.summaryRowValue(1)).text() shouldBe ReasonableExcuseMessages.English.cyaValue(reason)
+          document.select(Selectors.summaryRowAction(1,1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
+          document.select(Selectors.h2(2)).text() shouldBe "Declaration"
+          document.select(Selectors.warning).text() shouldBe "Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
           document.getSubmitButton.text() shouldBe "Accept and send"
         }
       }
     }
   }
 
+  "POST /check-your-answers" when {
+    "the user is an authorised individual" when {
+      "the Appeals Submission model can be constructed successfully" when {
+
+        lazy val userAnswers =
+          UserAnswers(testJourneyId)
+            .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "1")
+            .setAnswer(ReasonableExcusePage, "fireOrFlood")
+            .setAnswer(HonestyDeclarationPage, true)
+            .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
+
+        "a successful response is returned from the downstream service" should {
+          "redirect to the confirmation page" in {
+            stubAuth(OK, successfulIndividualAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
+
+            successfulAppealSubmission(isLPP = false, "1")
+
+            val result = post("/check-your-answers")(Json.obj())
+
+            result.status shouldBe SEE_OTHER
+            result.header(LOCATION) shouldBe Some(routes.ConfirmationController.onPageLoad().url)
+          }
+        }
+
+        "an Error response is returned from the downstream service" should {
+          "render an ISE" in {
+            stubAuth(OK, successfulIndividualAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
+
+            failedAppealSubmission(isLPP = false, "1")
+
+            val result = post("/check-your-answers")(Json.obj())
+
+            result.status shouldBe INTERNAL_SERVER_ERROR
+            result.body should include("Sorry, there is a problem with the service")
+          }
+        }
+      }
+
+      "the Appeals Submission model can NOT be constructed successfully" when {
+
+        lazy val userAnswers =
+          UserAnswers(testJourneyId)
+            .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "1")
+            .setAnswer(HonestyDeclarationPage, true)
+            .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
+
+        "render an ISE" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
+
+          val result = post("/check-your-answers")(Json.obj())
+
+          result.status shouldBe INTERNAL_SERVER_ERROR
+          result.body should include("Sorry, there is a problem with the service")
+        }
+      }
+    }
+  }
 }

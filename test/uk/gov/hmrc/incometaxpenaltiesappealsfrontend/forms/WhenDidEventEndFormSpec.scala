@@ -42,13 +42,13 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[LocalDate] = WhenDidEventEndForm.form("technicalReason", LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
+      val form: Form[LocalDate] = WhenDidEventEndForm.form("technicalIssues", LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
 
-      s"WhenDidEventEndForm with technicalReason" should {
+      s"WhenDidEventEndForm with technicalIssue" should {
         behave like dateForm(
           form = form,
           fieldName = "date",
-          errorMessageKey = errorType => s"technicalReason.end.date.error.$errorType",
+          errorMessageKey = errorType => s"technicalIssues.end.date.error.$errorType",
           errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, args:_*),
           messagesForLanguage = messagesForLanguage
         )

@@ -29,8 +29,11 @@ case class UserAnswers(
                         lastUpdated: Instant = Instant.now
                       ) {
 
+  def getAnswerForKey[A](key: String)(implicit reads: Reads[A]): Option[A] =
+    (data \ key).validate.fold(_ => None, Some(_))
+
   def getAnswer[A](page: Page[A])(implicit reads: Reads[A]): Option[A] =
-    (data \ page.key).validate.fold(_ => None, Some(_))
+    getAnswerForKey(page.key)
 
   def setAnswerForKey[A](key: String, value: A)(implicit writes: Writes[A]): UserAnswers =
     UserAnswers(journeyId, data ++ Json.obj(key -> value))

@@ -22,31 +22,53 @@ object WhenDidEventEndMessages {
 
     def errorMessageConstructor(suffix: String, args: String*): String =
       suffix match {
-        case "invalid" => technicalReasonInvalid
-        case "required.all" => technicalReasonRequiredAll
-        case "required.two" => technicalReasonRequiredTwo(args.head, args(1))
-        case "required" => technicalReasonRequired(args.head)
-        case "notInFuture" => technicalReasonNotInFuture
-        case "endDateLessThanStartDate" => technicalReasonEndDateLessThanStartDate(args.head)
+        case "invalid" => technicalIssueInvalid
+        case "required.all" => technicalIssueRequiredAll
+        case "required.two" => technicalIssueRequiredTwo(args.head, args(1))
+        case "required" => technicalIssueRequired(args.head)
+        case "notInFuture" => technicalIssueNotInFuture
+        case "endDateLessThanStartDate" => technicalIssueEndDateLessThanStartDate(args.head)
       }
 
-    val technicalReasonInvalid = "The date the software or technology issues ended must be a real date"
-    val technicalReasonRequiredAll = "Tell us when the software or technology issues ended"
-    def technicalReasonRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues ended must include a $missing and a $missingTwo"
-    def technicalReasonRequired(missing: String) = s"The date the software or technology issues ended must include a $missing"
-    val technicalReasonNotInFuture = "The date the software or technology issues ended must be today or in the past"
-    def technicalReasonEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later"
+    val cyaKeyTechnical = "When did the software or technology issues end?"
+    val cyaKeyHospital = "TBC unexpectedHospital"
+
+    def cyaKey(reasonableExcuse: String): String = reasonableExcuse match {
+      case "technicalIssues" => cyaKeyTechnical
+      case "unexpectedHospital" => cyaKeyHospital
+    }
+
+    val cyaHiddenTechnical = "when did the software or technology issues end"
+    val cyaHiddenHospital = "TBC unexpectedHospital"
+
+    def cyaHidden(reasonableExcuse: String): String = reasonableExcuse match {
+      case "technicalIssues" => cyaHiddenTechnical
+      case "unexpectedHospital" => cyaHiddenHospital
+    }
+
+    val technicalIssueInvalid = "The date the software or technology issues ended must be a real date"
+    val technicalIssueRequiredAll = "Tell us when the software or technology issues ended"
+    def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues ended must include a $missing and a $missingTwo"
+    def technicalIssueRequired(missing: String) = s"The date the software or technology issues ended must include a $missing"
+    val technicalIssueNotInFuture = "The date the software or technology issues ended must be today or in the past"
+    def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later"
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
 
-    override val technicalReasonInvalid = "The date the software or technology issues ended must be a real date (Welsh)"
-    override val technicalReasonRequiredAll = "Tell us when the software or technology issues ended (Welsh)"
-    override def technicalReasonRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues ended must include a $missing and a $missingTwo (Welsh)"
-    override def technicalReasonRequired(missing: String) = s"The date the software or technology issues ended must include a $missing (Welsh)"
-    override val technicalReasonNotInFuture = "The date the software or technology issues ended must be today or in the past (Welsh)"
-    override def technicalReasonEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later (Welsh)"
+    override val technicalIssueInvalid = "The date the software or technology issues ended must be a real date (Welsh)"
+    override val technicalIssueRequiredAll = "Tell us when the software or technology issues ended (Welsh)"
+    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues ended must include a $missing and a $missingTwo (Welsh)"
+    override def technicalIssueRequired(missing: String) = s"The date the software or technology issues ended must include a $missing (Welsh)"
+    override val technicalIssueNotInFuture = "The date the software or technology issues ended must be today or in the past (Welsh)"
+    override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later (Welsh)"
+
+    override val cyaKeyTechnical = "When did the software or technology issues end? (Welsh)"
+    override val cyaKeyHospital = "TBC unexpectedHospital (Welsh)"
+
+    override val cyaHiddenTechnical = "when did the software or technology issues end (Welsh)"
+    override val cyaHiddenHospital = "TBC unexpectedHospital (Welsh)"
   }
 }

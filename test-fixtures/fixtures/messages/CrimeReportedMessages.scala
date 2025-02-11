@@ -22,6 +22,9 @@ object CrimeReportedMessages {
     val unkownOption = "I do not know"
     val errorRequired = "Tell us if the police have been told about the crime"
     val errorInvalid = "Tell us if the police have been told about the crime"
+
+    val cyaKey = "Has this crime been reported to the police?"
+    val cyaHidden = "has this crime been reported to the police"
   }
 
   object English extends Messages with En
@@ -30,5 +33,8 @@ object CrimeReportedMessages {
     override val unkownOption = "Nid wyf yn gwybod"
     override val errorRequired = "Tell us if the police have been told about the crime (Welsh)"
     override val errorInvalid = "Tell us if the police have been told about the crime (Welsh)"
+
+    override val cyaKey = "Has this crime been reported to the police? (Welsh)"
+    override val cyaHidden = "has this crime been reported to the police (Welsh)"
   }
 }

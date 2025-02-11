@@ -15,18 +15,23 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.CheckAnswersHelper
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 
 @this(layout: Layout,
         govukButton: GovukButton,
+        govukSummaryList: GovukSummaryList,
         formHelper: FormWithCSRF,
-        h1:H1,
-        h2:H2)
+        helper: CheckAnswersHelper,
+        warning: components.WarningText,
+        h1: components.H1,
+        h2: components.H2)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages)
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String, uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("checkYourAnswers.headingAndTitle"))), backLinkEnabled = true) {
 
@@ -35,80 +40,22 @@
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
         @h1("checkYourAnswers.headingAndTitle")
         @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
+        
+        @govukSummaryList(SummaryList(helper.constructSummaryListRows(uploadedFiles)))
 
-        <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row" id="reasonableExcuse">
-              <dt class="govuk-summary-list__key">
-                @messages("checkYourAnswers.reasonableExcuse.key")
-              </dt>
-
-              <dd class="govuk-summary-list__value">
-                @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.value")
-              </dd>
-
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages("checkYourAnswers.reasonableExcuse.key")</span></a>
-              </dd>
-            </div>
-            <div class="govuk-summary-list__row" id="reasonableExcuseDateStart">
-              <dt class="govuk-summary-list__key">
-                @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key")
-              </dt>
-
-              <dd class="govuk-summary-list__value">
-                  @Dates.dateNonBreakingSpaceSingle("04 October 2027")
-              </dd>
-
-                <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key")</span></a>
-              </dd>
-            </div>
-            @if(reasonableExcuseMessageKey == "technicalReason") {
-                <div class="govuk-summary-list__row" id="reasonableExcuseDateEnd">
-                    <dt class="govuk-summary-list__key">
-                    @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key.end")
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        @Dates.dateNonBreakingSpaceSingle("20 October 2027")
-                    </dd>
-
-                    <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key.end")</span></a>
-                    </dd>
-                </div>
-            }
-            @if(reasonableExcuseMessageKey == "crimeReason") {
-                <div class="govuk-summary-list__row" id="reportedCrime">
-                    <dt class="govuk-summary-list__key">
-                    @messages("checkYourAnswers.crimeReason.reported.key")
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                        Yes
-                    </dd>
-
-                    <dd class="govuk-summary-list__actions">
-                        <a class="govuk-link" href="#">@messages("checkYourAnswers.change")<span class="govuk-visually-hidden"> @messages("checkYourAnswers.crimeReason.reported.key")</span></a>
-                    </dd>
-                </div>
-            }
-        </dl>
 
         @h2("checkYourAnswers.declaration.h2", elmId = "declaration")
 
-        <div class="govuk-warning-text" id="declarationWarn">
-            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <strong class="govuk-warning-text__text">
-                <span class="govuk-visually-hidden">Warning</span>
-                    @messages("checkYourAnswers.declaration.text.1")
-                    <br>
-                    @messages("checkYourAnswers.declaration.text.2")
-            </strong>
-        </div>
+        @warning {
+            @messages("checkYourAnswers.declaration.text.1")
+            <br>
+            @messages("checkYourAnswers.declaration.text.2")
+        }
 
         <div class="govuk-form-group">
-        @govukButton(Button(
-            content = Text(messages("checkYourAnswers.acceptAndSend"))
-        ))
+            @govukButton(Button(
+                content = Text(messages("checkYourAnswers.acceptAndSend"))
+            ))
         </div>
     }
 }

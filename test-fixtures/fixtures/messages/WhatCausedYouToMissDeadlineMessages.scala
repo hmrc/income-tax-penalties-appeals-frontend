@@ -24,6 +24,9 @@ object WhatCausedYouToMissDeadlineMessages {
     val client: String = "My client did not get information to me on time"
     val errorRequired: String = "Tell us what caused you to miss the deadline"
     val errorInvalid: String = "Tell us what caused you to miss the deadline"
+
+    val cyaKey = "What caused you to miss the deadline?"
+    val cyaHidden = "what caused you to miss the deadline"
   }
 
   object English extends Messages with En
@@ -34,5 +37,8 @@ object WhatCausedYouToMissDeadlineMessages {
     override val client: String = "My client did not get information to me on time (Welsh)"
     override val errorRequired: String = "Tell us what caused you to miss the deadline (Welsh)"
     override val errorInvalid: String = "Tell us what caused you to miss the deadline (Welsh)"
+
+    override val cyaKey = "What caused you to miss the deadline? (Welsh)"
+    override val cyaHidden = "what caused you to miss the deadline (Welsh)"
   }
 }

@@ -30,8 +30,8 @@ object CrimeReportedForm extends Mappings {
 
   def form()(implicit messages: Messages): Form[CrimeReportedEnum.Value] = Form[CrimeReportedEnum.Value](
     single(
-      CrimeReportedForm.key -> text(messages("crimeReason.error.required"))
-        .verifying(messages("crimeReason.error.invalid"), value => Try(CrimeReportedEnum.withName(value)).isSuccess)
+      CrimeReportedForm.key -> text(messages("crime.error.required"))
+        .verifying(messages("crime.error.invalid"), value => Try(CrimeReportedEnum.withName(value)).isSuccess)
         .transform[CrimeReportedEnum.Value](CrimeReportedEnum.withName, _.toString)
     )
   )

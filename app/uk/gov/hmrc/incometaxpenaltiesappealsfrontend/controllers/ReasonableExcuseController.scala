@@ -56,7 +56,7 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
           form = formWithErrors
         ))),
        {
-          case reasonableExcuse@("technicalReason" | "bereavementReason" | "fireOrFloodReason" | "crimeReason") =>
+          case reasonableExcuse@("technicalIssues" | "bereavement" | "fireOrFlood" | "crime") =>
             val updatedAnswers = user.userAnswers.setAnswer(ReasonableExcusePage, reasonableExcuse)
             userAnswersService.updateAnswers(updatedAnswers).map { _ =>
               Redirect(routes.HonestyDeclarationController.onPageLoad())

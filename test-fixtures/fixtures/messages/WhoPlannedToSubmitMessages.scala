@@ -24,6 +24,9 @@ object WhoPlannedToSubmitMessages {
     val client: String = "My client did"
     val errorRequired: String = "Tell us who planned to submit the return"
     val errorInvalid: String = "Tell us who planned to submit the return"
+
+    val cyaKey = "Before the deadline, who planned to send the submission?"
+    val cyaHidden = "before the deadline, who planned to send the submission"
   }
 
   object English extends Messages with En
@@ -34,5 +37,8 @@ object WhoPlannedToSubmitMessages {
     override val client: String = "My client did (Welsh)"
     override val errorRequired: String = "Tell us who planned to submit the return (Welsh)"
     override val errorInvalid: String = "Tell us who planned to submit the return (Welsh)"
+
+    override val cyaKey = "Before the deadline, who planned to send the submission? (Welsh)"
+    override val cyaHidden = "before the deadline, who planned to send the submission (Welsh)"
   }
 }

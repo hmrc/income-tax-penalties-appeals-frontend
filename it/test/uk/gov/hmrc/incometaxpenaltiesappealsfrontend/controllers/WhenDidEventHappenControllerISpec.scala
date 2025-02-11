@@ -37,24 +37,24 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val bereavementReasonMessage: String = "When did the person die?"
-  val cessationReasonMessage: String = "TBC cessationReason"
-  val crimeReasonMessage: String = "When did the crime happen?"
-  val fireOrFloodReasonReasonMessage: String = "When did the fire or flood happen?"
-  val healthReasonMessage: String = "TBC healthReason"
-  val technicalReasonMessage: String = "When did the software or technology issues begin?"
-  val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason"
-  val otherReasonMessage: String = "TBC otherReason"
+  val bereavementMessage: String = "When did the person die?"
+  val cessationMessage: String = "TBC cessation"
+  val crimeMessage: String = "When did the crime happen?"
+  val fireOrFloodReasonMessage: String = "When did the fire or flood happen?"
+  val healthMessage: String = "TBC health"
+  val technicalIssueMessage: String = "When did the software or technology issues begin?"
+  val unexpectedHospitalMessage: String = "TBC unexpectedHospital"
+  val otherMessage: String = "TBC other"
 
   val reasonsList: List[(String, String)] = List(
-    ("bereavementReason", bereavementReasonMessage),
-    ("cessationReason", cessationReasonMessage),
-    ("crimeReason", crimeReasonMessage),
-    ("fireOrFloodReason", fireOrFloodReasonReasonMessage),
-    ("healthReason", healthReasonMessage),
-    ("technicalReason", technicalReasonMessage),
-    ("unexpectedHospitalReason", unexpectedHospitalReasonMessage),
-    ("otherReason", otherReasonMessage)
+    ("bereavement", bereavementMessage),
+    ("cessation", cessationMessage),
+    ("crime", crimeMessage),
+    ("fireOrFlood", fireOrFloodReasonMessage),
+    ("health", healthMessage),
+    ("technicalIssues", technicalIssueMessage),
+    ("unexpectedHospital", unexpectedHospitalMessage),
+    ("other", otherMessage)
   )
 
   override def beforeEach(): Unit = {
@@ -149,7 +149,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "the date is valid" should {
 
-        if (reason._1 == "bereavementReason" | reason._1 == "fireOrFloodReason") {
+        if (reason._1 == "bereavement" | reason._1 == "fireOrFlood") {
           "save the value to UserAnswers AND redirect to the making-a-late-appeal page" in {
 
             stubAuth(OK, successfulIndividualAuthResponse)
@@ -165,7 +165,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
             userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventHappenPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
           }
-        } else if (reason._1 == "crimeReason") {
+        } else if (reason._1 == "crime") {
           "save the value to UserAnswers AND redirect to the has-this-crime-been-reported page" in {
 
             stubAuth(OK, successfulIndividualAuthResponse)
@@ -181,7 +181,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
             userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventHappenPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
           }
-        } else if (reason._1 == "technicalReason") {
+        } else if (reason._1 == "technicalIssue") {
           "save the value to UserAnswers AND redirect to the when-did-the-event-end page" in {
 
             stubAuth(OK, successfulIndividualAuthResponse)

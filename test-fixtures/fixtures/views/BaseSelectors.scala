@@ -17,21 +17,23 @@
 package fixtures.views
 
 trait BaseSelectors {
-  val title: String = "title"
-  val h1: String = "h1"
-  val h2: Int => String = i => s"h2:nth-of-type($i)"
-  val p: Int => String = i => s"p:nth-of-type($i)"
-  val bullet: Int => String = i => s"ul li:nth-of-type($i)"
-  val details: String = "details"
-  val detailsSummary: String = s"$details summary"
-  val label: String => String = input => s"label[for=$input]"
-  val button: String = "button.govuk-button"
-  val legend: String = "fieldset legend"
-  val hint: String = "div.govuk-hint"
-  val radio: Int => String = i => s"div.govuk-radios__item:nth-of-type($i) label"
-  val summaryRowKey: Int => String = i => s"dl > div:nth-of-type($i) > dt"
-  val summaryRowValue: Int => String = i => s"dl > div:nth-of-type($i) > dd:nth-of-type(1)"
-  val summaryRowAction: (Int, Int) => String = (i, n) => s"dl > div:nth-of-type($i) > dd:nth-of-type(2) a:nth-of-type($n)"
+  def prefix = ""
+  def title: String = "title"
+  def h1: String = "h1"
+  def h2: Int => String = i => s"$prefix h2:nth-of-type($i)"
+  def p: Int => String = i => s"$prefix p:nth-of-type($i)"
+  def bullet: Int => String = i => s"$prefix ul li:nth-of-type($i)"
+  def details: String = s"$prefix details"
+  def detailsSummary: String = s"$prefix $details summary"
+  def label: String => String = input => s"$prefix label[for=$input]"
+  def button: String = s"$prefix button.govuk-button"
+  def legend: String = s"$prefix fieldset legend"
+  def hint: String = s"$prefix div.govuk-hint"
+  def warning: String = s"$prefix div.govuk-warning-text strong"
+  def radio: Int => String = i => s"$prefix div.govuk-radios__item:nth-of-type($i) label"
+  def summaryRowKey: Int => String = i => s"$prefix dl > div:nth-of-type($i) > dt"
+  def summaryRowValue: Int => String = i => s"$prefix dl > div:nth-of-type($i) > dd:nth-of-type(1)"
+  def summaryRowAction: (Int, Int) => String = (i, n) => s"$prefix dl > div:nth-of-type($i) > dd:nth-of-type(2) a:nth-of-type($n)"
 }
 
 object BaseSelectors extends BaseSelectors

@@ -34,24 +34,24 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
   lazy val userAnswersRepo = app.injector.instanceOf[UserAnswersRepository]
 
-  val bereavementReasonMessage: String = "because I was affected by someone's death, I was unable to send the submission due on 5 November 2027"
-  val cessationReasonMessage: String = "TBC cessationReason - I was unable to send the submission due on 5 November 2027"
-  val crimeReasonMessage: String = "because I was affected by a crime, I was unable to send the submission due on 5 November 2027"
-  val fireOrFloodReasonReasonMessage: String = "because of a fire or flood, I was unable to send the submission due on 5 November 2027"
-  val healthReasonMessage: String = "TBC healthReason - I was unable to send the submission due on 5 November 2027"
-  val technicalReasonMessage: String = "because of software or technology issues, I was unable to send the submission due on 5 November 2027"
-  val unexpectedHospitalReasonMessage: String = "TBC unexpectedHospitalReason - I was unable to send the submission due on 5 November 2027"
-  val otherReasonMessage: String = "TBC otherReason - I was unable to send the submission due on 5 November 2027"
+  val bereavementMessage: String = "because I was affected by someone's death, I was unable to send the submission due on 5 November 2027"
+  val cessationMessage: String = "TBC cessation - I was unable to send the submission due on 5 November 2027"
+  val crimeMessage: String = "because I was affected by a crime, I was unable to send the submission due on 5 November 2027"
+  val fireOrFloodReasonMessage: String = "because of a fire or flood, I was unable to send the submission due on 5 November 2027"
+  val healthMessage: String = "TBC health - I was unable to send the submission due on 5 November 2027"
+  val technicalIssueMessage: String = "because of software or technology issues, I was unable to send the submission due on 5 November 2027"
+  val unexpectedHospitalMessage: String = "TBC unexpectedHospital - I was unable to send the submission due on 5 November 2027"
+  val otherMessage: String = "TBC other - I was unable to send the submission due on 5 November 2027"
 
   val reasonsList: List[(String, String)]= List(
-    ("bereavementReason", bereavementReasonMessage),
-    ("cessationReason", cessationReasonMessage),
-    ("crimeReason", crimeReasonMessage),
-    ("fireOrFloodReason", fireOrFloodReasonReasonMessage),
-    ("healthReason", healthReasonMessage),
-    ("technicalReason", technicalReasonMessage),
-    ("unexpectedHospitalReason", unexpectedHospitalReasonMessage),
-    ("otherReason", otherReasonMessage)
+    ("bereavement", bereavementMessage),
+    ("cessation", cessationMessage),
+    ("crime", crimeMessage),
+    ("fireOrFlood", fireOrFloodReasonMessage),
+    ("health", healthMessage),
+    ("technicalIssues", technicalIssueMessage),
+    ("unexpectedHospital", unexpectedHospitalMessage),
+    ("other", otherMessage)
   )
 
   override def beforeEach(): Unit = {

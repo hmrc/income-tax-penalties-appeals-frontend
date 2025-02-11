@@ -33,7 +33,7 @@
 
 @(form: Form[_], isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@standardOrBereavement = {@if(reasonableExcuseMessageKey == "bereavementReason"){.bereavementReason} else {}}
+@standardOrBereavement = {@if(reasonableExcuseMessageKey == "bereavement"){.bereavement} else {}}
 
 @layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle$standardOrBereavement"), Some(form))), backLinkEnabled = true) {
 
