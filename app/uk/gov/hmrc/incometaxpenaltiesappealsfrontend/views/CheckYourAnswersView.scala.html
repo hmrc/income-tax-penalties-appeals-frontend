@@ -18,7 +18,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
 
 @this(layout: Layout,
         govukButton: GovukButton,
@@ -32,7 +32,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
         @h1("checkYourAnswers.headingAndTitle")
         @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
 
@@ -56,7 +56,7 @@
               </dt>
 
               <dd class="govuk-summary-list__value">
-                  04 October 2027
+                  @Dates.dateNonBreakingSpaceSingle("04 October 2027")
               </dd>
 
                 <dd class="govuk-summary-list__actions">
@@ -69,7 +69,7 @@
                     @messages(s"checkYourAnswers.$reasonableExcuseMessageKey.date.key.end")
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        20 October 2027
+                        @Dates.dateNonBreakingSpaceSingle("20 October 2027")
                     </dd>
 
                     <dd class="govuk-summary-list__actions">

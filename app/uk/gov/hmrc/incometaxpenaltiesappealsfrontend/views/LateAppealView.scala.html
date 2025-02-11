@@ -21,6 +21,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
 
 @this(layout: Layout,
         govukButton: GovukButton,
@@ -42,7 +43,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
 
         @h1(s"lateAppeal.headingAndTitle$standardOrBereavement")
         @p(s"lateAppeal.p1$standardOrBereavement", elmId = Some("infoDaysParagraph"))

@@ -18,6 +18,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
 
 
 @this(layout: Layout,
@@ -30,13 +31,13 @@
 
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
-    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
 
     @h1("honestyDeclaration.headingAndTitle")
     @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
 
     <ul class="govuk-list govuk-list--bullet">
-     <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuseMessageKey", "5 November 2027")</li>
+     <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuseMessageKey", Dates.dateNonBreakingSpaceSingle("5 November 2027"))</li>
      <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 

@@ -18,7 +18,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
 
 
 @this(layout: Layout,
@@ -45,7 +45,7 @@
             @messages("viewAppealDetails.penaltyAppealed")
           </dt>
           <dd class="govuk-summary-list__value">
-              Late payment penalty: 2027 to 2028 tax year
+              Late payment penalty: @Dates.dateNonBreakingSpaceMultiple("2027", "2028") tax year
           </dd>
         </div>
         <div class="govuk-summary-list__row" id="appealDate">
@@ -53,7 +53,7 @@
               @messages("viewAppealDetails.appealDate")
           </dt>
           <dd class="govuk-summary-list__value">
-              17 March 2029
+             @Dates.dateNonBreakingSpaceSingle("17 March 2029")
           </dd>
         </div>
          @if(isAgent) {
@@ -87,7 +87,7 @@
             @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.key")
             </dt>
             <dd class="govuk-summary-list__value">
-                20 January 2029
+                @Dates.dateNonBreakingSpaceSingle("20 January 2029")
             </dd>
         </div>
         @if(reasonableExcuseMessageKey == "technicalReason") {
@@ -96,7 +96,7 @@
                 @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.end.key")
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    20 February 2029
+                    @Dates.dateNonBreakingSpaceSingle("20 February 2029")
                 </dd>
             </div>
         }
