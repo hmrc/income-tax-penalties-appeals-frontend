@@ -67,7 +67,7 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
               key = "date.day",
               message = messagesForLanguage.errorMessageConstructor(
                 "endDateLessThanStartDate",
-                s"1 ${monthMessages.january} 2021"
+                s"1 ${monthMessages.january} 2021".replace(" ", "\u00A0")
               ),
               args = Seq(monthMessages.day, monthMessages.month, monthMessages.year)
             )

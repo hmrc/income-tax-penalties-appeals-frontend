@@ -40,7 +40,7 @@
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
         @h1("checkYourAnswers.headingAndTitle")
         @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
-        
+
         @govukSummaryList(SummaryList(helper.constructSummaryListRows(uploadedFiles)))
 
 
