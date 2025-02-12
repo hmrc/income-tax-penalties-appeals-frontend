@@ -16,9 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
-import org.mockito.ArgumentMatchers
+import fixtures.FileUploadFixtures
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
+import org.mockito.{ArgumentCaptor, ArgumentMatchers}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar
@@ -31,10 +32,12 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{InvalidJson, UnexpectedFailure}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmissionResponseModel, MultiplePenaltiesData}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockUpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -43,7 +46,9 @@ import java.time.LocalDate
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with LogCapturing with GuiceOneAppPerSuite {
+class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with LogCapturing with GuiceOneAppPerSuite
+  with MockUpscanService
+  with FileUploadFixtures {
 
   val mockPenaltiesConnector: PenaltiesConnector = mock[PenaltiesConnector]
   val mockTimeMachine: TimeMachine = mock[TimeMachine]
@@ -51,9 +56,6 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
-
-  val testMtdItId: String = "123456789"
-  val testJourneyId: String = "journeyId1"
 
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
@@ -176,7 +178,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     reset(mockUUIDGenerator)
 
     val service: AppealService =
-      new AppealService(mockPenaltiesConnector, mockTimeMachine, mockUUIDGenerator, appConfig)
+      new AppealService(mockPenaltiesConnector, mockUpscanService, mockTimeMachine, mockUUIDGenerator, appConfig)
 
     when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2020, 2, 1))
     when(mockUUIDGenerator.generateUUID).thenReturn("uuid-1", "uuid-2")
@@ -354,15 +356,30 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
   "submitAppeal" should {
     "parse the session keys into a model and return true" when {
-      "the connector call is successful" in new Setup {
-        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
-          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+      "the journey is 'Other' and there are uploaded files that are ready" should {
+        "the connector call is successful" in new Setup {
 
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourney, implicitly, implicitly))
+          val submissionModelCapture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
 
-        result shouldBe Right((): Unit)
+          when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
+            .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+          when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
+            .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+          when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
+            .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+          mockGetAllReadyFiles(testJourneyId)(Future.successful(Seq(callbackModel, callbackModel2)))
+
+          val result: Either[Int, Unit] = await(service.submitAppeal("other", testMtdItId, None)(fakeRequestForOtherJourney, implicitly, implicitly))
+          result shouldBe Right((): Unit)
+
+          submissionModelCapture.getValue.appealInformation.asInstanceOf[OtherAppealInformation].uploadedFiles shouldBe Some(Seq(callbackModel, callbackModel2))
+        }
       }
       "the connector call is successful for appealing multiple penalties" in new Setup {
+
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 

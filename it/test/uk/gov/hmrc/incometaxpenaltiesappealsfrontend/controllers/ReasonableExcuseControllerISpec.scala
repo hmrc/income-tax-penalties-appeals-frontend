@@ -38,7 +38,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId))
+    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId)).futureValue
     super.beforeEach()
   }
 

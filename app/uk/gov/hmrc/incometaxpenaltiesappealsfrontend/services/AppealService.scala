@@ -25,6 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnect
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.ErrorResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{EnrolmentUtil, IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -36,6 +37,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
+                              upscanService: UpscanService,
                               timeMachine: TimeMachine,
                               idGenerator: UUIDGenerator,
                               val appConfig: AppConfig) extends FeatureSwitching {
@@ -93,20 +95,23 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                    mtdItId: String,
                    optArn: Option[String]
                   )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
-
-    val appealType = request.session.get(IncomeTaxSessionKeys.appealType).map(PenaltyTypeEnum.withName)
-    val isLPP = appealType.contains(PenaltyTypeEnum.Late_Payment) || appealType.contains(PenaltyTypeEnum.Additional)
-    if (!request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString) && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
-      multipleAppeal(mtdItId, isLPP, optArn, reasonableExcuse)
-    } else {
-      singleAppeal(mtdItId, isLPP, optArn, reasonableExcuse)
+    val files = if(reasonableExcuse == "other") upscanService.getAllReadyFiles(request.journeyId) else Future.successful(Seq.empty)
+    files.flatMap { uploadedFiles =>
+      val appealType = request.session.get(IncomeTaxSessionKeys.appealType).map(PenaltyTypeEnum.withName)
+      val isLPP = appealType.contains(PenaltyTypeEnum.Late_Payment) || appealType.contains(PenaltyTypeEnum.Additional)
+      if (!request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString) && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
+        multipleAppeal(mtdItId, isLPP, optArn, reasonableExcuse, uploadedFiles)
+      } else {
+        singleAppeal(mtdItId, isLPP, optArn, reasonableExcuse, uploadedFiles)
+      }
     }
-
   }
+
 
   private def singleAppeal(mtdItId: String, isLPP: Boolean,
                            agentReferenceNo: Option[String],
-                           reasonableExcuse: String
+                           reasonableExcuse: String,
+                           uploadedFiles: Seq[UploadJourney]
                           )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val correlationId = idGenerator.generateUUID
     val modelFromRequest: AppealSubmission =
@@ -114,7 +119,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
         reasonableExcuse = reasonableExcuse,
         isLateAppeal = isAppealLate,
         agentReferenceNo = agentReferenceNo,
-        uploadedFiles = None, //TODO: Retrieve the file uploads as part of MIPR-1406
+        uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
         mtdItId = mtdItId
       )
 
@@ -139,7 +144,8 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
   private def multipleAppeal(mtdItId: String, isLPP: Boolean,
                              agentReferenceNo: Option[String],
-                             reasonableExcuse: String)(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+                             reasonableExcuse: String,
+                             uploadedFiles: Seq[UploadJourney])(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
 
     val firstCorrelationId = idGenerator.generateUUID
     val secondCorrelationId = idGenerator.generateUUID
@@ -147,7 +153,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       reasonableExcuse = reasonableExcuse,
       isLateAppeal = isAppealLate,
       agentReferenceNo = agentReferenceNo,
-      uploadedFiles = None, //TODO: Retrieve the file uploads as part of
+      uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
       mtdItId = mtdItId
     )
     val firstPenaltyNumber = request.session.get(IncomeTaxSessionKeys.firstPenaltyChargeReference).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
