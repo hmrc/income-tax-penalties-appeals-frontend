@@ -21,8 +21,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 
 
 @this(layout: Layout,
@@ -43,7 +43,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
 
         @h1(s"lateAppeal.headingAndTitle", args = Seq(user.lateAppealDays()))
         @p(s"lateAppeal.p1", elmId = Some("infoDaysParagraph"), args = Seq(user.lateAppealDays()))

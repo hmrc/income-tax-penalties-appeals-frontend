@@ -27,6 +27,18 @@ trait DateFormatter {
     dateNonBreaking.replace(" ", "\u00A0")
   }
 
+  def dateNonBreakingSpaceMultiple(from: String, to: String)(implicit messages: Messages): String =
+    messages(
+      "date.from.to",
+      htmlNonBroken(from).format(from),
+      htmlNonBroken(to).format(to)
+    )
+
+  def dateNonBreakingSpaceSingle(date: String)(implicit messages: Messages): String = htmlNonBroken(date).format(date)
+
+  def htmlNonBroken(string: String): String =
+    string.replace(" ", "\u00A0")
+
 }
 
 object DateFormatter extends DateFormatter

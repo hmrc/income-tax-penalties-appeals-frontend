@@ -22,7 +22,7 @@
 @import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 
 @this(
         layout: Layout,
@@ -43,7 +43,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
     @h1(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), args = Seq(uploadedFiles.size))
 
     @govukSummaryList(SummaryList(

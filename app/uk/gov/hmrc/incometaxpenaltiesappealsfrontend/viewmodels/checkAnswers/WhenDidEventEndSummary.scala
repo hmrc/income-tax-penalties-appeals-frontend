@@ -25,7 +25,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWi
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
 
 object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
 
@@ -34,7 +33,7 @@ object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
       WhenDidEventEndPage.value.map { endDate =>
         summaryListRow(
           label = messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.key"),
-          value = Html(Dates.dateNonBreakingSpaceSingle(dateToString(endDate))),
+          value = Html(DateFormatter.dateNonBreakingSpaceSingle(dateToString(endDate))),
           actions = Some(Actions(
             items = Seq(
               ActionItem(
