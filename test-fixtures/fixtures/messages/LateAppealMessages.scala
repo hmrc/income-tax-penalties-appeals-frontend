@@ -30,7 +30,7 @@ object LateAppealMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val errorRequired: String = "You must provide some information about why you did not appeal sooner (Welsh)"
+    override val errorRequired: String = "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt"
     override val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer (Welsh)"
     override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"
 

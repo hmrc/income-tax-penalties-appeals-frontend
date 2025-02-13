@@ -7,26 +7,23 @@ alphaBanner.message = This is a new service – your {0} will help us to improve
 alphaBanner.linkText = feedback (Welsh)
 appeal.start.caption = Late submission penalty point: 6 July 2027 to 5 October 2027 (Welsh)
 appeal.start.header = Appeal a Self Assessment penalty (Welsh)
-appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you''ll need to ask HMRC to look at your case again. (Welsh)
+appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again. (Welsh)
 appeal.start.p2 = This service is for appealing penalties given for individual submissions. (Welsh)
 appeal.start.h3 = Before you start (Welsh)
-appeal.start.p3 = You''ll need: (Welsh)
-appeal.start.li1 = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ''a reasonable excuse'') (Welsh)
+appeal.start.p3 = You’ll need: (Welsh)
+appeal.start.li1 = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’) (Welsh)
 appeal.start.li2 = the dates related to this reasonable excuse (Welsh)
 appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in a new tab) (Welsh)
-appeal.start.p4 = In some cases, you''ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later. (Welsh)
-appeal.start.p5 = If you are not asked for extra evidence, this is because we don''t need any to make a decision in your particular case. (Welsh)
+appeal.start.p4 = In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later. (Welsh)
+appeal.start.p5 = If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case. (Welsh)
 appeal.start.p6 = If we decide we do need extra evidence after reviewing your appeal, we will contact you. (Welsh)
 
 # Late appeal page
 # ----------------------------------------------------------
-lateAppeal.headingAndTitle = This penalty point was issued more than 30 days ago (Welsh)
-lateAppeal.headingAndTitle.bereavement = This penalty point was issued more than 45 days ago (Welsh)
-lateAppeal.p1 = You usually need to appeal within 30 days of the date on the penalty notice. (Welsh)
-lateAppeal.p1.bereavement = You usually need to appeal within 45 days of the date on the penalty notice. (Welsh)
-lateAppeal.charCount = Tell us why you could not appeal within 30 days (Welsh)
-lateAppeal.charCount.bereavement = Tell us why you could not appeal within 45 days (Welsh)
-lateAppeal.error.required = You must provide some information about why you did not appeal sooner (Welsh)
+lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago (Welsh)
+lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice. (Welsh)
+lateAppeal.charCount = Tell us why you could not appeal within {0} days (Welsh)
+lateAppeal.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
 lateAppeal.error.length = Explain the reason in {0} characters or fewer (Welsh)
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
 
@@ -35,16 +32,16 @@ lateAppeal.error.regex = The text must contain only letters, numbers and standar
 agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission? (Welsh)
 agents.whoPlannedToSubmit.agent = I did (Welsh)
 agents.whoPlannedToSubmit.client = My client did (Welsh)
-agents.whoPlannedToSubmit.error.required = Tell us who planned to submit the return (Welsh)
-agents.whoPlannedToSubmit.error.invalid = Tell us who planned to submit the return (Welsh)
+agents.whoPlannedToSubmit.error.required = Tell us who planned to send the submission (Welsh)
+agents.whoPlannedToSubmit.error.invalid = Tell us who planned to send the submission (Welsh)
 
 # Agents 'What caused you to miss the deadline?'
 # ----------------------------------------------------------
 agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline? (Welsh)
 agents.whatCausedYouToMissTheDeadline.client = My client did not get information to me on time (Welsh)
 agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay me (Welsh)
-agents.whatCausedYouToMissTheDeadline.error.required = Tell us what caused you to miss the deadline (Welsh)
-agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us what caused you to miss the deadline (Welsh)
+agents.whatCausedYouToMissTheDeadline.error.required = Tell us the reason the return was submitted late (Welsh)
+agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us the reason the return was submitted late (Welsh)
 
 # Has the crime been reported page
 # ----------------------------------------------------------
@@ -57,14 +54,112 @@ crime.error.invalid = Tell us if the police have been told about the crime (Wels
 
 # When did the event happen page
 # ----------------------------------------------------------
+# Bereavement Messages
 whenDidEventHappen.bereavement.headingAndTitle = When did the person die? (Welsh)
+whenDidEventHappen.bereavement.date.error.invalid = Mae’n rhaid i’r dyddiad fod yn ddyddiad go iawn
+whenDidEventHappen.bereavement.date.error.required.all = Nodwch y dyddiad y bu farw’r person
+whenDidEventHappen.bereavement.date.error.required.two = Mae’n rhaid i’r dyddiad gynnwys {0} a {1}
+whenDidEventHappen.bereavement.date.error.required = Mae’n rhaid i’r dyddiad gynnwys {0}
+whenDidEventHappen.bereavement.date.error.notInFuture = Mae’n rhaid i’r dyddiad fod heddiw neu yn y gorffennol
+
+# Cessation Messages
 whenDidEventHappen.cessation.headingAndTitle = TBC cessation (Welsh)
+whenDidEventHappen.cessation.date.error.invalid = TBC (Welsh)
+whenDidEventHappen.cessation.date.error.required.all = TBC (Welsh)
+whenDidEventHappen.cessation.date.error.required.two = TBC (Welsh)
+whenDidEventHappen.cessation.date.error.required = TBC (Welsh)
+whenDidEventHappen.cessation.date.error.notInFuture = TBC (Welsh)
+
+# Crime Messages
 whenDidEventHappen.crime.headingAndTitle = When did the crime happen? (Welsh)
+whenDidEventHappen.crime.date.error.invalid = Mae’n rhaid i ddyddiad y drosedd fod yn ddyddiad go iawn
+whenDidEventHappen.crime.date.error.required.all = Nodwch ddyddiad y drosedd
+whenDidEventHappen.crime.date.error.required.two = Mae’n rhaid i ddyddiad y drosedd gynnwys {0} a {1}
+whenDidEventHappen.crime.date.error.required = Mae’n rhaid i ddyddiad y drosedd gynnwys {0}
+whenDidEventHappen.crime.date.error.notInFuture = Mae’n rhaid i ddyddiad y drosedd fod heddiw neu yn y gorffennol
+
+# Fire or Flood Messages
 whenDidEventHappen.fireOrFlood.headingAndTitle = When did the fire or flood happen? (Welsh)
-whenDidEventHappen.health.headingAndTitle = TBC health (Welsh)
+whenDidEventHappen.fireOrFlood.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn
+whenDidEventHappen.fireOrFlood.date.error.required.all = Nodwch ddyddiad y tân neu lifogydd
+whenDidEventHappen.fireOrFlood.date.error.required.two = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0} a {1}
+whenDidEventHappen.fireOrFlood.date.error.required = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0}
+whenDidEventHappen.fireOrFlood.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
+
+# Technical Issues Messages
 whenDidEventHappen.technicalIssues.headingAndTitle = When did the software or technology issues begin? (Welsh)
+whenDidEventHappen.technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
+whenDidEventHappen.technicalIssues.date.error.required.all = Tell us when the software or technology issues began (Welsh)
+whenDidEventHappen.technicalIssues.date.error.required.two = The date the software or technology issues began must include a {0} and a {1} (Welsh)
+whenDidEventHappen.technicalIssues.date.error.required = The date the software or technology issues began must include a {0} (Welsh)
+whenDidEventHappen.technicalIssues.date.error.notInFuture = The date the software or technology issues began must be today or in the past (Welsh)
+
+# Health Messages
+whenDidEventHappen.health.headingAndTitle = TBC health (Welsh)
+whenDidEventHappen.health.date.error.invalid = TBC (Welsh)
+whenDidEventHappen.health.date.error.required.all = TBC (Welsh)
+whenDidEventHappen.health.date.error.required.two = TBC (Welsh)
+whenDidEventHappen.health.date.error.required = TBC (Welsh)
+whenDidEventHappen.health.date.error.notInFuture = TBC (Welsh)
+
+# Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital (Welsh)
-whenDidEventHappen.other.headingAndTitle = TBC other (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.invalid = TBC (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.required.all = TBC (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.required.two = TBC (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.required = TBC (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.notInFuture = TBC (Welsh)
+
+# Other Messages - LSP
+whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you meeting the submission deadline? (Welsh)
+whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped you meeting the submission deadline must be a real date (Welsh)
+whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped you meeting the submission deadline (Welsh)
+whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped you meeting the submission deadline must include a {0} and a {1} (Welsh)
+whenDidEventHappen.other.lsp.date.error.required = The date the issue first stopped you meeting the submission deadline must include a {0} (Welsh)
+whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped you meeting the submission deadline must be today or in the past (Welsh)
+
+# Other Messages - LPP
+whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you paying the tax bill by the due date? (Welsh)
+whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped you paying the tax bill by the due date must be a real date (Welsh)
+whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped you paying the tax bill by the due date (Welsh)
+whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped you paying the tax bill by the due date must include a {0} and a {1} (Welsh)
+whenDidEventHappen.other.lpp.date.error.required = The date the issue first stopped you paying the tax bill by the due date must include a {0} (Welsh)
+whenDidEventHappen.other.lpp.date.error.notInFuture = The date the issue first stopped you paying the tax bill by the due date must be today or in the past (Welsh)
+
+# Agent - Other Messages - Client information issue
+agent.whenDidEventHappen.other.clientInformation.headingAndTitle = When did the issue first stop your client getting information to you? (Welsh)
+agent.whenDidEventHappen.other.clientInformation.date.error.invalid = The date when the issue first stopped your client getting information to you must be a real date (Welsh)
+agent.whenDidEventHappen.other.clientInformation.date.error.required.all = Tell us when the issue first stopped your client getting information to you (Welsh)
+agent.whenDidEventHappen.other.clientInformation.date.error.required.two = The date when the issue first stopped your client getting information to you must include a {0} and a {1} (Welsh)
+agent.whenDidEventHappen.other.clientInformation.date.error.required = The date when the issue first stopped your client getting information to you must include a {0} (Welsh)
+agent.whenDidEventHappen.other.clientInformation.date.error.notInFuture = The date when the issue first stopped your client getting information to you must be today or in the past (Welsh)
+
+# Agent - Other Messages - LSP
+agent.whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop your client from meeting the submission deadline? (Welsh)
+agent.whenDidEventHappen.other.lsp.date.error.invalid = The date when the issue first stopped your client from meeting the submission deadline must be a real date (Welsh)
+agent.whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped your client from meeting the submission deadline? (Welsh)
+agent.whenDidEventHappen.other.lsp.date.error.required.two = The date when the issue first stopped your client from meeting the submission deadline must include a {0} and a {1} (Welsh)
+agent.whenDidEventHappen.other.lsp.date.error.required = The date when the issue first stopped your client from meeting the submission deadline must include a {0} (Welsh)
+agent.whenDidEventHappen.other.lsp.date.error.notInFuture = The date when the issue first stopped your client from meeting the submission deadline must be today or in the past (Welsh)
+
+# Agent - Other Messages - LPP
+agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client paying the tax bill by the due date? (Welsh)
+agent.whenDidEventHappen.other.lpp.date.error.invalid = The date when the issue first stopped your client paying the tax bill by the due date must be a real date (Welsh)
+agent.whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped your client paying the tax bill by the due date (Welsh)
+agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1} (Welsh)
+agent.whenDidEventHappen.other.lpp.date.error.required = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} (Welsh)
+agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past (Welsh)
+
+# When did the event end page
+# ----------------------------------------------------------
+# Technical Issues Content
+whenDidEventEnd.technicalIssues.headingAndTitle = When did the software or technology issues end? (Welsh)
+whenDidEventEnd.technicalIssues.end.date.error.required.all = Tell us when the software or technology issues ended (Welsh)
+whenDidEventEnd.technicalIssues.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1} (Welsh)
+whenDidEventEnd.technicalIssues.end.date.error.required = The date the software or technology issues ended must include a {0} (Welsh)
+whenDidEventEnd.technicalIssues.end.date.error.invalid = The date the software or technology issues ended must be a real date (Welsh)
+whenDidEventEnd.technicalIssues.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past (Welsh)
+whenDidEventEnd.technicalIssues.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
 
 # Date input fields
 # ----------------------------------------------------------
@@ -180,59 +275,6 @@ checkYourAnswers.declaration.text.2 = A false declaration can result in prosecut
 
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 
-
-crime.date.error.invalid = The date of the crime must be a real date (Welsh)
-fireOrFlood.date.error.invalid = The date of the fire or flood must be a real date (Welsh)
-technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
-bereavement.date.error.invalid = The date the person died must be a real date (Welsh)
-cessation.date.error.invalid = TBC (Welsh)
-health.date.error.invalid = TBC (Welsh)
-unexpectedHospital.date.error.invalid = TBC (Welsh)
-other.date.error.invalid = TBC (Welsh)
-
-crime.date.error.required.all = Enter the date of the crime (Welsh)
-fireOrFlood.date.error.required.all = Enter the date of the fire or flood (Welsh)
-technicalIssues.date.error.required.all = Enter the date when the software or technology issues began (Welsh)
-bereavement.date.error.required.all = Enter the date when the person died (Welsh)
-cessation.date.error.required.all = TBC (Welsh)
-health.date.error.required.all = TBC (Welsh)
-unexpectedHospital.date.error.required.all = TBC (Welsh)
-other.date.error.required.all = TBC (Welsh)
-
-crime.date.error.required.two = The date of the crime must include a {0} and a {1} (Welsh)
-fireOrFlood.date.error.required.two = The date of the fire or flood must include a {0} and a {1} (Welsh)
-technicalIssues.date.error.required.two = The date the software or technology issues began must include a {0} and a {1} (Welsh)
-bereavement.date.error.required.two = The date the person died must include a {0} and a {1} (Welsh)
-cessation.date.error.required.two = TBC (Welsh)
-health.date.error.required.two = TBC (Welsh)
-unexpectedHospital.date.error.required.two = TBC (Welsh)
-other.date.error.required.two = TBC (Welsh)
-
-crime.date.error.required = The date of the crime must include a {0} (Welsh)
-fireOrFlood.date.error.required = The date of the fire or flood must include a {0} (Welsh)
-technicalIssues.date.error.required = The date the software or technology issues began must include a {0} (Welsh)
-bereavement.date.error.required = The date the person died must include a {0} (Welsh)
-cessation.date.error.required = TBC (Welsh)
-health.date.error.required = TBC (Welsh)
-unexpectedHospital.date.error.required = TBC (Welsh)
-other.date.error.required = TBC (Welsh)
-
-crime.date.error.notInFuture = The date of the crime must be today or in the past (Welsh)
-fireOrFlood.date.error.notInFuture = The date of the fire or flood must be today or in the past (Welsh)
-technicalIssues.date.error.notInFuture = The date the software or technology issues began must be today or in the past (Welsh)
-bereavement.date.error.notInFuture = The date the person died must be today or in the past (Welsh)
-cessation.date.error.notInFuture = TBC (Welsh)
-health.date.error.notInFuture = TBC (Welsh)
-unexpectedHospital.date.error.notInFuture = TBC (Welsh)
-other.date.error.notInFuture = TBC (Welsh)
-
-technicalIssues.end.date.error.required.all = Tell us when the software or technology issues ended (Welsh)
-technicalIssues.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1} (Welsh)
-technicalIssues.end.date.error.required = The date the software or technology issues ended must include a {0} (Welsh)
-technicalIssues.end.date.error.invalid = The date the software or technology issues ended must be a real date (Welsh)
-technicalIssues.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past (Welsh)
-technicalIssues.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
-
 # Months
 # -----------------------------------------------------------
 month.1 = Ionawr
@@ -263,7 +305,7 @@ common.change = Newid
 # ----------------------------------------------------------
 reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline? (Welsh)
 reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline. (Welsh)
-reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client''s ability to meet the deadline. (Welsh)
+reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline. (Welsh)
 reasonableExcuses.bereavement = Bereavement (someone died) (Welsh)
 reasonableExcuses.cessation = Cessation of income source (Welsh)
 reasonableExcuses.crime = Crime (Welsh)
@@ -273,5 +315,5 @@ reasonableExcuses.technicalIssue = Software or technology issues (Welsh)
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay (Welsh)
 reasonableExcuses.other = The reason does not fit into any of the other categories (Welsh)
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
-reasonableExcuse.error.message = You must select an option (Welsh)
+reasonableExcuse.error.message = Select the reason for missing the submission deadline (Welsh)
 

@@ -100,7 +100,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
         document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-        document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client's ability to meet the deadline."
+        document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
         document.getElementsByAttributeValue("for", "reasonableExcuse").text() shouldBe "Bereavement (someone died)"
         document.getElementsByAttributeValue("for", "reasonableExcuse-2").text() shouldBe "Cessation of income source"
         document.getElementsByAttributeValue("for", "reasonableExcuse-3").text() shouldBe "Crime"

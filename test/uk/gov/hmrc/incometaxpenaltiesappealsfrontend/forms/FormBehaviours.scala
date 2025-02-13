@@ -49,8 +49,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
   def dateForm(form: Form[_],
                fieldName: String,
                errorMessageKey: String => String,
-               errorMessageValue: (String, Seq[String]) => String,
-               messagesForLanguage: i18n)(implicit messages: Messages): Unit = {
+               errorMessageValue: (String, Seq[String]) => String)(implicit messages: Messages, messagesForLanguage: i18n): Unit = {
 
     "bind when the date is valid" in {
 
