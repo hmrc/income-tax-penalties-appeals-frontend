@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
@@ -38,23 +38,14 @@ class LateAppealController @Inject()(lateAppeal: LateAppealView,
                                      override val controllerComponents: MessagesControllerComponents
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(lateAppeal(
-        form = fillForm(LateAppealForm.form(), LateAppealPage),
-        isLate = true,
-        isAgent = user.isAgent,
-        reasonableExcuseMessageKey = reasonableExcuse
-      )))
-    }
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+    Ok(lateAppeal(fillForm(LateAppealForm.form(), LateAppealPage)))
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     LateAppealForm.form().bindFromRequest().fold(
       formWithErrors =>
-        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(BadRequest(lateAppeal(formWithErrors, isLate = true, isAgent = user.isAgent, reasonableExcuse)))
-        },
+        Future(BadRequest(lateAppeal(formWithErrors))),
       lateAppealReason => {
         val updatedAnswers = user.userAnswers.setAnswer(LateAppealPage, lateAppealReason)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>

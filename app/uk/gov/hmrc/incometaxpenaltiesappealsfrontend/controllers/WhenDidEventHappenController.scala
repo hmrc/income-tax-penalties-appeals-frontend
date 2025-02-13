@@ -45,8 +45,8 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(whenDidEventHappen(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
-        isAgent = user.isAgent,
-        reasonableExcuseMessageKey = reasonableExcuse
+        reasonableExcuseMessageKey = reasonableExcuse,
+        isLPP = false //TODO: Need to determine this as part of a future story
       )))
     }
   }
@@ -56,9 +56,9 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
       WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(whenDidEventHappen(
-            user.isAgent,
             reasonableExcuse,
-            formWithErrors
+            formWithErrors,
+            isLPP = false //TODO: Need to determine this as part of a future story
           ))),
         dateOfEvent => {
           val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)

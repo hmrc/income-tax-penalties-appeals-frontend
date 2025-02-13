@@ -34,7 +34,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
   lazy val userAnswersRepo = app.injector.instanceOf[UserAnswersRepository]
 
-  val bereavementMessage: String = "because I was affected by someone's death, I was unable to send the submission due on 5 November 2027"
+  val bereavementMessage: String = "because I was affected by someone’s death, I was unable to send the submission due on 5 November 2027"
   val cessationMessage: String = "TBC cessation - I was unable to send the submission due on 5 November 2027"
   val crimeMessage: String = "because I was affected by a crime, I was unable to send the submission due on 5 November 2027"
   val fireOrFloodReasonMessage: String = "because of a fire or flood, I was unable to send the submission due on 5 November 2027"

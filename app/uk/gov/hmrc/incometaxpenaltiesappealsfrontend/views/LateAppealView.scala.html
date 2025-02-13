@@ -22,6 +22,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.Dates
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+
 
 @this(layout: Layout,
         govukButton: GovukButton,
@@ -31,11 +33,9 @@
         p:P,
         h1: H1)
 
-@(form: Form[_], isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@standardOrBereavement = {@if(reasonableExcuseMessageKey == "bereavement"){.bereavement} else {}}
-
-@layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle$standardOrBereavement"), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle", user.lateAppealDays()), Some(form))), backLinkEnabled = true) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -45,8 +45,8 @@
 
         <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @Dates.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
 
-        @h1(s"lateAppeal.headingAndTitle$standardOrBereavement")
-        @p(s"lateAppeal.p1$standardOrBereavement", elmId = Some("infoDaysParagraph"))
+        @h1(s"lateAppeal.headingAndTitle", args = Seq(user.lateAppealDays()))
+        @p(s"lateAppeal.p1", elmId = Some("infoDaysParagraph"), args = Seq(user.lateAppealDays()))
 
         @{
             govukCharacterCount(CharacterCount(
@@ -54,7 +54,7 @@
                 name = LateAppealForm.key,
                 maxLength = Some(appConfig.numberOfCharsInTextArea),
                 label = Label(
-                    content = Text(messages(s"lateAppeal.charCount$standardOrBereavement")),
+                    content = Text(messages(s"lateAppeal.charCount", user.lateAppealDays())),
                     classes = "govuk-label govuk-label--m"
                 ),
                 errorMessage = form.errors(LateAppealForm.key) match {

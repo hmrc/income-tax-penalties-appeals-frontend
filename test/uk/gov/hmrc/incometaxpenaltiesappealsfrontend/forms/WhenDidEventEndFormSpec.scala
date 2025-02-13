@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
-import fixtures.messages.{MonthMessages, WhenDidEventEndMessages}
+import fixtures.messages.{MonthMessages, WhenDidEventEndMessages, i18n}
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -41,6 +41,7 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
+      implicit lazy val i18n: i18n = messagesForLanguage
 
       val form: Form[LocalDate] = WhenDidEventEndForm.form("technicalIssues", LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
 
@@ -48,9 +49,8 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
         behave like dateForm(
           form = form,
           fieldName = "date",
-          errorMessageKey = errorType => s"technicalIssues.end.date.error.$errorType",
-          errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, args:_*),
-          messagesForLanguage = messagesForLanguage
+          errorMessageKey = errorType => s"whenDidEventEnd.technicalIssues.end.date.error.$errorType",
+          errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, args:_*)
         )
 
         "not bind when the date entered is earlier than the date provided previously" in {

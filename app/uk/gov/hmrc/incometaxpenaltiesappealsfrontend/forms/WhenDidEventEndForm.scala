@@ -44,16 +44,22 @@ object WhenDidEventEndForm extends Mappings {
 
   val key = "date"
 
-  def form(reasons: String, startDate: LocalDate)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
+  def form(reason: String, startDate: LocalDate, isLPP: Boolean = false)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
+
+    def lspLppInfix: String = (reason, isLPP) match {
+      case ("other", lpp) => if (lpp) ".lpp" else ".lsp"
+      case _ => ""
+    }
+
     Form(
       key -> localDate(
-        invalidKey = s"$reasons.end.date.error.invalid",
-        allRequiredKey = s"$reasons.end.date.error.required.all",
-        twoRequiredKey = s"$reasons.end.date.error.required.two",
-        requiredKey = s"$reasons.end.date.error.required",
-        futureKey = Some(s"$reasons.end.date.error.notInFuture"),
+        invalidKey = s"whenDidEventEnd.$reason$lspLppInfix.end.date.error.invalid",
+        allRequiredKey = s"whenDidEventEnd.$reason$lspLppInfix.end.date.error.required.all",
+        twoRequiredKey = s"whenDidEventEnd.$reason$lspLppInfix.end.date.error.required.two",
+        requiredKey = s"whenDidEventEnd.$reason$lspLppInfix.end.date.error.required",
+        futureKey = Some(s"whenDidEventEnd.$reason$lspLppInfix.end.date.error.notInFuture"),
         //Using the messages API as it's easier to pass in the startDate message param
-        dateNotEqualOrAfterKeyAndCompareDate = Some((messages(s"$reasons.end.date.error.endDateLessThanStartDate", DateFormatter.dateToString(startDate)), startDate))
+        dateNotEqualOrAfterKeyAndCompareDate = Some((messages(s"whenDidEventEnd.$reason$lspLppInfix.end.date.error.endDateLessThanStartDate", DateFormatter.dateToString(startDate)), startDate))
       )
     )
   }
