@@ -26,9 +26,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Appe
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MultiplePenaltiesHttpParser.{MultiplePenaltiesResponse, MultiplePenaltiesResponseReads}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.UnexpectedFailure
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.buildItsaEnrolment
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{EnrolmentUtil, PagerDutyHelper}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
 
 import javax.inject.Inject
@@ -39,8 +38,8 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
 
   def getAppealUrlBasedOnPenaltyType(penaltyId: String, mtdItId: String, isLPP: Boolean, isAdditional: Boolean): String = {
     if (isLPP) {
-      appConfig.appealLPPDataForPenaltyAndEnrolmentKey(penaltyId, EnrolmentUtil.buildItsaEnrolment(mtdItId), isAdditional)
-    } else appConfig.appealLSPDataForPenaltyAndEnrolmentKey(penaltyId, EnrolmentUtil.buildItsaEnrolment(mtdItId))
+      appConfig.appealLPPDataForPenaltyUrl(penaltyId, mtdItId, isAdditional)
+    } else appConfig.appealLSPDataForPenaltyUrl(penaltyId, mtdItId)
   }
 
   def getAppealsDataForPenalty(penaltyId: String, mtdItId: String, isLPP: Boolean, isAdditional: Boolean)
@@ -79,10 +78,10 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
       .execute[MultiplePenaltiesResponse](MultiplePenaltiesResponseReads, ec)
   }
 
-  def getListOfReasonableExcuses()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[JsValue]] = {
+  def getListOfReasonableExcuses(mtdItId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[JsValue]] = {
     val startOfLogMsg: String = "[PenaltiesConnector][getListOfReasonableExcuses] -"
     httpClient
-      .get(url"${appConfig.reasonableExcuseFetchUrl}")
+      .get(url"${appConfig.reasonableExcuseFetchUrl(mtdItId)}")
       .execute[HttpResponse].map(
         response => Some(response.json)
       ).recover {
@@ -104,7 +103,7 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
                    penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean)
                   (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[AppealSubmissionResponse] = {
 
-    val url = url"${appConfig.submitAppealUrl(buildItsaEnrolment(mtdItId), isLPP, penaltyNumber, correlationId, isMultiAppeal)}"
+    val url = url"${appConfig.submitAppealUrl(mtdItId, isLPP, penaltyNumber, correlationId, isMultiAppeal)}"
     logger.debug(s"[PenaltiesConnector][submitAppeal] POST $url\nSubmitting appeal model send to backend:\n${Json.toJson(appealSubmission)}")
     httpClient
       .post(url)

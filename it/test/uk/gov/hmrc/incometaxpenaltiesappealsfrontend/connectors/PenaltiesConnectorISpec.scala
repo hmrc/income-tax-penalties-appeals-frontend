@@ -49,7 +49,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
     "return the correct url for LPP" when {
       "the feature switch is disabled" in {
         val expectedResult =
-          "http://localhost:11111/penalties/appeals-data/late-payments?penaltyId=1234&enrolmentKey=HMRC-MTD-IT~MTDITID~123456789&isAdditional=false"
+          "http://localhost:11111/penalties/ITSA/appeals-data/late-payments/MTDITID/123456789?penaltyId=1234&isAdditional=false"
 
         val actualResult = penaltiesConnector.getAppealUrlBasedOnPenaltyType("1234", "123456789", isLPP = true, isAdditional = false)
         actualResult shouldBe expectedResult
@@ -57,7 +57,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
       "the feature switch is enabled" in {
         enable(UseStubForBackend)
         val expectedResult =
-          "http://localhost:11111/income-tax-penalties-stubs/appeals-data/late-payments?penaltyId=1234&enrolmentKey=HMRC-MTD-IT~MTDITID~123456789&isAdditional=false"
+          "http://localhost:11111/income-tax-penalties-stubs/ITSA/appeals-data/late-payments/MTDITID/123456789?penaltyId=1234&isAdditional=false"
 
         val actualResult = penaltiesConnector.getAppealUrlBasedOnPenaltyType("1234", "123456789", isLPP = true, isAdditional = false)
         actualResult shouldBe expectedResult
@@ -66,14 +66,14 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
     "return the correct url for LPP Additional" when {
       "the feature switch is disabled" in {
         val expectedResult =
-          "http://localhost:11111/penalties/appeals-data/late-payments?penaltyId=1234&enrolmentKey=HMRC-MTD-IT~MTDITID~123456789&isAdditional=true"
+          "http://localhost:11111/penalties/ITSA/appeals-data/late-payments/MTDITID/123456789?penaltyId=1234&isAdditional=true"
         val actualResult = penaltiesConnector.getAppealUrlBasedOnPenaltyType("1234", "123456789", isLPP = true, isAdditional = true)
         actualResult shouldBe expectedResult
       }
       "the feature switch is enabled" in {
         enable(UseStubForBackend)
         val expectedResult =
-          "http://localhost:11111/income-tax-penalties-stubs/appeals-data/late-payments?penaltyId=1234&enrolmentKey=HMRC-MTD-IT~MTDITID~123456789&isAdditional=true"
+          "http://localhost:11111/income-tax-penalties-stubs/ITSA/appeals-data/late-payments/MTDITID/123456789?penaltyId=1234&isAdditional=true"
         val actualResult = penaltiesConnector.getAppealUrlBasedOnPenaltyType("1234", "123456789", isLPP = true, isAdditional = true)
         actualResult shouldBe expectedResult
       }
@@ -82,14 +82,14 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
     "return the correct url for LSP" when {
       "the feature switch is disabled" in {
         val expectedResult =
-          "http://localhost:11111/penalties/appeals-data/late-submissions?penaltyId=1234&enrolmentKey=HMRC-MTD-IT~MTDITID~123456789"
+          "http://localhost:11111/penalties/ITSA/appeals-data/late-submissions/MTDITID/123456789?penaltyId=1234"
         val actualResult = penaltiesConnector.getAppealUrlBasedOnPenaltyType("1234", "123456789", isLPP = false, isAdditional = false)
         actualResult shouldBe expectedResult
       }
       "the feature switch is enabled" in {
         enable(UseStubForBackend)
         val expectedResult =
-          "http://localhost:11111/income-tax-penalties-stubs/appeals-data/late-submissions?penaltyId=1234&enrolmentKey=HMRC-MTD-IT~MTDITID~123456789"
+          "http://localhost:11111/income-tax-penalties-stubs/ITSA/appeals-data/late-submissions/MTDITID/123456789?penaltyId=1234"
         val actualResult = penaltiesConnector.getAppealUrlBasedOnPenaltyType("1234", "123456789", isLPP = false, isAdditional = false)
         actualResult shouldBe expectedResult
       }
@@ -99,7 +99,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
   "getAppealsDataForPenalty" should {
     s"return $Some and the $JsValue returned by the call" when {
       "the call to the backend is successful" in {
-        successfulGetAppealDataResponse("1234", "HMRC-MTD-IT~MTDITID~123456789")
+        successfulGetAppealDataResponse("1234", testMtdItId)
         val sampleJsonToPassBack: JsValue = Json.obj(
           "type" -> PenaltyTypeEnum.Late_Submission,
           "startDate" -> LocalDate.of(2020, 1, 1).toString,
@@ -113,7 +113,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
       }
       "the call to the stub is successful" in {
         enable(UseStubForBackend)
-        successfulGetAppealDataResponse("1234", "HMRC-MTD-IT~MTDITID~123456789", isStubbed = true)
+        successfulGetAppealDataResponse("1234", testMtdItId, isStubbed = true)
         val sampleJsonToPassBack: JsValue = Json.obj(
           "type" -> PenaltyTypeEnum.Late_Submission,
           "startDate" -> LocalDate.of(2020, 1, 1).toString,
@@ -129,20 +129,20 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
 
     s"return $None" when {
       "the call returns 404" in {
-        failedGetAppealDataResponse("1234", "HMRC-MTD-IT~MTDITID~123456789", status = Status.NOT_FOUND)
-        val result = await(penaltiesConnector.getAppealsDataForPenalty("1234", "123456789", isLPP = false, isAdditional = false))
+        failedGetAppealDataResponse("1234", testMtdItId, status = Status.NOT_FOUND)
+        val result = await(penaltiesConnector.getAppealsDataForPenalty("1234", testMtdItId, isLPP = false, isAdditional = false))
         result.isDefined shouldBe false
       }
 
       "the call returns some unknown response" in {
-        failedGetAppealDataResponse("1234", "HMRC-MTD-IT~MTDITID~123456789", status = Status.IM_A_TEAPOT)
-        val result = await(penaltiesConnector.getAppealsDataForPenalty("1234", "123456789", isLPP = false, isAdditional = false))
+        failedGetAppealDataResponse("1234", testMtdItId, status = Status.IM_A_TEAPOT)
+        val result = await(penaltiesConnector.getAppealsDataForPenalty("1234", testMtdItId, isLPP = false, isAdditional = false))
         result.isDefined shouldBe false
       }
 
       "the call fails completely with no response" in {
-        failedCall("1234", "HMRC-MTD-IT~MTDITID~123456789")
-        val result = await(penaltiesConnector.getAppealsDataForPenalty("1234", "123456789", isLPP = false, isAdditional = false))
+        failedCall("1234", testMtdItId)
+        val result = await(penaltiesConnector.getAppealsDataForPenalty("1234", testMtdItId, isLPP = false, isAdditional = false))
         result.isDefined shouldBe false
       }
     }
@@ -151,7 +151,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
   "getMultiplePenaltiesForPrincipleCharge" should {
     s"return Right with the parsed model" when {
       "the call to the backend is successful" in {
-        successfulGetMultiplePenalties("1234", "HMRC-MTD-IT~MTDITID~123456789")
+        successfulGetMultiplePenalties("1234", testMtdItId)
         val expectedResponse: MultiplePenaltiesData = MultiplePenaltiesData(
           firstPenaltyChargeReference = "123456789",
           firstPenaltyAmount = 101.01,
@@ -160,13 +160,13 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           firstPenaltyCommunicationDate = LocalDate.parse("2023-04-06"),
           secondPenaltyCommunicationDate = LocalDate.parse("2023-04-07")
         )
-        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", "HMRC-MTD-IT~MTDITID~123456789"))
+        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", testMtdItId))
         result.isRight shouldBe true
         result shouldBe Right(expectedResponse)
       }
       "the call to the stub is successful" in {
         enable(UseStubForBackend)
-        successfulGetMultiplePenalties("1234", "HMRC-MTD-IT~MTDITID~123456789", isStubbed = true)
+        successfulGetMultiplePenalties("1234", testMtdItId, isStubbed = true)
         val expectedResponse: MultiplePenaltiesData = MultiplePenaltiesData(
           firstPenaltyChargeReference = "123456789",
           firstPenaltyAmount = 101.01,
@@ -175,7 +175,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           firstPenaltyCommunicationDate = LocalDate.parse("2023-04-06"),
           secondPenaltyCommunicationDate = LocalDate.parse("2023-04-07")
         )
-        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", "HMRC-MTD-IT~MTDITID~123456789"))
+        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", testMtdItId))
         result.isRight shouldBe true
         result shouldBe Right(expectedResponse)
       }
@@ -183,20 +183,20 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
 
     "return Left" when {
       s"only a single penalty is found for the principle charge and ${Status.NO_CONTENT} is returned" in {
-        failedGetMultiplePenalties("1234", "HMRC-MTD-IT~MTDITID~123456789", Status.NO_CONTENT)
-        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", "HMRC-MTD-IT~MTDITID~123456789"))
+        failedGetMultiplePenalties("1234", testMtdItId, Status.NO_CONTENT)
+        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", testMtdItId))
         result.isLeft shouldBe true
       }
 
       s"${Status.NOT_FOUND} is returned" in {
-        failedGetMultiplePenalties("1234", "HMRC-MTD-IT~MTDITID~123456789", Status.NOT_FOUND)
-        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", "HMRC-MTD-IT~MTDITID~123456789"))
+        failedGetMultiplePenalties("1234", testMtdItId, Status.NOT_FOUND)
+        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", testMtdItId))
         result.isLeft shouldBe true
       }
 
       s"${Status.INTERNAL_SERVER_ERROR} is returned" in {
-        failedGetMultiplePenalties("1234", "HMRC-MTD-IT~MTDITID~123456789", Status.INTERNAL_SERVER_ERROR)
-        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", "HMRC-MTD-IT~MTDITID~123456789"))
+        failedGetMultiplePenalties("1234", testMtdItId, Status.INTERNAL_SERVER_ERROR)
+        val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", testMtdItId))
         result.isLeft shouldBe true
       }
     }
@@ -205,7 +205,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
   "getListOfReasonableExcuses" should {
     s"return $Some and the $JsValue returned by the call" when {
       "the call to the backend is successful" in {
-        successfulFetchReasonableExcuseResponse()
+        successfulFetchReasonableExcuseResponse(testMtdItId)
         val sampleJsonToPassBack: JsValue = Json.obj(
           "excuses" -> Json.arr(
             Json.obj(
@@ -222,13 +222,13 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
             )
           )
         )
-        val result = await(penaltiesConnector.getListOfReasonableExcuses())
+        val result = await(penaltiesConnector.getListOfReasonableExcuses(testMtdItId))
         result.isDefined shouldBe true
         result.get shouldBe sampleJsonToPassBack
       }
       "the call to the stub is successful" in {
         enable(UseStubForBackend)
-        successfulFetchReasonableExcuseResponse(isStubbed = true)
+        successfulFetchReasonableExcuseResponse(testMtdItId, isStubbed = true)
         val sampleJsonToPassBack: JsValue = Json.obj(
           "excuses" -> Json.arr(
             Json.obj(
@@ -245,7 +245,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
             )
           )
         )
-        val result = await(penaltiesConnector.getListOfReasonableExcuses())
+        val result = await(penaltiesConnector.getListOfReasonableExcuses(testMtdItId))
         result.isDefined shouldBe true
         result.get shouldBe sampleJsonToPassBack
       }
@@ -253,27 +253,27 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
 
     s"return $None" when {
       "the call returns 404" in {
-        failedFetchReasonableExcuseListResponse(status = Status.NOT_FOUND)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses())
+        failedFetchReasonableExcuseListResponse(testMtdItId, Status.NOT_FOUND)
+        val result = await(penaltiesConnector.getListOfReasonableExcuses(testMtdItId))
         result.isDefined shouldBe false
       }
 
       "the call returns 500" in {
-        failedFetchReasonableExcuseListResponse(status = Status.INTERNAL_SERVER_ERROR)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses())
+        failedFetchReasonableExcuseListResponse(testMtdItId, Status.INTERNAL_SERVER_ERROR)
+        val result = await(penaltiesConnector.getListOfReasonableExcuses(testMtdItId))
         result.isDefined shouldBe false
       }
 
 
       "the call returns some unknown response" in {
-        failedFetchReasonableExcuseListResponse(status = Status.IM_A_TEAPOT)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses())
+        failedFetchReasonableExcuseListResponse(testMtdItId, Status.IM_A_TEAPOT)
+        val result = await(penaltiesConnector.getListOfReasonableExcuses(testMtdItId))
         result.isDefined shouldBe false
       }
 
       "the call fails completely with no response" in {
-        failedCallForFetchingReasonableExcuse()
-        val result = await(penaltiesConnector.getListOfReasonableExcuses())
+        failedCallForFetchingReasonableExcuse(testMtdItId)
+        val result = await(penaltiesConnector.getListOfReasonableExcuses(testMtdItId))
         result.isDefined shouldBe false
       }
     }
@@ -281,7 +281,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
 
   "submitAppeal" should {
     "return the response of the call to the backend" in {
-      successfulAppealSubmission(isLPP = false, penaltyNumber = "123456789")
+      successfulAppealSubmission(testMtdItId, isLPP = false, penaltyNumber = "123456789")
       val model = AppealSubmission(
         sourceSystem = "MDTP",
         taxRegime = "ITSA",
@@ -308,7 +308,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
     }
     "return the response of the call to the stub" in {
       enable(UseStubForBackend)
-      successfulAppealSubmission(isLPP = false, penaltyNumber = "123456789", isStubbed = true)
+      successfulAppealSubmission(testMtdItId, isLPP = false, penaltyNumber = "123456789", isStubbed = true)
       val model = AppealSubmission(
         sourceSystem = "MDTP",
         taxRegime = "ITSA",
@@ -335,7 +335,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
     }
 
     "return the response of the call for LPP" in {
-      successfulAppealSubmission(isLPP = true, penaltyNumber = "123456789")
+      successfulAppealSubmission(testMtdItId, isLPP = true, penaltyNumber = "123456789")
       val model = AppealSubmission(
         sourceSystem = "MDTP",
         taxRegime = "ITSA",
@@ -362,7 +362,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
     }
 
     "return Internal Server Error if an exception occurs" in {
-      failedAppealSubmissionWithFault(isLPP = true, penaltyNumber = "123456789")
+      failedAppealSubmissionWithFault(testMtdItId, isLPP = true, penaltyNumber = "123456789")
       val model = AppealSubmission(
         sourceSystem = "MDTP",
         taxRegime = "ITSA",

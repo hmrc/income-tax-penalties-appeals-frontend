@@ -62,8 +62,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
   def validateMultiplePenaltyDataForEnrolmentKey(penaltyId: String, mtdItId: String)
                                                 (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[MultiplePenaltiesData]] = {
-    val enrolmentKey = EnrolmentUtil.buildItsaEnrolment(mtdItId)
-    penaltiesConnector.getMultiplePenaltiesForPrincipleCharge(penaltyId, enrolmentKey).map {
+    penaltiesConnector.getMultiplePenaltiesForPrincipleCharge(penaltyId, mtdItId).map {
       case Right(model) =>
         logger.info(s"[AppealService][validateMultiplePenaltyDataForEnrolmentKey] - Received Right with parsed model")
         Some(model)
@@ -73,8 +72,8 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }
 
-  def getReasonableExcuses()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Seq[ReasonableExcuse]]] = {
-    penaltiesConnector.getListOfReasonableExcuses().map {
+  def getReasonableExcuses(mtdItId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Seq[ReasonableExcuse]]] = {
+    penaltiesConnector.getListOfReasonableExcuses(mtdItId).map {
       case None =>
         logger.warn(s"[AppealService][validatePenaltyIdForEnrolmentKey] - Found no reasonable excuses")
         None
