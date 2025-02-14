@@ -51,7 +51,4 @@ object EnrolmentUtil {
 
   }
 
-  def buildItsaEnrolment(mtdItid: String) : String =
-    incomeTaxEnrolmentKey + "~" + mtdItIdKey + "~" + mtdItid
-
 }

@@ -166,7 +166,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
             stubAuth(OK, successfulIndividualAuthResponse)
             userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-            failedAppealSubmission(testMtdItId, isLPP = false, "1")
+            failedAppealSubmission(testMtdItId, isLPP = false, penaltyDataLSP.penaltyNumber)
 
             val result = post("/check-your-answers")(Json.obj())
 

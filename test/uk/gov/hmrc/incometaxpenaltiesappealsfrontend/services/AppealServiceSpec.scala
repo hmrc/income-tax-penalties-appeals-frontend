@@ -17,8 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import fixtures.FileUploadFixtures
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.{eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito._
 import org.mockito.{ArgumentCaptor, ArgumentMatchers}
 import org.scalatest.matchers.should.Matchers
@@ -36,7 +35,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{Inv
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockUpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger

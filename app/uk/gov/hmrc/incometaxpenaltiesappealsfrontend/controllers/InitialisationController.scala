@@ -55,7 +55,7 @@ class InitialisationController @Inject()(val authorised: AuthAction,
 
   private def storyPenaltyDataAndRedirect(penaltyId: String,
                                           appealModel: AppealData,
-                                          multiPenaltiesModel: Option[MultiplePenaltiesData] = None)(implicit user: CurrentUserRequest[_]): Future[Result] = {
+                                          multiPenaltiesModel: Option[MultiplePenaltiesData])(implicit user: CurrentUserRequest[_]): Future[Result] = {
 
     val journeyId = uuid.generateUUID
     logger.debug(s"[InitialisationController][onPageLoad] Starting journey for penaltyId: $penaltyId, created journeyId: $journeyId")

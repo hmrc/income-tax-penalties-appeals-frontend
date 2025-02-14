@@ -59,7 +59,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
         "the user is an authorised individual" in {
 
           stubAuth(OK, successfulIndividualAuthResponse)
-          successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, EnrolmentUtil.buildItsaEnrolment(testMtdItId))
+          successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
 
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false")
 
@@ -88,8 +88,8 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
         "the user is an authorised agent (and LPP with multiple)" in {
 
           stubAuth(OK, successfulAgentAuthResponse)
-          successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, EnrolmentUtil.buildItsaEnrolment(testMtdItId), isLPP = true)
-          successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, EnrolmentUtil.buildItsaEnrolment(testMtdItId))
+          successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, testMtdItId, isLPP = true)
+          successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, testMtdItId)
 
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLPP.penaltyNumber}&isLPP=true&isAdditional=false", isAgent = true)
 
@@ -129,7 +129,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
       "render an ISE" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
-        failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, EnrolmentUtil.buildItsaEnrolment(testMtdItId))
+        failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
 
         val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false")
 

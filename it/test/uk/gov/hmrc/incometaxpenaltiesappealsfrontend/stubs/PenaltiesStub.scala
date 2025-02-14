@@ -138,9 +138,9 @@ trait PenaltiesStub {
     )
   }
 
-  def successfulGetMultiplePenalties(penaltyId: String, enrolmentKey: String, isStubbed: Boolean = false): StubMapping = {
+  def successfulGetMultiplePenalties(penaltyId: String, mtditid: String, isStubbed: Boolean = false): StubMapping = {
     stubFor(
-      get(urlEqualTo(multiplePenaltiesUri(penaltyId, enrolmentKey, isStubbed)))
+      get(urlEqualTo(multiplePenaltiesUri(penaltyId, mtditid, isStubbed)))
         .willReturn(
           aResponse()
             .withStatus(Status.OK)

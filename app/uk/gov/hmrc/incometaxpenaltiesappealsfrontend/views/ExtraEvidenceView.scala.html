@@ -16,7 +16,6 @@
 
 @import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
@@ -35,7 +34,7 @@
         isLate: Boolean,
         isAgent: Boolean,
         reasonableExcuseMessageKey: String
-)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+)(implicit request: Request[_], messages: Messages)
 
 
 @layout(pageTitle = Some(titleBuilder(messages("extraEvidence.headingAndTitle"), Some(form))), backLinkEnabled = true) {

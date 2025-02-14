@@ -18,7 +18,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import play.api.http.Status._
 import play.api.libs.json.{JsResult, Json}
-import play.api.mvc.Request
 import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnector
@@ -27,9 +26,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.F
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{EnrolmentUtil, IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 
 import java.time.LocalDate
 import javax.inject.{Inject, Singleton}
