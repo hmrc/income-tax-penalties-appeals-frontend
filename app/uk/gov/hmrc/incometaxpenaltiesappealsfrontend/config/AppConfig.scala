@@ -50,22 +50,20 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   val appName: String = servicesConfig.getString("appName")
 
-  def appealLPPDataForPenaltyAndEnrolmentKey(penaltyId: String, enrolmentKey: String, isAdditional: Boolean): String = {
-    s"$penaltiesServiceBaseUrl/appeals-data/late-payments?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey&isAdditional=$isAdditional"
-  }
+  def appealLPPDataForPenaltyUrl(penaltyId: String, mtditid: String, isAdditional: Boolean): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/late-payments/MTDITID/$mtditid?penaltyId=$penaltyId&isAdditional=$isAdditional"
 
-  def appealLSPDataForPenaltyAndEnrolmentKey(penaltyId: String, enrolmentKey: String): String = {
-    s"$penaltiesServiceBaseUrl/appeals-data/late-submissions?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
-  }
+  def appealLSPDataForPenaltyUrl(penaltyId: String, mtditid: String): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/late-submissions/MTDITID/$mtditid?penaltyId=$penaltyId"
 
-  def multiplePenaltyDataUrl(penaltyId: String, enrolmentKey: String): String =
-    s"$penaltiesServiceBaseUrl/appeals-data/multiple-penalties?penaltyId=$penaltyId&enrolmentKey=$enrolmentKey"
+  def multiplePenaltyDataUrl(penaltyId: String, mtditid: String): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/multiple-penalties/MTDITID/$mtditid?penaltyId=$penaltyId"
 
-  def reasonableExcuseFetchUrl: String = s"$penaltiesServiceBaseUrl/appeals-data/reasonable-excuses"
+  def reasonableExcuseFetchUrl(mtditid: String): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/reasonable-excuses/MTDITID/$mtditid"
 
-
-  def submitAppealUrl(enrolmentKey: String, isLPP: Boolean, penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean): String =
-    s"$penaltiesServiceBaseUrl/appeals/submit-appeal?enrolmentKey=$enrolmentKey&isLPP=$isLPP&penaltyNumber=$penaltyNumber&correlationId=$correlationId&isMultiAppeal=$isMultiAppeal"
+  def submitAppealUrl(mtditid: String, isLPP: Boolean, penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals/submit-appeal/MTDITID/$mtditid?isLPP=$isLPP&penaltyNumber=$penaltyNumber&correlationId=$correlationId&isMultiAppeal=$isMultiAppeal"
 
   lazy val daysRequiredForLateAppeal: Int = config.get[Int]("constants.daysRequiredForLateAppeal")
 

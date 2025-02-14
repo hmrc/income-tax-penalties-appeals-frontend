@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import fixtures.FileUploadFixtures
 import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.{eq => eqTo}
 import org.mockito.Mockito._
 import org.mockito.{ArgumentCaptor, ArgumentMatchers}
 import org.scalatest.matchers.should.Matchers
@@ -235,7 +236,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   "validateMultiplePenaltyDataForEnrolmentKey" should {
     "return None" when {
       "the connector returns a left with an UnexpectedFailure" in new Setup {
-        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(any(), any())(any(), any()))
+        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(eqTo("123"), eqTo(testMtdItId))(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, s"Unexpected response, status $INTERNAL_SERVER_ERROR returned"))))
 
         val result: Option[MultiplePenaltiesData] = await(service.validateMultiplePenaltyDataForEnrolmentKey("123", testMtdItId)(implicitly, implicitly))
@@ -244,7 +245,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       }
 
       "the connector returns returns InvalidJson that cannot be parsed to a model" in new Setup {
-        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(any(), any())(any(), any()))
+        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(eqTo("123"), eqTo(testMtdItId))(any(), any()))
           .thenReturn(Future.successful(Left(InvalidJson)))
 
         val result: Option[MultiplePenaltiesData] = await(service.validateMultiplePenaltyDataForEnrolmentKey("123", testMtdItId)(implicitly, implicitly))
@@ -255,7 +256,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
     "return Some" when {
       "the connector returns Json that can be parsed to a model" in new Setup {
-        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(any(), any())(any(), any()))
+        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(eqTo("123"), eqTo(testMtdItId))(any(), any()))
           .thenReturn(Future.successful(Right(multiplePenaltiesModel)))
 
         val result: Option[MultiplePenaltiesData] = await(service.validateMultiplePenaltyDataForEnrolmentKey("123", testMtdItId)(implicitly, implicitly))
@@ -287,12 +288,12 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           |}
           |""".stripMargin
       )
-      when(mockPenaltiesConnector.getListOfReasonableExcuses()(any(), any()))
+      when(mockPenaltiesConnector.getListOfReasonableExcuses(eqTo(testMtdItId))(any(), any()))
         .thenReturn(Future.successful(
           Some(jsonRepresentingSeqOfReasonableExcuses)
         ))
 
-      val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses())
+      val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses(testMtdItId))
 
       result shouldBe Some(Seq(
         ReasonableExcuse(
@@ -335,20 +336,20 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
             |}
             |""".stripMargin
         )
-        when(mockPenaltiesConnector.getListOfReasonableExcuses()(any(), any()))
+        when(mockPenaltiesConnector.getListOfReasonableExcuses(eqTo(testMtdItId))(any(), any()))
           .thenReturn(Future.successful(
             Some(jsonRepresentingInvalidSeqOfReasonableExcuses)
           ))
 
-        val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses())
+        val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses(testMtdItId))
         result shouldBe None
       }
 
       "the connector call fails" in new Setup {
-        when(mockPenaltiesConnector.getListOfReasonableExcuses()(any(), any()))
+        when(mockPenaltiesConnector.getListOfReasonableExcuses(eqTo(testMtdItId))(any(), any()))
           .thenReturn(Future.successful(None))
 
-        val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses())
+        val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses(testMtdItId))
         result shouldBe None
       }
     }
