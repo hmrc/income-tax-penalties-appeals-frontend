@@ -20,6 +20,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.CheckAnswersHelper
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 
 @this(layout: Layout,
         govukButton: GovukButton,
@@ -36,11 +37,12 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
         @h1("checkYourAnswers.headingAndTitle")
         @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
 
         @govukSummaryList(SummaryList(helper.constructSummaryListRows(uploadedFiles)))
+
 
         @h2("checkYourAnswers.declaration.h2", elmId = "declaration")
 

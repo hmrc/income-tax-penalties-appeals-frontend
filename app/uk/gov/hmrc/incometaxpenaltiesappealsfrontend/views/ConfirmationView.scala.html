@@ -18,7 +18,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 
 @this(layout: Layout,
         govukPanel: GovukPanel,
@@ -34,7 +34,7 @@
 
     @govukPanel(Panel(
         title = Text(messages("appealConfirmation.headingAndTitle")),
-        content = HtmlContent(messages("appealConfirmation.typeAndPeriod", "Late payment penalty", "2027", "2028"))
+        content = HtmlContent(messages("appealConfirmation.typeAndPeriod", "Late payment penalty", DateFormatter.dateNonBreakingSpaceSingle("2027 to 2028")))
     ))
 
     @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))

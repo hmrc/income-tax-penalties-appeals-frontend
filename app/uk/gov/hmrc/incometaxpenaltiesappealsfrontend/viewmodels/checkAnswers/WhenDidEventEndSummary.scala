@@ -33,7 +33,7 @@ object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
       WhenDidEventEndPage.value.map { endDate =>
         summaryListRow(
           label = messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.key"),
-          value = Html(dateToString(endDate)),
+          value = Html(DateFormatter.dateNonBreakingSpaceSingle(dateToString(endDate))),
           actions = Some(Actions(
             items = Seq(
               ActionItem(
