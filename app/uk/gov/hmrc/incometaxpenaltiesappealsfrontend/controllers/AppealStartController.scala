@@ -19,8 +19,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.AppealStartView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -30,27 +31,12 @@ import javax.inject.Inject
 class AppealStartController @Inject()(appealStart: AppealStartView,
                                       val authorised: AuthAction,
                                       withNavBar: NavBarRetrievalAction,
+                                      withAnswers: UserAnswersAction,
                                       override val controllerComponents: MessagesControllerComponents
-                                     )(implicit val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar) { implicit currentUser =>
-        //      logger.debug(s"[AppealStartController][onPageLoad] - Session keys received: \n" +
-        //        s"Appeal Type = ${userRequest.answers.getAnswer[PenaltyTypeEnum.Value](IncomeTaxSessionKeys.appealType)}, \n" +
-        //        s"Penalty Number = ${userRequest.answers.getAnswer[String](IncomeTaxSessionKeys.penaltyNumber)}, \n" +
-        //        s"Start date of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.startDateOfPeriod)}, \n" +
-        //        s"End date of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.endDateOfPeriod)}, \n" +
-        //        s"Due date of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.dueDateOfPeriod)}, \n" +
-        //        s"Is find out how to appeal = ${userRequest.answers.getAnswer[Boolean](IncomeTaxSessionKeys.isFindOutHowToAppeal)}, \n" +
-        //        s"Date communication sent of period = ${userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.dateCommunicationSent)}, \n")
+                                     )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
 
-
-        Ok(appealStart(
-          true, currentUser.isAgent
-        ))
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit currentUser =>
+    Ok(appealStart(currentUser.isAppealLate(), currentUser.isAgent))
   }
-
-  //  private def isAppealLate()(implicit userRequest: UserRequest[_]): Boolean = {
-  //      val dateCommunicationSentParsedAsLocalDate = userRequest.answers.getAnswer[LocalDate](IncomeTaxSessionKeys.dateCommunicationSent).get
-  //      dateCommunicationSentParsedAsLocalDate.isBefore(getFeatureDate.minusDays(appConfig.daysRequiredForLateAppeal))
-  //  }
 
 }

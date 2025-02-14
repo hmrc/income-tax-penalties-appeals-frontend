@@ -22,17 +22,22 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper with BaseFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -73,7 +78,10 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
         document.getServiceName.text() shouldBe WhoPlannedToSubmitMessages.English.serviceName
         document.title() should include(WhoPlannedToSubmitMessages.English.titleAndHeading)
-        document.getElementById("captionSpan").text() shouldBe WhoPlannedToSubmitMessages.English.caption("6 July 2027", "5 October 2027")
+        document.getElementById("captionSpan").text() shouldBe WhoPlannedToSubmitMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe WhoPlannedToSubmitMessages.English.titleAndHeading
         document.getSubmitButton.text() shouldBe WhoPlannedToSubmitMessages.English.continue
 

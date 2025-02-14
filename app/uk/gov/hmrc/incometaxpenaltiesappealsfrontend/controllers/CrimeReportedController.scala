@@ -22,6 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -36,14 +37,14 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
                                         userAnswersService: UserAnswersService,
                                         override val errorHandler: ErrorHandler,
                                         override val controllerComponents: MessagesControllerComponents
-                                       )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                       )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(hasTheCrimeBeenReported(
         form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
-        isLate = true,
-        isAgent = currentUser.isAgent,
+        isLate = user.isAppealLate(),
+        isAgent = user.isAgent,
         reasonableExcuseMessageKey = reasonableExcuse
       )))
     }
@@ -55,7 +56,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
         withAnswer(ReasonableExcusePage) { reasonableExcuse =>
           Future(BadRequest(hasTheCrimeBeenReported(
             form = formWithErrors,
-            isLate = true,
+            isLate = user.isAppealLate(),
             isAgent = user.isAgent,
             reasonableExcuseMessageKey = reasonableExcuse
           )))

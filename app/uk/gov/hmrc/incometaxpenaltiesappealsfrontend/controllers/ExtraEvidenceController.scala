@@ -17,12 +17,13 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{UpscanService, UserAnswersService}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -38,14 +39,14 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
                                         userAnswersService: UserAnswersService,
                                         override val errorHandler: ErrorHandler,
                                         override val controllerComponents: MessagesControllerComponents
-                                       )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
+                                       )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(extraEvidence(
         form = fillForm(ExtraEvidenceForm.form(), ExtraEvidencePage),
-        isLate = true,
-        isAgent = currentUser.isAgent,
+        isLate = user.isAppealLate(),
+        isAgent = user.isAgent,
         reasonableExcuseMessageKey = reasonableExcuse
       )))
     }
@@ -57,7 +58,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
         withAnswer(ReasonableExcusePage) { reasonableExcuse =>
           Future(BadRequest(extraEvidence(
             form = formWithErrors,
-            isLate = true,
+            isLate = user.isAppealLate(),
             isAgent = user.isAgent,
             reasonableExcuseMessageKey = reasonableExcuse
           )))

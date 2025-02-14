@@ -21,16 +21,21 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -100,7 +105,10 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
           document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
           document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
           document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
@@ -118,7 +126,10 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
           document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
           document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
           document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"

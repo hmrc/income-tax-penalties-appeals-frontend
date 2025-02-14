@@ -30,16 +30,14 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
 
-import java.time.LocalDate
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                               upscanService: UpscanService,
-                              timeMachine: TimeMachine,
-                              idGenerator: UUIDGenerator,
-                              val appConfig: AppConfig) extends FeatureSwitching {
+                              idGenerator: UUIDGenerator
+                             )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FeatureSwitching {
 
   def validatePenaltyIdForEnrolmentKey(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, mtdItId: String)
                                       (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[AppealData]] = {
@@ -89,38 +87,32 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
   }
 
 
-  def submitAppeal(reasonableExcuse: String,
-                   mtdItId: String,
-                   optArn: Option[String]
-                  )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+  def submitAppeal(reasonableExcuse: String)(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val files = if(reasonableExcuse == "other") upscanService.getAllReadyFiles(request.journeyId) else Future.successful(Seq.empty)
     files.flatMap { uploadedFiles =>
       if (request.penaltyData.appealData.`type` != PenaltyTypeEnum.Late_Submission && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
-        multipleAppeal(mtdItId, request.isLPP, optArn, reasonableExcuse, uploadedFiles)
+        multipleAppeal(reasonableExcuse, uploadedFiles)
       } else {
-        singleAppeal(mtdItId, request.isLPP, optArn, reasonableExcuse, uploadedFiles)
+        singleAppeal(reasonableExcuse, uploadedFiles)
       }
     }
   }
 
 
-  private def singleAppeal(mtdItId: String,
-                           isLPP: Boolean,
-                           agentReferenceNo: Option[String],
-                           reasonableExcuse: String,
-                           uploadedFiles: Seq[UploadJourney]
-                          )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+  private def singleAppeal(reasonableExcuse: String,
+                           uploadedFiles: Seq[UploadJourney])
+                          (implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val correlationId = idGenerator.generateUUID
     val modelFromRequest: AppealSubmission =
       AppealSubmission.constructModelBasedOnReasonableExcuse(
         reasonableExcuse = reasonableExcuse,
-        isLateAppeal = isAppealLate,
-        agentReferenceNo = agentReferenceNo,
+        isLateAppeal = request.isAppealLate(),
+        agentReferenceNo = request.arn,
         uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
-        mtdItId = mtdItId
+        mtdItId = request.mtdItId
       )
 
-    penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false).map {
+    penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false).map {
       case Left(error) =>
         logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
         Left(error.status)
@@ -137,27 +129,25 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }
 
-  private def multipleAppeal(mtdItId: String, isLPP: Boolean,
-                             agentReferenceNo: Option[String],
-                             reasonableExcuse: String,
+  private def multipleAppeal(reasonableExcuse: String,
                              uploadedFiles: Seq[UploadJourney])(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
 
     val firstCorrelationId = idGenerator.generateUUID
     val secondCorrelationId = idGenerator.generateUUID
     val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(
       reasonableExcuse = reasonableExcuse,
-      isLateAppeal = isAppealLate,
-      agentReferenceNo = agentReferenceNo,
+      isLateAppeal = request.isAppealLate(),
+      agentReferenceNo = request.arn,
       uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
-      mtdItId = mtdItId
+      mtdItId = request.mtdItId
     )
 
     val firstPenaltyNumber = request.firstPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
     val secondPenaltyNumber = request.secondPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Second penalty number not found in session"))
 
     for {
-      firstResponse <- penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
-      secondResponse <- penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, secondPenaltyNumber, secondCorrelationId, isMultiAppeal = true)
+      firstResponse <- penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
+      secondResponse <- penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, secondPenaltyNumber, secondCorrelationId, isMultiAppeal = true)
     } yield {
       (firstResponse, secondResponse) match {
         case (Right(_), Right(_)) =>
@@ -187,17 +177,6 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     case e =>
       logger.error(s"[AppealService][multipleAppeal] - An unknown error occurred, error message: ${e.getMessage}")
       Left(INTERNAL_SERVER_ERROR)
-  }
-
-  def isAppealLate(implicit request: CurrentUserRequestWithAnswers[_]): Boolean = {
-    val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(appConfig.daysRequiredForLateAppeal)
-
-    if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
-      request.firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
-        request.secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
-    } else {
-      request.communicationSent.isBefore(dateWhereLateAppealIsApplicable)
-    }
   }
 
   private def logPartialFailureOfMultipleAppeal(lpp1Response: Either[ErrorResponse, AppealSubmissionResponseModel],

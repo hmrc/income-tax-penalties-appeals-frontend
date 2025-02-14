@@ -21,21 +21,23 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 
 @this(
         layout: Layout,
         govukErrorSummary: GovukErrorSummary,
         govukButton: GovukButton,
         formHelper: FormWithCSRF,
-        govukRadios : GovukRadios
+        govukRadios : GovukRadios,
+        caption: components.PenaltyCaption
 )
 
 @(form: Form[_],
         isLate: Boolean,
         isAgent: Boolean,
         reasonableExcuseMessageKey: String
-)(implicit request: Request[_], messages: Messages)
-
+)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(pageTitle = Some(titleBuilder(messages("extraEvidence.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -45,25 +47,25 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+        @caption()
 
-            @govukRadios(Radios(
-                fieldset = Some(Fieldset(
-                    legend = Some(Legend(
-                        content = Text(messages("extraEvidence.headingAndTitle")),
-                        classes = "govuk-fieldset__legend--l",
-                        isPageHeading = true
-                    ))
-                )),
-                name = ExtraEvidenceForm.key,
-                hint = Some(Hint(content = Text(messages("extraEvidence.hint")))),
-                items = YesNoRadioHelper.radios(),
-                classes = "govuk-radios--inline"
-            ).withFormField(form(ExtraEvidenceForm.key)))
+        @govukRadios(Radios(
+            fieldset = Some(Fieldset(
+                legend = Some(Legend(
+                    content = Text(messages("extraEvidence.headingAndTitle")),
+                    classes = "govuk-fieldset__legend--l",
+                    isPageHeading = true
+                ))
+            )),
+            name = ExtraEvidenceForm.key,
+            hint = Some(Hint(content = Text(messages("extraEvidence.hint")))),
+            items = YesNoRadioHelper.radios(),
+            classes = "govuk-radios--inline"
+        ).withFormField(form(ExtraEvidenceForm.key)))
 
 
-            <div class="govuk-form-group">
-                @govukButton(Button(content = Text(messages("common.continue"))))
-            </div>
+        <div class="govuk-form-group">
+        @govukButton(Button(content = Text(messages("common.continue"))))
+        </div>
     }
 }

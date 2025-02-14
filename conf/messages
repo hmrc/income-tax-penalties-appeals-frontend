@@ -5,8 +5,11 @@ error.title.prefix = Error:
 govuk.suffix = GOV.UK
 alphaBanner.message = This is a new service – your {0} will help us to improve it.
 alphaBanner.linkText = feedback
+
 date.from.to = {0} to {1}
-appeal.start.caption = Late submission penalty point:
+service.lsp.caption = Late submission penalty point: {0}
+service.lpp.caption = Late payment penalty: {0}
+
 appeal.start.header = Appeal a Self Assessment penalty
 appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again.
 appeal.start.p2 = This service is for appealing penalties given for individual submissions.

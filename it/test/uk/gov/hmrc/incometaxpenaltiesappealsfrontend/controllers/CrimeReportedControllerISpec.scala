@@ -21,6 +21,8 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
@@ -28,6 +30,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
@@ -35,6 +38,8 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   val crimeAnswers: UserAnswers = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "crime")
 
@@ -84,7 +89,10 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Has this crime been reported to the police? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Has this crime been reported to the police?"
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}").text() shouldBe CrimeReportedMessages.English.yes
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}-2").text() shouldBe CrimeReportedMessages.English.no
@@ -99,7 +107,10 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Has this crime been reported to the police? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Has this crime been reported to the police?"
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}").text() shouldBe CrimeReportedMessages.English.yes
         document.getElementsByAttributeValue("for", s"${CrimeReportedForm.key}-2").text() shouldBe CrimeReportedMessages.English.no

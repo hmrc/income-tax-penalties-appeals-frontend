@@ -16,31 +16,39 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.English
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.Json
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   lazy val userAnswersRepo = app.injector.instanceOf[UserAnswersRepository]
 
-  val bereavementMessage: String = "because I was affected by someone’s death, I was unable to send the submission due on 5 November 2027"
-  val cessationMessage: String = "TBC cessation - I was unable to send the submission due on 5 November 2027"
-  val crimeMessage: String = "because I was affected by a crime, I was unable to send the submission due on 5 November 2027"
-  val fireOrFloodReasonMessage: String = "because of a fire or flood, I was unable to send the submission due on 5 November 2027"
-  val healthMessage: String = "TBC health - I was unable to send the submission due on 5 November 2027"
-  val technicalIssueMessage: String = "because of software or technology issues, I was unable to send the submission due on 5 November 2027"
-  val unexpectedHospitalMessage: String = "TBC unexpectedHospital - I was unable to send the submission due on 5 November 2027"
-  val otherMessage: String = "TBC other - I was unable to send the submission due on 5 November 2027"
+  val dueDate = dateToString(lateSubmissionAppealData.dueDate).replace("\u00A0", " ")
+
+  val bereavementMessage: String = s"because I was affected by someone’s death, I was unable to send the submission due on $dueDate"
+  val cessationMessage: String = s"TBC cessation - I was unable to send the submission due on $dueDate"
+  val crimeMessage: String = s"because I was affected by a crime, I was unable to send the submission due on $dueDate"
+  val fireOrFloodReasonMessage: String = s"because of a fire or flood, I was unable to send the submission due on $dueDate"
+  val healthMessage: String = s"TBC health - I was unable to send the submission due on $dueDate"
+  val technicalIssueMessage: String = s"because of software or technology issues, I was unable to send the submission due on $dueDate"
+  val unexpectedHospitalMessage: String = s"TBC unexpectedHospital - I was unable to send the submission due on $dueDate"
+  val otherMessage: String = s"TBC other - I was unable to send the submission due on $dueDate"
 
   val reasonsList: List[(String, String)]= List(
     ("bereavement", bereavementMessage),
@@ -100,7 +108,10 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
           document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe "Honesty declaration"
           document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
           document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
@@ -118,7 +129,10 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
           document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe "Honesty declaration"
           document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
           document.getElementById("honestyDeclarationReason").text() shouldBe reason._2

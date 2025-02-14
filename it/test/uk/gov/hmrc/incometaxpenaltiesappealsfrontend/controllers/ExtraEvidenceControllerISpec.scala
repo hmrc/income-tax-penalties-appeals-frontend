@@ -21,6 +21,8 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
@@ -28,6 +30,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
@@ -35,6 +38,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   val otherAnswers: UserAnswers = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other")
 
@@ -82,7 +87,10 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
         document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
         document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
@@ -98,7 +106,10 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
         document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
         document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes

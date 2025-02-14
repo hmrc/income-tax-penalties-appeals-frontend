@@ -22,6 +22,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{Page, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import java.time.LocalDate
@@ -39,6 +40,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val penaltyNumber: String = penaltyData.penaltyNumber
   val periodStartDate: LocalDate = penaltyData.appealData.startDate
   val periodEndDate: LocalDate = penaltyData.appealData.endDate
+  val periodDueDate: LocalDate = penaltyData.appealData.dueDate
   val communicationSent: LocalDate = penaltyData.appealData.dateCommunicationSent
   val isLPP: Boolean = penaltyData.isLPP
   val isAdditional: Boolean = penaltyData.isAdditional
@@ -59,6 +61,18 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
 
   def lateAppealDays()(implicit appConfig: AppConfig): Int =
     if(userAnswers.getAnswer(ReasonableExcusePage).exists(_.contains("bereavement"))) appConfig.bereavementLateDays else appConfig.lateDays
+
+  def isAppealLate()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Boolean = {
+    val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(appConfig.daysRequiredForLateAppeal)
+
+    //TODO: This will be replaced by UserAnswers value in future story when page is built
+    if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
+      firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
+        secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
+    } else {
+      communicationSent.isBefore(dateWhereLateAppealIsApplicable)
+    }
+  }
 }
 
 object CurrentUserRequestWithAnswers {

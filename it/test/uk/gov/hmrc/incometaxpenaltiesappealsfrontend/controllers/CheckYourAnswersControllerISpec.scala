@@ -16,18 +16,21 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.ReasonableExcuseMessages
+import fixtures.messages.{English, ReasonableExcuseMessages}
 import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.Json
 import play.api.test.Helpers.LOCATION
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, PenaltiesStub}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 import java.time.LocalDate
@@ -36,6 +39,9 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
   with AuthStub with NavBarTesterHelper with PenaltiesStub {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
+
   val errorHandler = app.injector.instanceOf[ErrorHandler]
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
@@ -102,7 +108,10 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
           document.title() shouldBe "Check your answers - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe "Check your answers"
           document.select(Selectors.h2(1)).text() shouldBe "Appeal details"
           document.select(Selectors.summaryRowKey(1)).text() shouldBe ReasonableExcuseMessages.English.cyaKey
@@ -123,7 +132,10 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
           document.title() shouldBe "Check your answers - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+          document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe "Check your answers"
           document.select(Selectors.h2(1)).text() shouldBe "Appeal details"
           document.select(Selectors.summaryRowKey(1)).text() shouldBe ReasonableExcuseMessages.English.cyaKey

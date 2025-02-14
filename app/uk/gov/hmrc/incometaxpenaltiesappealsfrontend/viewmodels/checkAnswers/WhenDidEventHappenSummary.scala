@@ -33,7 +33,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
       WhenDidEventHappenPage.value.map { whenDidEventHappen =>
         summaryListRow(
           label = messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.key"),
-          value = Html(DateFormatter.dateNonBreakingSpaceSingle(dateToString(whenDidEventHappen))),
+          value = Html(dateToString(whenDidEventHappen)),
           actions = Some(Actions(
             items = Seq(
               ActionItem(

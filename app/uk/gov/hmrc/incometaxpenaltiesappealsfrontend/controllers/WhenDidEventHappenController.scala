@@ -46,7 +46,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
       Future(Ok(whenDidEventHappen(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
         reasonableExcuseMessageKey = reasonableExcuse,
-        isLPP = false //TODO: Need to determine this as part of a future story
+        isLPP = user.isLPP
       )))
     }
   }
@@ -58,7 +58,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
           Future.successful(BadRequest(whenDidEventHappen(
             reasonableExcuse,
             formWithErrors,
-            isLPP = false //TODO: Need to determine this as part of a future story
+            isLPP = user.isLPP
           ))),
         dateOfEvent => {
           val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)

@@ -21,12 +21,15 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status._
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 import java.time.LocalDate
@@ -36,6 +39,8 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   val testStartDate: LocalDate = LocalDate.of(2024, 3, 2)
 
@@ -88,7 +93,10 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "When did the software or technology issues end? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "When did the software or technology issues end?"
         document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
         document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
@@ -105,7 +113,10 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "When did the software or technology issues end? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "When did the software or technology issues end?"
         document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
         document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"

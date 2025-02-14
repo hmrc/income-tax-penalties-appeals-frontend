@@ -16,21 +16,20 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.Implicits.RichErrorSummary
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components.inputDate
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 @import java.time.LocalDate
-
 
 @this(layout: Layout,
         formHelper: FormWithCSRF,
         govukButton: GovukButton,
-        dateInput: inputDate,
-        govukErrorSummary: GovukErrorSummary)
+        govukErrorSummary: GovukErrorSummary,
+        dateInput: components.inputDate,
+        caption: components.PenaltyCaption)
 
-@(isAgent: Boolean, reasonableExcuseMessageKey: String,  form: Form[LocalDate])(implicit request: Request[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuseMessageKey: String,  form: Form[LocalDate])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages(s"whenDidEventEnd.$reasonableExcuseMessageKey.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -40,7 +39,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventEndController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+        @caption()
 
         @dateInput(
             form = form,

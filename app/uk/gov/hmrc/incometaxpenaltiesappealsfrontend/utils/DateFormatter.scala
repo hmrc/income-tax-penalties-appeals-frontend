@@ -22,19 +22,14 @@ import java.time.LocalDate
 
 trait DateFormatter {
 
-  def dateToString(date: LocalDate)(implicit messages: Messages): String = {
-    val dateNonBreaking = s"${date.getDayOfMonth} ${messages(s"month.${date.getMonthValue}")} ${date.getYear}"
-    dateNonBreaking.replace(" ", "\u00A0")
-  }
+  def dateToString(date: LocalDate)(implicit messages: Messages): String =
+    htmlNonBroken(s"${date.getDayOfMonth} ${messages(s"month.${date.getMonthValue}")} ${date.getYear}")
 
   def dateNonBreakingSpaceMultiple(from: String, to: String)(implicit messages: Messages): String =
-    messages(
-      "date.from.to",
-      htmlNonBroken(from).format(from),
-      htmlNonBroken(to).format(to)
-    )
+    htmlNonBroken(messages("date.from.to", from, to))
 
-  def dateNonBreakingSpaceSingle(date: String)(implicit messages: Messages): String = htmlNonBroken(date).format(date)
+  def dateNonBreakingSpaceSingle(date: String): String =
+    htmlNonBroken(date)
 
   def htmlNonBroken(string: String): String =
     string.replace(" ", "\u00A0")

@@ -18,7 +18,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
@@ -30,8 +30,9 @@
         formHelper: FormWithCSRF,
         govukCharacterCount: GovukCharacterCount,
         govukErrorSummary: GovukErrorSummary,
-        p:P,
-        h1: H1)
+        p: components.P,
+        h1: components.H1,
+        caption: components.PenaltyCaption)
 
 @(form: Form[_])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
@@ -43,7 +44,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+        @caption()
 
         @h1(s"lateAppeal.headingAndTitle", args = Seq(user.lateAppealDays()))
         @p(s"lateAppeal.p1", elmId = Some("infoDaysParagraph"), args = Seq(user.lateAppealDays()))

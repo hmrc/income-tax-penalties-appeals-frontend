@@ -17,21 +17,21 @@
 @import uk.gov.hmrc.govukfrontend.views.Implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 @this(
         layout: Layout,
         govukButton : GovukButton,
         govukErrorSummary: GovukErrorSummary,
         formHelper: FormWithCSRF,
-        govukRadios : GovukRadios
+        govukRadios : GovukRadios,
+        caption: components.PenaltyCaption
 )
 
-@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("agents.whoPlannedToSubmit.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -41,7 +41,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhoPlannedToSubmitController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+        @caption()
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(

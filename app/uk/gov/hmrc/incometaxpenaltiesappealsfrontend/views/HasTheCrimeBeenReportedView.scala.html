@@ -21,20 +21,22 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 
 @this(layout: Layout,
         govukButton : GovukButton,
         govukErrorSummary: GovukErrorSummary,
         formHelper: FormWithCSRF,
-        govukRadios : GovukRadios)
+        govukRadios : GovukRadios,
+        caption: components.PenaltyCaption)
 
 @(
         form: Form[_],
         isLate: Boolean,
         isAgent: Boolean,
         reasonableExcuseMessageKey: String
-)(implicit request: Request[_], messages: Messages)
+)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("crime.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -44,7 +46,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CrimeReportedController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+        @caption()
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(

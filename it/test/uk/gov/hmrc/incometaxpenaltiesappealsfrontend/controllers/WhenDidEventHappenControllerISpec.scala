@@ -21,11 +21,14 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 import java.time.LocalDate
@@ -33,6 +36,8 @@ import java.time.LocalDate
 class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -104,7 +109,10 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
           document.getServiceName.text() shouldBe WhenDidEventHappenMessages.English.serviceName
           document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = false, wasClientInformationIssue = false))
-          document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.caption("6 July 2027", "5 October 2027")
+          document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = false, wasClientInformationIssue = false)
           document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
           document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
@@ -123,7 +131,10 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
           document.getServiceName.text() shouldBe WhenDidEventHappenMessages.English.serviceName
           document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = true, wasClientInformationIssue = false))
-          document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.caption("6 July 2027", "5 October 2027")
+          document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
           document.getH1Elements.text() shouldBe WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = true, wasClientInformationIssue = false)
           document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
           document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
