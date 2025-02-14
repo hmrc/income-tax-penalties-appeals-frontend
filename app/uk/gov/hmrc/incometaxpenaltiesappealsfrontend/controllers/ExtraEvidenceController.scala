@@ -19,9 +19,10 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{UpscanService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -31,6 +32,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
                                         val authorised: AuthAction,
+                                        upscanService: UpscanService,
                                         withNavBar: NavBarRetrievalAction,
                                         withAnswers: UserAnswersAction,
                                         userAnswersService: UserAnswersService,
@@ -62,9 +64,14 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
         },
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
-        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-//          TODO: add correct route for yes/no answer
-          Redirect(routes.LateAppealController.onPageLoad())
+        userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
+          if (value) {
+            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad()))
+          } else {
+            upscanService.removeAllFiles(user.journeyId).map(_ =>
+              Redirect(controllers.routes.LateAppealController.onPageLoad())
+            )
+          }
         }
       }
     )

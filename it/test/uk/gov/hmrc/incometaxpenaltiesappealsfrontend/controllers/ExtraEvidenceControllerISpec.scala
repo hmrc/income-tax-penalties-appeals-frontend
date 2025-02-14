@@ -22,8 +22,8 @@ import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ExtraEvidenceEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
@@ -51,7 +51,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in {
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, ExtraEvidenceEnum.yes)).futureValue
+        userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, true)).futureValue
 
         val result = get("/upload-extra-evidence")
         result.status shouldBe OK
@@ -113,16 +113,28 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
     "the radio option posted is valid" should {
 
-      "save the value to UserAnswers AND redirect to the LateAppeal page" in {
+      "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
-        val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> ExtraEvidenceEnum.yes))
+        val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> true))
+
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url)
+
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
+      }
+
+      "save the value to UserAnswers AND redirect to the LateAppeal page if the answer is 'No'" in {
+
+        stubAuth(OK, successfulIndividualAuthResponse)
+
+        val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
         result.status shouldBe SEE_OTHER
         result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
 
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(ExtraEvidenceEnum.yes)
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
       }
     }
 

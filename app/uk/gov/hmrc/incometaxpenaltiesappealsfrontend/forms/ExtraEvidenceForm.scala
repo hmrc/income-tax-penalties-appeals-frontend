@@ -20,19 +20,18 @@ import play.api.data.Form
 import play.api.data.Forms.single
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ExtraEvidenceEnum
 
-import scala.util.Try
 
 object ExtraEvidenceForm extends Mappings {
 
   val key = "extraEvidence"
 
-  def form()(implicit messages: Messages): Form[ExtraEvidenceEnum.Value] = Form[ExtraEvidenceEnum.Value](
+  def form()(implicit messages: Messages): Form[Boolean] = Form[Boolean](
     single(
-      ExtraEvidenceForm.key -> text(messages("extraEvidence.error.required"))
-        .verifying(messages("extraEvidence.error.invalid"), value => Try(ExtraEvidenceEnum.withName(value)).isSuccess)
-        .transform[ExtraEvidenceEnum.Value](ExtraEvidenceEnum.withName, _.toString)
+      key -> boolean(
+        requiredKey = messages("extraEvidence.error.required"),
+        invalidKey = messages("extraEvidence.error.required")
+      )
     )
   )
 }

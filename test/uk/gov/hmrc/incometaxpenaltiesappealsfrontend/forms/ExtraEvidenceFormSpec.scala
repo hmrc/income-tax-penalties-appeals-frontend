@@ -23,7 +23,6 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ExtraEvidenceEnum
 
 class ExtraEvidenceFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours {
 
@@ -36,7 +35,7 @@ class ExtraEvidenceFormSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[ExtraEvidenceEnum.Value] = ExtraEvidenceForm.form()
+      val form: Form[Boolean] = ExtraEvidenceForm.form()
 
       "bind" when {
 
@@ -47,9 +46,9 @@ class ExtraEvidenceFormSpec extends AnyWordSpec with should.Matchers with GuiceO
         )
 
         "bind valid values" in {
-          ExtraEvidenceEnum.values.foreach { value =>
-            val result = form.bind(Map(ExtraEvidenceForm.key -> value.toString))
-            result.value shouldBe Some(value)
+          Seq("true", "false").foreach  { value =>
+            val result = form.bind(Map(ExtraEvidenceForm.key -> value))
+            result.value shouldBe Some(value.toBoolean)
           }
         }
 

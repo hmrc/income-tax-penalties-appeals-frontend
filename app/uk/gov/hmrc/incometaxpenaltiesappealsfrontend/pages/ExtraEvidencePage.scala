@@ -16,8 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ExtraEvidenceEnum
-
-object ExtraEvidencePage extends Page[ExtraEvidenceEnum.Value] {
+object ExtraEvidencePage extends Page[Boolean] {
   val key = "extraEvidence"
 }
