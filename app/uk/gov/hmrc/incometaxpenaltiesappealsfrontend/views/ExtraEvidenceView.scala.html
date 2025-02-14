@@ -1,0 +1,70 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
+
+@this(
+        layout: Layout,
+        govukErrorSummary: GovukErrorSummary,
+        govukButton: GovukButton,
+        formHelper: FormWithCSRF,
+        govukRadios : GovukRadios
+)
+
+@(form: Form[_],
+        isLate: Boolean,
+        isAgent: Boolean,
+        reasonableExcuseMessageKey: String
+)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+
+@layout(pageTitle = Some(titleBuilder(messages("extraEvidence.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
+
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit()) {
+
+        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+
+            @govukRadios(Radios(
+                fieldset = Some(Fieldset(
+                    legend = Some(Legend(
+                        content = Text(messages("extraEvidence.headingAndTitle")),
+                        classes = "govuk-fieldset__legend--l",
+                        isPageHeading = true
+                    ))
+                )),
+                name = ExtraEvidenceForm.key,
+                hint = Some(Hint(content = Text(messages("extraEvidence.hint")))),
+                items = YesNoRadioHelper.radios(),
+                classes = "govuk-radios--inline"
+            ).withFormField(form(ExtraEvidenceForm.key)))
+
+
+            <div class="govuk-form-group">
+                @govukButton(Button(content = Text(messages("common.continue"))))
+            </div>
+    }
+}
