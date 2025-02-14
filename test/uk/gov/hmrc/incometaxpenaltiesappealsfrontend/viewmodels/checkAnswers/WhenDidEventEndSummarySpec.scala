@@ -60,7 +60,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
             "when there's no answer" should {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
                 WhenDidEventEndSummary.row() shouldBe None
               }
             }
@@ -72,7 +72,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                 "must output the expected row" in {
 
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUserAnswers
+                    emptyUerAnswersWithLSP
                       .setAnswer(ReasonableExcusePage, reason)
                       .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                   )
@@ -95,7 +95,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
                 "return None" in {
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUserAnswers
+                    emptyUerAnswersWithLSP
                       .setAnswer(ReasonableExcusePage, reason)
                       .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                   )

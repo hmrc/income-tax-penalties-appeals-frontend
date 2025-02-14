@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.BaseFixtures
 import fixtures.messages.WhoPlannedToSubmitMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -24,13 +25,12 @@ import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper with BaseFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
@@ -38,7 +38,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId))
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP)
     super.beforeEach()
   }
 
@@ -50,7 +50,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
       "the user is an authorised agent AND the page has already been answered" in {
         stubAuth(OK, successfulAgentAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+          emptyUerAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
         ).futureValue
 
         val result = get("/who-planned-to-submit", isAgent = true)

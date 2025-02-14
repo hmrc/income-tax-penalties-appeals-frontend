@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.BaseFixtures
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -34,7 +35,7 @@ import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with LogCapturing {
+class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with LogCapturing with BaseFixtures {
 
   implicit lazy val ec: ExecutionContext = ExecutionContext.global
   lazy val errHandler: ErrorHandler = app.injector.instanceOf[ErrorHandler]
@@ -56,7 +57,8 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
 
         implicit val user: CurrentUserRequestWithAnswers[_] = CurrentUserRequestWithAnswers(
           mtdItId = "123456789",
-          userAnswers = UserAnswers("1234").setAnswer(testPage, "foo")
+          userAnswers = UserAnswers("1234").setAnswer(testPage, "foo"),
+          penaltyData = penaltyDataLSP
         )(FakeRequest())
 
         "execute the function with that answer" in {
@@ -72,7 +74,8 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
 
         implicit val user: CurrentUserRequestWithAnswers[_] = CurrentUserRequestWithAnswers(
           mtdItId = "123456789",
-          userAnswers = UserAnswers("1234")
+          userAnswers = UserAnswers("1234"),
+          penaltyData = penaltyDataLSP
         )(FakeRequest())
 
         //TODO: In future, redirect to SessionTimeout, or JourneyExpired page???

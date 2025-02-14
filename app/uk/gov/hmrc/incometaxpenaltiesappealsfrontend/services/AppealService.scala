@@ -96,18 +96,17 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                   )(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val files = if(reasonableExcuse == "other") upscanService.getAllReadyFiles(request.journeyId) else Future.successful(Seq.empty)
     files.flatMap { uploadedFiles =>
-      val appealType = request.session.get(IncomeTaxSessionKeys.appealType).map(PenaltyTypeEnum.withName)
-      val isLPP = appealType.contains(PenaltyTypeEnum.Late_Payment) || appealType.contains(PenaltyTypeEnum.Additional)
-      if (!request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString) && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
-        multipleAppeal(mtdItId, isLPP, optArn, reasonableExcuse, uploadedFiles)
+      if (request.penaltyData.appealData.`type` != PenaltyTypeEnum.Late_Submission && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
+        multipleAppeal(mtdItId, request.isLPP, optArn, reasonableExcuse, uploadedFiles)
       } else {
-        singleAppeal(mtdItId, isLPP, optArn, reasonableExcuse, uploadedFiles)
+        singleAppeal(mtdItId, request.isLPP, optArn, reasonableExcuse, uploadedFiles)
       }
     }
   }
 
 
-  private def singleAppeal(mtdItId: String, isLPP: Boolean,
+  private def singleAppeal(mtdItId: String,
+                           isLPP: Boolean,
                            agentReferenceNo: Option[String],
                            reasonableExcuse: String,
                            uploadedFiles: Seq[UploadJourney]
@@ -122,9 +121,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
         mtdItId = mtdItId
       )
 
-    val penaltyNumber = request.userAnswers.getAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber).getOrElse(throw new RuntimeException("[AppealService][singleAppeal] Penalty number not found in session"))
-
-    penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, penaltyNumber, correlationId, isMultiAppeal = false).map {
+    penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false).map {
       case Left(error) =>
         logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
         Left(error.status)
@@ -155,10 +152,9 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
       mtdItId = mtdItId
     )
-    val firstPenaltyNumber = request.session.get(IncomeTaxSessionKeys.firstPenaltyChargeReference).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
-    val secondPenaltyNumber = request.session.get(IncomeTaxSessionKeys.secondPenaltyChargeReference).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Second penalty number not found in session"))
-    val dateFrom = request.session.get(IncomeTaxSessionKeys.startDateOfPeriod).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Start date of period not found in session"))
-    val dateTo = request.session.get(IncomeTaxSessionKeys.endDateOfPeriod).getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] End date of period not found in session"))
+
+    val firstPenaltyNumber = request.firstPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
+    val secondPenaltyNumber = request.secondPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Second penalty number not found in session"))
 
     for {
       firstResponse <- penaltiesConnector.submitAppeal(modelFromRequest, mtdItId, isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
@@ -166,16 +162,16 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     } yield {
       (firstResponse, secondResponse) match {
         case (Right(_), Right(_)) =>
-          logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId, mtdItId, dateFrom, dateTo)
+          logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId)
           // TODO implement auditing
           Right((): Unit)
         case (Right(firstResponseModel), Left(secondResponseModel)) =>
-          logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId, mtdItId, dateFrom, dateTo)
+          logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId)
           // TODO implement auditing
           logger.debug(s"[AppealService][multipleAppeal] - First penalty was $firstResponseModel, second penalty was $secondResponseModel")
           Right((): Unit)
         case (Left(firstResponseModel), Right(secondResponseModel)) =>
-          logPartialFailureOfMultipleAppeal(Left(firstResponseModel), Right(secondResponseModel), firstCorrelationId, secondCorrelationId, mtdItId, dateFrom, dateTo)
+          logPartialFailureOfMultipleAppeal(Left(firstResponseModel), Right(secondResponseModel), firstCorrelationId, secondCorrelationId)
           // TODO implement auditing
           logger.debug(s"[AppealService][multipleAppeal] - Second penalty was $secondResponseModel, first penalty was $firstResponseModel")
           Right((): Unit)
@@ -194,20 +190,21 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       Left(INTERNAL_SERVER_ERROR)
   }
 
-  def isAppealLate(implicit request: Request[_]): Boolean = {
+  def isAppealLate(implicit request: CurrentUserRequestWithAnswers[_]): Boolean = {
     val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(appConfig.daysRequiredForLateAppeal)
 
     if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
-      request.session.get(IncomeTaxSessionKeys.firstPenaltyCommunicationDate).map(LocalDate.parse).exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
-        request.session.get(IncomeTaxSessionKeys.secondPenaltyCommunicationDate).map(LocalDate.parse).exists(_.isBefore(dateWhereLateAppealIsApplicable))
+      request.firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
+        request.secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
     } else {
-      request.session.get(IncomeTaxSessionKeys.dateCommunicationSent).map(LocalDate.parse).exists(_.isBefore(dateWhereLateAppealIsApplicable))
+      request.communicationSent.isBefore(dateWhereLateAppealIsApplicable)
     }
   }
 
   private def logPartialFailureOfMultipleAppeal(lpp1Response: Either[ErrorResponse, AppealSubmissionResponseModel],
                                                 lpp2Response: Either[ErrorResponse, AppealSubmissionResponseModel],
-                                                firstCorrelationId: String, secondCorrelationId: String, mtdItId: String, dateFrom: String, dateTo: String): Unit = {
+                                                firstCorrelationId: String,
+                                                secondCorrelationId: String)(implicit request: CurrentUserRequestWithAnswers[_]): Unit = {
     val isSuccess = lpp1Response.exists(_.status == OK) && lpp2Response.exists(_.status == OK)
     if (!isSuccess) {
       val lpp1Message = lpp1Response match {
@@ -222,7 +219,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
         case Left(model) => s"LPP2 appeal was not submitted successfully, Reason given ${model.body}. Correlation ID for LPP2: $secondCorrelationId. "
         case _ => throw new MatchError(s"[AppealService][logPartialFailureOfMultipleAppeal] - unknown lpp2 response $lpp2Response")
       }
-      logger.error(s"${PagerDutyKeys.MULTI_APPEAL_FAILURE} Multiple appeal covering $dateFrom-$dateTo for user with MTDITID $mtdItId failed. " + lpp1Message + lpp2Message)
+      logger.error(s"${PagerDutyKeys.MULTI_APPEAL_FAILURE} Multiple appeal covering ${request.periodStartDate}-${request.periodEndDate} for user with MTDITID ${request.mtdItId} failed. " + lpp1Message + lpp2Message)
     }
   }
 

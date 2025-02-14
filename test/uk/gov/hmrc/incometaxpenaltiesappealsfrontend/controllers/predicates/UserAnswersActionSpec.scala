@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates
 
+import fixtures.BaseFixtures
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -25,8 +26,9 @@ import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockSessionService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 
@@ -34,7 +36,7 @@ import java.time.Instant
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
 
 class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite
-  with MockSessionService {
+  with MockSessionService with BaseFixtures {
 
   implicit lazy val ec: ExecutionContextExecutor = ExecutionContext.global
 
@@ -88,24 +90,48 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
         }
       }
 
-      "UserAnswers are returned from the UserAnswers service" should {
+      "UserAnswers are returned from the UserAnswers service" when {
 
-        val testUserAnswers = UserAnswers(
-          journeyId = testJourneyId,
-          data = Json.obj(),
-          lastUpdated = Instant.ofEpochMilli(1)
-        )
+        "the UserAnswers contains penalty appeal data" should {
 
-        "execute the block adding the answers to the UserRequest" in {
+          val testUserAnswers = UserAnswers(
+            journeyId = testJourneyId,
+            data = Json.obj(),
+            lastUpdated = Instant.ofEpochMilli(1)
+          ).setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
 
-          mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
+          "execute the block adding the answers to the UserRequest" in {
 
-          val userRequest = CurrentUserRequest("1234567890")
+            mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
 
-          val result = testAction.invokeBlock(userRequest, block)
+            val userRequest = CurrentUserRequest("1234567890")
 
-          status(result) shouldBe OK
-          contentAsJson(result) shouldBe Json.toJson(testUserAnswers)
+            val result = testAction.invokeBlock(userRequest, block)
+
+            status(result) shouldBe OK
+            contentAsJson(result) shouldBe Json.toJson(testUserAnswers)
+          }
+        }
+
+        "the UserAnswers contains NO penalty appeal data" should {
+
+          val testUserAnswers = UserAnswers(
+            journeyId = testJourneyId,
+            data = Json.obj(),
+            lastUpdated = Instant.ofEpochMilli(1)
+          )
+
+          "redirect to the penalties frontend" in {
+
+            mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
+
+            val userRequest = CurrentUserRequest("1234567890")
+
+            val result = testAction.invokeBlock(userRequest, block)
+
+            status(result) shouldBe SEE_OTHER
+            redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage)
+          }
         }
       }
     }

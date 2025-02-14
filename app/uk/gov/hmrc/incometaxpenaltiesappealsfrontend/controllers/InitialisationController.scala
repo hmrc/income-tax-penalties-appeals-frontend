@@ -17,36 +17,61 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.i18n.I18nSupport
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequest, PenaltyData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class InitialisationController @Inject()(val authorised: AuthAction,
                                          override val controllerComponents: MessagesControllerComponents,
                                          userAnswersService: UserAnswersService,
+                                         appealService: AppealService,
+                                         errorHandler: ErrorHandler,
                                          uuid: UUIDGenerator
                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(penaltyId: String): Action[AnyContent] = authorised.async { implicit user =>
+  def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean): Action[AnyContent] = authorised.async { implicit user =>
+    for {
+      appealData <- appealService.validatePenaltyIdForEnrolmentKey(penaltyId, isLPP, isAdditional, user.mtdItId)
+      multiPenaltyData <- if (isLPP) appealService.validateMultiplePenaltyDataForEnrolmentKey(penaltyId, user.mtdItId) else Future.successful(None)
+      result <- appealData match {
+        case Some(data) =>
+          storyPenaltyDataAndRedirect(penaltyId, data, multiPenaltyData)
+        case None =>
+          logger.warn(s"[InitialisationController][onPageLoad] No appeal data found for penaltyId: $penaltyId")
+          errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+      }
+    } yield result
+  }
 
-    //TODO: In future story, this controller will need to validate that the penaltyId exists for the User and is in a valid state to be appealed
+  private def storyPenaltyDataAndRedirect(penaltyId: String,
+                                          appealModel: AppealData,
+                                          multiPenaltiesModel: Option[MultiplePenaltiesData] = None)(implicit user: CurrentUserRequest[_]): Future[Result] = {
 
     val journeyId = uuid.generateUUID
     logger.debug(s"[InitialisationController][onPageLoad] Starting journey for penaltyId: $penaltyId, created journeyId: $journeyId")
 
-    val answers = UserAnswers(journeyId)
-      .setAnswerForKey(IncomeTaxSessionKeys.penaltyNumber, penaltyId)
+    val answers = UserAnswers(journeyId).setAnswerForKey[PenaltyData](
+      IncomeTaxSessionKeys.penaltyData,
+      PenaltyData(
+        penaltyId,
+        appealModel,
+        multiPenaltiesModel
+      )
+    )
 
     userAnswersService.updateAnswers(answers).map { _ =>
       Redirect(routes.AppealStartController.onPageLoad())
-        .addingToSession(IncomeTaxSessionKeys.journeyId -> journeyId)
+        .addingToSession((IncomeTaxSessionKeys.journeyId, journeyId))
     }
   }
 }

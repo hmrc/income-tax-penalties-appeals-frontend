@@ -25,11 +25,10 @@ import play.api.libs.json.Json
 import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, PenaltiesStub}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 import java.time.LocalDate
 
@@ -64,7 +63,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   for (reason <- reasonsList) {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reason)
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
 
     s"GET /check-your-answers with reasonableExcuse='$reason'" should {
 
@@ -143,8 +142,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the Appeals Submission model can be constructed successfully" when {
 
         lazy val userAnswers =
-          UserAnswers(testJourneyId)
-            .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "1")
+          emptyUerAnswersWithLSP
             .setAnswer(ReasonableExcusePage, "fireOrFlood")
             .setAnswer(HonestyDeclarationPage, true)
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
@@ -154,7 +152,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
             stubAuth(OK, successfulIndividualAuthResponse)
             userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-            successfulAppealSubmission(testMtdItId, isLPP = false, "1")
+            successfulAppealSubmission(testMtdItId, isLPP = false, penaltyDataLSP.penaltyNumber)
 
             val result = post("/check-your-answers")(Json.obj())
 
@@ -181,8 +179,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the Appeals Submission model can NOT be constructed successfully" when {
 
         lazy val userAnswers =
-          UserAnswers(testJourneyId)
-            .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "1")
+          emptyUerAnswersWithLSP
             .setAnswer(HonestyDeclarationPage, true)
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
 

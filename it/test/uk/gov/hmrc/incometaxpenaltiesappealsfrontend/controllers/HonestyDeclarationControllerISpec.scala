@@ -22,7 +22,6 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.libs.json.Json
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -62,7 +61,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
   for(reason <- reasonsList) {
 
     val userAnswersWithReason =
-      UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reason._1)
+      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
 
     s"GET /honesty-declaration with ${reason._1}" should {
 
@@ -135,16 +134,14 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
     "redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers" in {
 
       stubAuth(OK, successfulIndividualAuthResponse)
-      userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId)).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
 
       val result = post("/honesty-declaration")(Json.obj())
 
       result.status shouldBe SEE_OTHER
       result.header("Location") shouldBe Some(routes.WhenDidEventHappenController.onPageLoad().url)
 
-      userAnswersRepo.getUserAnswer(testJourneyId).futureValue.map(_.data) shouldBe Some(Json.obj(
-        HonestyDeclarationPage.key -> true
-      ))
+      userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HonestyDeclarationPage)) shouldBe Some(true)
     }
   }
 }

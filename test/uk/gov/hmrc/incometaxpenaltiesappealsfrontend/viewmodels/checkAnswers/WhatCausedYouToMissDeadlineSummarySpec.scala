@@ -45,7 +45,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
         "when the request is not for an Agent (even if there's an answer saved)" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent))
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent))
             WhatCausedYouToMissDeadlineSummary.row() shouldBe None
           }
         }
@@ -53,7 +53,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
         "when there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUserAnswers)
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUerAnswersWithLSP)
             WhatCausedYouToMissDeadlineSummary.row() shouldBe None
           }
         }
@@ -63,7 +63,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
           "must output the expected row" in {
 
             implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
-              emptyUserAnswers.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+              emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
             )
 
             WhatCausedYouToMissDeadlineSummary.row() shouldBe Some(summaryListRow(

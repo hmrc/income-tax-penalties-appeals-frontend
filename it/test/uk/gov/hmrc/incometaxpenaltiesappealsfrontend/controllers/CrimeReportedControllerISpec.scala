@@ -36,7 +36,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  val crimeAnswers: UserAnswers = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "crime")
+  val crimeAnswers: UserAnswers = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "crime")
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue

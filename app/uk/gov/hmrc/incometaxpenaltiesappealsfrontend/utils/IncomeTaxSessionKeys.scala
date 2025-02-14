@@ -17,22 +17,21 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
 object IncomeTaxSessionKeys {
+
+  //Global keys that are used across MTD programme
   val origin = "Origin"
-  val appealType = "appealType"
-  val pocAchievementDate = "pocAchievementDate"
-  val startDateOfPeriod = "periodStart"
-  val endDateOfPeriod = "periodEnd"
-  val dateCommunicationSent = "dateCommunicationSent"
-  val penaltyNumber = "penaltyNumber"
+  val agentSessionMtditid = "ClientMTDID"
+
+  //Local keys that are only used for ITSAPR.
+  val appealType = "ITSAPR_AppealType"
+  val pocAchievementDate = "ITSAPR_pocAchievementDate"
+  val journeyId = "ITSAPR_journeyId"
+  val penaltyData = "ITSAPR_penaltyData"
+
+  //TODO: Remove all these when their answer has been moved into UserAnswers
+  val whyReturnSubmittedLate = "whyReturnSubmittedLate"
   val wasHospitalStayRequired = "wasHospitalStayRequired"
   val hasHealthEventEnded = "hasHealthEventEnded"
-  val whyReturnSubmittedLate = "whyReturnSubmittedLate"
-  val agentSessionMtditid = "ClientMTDID"
-  val journeyId = "journeyId"
   val isUploadEvidence = "isUploadEvidence"
   val doYouWantToAppealBothPenalties = "doYouWantToAppealBothPenalties"
-  val firstPenaltyChargeReference = "firstPenaltyChargeReference"
-  val secondPenaltyChargeReference = "secondPenaltyChargeReference"
-  val firstPenaltyCommunicationDate = "firstPenaltyCommunicationDate"
-  val secondPenaltyCommunicationDate = "secondPenaltyCommunicationDate"
 }

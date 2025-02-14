@@ -57,7 +57,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
             "when there's no answer" should {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
                 ReasonableExcuseSummary.row() shouldBe None
               }
             }
@@ -67,7 +67,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
               "must output the expected row" in {
 
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                  emptyUserAnswers.setAnswer(ReasonableExcusePage, reason)
+                  emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
                 )
 
                 ReasonableExcuseSummary.row() shouldBe Some(summaryListRow(

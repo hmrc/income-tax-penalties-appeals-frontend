@@ -23,7 +23,6 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -54,7 +53,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
   for (reason <- reasonsList) {
 
     val userAnswersWithReason =
-      UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, reason._1)
+      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
 
     s"GET /making-a-late-appeal with ${reason._1}" should {
 
@@ -132,7 +131,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
   "POST /making-a-late-appeal" when {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
 
     "the text area content is valid" should {
 

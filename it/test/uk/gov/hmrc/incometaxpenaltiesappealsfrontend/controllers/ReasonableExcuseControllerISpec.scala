@@ -23,7 +23,6 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -38,7 +37,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId)).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
     super.beforeEach()
   }
 
@@ -49,7 +48,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
+          emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
@@ -119,7 +118,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   "POST /reason-for-missing-deadline" when {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
 
     "a valid radio option has been selected" should {
 

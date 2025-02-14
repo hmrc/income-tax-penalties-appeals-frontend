@@ -36,7 +36,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  val otherAnswers: UserAnswers = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "other")
+  val otherAnswers: UserAnswers = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other")
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue

@@ -24,7 +24,6 @@ import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -38,7 +37,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId))
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP)
     super.beforeEach()
   }
 
@@ -50,7 +49,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
       "the user is an authorised agent AND the page has already been answered" in {
         stubAuth(OK, successfulAgentAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+          emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
         ).futureValue
 
         val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)

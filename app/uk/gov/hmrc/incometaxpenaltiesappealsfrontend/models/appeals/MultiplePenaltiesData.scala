@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals
 
-import play.api.libs.json.{Json, Reads}
+import play.api.libs.json.{Format, Json}
 
 import java.time.LocalDate
 
@@ -30,5 +30,5 @@ case class MultiplePenaltiesData(
                                 )
 
 object MultiplePenaltiesData {
-  implicit val format: Reads[MultiplePenaltiesData] = Json.reads[MultiplePenaltiesData]
+  implicit val format: Format[MultiplePenaltiesData] = Json.format[MultiplePenaltiesData]
 }
