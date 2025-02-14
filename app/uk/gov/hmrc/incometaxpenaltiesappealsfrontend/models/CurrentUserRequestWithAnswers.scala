@@ -63,7 +63,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
     if(userAnswers.getAnswer(ReasonableExcusePage).exists(_.contains("bereavement"))) appConfig.bereavementLateDays else appConfig.lateDays
 
   def isAppealLate()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Boolean = {
-    val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(appConfig.daysRequiredForLateAppeal)
+    val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(lateAppealDays())
 
     //TODO: This will be replaced by UserAnswers value in future story when page is built
     if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {

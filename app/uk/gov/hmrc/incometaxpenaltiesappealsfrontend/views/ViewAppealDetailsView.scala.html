@@ -44,7 +44,7 @@
             @messages("viewAppealDetails.penaltyAppealed")
           </dt>
           <dd class="govuk-summary-list__value">
-              Late payment penalty: @DateFormatter.dateNonBreakingSpaceMultiple("2027", "2028") tax year
+              Late payment penalty: @DateFormatter.htmlNonBroken("2027 to 2028") tax year
           </dd>
         </div>
         <div class="govuk-summary-list__row" id="appealDate">
@@ -52,7 +52,7 @@
               @messages("viewAppealDetails.appealDate")
           </dt>
           <dd class="govuk-summary-list__value">
-             @DateFormatter.dateNonBreakingSpaceSingle("17 March 2029")
+             @DateFormatter.htmlNonBroken("17 March 2029")
           </dd>
         </div>
          @if(isAgent) {
@@ -86,7 +86,7 @@
             @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.key")
             </dt>
             <dd class="govuk-summary-list__value">
-                @DateFormatter.dateNonBreakingSpaceSingle("20 January 2029")
+                @DateFormatter.htmlNonBroken("20 January 2029")
             </dd>
         </div>
         @if(reasonableExcuseMessageKey == "technicalIssues") {
@@ -95,7 +95,7 @@
                 @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.end.key")
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    @DateFormatter.dateNonBreakingSpaceSingle("20 February 2029")
+                    @DateFormatter.htmlNonBroken("20 February 2029")
                 </dd>
             </div>
         }

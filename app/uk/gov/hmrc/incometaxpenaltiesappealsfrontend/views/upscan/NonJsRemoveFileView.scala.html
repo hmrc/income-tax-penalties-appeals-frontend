@@ -17,21 +17,22 @@
 @import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFileForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.{ErrorSummaryViewModel, UploadedFilesViewModel}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 @this(
         layout: Layout,
         formHelper: FormWithCSRF,
         govukErrorSummary: GovukErrorSummary,
         govukRadios: GovukRadios,
-        govukButton: GovukButton
+        govukButton: GovukButton,
+        caption: components.PenaltyCaption
 )
 
-@(form: Form[_], file: UploadedFilesViewModel, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], file: UploadedFilesViewModel, postAction: Call)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(pageTitle = Some(titleBuilder(messages("uploadRemoveFile.nonJs.headingAndTitle", file.index), Some(form)))) {
 
@@ -39,7 +40,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+    @caption()
 
     @formHelper(action = postAction) {
 

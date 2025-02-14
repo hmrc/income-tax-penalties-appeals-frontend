@@ -6,10 +6,8 @@ govuk.suffix = GOV.UK
 alphaBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
 alphaBanner.linkText = feedback (Welsh)
 
-date.from.to = {0} i {1}
-
-service.lsp.caption = Late submission penalty point: {0} (Welsh)
-service.lpp.caption = Late payment penalty: {0} (Welsh)
+service.lsp.caption = Late submission penalty point: {0} to {1} (Welsh)
+service.lpp.caption = Late payment penalty: {0} to {1} (Welsh)
 
 appeal.start.header = Appeal a Self Assessment penalty (Welsh)
 appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again. (Welsh)

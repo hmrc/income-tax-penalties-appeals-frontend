@@ -70,7 +70,11 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
             Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad()))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
-              Redirect(controllers.routes.LateAppealController.onPageLoad())
+              if(user.isAppealLate()) {
+                Redirect(routes.LateAppealController.onPageLoad())
+              } else {
+                Redirect(routes.CheckYourAnswersController.onPageLoad())
+              }
             )
           }
         }

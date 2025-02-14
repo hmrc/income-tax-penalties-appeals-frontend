@@ -34,7 +34,7 @@
 
     @govukPanel(Panel(
         title = Text(messages("appealConfirmation.headingAndTitle")),
-        content = HtmlContent(messages("appealConfirmation.typeAndPeriod", "Late payment penalty", DateFormatter.dateNonBreakingSpaceSingle("2027 to 2028")))
+        content = HtmlContent(messages("appealConfirmation.typeAndPeriod", "Late payment penalty", DateFormatter.htmlNonBroken("2027 to 2028")))
     ))
 
     @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))

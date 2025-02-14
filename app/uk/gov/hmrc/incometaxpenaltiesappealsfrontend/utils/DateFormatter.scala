@@ -25,12 +25,6 @@ trait DateFormatter {
   def dateToString(date: LocalDate)(implicit messages: Messages): String =
     htmlNonBroken(s"${date.getDayOfMonth} ${messages(s"month.${date.getMonthValue}")} ${date.getYear}")
 
-  def dateNonBreakingSpaceMultiple(from: String, to: String)(implicit messages: Messages): String =
-    htmlNonBroken(messages("date.from.to", from, to))
-
-  def dateNonBreakingSpaceSingle(date: String): String =
-    htmlNonBroken(date)
-
   def htmlNonBroken(string: String): String =
     string.replace(" ", "\u00A0")
 

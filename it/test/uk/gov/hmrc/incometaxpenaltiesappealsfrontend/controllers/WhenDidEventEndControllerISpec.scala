@@ -25,12 +25,13 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
 
 import java.time.LocalDate
 
@@ -39,28 +40,42 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   val testStartDate: LocalDate = LocalDate.of(2024, 3, 2)
 
-  val userAnswer: UserAnswers = emptyUerAnswersWithLSP
-    .setAnswer(ReasonableExcusePage, "technicalIssues")
-    .setAnswer(WhenDidEventHappenPage, testStartDate)
+  class Setup(isLate: Boolean = false) {
 
-  override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+
+    val userAnswer: UserAnswers = emptyUserAnswers
+      .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
+        appealData = lateSubmissionAppealData.copy(
+          dateCommunicationSent =
+            if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
+            else        timeMachine.getCurrentDate.minusDays(1)
+        )
+      ))
+      .setAnswer(ReasonableExcusePage, "technicalIssues")
+      .setAnswer(WhenDidEventHappenPage, testStartDate)
+
     userAnswersRepo.upsertUserAnswer(userAnswer).futureValue
-    super.beforeEach()
   }
 
   "GET /when-did-the-event-end" should {
 
-    testNavBar(url = "/when-did-the-event-end")()
+    testNavBar(url = "/when-did-the-event-end")(
+      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP
+        .setAnswer(ReasonableExcusePage, "technicalIssues")
+        .setAnswer(WhenDidEventHappenPage, testStartDate)
+      ).futureValue
+    )
 
     "return an OK with a view" when {
 
-      "the user is an authorised individual AND the page has already been answered" in {
+      "the user is an authorised individual AND the page has already been answered" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(userAnswer.setAnswer(WhenDidEventEndPage, LocalDate.of(2024, 4, 2))).futureValue
         val result = get("/when-did-the-event-end")
@@ -72,7 +87,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.getElementById(s"${WhenDidEventEndForm.key + ".year"}").`val`() shouldBe "2024"
       }
 
-      "the user is an authorised agent AND page NOT already answered" in {
+      "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
         val result = get("/when-did-the-event-end", isAgent = true)
 
@@ -85,7 +100,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
     }
 
     "the page has the correct elements" when {
-      "the user is an authorised individual" in {
+      "the user is an authorised individual" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/when-did-the-event-end")
 
@@ -105,7 +120,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
-      "the user is an authorised agent" in {
+      "the user is an authorised agent" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
         val result = get("/when-did-the-event-end", isAgent = true)
 
@@ -130,25 +145,44 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
   "POST /when-did-the-event-end" when {
 
     "the date is valid" should {
-      "save the value to UserAnswers AND redirect to the making-a-late-appeal page" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+      "save the value to UserAnswers AND redirect" when {
+        "the appeal is late" should {
+          "redirect to the LateAppeal page" in new Setup(isLate = true) {
+            stubAuth(OK, successfulIndividualAuthResponse)
 
-        val result = post("/when-did-the-event-end")(Map(
-          WhenDidEventEndForm.key + ".day" -> "02",
-          WhenDidEventEndForm.key + ".month" -> "04",
-          WhenDidEventEndForm.key + ".year" -> "2024"))
+            val result = post("/when-did-the-event-end")(Map(
+              WhenDidEventEndForm.key + ".day" -> "02",
+              WhenDidEventEndForm.key + ".month" -> "04",
+              WhenDidEventEndForm.key + ".year" -> "2024"))
 
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
 
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+          }
+        }
 
+        "the appeal is NOT late" should {
+          "redirect to the CheckAnswers page" in new Setup() {
+            stubAuth(OK, successfulIndividualAuthResponse)
+
+            val result = post("/when-did-the-event-end")(Map(
+              WhenDidEventEndForm.key + ".day" -> "02",
+              WhenDidEventEndForm.key + ".month" -> "04",
+              WhenDidEventEndForm.key + ".year" -> "2024"))
+
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+          }
+        }
       }
     }
 
     "the date is not valid - day missing" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -172,7 +206,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - month missing" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -196,7 +230,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - year missing" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -220,7 +254,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - two fields missing - day and month" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -244,7 +278,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - two fields missing - day and year" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -268,7 +302,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - two fields missing - month and year" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -292,7 +326,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - all fields missing" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -316,7 +350,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - date is in the future" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -340,7 +374,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     "the date is not valid - end date is before start date" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 

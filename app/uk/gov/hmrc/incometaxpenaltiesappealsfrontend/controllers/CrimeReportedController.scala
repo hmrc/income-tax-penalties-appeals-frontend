@@ -64,7 +64,11 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(CrimeReportedPage, value)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          Redirect(routes.LateAppealController.onPageLoad())
+          if(user.isAppealLate()) {
+            Redirect(routes.LateAppealController.onPageLoad())
+          } else {
+            Redirect(routes.CheckYourAnswersController.onPageLoad())
+          }
         }
       }
     )

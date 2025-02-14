@@ -65,8 +65,6 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   def submitAppealUrl(mtditid: String, isLPP: Boolean, penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean): String =
     s"$penaltiesServiceBaseUrl/ITSA/appeals/submit-appeal/MTDITID/$mtditid?isLPP=$isLPP&penaltyNumber=$penaltyNumber&correlationId=$correlationId&isMultiAppeal=$isMultiAppeal"
 
-  lazy val daysRequiredForLateAppeal: Int = config.get[Int]("constants.daysRequiredForLateAppeal")
-
   lazy val signInUrl: String = config.get[String]("signIn.url")
   lazy val signOutUrl: String = config.get[String]("signOut.url")
 

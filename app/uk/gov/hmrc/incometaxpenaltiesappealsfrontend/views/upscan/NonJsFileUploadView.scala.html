@@ -17,11 +17,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadFormFields
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 
 @this(
         layout: Layout,
@@ -32,10 +32,11 @@
         h1: components.H1,
         link: components.Link,
         bullets: components.Bullets,
-        details: components.Details
+        details: components.Details,
+        caption: components.PenaltyCaption
 )
 
-@(form: Form[_], upscanFormFields: UploadFormFields)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], upscanFormFields: UploadFormFields)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @supportedFileTypes = {
     @p(messages("uploadEvidence.typesOfFile.p1"))
@@ -56,7 +57,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+    @caption()
     @h1("uploadEvidence.nonJs.headingAndTitle")
 
     <p class="govuk-body">@messages("uploadEvidence.nonJs.p1")</p>

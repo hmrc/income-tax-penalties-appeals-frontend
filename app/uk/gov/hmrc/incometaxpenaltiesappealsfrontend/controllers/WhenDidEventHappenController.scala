@@ -67,7 +67,11 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
               case "technicalIssues" =>
                 Redirect(routes.WhenDidEventEndController.onPageLoad())
               case "bereavement" | "fireOrFlood" =>
-                Redirect(routes.LateAppealController.onPageLoad())
+                if(user.isAppealLate()) {
+                  Redirect(routes.LateAppealController.onPageLoad())
+                } else {
+                  Redirect(routes.CheckYourAnswersController.onPageLoad())
+                }
               case "crime" =>
                 Redirect(routes.CrimeReportedController.onPageLoad())
               case _ =>

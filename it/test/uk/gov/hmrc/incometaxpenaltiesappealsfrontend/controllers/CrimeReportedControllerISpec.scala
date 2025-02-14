@@ -25,36 +25,48 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
 
 class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+  lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  val crimeAnswers: UserAnswers = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "crime")
+  class Setup(isLate: Boolean = false) {
 
-  override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+
+    val crimeAnswers: UserAnswers = emptyUserAnswers
+      .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
+        appealData = lateSubmissionAppealData.copy(
+          dateCommunicationSent =
+            if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
+            else        timeMachine.getCurrentDate.minusDays(1)
+        )
+      ))
+      .setAnswer(ReasonableExcusePage, "crime")
+
     userAnswersRepo.upsertUserAnswer(crimeAnswers).futureValue
-    super.beforeEach()
   }
 
   "GET /has-this-crime-been-reported" should {
 
-    testNavBar(url = "/has-this-crime-been-reported")()
+    testNavBar(url = "/has-this-crime-been-reported")(
+      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "crime")).futureValue
+    )
 
     "return an OK with a view" when {
-      "the user is an authorised individual AND the page has already been answered" in {
+      "the user is an authorised individual AND the page has already been answered" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(crimeAnswers.setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)).futureValue
 
@@ -67,7 +79,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.select(s"#${CrimeReportedForm.key}-3").hasAttr("checked") shouldBe false
       }
 
-      "the user is an authorised agent AND page NOT already answered" in {
+      "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
 
         val result = get("/has-this-crime-been-reported", isAgent = true)
@@ -81,7 +93,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
     }
 
     "the page has the correct elements" when {
-      "the user is an authorised individual" in {
+      "the user is an authorised individual" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/has-this-crime-been-reported")
 
@@ -99,7 +111,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
-      "the user is an authorised agent" in {
+      "the user is an authorised agent" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
         val result = get("/has-this-crime-been-reported", isAgent = true)
 
@@ -122,24 +134,42 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
   "POST /has-this-crime-been-reported" when {
 
-    "the radio option posted is valid" should {
+    "the radio option posted is valid" when {
 
-      "save the value to UserAnswers AND redirect to the LateAppeal page" in {
+      "the appeal is late" should {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        "save the value to UserAnswers AND redirect to the LateAppeal page" in new Setup(isLate = true) {
 
-        val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
+          stubAuth(OK, successfulIndividualAuthResponse)
 
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+          val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+
+          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
+        }
+      }
+
+      "the appeal is NOT late" should {
+
+        "save the value to UserAnswers AND redirect to the Check Answers page" in new Setup() {
+
+          stubAuth(OK, successfulIndividualAuthResponse)
+
+          val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
+
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+
+          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
+        }
       }
     }
 
     "the radio option is invalid" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
