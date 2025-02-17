@@ -46,6 +46,21 @@ agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay m
 agents.whatCausedYouToMissTheDeadline.error.required = Tell us the reason the return was submitted late (Welsh)
 agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us the reason the return was submitted late (Welsh)
 
+# Missed deadline reason page - LSP
+# ----------------------------------------------------------
+missedDeadlineReason.lsp.headingAndTitle = Why was the submission deadline missed? (Welsh)
+missedDeadlineReason.lsp.hint = We only need to know about this penalty. Other penalties should be appealed separately. (Welsh)
+missedDeadlineReason.lsp.error.required = You must provide some information about why the deadline was missed (Welsh)
+missedDeadlineReason.lsp.error.length = Explain the reason in {0} characters or fewer (Welsh)
+missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
+
+# Missed deadline reason page - LPP
+# ----------------------------------------------------------
+missedDeadlineReason.lpp.headingAndTitle = Why was the payment late? (Welsh)
+missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)
+missedDeadlineReason.lpp.error.required = You must provide some information about why the payment was late (Welsh)
+missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer (Welsh)
+missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
 # Has the crime been reported page
 # ----------------------------------------------------------
 crime.headingAndTitle = Has this crime been reported to the police? (Welsh)
