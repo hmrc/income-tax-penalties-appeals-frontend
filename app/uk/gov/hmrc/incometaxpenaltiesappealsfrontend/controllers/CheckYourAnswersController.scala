@@ -22,6 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -37,13 +38,13 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            upscanService: UpscanService,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
-                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
         Ok(checkYourAnswers(
-          isLate = true,
+          isLate = user.isAppealLate(),
           isAgent = user.isAgent,
           reasonableExcuseMessageKey = reasonableExcuse,
           uploadedFiles = uploadedFiles
@@ -55,17 +56,17 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async {
     implicit user => {
-        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          appealService.submitAppeal(reasonableExcuse, user.mtdItId, user.arn).flatMap(_.fold(
-            status => {
-              logger.error(s"[CheckYourAnswersController][submit] Received error status '$status' when submitting appeal for MTDITID: ${user.mtdItId}, journey: ${user.journeyId}")
-              errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
-            },
-            _ => {
-              Future.successful(Redirect(routes.ConfirmationController.onPageLoad()))
-            }
-          ))
-        }
+      withAnswer(ReasonableExcusePage) { reasonableExcuse =>
+        appealService.submitAppeal(reasonableExcuse).flatMap(_.fold(
+          status => {
+            logger.error(s"[CheckYourAnswersController][submit] Received error status '$status' when submitting appeal for MTDITID: ${user.mtdItId}, journey: ${user.journeyId}")
+            errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+          },
+          _ => {
+            Future.successful(Redirect(routes.ConfirmationController.onPageLoad()))
+          }
+        ))
       }
     }
+  }
 }

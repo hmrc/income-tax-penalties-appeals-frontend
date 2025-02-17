@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,22 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter._
 
-import play.api.i18n.Messages
+@this()
 
-import java.time.LocalDate
+@()(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
 
-trait DateFormatter {
-
-  def dateToString(date: LocalDate)(implicit messages: Messages): String =
-    htmlNonBroken(s"${date.getDayOfMonth} ${messages(s"month.${date.getMonthValue}")} ${date.getYear}")
-
-  def htmlNonBroken(string: String): String =
-    string.replace(" ", "\u00A0")
-
-}
-
-object DateFormatter extends DateFormatter
+<span class="govuk-caption-l" id="captionSpan">
+  @defining(if(user.isLPP) "service.lpp.caption" else "service.lsp.caption") { messageKey =>
+    @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+  }
+</span>

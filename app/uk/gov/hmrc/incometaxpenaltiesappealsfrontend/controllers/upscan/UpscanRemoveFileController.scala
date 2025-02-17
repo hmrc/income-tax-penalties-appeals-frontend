@@ -18,7 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan
 
 import play.api.data.Form
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.BaseUserAnswersController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFileForm
@@ -39,7 +39,7 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
                                            withAnswers: UserAnswersAction,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents
-                                          )(implicit ec: ExecutionContext, appConfig: AppConfig) extends BaseUserAnswersController {
+                                          )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
   def onPageLoad(fileReference: String, index: Int): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     renderView(Ok, UploadRemoveFileForm.form(), fileReference, index)

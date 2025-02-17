@@ -15,22 +15,24 @@
  *@
 
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
 
-@this(layout: Layout,
-        p:P,
-        h1: H1,
-        h2:H2,
-        link: Link)
-
-@(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages)
+@this(
+        layout: Layout,
+        caption: components.PenaltyCaption,
+        p: components.P,
+        h1: components.H1,
+        h2: components.H2,
+        link: components.Link
+)
+@(isLate: Boolean, isAgent: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("service.indexPageTitle"))), backLinkEnabled = false) {
 
-    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+    @caption()
     @h1("appeal.start.header")
     @p("appeal.start.p1")
     @p("appeal.start.p2")

@@ -22,6 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -36,12 +37,12 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
                                                       userAnswersService: UserAnswersService,
                                                       override val errorHandler: ErrorHandler,
                                                       override val controllerComponents: MessagesControllerComponents
-                                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                                     )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(whatCausedYouToMissTheDeadline(
       fillForm(WhatCausedYouToMissDeadlineForm.form(), WhatCausedYouToMissDeadlinePage),
-      true,
+      user.isAppealLate(),
       user.isAgent
     ))
   }
@@ -52,7 +53,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
       formWithErrors =>
         Future(BadRequest(whatCausedYouToMissTheDeadline(
           formWithErrors,
-          true,
+          user.isAppealLate(),
           user.isAgent
         ))),
       value => {

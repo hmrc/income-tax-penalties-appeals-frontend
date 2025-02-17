@@ -21,35 +21,53 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
 
 class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  val otherAnswers: UserAnswers = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "other")
+  class Setup(isLate: Boolean = false) {
 
-  override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+
+    val otherAnswers: UserAnswers = emptyUserAnswers
+      .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
+        appealData = lateSubmissionAppealData.copy(
+          dateCommunicationSent =
+            if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
+            else        timeMachine.getCurrentDate.minusDays(1)
+        )
+      ))
+      .setAnswer(ReasonableExcusePage, "other")
+
     userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
-    super.beforeEach()
   }
 
   "GET /upload-extra-evidence" should {
 
-    testNavBar(url = "/upload-extra-evidence")()
+    testNavBar(url = "/upload-extra-evidence")(
+      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other")).futureValue
+    )
 
     "return an OK with a view" when {
-      "the user is an authorised individual AND the page has already been answered" in {
+      "the user is an authorised individual AND the page has already been answered" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, true)).futureValue
 
@@ -61,7 +79,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
       }
 
-      "the user is an authorised agent AND page NOT already answered" in {
+      "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
 
         val result = get("/upload-extra-evidence", isAgent = true)
@@ -74,7 +92,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
     }
 
     "the page has the correct elements" when {
-      "the user is an authorised individual" in {
+      "the user is an authorised individual" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
         val result = get("/upload-extra-evidence")
 
@@ -82,7 +100,10 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
         document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
         document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
@@ -90,7 +111,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         document.getSubmitButton.text() shouldBe "Continue"
       }
 
-      "the user is an authorised agent" in {
+      "the user is an authorised agent" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
         val result = get("/upload-extra-evidence", isAgent = true)
 
@@ -98,7 +119,10 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
         document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
         document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
@@ -113,7 +137,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
     "the radio option posted is valid" should {
 
-      "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in {
+      "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
@@ -125,22 +149,43 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
       }
 
-      "save the value to UserAnswers AND redirect to the LateAppeal page if the answer is 'No'" in {
+      "save the value to UserAnswers AND redirect the answer is 'No'" when {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        "appeal is Late" should {
 
-        val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
+          "redirect to the LateAppeal page" in new Setup(isLate = true) {
 
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+            stubAuth(OK, successfulIndividualAuthResponse)
 
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+            val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
+
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+          }
+        }
+
+        "appeal is NOT Late" should {
+
+          "redirect to the CheckAnswers page" in new Setup() {
+
+            stubAuth(OK, successfulIndividualAuthResponse)
+
+            val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
+
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+          }
+        }
       }
     }
 
     "the radio option is invalid" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
         stubAuth(OK, successfulIndividualAuthResponse)
 

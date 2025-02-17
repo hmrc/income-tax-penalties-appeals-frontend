@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates
 import play.api.mvc.Results.{InternalServerError, Redirect}
 import play.api.mvc.{ActionRefiner, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -41,7 +41,13 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
       journeyId => {
         sessionService.getUserAnswers(journeyId).flatMap {
           case Some(storedAnswers) =>
-            Future(Right(CurrentUserRequestWithAnswers(storedAnswers)(request)))
+            storedAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
+              case Some(penaltyData) =>
+                Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
+              case None =>
+                logger.warn(s"[DataRetrievalActionImpl][refine] No Penalty Appeal Data found in User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
+                Future(Left(Redirect(appConfig.penaltiesHomePage)))
+            }
           case None =>
             logger.warn(s"[DataRetrievalActionImpl][refine] No User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
             Future(Left(Redirect(appConfig.penaltiesHomePage)))

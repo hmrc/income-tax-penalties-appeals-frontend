@@ -57,7 +57,7 @@ class UpscanInitiateControllerISpec extends ComponentSpecHelper with ViewSpecHel
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     fileUploadRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId)).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
     super.beforeEach()
   }
 

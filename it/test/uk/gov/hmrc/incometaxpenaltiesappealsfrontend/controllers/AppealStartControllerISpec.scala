@@ -16,16 +16,22 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.English
 import org.jsoup.Jsoup
 import play.api.http.Status.OK
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 
 class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   "GET /appeal-start" should {
 
@@ -55,7 +61,10 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Appeal a Self Assessment penalty - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
         document.getParagraphs.get(0).text() shouldBe "To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again."
         document.getParagraphs.get(1).text() shouldBe "This service is for appealing penalties given for individual submissions."
@@ -79,7 +88,10 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "Appeal a Self Assessment penalty - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
         document.getParagraphs.get(0).text() shouldBe "To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again."
         document.getParagraphs.get(1).text() shouldBe "This service is for appealing penalties given for individual submissions."

@@ -60,7 +60,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
             "when there's no answer" should {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
                 WhenDidEventHappenSummary.row() shouldBe None
               }
             }
@@ -70,7 +70,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
               "must output the expected row" in {
 
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                  emptyUserAnswers
+                  emptyUerAnswersWithLSP
                     .setAnswer(ReasonableExcusePage, reason)
                     .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
                 )

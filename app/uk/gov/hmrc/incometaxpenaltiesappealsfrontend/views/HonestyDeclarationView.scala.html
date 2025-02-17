@@ -17,35 +17,37 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 
-
 @this(layout: Layout,
-      govukButton : GovukButton,
-      formHelper: FormWithCSRF,
-      p:P,
-      h1: H1)
+        govukButton : GovukButton,
+        formHelper: FormWithCSRF,
+        p: components.P,
+        h1: components.H1,
+        caption: components.PenaltyCaption
+)
 
-@(isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
-    <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+    @caption()
 
     @h1("honestyDeclaration.headingAndTitle")
     @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
 
     <ul class="govuk-list govuk-list--bullet">
-     <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuseMessageKey", DateFormatter.dateNonBreakingSpaceSingle("5 November 2027"))</li>
-     <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
+        <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuseMessageKey", DateFormatter.dateToString(request.periodDueDate))</li>
+        <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {
         <div class="govuk-form-group">
-            @govukButton(Button(
-                content = Text(messages("common.acceptAndContinue"))
-            ))
+        @govukButton(Button(
+            content = Text(messages("common.acceptAndContinue"))
+        ))
         </div>
     }
 

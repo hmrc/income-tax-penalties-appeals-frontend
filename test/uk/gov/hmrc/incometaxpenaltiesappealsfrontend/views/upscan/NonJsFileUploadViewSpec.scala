@@ -22,10 +22,9 @@ import fixtures.messages.upscan.NonJsFileUploadMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import play.api.mvc.Request
-import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
 
@@ -35,7 +34,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-  implicit lazy val request: Request[_] = FakeRequest()
+  implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
 
   object Selectors extends BaseSelectors
 

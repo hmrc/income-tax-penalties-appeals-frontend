@@ -48,7 +48,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
 
           val uploads = Seq(callbackModel, callbackModel2)
 
-          val userAnswers = emptyUserAnswers
+          val userAnswers = emptyUerAnswersWithLSP
             .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
             .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
             .setAnswer(ReasonableExcusePage, "health")

@@ -46,7 +46,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
       Future(Ok(whenDidEventHappen(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
         reasonableExcuseMessageKey = reasonableExcuse,
-        isLPP = false //TODO: Need to determine this as part of a future story
+        isLPP = user.isLPP
       )))
     }
   }
@@ -58,7 +58,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
           Future.successful(BadRequest(whenDidEventHappen(
             reasonableExcuse,
             formWithErrors,
-            isLPP = false //TODO: Need to determine this as part of a future story
+            isLPP = user.isLPP
           ))),
         dateOfEvent => {
           val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
@@ -67,7 +67,11 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
               case "technicalIssues" =>
                 Redirect(routes.WhenDidEventEndController.onPageLoad())
               case "bereavement" | "fireOrFlood" =>
-                Redirect(routes.LateAppealController.onPageLoad())
+                if(user.isAppealLate()) {
+                  Redirect(routes.LateAppealController.onPageLoad())
+                } else {
+                  Redirect(routes.CheckYourAnswersController.onPageLoad())
+                }
               case "crime" =>
                 Redirect(routes.CrimeReportedController.onPageLoad())
               case _ =>

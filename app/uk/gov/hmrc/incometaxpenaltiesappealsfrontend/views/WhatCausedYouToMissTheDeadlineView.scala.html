@@ -21,15 +21,17 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 
 @this(layout: Layout,
-      govukButton : GovukButton,
-      govukErrorSummary: GovukErrorSummary,
-      formHelper: FormWithCSRF,
-      govukRadios : GovukRadios)
+        govukButton : GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formHelper: FormWithCSRF,
+        govukRadios : GovukRadios,
+        caption: components.PenaltyCaption)
 
-@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -39,24 +41,24 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhatCausedYouToMissDeadlineController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption") @DateFormatter.dateNonBreakingSpaceMultiple("6 July 2027", "5 October 2027")</span>
+        @caption()
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
-              legend = Some(Legend(
-                content = Text(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle")),
-                classes = "govuk-fieldset__legend--l",
-                isPageHeading = true
-              ))
+                legend = Some(Legend(
+                    content = Text(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle")),
+                    classes = "govuk-fieldset__legend--l",
+                    isPageHeading = true
+                ))
             )),
             name = WhatCausedYouToMissDeadlineForm.key,
             items = AgentClientEnum.radioOptions("whatCausedYouToMissTheDeadline")
         ).withFormField(form(WhatCausedYouToMissDeadlineForm.key)))
 
         <div class="govuk-form-group">
-            @govukButton(Button(
-                content = Text(messages("common.continue"))
-            ))
+        @govukButton(Button(
+            content = Text(messages("common.continue"))
+        ))
         </div>
     }
 }

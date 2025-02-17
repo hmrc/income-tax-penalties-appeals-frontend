@@ -17,8 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import fixtures.FileUploadFixtures
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.{eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito._
 import org.mockito.{ArgumentCaptor, ArgumentMatchers}
 import org.scalatest.matchers.should.Matchers
@@ -26,8 +25,6 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.AnyContent
-import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -36,11 +33,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{Inv
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockUpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 
 import java.time.LocalDate
@@ -58,128 +53,13 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
-  val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
-    CurrentUserRequestWithAnswers(
-      mtdItId = testMtdItId,
-      userAnswers = UserAnswers(testJourneyId)
-        .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "123456789")
-        .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-        .setAnswer(ReasonableExcusePage, "crime")
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-      ))
-
-  val fakeRequestForCrimeJourneyMultiple: CurrentUserRequestWithAnswers[AnyContent] =
-    CurrentUserRequestWithAnswers(
-      mtdItId = testMtdItId,
-      userAnswers = UserAnswers(testJourneyId)
-        .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "123456789")
-        .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-        .setAnswer(ReasonableExcusePage, "crime")
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
-        IncomeTaxSessionKeys.firstPenaltyChargeReference -> "123456789",
-        IncomeTaxSessionKeys.secondPenaltyChargeReference -> "123456788",
-        IncomeTaxSessionKeys.startDateOfPeriod -> "2024-01-01",
-        IncomeTaxSessionKeys.endDateOfPeriod -> "2024-01-31"
-      ))
-
-  val fakeRequestForOtherJourney: CurrentUserRequestWithAnswers[AnyContent] =
-    CurrentUserRequestWithAnswers(
-      mtdItId = testMtdItId,
-      userAnswers = UserAnswers(testJourneyId)
-        .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "123456789")
-        .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(ReasonableExcusePage, "other")
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
-        IncomeTaxSessionKeys.isUploadEvidence -> "yes",
-        IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Submission.toString,
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-      ))
-
-  val fakeRequestForOtherJourneyDeclinedUploads: CurrentUserRequestWithAnswers[AnyContent] =
-    CurrentUserRequestWithAnswers(
-      mtdItId = testMtdItId,
-      userAnswers = UserAnswers(testJourneyId)
-        .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "123456789")
-        .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(ReasonableExcusePage, "other")
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.dateCommunicationSent -> "2021-12-01",
-        IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
-        IncomeTaxSessionKeys.isUploadEvidence -> "no",
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-      ))
-
-  val appealDataAsJson: JsValue = Json.parse(
-    """
-      |{
-      | "type": "LATE_SUBMISSION",
-      | "startDate": "2020-01-01",
-      | "endDate": "2020-01-01",
-      | "dueDate": "2020-02-07",
-      | "dateCommunicationSent": "2020-02-08"
-      |}
-      |""".stripMargin)
-
-  val appealDataAsJsonLPP: JsValue = Json.parse(
-    """
-      |{
-      | "type": "LATE_PAYMENT",
-      | "startDate": "2020-01-01",
-      | "endDate": "2020-01-01",
-      | "dueDate": "2020-02-07",
-      | "dateCommunicationSent": "2020-02-08"
-      |}
-      |""".stripMargin)
-
-  val appealDataAsJsonLPPAdditional: JsValue = Json.parse(
-    """
-      |{
-      | "type": "ADDITIONAL",
-      | "startDate": "2020-01-01",
-      | "endDate": "2020-01-01",
-      | "dueDate": "2020-02-07",
-      | "dateCommunicationSent": "2020-02-08"
-      |}
-      |""".stripMargin)
-
-  val multiplePenaltiesModel: MultiplePenaltiesData = MultiplePenaltiesData(
-    firstPenaltyChargeReference = "123456789",
-    firstPenaltyAmount = 101.01,
-    secondPenaltyChargeReference = "123456790",
-    secondPenaltyAmount = 101.02,
-    firstPenaltyCommunicationDate = LocalDate.parse("2022-01-01"),
-    secondPenaltyCommunicationDate = LocalDate.parse("2022-01-02")
-  )
-
   class Setup {
     reset(mockPenaltiesConnector)
     reset(mockTimeMachine)
     reset(mockUUIDGenerator)
 
     val service: AppealService =
-      new AppealService(mockPenaltiesConnector, mockUpscanService, mockTimeMachine, mockUUIDGenerator, appConfig)
+      new AppealService(mockPenaltiesConnector, mockUpscanService, mockUUIDGenerator)(mockTimeMachine, appConfig)
 
     when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2020, 2, 1))
     when(mockUUIDGenerator.generateUUID).thenReturn("uuid-1", "uuid-2")
@@ -373,7 +253,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
           mockGetAllReadyFiles(testJourneyId)(Future.successful(Seq(callbackModel, callbackModel2)))
 
-          val result: Either[Int, Unit] = await(service.submitAppeal("other", testMtdItId, None)(fakeRequestForOtherJourney, implicitly, implicitly))
+          val result: Either[Int, Unit] = await(service.submitAppeal("other")(fakeRequestForOtherJourney, implicitly, implicitly))
           result shouldBe Right((): Unit)
 
           submissionModelCapture.getValue.appealInformation.asInstanceOf[OtherAppealInformation].uploadedFiles shouldBe Some(Seq(callbackModel, callbackModel2))
@@ -384,7 +264,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
         result shouldBe Right((): Unit)
       }
@@ -398,7 +278,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       withCaptureOfLoggingFrom(logger) {
         logs => {
-          val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+          val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
           result shouldBe Right((): Unit)
 
@@ -419,7 +299,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       withCaptureOfLoggingFrom(logger) {
         logs => {
-          val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+          val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
           result shouldBe Right((): Unit)
 
@@ -434,7 +314,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       "the connector returns a non-200 response" in new Setup {
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourney, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourney, implicitly, implicitly))
         result shouldBe Left(BAD_GATEWAY)
       }
 
@@ -443,85 +323,15 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), any())(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
         result shouldBe Left(BAD_GATEWAY)
       }
 
       "the connector throws an exception" in new Setup {
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.failed(new Exception("I failed.")))
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime", testMtdItId, None)(fakeRequestForCrimeJourney, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourney, implicitly, implicitly))
         result shouldBe Left(INTERNAL_SERVER_ERROR)
-      }
-    }
-  }
-
-  "isAppealLate" should {
-    val fakeRequestForAppealingBothPenalties: (LocalDate, LocalDate) => CurrentUserRequestWithAnswers[AnyContent] = (lpp1Date: LocalDate, lpp2Date: LocalDate) =>
-      CurrentUserRequestWithAnswers(
-        mtdItId = testMtdItId,
-        userAnswers = UserAnswers(testJourneyId)
-          .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "123456789")
-          .setAnswer(HonestyDeclarationPage, true)
-          .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-          .setAnswer(ReasonableExcusePage, "crime")
-          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
-      )(
-        //TODO: These will all move to be UserAnswers as part of future stories
-        FakeRequest().withSession(
-          IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes",
-          IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString,
-          IncomeTaxSessionKeys.firstPenaltyCommunicationDate -> lpp1Date.toString,
-          IncomeTaxSessionKeys.secondPenaltyCommunicationDate -> lpp2Date.toString
-        ))
-
-    val fakeRequestForAppealingSinglePenalty: LocalDate => CurrentUserRequestWithAnswers[AnyContent] = (date: LocalDate) =>
-      CurrentUserRequestWithAnswers(
-        mtdItId = testMtdItId,
-        userAnswers = UserAnswers(testJourneyId)
-          .setAnswerForKey[String](IncomeTaxSessionKeys.penaltyNumber, "123456789")
-          .setAnswer(HonestyDeclarationPage, true)
-          .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-          .setAnswer(ReasonableExcusePage, "crime")
-          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
-      )(
-        //TODO: These will all move to be UserAnswers as part of future stories
-        FakeRequest().withSession(
-          IncomeTaxSessionKeys.dateCommunicationSent -> date.toString,
-          IncomeTaxSessionKeys.appealType -> PenaltyTypeEnum.Late_Payment.toString
-        ))
-
-    "return true" when {
-      "communication date of penalty > 30 days ago" in new Setup {
-        when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2022, 1, 1))
-        val result: Boolean = service.isAppealLate(fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 1)))
-        result shouldBe true
-      }
-
-      "appealing both penalties and LPP1 is late" in new Setup {
-        when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2022, 1, 1))
-        val result: Boolean = service.isAppealLate(fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 1), LocalDate.of(2022, 1, 1)))
-        result shouldBe true
-      }
-
-      "appealing both penalties and both are late" in new Setup {
-        when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2022, 4, 1))
-        val result: Boolean = service.isAppealLate(fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 1), LocalDate.of(2022, 1, 1)))
-        result shouldBe true
-      }
-    }
-
-    "return false" when {
-      "communication date of penalty < 30 days ago" in new Setup {
-        when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2022, 1, 1))
-        val result: Boolean = service.isAppealLate(fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 31)))
-        result shouldBe false
-      }
-
-      "appealing both penalties and LPP1 and LPP2 are not late" in new Setup {
-        when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2022, 1, 1))
-        val result: Boolean = service.isAppealLate(fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 31), LocalDate.of(2021, 12, 31)))
-        result shouldBe false
       }
     }
   }

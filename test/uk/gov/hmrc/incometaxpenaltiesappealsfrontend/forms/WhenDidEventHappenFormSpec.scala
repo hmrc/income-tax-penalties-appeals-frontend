@@ -64,7 +64,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
 
                   "testing content for scenario where Client didn't get information to the agent in time" should {
 
-                    val userAnswers = emptyUserAnswers
+                    val userAnswers = emptyUerAnswersWithLSP
                       .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
                       .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
 
@@ -86,7 +86,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
                   }
                 } else { //Reason is 'other' BUT User is NOT an Agent
 
-                  implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+                  implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
 
                   val infix = if(isLPP) ".lpp" else ".lsp"
 
@@ -104,7 +104,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
                 }
               } else { //Reason is NOT 'other'
 
-                implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+                implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
 
                 behave like dateForm(
                   form = WhenDidEventHappenForm.form(reason, isLPP),

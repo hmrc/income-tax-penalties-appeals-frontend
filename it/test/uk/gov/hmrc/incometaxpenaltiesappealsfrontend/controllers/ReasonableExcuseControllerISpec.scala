@@ -21,24 +21,28 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 
 class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(UserAnswers(testJourneyId)).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
     super.beforeEach()
   }
 
@@ -49,7 +53,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
+          emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
@@ -75,7 +79,10 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
         document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
         document.getElementsByAttributeValue("for", "reasonableExcuse").text() shouldBe "Bereavement (someone died)"
@@ -98,7 +105,10 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe "Late submission penalty point: 6 July 2027 to 5 October 2027"
+        document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
         document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
         document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
         document.getElementsByAttributeValue("for", "reasonableExcuse").text() shouldBe "Bereavement (someone died)"
@@ -119,7 +129,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   "POST /reason-for-missing-deadline" when {
 
-    val userAnswersWithReason = UserAnswers(testJourneyId).setAnswer(ReasonableExcusePage, "bereavement")
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
 
     "a valid radio option has been selected" should {
 

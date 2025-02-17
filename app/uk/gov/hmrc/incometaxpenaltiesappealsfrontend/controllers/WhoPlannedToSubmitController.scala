@@ -22,6 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -36,12 +37,12 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
                                              userAnswersService: UserAnswersService,
                                              override val errorHandler: ErrorHandler,
                                              override val controllerComponents: MessagesControllerComponents
-                                            )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                            )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(whoPlannedToSubmit(
       fillForm(WhoPlannedToSubmitForm.form(), WhoPlannedToSubmitPage),
-      isLate = true,
+      user.isAppealLate(),
       user.isAgent
     ))
   }
@@ -52,7 +53,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
       formWithErrors =>
         Future(BadRequest(whoPlannedToSubmit(
           formWithErrors,
-          isLate = true,
+          user.isAppealLate(),
           user.isAgent
         ))),
       whoPlannedToSubmit => {

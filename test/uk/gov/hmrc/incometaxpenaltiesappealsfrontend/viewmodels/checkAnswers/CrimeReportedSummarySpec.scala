@@ -57,7 +57,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
             if (reason != "crime") {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(ReasonableExcusePage, reason))
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
                 CrimeReportedSummary.row() shouldBe None
               }
 
@@ -66,7 +66,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
               "when there's no answer" should {
 
                 "return None" in {
-                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers.setAnswer(ReasonableExcusePage, reason))
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
                   CrimeReportedSummary.row() shouldBe None
                 }
               }
@@ -76,7 +76,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                 "must output the expected row" in {
 
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUserAnswers
+                    emptyUerAnswersWithLSP
                       .setAnswer(ReasonableExcusePage, reason)
                       .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
                   )

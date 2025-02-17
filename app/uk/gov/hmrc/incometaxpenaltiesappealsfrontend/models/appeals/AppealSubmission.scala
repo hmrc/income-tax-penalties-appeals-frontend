@@ -61,9 +61,8 @@ object AppealSubmission {
                                             uploadedFiles: Option[Seq[UploadJourney]],
                                             mtdItId: String)
                                            (implicit request: CurrentUserRequestWithAnswers[_]): AppealSubmission = {
-    val isLPP: Boolean = !request.session.get(IncomeTaxSessionKeys.appealType).contains(PenaltyTypeEnum.Late_Submission.toString)
-    val isClientResponsibleForSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
-    val isClientResponsibleForLateSubmission: Option[Boolean] = if (isLPP && agentReferenceNo.isDefined) Some(true)
+    val isClientResponsibleForSubmission: Option[Boolean] = if (request.isLPP && agentReferenceNo.isDefined) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
+    val isClientResponsibleForLateSubmission: Option[Boolean] = if (request.isLPP && agentReferenceNo.isDefined) Some(true)
     else if (request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent)) {
       request.userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).map(_ == AgentClientEnum.client)
     } else None
@@ -73,7 +72,7 @@ object AppealSubmission {
       taxRegime = "ITSA",
       customerReferenceNo = s"MTDITID$mtdItId",
       dateOfAppeal = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
-      isLPP = isLPP,
+      isLPP = request.isLPP,
       appealSubmittedBy = if (agentReferenceNo.isDefined) "agent" else "customer",
       agentDetails = if (agentReferenceNo.isDefined) Some(constructAgentDetails(agentReferenceNo)) else None,
       appealInformation = appealInfo
