@@ -16,13 +16,14 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 
 trait WhenDidEventHappenHelper {
 
-  def messageKeyPrefix(reason: String, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String =
-    if(reason != "other") s"whenDidEventHappen.$reason" else {
+  def messageKeyPrefix(reason: ReasonableExcuse, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String =
+    if(reason != Other) s"whenDidEventHappen.$reason" else {
       if(user.isAgent && WhoPlannedToSubmitPage.value.contains(AgentClientEnum.agent) && WhatCausedYouToMissDeadlinePage.value.contains(AgentClientEnum.client)) {
         "agent.whenDidEventHappen.other.clientInformation"
       } else {

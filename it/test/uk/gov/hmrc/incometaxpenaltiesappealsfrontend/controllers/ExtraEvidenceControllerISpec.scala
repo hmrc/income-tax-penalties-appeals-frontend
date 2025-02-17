@@ -27,6 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
@@ -55,7 +56,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
             else        timeMachine.getCurrentDate.minusDays(1)
         )
       ))
-      .setAnswer(ReasonableExcusePage, "other")
+      .setAnswer(ReasonableExcusePage, Other)
 
     userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
   }
@@ -63,7 +64,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
   "GET /upload-extra-evidence" should {
 
     testNavBar(url = "/upload-extra-evidence")(
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other")).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)).futureValue
     )
 
     "return an OK with a view" when {

@@ -21,6 +21,8 @@ import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -50,15 +52,15 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
   val unexpectedHospitalValue = "Unexpected hospital stay"
   val otherValue = "The reason does not fit into any of the other categories"
 
-  val reasonsList: List[(String, String, String)] = List(
-    ("bereavement", bereavementValue, bereavementMessage),
-    ("cessation", cessationValue, cessationMessage),
-    ("crime", crimeValue, crimeMessage),
-    ("fireOrFlood", fireOrFloodValue, fireOrFloodReasonMessage),
-    ("health", healthValue, healthMessage),
-    ("technicalIssues", technicalIssueValue, technicalIssueMessage),
-    ("unexpectedHospital", unexpectedHospitalValue, unexpectedHospitalMessage),
-    ("other", otherValue, otherMessage)
+  val reasonsList: List[(ReasonableExcuse, String, String)] = List(
+    (Bereavement, bereavementValue, bereavementMessage),
+    (Cessation, cessationValue, cessationMessage),
+    (Crime, crimeValue, crimeMessage),
+    (FireOrFlood, fireOrFloodValue, fireOrFloodReasonMessage),
+    (Health, healthValue, healthMessage),
+    (TechnicalIssues, technicalIssueValue, technicalIssueMessage),
+    (UnexpectedHospital, unexpectedHospitalValue, unexpectedHospitalMessage),
+    (Other, otherValue, otherMessage)
   )
 
   override def beforeEach(): Unit = {

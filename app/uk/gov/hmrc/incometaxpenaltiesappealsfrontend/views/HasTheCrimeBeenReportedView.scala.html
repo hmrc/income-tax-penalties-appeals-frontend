@@ -17,12 +17,10 @@
 @import uk.gov.hmrc.govukfrontend.views.Implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, CurrentUserRequestWithAnswers}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 @this(layout: Layout,
         govukButton : GovukButton,
@@ -34,8 +32,7 @@
 @(
         form: Form[_],
         isLate: Boolean,
-        isAgent: Boolean,
-        reasonableExcuseMessageKey: String
+        isAgent: Boolean
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("crime.headingAndTitle"), Some(form))), backLinkEnabled = true) {

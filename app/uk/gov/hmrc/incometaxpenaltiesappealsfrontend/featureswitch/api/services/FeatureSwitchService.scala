@@ -18,7 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitchRegistry, FeatureSwitching}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitchSetting
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.{CheckboxFeatureSwitch, CheckboxFeatureSwitchSetting, FeatureSwitchSetting}
 
 import javax.inject.{Inject, Singleton}
 
@@ -27,20 +27,30 @@ class FeatureSwitchService @Inject()(featureSwitchRegistry: FeatureSwitchRegistr
                                      val appConfig: AppConfig) extends FeatureSwitching {
 
   def getFeatureSwitches(): Seq[FeatureSwitchSetting] =
-    featureSwitchRegistry.switches.map(
-      switch =>
+    featureSwitchRegistry.switches.map {
+      case checkboxSwitch: CheckboxFeatureSwitch =>
+        FeatureSwitchSetting(
+          checkboxSwitch.configName,
+          checkboxSwitch.displayName,
+          isEnabled = true, //Not Used by checkbox switches
+          Some(checkboxSwitch.checkboxValues.map(value =>
+            CheckboxFeatureSwitchSetting(value, isEnabled(checkboxSwitch, value))
+          )))
+      case switch =>
         FeatureSwitchSetting(
           switch.configName,
           switch.displayName,
-          isEnabled(switch)
+          isEnabled = isEnabled(switch)
         )
-    )
+    }
 
   def updateFeatureSwitches(updatedFeatureSwitches: Seq[FeatureSwitchSetting]): Seq[FeatureSwitchSetting] = {
     updatedFeatureSwitches.foreach(
       featureSwitchSetting =>
         featureSwitchRegistry.get(featureSwitchSetting.configName).foreach {
-          featureSwitch =>
+          case featureSwitch: CheckboxFeatureSwitch =>
+            setEnabledSwitches(featureSwitch, featureSwitchSetting.enabledCheckboxValues)
+          case featureSwitch =>
             if (featureSwitchSetting.isEnabled) enable(featureSwitch) else disable(featureSwitch)
         }
     )

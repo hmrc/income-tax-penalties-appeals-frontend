@@ -27,6 +27,8 @@ import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.FireOrFlood
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, PenaltiesStub}
@@ -50,24 +52,13 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
     override val prefix: String = "main"
   }
 
-  val reasonsList: Seq[String] = List(
-    "bereavement",
-    "cessation",
-    "crime",
-    "fireOrFlood",
-    "health",
-    "technicalIssues",
-    "unexpectedHospital",
-    "other"
-  )
-
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
     disable(UseStubForBackend)
     super.beforeEach()
   }
 
-  for (reason <- reasonsList) {
+  for (reason <- ReasonableExcuse.allReasonableExcuses) {
 
     val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
 
@@ -155,7 +146,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         lazy val userAnswers =
           emptyUerAnswersWithLSP
-            .setAnswer(ReasonableExcusePage, "fireOrFlood")
+            .setAnswer(ReasonableExcusePage, FireOrFlood)
             .setAnswer(HonestyDeclarationPage, true)
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
 

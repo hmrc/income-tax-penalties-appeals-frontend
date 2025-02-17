@@ -19,6 +19,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 @import java.time.LocalDate
 
@@ -29,9 +30,9 @@
         dateInput: components.inputDate,
         caption: components.PenaltyCaption)
 
-@(isAgent: Boolean, reasonableExcuseMessageKey: String,  form: Form[LocalDate])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse,  form: Form[LocalDate])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages(s"whenDidEventEnd.$reasonableExcuseMessageKey.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"whenDidEventEnd.$reasonableExcuse.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
     @if(form.hasErrors) {
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
@@ -43,7 +44,7 @@
 
         @dateInput(
             form = form,
-            legendContent = messages(s"whenDidEventEnd.$reasonableExcuseMessageKey.headingAndTitle"),
+            legendContent = messages(s"whenDidEventEnd.$reasonableExcuse.headingAndTitle"),
             legendClasses = Some("govuk-fieldset__legend--l"),
             hintText = Some(messages("common.dateHint"))
         )

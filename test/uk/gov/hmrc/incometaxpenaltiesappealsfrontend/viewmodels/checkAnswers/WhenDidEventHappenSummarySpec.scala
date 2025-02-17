@@ -26,7 +26,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -39,15 +39,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
 
   "WhenDidEventHappenSummary" when {
 
-    Seq(
-      "bereavement",
-      "crime",
-      "fireOrFlood",
-      "technicalIssues",
-      "cessation",
-      "health",
-      "unexpectedHospital"
-    ).foreach { reason =>
+    ReasonableExcuse.allReasonableExcuses.foreach { reason =>
 
       s"for reasonableExcuse '$reason'" when {
 

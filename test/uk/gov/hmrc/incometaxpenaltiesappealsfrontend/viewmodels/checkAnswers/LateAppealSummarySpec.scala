@@ -28,6 +28,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -61,7 +62,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
               implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
                 emptyUerAnswersWithLSP
-                  .setAnswer(ReasonableExcusePage, "bereavement")
+                  .setAnswer(ReasonableExcusePage, Bereavement)
                   .setAnswer(LateAppealPage, "foo")
               )
 
@@ -87,7 +88,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
               implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
                 emptyUerAnswersWithLSP
-                  .setAnswer(ReasonableExcusePage, "crime")
+                  .setAnswer(ReasonableExcusePage, Crime)
                   .setAnswer(LateAppealPage, "foo")
               )
 

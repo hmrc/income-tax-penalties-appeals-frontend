@@ -22,6 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -29,7 +30,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
 
   def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
-    ReasonableExcusePage.value.collect { case reasonableExcuse@("technicalIssues" | "unexpectedHospital") =>
+    ReasonableExcusePage.value.collect { case reasonableExcuse@(TechnicalIssues | UnexpectedHospital) =>
       WhenDidEventEndPage.value.map { endDate =>
         summaryListRow(
           label = messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.key"),

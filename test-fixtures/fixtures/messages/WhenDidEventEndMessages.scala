@@ -16,6 +16,9 @@
 
 package fixtures.messages
 
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
+
 object WhenDidEventEndMessages {
 
   sealed trait Messages { _: i18n =>
@@ -33,17 +36,17 @@ object WhenDidEventEndMessages {
     val cyaKeyTechnical = "When did the software or technology issues end?"
     val cyaKeyHospital = "TBC unexpectedHospital"
 
-    def cyaKey(reasonableExcuse: String): String = reasonableExcuse match {
-      case "technicalIssues" => cyaKeyTechnical
-      case "unexpectedHospital" => cyaKeyHospital
+    def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
+      case TechnicalIssues => cyaKeyTechnical
+      case UnexpectedHospital => cyaKeyHospital
     }
 
     val cyaHiddenTechnical = "when did the software or technology issues end"
     val cyaHiddenHospital = "TBC unexpectedHospital"
 
-    def cyaHidden(reasonableExcuse: String): String = reasonableExcuse match {
-      case "technicalIssues" => cyaHiddenTechnical
-      case "unexpectedHospital" => cyaHiddenHospital
+    def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
+      case TechnicalIssues => cyaHiddenTechnical
+      case UnexpectedHospital => cyaHiddenHospital
     }
 
     val technicalIssueInvalid = "The date the software or technology issues ended must be a real date"

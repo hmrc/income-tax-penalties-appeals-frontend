@@ -28,6 +28,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -36,7 +37,7 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other"))
+  implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other))
 
   "UploadedDocumentsSummary" when {
 

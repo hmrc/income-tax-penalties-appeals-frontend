@@ -91,20 +91,20 @@ whenDidEventHappen.crime.date.error.required = Mae’n rhaid i ddyddiad y drosed
 whenDidEventHappen.crime.date.error.notInFuture = Mae’n rhaid i ddyddiad y drosedd fod heddiw neu yn y gorffennol
 
 # Fire or Flood Messages
-whenDidEventHappen.fireOrFlood.headingAndTitle = When did the fire or flood happen? (Welsh)
-whenDidEventHappen.fireOrFlood.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn
-whenDidEventHappen.fireOrFlood.date.error.required.all = Nodwch ddyddiad y tân neu lifogydd
-whenDidEventHappen.fireOrFlood.date.error.required.two = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0} a {1}
-whenDidEventHappen.fireOrFlood.date.error.required = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0}
-whenDidEventHappen.fireOrFlood.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
+whenDidEventHappen.fireandflood.headingAndTitle = When did the fire or flood happen? (Welsh)
+whenDidEventHappen.fireandflood.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn
+whenDidEventHappen.fireandflood.date.error.required.all = Nodwch ddyddiad y tân neu lifogydd
+whenDidEventHappen.fireandflood.date.error.required.two = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0} a {1}
+whenDidEventHappen.fireandflood.date.error.required = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0}
+whenDidEventHappen.fireandflood.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
 
 # Technical Issues Messages
-whenDidEventHappen.technicalIssues.headingAndTitle = When did the software or technology issues begin? (Welsh)
-whenDidEventHappen.technicalIssues.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
-whenDidEventHappen.technicalIssues.date.error.required.all = Tell us when the software or technology issues began (Welsh)
-whenDidEventHappen.technicalIssues.date.error.required.two = The date the software or technology issues began must include a {0} and a {1} (Welsh)
-whenDidEventHappen.technicalIssues.date.error.required = The date the software or technology issues began must include a {0} (Welsh)
-whenDidEventHappen.technicalIssues.date.error.notInFuture = The date the software or technology issues began must be today or in the past (Welsh)
+whenDidEventHappen.technicalIssue.headingAndTitle = When did the software or technology issues begin? (Welsh)
+whenDidEventHappen.technicalIssue.date.error.invalid = The date the software or technology issues began must be a real date (Welsh)
+whenDidEventHappen.technicalIssue.date.error.required.all = Tell us when the software or technology issues began (Welsh)
+whenDidEventHappen.technicalIssue.date.error.required.two = The date the software or technology issues began must include a {0} and a {1} (Welsh)
+whenDidEventHappen.technicalIssue.date.error.required = The date the software or technology issues began must include a {0} (Welsh)
+whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past (Welsh)
 
 # Health Messages
 whenDidEventHappen.health.headingAndTitle = TBC health (Welsh)
@@ -121,6 +121,14 @@ whenDidEventHappen.unexpectedHospital.date.error.required.all = TBC (Welsh)
 whenDidEventHappen.unexpectedHospital.date.error.required.two = TBC (Welsh)
 whenDidEventHappen.unexpectedHospital.date.error.required = TBC (Welsh)
 whenDidEventHappen.unexpectedHospital.date.error.notInFuture = TBC (Welsh)
+
+# Loss of Staff Messages
+whenDidEventHappen.lossOfEssentialStaff.headingAndTitle = TBC lossOfStaff (Welsh)
+whenDidEventHappen.lossOfEssentialStaff.date.error.invalid = TBC (Welsh)
+whenDidEventHappen.lossOfEssentialStaff.date.error.required.all = TBC (Welsh)
+whenDidEventHappen.lossOfEssentialStaff.date.error.required.two = TBC (Welsh)
+whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC (Welsh)
+whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC (Welsh)
 
 # Other Messages - LSP
 whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you meeting the submission deadline? (Welsh)
@@ -165,13 +173,13 @@ agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the is
 # When did the event end page
 # ----------------------------------------------------------
 # Technical Issues Content
-whenDidEventEnd.technicalIssues.headingAndTitle = When did the software or technology issues end? (Welsh)
-whenDidEventEnd.technicalIssues.end.date.error.required.all = Tell us when the software or technology issues ended (Welsh)
-whenDidEventEnd.technicalIssues.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1} (Welsh)
-whenDidEventEnd.technicalIssues.end.date.error.required = The date the software or technology issues ended must include a {0} (Welsh)
-whenDidEventEnd.technicalIssues.end.date.error.invalid = The date the software or technology issues ended must be a real date (Welsh)
-whenDidEventEnd.technicalIssues.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past (Welsh)
-whenDidEventEnd.technicalIssues.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
+whenDidEventEnd.technicalIssue.headingAndTitle = When did the software or technology issues end? (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.required.all = Tell us when the software or technology issues ended (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1} (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.required = The date the software or technology issues ended must include a {0} (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.invalid = The date the software or technology issues ended must be a real date (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
 
 # Date input fields
 # ----------------------------------------------------------
@@ -246,9 +254,10 @@ checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submiss
 checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died) (Welsh)
 checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source (Welsh)
 checkYourAnswers.reasonableExcuse.value.crime =  Crime (Welsh)
-checkYourAnswers.reasonableExcuse.value.fireOrFlood =  Fire or flood (Welsh)
+checkYourAnswers.reasonableExcuse.value.fireandflood =  Fire or flood (Welsh)
 checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill health (Welsh)
-checkYourAnswers.reasonableExcuse.value.technicalIssues = Software or technology issues (Welsh)
+checkYourAnswers.reasonableExcuse.value.technicalIssue = Software or technology issues (Welsh)
+checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital stay (Welsh)
 checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any of the other categories (Welsh)
 
@@ -261,17 +270,21 @@ checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation (Welsh)
 checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation (Welsh)
 checkYourAnswers.whenDidEventHappen.crime.key =  When did the crime happen? (Welsh)
 checkYourAnswers.whenDidEventHappen.crime.change.hidden =  when did the crime happen (Welsh)
-checkYourAnswers.whenDidEventHappen.fireOrFlood.key =  When did the fire or flood happen? (Welsh)
-checkYourAnswers.whenDidEventHappen.fireOrFlood.change.hidden =  when did the fire or flood happen (Welsh)
+checkYourAnswers.whenDidEventHappen.fireandflood.key =  When did the fire or flood happen? (Welsh)
+checkYourAnswers.whenDidEventHappen.fireandflood.change.hidden =  when did the fire or flood happen (Welsh)
 checkYourAnswers.whenDidEventHappen.health.key = TBC health (Welsh)
 checkYourAnswers.whenDidEventHappen.health.change.hidden = TBC health (Welsh)
-checkYourAnswers.whenDidEventHappen.technicalIssues.key = When did the software or technology issues begin? (Welsh)
-checkYourAnswers.whenDidEventHappen.technicalIssues.change.hidden = when did the software or technology issues begin (Welsh)
+checkYourAnswers.whenDidEventHappen.technicalIssue.key = When did the software or technology issues begin? (Welsh)
+checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = when did the software or technology issues begin (Welsh)
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = TBC unexpectedHospital (Welsh)
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = TBC unexpectedHospital (Welsh)
+checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff (Welsh)
+checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff (Welsh)
+checkYourAnswers.whenDidEventHappen.other.key = TBC other (Welsh)
+checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other (Welsh)
 
-checkYourAnswers.whenDidTheEventEnd.technicalIssues.key = When did the software or technology issues end? (Welsh)
-checkYourAnswers.whenDidTheEventEnd.technicalIssues.change.hidden = when did the software or technology issues end (Welsh)
+checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = When did the software or technology issues end? (Welsh)
+checkYourAnswers.whenDidTheEventEnd.technicalIssue.change.hidden = when did the software or technology issues end (Welsh)
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = TBC unexpectedHospital (Welsh)
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = TBC unexpectedHospital (Welsh)
 
@@ -321,11 +334,11 @@ reasonableExcuses.hintText.agent = If more than one reason applies, choose the o
 reasonableExcuses.bereavement = Bereavement (someone died) (Welsh)
 reasonableExcuses.cessation = Cessation of income source (Welsh)
 reasonableExcuses.crime = Crime (Welsh)
-reasonableExcuses.fireOrFlood = Fire or flood (Welsh)
+reasonableExcuses.fireandflood = Fire or flood (Welsh)
 reasonableExcuses.health = Serious or life-threatening ill health (Welsh)
 reasonableExcuses.technicalIssue = Software or technology issues (Welsh)
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay (Welsh)
+reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 reasonableExcuses.other = The reason does not fit into any of the other categories (Welsh)
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
 reasonableExcuse.error.message = Select the reason for missing the submission deadline (Welsh)
-

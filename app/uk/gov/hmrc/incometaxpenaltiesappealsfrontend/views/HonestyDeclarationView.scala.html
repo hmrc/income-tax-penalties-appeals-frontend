@@ -20,6 +20,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 @this(layout: Layout,
         govukButton : GovukButton,
@@ -29,7 +30,7 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
@@ -39,7 +40,7 @@
     @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
 
     <ul class="govuk-list govuk-list--bullet">
-        <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuseMessageKey", DateFormatter.dateToString(request.periodDueDate))</li>
+        <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuse", DateFormatter.dateToString(request.periodDueDate))</li>
         <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 

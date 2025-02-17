@@ -43,7 +43,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP)
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
     super.beforeEach()
   }
 

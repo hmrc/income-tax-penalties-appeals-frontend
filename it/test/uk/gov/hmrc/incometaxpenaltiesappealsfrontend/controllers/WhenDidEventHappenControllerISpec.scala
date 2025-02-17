@@ -25,13 +25,14 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.LocalDate
 
@@ -44,22 +45,11 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val reasonsList: Seq[String] = Seq(
-    "bereavement",
-    "cessation",
-    "crime",
-    "fireOrFlood",
-    "health",
-    "technicalIssues",
-    "unexpectedHospital",
-    "other"
-  )
-
-  class Setup(reason: String, isLate: Boolean = false) {
+  class Setup(reason: ReasonableExcuse, isLate: Boolean = false) {
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
 
-    val lateDays: Int = if(reason == "bereavement") appConfig.bereavementLateDays else appConfig.lateDays
+    val lateDays: Int = if(reason == Bereavement) appConfig.bereavementLateDays else appConfig.lateDays
 
     val userAnswers: UserAnswers = emptyUserAnswers
       .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
@@ -74,7 +64,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
     userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
   }
 
-  for (reason <- reasonsList) {
+  for (reason <- ReasonableExcuse.allReasonableExcuses) {
 
     s"GET /when-did-the-event-happen with $reason" should {
 

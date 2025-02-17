@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
-object ReasonableExcusePage extends Page[String] {
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+
+object ReasonableExcusePage extends Page[ReasonableExcuse] {
   val key = "reasonableExcuse"
 }

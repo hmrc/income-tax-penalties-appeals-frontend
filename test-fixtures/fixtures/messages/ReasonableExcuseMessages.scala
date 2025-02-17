@@ -16,6 +16,9 @@
 
 package fixtures.messages
 
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+
 object ReasonableExcuseMessages {
 
   sealed trait Messages { _: i18n =>
@@ -27,19 +30,22 @@ object ReasonableExcuseMessages {
     val health: String = "Serious or life-threatening ill health"
     val technical: String = "Software or technology issues"
     val unexpectedHospital: String = "Unexpected hospital stay"
+    val lossOfStaff: String = "TBC lossOfStaff"
     val other: String = "The reason does not fit into any of the other categories"
+    val otherHint: String = "You should only choose this if the reason is not covered by any of the other options."
     val errorRequired: String = "Select the reason for missing the submission deadline"
 
     val cyaKey = "Reason for missing the submission deadline"
-    def cyaValue(reasonableExcuse: String): String = reasonableExcuse match {
-      case "bereavement" => bereavement
-      case "crime" => crime
-      case "fireOrFlood" => fireOrFlood
-      case "technicalIssues" => technical
-      case "cessation" => cessation
-      case "health" => health
-      case "unexpectedHospital" => unexpectedHospital
-      case "other" => other
+    def cyaValue(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
+      case Bereavement => bereavement
+      case Cessation => cessation
+      case Crime => crime
+      case FireOrFlood => fireOrFlood
+      case Health => health
+      case TechnicalIssues => technical
+      case UnexpectedHospital => unexpectedHospital
+      case LossOfStaff => lossOfStaff
+      case Other => other
     }
 
     val cyaHidden = "reason for missing the submission deadline"
@@ -56,7 +62,9 @@ object ReasonableExcuseMessages {
     override val health: String = "Serious or life-threatening ill health (Welsh)"
     override val technical: String = "Software or technology issues (Welsh)"
     override val unexpectedHospital: String = "Unexpected hospital stay (Welsh)"
+    override val lossOfStaff: String = "TBC lossOfStaff (Welsh)"
     override val other: String = "The reason does not fit into any of the other categories (Welsh)"
+    override val otherHint: String = "You should only choose this if the reason is not covered by any of the other options. (Welsh)"
     override val errorRequired: String = "Select the reason for missing the submission deadline (Welsh)"
 
     override val cyaKey = "Reason for missing the submission deadline (Welsh)"

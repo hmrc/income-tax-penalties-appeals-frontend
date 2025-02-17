@@ -17,12 +17,13 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import play.api.http.Status._
-import play.api.libs.json.{JsResult, Json}
+import play.api.libs.json.Json
 import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.ErrorResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
@@ -69,26 +70,9 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }
 
-  def getReasonableExcuses(mtdItId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Seq[ReasonableExcuse]]] = {
-    penaltiesConnector.getListOfReasonableExcuses(mtdItId).map {
-      case None =>
-        logger.warn(s"[AppealService][validatePenaltyIdForEnrolmentKey] - Found no reasonable excuses")
-        None
-      case Some(json) =>
-        val resultOfParsing: JsResult[Seq[ReasonableExcuse]] = Json.fromJson[Seq[ReasonableExcuse]](json)(ReasonableExcuse.seqReads)
-        resultOfParsing.fold(
-          failure => {
-            logger.error(s"[AppealService][getReasonableExcuseListAndParse] - Failed to parse to model with error(s): $failure")
-            None
-          },
-          seqOfReasonableExcuses => Some(seqOfReasonableExcuses)
-        )
-    }
-  }
 
-
-  def submitAppeal(reasonableExcuse: String)(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
-    val files = if(reasonableExcuse == "other") upscanService.getAllReadyFiles(request.journeyId) else Future.successful(Seq.empty)
+  def submitAppeal(reasonableExcuse: ReasonableExcuse)(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
+    val files = if(reasonableExcuse == Other) upscanService.getAllReadyFiles(request.journeyId) else Future.successful(Seq.empty)
     files.flatMap { uploadedFiles =>
       if (request.penaltyData.appealData.`type` != PenaltyTypeEnum.Late_Submission && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
         multipleAppeal(reasonableExcuse, uploadedFiles)
@@ -99,7 +83,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
   }
 
 
-  private def singleAppeal(reasonableExcuse: String,
+  private def singleAppeal(reasonableExcuse: ReasonableExcuse,
                            uploadedFiles: Seq[UploadJourney])
                           (implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val correlationId = idGenerator.generateUUID
@@ -129,7 +113,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }
 
-  private def multipleAppeal(reasonableExcuse: String,
+  private def multipleAppeal(reasonableExcuse: ReasonableExcuse,
                              uploadedFiles: Seq[UploadJourney])(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
 
     val firstCorrelationId = idGenerator.generateUUID

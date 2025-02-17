@@ -25,6 +25,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 
@@ -58,7 +59,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-          .setAnswer(ReasonableExcusePage, "crime")
+          .setAnswer(ReasonableExcusePage, Crime)
           .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
         penaltyData = penaltyData
       )(FakeRequest().withSession(
@@ -81,7 +82,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-          .setAnswer(ReasonableExcusePage, "crime")
+          .setAnswer(ReasonableExcusePage, Crime)
           .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
         penaltyData = penaltyData
       )(FakeRequest())

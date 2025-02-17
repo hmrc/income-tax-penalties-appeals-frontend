@@ -18,7 +18,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config
 
 import play.api.inject.{Binding, Module}
 import play.api.{Configuration, Environment}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitch
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.{CheckboxFeatureSwitch, FeatureSwitch}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 import javax.inject.Singleton
 
@@ -26,7 +27,8 @@ import javax.inject.Singleton
 class FeatureSwitchingModule extends Module with FeatureSwitchRegistry {
 
   val switches: Seq[FeatureSwitch] = Seq(
-    UseStubForBackend
+    UseStubForBackend,
+    ReasonableExcusesEnabled
   )
 
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
@@ -39,4 +41,10 @@ class FeatureSwitchingModule extends Module with FeatureSwitchRegistry {
 case object UseStubForBackend extends FeatureSwitch {
   override val configName: String = "features.useStubForBackend"
   override val displayName: String = "Use stub instead of Penalties backend service"
+}
+
+case object ReasonableExcusesEnabled extends CheckboxFeatureSwitch {
+  override val configName: String = "features.reasonableExcusesEnabled"
+  override val displayName: String = "Enable/Disable Reasonable Excuses"
+  override val checkboxValues: Seq[String] = ReasonableExcuse.allReasonableExcuses.map(_.toString)
 }

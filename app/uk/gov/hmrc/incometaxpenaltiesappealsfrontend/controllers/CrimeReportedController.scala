@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.CrimeReportedPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -39,28 +39,22 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(hasTheCrimeBeenReported(
-        form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
-        isLate = user.isAppealLate(),
-        isAgent = user.isAgent,
-        reasonableExcuseMessageKey = reasonableExcuse
-      )))
-    }
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+    Ok(hasTheCrimeBeenReported(
+      form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
+      isLate = user.isAppealLate(),
+      isAgent = user.isAgent
+    ))
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     CrimeReportedForm.form().bindFromRequest().fold(
       formWithErrors =>
-        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(BadRequest(hasTheCrimeBeenReported(
-            form = formWithErrors,
-            isLate = user.isAppealLate(),
-            isAgent = user.isAgent,
-            reasonableExcuseMessageKey = reasonableExcuse
-          )))
-        },
+        Future(BadRequest(hasTheCrimeBeenReported(
+          form = formWithErrors,
+          isLate = user.isAppealLate(),
+          isAgent = user.isAgent
+        ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(CrimeReportedPage, value)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>

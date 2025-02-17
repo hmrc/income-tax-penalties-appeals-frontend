@@ -34,6 +34,7 @@ sealed trait i18n {
   val day = "day"
   val month = "month"
   val year = "year"
+  val or = "or"
   val lang: Language
 }
 
@@ -57,6 +58,7 @@ trait Cy extends i18n {
   override val day = "diwrnod"
   override val month = "mis"
   override val year = "blwyddyn"
+  override val or = "neu"
   override val lang: Language = language.Cy
 }
 object Welsh extends Cy

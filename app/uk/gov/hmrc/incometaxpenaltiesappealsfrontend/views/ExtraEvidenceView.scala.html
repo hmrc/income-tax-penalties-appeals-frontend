@@ -35,8 +35,7 @@
 
 @(form: Form[_],
         isLate: Boolean,
-        isAgent: Boolean,
-        reasonableExcuseMessageKey: String
+        isAgent: Boolean
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(pageTitle = Some(titleBuilder(messages("extraEvidence.headingAndTitle"), Some(form))), backLinkEnabled = true) {

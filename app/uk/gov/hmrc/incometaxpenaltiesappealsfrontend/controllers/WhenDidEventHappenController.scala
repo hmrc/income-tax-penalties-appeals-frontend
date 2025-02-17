@@ -20,6 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, TechnicalIssues}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -45,7 +46,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(whenDidEventHappen(
         form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
-        reasonableExcuseMessageKey = reasonableExcuse,
+        reasonableExcuse = reasonableExcuse,
         isLPP = user.isLPP
       )))
     }
@@ -64,18 +65,16 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
           val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
           userAnswersService.updateAnswers(updatedAnswers).map { _ =>
             reasonableExcuse match {
-              case "technicalIssues" =>
+              case TechnicalIssues =>
                 Redirect(routes.WhenDidEventEndController.onPageLoad())
-              case "bereavement" | "fireOrFlood" =>
+              case Crime =>
+                Redirect(routes.CrimeReportedController.onPageLoad())
+              case _ =>
                 if(user.isAppealLate()) {
                   Redirect(routes.LateAppealController.onPageLoad())
                 } else {
                   Redirect(routes.CheckYourAnswersController.onPageLoad())
                 }
-              case "crime" =>
-                Redirect(routes.CrimeReportedController.onPageLoad())
-              case _ =>
-                Redirect(routes.AppealStartController.onPageLoad())
             }
           }
         })

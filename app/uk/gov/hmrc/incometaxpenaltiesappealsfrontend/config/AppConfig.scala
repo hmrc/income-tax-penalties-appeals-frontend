@@ -33,6 +33,8 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
   def getFeatureSwitchValue(feature: String): Boolean = config.get[Boolean](feature)
+  def getCheckboxFeatureSwitchValues(checkboxList: String): Seq[String] = config.get[Seq[String]](checkboxList)
+
   def selfUrl: String = servicesConfig.baseUrl("income-tax-penalties-appeals-frontend")
   def incomeTaxPenaltiesFrontendBaseUrl: String = servicesConfig.baseUrl("income-tax-penalties-frontend")
 

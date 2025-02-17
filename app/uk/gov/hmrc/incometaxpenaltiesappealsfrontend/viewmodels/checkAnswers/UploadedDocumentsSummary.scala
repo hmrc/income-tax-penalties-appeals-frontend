@@ -22,6 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadDetails, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -31,7 +32,7 @@ import scala.annotation.tailrec
 object UploadedDocumentsSummary extends SummaryListRowHelper {
 
   def row(uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
-    Option.when(uploadedFiles.exists(_.uploadDetails.isDefined) && ReasonableExcusePage.value.contains("other")) {
+    Option.when(uploadedFiles.exists(_.uploadDetails.isDefined) && ReasonableExcusePage.value.contains(Other)) {
       summaryListRow(
         label = messages("checkYourAnswers.uploadedDocuments.key"),
         value = HtmlFormat.fill(filenames(uploadedFiles.flatMap(_.uploadDetails))),

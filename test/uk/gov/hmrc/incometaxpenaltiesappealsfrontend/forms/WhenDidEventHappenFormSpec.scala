@@ -23,7 +23,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
@@ -39,18 +40,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val reasonsList: List[String] = List(
-        "bereavement",
-        "cessation",
-        "crime",
-        "fireOrFlood",
-        "health",
-        "technicalIssues",
-        "unexpectedHospital",
-        "other"
-      )
-
-      for(reason <- reasonsList) {
+      for(reason <- ReasonableExcuse.allReasonableExcuses) {
 
         for (isLPP <- Seq(true, false)) {
 
@@ -58,7 +48,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
 
             s"WhenDidEventHappenForm with $reason and isLPP='$isLPP' and isAgent='$isAgent'" should {
 
-              if(reason == "other") {
+              if(reason == Other) {
 
                 if(isAgent) {
 

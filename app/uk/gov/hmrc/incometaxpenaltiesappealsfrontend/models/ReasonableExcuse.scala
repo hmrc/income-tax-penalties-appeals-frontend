@@ -16,59 +16,89 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
-import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.libs.json.{JsValue, Reads}
-import uk.gov.hmrc.govukfrontend.views.Aliases.{Hint, Text}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.RadioItem
+import play.api.libs.json.{JsString, Reads, Writes}
+import uk.gov.hmrc.govukfrontend.views.Aliases.{Hint, RadioItem, Text}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.ReasonableExcusesEnabled
 
-case class ReasonableExcuse(
-                             `type`: String,
-                             descriptionKey: String,
-                             isOtherOption: Boolean
-                           )
+sealed trait ReasonableExcuse {
+  def isEnabled()(implicit appConfig: AppConfig): Boolean =
+    appConfig.isEnabled(ReasonableExcusesEnabled, toString)
+}
+
+class WithName(string: String) {
+  override val toString: String = string
+}
 
 object ReasonableExcuse {
-  val singularReads: Reads[ReasonableExcuse] = (json: JsValue) => {
-    for {
-      excuseType <- (json \ "type").validate[String]
-      descriptionKey <- (json \ "descriptionKey").validate[String]
-      isOtherOption = excuseType == "other"
-    } yield {
-      ReasonableExcuse(
-        excuseType,
-        descriptionKey,
-        isOtherOption
-      )
-    }
-  }
+  case object Bereavement        extends WithName("bereavement")          with ReasonableExcuse
+  case object Cessation          extends WithName("cessation")            with ReasonableExcuse
+  case object Crime              extends WithName("crime")                with ReasonableExcuse
+  case object FireOrFlood        extends WithName("fireandflood")         with ReasonableExcuse
+  case object Health             extends WithName("health")               with ReasonableExcuse
+  case object TechnicalIssues    extends WithName("technicalIssue")       with ReasonableExcuse
+  case object UnexpectedHospital extends WithName("unexpectedHospital")   with ReasonableExcuse
+  case object LossOfStaff        extends WithName("lossOfEssentialStaff") with ReasonableExcuse
+  case object Other              extends WithName("other")                with ReasonableExcuse
 
-  val seqReads: Reads[Seq[ReasonableExcuse]] = (json: JsValue) => {
-    (json \ "excuses").validate[Seq[ReasonableExcuse]](Reads.seq[ReasonableExcuse](singularReads))
-  }
-
-  def options(form: Form[_], reasonableExcuses: Seq[ReasonableExcuse], hintTextMessageKey: String,
-              showHintText: Boolean)(implicit messages: Messages): Seq[RadioItem] =
-    reasonableExcuses.map {
-      value =>
-        RadioItem(
-          value = Some(value.`type`),
-          content = Text(messages(value.descriptionKey)),
-          checked = form("value").value.contains(value.`type`),
-          hint = if(!showHintText) None else if(value.isOtherOption) Some(Hint(content = Text(messages(hintTextMessageKey)))) else None
-        )
-    }
-
-  def optionsWithDivider(form: Form[_], messageKeyForDivider: String, reasonableExcuses: Seq[ReasonableExcuse], showAgentHintText: Boolean,
-                         showHintText: Boolean)
-                        (implicit messages: Messages): Seq[RadioItem] = {
-    val otherOptionInSeq: ReasonableExcuse = reasonableExcuses.filter(_.isOtherOption).head
-    val dividerPosition = reasonableExcuses.indexOf(otherOptionInSeq)
-    val hintTextMessageKey = if(showAgentHintText) "agent.reasonableExcuses.other.hintText" else "reasonableExcuses.other.hintText"
-    val optionsList = options(form, reasonableExcuses, hintTextMessageKey, showHintText)
-    val divider = RadioItem(
-      divider = Some(messages(messageKeyForDivider))
+  val allReasonableExcuses: Seq[ReasonableExcuse] = {
+    Seq(
+      Bereavement,
+      Cessation,
+      Crime,
+      FireOrFlood,
+      Health,
+      TechnicalIssues,
+      UnexpectedHospital,
+      LossOfStaff,
+      Other
     )
-    optionsList.take(dividerPosition) ++ Seq(divider) ++ optionsList.drop(dividerPosition)
+  }
+
+  def radioOptions()(implicit messages: Messages, appConfig: AppConfig): Seq[RadioItem] =
+    allReasonableExcuses.filter(_.isEnabled()).filterNot(_ == Other).map { reason =>
+      RadioItem(
+        content = Text(messages(s"reasonableExcuses.$reason")),
+        value = Some(s"$reason")
+      )
+    } ++ {
+      if(Other.isEnabled()) {
+        Seq(
+          RadioItem(
+            divider = Some(messages("common.or"))
+          ),
+          RadioItem(
+            content = Text(messages("reasonableExcuses.other")),
+            value = Some("other"),
+            hint = Some(Hint(
+              content = Text(messages("reasonableExcuses.other.hint"))
+            ))
+          )
+        )
+      } else {
+        Seq.empty
+      }
+    }
+
+  def apply(name: String): ReasonableExcuse = name match {
+    case "bereavement"          => Bereavement
+    case "cessation"            => Cessation
+    case "crime"                => Crime
+    case "fireandflood"         => FireOrFlood
+    case "health"               => Health
+    case "technicalIssue"       => TechnicalIssues
+    case "unexpectedHospital"   => UnexpectedHospital
+    case "lossOfEssentialStaff" => LossOfStaff
+    case "other"                => Other
+    case _ => throw new IllegalArgumentException(s"Invalid ReasonableExcuse: $name")
+  }
+
+  implicit def writes: Writes[ReasonableExcuse] = Writes { model =>
+    JsString(model.toString)
+  }
+
+  implicit val reads: Reads[ReasonableExcuse] = Reads { json =>
+    json.validate[String].map(ReasonableExcuse.apply)
   }
 }

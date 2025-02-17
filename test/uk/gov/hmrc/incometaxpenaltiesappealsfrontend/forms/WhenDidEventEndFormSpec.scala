@@ -23,6 +23,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.TechnicalIssues
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
@@ -43,13 +44,13 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
       implicit lazy val i18n: i18n = messagesForLanguage
 
-      val form: Form[LocalDate] = WhenDidEventEndForm.form("technicalIssues", LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
+      val form: Form[LocalDate] = WhenDidEventEndForm.form(TechnicalIssues, LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
 
       s"WhenDidEventEndForm with technicalIssue" should {
         behave like dateForm(
           form = form,
           fieldName = "date",
-          errorMessageKey = errorType => s"whenDidEventEnd.technicalIssues.end.date.error.$errorType",
+          errorMessageKey = errorType => s"whenDidEventEnd.technicalIssue.end.date.error.$errorType",
           errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, args:_*)
         )
 

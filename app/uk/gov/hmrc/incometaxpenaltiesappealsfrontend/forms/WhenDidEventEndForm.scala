@@ -36,6 +36,8 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{DateFormatter, TimeMachine}
 
 import java.time.LocalDate
@@ -44,10 +46,10 @@ object WhenDidEventEndForm extends Mappings {
 
   val key = "date"
 
-  def form(reason: String, startDate: LocalDate, isLPP: Boolean = false)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
+  def form(reason: ReasonableExcuse, startDate: LocalDate, isLPP: Boolean = false)(implicit messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] = {
 
     def lspLppInfix: String = (reason, isLPP) match {
-      case ("other", lpp) => if (lpp) ".lpp" else ".lsp"
+      case (Other, lpp) => if (lpp) ".lpp" else ".lsp"
       case _ => ""
     }
 

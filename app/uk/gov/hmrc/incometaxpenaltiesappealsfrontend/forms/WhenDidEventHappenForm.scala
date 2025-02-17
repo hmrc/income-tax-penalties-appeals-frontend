@@ -36,7 +36,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.WhenDidEventHappenHelper
 
@@ -46,7 +46,7 @@ object WhenDidEventHappenForm extends Mappings with WhenDidEventHappenHelper {
 
   val key = "date"
 
-  def form(reason: String, isLPP: Boolean = false)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] =
+  def form(reason: ReasonableExcuse, isLPP: Boolean = false)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] =
     Form(
       key -> localDate(
         invalidKey = s"${messageKeyPrefix(reason, isLPP)}.date.error.invalid",

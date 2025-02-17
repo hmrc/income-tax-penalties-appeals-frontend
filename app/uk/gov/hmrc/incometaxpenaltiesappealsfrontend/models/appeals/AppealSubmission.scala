@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals
 
 import play.api.libs.json._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
@@ -41,21 +42,28 @@ object AppealSubmission {
   implicit val agentDetailsFormatter: OFormat[AgentDetails] = AgentDetails.format
 
 
-  def parseAppealInformationToJson(payload: AppealInformation): JsValue = {
+  private def parseAppealInformationToJson(payload: AppealInformation): JsValue =
     payload.reasonableExcuse match {
-      case "bereavement" => Json.toJson(payload.asInstanceOf[BereavementAppealInformation])(BereavementAppealInformation.bereavementAppealWrites)
-      case "crime" => Json.toJson(payload.asInstanceOf[CrimeAppealInformation])(CrimeAppealInformation.crimeAppealWrites)
-      case "fireandflood" => Json.toJson(payload.asInstanceOf[FireOrFloodAppealInformation])(FireOrFloodAppealInformation.fireOrFloodAppealWrites)
-      case "lossOfEssentialStaff" => Json.toJson(payload.asInstanceOf[LossOfStaffAppealInformation])(LossOfStaffAppealInformation.lossOfStaffAppealWrites)
-      case "technicalIssue" => Json.toJson(
-        payload.asInstanceOf[TechnicalIssuesAppealInformation])(TechnicalIssuesAppealInformation.technicalIssuesAppealWrites)
-      case "health" => Json.toJson(payload.asInstanceOf[HealthAppealInformation])(HealthAppealInformation.healthAppealWrites)
-      case "other" => Json.toJson(payload.asInstanceOf[OtherAppealInformation])(OtherAppealInformation.otherAppealInformationWrites)
+      case Bereavement =>
+        Json.toJson(payload.asInstanceOf[BereavementAppealInformation])(BereavementAppealInformation.bereavementAppealWrites)
+      case Crime =>
+        Json.toJson(payload.asInstanceOf[CrimeAppealInformation])(CrimeAppealInformation.crimeAppealWrites)
+      case FireOrFlood =>
+        Json.toJson(payload.asInstanceOf[FireOrFloodAppealInformation])(FireOrFloodAppealInformation.fireOrFloodAppealWrites)
+      case LossOfStaff =>
+        Json.toJson(payload.asInstanceOf[LossOfStaffAppealInformation])(LossOfStaffAppealInformation.lossOfStaffAppealWrites)
+      case TechnicalIssues =>
+        Json.toJson(payload.asInstanceOf[TechnicalIssuesAppealInformation])(TechnicalIssuesAppealInformation.technicalIssuesAppealWrites)
+      case Health =>
+        Json.toJson(payload.asInstanceOf[HealthAppealInformation])(HealthAppealInformation.healthAppealWrites)
+      case Other =>
+        Json.toJson(payload.asInstanceOf[OtherAppealInformation])(OtherAppealInformation.otherAppealInformationWrites)
+      case reason =>
+        throw new UnsupportedOperationException(s"$reason is not supported")
     }
-  }
 
   //scalastyle:off
-  def constructModelBasedOnReasonableExcuse(reasonableExcuse: String,
+  def constructModelBasedOnReasonableExcuse(reasonableExcuse: ReasonableExcuse,
                                             isLateAppeal: Boolean,
                                             agentReferenceNo: Option[String],
                                             uploadedFiles: Option[Seq[UploadJourney]],
@@ -79,7 +87,7 @@ object AppealSubmission {
     )
 
     reasonableExcuse match {
-      case "bereavement" =>
+      case Bereavement =>
         baseAppealSubmission(BereavementAppealInformation(
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
@@ -91,7 +99,7 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
 
-      case "crime" =>
+      case Crime =>
         baseAppealSubmission(CrimeAppealInformation(
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
@@ -104,9 +112,9 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
 
-      case "fireOrFlood" =>
+      case FireOrFlood =>
         baseAppealSubmission(FireOrFloodAppealInformation(
-          reasonableExcuse = "fireandflood", //API spec outlines this - the frontend says 'fire or flood' (11/10/23)
+          reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
@@ -116,9 +124,9 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
 
-      case "lossOfStaff" =>
+      case LossOfStaff =>
         baseAppealSubmission(LossOfStaffAppealInformation(
-          reasonableExcuse = "lossOfEssentialStaff",
+          reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
@@ -128,9 +136,9 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
 
-      case "technicalIssues" =>
+      case TechnicalIssues =>
         baseAppealSubmission(TechnicalIssuesAppealInformation(
-          reasonableExcuse = "technicalIssue",
+          reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           endDateOfEvent = request.getMandatoryAnswer(WhenDidEventEndPage).atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS),
@@ -141,7 +149,7 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
 
-      case "health" =>
+      case Health =>
         //TODO: These will need updating when we built the health flow to retrieve from User Answers
         val isHospitalStay = request.session.get(IncomeTaxSessionKeys.wasHospitalStayRequired).get == "yes"
         val isOngoingHospitalStay = request.session.get(IncomeTaxSessionKeys.hasHealthEventEnded).contains("no")
@@ -159,7 +167,7 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
 
-      case "other" =>
+      case Other =>
         baseAppealSubmission(OtherAppealInformation(
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),

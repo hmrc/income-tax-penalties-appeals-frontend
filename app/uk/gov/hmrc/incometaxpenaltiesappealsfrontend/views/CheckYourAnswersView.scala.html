@@ -34,7 +34,7 @@
         h2: components.H2
 )
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String, uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLate: Boolean, isAgent: Boolean, uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("checkYourAnswers.headingAndTitle"))), backLinkEnabled = true) {
 

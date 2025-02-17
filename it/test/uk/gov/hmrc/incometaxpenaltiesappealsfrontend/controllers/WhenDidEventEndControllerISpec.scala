@@ -26,6 +26,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.TechnicalIssues
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
@@ -58,7 +59,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
             else        timeMachine.getCurrentDate.minusDays(1)
         )
       ))
-      .setAnswer(ReasonableExcusePage, "technicalIssues")
+      .setAnswer(ReasonableExcusePage, TechnicalIssues)
       .setAnswer(WhenDidEventHappenPage, testStartDate)
 
     userAnswersRepo.upsertUserAnswer(userAnswer).futureValue
@@ -68,7 +69,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
     testNavBar(url = "/when-did-the-event-end")(
       userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP
-        .setAnswer(ReasonableExcusePage, "technicalIssues")
+        .setAnswer(ReasonableExcusePage, TechnicalIssues)
         .setAnswer(WhenDidEventHappenPage, testStartDate)
       ).futureValue
     )
