@@ -20,6 +20,7 @@ import org.jsoup.Jsoup
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -33,7 +34,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "defaultReason")).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)).futureValue
     super.beforeEach()
   }
 

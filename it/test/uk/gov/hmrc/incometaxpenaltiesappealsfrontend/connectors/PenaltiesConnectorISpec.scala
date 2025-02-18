@@ -22,6 +22,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.CrimeAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, MultiplePenaltiesData}
@@ -291,7 +292,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
         appealSubmittedBy = "client",
         agentDetails = None,
         appealInformation = CrimeAppealInformation(
-          reasonableExcuse = "crime",
+          reasonableExcuse = Crime,
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
           reportedIssueToPolice = CrimeReportedEnum.yes,
@@ -318,7 +319,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
         appealSubmittedBy = "client",
         agentDetails = None,
         appealInformation = CrimeAppealInformation(
-          reasonableExcuse = "crime",
+          reasonableExcuse = Crime,
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
           reportedIssueToPolice = CrimeReportedEnum.yes,
@@ -345,7 +346,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
         appealSubmittedBy = "client",
         agentDetails = None,
         appealInformation = CrimeAppealInformation(
-          reasonableExcuse = "crime",
+          reasonableExcuse = Crime,
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
           reportedIssueToPolice = CrimeReportedEnum.yes,
@@ -372,7 +373,7 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
         appealSubmittedBy = "client",
         agentDetails = None,
         appealInformation = CrimeAppealInformation(
-          reasonableExcuse = "crime",
+          reasonableExcuse = Crime,
           honestyDeclaration = true,
           startDateOfEvent = LocalDate.parse("2023-01-01").atStartOfDay(),
           reportedIssueToPolice = CrimeReportedEnum.yes,

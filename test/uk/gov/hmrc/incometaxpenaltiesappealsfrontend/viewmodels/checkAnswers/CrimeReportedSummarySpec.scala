@@ -26,7 +26,8 @@ import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, CurrentUserRequestWithAnswers, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -36,15 +37,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
 
   "CrimeReportedSummary" when {
 
-    Seq(
-      "bereavement",
-      "crime",
-      "fireOrFlood",
-      "technicalIssues",
-      "cessation",
-      "health",
-      "unexpectedHospital"
-    ).foreach { reason =>
+    ReasonableExcuse.allReasonableExcuses.foreach { reason =>
 
       s"for reasonableExcuse '$reason'" when {
 
@@ -54,7 +47,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
 
             implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-            if (reason != "crime") {
+            if (reason != Crime) {
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))

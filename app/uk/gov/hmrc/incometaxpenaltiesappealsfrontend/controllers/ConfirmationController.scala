@@ -19,13 +19,11 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
 
 
 class ConfirmationController @Inject()(confirmation: ConfirmationView,
@@ -34,11 +32,9 @@ class ConfirmationController @Inject()(confirmation: ConfirmationView,
                                        withAnswers: UserAnswersAction,
                                        override val errorHandler: ErrorHandler,
                                        override val controllerComponents: MessagesControllerComponents
-                                      )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                      )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(confirmation(currentUser.isAppealLate(), currentUser.isAgent, reasonableExcuse)))
-    }
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit currentUser =>
+    Ok(confirmation(currentUser.isAppealLate(), currentUser.isAgent))
   }
 }

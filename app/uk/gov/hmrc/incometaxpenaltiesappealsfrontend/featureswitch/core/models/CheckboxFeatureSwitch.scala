@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models
 
-object ReasonableExcuses {
-  val bereavement = "bereavement"
-  val cessation = "cessation"
-  val crime = "crime"
-  val fireOrFlood = "fireOrFlood"
-  val unexpectedHospital = "unexpectedHospital"
-  val technicalIssues = "technicalIssues"
-  val health = "health"
-  val other = "other"
+trait CheckboxFeatureSwitch extends FeatureSwitch {
+  val checkboxValues: Seq[String]
 }

@@ -18,10 +18,20 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models
 
 import play.api.libs.json.{Json, OFormat}
 
+case class CheckboxFeatureSwitchSetting(value: String,
+                                        enabled: Boolean)
+
+object CheckboxFeatureSwitchSetting {
+  implicit val format: OFormat[CheckboxFeatureSwitchSetting] = Json.format[CheckboxFeatureSwitchSetting]
+}
 
 case class FeatureSwitchSetting(configName: String,
                                 displayName: String,
-                                isEnabled: Boolean)
+                                isEnabled: Boolean,
+                                checkboxValues: Option[Seq[CheckboxFeatureSwitchSetting]] = None) {
+  val isCheckBoxFeatureSwitch: Boolean = checkboxValues.nonEmpty
+  val enabledCheckboxValues: Seq[String] = checkboxValues.map(_.filter(_.enabled).map(_.value)).getOrElse(Seq.empty)
+}
 
 object FeatureSwitchSetting {
 

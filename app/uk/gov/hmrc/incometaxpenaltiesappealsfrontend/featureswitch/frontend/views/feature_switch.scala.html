@@ -15,7 +15,6 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitchSetting
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.models.FeatureSwitchProvider
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
@@ -32,27 +31,62 @@
     <h1 class="govuk-heading-l" >Choose which features to enable.</h1>
 
     @formWithCSRF(action = formAction) {
-        @for(featureSwitches <- featureSwitchList) {
-            @govukCheckboxes(Checkboxes(
-                fieldset = Some(Fieldset(
-                    legend = Some(Legend(
-                        content = Text(featureSwitches._1.appName),
-                        classes = "govuk-fieldset__legend--m",
-                        isPageHeading = false
-                    ))
-                )),
-                idPrefix = Some(featureSwitches._1.id),
-                name = "feature-switch",
-                items = featureSwitches._2.map {
-                    featureSwitchSettings =>
-                        CheckboxItem(
-                            id = Some(featureSwitchSettings.configName),
-                            name = Some(s"${featureSwitches._1.id}.${featureSwitchSettings.configName}"),
-                            content = Text(featureSwitchSettings.displayName),
-                            checked = featureSwitchSettings.isEnabled
-                        )
-                }
-            ))
+        @for((switchProvider, featureSwitches) <- featureSwitchList) {
+
+            <h2 class="govuk-heading-m">@switchProvider.appName</h2>
+
+            @defining(featureSwitches.filter(!_.isCheckBoxFeatureSwitch)) { boolSwitches =>
+
+                @govukCheckboxes(Checkboxes(
+                    fieldset = Some(Fieldset(
+                        legend = Some(Legend(
+                            content = Text(switchProvider.appName),
+                            classes = "govuk-fieldset__legend--m govuk-visually-hidden",
+                            isPageHeading = false
+                        ))
+                    )),
+                    idPrefix = Some(switchProvider.id),
+                    name = "feature-switch",
+                    items = boolSwitches.map {
+                        featureSwitchSettings =>
+                            CheckboxItem(
+                                id = Some(featureSwitchSettings.configName),
+                                name = Some(s"${switchProvider.id}.${featureSwitchSettings.configName}"),
+                                content = Text(featureSwitchSettings.displayName),
+                                checked = featureSwitchSettings.isEnabled
+                            )
+                    }
+                ))
+            }
+
+            @defining(featureSwitches.filter(_.isCheckBoxFeatureSwitch)) { checkboxSwitches =>
+
+                @checkboxSwitches.map { checkboxSwitch =>
+
+                        <h3 class="govuk-heading-s">@checkboxSwitch.displayName</h3>
+
+                @govukCheckboxes(Checkboxes(
+                    fieldset = Some(Fieldset(
+                        legend = Some(Legend(
+                            content = Text(switchProvider.appName),
+                            classes = "govuk-fieldset__legend--m govuk-visually-hidden",
+                            isPageHeading = false
+                        ))
+                    )),
+                    idPrefix = Some(switchProvider.id),
+                    name = "feature-switch",
+                    items = checkboxSwitch.checkboxValues.get.map {
+                        switchSetting =>
+                            CheckboxItem(
+                                id = Some(s"${checkboxSwitch.configName}.${switchSetting.value}"),
+                                name = Some(s"${switchProvider.id}.${checkboxSwitch.configName}.${switchSetting.value}"),
+                                content = Text(switchSetting.value),
+                                checked = switchSetting.enabled
+                            )
+                    }
+                ))
+            }
+              }
         }
 
         @govukButton(Button(

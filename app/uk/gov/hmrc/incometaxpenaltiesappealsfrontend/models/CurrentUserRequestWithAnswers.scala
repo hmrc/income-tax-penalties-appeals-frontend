@@ -20,6 +20,7 @@ import play.api.libs.json.Reads
 import play.api.mvc.{Request, WrappedRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{Page, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
@@ -60,7 +61,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
     }
 
   def lateAppealDays()(implicit appConfig: AppConfig): Int =
-    if(userAnswers.getAnswer(ReasonableExcusePage).exists(_.contains("bereavement"))) appConfig.bereavementLateDays else appConfig.lateDays
+    if(userAnswers.getAnswer(ReasonableExcusePage).contains(Bereavement)) appConfig.bereavementLateDays else appConfig.lateDays
 
   def isAppealLate()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Boolean = {
     val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(lateAppealDays())

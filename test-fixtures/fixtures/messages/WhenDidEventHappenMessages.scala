@@ -16,19 +16,23 @@
 
 package fixtures.messages
 
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+
 object WhenDidEventHappenMessages {
 
   sealed trait Messages { _: i18n =>
 
-    def headingAndTitle(reasonableExcuse: String, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
-      case "bereavement" => "When did the person die?"
-      case "crime" => "When did the crime happen?"
-      case "fireOrFlood" => "When did the fire or flood happen?"
-      case "technicalIssues" => "When did the software or technology issues begin?"
-      case "cessation" => "TBC cessation"
-      case "health" => "TBC health"
-      case "unexpectedHospital" => "TBC unexpectedHospital"
-      case "other" => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
+    def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
+      case Bereavement => "When did the person die?"
+      case Crime => "When did the crime happen?"
+      case FireOrFlood => "When did the fire or flood happen?"
+      case TechnicalIssues => "When did the software or technology issues begin?"
+      case Cessation => "TBC cessation"
+      case Health => "TBC health"
+      case UnexpectedHospital => "TBC unexpectedHospital"
+      case LossOfStaff => "TBC lossOfStaff"
+      case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
 
     def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
@@ -40,63 +44,70 @@ object WhenDidEventHappenMessages {
         case (_, _, _)        => "When did the issue first stop you meeting the submission deadline?"
       }
 
-    def errorMessageConstructor(reasonableExcuse: String,
+    def errorMessageConstructor(reasonableExcuse: ReasonableExcuse,
                                 suffix: String,
                                 isLPP: Boolean = false,
                                 isAgent: Boolean = false,
                                 wasClientInformationIssue: Boolean = false,
                                 args: Seq[String] = Seq()): String = {
       reasonableExcuse match {
-        case "bereavement" => suffix match {
+        case Bereavement => suffix match {
           case "invalid" => bereavementInvalid
           case "required.all" => bereavementRequiredAll
           case "required.two" => bereavementRequiredTwo(args.head, args(1))
           case "required" => bereavementRequired(args.head)
           case "notInFuture" => bereavementNotInFuture
         }
-        case "crime" => suffix match {
+        case Crime => suffix match {
           case "invalid" => crimeInvalid
           case "required.all" => crimeRequiredAll
           case "required.two" => crimeRequiredTwo(args.head, args(1))
           case "required" => crimeRequired(args.head)
           case "notInFuture" => crimeNotInFuture
         }
-        case "fireOrFlood" => suffix match {
+        case FireOrFlood => suffix match {
           case "invalid" => fireOrFloodInvalid
           case "required.all" => fireOrFloodRequiredAll
           case "required.two" => fireOrFloodRequiredTwo(args.head, args(1))
           case "required" => fireOrFloodRequired(args.head)
           case "notInFuture" => fireOrFloodNotInFuture
         }
-        case "technicalIssues" => suffix match {
+        case TechnicalIssues => suffix match {
           case "invalid" => technicalIssueInvalid
           case "required.all" => technicalIssueRequiredAll
           case "required.two" => technicalIssueRequiredTwo(args.head, args(1))
           case "required" => technicalIssueRequired(args.head)
           case "notInFuture" => technicalIssueNotInFuture
         }
-        case "cessation" => suffix match {
+        case Cessation => suffix match {
           case "invalid" => cessationInvalid
           case "required.all" => cessationRequiredAll
           case "required.two" => cessationRequiredTwo(args.head, args(1))
           case "required" => cessationRequired(args.head)
           case "notInFuture" => cessationNotInFuture
         }
-        case "health" => suffix match {
+        case Health => suffix match {
           case "invalid" => healthInvalid
           case "required.all" => healthRequiredAll
           case "required.two" => healthRequiredTwo(args.head, args(1))
           case "required" => healthRequired(args.head)
           case "notInFuture" => healthNotInFuture
         }
-        case "unexpectedHospital" => suffix match {
+        case UnexpectedHospital => suffix match {
           case "invalid" => unexpectedHospitalInvalid
           case "required.all" => unexpectedHospitalRequiredAll
           case "required.two" => unexpectedHospitalRequiredTwo(args.head, args(1))
           case "required" => unexpectedHospitalRequired(args.head)
           case "notInFuture" => unexpectedHospitalNotInFuture
         }
-        case "other" => suffix match {
+        case LossOfStaff => suffix match {
+          case "invalid" => lossOfStaffInvalid
+          case "required.all" => lossOfStaffRequiredAll
+          case "required.two" => lossOfStaffRequiredTwo(args.head, args(1))
+          case "required" => lossOfStaffRequired(args.head)
+          case "notInFuture" => lossOfStaffNotInFuture
+        }
+        case Other => suffix match {
           case "invalid" => otherInvalid(isLPP, isAgent, wasClientInformationIssue)
           case "required.all" => otherRequiredAll(isLPP, isAgent, wasClientInformationIssue)
           case "required.two" => otherRequiredTwo(isLPP, isAgent, wasClientInformationIssue, args.head, args(1))
@@ -112,16 +123,20 @@ object WhenDidEventHappenMessages {
     val cyaKeyTechnical: String = "When did the software or technology issues begin?"
     val cyaKeyCessation: String = "TBC cessation"
     val cyaKeyHealth: String = "TBC health"
+    val cyaKeyLossOfStaff: String = "TBC lossOfStaff"
+    val cyaKeyOther: String = "TBC other"
     val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital"
 
-    def cyaKey(reasonableExcuse: String): String = reasonableExcuse match {
-      case "bereavement" => cyaKeyBereavement
-      case "crime" => cyaKeyCrime
-      case "fireOrFlood" => cyaKeyFireOrFlood
-      case "technicalIssues" => cyaKeyTechnical
-      case "cessation" => cyaKeyCessation
-      case "health" => cyaKeyHealth
-      case "unexpectedHospital" => cyaKeyUnexpectedHospital
+    def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
+      case Bereavement => cyaKeyBereavement
+      case Cessation => cyaKeyCessation
+      case Crime => cyaKeyCrime
+      case FireOrFlood => cyaKeyFireOrFlood
+      case Health => cyaKeyHealth
+      case TechnicalIssues => cyaKeyTechnical
+      case UnexpectedHospital => cyaKeyUnexpectedHospital
+      case LossOfStaff => cyaKeyLossOfStaff
+      case Other => cyaKeyOther
     }
 
     val cyaHiddenBereavement: String = "when did the person die"
@@ -131,15 +146,19 @@ object WhenDidEventHappenMessages {
     val cyaHiddenCessation: String = "TBC cessation"
     val cyaHiddenHealth: String = "TBC health"
     val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital"
+    val cyaHiddenLossOfStaff: String = "TBC lossOfStaff"
+    val cyaHiddenOther: String = "TBC other"
 
-    def cyaHidden(reasonableExcuse: String): String = reasonableExcuse match {
-      case "bereavement" => cyaHiddenBereavement
-      case "crime" => cyaHiddenCrime
-      case "fireOrFlood" => cyaHiddenFireOrFlood
-      case "technicalIssues" => cyaHiddenTechnical
-      case "cessation" => cyaHiddenCessation
-      case "health" => cyaHiddenHealth
-      case "unexpectedHospital" => cyaHiddenUnexpectedHospital
+    def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
+      case Bereavement => cyaHiddenBereavement
+      case Cessation => cyaHiddenCessation
+      case Crime => cyaHiddenCrime
+      case FireOrFlood => cyaHiddenFireOrFlood
+      case Health => cyaHiddenHealth
+      case TechnicalIssues => cyaHiddenTechnical
+      case UnexpectedHospital => cyaHiddenUnexpectedHospital
+      case LossOfStaff => cyaHiddenLossOfStaff
+      case Other => cyaHiddenOther
     }
 
     val crimeInvalid = "The date of the crime must be a real date"
@@ -149,6 +168,7 @@ object WhenDidEventHappenMessages {
     val cessationInvalid = "TBC"
     val healthInvalid = "TBC"
     val unexpectedHospitalInvalid = "TBC"
+    val lossOfStaffInvalid = "TBC"
     def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "The date when the issue first stopped your client getting information to you must be a real date"
@@ -166,6 +186,7 @@ object WhenDidEventHappenMessages {
     val cessationRequiredAll = "TBC"
     val healthRequiredAll = "TBC"
     val unexpectedHospitalRequiredAll = "TBC"
+    val lossOfStaffRequiredAll = "TBC"
     def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "Tell us when the issue first stopped your client getting information to you"
@@ -182,6 +203,7 @@ object WhenDidEventHappenMessages {
     def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def healthRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = "TBC"
+    def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing and a $missingTwo"
@@ -198,6 +220,7 @@ object WhenDidEventHappenMessages {
     def cessationRequired(missing: String) = "TBC"
     def healthRequired(missing: String) = "TBC"
     def unexpectedHospitalRequired(missing: String) = "TBC"
+    def lossOfStaffRequired(missing: String) = "TBC"
     def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing"
@@ -214,6 +237,7 @@ object WhenDidEventHappenMessages {
     val cessationNotInFuture = "TBC"
     val healthNotInFuture = "TBC"
     val unexpectedHospitalNotInFuture = "TBC"
+    val lossOfStaffNotInFuture = "TBC"
     def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must be today or in the past"
@@ -228,15 +252,16 @@ object WhenDidEventHappenMessages {
 
   object Welsh extends Messages with Cy {
 
-    override def headingAndTitle(reasonableExcuse: String, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
-      case "bereavement" => "When did the person die? (Welsh)"
-      case "crime" => "When did the crime happen? (Welsh)"
-      case "fireOrFlood" => "When did the fire or flood happen? (Welsh)"
-      case "technicalIssues" => "When did the software or technology issues begin? (Welsh)"
-      case "cessation" => "TBC cessation (Welsh)"
-      case "health" => "TBC health (Welsh)"
-      case "unexpectedHospital" => "TBC unexpectedHospital (Welsh)"
-      case "other" => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
+    override def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
+      case Bereavement => "When did the person die? (Welsh)"
+      case Crime => "When did the crime happen? (Welsh)"
+      case FireOrFlood => "When did the fire or flood happen? (Welsh)"
+      case TechnicalIssues => "When did the software or technology issues begin? (Welsh)"
+      case Cessation => "TBC cessation (Welsh)"
+      case Health => "TBC health (Welsh)"
+      case UnexpectedHospital => "TBC unexpectedHospital (Welsh)"
+      case LossOfStaff => "TBC lossOfStaff (Welsh)"
+      case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
 
     override def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
@@ -255,6 +280,7 @@ object WhenDidEventHappenMessages {
     override val cessationInvalid = "TBC (Welsh)"
     override val healthInvalid = "TBC (Welsh)"
     override val unexpectedHospitalInvalid = "TBC (Welsh)"
+    override val lossOfStaffInvalid = "TBC (Welsh)"
     override def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "The date when the issue first stopped your client getting information to you must be a real date (Welsh)"
@@ -272,6 +298,7 @@ object WhenDidEventHappenMessages {
     override val cessationRequiredAll = "TBC (Welsh)"
     override val healthRequiredAll = "TBC (Welsh)"
     override val unexpectedHospitalRequiredAll = "TBC (Welsh)"
+    override val lossOfStaffRequiredAll = "TBC (Welsh)"
     override def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "Tell us when the issue first stopped your client getting information to you (Welsh)"
@@ -288,6 +315,7 @@ object WhenDidEventHappenMessages {
     override def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def healthRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
+    override def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing and a $missingTwo (Welsh)"
@@ -304,6 +332,7 @@ object WhenDidEventHappenMessages {
     override def cessationRequired(missing: String) = "TBC (Welsh)"
     override def healthRequired(missing: String) = "TBC (Welsh)"
     override def unexpectedHospitalRequired(missing: String) = "TBC (Welsh)"
+    override def lossOfStaffRequired(missing: String) = "TBC (Welsh)"
     override def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing (Welsh)"
@@ -320,6 +349,7 @@ object WhenDidEventHappenMessages {
     override val cessationNotInFuture = "TBC (Welsh)"
     override val healthNotInFuture = "TBC (Welsh)"
     override val unexpectedHospitalNotInFuture = "TBC (Welsh)"
+    override val lossOfStaffNotInFuture = "TBC (Welsh)"
     override def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must be today or in the past (Welsh)"
@@ -336,6 +366,8 @@ object WhenDidEventHappenMessages {
     override val cyaKeyCessation: String = "TBC cessation (Welsh)"
     override val cyaKeyHealth: String = "TBC health (Welsh)"
     override val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
+    override val cyaKeyLossOfStaff: String = "TBC lossOfStaff (Welsh)"
+    override val cyaKeyOther: String = "TBC other (Welsh)"
 
     override val cyaHiddenBereavement: String = "when did the person die (Welsh)"
     override val cyaHiddenCrime: String = "when did the crime happen (Welsh)"
@@ -344,5 +376,7 @@ object WhenDidEventHappenMessages {
     override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
     override val cyaHiddenHealth: String = "TBC health (Welsh)"
     override val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
+    override val cyaHiddenLossOfStaff: String = "TBC lossOfStaff (Welsh)"
+    override val cyaHiddenOther: String = "TBC other (Welsh)"
   }
 }

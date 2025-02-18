@@ -30,6 +30,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{InvalidJson, UnexpectedFailure}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
@@ -146,95 +147,6 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     }
   }
 
-  "getReasonableExcuses" should {
-    s"call the connector and parse the result to $Some $Seq $ReasonableExcuse" in new Setup {
-      val jsonRepresentingSeqOfReasonableExcuses: JsValue = Json.parse(
-        """
-          |{
-          |  "excuses": [
-          |    {
-          |      "type": "bereavement",
-          |      "descriptionKey": "reasonableExcuses.bereavement"
-          |    },
-          |    {
-          |      "type": "crime",
-          |      "descriptionKey": "reasonableExcuses.crime"
-          |    },
-          |    {
-          |      "type": "fireOrFlood",
-          |      "descriptionKey": "reasonableExcuses.fireOrFlood"
-          |    }
-          |  ]
-          |}
-          |""".stripMargin
-      )
-      when(mockPenaltiesConnector.getListOfReasonableExcuses(eqTo(testMtdItId))(any(), any()))
-        .thenReturn(Future.successful(
-          Some(jsonRepresentingSeqOfReasonableExcuses)
-        ))
-
-      val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses(testMtdItId))
-
-      result shouldBe Some(Seq(
-        ReasonableExcuse(
-          `type` = "bereavement",
-          descriptionKey = "reasonableExcuses.bereavement",
-          isOtherOption = false
-        ),
-        ReasonableExcuse(
-          `type` = "crime",
-          descriptionKey = "reasonableExcuses.crime",
-          isOtherOption = false
-        ),
-        ReasonableExcuse(
-          `type` = "fireOrFlood",
-          descriptionKey = "reasonableExcuses.fireOrFlood",
-          isOtherOption = false
-        )
-      ))
-    }
-
-    s"call the connector and return $None" when {
-      "the connector call succeeds but invalid json is returned and therefore can not be parsed" in new Setup {
-        val jsonRepresentingInvalidSeqOfReasonableExcuses: JsValue = Json.parse(
-          """
-            |{
-            |  "excusesssss": [
-            |    {
-            |      "type": "bereavement",
-            |      "descriptionKey": "reasonableExcuses.bereavement"
-            |    },
-            |    {
-            |      "type": "crime",
-            |      "descriptionKey": "reasonableExcuses.crime"
-            |    },
-            |    {
-            |      "type": "fireOrFlood",
-            |      "descriptionKey": "reasonableExcuses.fireOrFlood"
-            |    }
-            |  ]
-            |}
-            |""".stripMargin
-        )
-        when(mockPenaltiesConnector.getListOfReasonableExcuses(eqTo(testMtdItId))(any(), any()))
-          .thenReturn(Future.successful(
-            Some(jsonRepresentingInvalidSeqOfReasonableExcuses)
-          ))
-
-        val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses(testMtdItId))
-        result shouldBe None
-      }
-
-      "the connector call fails" in new Setup {
-        when(mockPenaltiesConnector.getListOfReasonableExcuses(eqTo(testMtdItId))(any(), any()))
-          .thenReturn(Future.successful(None))
-
-        val result: Option[Seq[ReasonableExcuse]] = await(service.getReasonableExcuses(testMtdItId))
-        result shouldBe None
-      }
-    }
-  }
-
   "submitAppeal" should {
     "parse the session keys into a model and return true" when {
       "the journey is 'Other' and there are uploaded files that are ready" should {
@@ -253,7 +165,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
           mockGetAllReadyFiles(testJourneyId)(Future.successful(Seq(callbackModel, callbackModel2)))
 
-          val result: Either[Int, Unit] = await(service.submitAppeal("other")(fakeRequestForOtherJourney, implicitly, implicitly))
+          val result: Either[Int, Unit] = await(service.submitAppeal(Other)(fakeRequestForOtherJourney, implicitly, implicitly))
           result shouldBe Right((): Unit)
 
           submissionModelCapture.getValue.appealInformation.asInstanceOf[OtherAppealInformation].uploadedFiles shouldBe Some(Seq(callbackModel, callbackModel2))
@@ -264,7 +176,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
         result shouldBe Right((): Unit)
       }
@@ -278,7 +190,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       withCaptureOfLoggingFrom(logger) {
         logs => {
-          val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+          val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
           result shouldBe Right((): Unit)
 
@@ -299,7 +211,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       withCaptureOfLoggingFrom(logger) {
         logs => {
-          val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+          val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
           result shouldBe Right((): Unit)
 
@@ -314,7 +226,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       "the connector returns a non-200 response" in new Setup {
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourney, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourney, implicitly, implicitly))
         result shouldBe Left(BAD_GATEWAY)
       }
 
@@ -323,14 +235,14 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), any())(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
         result shouldBe Left(BAD_GATEWAY)
       }
 
       "the connector throws an exception" in new Setup {
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.failed(new Exception("I failed.")))
-        val result: Either[Int, Unit] = await(service.submitAppeal("crime")(fakeRequestForCrimeJourney, implicitly, implicitly))
+        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourney, implicitly, implicitly))
         result shouldBe Left(INTERNAL_SERVER_ERROR)
       }
     }

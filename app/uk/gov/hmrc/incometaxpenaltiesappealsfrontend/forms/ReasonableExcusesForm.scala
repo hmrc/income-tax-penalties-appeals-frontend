@@ -20,13 +20,21 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+
+import scala.util.Try
 
 object ReasonableExcusesForm extends Mappings {
 
   val key = "reasonableExcuse"
 
-  def form()(implicit messages: Messages): Form[String] = Form(
-    single(key -> text(messages("reasonableExcuse.error.message")))
+  def form()(implicit messages: Messages): Form[ReasonableExcuse] = Form(
+    single(
+      key ->
+        text(messages("reasonableExcuse.error.message"))
+          .verifying("reasonableExcuse.error.message", value => Try(ReasonableExcuse.apply(value)).isSuccess)
+          .transform[ReasonableExcuse](ReasonableExcuse.apply, _.toString)
+    )
   )
 
 }

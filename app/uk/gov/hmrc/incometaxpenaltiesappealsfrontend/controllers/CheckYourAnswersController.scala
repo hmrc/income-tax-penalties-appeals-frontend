@@ -41,15 +41,12 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
-        Ok(checkYourAnswers(
-          isLate = user.isAppealLate(),
-          isAgent = user.isAgent,
-          reasonableExcuseMessageKey = reasonableExcuse,
-          uploadedFiles = uploadedFiles
-        ))
-      }
+    upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
+      Ok(checkYourAnswers(
+        isLate = user.isAppealLate(),
+        isAgent = user.isAgent,
+        uploadedFiles = uploadedFiles
+      ))
     }
   }
 

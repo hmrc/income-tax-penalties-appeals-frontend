@@ -16,8 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+
 trait AppealInformation {
-  val reasonableExcuse: String
+  val reasonableExcuse: ReasonableExcuse
   val honestyDeclaration: Boolean
   val statement: Option[String]
   val isClientResponsibleForSubmission: Option[Boolean]

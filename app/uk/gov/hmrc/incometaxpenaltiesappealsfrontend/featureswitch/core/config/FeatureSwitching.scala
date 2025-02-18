@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitch
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.{CheckboxFeatureSwitch, FeatureSwitch}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 trait FeatureSwitching {
@@ -41,6 +41,18 @@ trait FeatureSwitching {
   def disable(featureSwitch: FeatureSwitch): Unit = {
     logger.warn(s"[disable] $featureSwitch")
     sys.props += featureSwitch.configName -> FEATURE_SWITCH_OFF
+  }
+
+  //Checkbox List Based Features
+  def isEnabled(checkboxFeatureSwitch: CheckboxFeatureSwitch, value: String): Boolean =
+    sys.props get checkboxFeatureSwitch.configName match {
+      case Some(values) => values.split(",").contains(value)
+      case None => appConfig.getCheckboxFeatureSwitchValues(checkboxFeatureSwitch.configName).contains(value)
+    }
+
+  def setEnabledSwitches(checkboxFeatureSwitch: CheckboxFeatureSwitch, values: Seq[String]): Unit = {
+    logger.warn(s"[enable] $checkboxFeatureSwitch with values: \n - ${values.mkString("\n - ")}")
+    sys.props += checkboxFeatureSwitch.configName -> values.mkString(",")
   }
 
 }

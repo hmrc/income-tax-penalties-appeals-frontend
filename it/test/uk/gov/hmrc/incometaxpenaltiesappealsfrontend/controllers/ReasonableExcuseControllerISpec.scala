@@ -24,7 +24,10 @@ import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.ReasonableExcusesEnabled
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -44,6 +47,10 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
     super.beforeEach()
+    setEnabledSwitches(
+      ReasonableExcusesEnabled,
+      ReasonableExcuse.allReasonableExcuses.filterNot(_ == LossOfStaff).map(_.toString)
+    )
   }
 
   "GET /reason-for-missing-deadline" should {
@@ -53,13 +60,13 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
+          emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
         val document = Jsoup.parse(result.body)
-        document.select(s"#${ReasonableExcusesForm.key}").hasAttr("checked") shouldBe true
-        document.select(s"#${ReasonableExcusesForm.key}-2").hasAttr("checked") shouldBe false
+        document.select(s"#$Bereavement").hasAttr("checked") shouldBe true
+        document.select(s"#$Cessation").hasAttr("checked") shouldBe false
       }
 
       "the user is an authorised agent" in {
@@ -85,14 +92,14 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         )
         document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
         document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
-        document.getElementsByAttributeValue("for", "reasonableExcuse").text() shouldBe "Bereavement (someone died)"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-2").text() shouldBe "Cessation of income source"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-3").text() shouldBe "Crime"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-4").text() shouldBe "Fire or flood"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-5").text() shouldBe "Serious or life-threatening ill health"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-6").text() shouldBe "Software or technology issues"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-7").text() shouldBe "Unexpected hospital stay"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-9").text() shouldBe "The reason does not fit into any of the other categories"
+        document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
+        document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
+        document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
+        document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
+        document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
+        document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
+        document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
+        document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
         document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
         document.getSubmitButton.text() shouldBe "Continue"
       }
@@ -111,14 +118,14 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         )
         document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
         document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
-        document.getElementsByAttributeValue("for", "reasonableExcuse").text() shouldBe "Bereavement (someone died)"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-2").text() shouldBe "Cessation of income source"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-3").text() shouldBe "Crime"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-4").text() shouldBe "Fire or flood"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-5").text() shouldBe "Serious or life-threatening ill health"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-6").text() shouldBe "Software or technology issues"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-7").text() shouldBe "Unexpected hospital stay"
-        document.getElementsByAttributeValue("for", "reasonableExcuse-9").text() shouldBe "The reason does not fit into any of the other categories"
+        document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
+        document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
+        document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
+        document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
+        document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
+        document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
+        document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
+        document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
         document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
         document.getSubmitButton.text() shouldBe "Continue"
 
@@ -129,7 +136,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   "POST /reason-for-missing-deadline" when {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
 
     "a valid radio option has been selected" should {
 

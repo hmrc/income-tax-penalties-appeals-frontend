@@ -46,7 +46,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
         Future(Ok(whenDidEventEnd(
           form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
           isAgent = user.isAgent,
-          reasonableExcuseMessageKey = reasonableExcuse
+          reasonableExcuse = reasonableExcuse
         )))
       }
     }

@@ -19,6 +19,7 @@ package fixtures
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
@@ -87,7 +88,7 @@ trait BaseFixtures {
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-        .setAnswer(ReasonableExcusePage, "crime")
+        .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyData
     )(
@@ -111,7 +112,7 @@ trait BaseFixtures {
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-        .setAnswer(ReasonableExcusePage, "crime")
+        .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyData
     )(
@@ -134,7 +135,7 @@ trait BaseFixtures {
       userAnswers = emptyUerAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(ReasonableExcusePage, "other")
+        .setAnswer(ReasonableExcusePage, Other)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyData
     )(
@@ -159,7 +160,7 @@ trait BaseFixtures {
       userAnswers = emptyUerAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(ReasonableExcusePage, "other")
+        .setAnswer(ReasonableExcusePage, Other)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyData
     )(

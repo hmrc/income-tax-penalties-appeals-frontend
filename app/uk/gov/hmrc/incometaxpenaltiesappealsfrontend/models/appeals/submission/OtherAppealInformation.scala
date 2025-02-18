@@ -17,13 +17,14 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
 import play.api.libs.json.{Json, OFormat, Writes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 
 import java.time.LocalDateTime
 
 case class OtherAppealInformation(
-                                   reasonableExcuse: String,
+                                   reasonableExcuse: ReasonableExcuse,
                                    honestyDeclaration: Boolean,
                                    startDateOfEvent: LocalDateTime,
                                    statement: Option[String],

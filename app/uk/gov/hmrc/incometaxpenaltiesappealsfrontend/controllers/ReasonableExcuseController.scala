@@ -21,6 +21,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcuseView
@@ -42,7 +44,7 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
     Future(Ok(reasonableExcuse(
-      form = fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage),
+      form = fillForm[ReasonableExcuse](ReasonableExcusesForm.form(), ReasonableExcusePage),
       isAgent = currentUser.isAgent
     )))
   }
@@ -55,16 +57,13 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
           isAgent = user.isAgent,
           form = formWithErrors
         ))),
-       {
-          case reasonableExcuse@("technicalIssues" | "bereavement" | "fireOrFlood" | "crime") =>
-            val updatedAnswers = user.userAnswers.setAnswer(ReasonableExcusePage, reasonableExcuse)
-            userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-              Redirect(routes.HonestyDeclarationController.onPageLoad())
-            }
-
-          case _ =>
-            Future(Redirect(routes.AppealStartController.onPageLoad()))
-        }
+      {
+        reasonableExcuse =>
+          val updatedAnswers = user.userAnswers.setAnswer[ReasonableExcuse](ReasonableExcusePage, reasonableExcuse)
+          userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+            Redirect(routes.HonestyDeclarationController.onPageLoad())
+          }
+      }
     )
   }
 

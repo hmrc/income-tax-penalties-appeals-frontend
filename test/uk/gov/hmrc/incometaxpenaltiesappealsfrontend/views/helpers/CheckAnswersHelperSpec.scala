@@ -23,6 +23,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.{Cy, En}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Health
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers._
@@ -51,7 +52,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
           val userAnswers = emptyUerAnswersWithLSP
             .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
             .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
-            .setAnswer(ReasonableExcusePage, "health")
+            .setAnswer(ReasonableExcusePage, Health)
             .setAnswer(LateAppealPage, "I was late")
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
             .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 2, 2))

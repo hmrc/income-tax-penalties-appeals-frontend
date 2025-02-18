@@ -15,16 +15,18 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 
 @this(layout: Layout,
       govukButton : GovukButton,
       h1: H1)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuseMessageKey: String)(implicit request: Request[_], messages: Messages)
+@(isLate: Boolean, isAgent: Boolean, reasonableExcuse: ReasonableExcuse)(implicit request: Request[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("viewAppealDetails.headingAndTitle"))), backLinkEnabled = false, isPageFullWidth = true) {
 
@@ -78,28 +80,28 @@
             @messages("viewAppealDetails.reason")
             </dt>
             <dd class="govuk-summary-list__value">
-                @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.value")
+                @messages(s"viewAppealDetails.$reasonableExcuse.value")
             </dd>
         </div>
         <div class="govuk-summary-list__row" id="startDate">
             <dt class="govuk-summary-list__key">
-            @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.key")
+            @messages(s"viewAppealDetails.$reasonableExcuse.date.key")
             </dt>
             <dd class="govuk-summary-list__value">
                 @DateFormatter.htmlNonBroken("20 January 2029")
             </dd>
         </div>
-        @if(reasonableExcuseMessageKey == "technicalIssues") {
+        @if(reasonableExcuse == TechnicalIssues) {
             <div class="govuk-summary-list__row" id="endDate">
                 <dt class="govuk-summary-list__key">
-                @messages(s"viewAppealDetails.$reasonableExcuseMessageKey.date.end.key")
+                @messages(s"viewAppealDetails.$reasonableExcuse.date.end.key")
                 </dt>
                 <dd class="govuk-summary-list__value">
                     @DateFormatter.htmlNonBroken("20 February 2029")
                 </dd>
             </div>
         }
-        @if(reasonableExcuseMessageKey == "crime") {
+        @if(reasonableExcuse == Crime) {
             <div class="govuk-summary-list__row" id="reportedCrime">
                 <dt class="govuk-summary-list__key">
                 @messages("viewAppealDetails.crime.reported.key")

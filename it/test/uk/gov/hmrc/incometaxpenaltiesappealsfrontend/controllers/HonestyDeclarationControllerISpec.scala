@@ -25,6 +25,8 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.Json
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -50,15 +52,15 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
   val unexpectedHospitalMessage: String = s"TBC unexpectedHospital - I was unable to send the submission due on $dueDate"
   val otherMessage: String = s"TBC other - I was unable to send the submission due on $dueDate"
 
-  val reasonsList: List[(String, String)]= List(
-    ("bereavement", bereavementMessage),
-    ("cessation", cessationMessage),
-    ("crime", crimeMessage),
-    ("fireOrFlood", fireOrFloodReasonMessage),
-    ("health", healthMessage),
-    ("technicalIssues", technicalIssueMessage),
-    ("unexpectedHospital", unexpectedHospitalMessage),
-    ("other", otherMessage)
+  val reasonsList: List[(ReasonableExcuse, String)]= List(
+    (Bereavement, bereavementMessage),
+    (Cessation, cessationMessage),
+    (Crime, crimeMessage),
+    (FireOrFlood, fireOrFloodReasonMessage),
+    (Health, healthMessage),
+    (TechnicalIssues, technicalIssueMessage),
+    (UnexpectedHospital, unexpectedHospitalMessage),
+    (Other, otherMessage)
   )
 
   override def beforeEach(): Unit = {

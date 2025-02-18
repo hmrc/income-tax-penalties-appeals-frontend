@@ -23,6 +23,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 class ReasonableExcuseFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours {
 
@@ -35,7 +36,7 @@ class ReasonableExcuseFormSpec extends AnyWordSpec with should.Matchers with Gui
 
       implicit def messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[String] = ReasonableExcusesForm.form()
+      val form: Form[ReasonableExcuse] = ReasonableExcusesForm.form()
 
       "bind" when {
 
@@ -46,9 +47,9 @@ class ReasonableExcuseFormSpec extends AnyWordSpec with should.Matchers with Gui
         )
 
         "bind valid values" in {
-          ReasonableExcusesForm.key.foreach { value =>
+          ReasonableExcuse.allReasonableExcuses.foreach { value =>
             val result = form.bind(Map(ReasonableExcusesForm.key -> value.toString))
-            result.value shouldBe Some(value.toString)
+            result.value shouldBe Some(value)
           }
         }
 

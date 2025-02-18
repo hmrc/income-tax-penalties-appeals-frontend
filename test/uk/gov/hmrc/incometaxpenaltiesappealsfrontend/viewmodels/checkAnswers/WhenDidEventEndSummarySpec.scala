@@ -26,7 +26,8 @@ import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -39,15 +40,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
   "WhenDidEventEndSummary" when {
 
-    Seq(
-      "bereavement",
-      "crime",
-      "fireOrFlood",
-      "technicalIssues",
-      "cessation",
-      "health",
-      "unexpectedHospital"
-    ).foreach { reason =>
+    ReasonableExcuse.allReasonableExcuses.foreach { reason =>
 
       s"for reasonableExcuse '$reason'" when {
 
@@ -67,7 +60,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
             "when there's an answer" should {
 
-              if (Seq("technicalIssues", "unexpectedHospital").contains(reason)) {
+              if (Seq(TechnicalIssues, UnexpectedHospital).contains(reason)) {
 
                 "must output the expected row" in {
 

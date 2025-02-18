@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ExtraEvidencePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{UpscanService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -41,28 +41,22 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(extraEvidence(
-        form = fillForm(ExtraEvidenceForm.form(), ExtraEvidencePage),
-        isLate = user.isAppealLate(),
-        isAgent = user.isAgent,
-        reasonableExcuseMessageKey = reasonableExcuse
-      )))
-    }
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+    Ok(extraEvidence(
+      form = fillForm(ExtraEvidenceForm.form(), ExtraEvidencePage),
+      isLate = user.isAppealLate(),
+      isAgent = user.isAgent
+    ))
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     ExtraEvidenceForm.form().bindFromRequest().fold(
       formWithErrors =>
-        withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-          Future(BadRequest(extraEvidence(
-            form = formWithErrors,
-            isLate = user.isAppealLate(),
-            isAgent = user.isAgent,
-            reasonableExcuseMessageKey = reasonableExcuse
-          )))
-        },
+        Future(BadRequest(extraEvidence(
+          form = formWithErrors,
+          isLate = user.isAppealLate(),
+          isAgent = user.isAgent
+        ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
         userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>

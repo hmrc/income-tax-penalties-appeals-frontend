@@ -25,6 +25,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
@@ -54,7 +55,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
             else        timeMachine.getCurrentDate.minusDays(1)
         )
       ))
-      .setAnswer(ReasonableExcusePage, "crime")
+      .setAnswer(ReasonableExcusePage, Crime)
 
     userAnswersRepo.upsertUserAnswer(crimeAnswers).futureValue
   }
@@ -62,7 +63,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
   "GET /has-this-crime-been-reported" should {
 
     testNavBar(url = "/has-this-crime-been-reported")(
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "crime")).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime)).futureValue
     )
 
     "return an OK with a view" when {

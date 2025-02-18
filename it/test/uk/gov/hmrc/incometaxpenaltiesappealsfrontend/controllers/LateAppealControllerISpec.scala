@@ -25,6 +25,8 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -39,15 +41,15 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val reasonsList: List[(String, Int)] = List(
-    ("bereavement", appConfig.bereavementLateDays),
-    ("cessation", appConfig.lateDays),
-    ("crime", appConfig.lateDays),
-    ("fireOrFlood", appConfig.lateDays),
-    ("health", appConfig.lateDays),
-    ("technicalIssues", appConfig.lateDays),
-    ("unexpectedHospital", appConfig.lateDays),
-    ("other", appConfig.lateDays)
+  val reasonsList: List[(ReasonableExcuse, Int)] = List(
+    (Bereavement, appConfig.bereavementLateDays),
+    (Cessation, appConfig.lateDays),
+    (Crime, appConfig.lateDays),
+    (FireOrFlood, appConfig.lateDays),
+    (Health, appConfig.lateDays),
+    (TechnicalIssues, appConfig.lateDays),
+    (UnexpectedHospital, appConfig.lateDays),
+    (Other, appConfig.lateDays)
   )
 
   override def beforeEach(): Unit = {
@@ -142,7 +144,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
   "POST /making-a-late-appeal" when {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "bereavement")
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
 
     "the text area content is valid" should {
 

@@ -47,6 +47,7 @@ class FeatureSwitchRetrievalService @Inject()(featureSwitchConfig: FeatureSwitch
   }
 
   val featureSwitchKeyRegex: Regex = "(.+?)\\.(.+)".r
+  val checkboxFeatureSwitchKeyRegex: Regex = "(.+?)\\.(.+)\\.(.+)".r
 
   def updateFeatureSwitches(updatedFeatureSwitchKeys: Iterable[String]
                            )(implicit hc: HeaderCarrier): Future[Seq[(FeatureSwitchProvider, Seq[FeatureSwitchSetting])]] = {
@@ -57,13 +58,28 @@ class FeatureSwitchRetrievalService @Inject()(featureSwitchConfig: FeatureSwitch
             case (featureSwitchProvider, providerFeatureSwitches) =>
               featureSwitchProvider -> providerFeatureSwitches.map {
                 currentFeatureSwitch =>
-                  val isEnabled = updatedFeatureSwitchKeys.exists {
-                    case featureSwitchKeyRegex(microserviceKey, featureSwitchKey) =>
-                      microserviceKey == featureSwitchProvider.id && featureSwitchKey == currentFeatureSwitch.configName
-                    case _ =>
-                      false
+                  if(currentFeatureSwitch.isCheckBoxFeatureSwitch) {
+                    currentFeatureSwitch.copy(
+                      checkboxValues = Some(currentFeatureSwitch.checkboxValues.get.map {
+                        checkboxFeatureSwitchSetting =>
+                          val isEnabled = updatedFeatureSwitchKeys.exists {
+                            case checkboxFeatureSwitchKeyRegex(microserviceKey, featureSwitchKey, checkboxValue) =>
+                              microserviceKey == featureSwitchProvider.id && featureSwitchKey == currentFeatureSwitch.configName && checkboxValue == checkboxFeatureSwitchSetting.value
+                            case _ =>
+                              false
+                          }
+                          checkboxFeatureSwitchSetting.copy(enabled = isEnabled)
+                      })
+                    )
+                  } else {
+                    val isEnabled = updatedFeatureSwitchKeys.exists {
+                      case featureSwitchKeyRegex(microserviceKey, featureSwitchKey) =>
+                        microserviceKey == featureSwitchProvider.id && featureSwitchKey == currentFeatureSwitch.configName
+                      case _ =>
+                        false
+                    }
+                    currentFeatureSwitch.copy(isEnabled = isEnabled)
                   }
-                  currentFeatureSwitch.copy(isEnabled = isEnabled)
               }
           }
       }

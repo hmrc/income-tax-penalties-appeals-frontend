@@ -17,12 +17,12 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
 import play.api.libs.json.{Json, OFormat, Writes}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, ReasonableExcuse}
 
 import java.time.LocalDateTime
 
 case class CrimeAppealInformation(
-                                   reasonableExcuse: String,
+                                   reasonableExcuse: ReasonableExcuse,
                                    honestyDeclaration: Boolean,
                                    startDateOfEvent: LocalDateTime,
                                    reportedIssueToPolice: CrimeReportedEnum.Value,
