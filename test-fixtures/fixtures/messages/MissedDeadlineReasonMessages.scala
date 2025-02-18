@@ -39,7 +39,11 @@ object MissedDeadlineReasonMessages {
 
   object Welsh extends Messages with Cy {
     override def headingAndTitle(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late?" else "Why was the submission deadline missed?"
+      if(isLPP) "Why was the payment late? (Welsh)" else "Why was the submission deadline missed? (Welsh)"
+    }
+    override def hintText(isLPP: Boolean): String = {
+      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
+      else "We only need to know about this penalty. Other penalties should be appealed separately. (Welsh)"
     }
     override def errorRequired(isLPP: Boolean): String = {
       if(isLPP) "You must provide some information about why the payment was late (Welsh)"
