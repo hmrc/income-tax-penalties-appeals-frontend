@@ -51,7 +51,7 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
   }
 
   "serialise to JSON" in {
-    Json.toJson[ReasonableExcuse](Bereavement)        shouldBe JsString("bereavement")
+    Json.toJson[ReasonableExcuse](Bereavement)        shouldBe JsString(Bereavement.toString)
     Json.toJson[ReasonableExcuse](Cessation)          shouldBe JsString("cessation")
     Json.toJson[ReasonableExcuse](Crime)              shouldBe JsString("crime")
     Json.toJson[ReasonableExcuse](FireOrFlood)        shouldBe JsString("fireandflood")
@@ -63,7 +63,7 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
   }
 
   "deserialise from JSON" in {
-    JsString("bereavement").as[ReasonableExcuse]          shouldBe Bereavement
+    JsString(Bereavement.toString).as[ReasonableExcuse]          shouldBe Bereavement
     JsString("cessation").as[ReasonableExcuse]            shouldBe Cessation
     JsString("crime").as[ReasonableExcuse]                shouldBe Crime
     JsString("fireandflood").as[ReasonableExcuse]         shouldBe FireOrFlood
@@ -90,45 +90,54 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
             ReasonableExcuse.radioOptions() shouldBe Seq(
               RadioItem(
                 Text(messagesForLang.bereavement),
-                value = Some("bereavement")
+                value = Some(Bereavement.toString),
+                id = Some(Bereavement.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.cessation),
-                value = Some("cessation")
+                value = Some(Cessation.toString),
+                id = Some(Cessation.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.crime),
-                value = Some("crime")
+                value = Some(Crime.toString),
+                id = Some(Crime.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.fireOrFlood),
-                value = Some("fireandflood")
+                value = Some(FireOrFlood.toString),
+                id = Some(FireOrFlood.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.health),
-                value = Some("health")
+                value = Some(Health.toString),
+                id = Some(Health.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.technical),
-                value = Some("technicalIssue")
+                value = Some(TechnicalIssues.toString),
+                id = Some(TechnicalIssues.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.unexpectedHospital),
-                value = Some("unexpectedHospital")
+                value = Some(UnexpectedHospital.toString),
+                id = Some(UnexpectedHospital.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.lossOfStaff),
-                value = Some("lossOfEssentialStaff")
+                value = Some(LossOfStaff.toString),
+                id = Some(LossOfStaff.toString)
               ),
               RadioItem(
                 divider = Some(messagesForLang.or)
               ),
               RadioItem(
                 content = Text(messagesForLang.other),
-                value = Some("other"),
+                value = Some(Other.toString),
                 hint = Some(Hint(
                   content = Text(messages(messagesForLang.otherHint))
-                ))
+                )),
+                id = Some(Other.toString)
               )
             )
           }
@@ -151,25 +160,29 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
             ReasonableExcuse.radioOptions() shouldBe Seq(
               RadioItem(
                 Text(messagesForLang.bereavement),
-                value = Some("bereavement")
+                value = Some(Bereavement.toString),
+                id = Some(Bereavement.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.cessation),
-                value = Some("cessation")
+                value = Some(Cessation.toString),
+                id = Some(Cessation.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.crime),
-                value = Some("crime")
+                value = Some(Crime.toString),
+                id = Some(Crime.toString)
               ),
               RadioItem(
                 divider = Some(messagesForLang.or)
               ),
               RadioItem(
                 content = Text(messagesForLang.other),
-                value = Some("other"),
+                value = Some(Other.toString),
                 hint = Some(Hint(
                   content = Text(messages(messagesForLang.otherHint))
-                ))
+                )),
+                id = Some(Other.toString),
               )
             )
           }
@@ -190,11 +203,13 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
             ReasonableExcuse.radioOptions() shouldBe Seq(
               RadioItem(
                 Text(messagesForLang.bereavement),
-                value = Some("bereavement")
+                value = Some(Bereavement.toString),
+                id = Some(Bereavement.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.crime),
-                value = Some("crime")
+                value = Some(Crime.toString),
+                id = Some(Crime.toString)
               )
             )
           }

@@ -59,8 +59,9 @@ object ReasonableExcuse {
   def radioOptions()(implicit messages: Messages, appConfig: AppConfig): Seq[RadioItem] =
     allReasonableExcuses.filter(_.isEnabled()).filterNot(_ == Other).map { reason =>
       RadioItem(
+        id = Some(reason.toString),
         content = Text(messages(s"reasonableExcuses.$reason")),
-        value = Some(s"$reason")
+        value = Some(reason.toString)
       )
     } ++ {
       if(Other.isEnabled()) {
@@ -69,8 +70,9 @@ object ReasonableExcuse {
             divider = Some(messages("common.or"))
           ),
           RadioItem(
+            id = Some(Other.toString),
             content = Text(messages("reasonableExcuses.other")),
-            value = Some("other"),
+            value = Some(Other.toString),
             hint = Some(Hint(
               content = Text(messages("reasonableExcuses.other.hint"))
             ))
