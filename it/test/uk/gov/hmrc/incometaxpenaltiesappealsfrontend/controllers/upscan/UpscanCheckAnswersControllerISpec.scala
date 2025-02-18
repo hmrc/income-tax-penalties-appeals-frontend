@@ -22,14 +22,18 @@ import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
-import play.api.http.Status.{NOT_IMPLEMENTED, OK, SEE_OTHER}
+import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -53,11 +57,22 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
   val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
 
-  override def beforeEach(): Unit = {
+  class Setup(isLate: Boolean = false) {
+
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     fileUploadRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
-    super.beforeEach()
+
+    val userAnswers: UserAnswers = emptyUserAnswers
+      .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
+        appealData = lateSubmissionAppealData.copy(
+          dateCommunicationSent =
+            if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
+            else        timeMachine.getCurrentDate.minusDays(1)
+        )
+      ))
+      .setAnswer(ReasonableExcusePage, Other)
+
+    userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
   }
 
   Seq(
@@ -78,7 +93,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
         s"the number of files uploaded is < ${appConfig.upscanMaxNumberOfFiles}" should {
 
-          "render the File Upload check answers page with a form action to add another file" in {
+          "render the File Upload check answers page with a form action to add another file" in new Setup() {
             stubAuth(OK, authResponse)
             fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
@@ -95,7 +110,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
         s"the number of files uploaded is == ${appConfig.upscanMaxNumberOfFiles}" should {
 
-          "render the File Upload check answers page with a form action but without the 'Add another file' question" in {
+          "render the File Upload check answers page with a form action but without the 'Add another file' question" in new Setup() {
             stubAuth(OK, authResponse)
 
             (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
@@ -120,7 +135,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
           "the User selects 'Yes' to upload another file" should {
 
-            "redirect to the UpscanInitiate page" in {
+            "redirect to the UpscanInitiate page" in new Setup() {
 
               stubAuth(OK, authResponse)
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
@@ -134,42 +149,74 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
             }
           }
 
-          "the User selects 'No' to NOT upload another file" should {
+          "the User selects 'No' to NOT upload another file" when {
 
-            //TODO: Upload this as part of future story
-            "redirect to ??? page" in {
+            "the appeal is late" should {
 
-              stubAuth(OK, authResponse)
-              fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+              "redirect to Late Appeal page" in new Setup(isLate = true) {
 
-              val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(
-                Map(UploadAnotherFileForm.key -> "false")
-              )
+                stubAuth(OK, authResponse)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-              result.status shouldBe NOT_IMPLEMENTED
-              //TODO: Add these tests as part of future story when routing is known
-              //result.status shouldBe SEE_OTHER
-              //result.header("Location") shouldBe ???
+                val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(
+                  Map(UploadAnotherFileForm.key -> "false")
+                )
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad().url)
+              }
+            }
+
+            "the appeal is NOT late" should {
+
+              "redirect to Check Answers page" in new Setup() {
+
+                stubAuth(OK, authResponse)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+
+                val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(
+                  Map(UploadAnotherFileForm.key -> "false")
+                )
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad().url)
+              }
             }
           }
         }
 
-        s"number of files which has been uploaded is == ${appConfig.upscanMaxNumberOfFiles}" should {
+        s"number of files which has been uploaded is == ${appConfig.upscanMaxNumberOfFiles}" when {
 
-          //TODO: Upload this as part of future story
-          "redirect to ??? page" in {
+          "the appeal is late" should {
 
-            stubAuth(OK, authResponse)
-            (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-              fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+            "redirect to Late Appeal page" in new Setup(isLate = true) {
+
+              stubAuth(OK, authResponse)
+              (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+              }
+
+              val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(Map.empty[String, String])
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad().url)
             }
+          }
 
-            val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(Map.empty[String, String])
+          "the appeal is NOT late" should {
 
-            result.status shouldBe NOT_IMPLEMENTED
-            //TODO: Add these tests as part of future story when routing is known
-            //result.status shouldBe SEE_OTHER
-            //result.header("Location") shouldBe ???
+            "redirect to Check Answers page" in new Setup() {
+
+              stubAuth(OK, authResponse)
+              (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+              }
+
+              val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(Map.empty[String, String])
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad().url)
+            }
           }
         }
       }

@@ -23,15 +23,12 @@ object IncomeTaxSessionKeys {
   val agentSessionMtditid = "ClientMTDID"
 
   //Local keys that are only used for ITSAPR.
-  val appealType = "ITSAPR_AppealType"
   val pocAchievementDate = "ITSAPR_pocAchievementDate"
   val journeyId = "ITSAPR_journeyId"
   val penaltyData = "ITSAPR_penaltyData"
 
   //TODO: Remove all these when their answer has been moved into UserAnswers
-  val whyReturnSubmittedLate = "whyReturnSubmittedLate"
   val wasHospitalStayRequired = "wasHospitalStayRequired"
   val hasHealthEventEnded = "hasHealthEventEnded"
-  val isUploadEvidence = "isUploadEvidence"
   val doYouWantToAppealBothPenalties = "doYouWantToAppealBothPenalties"
 }
