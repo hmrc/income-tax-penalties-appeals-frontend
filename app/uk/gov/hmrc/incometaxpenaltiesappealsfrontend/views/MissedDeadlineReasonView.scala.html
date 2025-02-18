@@ -16,6 +16,7 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
@@ -28,7 +29,8 @@
         govukButton: GovukButton,
         formHelper: FormWithCSRF,
         govukCharacterCount: GovukCharacterCount,
-        govukErrorSummary: GovukErrorSummary)
+        govukErrorSummary: GovukErrorSummary,
+        caption: components.PenaltyCaption)
 
 @(form: Form[_], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
@@ -40,7 +42,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit()) {
 
-        <span class="govuk-caption-l" id="captionSpan">@messages("appeal.start.caption")</span>
+        @caption()
 
         @{
             govukCharacterCount(CharacterCount(
