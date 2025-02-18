@@ -211,6 +211,22 @@ lateAppeal.error.required = You must provide some information about why you did 
 lateAppeal.error.length = Explain the reason in {0} characters or fewer
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters
 
+# Missed deadline reason page - LSP
+# ----------------------------------------------------------
+missedDeadlineReason.lsp.headingAndTitle = Why was the submission deadline missed?
+missedDeadlineReason.lsp.hint = We only need to know about this penalty. Other penalties should be appealed separately.
+missedDeadlineReason.lsp.error.required = You must provide some information about why the deadline was missed
+missedDeadlineReason.lsp.error.length = Explain the reason in {0} characters or fewer
+missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters
+
+# Missed deadline reason page - LPP
+# ----------------------------------------------------------
+missedDeadlineReason.lpp.headingAndTitle = Why was the payment late?
+missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately.
+missedDeadlineReason.lpp.error.required = You must provide some information about why the payment was late
+missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer
+missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters
+
 # Has the crime been reported page
 # ----------------------------------------------------------
 crime.headingAndTitle = Has this crime been reported to the police?
