@@ -29,6 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{MissedDeadlineReasonPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
@@ -47,7 +48,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
   }
 
     val userAnswersWithReason: UserAnswers =
-      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other")
+      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)
 
     "GET /missed-deadline-reason" should {
 
@@ -129,7 +130,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
   "POST /missed-deadline-reason" when {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, "other")
+    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)
 
     "the text area content is valid" should {
 

@@ -41,7 +41,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(missedDeadlineReason(
       form = fillForm(MissedDeadlineReasonForm.form(), MissedDeadlineReasonPage),
-      isLPP = false //TODO: Need to determine this as part of a future story
+      isLPP = user.isLPP
     ))
   }
 
@@ -50,7 +50,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
       formWithErrors =>
         Future(BadRequest(missedDeadlineReason(
           form = formWithErrors,
-          isLPP = false //TODO: Need to determine this as part of a future story
+          isLPP = user.isLPP
         ))),
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)
