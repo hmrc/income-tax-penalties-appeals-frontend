@@ -172,7 +172,7 @@ object AppealSubmission {
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
-          statement = request.session.get(IncomeTaxSessionKeys.whyReturnSubmittedLate), //TODO: Update this when we build the page
+          statement = request.userAnswers.getAnswer(MissedDeadlineReasonPage),
           supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),
           lateAppeal = isLateAppeal,
           lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,

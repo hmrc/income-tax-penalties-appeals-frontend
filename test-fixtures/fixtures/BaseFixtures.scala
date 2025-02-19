@@ -23,7 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Cr
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 
 import java.time.LocalDate
@@ -136,13 +136,13 @@ trait BaseFixtures {
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
+        .setAnswer(ExtraEvidencePage, true)
+        .setAnswer(MissedDeadlineReasonPage, "This is a reason."),
       penaltyData = penaltyData
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
-        IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
-        IncomeTaxSessionKeys.isUploadEvidence -> "yes",
         IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
       ))
   }
@@ -161,13 +161,13 @@ trait BaseFixtures {
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
+        .setAnswer(ExtraEvidencePage, false)
+        .setAnswer(MissedDeadlineReasonPage, "This is a reason."),
       penaltyData = penaltyData
     )(
       //TODO: These will all move to be UserAnswers as part of future stories
       FakeRequest().withSession(
-        IncomeTaxSessionKeys.whyReturnSubmittedLate -> "This is a reason.",
-        IncomeTaxSessionKeys.isUploadEvidence -> "no",
         IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
       ))
   }
