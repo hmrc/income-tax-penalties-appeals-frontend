@@ -3,8 +3,10 @@ service.indexPageTitle = Appeal a Self Assessment penalty
 service.indexPageHeader = Appeal a Self Assessment penalty
 error.title.prefix = Error:
 govuk.suffix = GOV.UK
-alphaBanner.message = This is a new service – your {0} will help us to improve it.
-alphaBanner.linkText = feedback
+
+phaseBanner.tag = Beta
+phaseBanner.message = This is a new service – your {0} will help us to improve it.
+phaseBanner.linkText = feedback
 
 service.lsp.caption = Late submission penalty point: {0} to {1}
 service.lpp.caption = Late payment penalty: {0} to {1}
