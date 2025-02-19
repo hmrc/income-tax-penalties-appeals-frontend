@@ -3,8 +3,10 @@ service.indexPageTitle = Appeal a Self Assessment penalty (Welsh)
 service.indexPageHeader = Appeal a Self Assessment penalty (Welsh)
 error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
-alphaBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
-alphaBanner.linkText = feedback (Welsh)
+
+phaseBanner.tag = Beta (Welsh)
+phaseBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
+phaseBanner.linkText = feedback (Welsh)
 
 service.lsp.caption = Late submission penalty point: {0} to {1} (Welsh)
 service.lpp.caption = Late payment penalty: {0} to {1} (Welsh)

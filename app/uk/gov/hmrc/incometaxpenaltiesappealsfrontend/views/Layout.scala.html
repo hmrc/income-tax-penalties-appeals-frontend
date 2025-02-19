@@ -70,11 +70,11 @@
 
     @govukPhaseBanner(PhaseBanner(
         tag = Some(Tag(
-            content = Text("Alpha")
+            content = Text(messages("phaseBanner.tag")),
         )),
-        content =   HtmlContent(messages("alphaBanner.message",
+        content =   HtmlContent(messages("phaseBanner.message",
             link(link=appConfig.alphaBannerUrl,
-                messageKey="alphaBanner.linkText",
+                messageKey="phaseBanner.linkText",
                 inParagraph = true)
         ))
     ))
