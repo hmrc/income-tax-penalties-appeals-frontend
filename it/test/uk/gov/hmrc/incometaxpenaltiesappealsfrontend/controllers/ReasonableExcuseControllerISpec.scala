@@ -28,11 +28,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.R
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
+
+import java.time.LocalDate
 
 
 class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
@@ -136,19 +138,43 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   "POST /reason-for-missing-deadline" when {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
+    "a valid radio option has been selected" when {
 
-    "a valid radio option has been selected" should {
+      "the answer is NOT different (or is newly captured)" should {
 
-      "save the value to UserAnswers AND redirect to the Honesty Declaration page" in {
+        "save the value to UserAnswers AND redirect to the Honesty Declaration page" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
-        val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> "bereavement"))
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
 
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+          val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Bereavement.toString))
 
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+
+        }
+      }
+
+      "the answer is different to a previously captured value" should {
+
+        val existingAnswers = emptyUerAnswersWithLSP
+          .setAnswer(ReasonableExcusePage, Bereavement)
+          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025,1,1))
+
+        "save the value to UserAnswers, clear down existing journey answers AND redirect to the Honesty Declaration page" in {
+
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(existingAnswers).futureValue
+
+          val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Crime.toString))
+
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+
+          val updatedData = userAnswersRepo.getUserAnswer(existingAnswers.journeyId).futureValue.map(_.data).get
+          updatedData shouldBe emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime).data
+
+        }
       }
     }
 
@@ -157,7 +183,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "render a bad request with the Form Error on the page with a link to the radios in error" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+        userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
         val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> ""))
 
         result.status shouldBe BAD_REQUEST

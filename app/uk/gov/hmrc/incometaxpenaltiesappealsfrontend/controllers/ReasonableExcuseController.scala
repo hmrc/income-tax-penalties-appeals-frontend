@@ -17,14 +17,17 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.data.Form
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReasonableExcuseView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -39,32 +42,34 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
                                            userAnswersService: UserAnswersService,
                                            override val controllerComponents: MessagesControllerComponents,
                                            override val errorHandler: ErrorHandler
-                                          )(implicit ec: ExecutionContext,
-                                            val appConfig: AppConfig) extends BaseUserAnswersController {
+                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit currentUser =>
-    Future(Ok(reasonableExcuse(
-      form = fillForm[ReasonableExcuse](ReasonableExcusesForm.form(), ReasonableExcusePage),
-      isAgent = currentUser.isAgent
-    )))
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+    renderView(Ok, fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage))
   }
-
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     ReasonableExcusesForm.form().bindFromRequest().fold(
-      formWithErrors =>
-        Future(BadRequest(reasonableExcuse(
-          isAgent = user.isAgent,
-          form = formWithErrors
-        ))),
-      {
-        reasonableExcuse =>
-          val updatedAnswers = user.userAnswers.setAnswer[ReasonableExcuse](ReasonableExcusePage, reasonableExcuse)
-          userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-            Redirect(routes.HonestyDeclarationController.onPageLoad())
-          }
-      }
+      renderView(BadRequest, _),
+      updateUserAnswersAndRedirect
     )
   }
 
+  private def renderView(status: Status, form: Form[_])(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
+    Future(status(reasonableExcuse(user.isAgent, form)))
+
+  private def updateUserAnswersAndRedirect(newAnswer: ReasonableExcuse)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] = {
+    val updatedAnswers = user.userAnswers.getAnswer(ReasonableExcusePage) match {
+      case Some(existingAnswer) if existingAnswer != newAnswer =>
+        UserAnswers(user.journeyId)
+          .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, user.penaltyData)
+          .setAnswer(ReasonableExcusePage, newAnswer)
+      case _ =>
+        user.userAnswers.setAnswer(ReasonableExcusePage, newAnswer)
+    }
+
+    userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+      Redirect(routes.HonestyDeclarationController.onPageLoad())
+    }
+  }
 }
