@@ -24,19 +24,17 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
-import play.api.{Application, inject}
 import play.api.inject.Injector
 import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}
 import play.api.libs.json.Writes
 import play.api.libs.ws.{DefaultWSCookie, WSClient, WSCookie, WSRequest, WSResponse}
 import play.api.mvc.{Cookie, Session, SessionCookieBaker}
 import play.api.test.Helpers._
+import play.api.{Application, inject}
 import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
-
-import scala.concurrent.Future
 
 trait ComponentSpecHelper
   extends AnyWordSpec
@@ -75,6 +73,8 @@ trait ComponentSpecHelper
     "microservice.services.penalties.port" -> mockPort,
     "microservice.services.income-tax-penalties-stubs.host" -> mockHost,
     "microservice.services.income-tax-penalties-stubs.port" -> mockPort,
+    "microservice.services.income-tax-session-data.host" -> mockHost,
+    "microservice.services.income-tax-session-data.port" -> mockPort,
     "microservice.services.auth.host" -> mockHost,
     "microservice.services.auth.port" -> mockPort,
     "microservice.services.message-frontend.host" -> mockHost,

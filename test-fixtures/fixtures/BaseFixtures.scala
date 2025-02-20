@@ -21,18 +21,31 @@ import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 
 import java.time.LocalDate
+import java.util.UUID
 
 trait BaseFixtures {
 
   val testMtdItId = "123456789"
   val testArn = "00123456"
   val testJourneyId: String = "journeyId123"
+  val testNino = "AA123456A"
+  val testUtr = "9999912345"
+  val testInternalId: String = UUID.randomUUID().toString
+  val testSessionId: String = UUID.randomUUID().toString
+
+  val sessionData: SessionData = SessionData(
+    mtditid = testMtdItId,
+    nino = testNino,
+    utr = testUtr,
+    internalId = testInternalId,
+    sessionId = testSessionId,
+  )
 
   val latePaymentAppealData: AppealData = AppealData(
     `type` = PenaltyTypeEnum.Late_Payment,

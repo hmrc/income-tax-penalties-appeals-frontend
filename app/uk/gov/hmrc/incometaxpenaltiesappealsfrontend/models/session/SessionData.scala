@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session
 
-import com.github.tomakehurst.wiremock.stubbing.StubMapping
-import play.api.libs.json.Writes
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.WiremockMethods
+import play.api.libs.json.{Format, Json}
 
-trait UpscanStub extends WiremockMethods {
+case class SessionData(mtditid: String,
+                       nino: String,
+                       utr: String,
+                       internalId: String,
+                       sessionId: String)
 
-  def stubUpscanInitiate[T](status: Int, body: T)(implicit writes: Writes[T]): StubMapping =
-    when(POST, uri = "/upscan/v2/initiate").thenReturn(status, body)
-
+object SessionData {
+  implicit val fmt: Format[SessionData] = Json.format[SessionData]
 }
