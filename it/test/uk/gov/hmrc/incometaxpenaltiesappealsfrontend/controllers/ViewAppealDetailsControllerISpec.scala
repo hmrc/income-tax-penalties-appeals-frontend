@@ -122,11 +122,11 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           document.select("#penaltyReason > dd").text() shouldBe reason._2
           document.select("#startDate > dt").text() shouldBe reason._3
           document.select("#startDate > dd").text() shouldBe "20 January 2029"
-          if(reason._1 == "technicalIssues"){
+          if(reason._1 == TechnicalIssues){
             document.select("#endDate > dt").text() shouldBe "When did the software or technology issues end?"
             document.select("#endDate > dd").text() shouldBe "20 February 2029"
           }
-          if(reason._1 == "crime"){
+          if(reason._1 == Crime){
             document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
             document.select("#reportedCrime > dd").text() shouldBe "Yes"
           }
@@ -159,11 +159,11 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           document.select("#penaltyReason > dd").text() shouldBe reason._2
           document.select("#startDate > dt").text() shouldBe reason._3
           document.select("#startDate > dd").text() shouldBe "20 January 2029"
-          if(reason._1 == "technicalIssues"){
+          if(reason._1 == TechnicalIssues){
             document.select("#endDate > dt").text() shouldBe "When did the software or technology issues end?"
             document.select("#endDate > dd").text() shouldBe "20 February 2029"
           }
-          if(reason._1 == "crime"){
+          if(reason._1 == Crime){
             document.select("#reportedCrime > dt").text() shouldBe "Has this crime been reported to the police?"
             document.select("#reportedCrime > dd").text() shouldBe "Yes"
           }

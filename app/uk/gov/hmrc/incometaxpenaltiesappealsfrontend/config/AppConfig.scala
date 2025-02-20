@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
 import play.api.Configuration
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, StubIncomeTaxSessionData, UseStubForBackend}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.{Inject, Singleton}
@@ -49,6 +49,10 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   def upscanInitiateBaseUrl: String = servicesConfig.baseUrl("upscan-initiate")
 
   def btaBaseUrl: String = servicesConfig.baseUrl("business-tax-account")
+
+  def incomeTaxSessionDataBaseUrl: String =
+    if (isEnabled(StubIncomeTaxSessionData)) s"${servicesConfig.baseUrl("income-tax-penalties-stubs")}/income-tax-penalties-stubs"
+    else servicesConfig.baseUrl("income-tax-session-data")
 
   val appName: String = servicesConfig.getString("appName")
 
