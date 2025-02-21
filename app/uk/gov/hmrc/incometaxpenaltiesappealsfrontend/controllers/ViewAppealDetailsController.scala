@@ -18,29 +18,40 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.IncomeTaxSessionDataConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.PrintAppealHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 
 class ViewAppealDetailsController @Inject()(viewAppealDetails: ViewAppealDetailsView,
                                             val authorised: AuthAction,
                                             withNavBar: NavBarRetrievalAction,
                                             withAnswers: UserAnswersAction,
+                                            printAppealService: PrintAppealHelper,
+                                            upscanService: UpscanService,
+                                            incomeTaxSessionDataConnector: IncomeTaxSessionDataConnector,
                                             override val errorHandler: ErrorHandler,
                                             override val controllerComponents: MessagesControllerComponents,
-                                           )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(viewAppealDetails(
-        user.isAppealLate(), user.isAgent, reasonableExcuse
-      )))
-    }
+
+    val fUploadedFiles = upscanService.getAllReadyFiles(user.journeyId)
+    val fNino = incomeTaxSessionDataConnector.getSessionData().map {
+      case Right(data) => data.map(_.nino)
+      case _           => None
+    }.recover(_ => None)
+
+    for {
+      uploadedFiles   <- fUploadedFiles
+      nino            <- fNino
+      summaryListRows =  printAppealService.constructPrintSummaryRows(uploadedFiles, nino)
+    } yield Ok(viewAppealDetails(summaryListRows))
   }
 }

@@ -50,7 +50,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
             implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-            "when there's no answer" should {
+            "there's no answer" should {
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
@@ -58,31 +58,52 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
               }
             }
 
-            "when there's an answer" should {
+            "there's an answer" when {
 
               if (Seq(TechnicalIssues, UnexpectedHospital).contains(reason)) {
 
-                "must output the expected row" in {
+                "show actions links == true" should {
 
-                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUerAnswersWithLSP
-                      .setAnswer(ReasonableExcusePage, reason)
-                      .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
-                  )
+                  "must output the expected row with a change link" in {
 
-                  WhenDidEventEndSummary.row() shouldBe Some(summaryListRow(
-                    label = messagesForLanguage.cyaKey(reason),
-                    value = Html(dateToString(LocalDate.of(2025, 1, 1))),
-                    actions = Some(Actions(
-                      items = Seq(
-                        ActionItem(
-                          content = Text(messagesForLanguage.change),
-                          href = controllers.routes.WhenDidEventEndController.onPageLoad().url,
-                          visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
-                        ).withId("changeWhenDidEventEnd")
-                      )
+                    implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                      emptyUerAnswersWithLSP
+                        .setAnswer(ReasonableExcusePage, reason)
+                        .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
+                    )
+
+                    WhenDidEventEndSummary.row() shouldBe Some(summaryListRow(
+                      label = messagesForLanguage.cyaKey(reason),
+                      value = Html(dateToString(LocalDate.of(2025, 1, 1))),
+                      actions = Some(Actions(
+                        items = Seq(
+                          ActionItem(
+                            content = Text(messagesForLanguage.change),
+                            href = controllers.routes.WhenDidEventEndController.onPageLoad().url,
+                            visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
+                          ).withId("changeWhenDidEventEnd")
+                        )
+                      ))
                     ))
-                  ))
+                  }
+                }
+
+                "show actions links == false" should {
+
+                  "must output the expected row WITHOUT a change link" in {
+
+                    implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                      emptyUerAnswersWithLSP
+                        .setAnswer(ReasonableExcusePage, reason)
+                        .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
+                    )
+
+                    WhenDidEventEndSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                      label = messagesForLanguage.cyaKey(reason),
+                      value = Html(dateToString(LocalDate.of(2025, 1, 1))),
+                      actions = None
+                    ))
+                  }
                 }
               } else {
 

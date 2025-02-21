@@ -46,7 +46,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
 
             implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-            "when there's no answer" should {
+            "there's no answer" should {
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
@@ -54,19 +54,20 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
               }
             }
 
-            "when there's an answer" should {
+            "there's an answer" when {
 
-              "must output the expected row" in {
+              "show actions links == true" should {
 
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                  emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
-                )
+                "must output the expected row with change link" in {
 
-                ReasonableExcuseSummary.row() shouldBe Some(summaryListRow(
-                  label = messagesForLanguage.cyaKey,
-                  value = Html(messagesForLanguage.cyaValue(reason)),
-                  actions = Some(
-                    Actions(
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
+                  )
+
+                  ReasonableExcuseSummary.row() shouldBe Some(summaryListRow(
+                    label = messagesForLanguage.cyaKey,
+                    value = Html(messagesForLanguage.cyaValue(reason)),
+                    actions = Some(Actions(
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
@@ -74,9 +75,25 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                         ).withId("changeReasonableExcuse")
                       )
-                    )
+                    ))
+                  ))
+                }
+              }
+
+              "show actions links == false" should {
+
+                "must output the expected row WITHOUT change link" in {
+
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
                   )
-                ))
+
+                  ReasonableExcuseSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                    label = messagesForLanguage.cyaKey,
+                    value = Html(messagesForLanguage.cyaValue(reason)),
+                    actions = None
+                  ))
+                }
               }
             }
           }

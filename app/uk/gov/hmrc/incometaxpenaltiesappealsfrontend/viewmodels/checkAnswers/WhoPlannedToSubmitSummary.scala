@@ -28,13 +28,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhoPlannedToSubmitSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(user.isAgent) {
       WhoPlannedToSubmitPage.value.map { whoPlannedToSubmit =>
         summaryListRow(
           label = messages(s"agent.checkYourAnswers.whoPlannedToSubmit.key"),
           value = Html(messages(s"agent.checkYourAnswers.whoPlannedToSubmit.value.$whoPlannedToSubmit")),
-          actions = Some(Actions(
+          actions = Option.when(showActionLinks)(Actions(
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),

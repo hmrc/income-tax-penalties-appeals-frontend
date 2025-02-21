@@ -26,15 +26,16 @@ import javax.inject.Inject
 
 class CheckAnswersHelper @Inject()(lateAppealSummary: LateAppealSummary) {
 
-  def constructSummaryListRows(uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Seq[SummaryListRow] =
+  def constructSummaryListRows(uploadedFiles: Seq[UploadJourney], showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Seq[SummaryListRow] =
     Seq(
-      WhoPlannedToSubmitSummary.row(),
-      WhatCausedYouToMissDeadlineSummary.row(),
-      ReasonableExcuseSummary.row(),
-      WhenDidEventHappenSummary.row(),
-      WhenDidEventEndSummary.row(),
-      CrimeReportedSummary.row(),
-      lateAppealSummary.row(),
-      UploadedDocumentsSummary.row(uploadedFiles)
+      WhoPlannedToSubmitSummary.row(showActionLinks),
+      WhatCausedYouToMissDeadlineSummary.row(showActionLinks),
+      ReasonableExcuseSummary.row(showActionLinks),
+      WhenDidEventHappenSummary.row(showActionLinks),
+      WhenDidEventEndSummary.row(showActionLinks),
+      CrimeReportedSummary.row(showActionLinks),
+      MissedDeadlineReasonSummary.row(showActionLinks),
+      lateAppealSummary.row(showActionLinks),
+      UploadedDocumentsSummary.row(uploadedFiles, showActionLinks)
     ).flatten
 }

@@ -304,6 +304,11 @@ checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = TBC unexp
 checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days
 checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days
 
+checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late?
+checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late
+checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed?
+checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
+
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal
 
@@ -342,31 +347,6 @@ viewAppealDetails.headingAndTitle = Appeal details
 viewAppealDetails.ni = National Insurance number
 viewAppealDetails.penaltyAppealed = Penalty appealed
 viewAppealDetails.appealDate = Appeal date
-viewAppealDetails.multiplePenalties = Do you intend to appeal both penalties for the same reason?
-viewAppealDetails.multiplePenalties.yes = Yes
-viewAppealDetails.multiplePenalties.no = No
-viewAppealDetails.whoPlanned = Before the deadline, who planned to send the submission?
-viewAppealDetails.reason = Reason for missing the submission deadline
-viewAppealDetails.bereavement.value =  Bereavement (someone died)
-viewAppealDetails.cessation.value = Cessation of income source
-viewAppealDetails.crime.value =  Crime
-viewAppealDetails.fireandflood.value =  Fire or flood
-viewAppealDetails.health.value = Serious or life-threatening ill health
-viewAppealDetails.technicalIssue.value = Software or technology issues
-viewAppealDetails.unexpectedHospital.value = Unexpected hospital stay
-viewAppealDetails.other.value = The reason does not fit into any of the other categories
-
-viewAppealDetails.bereavement.date.key =  When did the person die?
-viewAppealDetails.cessation.date.key = TBC cessation
-viewAppealDetails.crime.date.key =  When did the crime happen?
-viewAppealDetails.crime.reported.key =  Has this crime been reported to the police?
-viewAppealDetails.fireandflood.date.key =  When did the fire or flood happen?
-viewAppealDetails.health.date.key = TBC health
-viewAppealDetails.technicalIssue.date.key = When did the software or technology issues begin?
-viewAppealDetails.technicalIssue.date.end.key = When did the software or technology issues end?
-viewAppealDetails.unexpectedHospital.date.key = TBC unexpectedHospital
-viewAppealDetails.other.date.key = TBC other
-
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
 viewAppealDetails.printThisPage = Print this page

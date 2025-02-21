@@ -47,16 +47,16 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
 
         implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-        "when there's no uploaded files" should {
+        "there's no uploaded files" should {
 
           "return None" in {
             UploadedDocumentsSummary.row(Seq()) shouldBe None
           }
         }
 
-        "when there's one uploaded file which is ready (unready ignored)" when {
+        "there's one uploaded file which is ready (unready ignored) (show action links == true)" when {
 
-          "must output the expected row with ready filenames listed" in {
+          "must output the expected row with ready filenames listed and a change link" in {
 
             UploadedDocumentsSummary.row(Seq(
               waitingFile,
@@ -80,32 +80,27 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
           }
         }
 
-        "when there's multiple uploaded files which are ready (unready ignored)" when {
+        "there's multiple uploaded files which are ready (unready ignored) (show action links == false)" when {
 
-          "must output the expected row with ready filenames listed" in {
+          "must output the expected row with ready filenames listed WITHOUT a change link" in {
 
-            UploadedDocumentsSummary.row(Seq(
-              waitingFile,
-              callbackModel,
-              callbackModel2,
-              callbackModel2.copy(uploadDetails = callbackModel2.uploadDetails.map(_.copy(fileName = "file3.txt"))),
-              callbackModelFailed
-            )) shouldBe Some(summaryListRow(
+            UploadedDocumentsSummary.row(
+              Seq(
+                waitingFile,
+                callbackModel,
+                callbackModel2,
+                callbackModel2.copy(uploadDetails = callbackModel2.uploadDetails.map(_.copy(fileName = "file3.txt"))),
+                callbackModelFailed
+              ),
+              showActionLinks = false
+            ) shouldBe Some(summaryListRow(
               label = messagesForLanguage.cyaKey,
               value = HtmlFormat.fill(Seq(
                 Html("file1.txt<br>"),
                 Html("file2.txt<br>"),
                 Html("file3.txt")
               )),
-              actions = Some(Actions(
-                items = Seq(
-                  ActionItem(
-                    content = Text(messagesForLanguage.change),
-                    href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url,
-                    visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
-                  ).withId("changeUploadedFiles")
-                )
-              ))
+              actions = None
             ))
           }
         }

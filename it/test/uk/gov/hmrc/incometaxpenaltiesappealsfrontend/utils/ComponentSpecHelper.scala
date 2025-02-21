@@ -112,9 +112,10 @@ trait ComponentSpecHelper
               queryParams: Map[String, String] = Map.empty,
               origin: Option[String] = None,
               journeyId: Option[String] = Some(testJourneyId),
-              otherSessionValues: Map[String,String] = Map()): WSResponse = {
+              otherSessionValues: Map[String,String] = Map(),
+              otherHeaderValues: Map[String, String] = Map()): WSResponse = {
     await(buildClient(uri)
-      .withHttpHeaders("Authorization" -> "Bearer 123")
+      .withHttpHeaders(otherHeaderValues.toSeq :+ "Authorization" -> "Bearer 123" :_*)
       .withCookies(cookie, mockSessionCookie(isAgent, origin = origin, journeyId, otherSessionValues = otherSessionValues))
       .withQueryStringParameters(queryParams.toSeq: _*)
       .get())
@@ -125,13 +126,16 @@ trait ComponentSpecHelper
               isAgent: Boolean = false,
               cookie: WSCookie = enLangCookie,
               journeyId: Option[String] = Some(testJourneyId),
-              otherSessionValues: Map[String,String] = Map())(body: T)(implicit writes: Writes[T]): WSResponse = {
+              otherSessionValues: Map[String,String] = Map(),
+              otherHeaderValues: Map[String, String] = Map())(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders(
-          "Csrf-Token" -> "nocheck",
-          "Content-Type" -> "application/json",
-          "Authorization" -> "Bearer 123"
+          otherHeaderValues.toSeq ++ Seq(
+            "Csrf-Token" -> "nocheck",
+            "Content-Type" -> "application/json",
+            "Authorization" -> "Bearer 123"
+          ): _*
         )
         .withCookies(cookie, mockSessionCookie(isAgent, journeyId = journeyId, otherSessionValues = otherSessionValues))
         .post(writes.writes(body).toString())
@@ -142,13 +146,16 @@ trait ComponentSpecHelper
              isLate: Boolean = true ,
              isAgent: Boolean = false,
              journeyId: Option[String] = Some(testJourneyId),
-             otherSessionValues: Map[String,String] = Map())(body: T)(implicit writes: Writes[T]): WSResponse = {
+             otherSessionValues: Map[String,String] = Map(),
+             otherHeaderValues: Map[String, String] = Map())(body: T)(implicit writes: Writes[T]): WSResponse = {
     await(
       buildClient(uri)
         .withHttpHeaders(
-          "Csrf-Token" -> "nocheck",
-          "Content-Type" -> "application/json",
-          "Authorization" -> "Bearer 123"
+          otherHeaderValues.toSeq ++ Seq(
+            "Csrf-Token" -> "nocheck",
+            "Content-Type" -> "application/json",
+            "Authorization" -> "Bearer 123"
+          ): _*
         )
         .withCookies(mockSessionCookie(isAgent, journeyId = journeyId, otherSessionValues = otherSessionValues))
         .put(writes.writes(body).toString())
@@ -159,10 +166,13 @@ trait ComponentSpecHelper
                 isLate: Boolean = true,
                 isAgent: Boolean = false,
                 journeyId: Option[String] = Some(testJourneyId),
-                otherSessionValues: Map[String,String] = Map()): WSResponse = {
+                otherSessionValues: Map[String,String] = Map(),
+                otherHeaderValues: Map[String, String] = Map()): WSResponse = {
     await(buildClient(uri).withHttpHeaders(
-        "Csrf-Token" -> "nocheck",
-        "Authorization" -> "Bearer 123"
+        otherHeaderValues.toSeq ++ Seq(
+          "Csrf-Token" -> "nocheck",
+          "Authorization" -> "Bearer 123"
+        ): _*
       )
       .withCookies(mockSessionCookie(isAgent, journeyId = journeyId, otherSessionValues = otherSessionValues))
       .delete())

@@ -46,7 +46,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
         implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-        "when there's no answer" should {
+        "there's no answer" should {
 
           "return None" in {
             implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
@@ -54,11 +54,11 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
           }
         }
 
-        "when there's an answer" when {
+        "there's an answer" when {
 
-          "reasonable excuse is 'bereavement'" when {
+          "reasonable excuse is 'bereavement' (show actions links == true)" when {
 
-            "must output the expected row with the extended late appeal days value" in {
+            "must output the expected row with the extended late appeal days value and a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
                 emptyUerAnswersWithLSP
@@ -82,9 +82,9 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
             }
           }
 
-          "reasonable excuse is anything else" when {
+          "reasonable excuse is anything else (show action links == false)" when {
 
-            "must output the expected row with the standard late appeal days" in {
+            "must output the expected row with the standard late appeal days WITHOUT a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
                 emptyUerAnswersWithLSP
@@ -92,18 +92,10 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
                   .setAnswer(LateAppealPage, "foo")
               )
 
-              lateAppealSummary.row() shouldBe Some(summaryListRow(
+              lateAppealSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
                 label = messagesForLanguage.cyaKey(appConfig.lateDays),
                 value = Html("foo"),
-                actions = Some(Actions(
-                  items = Seq(
-                    ActionItem(
-                      content = Text(messagesForLanguage.change),
-                      href = controllers.routes.LateAppealController.onPageLoad().url,
-                      visuallyHiddenText = Some(messagesForLanguage.cyaHidden(appConfig.lateDays))
-                    ).withId("changeLateAppeal")
-                  )
-                ))
+                actions = None
               ))
             }
           }

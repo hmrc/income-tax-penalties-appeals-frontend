@@ -28,13 +28,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhatCausedYouToMissDeadlineSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(user.isAgent) {
       WhatCausedYouToMissDeadlinePage.value.map { cause =>
         summaryListRow(
           label = messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.key"),
           value = Html(messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.value.$cause")),
-          actions = Some(Actions(
+          actions = Option.when(showActionLinks)(Actions(
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),

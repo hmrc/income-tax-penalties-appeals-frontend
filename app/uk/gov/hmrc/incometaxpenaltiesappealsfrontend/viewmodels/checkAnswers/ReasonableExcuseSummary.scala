@@ -27,12 +27,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object ReasonableExcuseSummary extends SummaryListRowHelper {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.map { reasonableExcuse =>
       summaryListRow(
         label = messages("checkYourAnswers.reasonableExcuse.key"),
         value = Html(messages(s"checkYourAnswers.reasonableExcuse.value.$reasonableExcuse")),
-        actions = Some(Actions(
+        actions = Option.when(showActionLinks)(Actions(
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
