@@ -42,7 +42,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
 
         implicit val msgs: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-        "when the request is not for an Agent (even if there's an answer saved)" should {
+        "the request is not for an Agent (even if there's an answer saved)" should {
 
           "return None" in {
             implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent))
@@ -50,7 +50,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
           }
         }
 
-        "when there's no answer" should {
+        "there's no answer" should {
 
           "return None" in {
             implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUerAnswersWithLSP)
@@ -58,27 +58,46 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
           }
         }
 
-        "when there's an answer" should {
+        "there's an answer" when {
 
-          "must output the expected row" in {
+          "show action links == true" should {
 
-            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
-              emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
-            )
+            "must output the expected row with a change link" in {
 
-            WhatCausedYouToMissDeadlineSummary.row() shouldBe Some(summaryListRow(
-              label = messagesForLanguage.cyaKey,
-              value = Html(messagesForLanguage.agent),
-              actions = Some(Actions(
-                items = Seq(
-                  ActionItem(
-                    content = Text(messagesForLanguage.change),
-                    href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad().url,
-                    visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
-                  ).withId("changeWhatCausedYouToMissDeadline")
-                )
+              implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
+                emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+              )
+
+              WhatCausedYouToMissDeadlineSummary.row() shouldBe Some(summaryListRow(
+                label = messagesForLanguage.cyaKey,
+                value = Html(messagesForLanguage.agent),
+                actions = Some(Actions(
+                  items = Seq(
+                    ActionItem(
+                      content = Text(messagesForLanguage.change),
+                      href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad().url,
+                      visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                    ).withId("changeWhatCausedYouToMissDeadline")
+                  )
+                ))
               ))
-            ))
+            }
+          }
+
+          "show action links == false" should {
+
+            "must output the expected row WITHOUT a change link" in {
+
+              implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
+                emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+              )
+
+              WhatCausedYouToMissDeadlineSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                label = messagesForLanguage.cyaKey,
+                value = Html(messagesForLanguage.agent),
+                actions = None
+              ))
+            }
           }
         }
       }

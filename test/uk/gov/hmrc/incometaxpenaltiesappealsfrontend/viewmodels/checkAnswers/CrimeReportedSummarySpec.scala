@@ -56,7 +56,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
 
             } else {
 
-              "when there's no answer" should {
+              "there's no answer" should {
 
                 "return None" in {
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
@@ -64,29 +64,50 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                 }
               }
 
-              "when there's an answer" should {
+              "there's an answer" when {
 
-                "must output the expected row" in {
+                "show action links is set to true" should {
 
-                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUerAnswersWithLSP
-                      .setAnswer(ReasonableExcusePage, reason)
-                      .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-                  )
+                  "must output the expected row with a change link" in {
 
-                  CrimeReportedSummary.row() shouldBe Some(summaryListRow(
-                    label = messagesForLanguage.cyaKey,
-                    value = Html(messagesForLanguage.yes),
-                    actions = Some(Actions(
-                      items = Seq(
-                        ActionItem(
-                          content = Text(messagesForLanguage.change),
-                          href = controllers.routes.CrimeReportedController.onPageLoad().url,
-                          visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
-                        ).withId("changeCrimeReported")
-                      )
+                    implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                      emptyUerAnswersWithLSP
+                        .setAnswer(ReasonableExcusePage, reason)
+                        .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
+                    )
+
+                    CrimeReportedSummary.row() shouldBe Some(summaryListRow(
+                      label = messagesForLanguage.cyaKey,
+                      value = Html(messagesForLanguage.yes),
+                      actions = Some(Actions(
+                        items = Seq(
+                          ActionItem(
+                            content = Text(messagesForLanguage.change),
+                            href = controllers.routes.CrimeReportedController.onPageLoad().url,
+                            visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                          ).withId("changeCrimeReported")
+                        )
+                      ))
                     ))
-                  ))
+                  }
+                }
+
+                "show action links is set to false" should {
+
+                  "must output the expected row WITHOUT a change link" in {
+
+                    implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                      emptyUerAnswersWithLSP
+                        .setAnswer(ReasonableExcusePage, reason)
+                        .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
+                    )
+
+                    CrimeReportedSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                      label = messagesForLanguage.cyaKey,
+                      value = Html(messagesForLanguage.yes),
+                      actions = None
+                    ))
+                  }
                 }
               }
             }

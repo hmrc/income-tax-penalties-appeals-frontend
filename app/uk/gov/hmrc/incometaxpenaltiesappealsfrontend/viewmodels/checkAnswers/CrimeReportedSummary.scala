@@ -28,13 +28,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object CrimeReportedSummary extends SummaryListRowHelper {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(ReasonableExcusePage.value.contains(Crime)) {
       CrimeReportedPage.value.map { crimeReported =>
         summaryListRow(
           label = messages("checkYourAnswers.crimeReported.key"),
           value = Html(messages(s"common.$crimeReported")),
-          actions = Some(Actions(
+          actions = Option.when(showActionLinks)(Actions(
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),

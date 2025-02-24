@@ -29,13 +29,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
     ReasonableExcusePage.value.collect { case reasonableExcuse@(TechnicalIssues | UnexpectedHospital) =>
       WhenDidEventEndPage.value.map { endDate =>
         summaryListRow(
           label = messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.key"),
           value = Html(dateToString(endDate)),
-          actions = Some(Actions(
+          actions = Option.when(showActionLinks)(Actions(
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),

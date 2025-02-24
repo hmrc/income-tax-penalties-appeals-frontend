@@ -20,8 +20,14 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.Language
 
 sealed trait i18n {
-  def lspCaption(from: String, to: String): String = s"Late submission penalty point: $from to $to".replace("\u00A0", " ")
-  def lppCaption(from: String, to: String): String = s"Late payment penalty: $from to $to".replace("\u00A0", " ")
+  def lspCaption(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Late submission penalty point: $from to $to"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
+  def lppCaption(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Late payment penalty: $from to $to"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
   val serviceName = "Appeal a Self Assessment penalty"
   def titleWithSuffix(title: String): String = title + s" - Appeal a Self Assessment penalty - GOV.UK"
   val continue = "Continue"
@@ -44,8 +50,14 @@ trait En extends i18n {
 object English extends En
 
 trait Cy extends i18n {
-  override def lspCaption(from: String, to: String) = s"Late submission penalty point: $from\u00A0to\u00A0$to (Welsh)"
-  override def lppCaption(from: String, to: String) = s"Late payment penalty: $from\u00A0to\u00A0$to (Welsh)"
+  override def lspCaption(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Late submission penalty point: $from to $to (Welsh)"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
+  override def lppCaption(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Late payment penalty: $from to $to (Welsh)"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
   override val serviceName = "Appeal a Self Assessment penalty (Welsh)"
   override def titleWithSuffix(title: String): String = title + s" - Appeal a Self Assessment penalty - GOV.UK (Welsh)"
   override val continue = "Yn eich blaen"

@@ -31,12 +31,12 @@ import scala.annotation.tailrec
 
 object UploadedDocumentsSummary extends SummaryListRowHelper {
 
-  def row(uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(uploadedFiles: Seq[UploadJourney], showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(uploadedFiles.exists(_.uploadDetails.isDefined) && ReasonableExcusePage.value.contains(Other)) {
       summaryListRow(
         label = messages("checkYourAnswers.uploadedDocuments.key"),
         value = HtmlFormat.fill(filenames(uploadedFiles.flatMap(_.uploadDetails))),
-        actions = Some(Actions(
+        actions = Option.when(showActionLinks)(Actions(
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),

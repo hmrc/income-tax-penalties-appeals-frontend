@@ -17,33 +17,32 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
+import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{MissedDeadlineReasonPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
-import javax.inject.Inject
-
-class LateAppealSummary @Inject()(implicit val appConfig: AppConfig) extends SummaryListRowHelper {
+object MissedDeadlineReasonSummary extends SummaryListRowHelper {
 
   def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
-    LateAppealPage.value.map { lateAppeal =>
+    Option.when(ReasonableExcusePage.value.contains(Other))(MissedDeadlineReasonPage.value.map { reason =>
+      val infix = if(user.isLPP) "lpp" else "lsp"
       summaryListRow(
-        label = messages("checkYourAnswers.lateAppeal.key", user.lateAppealDays()),
-        value = HtmlFormat.escape(lateAppeal),
+        label = messages(s"checkYourAnswers.missedDeadlineReason.$infix.key"),
+        value = HtmlFormat.escape(reason),
         actions = Option.when(showActionLinks)(Actions(
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.LateAppealController.onPageLoad().url,
-              visuallyHiddenText = Some(messages("checkYourAnswers.lateAppeal.change.hidden", user.lateAppealDays()))
-            ).withId("changeLateAppeal")
+              href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
+              visuallyHiddenText = Some(messages(s"checkYourAnswers.missedDeadlineReason.$infix.change.hidden"))
+            ).withId("changeMissedDeadlineReason")
           )
         ))
       )
-    }
+    }).flatten
 }

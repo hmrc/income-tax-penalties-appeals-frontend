@@ -22,8 +22,10 @@ import java.time.LocalDate
 
 trait DateFormatter {
 
-  def dateToString(date: LocalDate)(implicit messages: Messages): String =
-    htmlNonBroken(s"${date.getDayOfMonth} ${messages(s"month.${date.getMonthValue}")} ${date.getYear}")
+  def dateToString(date: LocalDate, withNBSP: Boolean = true)(implicit messages: Messages): String = {
+    val dateString = s"${date.getDayOfMonth} ${messages(s"month.${date.getMonthValue}")} ${date.getYear}"
+    if(withNBSP) htmlNonBroken(dateString) else dateString
+  }
 
   def htmlNonBroken(string: String): String =
     string.replace(" ", "\u00A0")

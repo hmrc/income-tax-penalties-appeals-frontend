@@ -15,112 +15,36 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 
-@this(layout: Layout,
-      govukButton : GovukButton,
-      h1: H1)
+@this(
+        layout: Layout,
+        govukButton : GovukButton,
+        caption: PenaltyCaption,
+        govukSummaryList: GovukSummaryList,
+        inset: Inset,
+        h1: H1,
+        p: P
+)
 
-@(isLate: Boolean, isAgent: Boolean, reasonableExcuse: ReasonableExcuse)(implicit request: Request[_], messages: Messages)
+@(printRows: Seq[SummaryListRow])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("viewAppealDetails.headingAndTitle"))), backLinkEnabled = false, isPageFullWidth = true) {
 
     @h1("viewAppealDetails.headingAndTitle")
 
-    <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row" id="nationalInsurance">
-          <dt class="govuk-summary-list__key">
-            @messages("viewAppealDetails.ni")
-          </dt>
-          <dd class="govuk-summary-list__value">
-              QQ123456B
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row" id="penaltyAppealed">
-          <dt class="govuk-summary-list__key">
-            @messages("viewAppealDetails.penaltyAppealed")
-          </dt>
-          <dd class="govuk-summary-list__value">
-              Late payment penalty: @DateFormatter.htmlNonBroken("2027 to 2028") tax year
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row" id="appealDate">
-          <dt class="govuk-summary-list__key">
-              @messages("viewAppealDetails.appealDate")
-          </dt>
-          <dd class="govuk-summary-list__value">
-             @DateFormatter.htmlNonBroken("17 March 2029")
-          </dd>
-        </div>
-         @if(isAgent) {
-            <div class="govuk-summary-list__row" id="whoPlanned">
-                <dt class="govuk-summary-list__key">
-                @messages("viewAppealDetails.whoPlanned")
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    I did
-                </dd>
-            </div>
-        }
-        <div class="govuk-summary-list__row" id="multiplePenalties">
-          <dt class="govuk-summary-list__key">
-            @messages("viewAppealDetails.multiplePenalties")
-          </dt>
-          <dd class="govuk-summary-list__value">
-              @messages("viewAppealDetails.multiplePenalties.no")
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row" id="penaltyReason">
-            <dt class="govuk-summary-list__key">
-            @messages("viewAppealDetails.reason")
-            </dt>
-            <dd class="govuk-summary-list__value">
-                @messages(s"viewAppealDetails.$reasonableExcuse.value")
-            </dd>
-        </div>
-        <div class="govuk-summary-list__row" id="startDate">
-            <dt class="govuk-summary-list__key">
-            @messages(s"viewAppealDetails.$reasonableExcuse.date.key")
-            </dt>
-            <dd class="govuk-summary-list__value">
-                @DateFormatter.htmlNonBroken("20 January 2029")
-            </dd>
-        </div>
-        @if(reasonableExcuse == TechnicalIssues) {
-            <div class="govuk-summary-list__row" id="endDate">
-                <dt class="govuk-summary-list__key">
-                @messages(s"viewAppealDetails.$reasonableExcuse.date.end.key")
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @DateFormatter.htmlNonBroken("20 February 2029")
-                </dd>
-            </div>
-        }
-        @if(reasonableExcuse == Crime) {
-            <div class="govuk-summary-list__row" id="reportedCrime">
-                <dt class="govuk-summary-list__key">
-                @messages("viewAppealDetails.crime.reported.key")
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    Yes
-                </dd>
-            </div>
-        }
-    </dl>
+    @govukSummaryList(SummaryList(printRows))
 
-
-   <div class="govuk-inset-text govuk-!-display-none-print" id="printWarn">
-     <p>
-      @messages("viewAppealDetails.warn.1")
-      <br>
-      @messages("viewAppealDetails.warn.2")
-    </p>
-   </div>
+    @inset(classes = "govuk-!-display-none-print", id= Some("printWarn")) {
+        <p>
+            @messages("viewAppealDetails.warn.1")
+            <br>
+            @messages("viewAppealDetails.warn.2")
+        </p>
+    }
 
     <div class="govuk-form-group">
         @govukButton(Button(

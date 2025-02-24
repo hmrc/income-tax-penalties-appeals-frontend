@@ -41,34 +41,56 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
 
     Seq(En, Cy).foreach { lang =>
 
-      s"rendering in language of '${lang.name}'" should {
+      s"rendering in language of '${lang.name}'" when {
 
         implicit val messages: Messages = messagesApi.preferred(Seq(Lang(lang.code)))
 
-        "construct from UserAnswers" in {
+        val uploads = Seq(callbackModel, callbackModel2)
 
-          val uploads = Seq(callbackModel, callbackModel2)
+        val userAnswers = emptyUerAnswersWithLSP
+          .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+          .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
+          .setAnswer(ReasonableExcusePage, Health)
+          .setAnswer(LateAppealPage, "I was late")
+          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
+          .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 2, 2))
 
-          val userAnswers = emptyUerAnswersWithLSP
-            .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
-            .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
-            .setAnswer(ReasonableExcusePage, Health)
-            .setAnswer(LateAppealPage, "I was late")
-            .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
-            .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 2, 2))
+        implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
 
-          implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
+        "show action links == true" should {
 
-          checkAnswersHelper.constructSummaryListRows(uploads) shouldBe Seq(
-            WhoPlannedToSubmitSummary.row(),
-            WhatCausedYouToMissDeadlineSummary.row(),
-            ReasonableExcuseSummary.row(),
-            WhenDidEventHappenSummary.row(),
-            WhenDidEventEndSummary.row(),
-            CrimeReportedSummary.row(),
-            lateAppealSummary.row(),
-            UploadedDocumentsSummary.row(uploads)
-          ).flatten
+          "construct from UserAnswers with a change link" in {
+
+            checkAnswersHelper.constructSummaryListRows(uploads) shouldBe Seq(
+              WhoPlannedToSubmitSummary.row(),
+              WhatCausedYouToMissDeadlineSummary.row(),
+              ReasonableExcuseSummary.row(),
+              WhenDidEventHappenSummary.row(),
+              WhenDidEventEndSummary.row(),
+              CrimeReportedSummary.row(),
+              MissedDeadlineReasonSummary.row(),
+              lateAppealSummary.row(),
+              UploadedDocumentsSummary.row(uploads)
+            ).flatten
+          }
+        }
+
+        "show action links == false" should {
+
+          "construct from UserAnswers WITHOUT a change link" in {
+
+            checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false) shouldBe Seq(
+              WhoPlannedToSubmitSummary.row(showActionLinks = false),
+              WhatCausedYouToMissDeadlineSummary.row(showActionLinks = false),
+              ReasonableExcuseSummary.row(showActionLinks = false),
+              WhenDidEventHappenSummary.row(showActionLinks = false),
+              WhenDidEventEndSummary.row(showActionLinks = false),
+              CrimeReportedSummary.row(showActionLinks = false),
+              MissedDeadlineReasonSummary.row(showActionLinks = false),
+              lateAppealSummary.row(showActionLinks = false),
+              UploadedDocumentsSummary.row(uploads, showActionLinks = false)
+            ).flatten
+          }
         }
       }
     }
