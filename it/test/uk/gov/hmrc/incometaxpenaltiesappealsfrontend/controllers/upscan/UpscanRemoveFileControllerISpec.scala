@@ -25,6 +25,7 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFileForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
@@ -126,7 +127,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
             val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+            result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad().url)
           }
         }
 
@@ -139,25 +140,45 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
             val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+            result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad().url)
           }
         }
 
         "the file is in the READY state" when {
 
-          "the user selects 'Yes' to delete the file" should {
+          "the user selects 'Yes' to delete the file" when {
 
-            "redirect to the Upscan Check Answers page, removing the file" in {
-              stubAuth(OK, authResponse)
-              fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
-              fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
+            "it's the last file that's being removed" should {
 
-              val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
+              "redirect to the Extra Evidence page, removing the file" in {
+                stubAuth(OK, authResponse)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+                fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
 
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+                val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
-              fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 0
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad().url)
+
+                fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 0
+              }
+            }
+
+            "it's NOT the last file that's being removed" should {
+
+              "redirect to the Upscan Check Answers page, removing the file" in {
+                stubAuth(OK, authResponse)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel2).futureValue
+                fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 2
+
+                val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+
+                fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
+              }
             }
           }
 
