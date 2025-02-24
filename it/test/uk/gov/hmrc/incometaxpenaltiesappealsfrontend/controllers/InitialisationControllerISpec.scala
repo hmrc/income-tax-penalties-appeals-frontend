@@ -56,12 +56,12 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
   "GET /initialise-appeal" when {
     "penalty appeal data is successfully returned from penalties BE" when {
       "initialise the UserAnswers and redirect to the /appeal-start page, adding the journeyId to session" when {
-        "the user is an authorised individual" in {
+        "the user is an authorised individual (is2ndStageAppeal==false)" in {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
 
-          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false")
+          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false&is2ndStageAppeal=false")
 
           result.status shouldBe SEE_OTHER
           result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad().url)
@@ -72,6 +72,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
             data = Json.obj(
               IncomeTaxSessionKeys.penaltyData -> Json.obj(
                 "penaltyNumber" -> penaltyDataLSP.penaltyNumber,
+                "is2ndStageAppeal" -> false,
                 "appealData" -> Json.obj(
                   "type" -> PenaltyTypeEnum.Late_Submission,
                   "startDate" -> LocalDate.of(2020, 1, 1),
@@ -85,13 +86,13 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
           ))
         }
 
-        "the user is an authorised agent (and LPP with multiple)" in {
+        "the user is an authorised agent (and LPP with multiple) (is2ndStageAppeal==true)" in {
 
           stubAuth(OK, successfulAgentAuthResponse)
           successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, testMtdItId, isLPP = true)
           successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, testMtdItId)
 
-          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLPP.penaltyNumber}&isLPP=true&isAdditional=false", isAgent = true)
+          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLPP.penaltyNumber}&isLPP=true&isAdditional=false&is2ndStageAppeal=true", isAgent = true)
 
           result.status shouldBe SEE_OTHER
           result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad().url)
@@ -102,6 +103,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
             data = Json.obj(
               IncomeTaxSessionKeys.penaltyData -> Json.obj(
                 "penaltyNumber" -> penaltyDataLPP.penaltyNumber,
+                "is2ndStageAppeal" -> true,
                 "appealData" -> Json.obj(
                   "type" -> PenaltyTypeEnum.Late_Payment,
                   "startDate" -> LocalDate.of(2020, 1, 1),

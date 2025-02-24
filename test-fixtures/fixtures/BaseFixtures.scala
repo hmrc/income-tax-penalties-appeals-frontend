@@ -74,12 +74,14 @@ trait BaseFixtures {
 
   val penaltyDataLSP: PenaltyData = PenaltyData(
     penaltyNumber = "123456789",
+    is2ndStageAppeal = false,
     appealData = lateSubmissionAppealData,
     multiplePenaltiesData = None
   )
 
   val penaltyDataLPP: PenaltyData = PenaltyData(
     penaltyNumber = "123456790",
+    is2ndStageAppeal = false,
     appealData = latePaymentAppealData,
     multiplePenaltiesData = None
   )
@@ -92,6 +94,7 @@ trait BaseFixtures {
 
     val penaltyData = PenaltyData(
       penaltyNumber = "123456789",
+      is2ndStageAppeal = false,
       appealData = lateSubmissionAppealData,
       multiplePenaltiesData = None
     )
@@ -116,6 +119,7 @@ trait BaseFixtures {
 
     val penaltyData = PenaltyData(
       penaltyNumber = "123456789",
+      is2ndStageAppeal = false,
       appealData = latePaymentAppealData,
       multiplePenaltiesData = Some(multiplePenaltiesModel)
     )
@@ -140,6 +144,7 @@ trait BaseFixtures {
 
     val penaltyData = PenaltyData(
       penaltyNumber = "123456789",
+      is2ndStageAppeal = false,
       appealData = lateSubmissionAppealData,
       multiplePenaltiesData = None
     )
@@ -165,6 +170,7 @@ trait BaseFixtures {
 
     val penaltyData = PenaltyData(
       penaltyNumber = "123456789",
+      is2ndStageAppeal = false,
       appealData = lateSubmissionAppealData,
       multiplePenaltiesData = None
     )

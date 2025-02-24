@@ -39,13 +39,13 @@ class InitialisationController @Inject()(val authorised: AuthAction,
                                          uuid: UUIDGenerator
                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean): Action[AnyContent] = authorised.async { implicit user =>
+  def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authorised.async { implicit user =>
     for {
       appealData <- appealService.validatePenaltyIdForEnrolmentKey(penaltyId, isLPP, isAdditional, user.mtdItId)
       multiPenaltyData <- if (isLPP) appealService.validateMultiplePenaltyDataForEnrolmentKey(penaltyId, user.mtdItId) else Future.successful(None)
       result <- appealData match {
         case Some(data) =>
-          storyPenaltyDataAndRedirect(penaltyId, data, multiPenaltyData)
+          storyPenaltyDataAndRedirect(penaltyId, is2ndStageAppeal, data, multiPenaltyData)
         case None =>
           logger.warn(s"[InitialisationController][onPageLoad] No appeal data found for penaltyId: $penaltyId")
           errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
@@ -54,6 +54,7 @@ class InitialisationController @Inject()(val authorised: AuthAction,
   }
 
   private def storyPenaltyDataAndRedirect(penaltyId: String,
+                                          is2ndStageAppeal: Boolean,
                                           appealModel: AppealData,
                                           multiPenaltiesModel: Option[MultiplePenaltiesData])(implicit user: CurrentUserRequest[_]): Future[Result] = {
 
@@ -64,6 +65,7 @@ class InitialisationController @Inject()(val authorised: AuthAction,
       IncomeTaxSessionKeys.penaltyData,
       PenaltyData(
         penaltyId,
+        is2ndStageAppeal,
         appealModel,
         multiPenaltiesModel
       )
