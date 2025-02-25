@@ -11,7 +11,7 @@ GET        /language/:lang                  uk.gov.hmrc.incometaxpenaltiesappeal
 
 #Initialise appeal and start page
 GET        /appeal-start                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad()
-GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean)
+GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean ?= false)
 
 #Reasonable excuse list
 GET        /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad()
