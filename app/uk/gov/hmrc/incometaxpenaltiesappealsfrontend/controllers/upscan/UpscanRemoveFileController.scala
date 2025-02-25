@@ -25,6 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFi
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRouts}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsRemoveFileView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
@@ -50,8 +51,12 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
     UploadRemoveFileForm.form().bindFromRequest().fold(
       renderView(BadRequest, _, fileReference, index), {
         case true =>
-          upscanService.removeFile(user.journeyId, fileReference).map(_ =>
-            Redirect(routes.UpscanCheckAnswersController.onPageLoad())
+          for {
+            _ <- upscanService.removeFile(user.journeyId, fileReference)
+            count <- upscanService.countAllReadyFiles(user.journeyId)
+          } yield Redirect(
+            if(count > 0) routes.UpscanCheckAnswersController.onPageLoad()
+            else          appealsRouts.ExtraEvidenceController.onPageLoad()
           )
         case false =>
           Future(Redirect(routes.UpscanCheckAnswersController.onPageLoad()))
