@@ -1,0 +1,85 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+
+@this(
+        layout: Layout,
+        govukErrorSummary: GovukErrorSummary,
+        govukButton: GovukButton,
+        formHelper: FormWithCSRF,
+        govukRadios : GovukRadios,
+        h1: components.H1,
+        p: components.P,
+        bullets: components.Bullets,
+        caption: components.PenaltyCaption
+)
+
+@(form: Form[_],
+        isLate: Boolean,
+        isAgent: Boolean
+)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+
+@individualOrAgent = {@if(isAgent) {agent} else {individual}}
+
+@layout(pageTitle = Some(titleBuilder(messages("jointAppeal.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
+
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit()) {
+
+        @* TODO: make content dynamic on page *@
+
+        @caption()
+        @h1("jointAppeal.headingAndTitle")
+        @p("jointAppeal.p1", elmId = Some("paragraph1"))
+        @bullets(
+            Seq(Html(messages("jointAppeal.l1")),
+                Html(messages("jointAppeal.l2"))
+            ), elmId = Some("penaltiesList")
+        )
+
+      @p(s"$individualOrAgent.jointAppeal.p2", elmId = Some("paragraph2"))
+
+        @govukRadios(Radios(
+            fieldset = Some(Fieldset(
+                legend = Some(Legend(
+                    content = Text(messages("jointAppeal.radioHeading")),
+                    classes = "govuk-fieldset__legend--m",
+                    isPageHeading = false
+                ))
+            )),
+            name = JointAppealForm.key,
+            items = YesNoRadioHelper.radios(),
+            classes = "govuk-radios--inline"
+        ).withFormField(form(JointAppealForm.key)))
+
+
+        <div class="govuk-form-group">
+        @govukButton(Button(content = Text(messages("common.continue"))))
+        </div>
+    }
+}
