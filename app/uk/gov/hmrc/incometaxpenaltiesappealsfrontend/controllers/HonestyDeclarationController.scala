@@ -46,7 +46,11 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
   def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
     val updatedAnswers = user.userAnswers.setAnswer(HonestyDeclarationPage, true)
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-      Redirect(routes.WhenDidEventHappenController.onPageLoad())
+      Redirect(if(user.is2ndStageAppeal) {
+        routes.MissedDeadlineReasonController.onPageLoad()
+      } else {
+        routes.WhenDidEventHappenController.onPageLoad()
+      })
     }
   }
 }
