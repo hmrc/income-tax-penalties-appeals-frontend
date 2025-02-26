@@ -24,7 +24,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -39,7 +39,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 
-import java.time.LocalDate
+import java.time.{LocalDate, LocalDateTime}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -63,6 +63,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       new AppealService(mockPenaltiesConnector, mockUpscanService, mockUUIDGenerator)(mockTimeMachine, appConfig)
 
     when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2020, 2, 1))
+    when(mockTimeMachine.getCurrentDateTime).thenReturn(LocalDateTime.of(2020, 2, 1, 12, 15, 45))
     when(mockUUIDGenerator.generateUUID).thenReturn("uuid-1", "uuid-2")
   }
 
