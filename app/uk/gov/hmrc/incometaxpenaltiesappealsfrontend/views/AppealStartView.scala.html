@@ -14,11 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 @this(
         layout: Layout,
@@ -28,7 +26,7 @@
         h2: components.H2,
         link: components.Link
 )
-@(isLate: Boolean, isAgent: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLate: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("service.indexPageTitle"))), backLinkEnabled = false) {
 
@@ -53,12 +51,6 @@
     @p("appeal.start.p5")
     @p("appeal.start.p6")
 
-    @defining(if(isAgent) {
-        controllers.routes.WhoPlannedToSubmitController.onPageLoad()
-    } else {
-        controllers.routes.ReasonableExcuseController.onPageLoad()
-    }){ nextPageUrl =>
-        @link(link = nextPageUrl.url, messageKey = "common.continue", classes = Some("govuk-button"))
-    }
+    @link(link = action.url, messageKey = "common.continue", classes = Some("govuk-button"))
 
 }

@@ -35,8 +35,14 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit currentUser =>
-    Ok(appealStart(currentUser.isAppealLate(), currentUser.isAgent))
+  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+    Ok(appealStart(
+      user.isAppealLate(),
+      if(user.isAgent) {
+        routes.WhoPlannedToSubmitController.onPageLoad()
+      } else {
+        routes.ReasonableExcuseController.onPageLoad()
+      }
+    ))
   }
-
 }

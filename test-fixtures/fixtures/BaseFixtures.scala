@@ -89,6 +89,8 @@ trait BaseFixtures {
   val emptyUserAnswers: UserAnswers = UserAnswers(testJourneyId)
   val emptyUerAnswersWithLSP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
   val emptyUerAnswersWithLPP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP)
+  val emptyUerAnswersWithLSP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(is2ndStageAppeal = true))
+  val emptyUerAnswersWithLPP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(is2ndStageAppeal = true))
 
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] = {
 
