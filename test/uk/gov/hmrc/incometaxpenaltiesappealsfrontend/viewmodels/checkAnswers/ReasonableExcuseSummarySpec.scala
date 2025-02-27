@@ -49,7 +49,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
             "there's no answer" should {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
                 ReasonableExcuseSummary.row() shouldBe None
               }
             }
@@ -61,7 +61,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
                 "must output the expected row with change link" in {
 
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
+                    emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
                   )
 
                   ReasonableExcuseSummary.row() shouldBe Some(summaryListRow(
@@ -85,7 +85,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
                 "must output the expected row WITHOUT change link" in {
 
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
+                    emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
                   )
 
                   ReasonableExcuseSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(

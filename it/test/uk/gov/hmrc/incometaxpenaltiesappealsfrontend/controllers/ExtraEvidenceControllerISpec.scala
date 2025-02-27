@@ -64,7 +64,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
   "GET /upload-extra-evidence" should {
 
     testNavBar(url = "/upload-extra-evidence")(
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)).futureValue
     )
 
     "return an OK with a view" when {

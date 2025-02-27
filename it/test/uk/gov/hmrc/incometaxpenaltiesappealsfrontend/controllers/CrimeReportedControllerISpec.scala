@@ -63,7 +63,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
   "GET /has-this-crime-been-reported" should {
 
     testNavBar(url = "/has-this-crime-been-reported")(
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime)).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime)).futureValue
     )
 
     "return an OK with a view" when {

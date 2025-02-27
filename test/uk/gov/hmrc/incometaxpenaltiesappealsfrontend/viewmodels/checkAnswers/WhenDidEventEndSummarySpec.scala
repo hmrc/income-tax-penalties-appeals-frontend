@@ -53,7 +53,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
             "there's no answer" should {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
                 WhenDidEventEndSummary.row() shouldBe None
               }
             }
@@ -67,7 +67,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                   "must output the expected row with a change link" in {
 
                     implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUerAnswersWithLSP
+                      emptyUserAnswersWithLSP
                         .setAnswer(ReasonableExcusePage, reason)
                         .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                     )
@@ -93,7 +93,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                   "must output the expected row WITHOUT a change link" in {
 
                     implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUerAnswersWithLSP
+                      emptyUserAnswersWithLSP
                         .setAnswer(ReasonableExcusePage, reason)
                         .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                     )
@@ -109,7 +109,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
                 "return None" in {
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                    emptyUerAnswersWithLSP
+                    emptyUserAnswersWithLSP
                       .setAnswer(ReasonableExcusePage, reason)
                       .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                   )

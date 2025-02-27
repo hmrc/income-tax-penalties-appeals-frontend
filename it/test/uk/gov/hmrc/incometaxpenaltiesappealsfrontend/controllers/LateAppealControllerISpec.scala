@@ -60,7 +60,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
   for (reason <- reasonsList) {
 
     val userAnswersWithReason =
-      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
+      emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
 
     s"GET /making-a-late-appeal with ${reason._1}" should {
 
@@ -144,7 +144,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
   "POST /making-a-late-appeal" when {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
+    val userAnswersWithReason = emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
 
     "the text area content is valid" should {
 

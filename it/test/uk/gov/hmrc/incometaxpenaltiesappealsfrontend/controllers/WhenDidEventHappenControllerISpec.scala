@@ -69,7 +69,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
     s"GET /when-did-the-event-happen with $reason" should {
 
       testNavBar(url = "/honesty-declaration") {
-        userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)).futureValue
+        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)).futureValue
       }
 
       "return an OK with a view" when {

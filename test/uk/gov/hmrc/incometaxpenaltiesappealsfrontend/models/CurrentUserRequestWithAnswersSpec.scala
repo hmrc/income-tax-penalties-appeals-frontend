@@ -56,7 +56,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
       CurrentUserRequestWithAnswers(
         mtdItId = testMtdItId,
-        userAnswers = emptyUerAnswersWithLSP
+        userAnswers = emptyUserAnswersWithLSP
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
@@ -80,7 +80,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
       CurrentUserRequestWithAnswers(
         mtdItId = testMtdItId,
-        userAnswers = emptyUerAnswersWithLSP
+        userAnswers = emptyUserAnswersWithLSP
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)

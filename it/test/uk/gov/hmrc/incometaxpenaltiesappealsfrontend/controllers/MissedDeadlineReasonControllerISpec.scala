@@ -48,7 +48,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
   }
 
     val userAnswersWithReason: UserAnswers =
-      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)
+      emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)
 
     "GET /missed-deadline-reason" should {
 
@@ -130,7 +130,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
   "POST /missed-deadline-reason" when {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)
+    val userAnswersWithReason = emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)
 
     "the text area content is valid" should {
 

@@ -43,7 +43,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }
 
@@ -55,7 +55,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
       "the user is an authorised agent AND the page has already been answered" in {
         stubAuth(OK, successfulAgentAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          emptyUerAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+          emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
         ).futureValue
 
         val result = get("/who-planned-to-submit", isAgent = true)

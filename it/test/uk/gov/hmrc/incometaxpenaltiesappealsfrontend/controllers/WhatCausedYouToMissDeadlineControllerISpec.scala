@@ -42,7 +42,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP)
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP)
     super.beforeEach()
   }
 
@@ -54,7 +54,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
       "the user is an authorised agent AND the page has already been answered" in {
         stubAuth(OK, successfulAgentAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+          emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
         ).futureValue
 
         val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)

@@ -68,7 +68,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
   "GET /when-did-the-event-end" should {
 
     testNavBar(url = "/when-did-the-event-end")(
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP
         .setAnswer(ReasonableExcusePage, TechnicalIssues)
         .setAnswer(WhenDidEventHappenPage, testStartDate)
       ).futureValue
