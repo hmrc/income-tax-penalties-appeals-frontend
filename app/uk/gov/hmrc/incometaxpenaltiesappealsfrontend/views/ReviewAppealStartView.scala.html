@@ -24,32 +24,31 @@
         p: components.P,
         h1: components.H1,
         h2: components.H2,
+        list: components.List,
         link: components.Link
 )
 @(isLate: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false) {
+@layout(Some(titleBuilder(messages("reviewAppeal.start.header"))), backLinkEnabled = false) {
 
     @caption()
-    @h1("appeal.start.header")
-    @p("appeal.start.p1")
-    @p("appeal.start.p2")
-    @h2("appeal.start.h2", elmId = "beforeYouStart")
-    @p("appeal.start.p3")
 
-    <ul class="govuk-list govuk-list--bullet">
-        <li>@messages("appeal.start.li1")</li>
-        <li>@messages("appeal.start.li2")</li>
-        @if(isLate) {
-            <li>@messages("appeal.start.li3")</li>
-        }
-    </ul>
+    @h1("reviewAppeal.start.header")
+    @p("reviewAppeal.start.p1")
+    @p("reviewAppeal.start.p2")
 
-    @link(link = "#", messageKey = "appeal.start.guidanceLink",id = Some("guidanceLink"))
+    @h2("reviewAppeal.start.h2", elmId = "beforeYouStart")
 
-    @p("appeal.start.p4")
-    @p("appeal.start.p5")
-    @p("appeal.start.p6")
+    @if(isLate) {
+        @p("reviewAppeal.start.p3.list")
+        @list(Seq(
+            "reviewAppeal.start.p3.bullet1",
+            "reviewAppeal.start.p3.bullet2",
+        ))
+    } else {
+        @p("reviewAppeal.start.p3")
+        @p("reviewAppeal.start.p4")
+    }
 
     @link(link = action.url, messageKey = "common.continue", classes = Some("govuk-button"))
 

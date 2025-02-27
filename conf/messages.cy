@@ -1,6 +1,5 @@
 service.name = Appeal a Self Assessment penalty (Welsh)
-service.indexPageTitle = Appeal a Self Assessment penalty (Welsh)
-service.indexPageHeader = Appeal a Self Assessment penalty (Welsh)
+
 error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
 
@@ -11,6 +10,8 @@ phaseBanner.linkText = feedback (Welsh)
 service.lsp.caption = Late submission penalty point: {0} to {1} (Welsh)
 service.lpp.caption = Late payment penalty: {0} to {1} (Welsh)
 
+# Appeal Start page
+# ----------------------------------------------------------
 appeal.start.header = Appeal a Self Assessment penalty (Welsh)
 appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again. (Welsh)
 appeal.start.p2 = This service is for appealing penalties given for individual submissions. (Welsh)
@@ -22,6 +23,18 @@ appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in
 appeal.start.p4 = In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later. (Welsh)
 appeal.start.p5 = If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case. (Welsh)
 appeal.start.p6 = If we decide we do need extra evidence after reviewing your appeal, we will contact you. (Welsh)
+
+# Review Appeal Start page
+# ----------------------------------------------------------
+reviewAppeal.start.header = Review an appeal decision (Welsh)
+reviewAppeal.start.p1 = If you disagree with the decision of your penalty appeal, you can ask for your case to be reviewed again. (Welsh)
+reviewAppeal.start.p2 = This service is for requesting a review for appeal decisions given for individual submissions. (Welsh)
+reviewAppeal.start.h2 = Before you start (Welsh)
+reviewAppeal.start.p3 = You’ll need to collect any evidence that you believe shows why the appeal decision was incorrect. (Welsh)
+reviewAppeal.start.p4 = You will be asked to upload this evidence as part of this request to review. (Welsh)
+reviewAppeal.start.p3.list = You’ll need: (Welsh)
+reviewAppeal.start.p3.bullet1 = any evidence that you believe shows why the appeal decision was incorrect (Welsh)
+reviewAppeal.start.p3.bullet2 = details of why you did not ask for a review sooner (Welsh)
 
 # Late appeal page
 # ----------------------------------------------------------
