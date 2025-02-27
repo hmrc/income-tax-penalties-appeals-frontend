@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -68,7 +68,7 @@ object AppealSubmission {
                                             agentReferenceNo: Option[String],
                                             uploadedFiles: Option[Seq[UploadJourney]],
                                             mtdItId: String)
-                                           (implicit request: CurrentUserRequestWithAnswers[_]): AppealSubmission = {
+                                           (implicit request: CurrentUserRequestWithAnswers[_], timeMachine: TimeMachine): AppealSubmission = {
     val isClientResponsibleForSubmission: Option[Boolean] = if (request.isLPP && agentReferenceNo.isDefined) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
     val isClientResponsibleForLateSubmission: Option[Boolean] = if (request.isLPP && agentReferenceNo.isDefined) Some(true)
     else if (request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent)) {
@@ -79,7 +79,7 @@ object AppealSubmission {
       sourceSystem = "MDTP",
       taxRegime = "ITSA",
       customerReferenceNo = s"MTDITID$mtdItId",
-      dateOfAppeal = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+      dateOfAppeal = timeMachine.getCurrentDateTime.truncatedTo(ChronoUnit.SECONDS),
       isLPP = request.isLPP,
       appealSubmittedBy = if (agentReferenceNo.isDefined) "agent" else "customer",
       agentDetails = if (agentReferenceNo.isDefined) Some(constructAgentDetails(agentReferenceNo)) else None,
@@ -171,7 +171,12 @@ object AppealSubmission {
         baseAppealSubmission(OtherAppealInformation(
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
-          startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
+          startDateOfEvent =
+            //TODO: Date is not asked for in 2nd Stage Appeals flow, but is mandatory in Penalties BE.
+            //      A change is needed to make it optional in the BE, at which point, this can be made optional and removed.
+            if(request.is2ndStageAppeal) timeMachine.getCurrentDate.atStartOfDay()
+            else request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay()
+          ,
           statement = request.userAnswers.getAnswer(MissedDeadlineReasonPage),
           supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),
           lateAppeal = isLateAppeal,

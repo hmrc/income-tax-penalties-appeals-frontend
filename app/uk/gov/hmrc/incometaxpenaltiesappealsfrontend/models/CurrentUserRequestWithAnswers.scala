@@ -45,6 +45,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val communicationSent: LocalDate = penaltyData.appealData.dateCommunicationSent
   val isLPP: Boolean = penaltyData.isLPP
   val isAdditional: Boolean = penaltyData.isAdditional
+  val is2ndStageAppeal: Boolean = penaltyData.is2ndStageAppeal
 
   //Multiple Penalties Data
   val firstPenaltyNumber: Option[String] = penaltyData.multiplePenaltiesData.map(_.firstPenaltyChargeReference)
@@ -66,12 +67,18 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   def isAppealLate()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Boolean = {
     val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(lateAppealDays())
 
-    //TODO: This will be replaced by UserAnswers value in future story when page is built
-    if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
-      firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
-        secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
+    if(is2ndStageAppeal) {
+      //TODO: The logic to determine this for second stage appeal is dependent on an API change to 1811 to return
+      //      the date that the appeal was rejected. This will be implemented in a future story.
+      false
     } else {
-      communicationSent.isBefore(dateWhereLateAppealIsApplicable)
+      //TODO: This will be replaced by UserAnswers value in future story when page is built
+      if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
+        firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
+          secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
+      } else {
+        communicationSent.isBefore(dateWhereLateAppealIsApplicable)
+      }
     }
   }
 }

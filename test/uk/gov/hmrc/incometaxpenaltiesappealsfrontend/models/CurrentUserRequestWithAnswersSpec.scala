@@ -69,11 +69,11 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
       )
     }
 
-    val fakeRequestForAppealingSinglePenalty: LocalDate => CurrentUserRequestWithAnswers[AnyContent] = (date: LocalDate) => {
+    def fakeRequestForAppealingSinglePenalty(date: LocalDate, is2ndStageAppeal: Boolean = false): CurrentUserRequestWithAnswers[AnyContent] = {
 
       val penaltyData = PenaltyData(
         penaltyNumber = "123456789",
-        is2ndStageAppeal = false,
+        is2ndStageAppeal = is2ndStageAppeal,
         appealData = latePaymentAppealData.copy(dateCommunicationSent = date),
         multiplePenaltiesData = None
       )
@@ -105,6 +105,14 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
     }
 
     "return false" when {
+
+      "this is a 2nd Stage Appeal, so lateness does not matter as that was only relevant to 1st Stage Appeal" in new Setup(LocalDate.of(2022, 1, 1)) {
+        fakeRequestForAppealingSinglePenalty(
+          LocalDate.of(2021, 12, 1),
+          is2ndStageAppeal = true
+        ).isAppealLate() shouldBe false
+      }
+
       "communication date of penalty < 30 days ago" in new Setup(LocalDate.of(2022, 1, 1)) {
         fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 31)).isAppealLate() shouldBe false
       }
