@@ -47,7 +47,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
     setEnabledSwitches(
       ReasonableExcusesEnabled,
@@ -62,7 +62,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the user is an authorised individual" in {
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(
-          emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
+          emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
         ).futureValue
         val result = get("/reason-for-missing-deadline")
         result.status shouldBe OK
@@ -145,7 +145,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         "save the value to UserAnswers AND redirect to the Honesty Declaration page" in {
 
           stubAuth(OK, successfulIndividualAuthResponse)
-          userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Bereavement.toString))
 
@@ -157,7 +157,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
       "the answer is different to a previously captured value" should {
 
-        val existingAnswers = emptyUerAnswersWithLSP
+        val existingAnswers = emptyUserAnswersWithLSP
           .setAnswer(ReasonableExcusePage, Bereavement)
           .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025,1,1))
 
@@ -172,7 +172,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
           result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
 
           val updatedData = userAnswersRepo.getUserAnswer(existingAnswers.journeyId).futureValue.map(_.data).get
-          updatedData shouldBe emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime).data
+          updatedData shouldBe emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime).data
 
         }
       }
@@ -183,7 +183,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       "render a bad request with the Form Error on the page with a link to the radios in error" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
+        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
         val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> ""))
 
         result.status shouldBe BAD_REQUEST

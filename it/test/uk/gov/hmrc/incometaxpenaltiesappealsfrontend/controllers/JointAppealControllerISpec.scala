@@ -28,7 +28,6 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReasonableExcusePage}
@@ -42,7 +41,6 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-  implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
@@ -50,14 +48,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
 
-    val otherAnswers: UserAnswers = emptyUserAnswers
-      .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
-        appealData = lateSubmissionAppealData.copy(
-          dateCommunicationSent =
-            if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
-            else        timeMachine.getCurrentDate.minusDays(1)
-        )
-      ))
+    val otherAnswers: UserAnswers = emptyUserAnswersWithMultipleLPPs
       .setAnswer(ReasonableExcusePage, Other)
 
     userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
@@ -66,7 +57,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
   "GET /joint-appeal" should {
 
     testNavBar(url = "/joint-appeal")(
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs.setAnswer(ReasonableExcusePage, Other)).futureValue
     )
 
     "return an OK with a view" when {
@@ -103,14 +94,14 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lspCaption(
+        document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
-        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe "£800.00 first late payment penalty"
-        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe "£17.53 second late payment penalty"
+        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe "£101.01 first late payment penalty"
+        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe "£101.02 second late payment penalty"
         document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
@@ -125,14 +116,14 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lspCaption(
+        document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
-        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe "£800.00 first late payment penalty"
-        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe "£17.53 second late payment penalty"
+        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe "£101.01 first late payment penalty"
+        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe "£101.02 second late payment penalty"
         document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty."
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no

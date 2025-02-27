@@ -48,7 +48,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
         "there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
             MissedDeadlineReasonSummary.row() shouldBe None
           }
         }
@@ -60,7 +60,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
             s"penalty type isLPP='$isLPP'" when {
 
               implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                userAnswers = (if (isLPP) emptyUerAnswersWithLPP else emptyUerAnswersWithLSP)
+                userAnswers = (if (isLPP) emptyUserAnswersWithLPP else emptyUserAnswersWithLSP)
                   .setAnswer(ReasonableExcusePage, Other)
                   .setAnswer(MissedDeadlineReasonPage, "foo"),
                 penaltyData = if(isLPP) penaltyDataLPP else penaltyDataLSP

@@ -50,7 +50,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
             if (reason != Other) {
 
               "return None" in {
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
+                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
                 ExtraEvidenceSummary.row() shouldBe None
               }
 
@@ -59,7 +59,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
               "there's no answer" should {
 
                 "return None" in {
-                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
                   ExtraEvidenceSummary.row() shouldBe None
                 }
               }
@@ -71,7 +71,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                   "must output the expected row with a change link" in {
 
                     implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUerAnswersWithLSP
+                      emptyUserAnswersWithLSP
                         .setAnswer(ReasonableExcusePage, reason)
                         .setAnswer(ExtraEvidencePage, true)
                     )
@@ -97,7 +97,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                   "must output the expected row WITHOUT a change link" in {
 
                     implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUerAnswersWithLSP
+                      emptyUserAnswersWithLSP
                         .setAnswer(ReasonableExcusePage, reason)
                         .setAnswer(ExtraEvidencePage, true)
                     )

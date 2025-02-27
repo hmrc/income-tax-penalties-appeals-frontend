@@ -87,8 +87,9 @@ trait BaseFixtures {
   )
 
   val emptyUserAnswers: UserAnswers = UserAnswers(testJourneyId)
-  val emptyUerAnswersWithLSP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
-  val emptyUerAnswersWithLPP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP)
+  val emptyUserAnswersWithLSP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+  val emptyUserAnswersWithLPP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP)
+  val emptyUserAnswersWithMultipleLPPs: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(multiplePenaltiesData = Some(multiplePenaltiesModel)))
 
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] = {
 
@@ -101,7 +102,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
@@ -126,7 +127,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
@@ -151,7 +152,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
@@ -177,7 +178,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
