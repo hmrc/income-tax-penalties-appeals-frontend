@@ -23,6 +23,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+
 
 @this(
         layout: Layout,
@@ -36,10 +38,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_],
-        isLate: Boolean,
-        isAgent: Boolean
-)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: String, secondPenaltyAmount: String)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @individualOrAgent = {@if(isAgent) {agent} else {individual}}
 
@@ -57,8 +56,8 @@
         @h1("jointAppeal.headingAndTitle")
         @p("jointAppeal.p1", elmId = Some("paragraph1"))
         @bullets(
-            Seq(Html(messages("jointAppeal.l1")),
-                Html(messages("jointAppeal.l2"))
+            Seq(Html(messages("jointAppeal.l1", firstPenaltyAmount)),
+                Html(messages("jointAppeal.l2", secondPenaltyAmount))
             ), elmId = Some("penaltiesList")
         )
 

@@ -21,9 +21,11 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -35,26 +37,52 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
                                       val authorised: AuthAction,
                                       withNavBar: NavBarRetrievalAction,
                                       withAnswers: UserAnswersAction,
+
                                       userAnswersService: UserAnswersService,
                                       override val errorHandler: ErrorHandler,
                                       override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+
+    user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
+      case Some(penaltyData) =>
+        Ok(jointAppeal(
+          form = fillForm(JointAppealForm.form(), JointAppealPage),
+          isAgent = user.isAgent,
+          penaltyData.multiplePenaltiesData.map(_.firstPenaltyAmount.toString).getOrElse(""),
+          penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount.toString).getOrElse("")
+        ))
+    }
+
+
+
+//    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount).toString)
+
     Ok(jointAppeal(
       form = fillForm(JointAppealForm.form(), JointAppealPage),
-      isLate = user.isAppealLate(),
-      isAgent = user.isAgent
+      isAgent = user.isAgent,
+      firstPenalty,
+      secondPenalty
     ))
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+//    val firstPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.firstPenaltyAmount).toString)
+//    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount).toString)
+
+//    val firstPenalty = user.userAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).toString
+//    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).toString
+    val firstPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.firstPenaltyAmount).toString)
+    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount).toString)
+
     JointAppealForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(jointAppeal(
           form = formWithErrors,
-          isLate = user.isAppealLate(),
-          isAgent = user.isAgent
+          isAgent = user.isAgent,
+          firstPenalty,
+          secondPenalty
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(JointAppealPage, value)
