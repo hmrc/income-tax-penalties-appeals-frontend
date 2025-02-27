@@ -37,60 +37,51 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
                                       val authorised: AuthAction,
                                       withNavBar: NavBarRetrievalAction,
                                       withAnswers: UserAnswersAction,
-
                                       userAnswersService: UserAnswersService,
                                       override val errorHandler: ErrorHandler,
                                       override val controllerComponents: MessagesControllerComponents
-                                       )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
+                                     )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
 
     user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
-      case Some(penaltyData) =>
+      case Some(PenaltyData(_, _, _, Some(multiplePenaltiesData))) =>
         Ok(jointAppeal(
           form = fillForm(JointAppealForm.form(), JointAppealPage),
           isAgent = user.isAgent,
-          penaltyData.multiplePenaltiesData.map(_.firstPenaltyAmount.toString).getOrElse(""),
-          penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount.toString).getOrElse("")
+          firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount.toString,
+          secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount.toString
         ))
+      case _ =>
+        NotImplemented
+      // TODO handle no multiple appeals data routing
     }
-
-
-
-//    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount).toString)
-
-    Ok(jointAppeal(
-      form = fillForm(JointAppealForm.form(), JointAppealPage),
-      isAgent = user.isAgent,
-      firstPenalty,
-      secondPenalty
-    ))
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-//    val firstPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.firstPenaltyAmount).toString)
-//    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount).toString)
-
-//    val firstPenalty = user.userAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).toString
-//    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).toString
-    val firstPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.firstPenaltyAmount).toString)
-    val secondPenalty = user.userAnswers.getAnswerForKey[PenaltyData](penaltyData.multiplePenaltiesData.map(_.secondPenaltyAmount).toString)
 
     JointAppealForm.form().bindFromRequest().fold(
-      formWithErrors =>
-        Future(BadRequest(jointAppeal(
-          form = formWithErrors,
-          isAgent = user.isAgent,
-          firstPenalty,
-          secondPenalty
-        ))),
+      formWithErrors => {
+        user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
+          case Some(PenaltyData(_, _, _, Some(multiplePenaltiesData))) =>
+            Future.successful(BadRequest(jointAppeal(
+              form = formWithErrors,
+              isAgent = user.isAgent,
+              firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount.toString,
+              secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount.toString
+            )))
+          case _ =>
+            Future.successful(NotImplemented)
+          // TODO handle no multiple appeals data routing
+        }
+      },
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(JointAppealPage, value)
         userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
-        //TODO: redirect to the single or multiple appeal page
-            Future(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
+          //TODO: redirect to the single or multiple appeal page
+          Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
 
-      }
+        }
       }
     )
   }
