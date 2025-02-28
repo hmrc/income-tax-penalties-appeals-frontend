@@ -70,6 +70,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
               CrimeReportedSummary.row(),
               MissedDeadlineReasonSummary.row(),
               lateAppealSummary.row(),
+              ExtraEvidenceSummary.row(),
               UploadedDocumentsSummary.row(uploads)
             ).flatten
           }
@@ -88,6 +89,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
               CrimeReportedSummary.row(showActionLinks = false),
               MissedDeadlineReasonSummary.row(showActionLinks = false),
               lateAppealSummary.row(showActionLinks = false),
+              ExtraEvidenceSummary.row(showActionLinks = false),
               UploadedDocumentsSummary.row(uploads, showActionLinks = false)
             ).flatten
           }

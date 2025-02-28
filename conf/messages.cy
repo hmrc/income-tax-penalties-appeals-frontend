@@ -320,6 +320,9 @@ checkYourAnswers.declaration.h2 = Declaration (Welsh)
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution. (Welsh)
 
+checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal? (Welsh)
+checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal (Welsh)
+
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 
 # View appeal details page

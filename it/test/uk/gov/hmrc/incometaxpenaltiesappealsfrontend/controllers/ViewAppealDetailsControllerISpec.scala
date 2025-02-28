@@ -74,7 +74,8 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           WhenDidEventHappenMessages.English,
           LateAppealMessages.English,
           UploadedDocumentsSummaryMessages.English,
-          MissedDeadlineReasonMessages.English
+          MissedDeadlineReasonMessages.English,
+          ExtraEvidenceMessages.English
         ),
         (
           PrintAppealMessages.Welsh,
@@ -84,7 +85,8 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
           WhenDidEventHappenMessages.Welsh,
           LateAppealMessages.Welsh,
           UploadedDocumentsSummaryMessages.Welsh,
-          MissedDeadlineReasonMessages.Welsh
+          MissedDeadlineReasonMessages.Welsh,
+          ExtraEvidenceMessages.Welsh
         )
       ).foreach { case (
         messagesForLanguage,
@@ -94,7 +96,8 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
         whenEventHappenedMessages,
         lateAppealMessages,
         fileUploadMessages,
-        missedDeadlineMessages) =>
+        missedDeadlineMessages,
+        extraEvidenceMessages) =>
 
         implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
@@ -211,8 +214,10 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
                   document.select(Selectors.summaryRowValue(7)).text() shouldBe dateToString(LocalDate.of(2025, 2, 1), withNBSP = false)
                   document.select(Selectors.summaryRowKey(8)).text() shouldBe missedDeadlineMessages.cyaKey(isLPP = false)
                   document.select(Selectors.summaryRowValue(8)).text() shouldBe "Forgot"
-                  document.select(Selectors.summaryRowKey(9)).text() shouldBe fileUploadMessages.cyaKey
-                  document.select(Selectors.summaryRowValue(9)).text() shouldBe "file1.txt file2.txt"
+                  document.select(Selectors.summaryRowKey(9)).text() shouldBe extraEvidenceMessages.cyaKey
+                  document.select(Selectors.summaryRowValue(9)).text() shouldBe extraEvidenceMessages.yes
+                  document.select(Selectors.summaryRowKey(10)).text() shouldBe fileUploadMessages.cyaKey
+                  document.select(Selectors.summaryRowValue(10)).text() shouldBe "file1.txt file2.txt"
 
                 } else {
                   document.select(Selectors.summaryRowKey(4)).text() shouldBe reasonableExcuseMessages.cyaKey
@@ -221,8 +226,10 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
                   document.select(Selectors.summaryRowValue(5)).text() shouldBe dateToString(LocalDate.of(2025, 2, 1), withNBSP = false)
                   document.select(Selectors.summaryRowKey(6)).text() shouldBe missedDeadlineMessages.cyaKey(isLPP = false)
                   document.select(Selectors.summaryRowValue(6)).text() shouldBe "Forgot"
-                  document.select(Selectors.summaryRowKey(7)).text() shouldBe fileUploadMessages.cyaKey
-                  document.select(Selectors.summaryRowValue(7)).text() shouldBe "file1.txt file2.txt"
+                  document.select(Selectors.summaryRowKey(7)).text() shouldBe extraEvidenceMessages.cyaKey
+                  document.select(Selectors.summaryRowValue(7)).text() shouldBe extraEvidenceMessages.yes
+                  document.select(Selectors.summaryRowKey(8)).text() shouldBe fileUploadMessages.cyaKey
+                  document.select(Selectors.summaryRowValue(8)).text() shouldBe "file1.txt file2.txt"
                 }
               }
             }

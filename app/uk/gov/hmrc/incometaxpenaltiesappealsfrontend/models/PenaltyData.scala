@@ -20,6 +20,7 @@ import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 
 case class PenaltyData(penaltyNumber: String,
+                       is2ndStageAppeal: Boolean,
                        appealData: AppealData,
                        multiplePenaltiesData: Option[MultiplePenaltiesData]) {
 

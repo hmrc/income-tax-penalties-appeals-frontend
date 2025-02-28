@@ -46,6 +46,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
       val penaltyData = PenaltyData(
         penaltyNumber = "123456789",
+        is2ndStageAppeal = false,
         appealData = latePaymentAppealData,
         multiplePenaltiesData = Some(multiplePenaltiesModel.copy(
           firstPenaltyCommunicationDate = lpp1Date,
@@ -72,6 +73,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
       val penaltyData = PenaltyData(
         penaltyNumber = "123456789",
+        is2ndStageAppeal = false,
         appealData = latePaymentAppealData.copy(dateCommunicationSent = date),
         multiplePenaltiesData = None
       )

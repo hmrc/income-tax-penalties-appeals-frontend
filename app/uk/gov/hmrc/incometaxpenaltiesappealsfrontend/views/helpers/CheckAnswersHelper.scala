@@ -36,6 +36,7 @@ class CheckAnswersHelper @Inject()(lateAppealSummary: LateAppealSummary) {
       CrimeReportedSummary.row(showActionLinks),
       MissedDeadlineReasonSummary.row(showActionLinks),
       lateAppealSummary.row(showActionLinks),
+      ExtraEvidenceSummary.row(showActionLinks),
       UploadedDocumentsSummary.row(uploadedFiles, showActionLinks)
     ).flatten
 }
