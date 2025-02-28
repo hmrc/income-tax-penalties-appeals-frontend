@@ -34,7 +34,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
-    userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)).futureValue
     super.beforeEach()
   }
 

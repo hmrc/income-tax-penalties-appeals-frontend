@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this()
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-@(content: Seq[Html], numberList: Boolean = false, classes: String = "govuk-list", elmId: Option[String] = None)
+trait CurrencyFormatter {
 
-<ul @if(elmId.isDefined){ id="@{elmId.get}"} class="@classes @if(numberList){govuk-list govuk-list--number}else{govuk-list--bullet}">
-  @content.map { bullet =>
-    <li>@bullet</li>
-  }
-</ul>
+  def parseBigDecimalNoPaddedZeroToFriendlyValue(amount: BigDecimal): String =
+    "%,.2f".format(amount).replace(".00", "")
+}
+
+object CurrencyFormatter extends CurrencyFormatter

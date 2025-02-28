@@ -45,7 +45,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
         "the request is not for an Agent (even if there's an answer saved)" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent))
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent))
             WhatCausedYouToMissDeadlineSummary.row() shouldBe None
           }
         }
@@ -53,7 +53,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
         "there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUerAnswersWithLSP)
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUserAnswersWithLSP)
             WhatCausedYouToMissDeadlineSummary.row() shouldBe None
           }
         }
@@ -65,7 +65,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
             "must output the expected row with a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
-                emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+                emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
               )
 
               WhatCausedYouToMissDeadlineSummary.row() shouldBe Some(summaryListRow(
@@ -89,7 +89,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
             "must output the expected row WITHOUT a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
-                emptyUerAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+                emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
               )
 
               WhatCausedYouToMissDeadlineSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(

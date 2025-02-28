@@ -60,7 +60,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
   for (reason <- ReasonableExcuse.allReasonableExcuses) {
 
-    val userAnswersWithReason = emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
+    val userAnswersWithReason = emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
 
     s"GET /check-your-answers with reasonableExcuse='$reason'" should {
 
@@ -145,7 +145,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the Appeals Submission model can be constructed successfully" when {
 
         lazy val userAnswers =
-          emptyUerAnswersWithLSP
+          emptyUserAnswersWithLSP
             .setAnswer(ReasonableExcusePage, FireOrFlood)
             .setAnswer(HonestyDeclarationPage, true)
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
@@ -182,7 +182,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
       "the Appeals Submission model can NOT be constructed successfully" when {
 
         lazy val userAnswers =
-          emptyUerAnswersWithLSP
+          emptyUserAnswersWithLSP
             .setAnswer(HonestyDeclarationPage, true)
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
 

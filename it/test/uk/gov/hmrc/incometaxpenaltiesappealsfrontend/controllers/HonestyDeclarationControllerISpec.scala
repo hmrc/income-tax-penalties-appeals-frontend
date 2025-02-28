@@ -71,7 +71,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
   for(reason <- reasonsList) {
 
     val userAnswersWithReason =
-      emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
+      emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
 
     s"GET /honesty-declaration with ${reason._1}" should {
 
@@ -150,7 +150,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
     "redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers" in {
 
       stubAuth(OK, successfulIndividualAuthResponse)
-      userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
       val result = post("/honesty-declaration")(Json.obj())
 

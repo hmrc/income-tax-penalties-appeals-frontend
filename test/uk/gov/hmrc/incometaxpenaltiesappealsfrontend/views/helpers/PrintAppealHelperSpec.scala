@@ -52,7 +52,7 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
         val uploads = Seq(callbackModel, callbackModel2)
 
-        val userAnswers = emptyUerAnswersWithLSP
+        val userAnswers = emptyUserAnswersWithLSP
           .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
           .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
           .setAnswer(ReasonableExcusePage, Health)

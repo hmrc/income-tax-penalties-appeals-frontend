@@ -49,7 +49,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
         "there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP)
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
             lateAppealSummary.row() shouldBe None
           }
         }
@@ -61,7 +61,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
             "must output the expected row with the extended late appeal days value and a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                emptyUerAnswersWithLSP
+                emptyUserAnswersWithLSP
                   .setAnswer(ReasonableExcusePage, Bereavement)
                   .setAnswer(LateAppealPage, "foo")
               )
@@ -87,7 +87,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
             "must output the expected row with the standard late appeal days WITHOUT a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                emptyUerAnswersWithLSP
+                emptyUserAnswersWithLSP
                   .setAnswer(ReasonableExcusePage, Crime)
                   .setAnswer(LateAppealPage, "foo")
               )
