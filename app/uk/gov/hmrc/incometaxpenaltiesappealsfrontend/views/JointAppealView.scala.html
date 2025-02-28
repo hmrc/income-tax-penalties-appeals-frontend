@@ -17,13 +17,12 @@
 @import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.CurrencyFormatter
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 
 @this(
@@ -38,7 +37,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: String, secondPenaltyAmount: String)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @individualOrAgent = {@if(isAgent) {agent} else {individual}}
 
@@ -50,14 +49,12 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit()) {
 
-        @* TODO: make content dynamic on page *@
-
         @caption()
         @h1("jointAppeal.headingAndTitle")
         @p("jointAppeal.p1", elmId = Some("paragraph1"))
         @bullets(
-            Seq(Html(messages("jointAppeal.l1", firstPenaltyAmount)),
-                Html(messages("jointAppeal.l2", secondPenaltyAmount))
+            Seq(Html(messages("jointAppeal.l1", CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(firstPenaltyAmount))),
+                Html(messages("jointAppeal.l2", CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(secondPenaltyAmount)))
             ), elmId = Some("penaltiesList")
         )
 
@@ -75,7 +72,6 @@
             items = YesNoRadioHelper.radios(),
             classes = "govuk-radios--inline"
         ).withFormField(form(JointAppealForm.key)))
-
 
         <div class="govuk-form-group">
         @govukButton(Button(content = Text(messages("common.continue"))))

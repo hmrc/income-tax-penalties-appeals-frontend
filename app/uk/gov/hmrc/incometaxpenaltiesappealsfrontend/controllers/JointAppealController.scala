@@ -43,17 +43,16 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
 
-    user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
-      case Some(PenaltyData(_, _, _, Some(multiplePenaltiesData))) =>
+    user.penaltyData.multiplePenaltiesData match {
+      case Some(multiplePenaltiesData) =>
         Ok(jointAppeal(
           form = fillForm(JointAppealForm.form(), JointAppealPage),
           isAgent = user.isAgent,
-          firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount.toString,
-          secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount.toString
+          firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
+          secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount
         ))
       case _ =>
-        NotImplemented
-      // TODO handle no multiple appeals data routing
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
     }
   }
 
@@ -61,17 +60,16 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
 
     JointAppealForm.form().bindFromRequest().fold(
       formWithErrors => {
-        user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
-          case Some(PenaltyData(_, _, _, Some(multiplePenaltiesData))) =>
+        user.penaltyData.multiplePenaltiesData match {
+          case Some(multiplePenaltiesData) =>
             Future.successful(BadRequest(jointAppeal(
               form = formWithErrors,
               isAgent = user.isAgent,
-              firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount.toString,
-              secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount.toString
+              firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
+              secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount
             )))
           case _ =>
-            Future.successful(NotImplemented)
-          // TODO handle no multiple appeals data routing
+            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
         }
       },
       value => {

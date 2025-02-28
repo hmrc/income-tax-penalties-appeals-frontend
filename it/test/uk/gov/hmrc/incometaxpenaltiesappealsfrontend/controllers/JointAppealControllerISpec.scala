@@ -100,8 +100,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
-        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe "£101.01 first late payment penalty"
-        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe "£101.02 second late payment penalty"
+        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
         document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
@@ -122,8 +122,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
-        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe "£101.01 first late payment penalty"
-        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe "£101.02 second late payment penalty"
+        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
         document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty."
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no

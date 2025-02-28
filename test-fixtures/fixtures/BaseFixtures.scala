@@ -24,7 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePena
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{CurrencyFormatter, IncomeTaxSessionKeys}
 
 import java.time.LocalDate
 import java.util.UUID
