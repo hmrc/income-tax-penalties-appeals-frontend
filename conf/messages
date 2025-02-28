@@ -420,6 +420,11 @@ uploadRemoveFile.nonJs.hint = Filename: {0}
 uploadRemoveFile.nonJs.error.required = Select yes if you want to remove this file
 uploadRemoveFile.nonJs.error.invalid = Select yes if you want to remove this file
 
+# Single Appeal Confirmation
+# ----------------------------------------------------------
+single.appeal.headingAndTitle=The appeal will cover a single penalty
+single.appeal.which.penalty=You have chosen to appeal the £{0} {1} late payment penalty.
+single.appeal.can.still.appeal.other=You can still appeal other penalties separately.
 
 # Months
 # -----------------------------------------------------------

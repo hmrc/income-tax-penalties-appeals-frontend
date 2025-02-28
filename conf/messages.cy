@@ -375,3 +375,11 @@ reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 reasonableExcuses.other = The reason does not fit into any of the other categories (Welsh)
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
 reasonableExcuse.error.message = Select the reason for missing the submission deadline (Welsh)
+
+
+# Single Appeal Confirmation
+# ----------------------------------------------------------
+single.appeal.headingAndTitle=The appeal will cover a single penalty (Welsh)
+single.appeal.which.penalty=You have chosen to appeal the £{0} {1}} late payment penalty. (Welsh)
+single.appeal.can.still.appeal.other=You can still appeal other penalties separately. (Welsh)
+
