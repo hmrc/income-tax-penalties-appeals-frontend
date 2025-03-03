@@ -38,7 +38,7 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
       Future(Ok(multipleAppeals(user.isAgent)))
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async {
-      Future(Redirect(routes.ReasonableExcuseController.onPageLoad()))
+  def submit(): Action[AnyContent] = authorised {
+      Redirect(routes.ReasonableExcuseController.onPageLoad())
   }
 }
