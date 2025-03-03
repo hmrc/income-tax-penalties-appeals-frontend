@@ -95,8 +95,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
+          dateToString(latePaymentAppealData.startDate),
+          dateToString(latePaymentAppealData.endDate)
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
@@ -117,8 +117,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
         document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
+          dateToString(latePaymentAppealData.startDate),
+          dateToString(latePaymentAppealData.endDate)
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
