@@ -1,6 +1,5 @@
 service.name = Appeal a Self Assessment penalty
-service.indexPageTitle = Appeal a Self Assessment penalty
-service.indexPageHeader = Appeal a Self Assessment penalty
+
 error.title.prefix = Error:
 govuk.suffix = GOV.UK
 
@@ -11,6 +10,8 @@ phaseBanner.linkText = feedback
 service.lsp.caption = Late submission penalty point: {0} to {1}
 service.lpp.caption = Late payment penalty: {0} to {1}
 
+# Appeal Start page
+# ----------------------------------------------------------
 appeal.start.header = Appeal a Self Assessment penalty
 appeal.start.p1 = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again.
 appeal.start.p2 = This service is for appealing penalties given for individual submissions.
@@ -24,6 +25,17 @@ appeal.start.p4 = In some cases, you’ll be asked if you want to upload evidenc
 appeal.start.p5 = If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case.
 appeal.start.p6 = If we decide we need extra evidence after reviewing your appeal, we will contact you.
 
+# Review Appeal Start page
+# ----------------------------------------------------------
+reviewAppeal.start.header = Review an appeal decision
+reviewAppeal.start.p1 = If you disagree with the decision of your penalty appeal, you can ask for your case to be reviewed again.
+reviewAppeal.start.p2 = This service is for requesting a review for appeal decisions given for individual submissions.
+reviewAppeal.start.h2 = Before you start
+reviewAppeal.start.p3 = You’ll need to collect any evidence that you believe shows why the appeal decision was incorrect.
+reviewAppeal.start.p4 = You will be asked to upload this evidence as part of this request to review.
+reviewAppeal.start.p3.list = You’ll need:
+reviewAppeal.start.p3.bullet1 = any evidence that you believe shows why the appeal decision was incorrect
+reviewAppeal.start.p3.bullet2 = details of why you did not ask for a review sooner
 
 # Reasonable excuse
 # ----------------------------------------------------------
@@ -378,7 +390,7 @@ agents.whoPlannedToSubmit.client = My client did
 agents.whoPlannedToSubmit.error.required = Tell us who planned to send the submission
 agents.whoPlannedToSubmit.error.invalid = Tell us who planned to send the submission
 
-# Agents 'What caused you to miss the deadline?'
+# Agents What caused you to miss the deadline?
 # ----------------------------------------------------------
 agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline?
 agents.whatCausedYouToMissTheDeadline.client = My client did not get information to me on time
