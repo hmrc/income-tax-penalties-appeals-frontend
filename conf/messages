@@ -54,6 +54,11 @@ individual.jointAppeal.p2 = You can appeal both penalties at the same time if th
 agent.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty.
 jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason
 
+# Multiple Appeals LPP
+# ----------------------------------------------------------
+multipleAppeals.headingAndTitle = The appeal will cover both penalties
+multipleAppeals.p1 = This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately.
+
 # Honesty declaration
 # ----------------------------------------------------------
 honestyDeclaration.headingAndTitle = Honesty declaration

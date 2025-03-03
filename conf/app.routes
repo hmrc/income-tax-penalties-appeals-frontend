@@ -72,3 +72,6 @@ POST       /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.onPageLoad()
 POST       /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.submit()
 
+#Multiple appeals LPP
+GET        /multiple-appeals             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad()
+POST       /multiple-appeals             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit()
