@@ -17,7 +17,6 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.LateAppealMessages
-import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -26,8 +25,6 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, SingleAppealConfirmationPage}
