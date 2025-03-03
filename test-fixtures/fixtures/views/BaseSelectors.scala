@@ -22,6 +22,7 @@ trait BaseSelectors {
   def h1: String = "h1"
   def h2: Int => String = i => s"$prefix h2:nth-of-type($i)"
   def p: Int => String = i => s"$prefix p:nth-of-type($i)"
+  def link: Int => String = i => s"$prefix a:nth-of-type($i)"
   def bullet: Int => String = i => s"$prefix ul li:nth-of-type($i)"
   def details: String = s"$prefix details"
   def detailsSummary: String = s"$prefix $details summary"
