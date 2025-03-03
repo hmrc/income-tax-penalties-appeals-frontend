@@ -18,9 +18,11 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{AppealStartView, ReviewAppealStartView}
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
@@ -37,17 +39,26 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
                                      )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
-    if(user.is2ndStageAppeal) {
-      Ok(reviewAppealStartView(
-        user.isAppealLate(),
-        routes.ReasonableExcuseController.onPageLoad()
-      ))
-    } else {
-      Ok(appealStart(
-        user.isAppealLate(),
-        if(user.isAgent) routes.WhoPlannedToSubmitController.onPageLoad()
-        else             routes.ReasonableExcuseController.onPageLoad()
-      ))
-    }
+    Ok(
+      if(user.is2ndStageAppeal) renderReviewAppeal()
+      else renderAppealStartAppeal()
+    )
+  }
+
+  private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
+    reviewAppealStartView(
+      user.isAppealLate(),
+      routes.ReasonableExcuseController.onPageLoad()
+    )
+
+  private def renderAppealStartAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html = {
+    val redirect =
+      (user.isAgent, user.isLPP, user.hasMultipleLPPs) match {
+        case (true, false, _) => routes.WhoPlannedToSubmitController.onPageLoad()
+        case (_, _, true) => routes.JointAppealController.onPageLoad()
+        case _ => routes.ReasonableExcuseController.onPageLoad()
+      }
+
+    appealStart(user.isAppealLate(), redirect)
   }
 }
