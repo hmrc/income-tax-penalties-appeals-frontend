@@ -29,14 +29,18 @@
         caption: components.PenaltyCaption
 )
 
-@(penalty: String, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(penalty: Boolean, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("single.appeal.headingAndTitle")))) {
 
     @caption()
 
     @h1("single.appeal.headingAndTitle")
-    @p("single.appeal.which.penalty", args = Seq(amount, penalty), elmId = Some("whichPenalty"))
+    @if(penalty) {
+        @p("single.appeal.which.penalty.first", args = Seq(amount), elmId = Some("whichPenalty"))
+    } else {
+        @p("single.appeal.which.penalty.second", args = Seq(amount), elmId = Some("whichPenalty"))
+    }
 
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {

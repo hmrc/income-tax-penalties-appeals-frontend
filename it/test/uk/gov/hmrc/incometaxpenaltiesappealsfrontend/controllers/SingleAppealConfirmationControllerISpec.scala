@@ -27,7 +27,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, SingleAppealConfirmationPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -82,7 +82,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
           dateToString(lateSubmissionAppealData.endDate)
         )
         document.getH1Elements.text() shouldBe "The appeal will cover a single penalty"
-        document.getElementById("whichPenalty").text() shouldBe "You have chosen to appeal the £101.01 first late payment penalty."
+        document.getElementById("whichPenalty").text() shouldBe "You have chosen to appeal the £101.01 second late payment penalty."
         document.getSubmitButton.text() shouldBe "Accept and continue"
       }
 
@@ -99,7 +99,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
           dateToString(lateSubmissionAppealData.endDate)
         )
         document.getH1Elements.text() shouldBe "The appeal will cover a single penalty"
-        document.getElementById("whichPenalty").text() shouldBe "You have chosen to appeal the £101.01 first late payment penalty."
+        document.getElementById("whichPenalty").text() shouldBe "You have chosen to appeal the £101.01 second late payment penalty."
         document.getSubmitButton.text() shouldBe "Accept and continue"
 
       }
@@ -110,14 +110,11 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
       "redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
         val result = post("/single-appeal")(Json.obj())
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.WhenDidEventHappenController.onPageLoad().url)
-
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(SingleAppealConfirmationPage)) shouldBe Some(true)
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
       }
     }
   }

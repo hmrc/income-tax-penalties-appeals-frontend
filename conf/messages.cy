@@ -394,6 +394,7 @@ reasonableExcuse.error.message = Select the reason for missing the submission de
 # Single Appeal Confirmation
 # ----------------------------------------------------------
 single.appeal.headingAndTitle=The appeal will cover a single penalty (Welsh)
-single.appeal.which.penalty=You have chosen to appeal the £{0} {1}} late payment penalty. (Welsh)
+single.appeal.which.penalty.first=You have chosen to appeal the £{0} first late payment penalty. (Welsh)
+single.appeal.which.penalty.second=You have chosen to appeal the £{0} second late payment penalty. (Welsh)
 single.appeal.can.still.appeal.other=You can still appeal other penalties separately. (Welsh)
 

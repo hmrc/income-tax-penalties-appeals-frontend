@@ -23,7 +23,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{Aut
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.SingleAppealConfirmationPage
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -39,17 +38,12 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
                                      )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
 
-//  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-//      Future(Ok(singleAppealConfirmationView("first", 300.00)))
-//  }
-
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
         Ok(singleAppealConfirmationView(
-          //TODO" add first/second appeal dynamically
-          "first",
+          user.isAdditional,
           multiplePenaltiesData.firstPenaltyAmount
         ))
       case _ =>
@@ -57,14 +51,8 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
     }
   }
 
-
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-
-    val updatedAnswers = user.userAnswers.setAnswer(SingleAppealConfirmationPage, true)
-    userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-      //TODO: redirect
-      Redirect(routes.WhenDidEventHappenController.onPageLoad())
-    }
+  def submit(): Action[AnyContent] = authorised {
+    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
   }
 
 }
