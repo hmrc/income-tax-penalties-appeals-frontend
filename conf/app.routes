@@ -13,6 +13,10 @@ GET        /language/:lang                  uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /appeal-start                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad()
 GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean ?= false)
 
+#Joint appeal LPP
+GET        /joint-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad()
+POST       /joint-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit()
+
 #Reasonable excuse list
 GET        /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad()
 POST       /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit()

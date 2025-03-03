@@ -45,7 +45,13 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    renderView(Ok, fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage))
+    if(user.penaltyData.is2ndStageAppeal) {
+      //TODO: This is the current working assumption, that 2nd Stage Appeals will be set to 'Other' by default.
+      //      However, an API change may be needed for this to make the Reasonable Excuse optional in the appeal submission
+      updateUserAnswersAndRedirect(Other)
+    } else {
+      renderView(Ok, fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage))
+    }
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>

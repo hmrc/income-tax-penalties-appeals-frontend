@@ -45,7 +45,7 @@ class WhoPlannedToSubmitSummarySpec extends AnyWordSpec with Matchers with Guice
         "the request is not for an Agent (even if there's an answer saved)" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent))
+            implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent))
             WhoPlannedToSubmitSummary.row() shouldBe None
           }
         }
@@ -53,7 +53,7 @@ class WhoPlannedToSubmitSummarySpec extends AnyWordSpec with Matchers with Guice
         "there's no answer" should {
 
           "return None" in {
-            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUerAnswersWithLSP)
+            implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(emptyUserAnswersWithLSP)
             WhoPlannedToSubmitSummary.row() shouldBe None
           }
         }
@@ -65,7 +65,7 @@ class WhoPlannedToSubmitSummarySpec extends AnyWordSpec with Matchers with Guice
             "must output the expected row with a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
-                emptyUerAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+                emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
               )
 
               WhoPlannedToSubmitSummary.row() shouldBe Some(summaryListRow(
@@ -89,7 +89,7 @@ class WhoPlannedToSubmitSummarySpec extends AnyWordSpec with Matchers with Guice
             "must output the expected row WITHOUT a change link" in {
 
               implicit val request: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(
-                emptyUerAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+                emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
               )
 
               WhoPlannedToSubmitSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(

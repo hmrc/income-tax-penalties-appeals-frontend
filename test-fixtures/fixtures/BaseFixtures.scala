@@ -24,7 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePena
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{CurrencyFormatter, IncomeTaxSessionKeys}
 
 import java.time.LocalDate
 import java.util.UUID
@@ -87,8 +87,11 @@ trait BaseFixtures {
   )
 
   val emptyUserAnswers: UserAnswers = UserAnswers(testJourneyId)
-  val emptyUerAnswersWithLSP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
-  val emptyUerAnswersWithLPP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP)
+  val emptyUserAnswersWithLSP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+  val emptyUserAnswersWithLPP: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP)
+  val emptyUserAnswersWithMultipleLPPs: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(multiplePenaltiesData = Some(multiplePenaltiesModel)))
+  val emptyUserAnswersWithLSP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(is2ndStageAppeal = true))
+  val emptyUserAnswersWithLPP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(is2ndStageAppeal = true))
 
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] = {
 
@@ -101,7 +104,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
@@ -126,7 +129,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
@@ -151,7 +154,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
@@ -177,7 +180,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
-      userAnswers = emptyUerAnswersWithLSP
+      userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)

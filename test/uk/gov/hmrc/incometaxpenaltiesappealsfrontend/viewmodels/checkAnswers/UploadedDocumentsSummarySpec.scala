@@ -37,7 +37,7 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUerAnswersWithLSP.setAnswer(ReasonableExcusePage, Other))
+  implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other))
 
   "UploadedDocumentsSummary" when {
 

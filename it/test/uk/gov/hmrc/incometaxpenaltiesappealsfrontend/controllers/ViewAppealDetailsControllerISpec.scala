@@ -109,13 +109,13 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
               testNavBar(url = "/appeal-details") {
                 disable(StubIncomeTaxSessionData)
                 when(GET, uri = "/income-tax-session-data").thenReturn(status = OK, body = sessionData)
-                userAnswersRepo.upsertUserAnswer(emptyUerAnswersWithLSP).futureValue
+                userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
               }
             }
 
             s"reason is NOT '$Other'" should {
 
-              val baseUserAnswers = emptyUerAnswersWithLSP
+              val baseUserAnswers = emptyUserAnswersWithLSP
                 .setAnswer(ReasonableExcusePage, Bereavement)
                 .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
                 .setAnswer(LateAppealPage, "I was late")
@@ -169,7 +169,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
 
             s"reason is '$Other'" should {
 
-              val baseUserAnswers = emptyUerAnswersWithLSP
+              val baseUserAnswers = emptyUserAnswersWithLSP
                 .setAnswer(ReasonableExcusePage, Other)
                 .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
                 .setAnswer(MissedDeadlineReasonPage, "Forgot")
