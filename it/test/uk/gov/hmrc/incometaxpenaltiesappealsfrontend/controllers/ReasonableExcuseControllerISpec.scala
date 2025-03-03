@@ -58,79 +58,103 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
   "GET /reason-for-missing-deadline" should {
     testNavBar("/reason-for-missing-deadline")()
 
-    "return an OK with a view pre-populated" when {
-      "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(
-          emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
-        ).futureValue
-        val result = get("/reason-for-missing-deadline")
-        result.status shouldBe OK
-        val document = Jsoup.parse(result.body)
-        document.select(s"#$Bereavement").hasAttr("checked") shouldBe true
-        document.select(s"#$Cessation").hasAttr("checked") shouldBe false
-      }
+    "when the appeal is a 2nd Stage Appeal" when {
+      "should save the reason as 'Other' and redirect" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
 
-      "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+          val result = get("/reason-for-missing-deadline")
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+        }
 
-        val result = get("/reason-for-missing-deadline", isAgent = true)
+        "the user is an authorised Agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
 
-        result.status shouldBe OK
+          val result = get("/reason-for-missing-deadline", isAgent = true)
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+        }
       }
     }
-    "the page has the correct elements" when {
-      "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/reason-for-missing-deadline")
 
-        val document = Jsoup.parse(result.body)
+    "when the appeal is a 1st Stage Appeal" when {
+      "return an OK with a view pre-populated" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(
+            emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
+          ).futureValue
+          val result = get("/reason-for-missing-deadline")
+          result.status shouldBe OK
+          val document = Jsoup.parse(result.body)
+          document.select(s"#$Bereavement").hasAttr("checked") shouldBe true
+          document.select(s"#$Cessation").hasAttr("checked") shouldBe false
+        }
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-        document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
-        document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
-        document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
-        document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
-        document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
-        document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
-        document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
-        document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
-        document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
-        document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
-        document.getSubmitButton.text() shouldBe "Continue"
+        "the user is an authorised agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+
+          val result = get("/reason-for-missing-deadline", isAgent = true)
+
+          result.status shouldBe OK
+        }
       }
+      "the page has the correct elements" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          val result = get("/reason-for-missing-deadline")
 
-      "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/reason-for-missing-deadline", isAgent = true)
+          val document = Jsoup.parse(result.body)
 
-        val document = Jsoup.parse(result.body)
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
+          document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
+          document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
+          document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
+          document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
+          document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
+          document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
+          document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
+          document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
+          document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
+          document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-        document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
-        document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
-        document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
-        document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
-        document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
-        document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
-        document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
-        document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
-        document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
-        document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
-        document.getSubmitButton.text() shouldBe "Continue"
+        "the user is an authorised agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+          val result = get("/reason-for-missing-deadline", isAgent = true)
 
+          val document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
+          document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
+          document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
+          document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
+          document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
+          document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
+          document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
+          document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
+          document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
+          document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
+          document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
+          document.getSubmitButton.text() shouldBe "Continue"
+
+        }
       }
     }
   }
