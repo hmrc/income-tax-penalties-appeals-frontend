@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
@@ -46,15 +47,15 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
 
-    user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
-      case Some(PenaltyData(_, _, _, Some(multiplePenaltiesData))) =>
+    user.penaltyData.multiplePenaltiesData match {
+      case Some(multiplePenaltiesData) =>
         Ok(singleAppealConfirmationView(
+          //TODO" add first/second appeal dynamically
           "first",
           multiplePenaltiesData.firstPenaltyAmount
         ))
       case _ =>
-        NotImplemented
-      // TODO handle no multiple appeals data routing
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
     }
   }
 
@@ -63,6 +64,7 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
 
     val updatedAnswers = user.userAnswers.setAnswer(SingleAppealConfirmationPage, true)
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+      //TODO: redirect
       Redirect(routes.WhenDidEventHappenController.onPageLoad())
     }
   }
