@@ -19,8 +19,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.MultipleAppealsPage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.MultipleAppealsView
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
@@ -32,7 +30,6 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
                                           val authorised: AuthAction,
                                           withNavBar: NavBarRetrievalAction,
                                           withAnswers: UserAnswersAction,
-                                          userAnswersService: UserAnswersService,
                                           override val controllerComponents: MessagesControllerComponents,
                                           override val errorHandler: ErrorHandler
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
@@ -41,10 +38,7 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
       Future(Ok(multipleAppeals(user.isAgent)))
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
-    val updatedAnswers = user.userAnswers.setAnswer(MultipleAppealsPage, true)
-    userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-      Redirect(routes.ReasonableExcuseController.onPageLoad())
-    }
+  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async {
+      Future(Redirect(routes.ReasonableExcuseController.onPageLoad()))
   }
 }
