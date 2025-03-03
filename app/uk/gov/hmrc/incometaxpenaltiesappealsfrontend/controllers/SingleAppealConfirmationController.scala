@@ -17,13 +17,11 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.SingleAppealConfirmationPage
@@ -49,7 +47,7 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
 
     user.userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
-      case Some(PenaltyData(_, _, Some(multiplePenaltiesData))) =>
+      case Some(PenaltyData(_, _, _, Some(multiplePenaltiesData))) =>
         Ok(singleAppealConfirmationView(
           "first",
           multiplePenaltiesData.firstPenaltyAmount
