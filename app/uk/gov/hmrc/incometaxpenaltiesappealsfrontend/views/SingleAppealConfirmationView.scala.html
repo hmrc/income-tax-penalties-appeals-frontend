@@ -29,14 +29,14 @@
         caption: components.PenaltyCaption
 )
 
-@(penalty: Boolean, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLPP1: Boolean, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("single.appeal.headingAndTitle")))) {
 
     @caption()
 
     @h1("single.appeal.headingAndTitle")
-    @if(penalty) {
+    @if(isLPP1) {
         @p("single.appeal.which.penalty.first", args = Seq(amount), elmId = Some("whichPenalty"))
     } else {
         @p("single.appeal.which.penalty.second", args = Seq(amount), elmId = Some("whichPenalty"))
