@@ -16,23 +16,20 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.LateAppealMessages
+import fixtures.messages.SingleAppealConfirmationMessages
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
-import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
+import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
-import play.api.libs.json.Json
 
 class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
@@ -42,20 +39,15 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  class Setup(isLate: Boolean = false) {
-
+  class Setup {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-
-    val otherAnswers: UserAnswers = emptyUserAnswersWithMultipleLPPs
-      .setAnswer(ReasonableExcusePage, Other)
-
-    userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
   }
 
   "GET /single-appeal" should {
 
     testNavBar(url = "/single-appeal")(
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs.setAnswer(ReasonableExcusePage, Other)).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
     )
 
     "return an OK with a view" when {
@@ -75,15 +67,15 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
 
         val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "The appeal will cover a single penalty - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
+        document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+        document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
+        document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
         )
-        document.getH1Elements.text() shouldBe "The appeal will cover a single penalty"
-        document.getElementById("whichPenalty").text() shouldBe "You have chosen to appeal the £101.01 second late payment penalty."
-        document.getSubmitButton.text() shouldBe "Accept and continue"
+        document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
+        document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
+        document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
       }
 
       "the user is an authorised agent" in new Setup() {
@@ -92,29 +84,30 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
 
         val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "The appeal will cover a single penalty - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
+        document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+        document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
+        document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
         )
-        document.getH1Elements.text() shouldBe "The appeal will cover a single penalty"
-        document.getElementById("whichPenalty").text() shouldBe "You have chosen to appeal the £101.01 second late payment penalty."
-        document.getSubmitButton.text() shouldBe "Accept and continue"
+        document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
+        document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
+        document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
 
       }
     }
   }
-    s"POST /single-appeal" should {
 
-      "redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers" in {
+  s"POST /single-appeal" should {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+    "redirect to the Reasonable Excuse page" in {
 
-        val result = post("/single-appeal")(Json.obj())
+      stubAuth(OK, successfulIndividualAuthResponse)
 
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
-      }
+      val result = post("/single-appeal")(Json.obj())
+
+      result.status shouldBe SEE_OTHER
+      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
     }
   }
+}

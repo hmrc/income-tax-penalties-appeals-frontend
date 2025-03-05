@@ -43,8 +43,8 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
         Ok(singleAppealConfirmationView(
-          user.isAdditional,
-          multiplePenaltiesData.firstPenaltyAmount
+          isLPP2 = user.isLPP2,
+          amount = multiplePenaltiesData.firstPenaltyAmount
         ))
       case _ =>
         Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())

@@ -28,9 +28,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -44,26 +42,21 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  class Setup(isLate: Boolean = false) {
-
+  class Setup {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-
-    val otherAnswers: UserAnswers = emptyUserAnswersWithMultipleLPPs
-      .setAnswer(ReasonableExcusePage, Other)
-
-    userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
   }
 
   "GET /joint-appeal" should {
 
     testNavBar(url = "/joint-appeal")(
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs.setAnswer(ReasonableExcusePage, Other)).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
     )
 
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in new Setup() {
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(JointAppealPage, true)).futureValue
+        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)).futureValue
 
         val result: WSResponse = get("/joint-appeal")
         result.status shouldBe OK
@@ -100,8 +93,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
-        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
-        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
+        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
         document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
@@ -122,8 +115,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         )
         document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
         document.getElementById("paragraph1").text() shouldBe "These are:"
-        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
-        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
+        document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+        document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
         document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty."
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
         document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
@@ -144,8 +137,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> true))
 
         result.status shouldBe SEE_OTHER
-        //TODO: redirect to the MultipleAppeals page
-        result.header("Location") shouldBe Some(controllers.routes.ReasonableExcuseController.onPageLoad().url)
+        result.header("Location") shouldBe Some(controllers.routes.MultipleAppealsController.onPageLoad().url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(JointAppealPage)) shouldBe Some(true)
       }
@@ -156,8 +148,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> false))
 
         result.status shouldBe SEE_OTHER
-        //TODO: redirect to the SingleAppeal page
-        result.header("Location") shouldBe Some(controllers.routes.ReasonableExcuseController.onPageLoad().url)
+        result.header("Location") shouldBe Some(controllers.routes.SingleAppealConfirmationController.onPageLoad().url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(JointAppealPage)) shouldBe Some(false)
       }

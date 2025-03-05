@@ -22,7 +22,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{Page, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, Page, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
@@ -44,7 +44,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val periodDueDate: LocalDate = penaltyData.appealData.dueDate
   val communicationSent: LocalDate = penaltyData.appealData.dateCommunicationSent
   val isLPP: Boolean = penaltyData.isLPP
-  val isAdditional: Boolean = penaltyData.isAdditional
+  val isLPP2: Boolean = penaltyData.isAdditional
   val is2ndStageAppeal: Boolean = penaltyData.is2ndStageAppeal
   val hasMultipleLPPs: Boolean = penaltyData.multiplePenaltiesData.isDefined
 
@@ -73,8 +73,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
       //      the date that the appeal was rejected. This will be implemented in a future story.
       false
     } else {
-      //TODO: This will be replaced by UserAnswers value in future story when page is built
-      if (request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
+      if (userAnswers.getAnswer(JointAppealPage).contains(true)) {
         firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
           secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
       } else {

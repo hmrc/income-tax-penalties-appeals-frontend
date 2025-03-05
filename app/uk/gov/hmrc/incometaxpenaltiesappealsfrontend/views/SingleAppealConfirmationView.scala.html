@@ -19,7 +19,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
-
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.CurrencyFormatter
 
 @this(layout: Layout,
         govukButton : GovukButton,
@@ -29,25 +29,23 @@
         caption: components.PenaltyCaption
 )
 
-@(isLPP1: Boolean, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLPP2: Boolean, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("single.appeal.headingAndTitle")))) {
 
     @caption()
 
     @h1("single.appeal.headingAndTitle")
-    @if(isLPP1) {
-        @p("single.appeal.which.penalty.first", args = Seq(amount), elmId = Some("whichPenalty"))
-    } else {
-        @p("single.appeal.which.penalty.second", args = Seq(amount), elmId = Some("whichPenalty"))
+
+    @defining(if(isLPP2) "second" else "first") { penaltyType =>
+        @p(s"single.appeal.which.penalty.$penaltyType", args = Seq(CurrencyFormatter.uiFormat(amount)), elmId = Some("whichPenalty"))
     }
 
-
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SingleAppealConfirmationController.submit()) {
         <div class="govuk-form-group">
-        @govukButton(Button(
-            content = Text(messages("common.acceptAndContinue"))
-        ))
+            @govukButton(Button(
+                content = Text(messages("common.continue"))
+            ))
         </div>
     }
 
