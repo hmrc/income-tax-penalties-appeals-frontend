@@ -26,7 +26,7 @@ import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, JointAppealPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 
 import java.time.LocalDate
@@ -59,14 +59,12 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
         userAnswers = emptyUserAnswersWithLSP
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)
+          .setAnswer(JointAppealPage, true)
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
           .setAnswer(ReasonableExcusePage, Crime)
           .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
         penaltyData = penaltyData
-      )(FakeRequest().withSession(
-        //TODO: This will be moved to be a UserAnswer when the page is built
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes")
-      )
+      )(FakeRequest())
     }
 
     def fakeRequestForAppealingSinglePenalty(date: LocalDate, is2ndStageAppeal: Boolean = false): CurrentUserRequestWithAnswers[AnyContent] = {

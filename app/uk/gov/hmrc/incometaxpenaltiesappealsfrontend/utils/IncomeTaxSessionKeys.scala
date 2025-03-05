@@ -30,5 +30,4 @@ object IncomeTaxSessionKeys {
   //TODO: Remove all these when their answer has been moved into UserAnswers
   val wasHospitalStayRequired = "wasHospitalStayRequired"
   val hasHealthEventEnded = "hasHealthEventEnded"
-  val doYouWantToAppealBothPenalties = "doYouWantToAppealBothPenalties"
 }

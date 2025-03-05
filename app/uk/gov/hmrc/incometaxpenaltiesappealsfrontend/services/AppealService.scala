@@ -27,6 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Oth
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequestWithAnswers, PenaltyTypeEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine, UUIDGenerator}
@@ -74,7 +75,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
   def submitAppeal(reasonableExcuse: ReasonableExcuse)(implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[Int, Unit]] = {
     val files = if(reasonableExcuse == Other) upscanService.getAllReadyFiles(request.journeyId) else Future.successful(Seq.empty)
     files.flatMap { uploadedFiles =>
-      if (request.penaltyData.appealData.`type` != PenaltyTypeEnum.Late_Submission && request.session.get(IncomeTaxSessionKeys.doYouWantToAppealBothPenalties).contains("yes")) {
+      if (request.penaltyData.appealData.`type` != PenaltyTypeEnum.Late_Submission && request.userAnswers.getAnswer(JointAppealPage).contains(true)) {
         multipleAppeal(reasonableExcuse, uploadedFiles)
       } else {
         singleAppeal(reasonableExcuse, uploadedFiles)

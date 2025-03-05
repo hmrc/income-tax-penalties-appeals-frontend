@@ -23,7 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Cr
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{CurrencyFormatter, IncomeTaxSessionKeys}
 
 import java.time.LocalDate
@@ -106,16 +106,13 @@ trait BaseFixtures {
       mtdItId = testMtdItId,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
+        .setAnswer(JointAppealPage, false)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
         .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyData
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-      ))
+    )(FakeRequest())
   }
 
   val fakeRequestForCrimeJourneyMultiple: CurrentUserRequestWithAnswers[AnyContent] = {
@@ -131,16 +128,13 @@ trait BaseFixtures {
       mtdItId = testMtdItId,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
+        .setAnswer(JointAppealPage, true)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
         .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyData
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "yes"
-      ))
+    )(FakeRequest())
   }
 
   val fakeRequestForOtherJourney: CurrentUserRequestWithAnswers[AnyContent] = {
@@ -156,17 +150,14 @@ trait BaseFixtures {
       mtdItId = testMtdItId,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
+        .setAnswer(JointAppealPage, false)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
         .setAnswer(ExtraEvidencePage, true)
         .setAnswer(MissedDeadlineReasonPage, "This is a reason."),
       penaltyData = penaltyData
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-      ))
+    )(FakeRequest())
   }
 
   val fakeRequestForOtherJourneyDeclinedUploads: CurrentUserRequestWithAnswers[AnyContent] = {
@@ -182,17 +173,14 @@ trait BaseFixtures {
       mtdItId = testMtdItId,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
+        .setAnswer(JointAppealPage, false)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(ReasonableExcusePage, Other)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
         .setAnswer(ExtraEvidencePage, false)
         .setAnswer(MissedDeadlineReasonPage, "This is a reason."),
       penaltyData = penaltyData
-    )(
-      //TODO: These will all move to be UserAnswers as part of future stories
-      FakeRequest().withSession(
-        IncomeTaxSessionKeys.doYouWantToAppealBothPenalties -> "no"
-      ))
+    )(FakeRequest())
   }
 
   val appealDataAsJson: JsValue = Json.parse(

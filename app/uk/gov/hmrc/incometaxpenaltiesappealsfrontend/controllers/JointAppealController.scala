@@ -70,12 +70,13 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
             Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
         }
       },
-      value => {
-        val updatedAnswers = user.userAnswers.setAnswer(JointAppealPage, value)
-        userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
-          //TODO: redirect to the single or multiple appeal page
-          Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
-
+      appealBothPenalties => {
+        val updatedAnswers = user.userAnswers.setAnswer(JointAppealPage, appealBothPenalties)
+        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+          Redirect(
+            if(appealBothPenalties) routes.MultipleAppealsController.onPageLoad()
+            else routes.SingleAppealConfirmationController.onPageLoad()
+          )
         }
       }
     )

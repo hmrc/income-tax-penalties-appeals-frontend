@@ -53,8 +53,8 @@
         @h1("jointAppeal.headingAndTitle")
         @p("jointAppeal.p1", elmId = Some("paragraph1"))
         @bullets(
-            Seq(Html(messages("jointAppeal.l1", CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(firstPenaltyAmount))),
-                Html(messages("jointAppeal.l2", CurrencyFormatter.parseBigDecimalNoPaddedZeroToFriendlyValue(secondPenaltyAmount)))
+            Seq(Html(messages("jointAppeal.l1", CurrencyFormatter.uiFormat(firstPenaltyAmount))),
+                Html(messages("jointAppeal.l2", CurrencyFormatter.uiFormat(secondPenaltyAmount)))
             ), elmId = Some("penaltiesList")
         )
 

@@ -18,7 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
 trait CurrencyFormatter {
 
-  def parseBigDecimalNoPaddedZeroToFriendlyValue(amount: BigDecimal): String =
+  def uiFormat(amount: BigDecimal): String =
     "%,.2f".format(amount).replace(".00", "")
 }
 
