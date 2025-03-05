@@ -22,9 +22,9 @@ import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CrimeReportedEnum, CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData, PenaltyTypeEnum}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ExtraEvidencePage, HonestyDeclarationPage, JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage, WhenDidEventHappenPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{CurrencyFormatter, IncomeTaxSessionKeys}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 
 import java.time.LocalDate
 import java.util.UUID
