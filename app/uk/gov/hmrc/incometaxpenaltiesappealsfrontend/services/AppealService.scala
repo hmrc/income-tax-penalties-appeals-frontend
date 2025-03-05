@@ -119,6 +119,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
     val firstCorrelationId = idGenerator.generateUUID
     val secondCorrelationId = idGenerator.generateUUID
+
     val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(
       reasonableExcuse = reasonableExcuse,
       isLateAppeal = request.isAppealLate(),
@@ -130,30 +131,31 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     val firstPenaltyNumber = request.firstPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
     val secondPenaltyNumber = request.secondPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Second penalty number not found in session"))
 
+    val submitLPP1 = penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
+    val submitLPP2 = penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, secondPenaltyNumber, secondCorrelationId, isMultiAppeal = true)
+
     for {
-      firstResponse <- penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
-      secondResponse <- penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, secondPenaltyNumber, secondCorrelationId, isMultiAppeal = true)
-    } yield {
-      (firstResponse, secondResponse) match {
-        case (Right(_), Right(_)) =>
-          logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId)
-          // TODO implement auditing
-          Right((): Unit)
-        case (Right(firstResponseModel), Left(secondResponseModel)) =>
-          logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId)
-          // TODO implement auditing
-          logger.debug(s"[AppealService][multipleAppeal] - First penalty was $firstResponseModel, second penalty was $secondResponseModel")
-          Right((): Unit)
-        case (Left(firstResponseModel), Right(secondResponseModel)) =>
-          logPartialFailureOfMultipleAppeal(Left(firstResponseModel), Right(secondResponseModel), firstCorrelationId, secondCorrelationId)
-          // TODO implement auditing
-          logger.debug(s"[AppealService][multipleAppeal] - Second penalty was $secondResponseModel, first penalty was $firstResponseModel")
-          Right((): Unit)
-        case _ =>
-          logger.error(s"[AppealService][multipleAppeal] - Received unknown status code from connector:" +
-            s" First response: $firstResponse, Second response: $secondResponse")
-          Left(firstResponse.left.toOption.orElse(secondResponse.left.toOption).map(_.status).getOrElse(INTERNAL_SERVER_ERROR))
-      }
+      firstResponse <- submitLPP1
+      secondResponse <- submitLPP2
+    } yield (firstResponse, secondResponse) match {
+      case (Right(_), Right(_)) =>
+        logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId)
+        // TODO implement auditing
+        Right((): Unit)
+      case (Right(firstResponseModel), Left(secondResponseModel)) =>
+        logPartialFailureOfMultipleAppeal(firstResponse, secondResponse, firstCorrelationId, secondCorrelationId)
+        // TODO implement auditing
+        logger.debug(s"[AppealService][multipleAppeal] - First penalty was $firstResponseModel, second penalty was $secondResponseModel")
+        Right((): Unit)
+      case (Left(firstResponseModel), Right(secondResponseModel)) =>
+        logPartialFailureOfMultipleAppeal(Left(firstResponseModel), Right(secondResponseModel), firstCorrelationId, secondCorrelationId)
+        // TODO implement auditing
+        logger.debug(s"[AppealService][multipleAppeal] - Second penalty was $secondResponseModel, first penalty was $firstResponseModel")
+        Right((): Unit)
+      case _ =>
+        logger.error(s"[AppealService][multipleAppeal] - Received unknown status code from connector:" +
+          s" First response: $firstResponse, Second response: $secondResponse")
+        Left(firstResponse.left.toOption.orElse(secondResponse.left.toOption).map(_.status).getOrElse(INTERNAL_SERVER_ERROR))
     }
   }.recover {
     case e: UpstreamErrorResponse =>
