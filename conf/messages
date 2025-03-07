@@ -290,6 +290,9 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else 
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline
 
+checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason?
+checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason
+
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline
 checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died)

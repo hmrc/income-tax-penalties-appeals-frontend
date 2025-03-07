@@ -294,6 +294,9 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else 
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time (Welsh)
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline (Welsh)
 
+checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason? (Welsh)
+checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason (Welsh)
+
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline (Welsh)
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline (Welsh)
 checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died) (Welsh)
