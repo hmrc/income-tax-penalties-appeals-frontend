@@ -185,6 +185,8 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission,
           uploadedFiles = uploadedFiles
         ))
+      case reason =>
+        throw new UnsupportedOperationException(s"$reason is not supported and cannot be constructed to AppealInformation model")
     }
   }
 

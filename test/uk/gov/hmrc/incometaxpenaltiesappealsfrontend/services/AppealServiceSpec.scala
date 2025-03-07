@@ -33,7 +33,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{Inv
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiplePenaltiesData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, AppealSubmissionResponseModel, MultiAppealFailedBoth, MultiAppealFailedLPP1, MultiAppealFailedLPP2, MultiplePenaltiesData, SubmissionErrorResponse, SubmissionSuccessResponse, SuccessfulAppeal, SuccessfulMultiAppeal, UnexpectedFailedFuture}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockUpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
@@ -149,7 +149,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   }
 
   "submitAppeal" should {
-    "parse the session keys into a model and return true" when {
+    "return Right" when {
       "the journey is 'Other' and there are uploaded files that are ready" should {
         "the connector call is successful" in new Setup {
 
@@ -158,16 +158,12 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
             .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 
-          when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
-            .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
-
-          when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
-            .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
-
           mockGetAllReadyFiles(testJourneyId)(Future.successful(Seq(callbackModel, callbackModel2)))
 
-          val result: Either[Int, Unit] = await(service.submitAppeal(Other)(fakeRequestForOtherJourney, implicitly, implicitly))
-          result shouldBe Right((): Unit)
+          val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] =
+            await(service.submitAppeal(Other)(fakeRequestForOtherJourney, implicitly, implicitly))
+
+          result shouldBe Right(SuccessfulAppeal(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
 
           submissionModelCapture.getValue.appealInformation.asInstanceOf[OtherAppealInformation].uploadedFiles shouldBe Some(Seq(callbackModel, callbackModel2))
         }
@@ -177,74 +173,89 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
           .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 
-        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+        val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] =
+          await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
-        result shouldBe Right((): Unit)
-      }
-    }
-
-    "succeed if one of 2 appeal submissions fail and log a PD (LPP1 fails)" in new Setup {
-      when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456789"), any(), ArgumentMatchers.eq(true))(any(), any()))
-        .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
-      when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), ArgumentMatchers.eq(true))(any(), any()))
-        .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
-
-      withCaptureOfLoggingFrom(logger) {
-        logs => {
-          val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
-
-          result shouldBe Right((): Unit)
-
-          verify(mockUUIDGenerator, times(2)).generateUUID
-
-          logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
-            s"LPP1 appeal was not submitted successfully, Reason given Some issue with submission. Correlation ID for LPP1: uuid-1. " +
-            s"LPP2 appeal was submitted successfully, case ID is Some(REV-1234). Correlation ID for LPP2: uuid-2. ") shouldBe true
-        }
-      }
-    }
-
-    "succeed if one of 2 appeal submissions fail and log a PD (LPP2 fails)" in new Setup {
-      when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456789"), any(), ArgumentMatchers.eq(true))(any(), any()))
-        .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
-      when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), ArgumentMatchers.eq(true))(any(), any()))
-        .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
-
-      withCaptureOfLoggingFrom(logger) {
-        logs => {
-          val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
-
-          result shouldBe Right((): Unit)
-
-          logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
-            s"LPP1 appeal was submitted successfully, case ID is Some(REV-1234). Correlation ID for LPP1: uuid-1. " +
-            s"LPP2 appeal was not submitted successfully, Reason given Some issue with submission. Correlation ID for LPP2: uuid-2. ") shouldBe true
-        }
+        result shouldBe Right(
+          SuccessfulMultiAppeal(
+            lpp1Success = AppealSubmissionResponseModel(Some("REV-1234"), OK),
+            lpp2Success = AppealSubmissionResponseModel(Some("REV-1234"), OK)
+          )
+        )
       }
     }
 
     "return Left" when {
-      "the connector returns a non-200 response" in new Setup {
-        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
-          .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
-        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourney, implicitly, implicitly))
-        result shouldBe Left(BAD_GATEWAY)
+
+      "if one of 2 appeal submissions fail and log a PD (LPP1 fails)" in new Setup {
+
+        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456789"), any(), ArgumentMatchers.eq(true))(any(), any()))
+          .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
+
+        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), ArgumentMatchers.eq(true))(any(), any()))
+          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+        withCaptureOfLoggingFrom(logger) {
+          logs => {
+
+            val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] =
+              await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+
+            result shouldBe Left(MultiAppealFailedLPP1(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
+
+            verify(mockUUIDGenerator, times(2)).generateUUID
+
+            logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
+              s"LPP1 appeal was not submitted successfully, Reason given Some issue with submission. Correlation ID for LPP1: uuid-1. " +
+              s"LPP2 appeal was submitted successfully, case ID is Some(REV-1234). Correlation ID for LPP2: uuid-2. ") shouldBe true
+          }
+        }
       }
 
-      "the connector returns a non-200 response for multiple submissions" in new Setup {
+      "if one of 2 appeal submissions fail and log a PD (LPP2 fails)" in new Setup {
+
+        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456789"), any(), ArgumentMatchers.eq(true))(any(), any()))
+          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), ArgumentMatchers.eq(true))(any(), any()))
+          .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
+
+        withCaptureOfLoggingFrom(logger) {
+          logs => {
+            val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+
+            result shouldBe Left(MultiAppealFailedLPP2(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
+
+            logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
+              s"LPP1 appeal was submitted successfully, case ID is Some(REV-1234). Correlation ID for LPP1: uuid-1. " +
+              s"LPP2 appeal was not submitted successfully, Reason given Some issue with submission. Correlation ID for LPP2: uuid-2. ") shouldBe true
+          }
+        }
+      }
+
+      "if both of the appeal submissions fail" in new Setup {
+
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456789"), any(), any())(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
+
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), ArgumentMatchers.eq("123456788"), any(), any())(any(), any()))
           .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, ""))))
-        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
-        result shouldBe Left(BAD_GATEWAY)
+
+        val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+
+        result shouldBe Left(MultiAppealFailedBoth)
       }
 
       "the connector throws an exception" in new Setup {
+
+        val e = new Exception("I failed.")
+
         when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
-          .thenReturn(Future.failed(new Exception("I failed.")))
-        val result: Either[Int, Unit] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourney, implicitly, implicitly))
-        result shouldBe Left(INTERNAL_SERVER_ERROR)
+          .thenReturn(Future.failed(e))
+
+        val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourney, implicitly, implicitly))
+
+        result shouldBe Left(UnexpectedFailedFuture(e))
       }
     }
   }
