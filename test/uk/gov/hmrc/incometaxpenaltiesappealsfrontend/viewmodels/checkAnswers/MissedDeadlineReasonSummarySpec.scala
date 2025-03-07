@@ -62,8 +62,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
               implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
                 userAnswers = (if (isLPP) emptyUserAnswersWithLPP else emptyUserAnswersWithLSP)
                   .setAnswer(ReasonableExcusePage, Other)
-                  .setAnswer(MissedDeadlineReasonPage, "foo"),
-                penaltyData = if(isLPP) penaltyDataLPP else penaltyDataLSP
+                  .setAnswer(MissedDeadlineReasonPage, "foo")
               )
 
               "show actions links == true" when {

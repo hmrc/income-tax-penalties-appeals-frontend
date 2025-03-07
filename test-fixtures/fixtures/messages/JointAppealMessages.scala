@@ -23,7 +23,7 @@ object JointAppealMessages {
     val errorInvalid = "Tell us if you intend to appeal both penalties for the same reason"
 
     val cyaKey = "Do you intend to appeal both penalties for the same reason?"
-    val cyaHidden = "do you intend to appeal both penalties for the same reason?"
+    val cyaHidden = "do you intend to appeal both penalties for the same reason"
   }
 
   object English extends Messages with En
@@ -33,6 +33,6 @@ object JointAppealMessages {
     override val errorInvalid = "Tell us if you intend to appeal both penalties for the same reason (Welsh)"
 
     override val cyaKey = "Do you intend to appeal both penalties for the same reason? (Welsh)"
-    override val cyaHidden = "do you intend to appeal both penalties for the same reason? (Welsh)"
+    override val cyaHidden = "do you intend to appeal both penalties for the same reason (Welsh)"
   }
 }
