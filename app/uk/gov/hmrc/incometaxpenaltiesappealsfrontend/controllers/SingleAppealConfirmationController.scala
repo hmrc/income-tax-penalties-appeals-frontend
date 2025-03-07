@@ -20,23 +20,18 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
 
 
 class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView: SingleAppealConfirmationView,
-                                      val authorised: AuthAction,
-                                      withNavBar: NavBarRetrievalAction,
-                                      withAnswers: UserAnswersAction,
-                                      userAnswersService: UserAnswersService,
-                                      override val errorHandler: ErrorHandler,
-                                      override val controllerComponents: MessagesControllerComponents
-                                     )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
-
+                                                   val authorised: AuthAction,
+                                                   withNavBar: NavBarRetrievalAction,
+                                                   withAnswers: UserAnswersAction,
+                                                   override val errorHandler: ErrorHandler,
+                                                   override val controllerComponents: MessagesControllerComponents) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
 
@@ -44,7 +39,9 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
       case Some(multiplePenaltiesData) =>
         Ok(singleAppealConfirmationView(
           isLPP2 = user.isLPP2,
-          amount = multiplePenaltiesData.firstPenaltyAmount
+          amount =
+            if(user.isLPP2) multiplePenaltiesData.secondPenaltyAmount
+            else multiplePenaltiesData.firstPenaltyAmount
         ))
       case _ =>
         Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())

@@ -39,6 +39,7 @@ object WhenDidEventEndMessages {
     def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => cyaKeyTechnical
       case UnexpectedHospital => cyaKeyHospital
+      case reason => throw new UnsupportedOperationException("No message content exists for this ReasonableExcuse: " + reason)
     }
 
     val cyaHiddenTechnical = "when did the software or technology issues end"
@@ -47,6 +48,7 @@ object WhenDidEventEndMessages {
     def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => cyaHiddenTechnical
       case UnexpectedHospital => cyaHiddenHospital
+      case reason => throw new UnsupportedOperationException("No message content exists for this ReasonableExcuse: " + reason)
     }
 
     val technicalIssueInvalid = "The date the software or technology issues ended must be a real date"

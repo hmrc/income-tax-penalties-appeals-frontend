@@ -18,9 +18,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
 
 trait MissedDeadlineReasonHelper {
 
-  def messageKeyPrefix(isLPP: Boolean)(): String =
-
-        s"missedDeadlineReason${if(isLPP) ".lpp" else ".lsp"}"
+  def messageKeyPrefix(isLPP: Boolean): String =
+    s"missedDeadlineReason${if(isLPP) ".lpp" else ".lsp"}"
 }
 
 object MissedDeadlineReasonHelper extends MissedDeadlineReasonHelper
