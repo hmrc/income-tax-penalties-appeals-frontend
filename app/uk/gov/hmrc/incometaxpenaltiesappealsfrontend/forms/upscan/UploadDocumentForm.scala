@@ -31,6 +31,7 @@ object UploadDocumentForm {
     case "InvalidArgument" => messages("uploadEvidence.error.noFileSpecified")
     case "QUARANTINE" => messages(s"uploadEvidence.error.QUARANTINE")
     case "REJECTED" => messages(s"uploadEvidence.error.REJECTED")
+    case "INVALID_FILENAME" => messages(s"uploadEvidence.error.INVALID_FILENAME")
     case _ => messages("uploadEvidence.error.unableToUpload")
   }
 }

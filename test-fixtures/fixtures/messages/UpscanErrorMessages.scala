@@ -16,7 +16,7 @@
 
 package fixtures.messages
 
-object SynchronousUpscanErrorMessages {
+object UpscanErrorMessages {
 
   sealed trait Messages { _: i18n =>
     val errorFileTooSmall: String = "The selected file is empty. Choose another file."
@@ -25,6 +25,7 @@ object SynchronousUpscanErrorMessages {
     val errorUploadFailed: String = "The selected file could not be uploaded. Choose another file."
     val errorQuarantine: String = "The selected file contains a virus. Choose another file."
     val errorRejected: String = "The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file."
+    val errorFilename: String = "The selected file name is invalid (placeholder!!!)"
   }
 
   object English extends Messages with En
@@ -36,5 +37,6 @@ object SynchronousUpscanErrorMessages {
     override val errorUploadFailed: String = "Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall."
     override val errorQuarantine: String = "Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall."
     override val errorRejected: String = "Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)"
+    override val errorFilename: String = "The selected file name is invalid (placeholder!!!) (Welsh)"
   }
 }

@@ -262,6 +262,8 @@ uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan syl
 # ----------------------------------------------------------
 uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall.
 uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
+#TODO: Update error message below with wording from Phil when ready
+uploadEvidence.error.INVALID_FILENAME = The selected file name is invalid (placeholder!!!) (Welsh)
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------
