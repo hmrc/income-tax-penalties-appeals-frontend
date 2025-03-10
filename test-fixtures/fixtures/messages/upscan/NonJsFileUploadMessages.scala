@@ -25,7 +25,7 @@ object NonJsFileUploadMessages {
     val p1 = "Use this page to upload any evidence to help us review the penalty."
     val p2 = "Evidence might include any documents or letters that show why the submission deadline was missed."
     val p3: Int => String = n => s"You can upload up to $n files."
-    val p4 = "Each file must be smaller than 6MB."
+    val p4: Int => String = n => s"Each file must be smaller than ${n}MB."
     val label = "Select a file"
   }
 
@@ -36,7 +36,7 @@ object NonJsFileUploadMessages {
     override val p1 = "Use this page to upload any evidence to help us review the penalty. (Welsh)"
     override val p2 = "Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)"
     override val p3: Int => String = n => s"You can upload up to $n files. (Welsh)"
-    override val p4 = "Each file must be smaller than 6MB. (Welsh)"
+    override val p4: Int => String = n => s"Each file must be smaller than ${n}MB. (Welsh)"
     override val label = "Select a file (Welsh)"
   }
 }

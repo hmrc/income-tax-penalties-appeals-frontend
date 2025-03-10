@@ -54,7 +54,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
         Selectors.p(1) -> messagesForLanguage.p1,
         Selectors.p(2) -> messagesForLanguage.p2,
         Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-        Selectors.p(4) -> messagesForLanguage.p4,
+        Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
         Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
         concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
         concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,

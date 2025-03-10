@@ -38,7 +38,7 @@ class UpscanInitiateRequestSpec extends AnyWordSpec with Matchers with GuiceOneA
         successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
         errorRedirect   = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad().url),
         minimumFileSize = Some(1),
-        maximumFileSize = Some(6291456)
+        maximumFileSize = Some(10485760)
       )
 
       actualModel shouldBe expectedModel

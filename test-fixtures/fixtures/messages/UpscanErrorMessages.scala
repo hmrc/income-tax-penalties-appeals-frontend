@@ -20,7 +20,7 @@ object UpscanErrorMessages {
 
   sealed trait Messages { _: i18n =>
     val errorFileTooSmall: String = "The selected file is empty. Choose another file."
-    val errorFileTooLarge: String = "The selected file must be smaller than 6MB. Choose another file."
+    val errorFileTooLarge: Int => String = max => s"The selected file must be smaller than ${max}MB. Choose another file."
     val errorNoFileSelected: String = "Select a file."
     val errorUploadFailed: String = "The selected file could not be uploaded. Choose another file."
     val errorQuarantine: String = "The selected file contains a virus. Choose another file."
@@ -32,7 +32,7 @@ object UpscanErrorMessages {
 
   object Welsh extends Messages with Cy {
     override val errorFileTooSmall: String = "Mae’r ffeil dan sylw yn wag. Dewiswch ffeil arall."
-    override val errorFileTooLarge: String = "Mae’n rhaid i’r ffeil dan sylw fod yn llai na 6 MB. Dewiswch ffeil arall."
+    override val errorFileTooLarge: Int => String = max => s"Mae’n rhaid i’r ffeil dan sylw fod yn llai na ${max}MB. Dewiswch ffeil arall."
     override val errorNoFileSelected: String = "Dewiswch ffeil."
     override val errorUploadFailed: String = "Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall."
     override val errorQuarantine: String = "Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall."

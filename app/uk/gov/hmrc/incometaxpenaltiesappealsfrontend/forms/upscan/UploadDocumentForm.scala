@@ -19,15 +19,16 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan
 import play.api.data.Form
 import play.api.data.Forms.text
 import play.api.i18n.Messages
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 
 object UploadDocumentForm {
 
   val key = "file"
   val form: Form[String] = Form[String](key -> text)
 
-  def errorMessages(code: String)(implicit messages: Messages): String = code match {
+  def errorMessages(code: String)(implicit messages: Messages, appConfig: AppConfig): String = code match {
     case "EntityTooSmall" => messages("uploadEvidence.error.fileTooSmall")
-    case "EntityTooLarge" => messages("uploadEvidence.error.fileTooLarge")
+    case "EntityTooLarge" => messages("uploadEvidence.error.fileTooLarge", appConfig.upscanMaxFileSizeMB)
     case "InvalidArgument" => messages("uploadEvidence.error.noFileSpecified")
     case "QUARANTINE" => messages(s"uploadEvidence.error.QUARANTINE")
     case "REJECTED" => messages(s"uploadEvidence.error.REJECTED")

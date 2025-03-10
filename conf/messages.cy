@@ -245,7 +245,7 @@ uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal (Welsh)
 uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty. (Welsh)
 uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)
 uploadEvidence.nonJs.p3 = You can upload up to {0} files. (Welsh)
-uploadEvidence.nonJs.p4 = Each file must be smaller than 6MB. (Welsh)
+uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB. (Welsh)
 uploadEvidence.nonJs.label = Select a file (Welsh)
 
 # NonJS File Upload Page
@@ -261,7 +261,7 @@ uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF) (Welsh)
 # Synchronous Upscan Error
 # ----------------------------------------------------------
 uploadEvidence.error.fileTooSmall = Mae’r ffeil dan sylw yn wag. Dewiswch ffeil arall.
-uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na 6 MB. Dewiswch ffeil arall.
+uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na {0}MB. Dewiswch ffeil arall.
 uploadEvidence.error.noFileSpecified = Dewiswch ffeil.
 uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall.
 
