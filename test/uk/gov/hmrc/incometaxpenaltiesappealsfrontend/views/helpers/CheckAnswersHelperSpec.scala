@@ -64,6 +64,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
             checkAnswersHelper.constructSummaryListRows(uploads) shouldBe Seq(
               WhoPlannedToSubmitSummary.row(),
               WhatCausedYouToMissDeadlineSummary.row(),
+              JointAppealSummary.row(),
               ReasonableExcuseSummary.row(),
               WhenDidEventHappenSummary.row(),
               WhenDidEventEndSummary.row(),
@@ -83,6 +84,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
             checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false) shouldBe Seq(
               WhoPlannedToSubmitSummary.row(showActionLinks = false),
               WhatCausedYouToMissDeadlineSummary.row(showActionLinks = false),
+              JointAppealSummary.row(showActionLinks = false),
               ReasonableExcuseSummary.row(showActionLinks = false),
               WhenDidEventHappenSummary.row(showActionLinks = false),
               WhenDidEventEndSummary.row(showActionLinks = false),

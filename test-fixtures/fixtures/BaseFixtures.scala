@@ -216,10 +216,12 @@ trait BaseFixtures {
       |}
       |""".stripMargin)
 
-  def userRequestWithAnswers(userAnswers: UserAnswers, penaltyData: PenaltyData = penaltyDataLSP): CurrentUserRequestWithAnswers[_] =
-    CurrentUserRequestWithAnswers(userAnswers, penaltyData)(CurrentUserRequest(testMtdItId, None)(FakeRequest()))
+  def userRequestWithAnswers(userAnswers: UserAnswers, arn: Option[String] = None): CurrentUserRequestWithAnswers[_] = {
+    val penaltyData = userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).getOrElse(penaltyDataLSP)
+    CurrentUserRequestWithAnswers(userAnswers, penaltyData)(CurrentUserRequest(testMtdItId, arn)(FakeRequest()))
+  }
 
-  def agentUserRequestWithAnswers(userAnswers: UserAnswers, penaltyData: PenaltyData = penaltyDataLSP): CurrentUserRequestWithAnswers[_] =
-    CurrentUserRequestWithAnswers(userAnswers, penaltyData)(CurrentUserRequest(testMtdItId, Some(testArn))(FakeRequest()))
+  def agentUserRequestWithAnswers(userAnswers: UserAnswers): CurrentUserRequestWithAnswers[_] =
+    userRequestWithAnswers(userAnswers, Some(testArn))
 
 }

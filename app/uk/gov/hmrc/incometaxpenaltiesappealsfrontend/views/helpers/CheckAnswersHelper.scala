@@ -30,6 +30,7 @@ class CheckAnswersHelper @Inject()(lateAppealSummary: LateAppealSummary) {
     Seq(
       WhoPlannedToSubmitSummary.row(showActionLinks),
       WhatCausedYouToMissDeadlineSummary.row(showActionLinks),
+      JointAppealSummary.row(showActionLinks),
       ReasonableExcuseSummary.row(showActionLinks),
       WhenDidEventHappenSummary.row(showActionLinks),
       WhenDidEventEndSummary.row(showActionLinks),
