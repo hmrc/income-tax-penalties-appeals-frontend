@@ -113,27 +113,84 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         }
 
         "the journey is for a 2nd Stage Appeal" when {
-          "the page has the correct elements" in {
-            stubAuth(OK, authResponse)
-            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+          "the penalty type is LPP and there are multiple penalties" should {
+            "render the ReviewAppeal page with correct elements" in {
+              stubAuth(OK, authResponse)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
-            val result = get("/appeal-start", isAgent = isAgent)
+              val result = get("/appeal-start", isAgent = isAgent)
 
-            val document = Jsoup.parse(result.body)
+              val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
-            document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
-            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
-              dateToString(lateSubmissionAppealData.startDate),
-              dateToString(lateSubmissionAppealData.endDate)
-            )
-            document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
-            document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
-            document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
-            document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
-            document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
-            document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
-            document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
+              document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
+              document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
+              document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+                dateToString(latePaymentAppealData.startDate),
+                dateToString(latePaymentAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
+              document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
+              document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
+              document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
+              document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
+              document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
+
+              document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
+              document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad().url
+            }
+          }
+
+          "the penalty type is LPP and there is a single LPP" should {
+            "render the ReviewAppeal page with correct elements" in {
+              stubAuth(OK, authResponse)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage)
+
+              val result = get("/appeal-start", isAgent = isAgent)
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
+              document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
+              document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+                dateToString(latePaymentAppealData.startDate),
+                dateToString(latePaymentAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
+              document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
+              document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
+              document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
+              document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
+              document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
+
+              document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
+              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad().url
+            }
+          }
+
+          "the penalty type is LSP" should {
+            "render the ReviewAppeal page with correct elements" in {
+              stubAuth(OK, authResponse)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+
+              val result = get("/appeal-start", isAgent = isAgent)
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
+              document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
+              document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+                dateToString(lateSubmissionAppealData.startDate),
+                dateToString(lateSubmissionAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
+              document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
+              document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
+              document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
+              document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
+              document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
+              document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
+              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad().url
+            }
           }
         }
       }
