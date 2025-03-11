@@ -49,12 +49,16 @@ lateAppeal.error.regex = The text must contain only letters, numbers and standar
 # ----------------------------------------------------------
 jointAppeal.headingAndTitle = There are 2 penalties for this overdue tax charge (Welsh)
 jointAppeal.radioHeading =  Do you intend to appeal both penalties for the same reason? (Welsh)
+jointAppeal.radioHeading.review =  Do you want both appeal decisions to be reviewed at the same time? (Welsh)
 jointAppeal.p1 = These are: (Welsh)
 jointAppeal.l1 = £{0} first late payment penalty (Welsh)
 jointAppeal.l2 = £{0} second late payment penalty (Welsh)
 individual.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty. (Welsh)
+individual.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your evidence applies to both of the original appeals. (Welsh)
 agent.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty. (Welsh)
+agent.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your client’s evidence applies to both of the original appeals. (Welsh)
 jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason (Welsh)
+jointAppeal.error.required.review = Tell us if you want both appeal decisions to be reviewed at the same time (Welsh)
 
 # Honesty declaration
 # ----------------------------------------------------------

@@ -21,9 +21,13 @@ object JointAppealMessages {
   sealed trait Messages { _: i18n =>
     val errorRequired = "Tell us if you intend to appeal both penalties for the same reason"
     val errorInvalid = "Tell us if you intend to appeal both penalties for the same reason"
+    val errorRequiredReview = "Tell us if you want both appeal decisions to be reviewed at the same time"
+    val errorInvalidReview = "Tell us if you want both appeal decisions to be reviewed at the same time"
 
     val cyaKey = "Do you intend to appeal both penalties for the same reason?"
     val cyaHidden = "do you intend to appeal both penalties for the same reason"
+    val cyaKeyReview = "Do you want both appeal decisions to be reviewed at the same time?"
+    val cyaHiddenReview = "do you want both appeal decisions to be reviewed at the same time"
   }
 
   object English extends Messages with En
@@ -31,8 +35,12 @@ object JointAppealMessages {
   object Welsh extends Messages with Cy {
     override val errorRequired = "Tell us if you intend to appeal both penalties for the same reason (Welsh)"
     override val errorInvalid = "Tell us if you intend to appeal both penalties for the same reason (Welsh)"
+    override val errorRequiredReview = "Tell us if you want both appeal decisions to be reviewed at the same time (Welsh)"
+    override val errorInvalidReview = "Tell us if you want both appeal decisions to be reviewed at the same time (Welsh)"
 
     override val cyaKey = "Do you intend to appeal both penalties for the same reason? (Welsh)"
     override val cyaHidden = "do you intend to appeal both penalties for the same reason (Welsh)"
+    override val cyaKeyReview = "Do you want both appeal decisions to be reviewed at the same time? (Welsh)"
+    override val cyaHiddenReview = "do you want both appeal decisions to be reviewed at the same time (Welsh)"
   }
 }
