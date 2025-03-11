@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.HonestyDeclarationView
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{HonestyDeclarationView, ReviewHonestyDeclarationView}
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
@@ -29,6 +29,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 
 class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarationView,
+                                             reviewHonestyDeclarationView: ReviewHonestyDeclarationView,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
                                              withAnswers: UserAnswersAction,
@@ -39,7 +40,9 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-      Future(Ok(honestyDeclaration(user.isAgent, reasonableExcuse)))
+      Future(Ok(
+        if(user.is2ndStageAppeal) reviewHonestyDeclarationView(user.isAgent, reasonableExcuse)
+        else honestyDeclaration(user.isAgent, reasonableExcuse)))
     }
   }
 

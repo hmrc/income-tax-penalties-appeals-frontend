@@ -56,6 +56,13 @@ individual.jointAppeal.p2 = You can appeal both penalties at the same time if th
 agent.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty. (Welsh)
 jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason (Welsh)
 
+# Honesty declaration
+# ----------------------------------------------------------
+honestyDeclaration.headingAndTitle = Honesty declaration (Welsh)
+honestyDeclaration.p1 = I confirm that: (Welsh)
+honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal (Welsh)
+honestyDeclaration.li.review = I will provide honest and accurate information in this request for a review (Welsh)
+
 # Multiple Appeals LPP
 # ----------------------------------------------------------
 multipleAppeals.headingAndTitle = The appeal will cover both penalties (Welsh)

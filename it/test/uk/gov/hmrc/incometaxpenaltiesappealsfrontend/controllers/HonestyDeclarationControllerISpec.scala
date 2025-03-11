@@ -39,9 +39,9 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  lazy val userAnswersRepo = app.injector.instanceOf[UserAnswersRepository]
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val dueDate = dateToString(lateSubmissionAppealData.dueDate).replace("\u00A0", " ")
+  val dueDate: String = dateToString(lateSubmissionAppealData.dueDate).replace("\u00A0", " ")
 
   val bereavementMessage: String = s"because I was affected by someone’s death, I was unable to send the submission due on $dueDate"
   val cessationMessage: String = s"TBC cessation - I was unable to send the submission due on $dueDate"
@@ -73,6 +73,9 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
     val userAnswersWithReason =
       emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
 
+    val userAnswersWithReason2ndStage =
+      emptyUserAnswersWithLSP2ndStage.setAnswer(ReasonableExcusePage, reason._1)
+
     s"GET /honesty-declaration with ${reason._1}" should {
 
       testNavBar(url = "/honesty-declaration") {
@@ -98,48 +101,92 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
           result.status shouldBe OK
         }
       }
+      "the journey is for a 1st Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised individual" in {
+            stubAuth(OK, successfulIndividualAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
-          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+            val result = get("/honesty-declaration")
 
-          val result = get("/honesty-declaration")
+            val document = Jsoup.parse(result.body)
 
-          val document = Jsoup.parse(result.body)
+            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Honesty declaration"
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
+            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this appeal"
+            document.getSubmitButton.text() shouldBe "Accept and continue"
+          }
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Honesty declaration"
-          document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
-          document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
-          document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this appeal"
-          document.getSubmitButton.text() shouldBe "Accept and continue"
+          "the user is an authorised agent" in {
+            stubAuth(OK, successfulAgentAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+            val result = get("/honesty-declaration", isAgent = true)
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Honesty declaration"
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
+            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this appeal"
+            document.getSubmitButton.text() shouldBe "Accept and continue"
+          }
         }
+      }
+      "the journey is for a 2nd Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised individual" in {
+            stubAuth(OK, successfulIndividualAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
 
-        "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
-          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+            val result = get("/honesty-declaration")
 
-          val result = get("/honesty-declaration", isAgent = true)
+            val document = Jsoup.parse(result.body)
 
-          val document = Jsoup.parse(result.body)
+            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Honesty declaration"
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
+            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this request for a review"
+            document.getSubmitButton.text() shouldBe "Accept and continue"
+          }
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Honesty declaration"
-          document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
-          document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
-          document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this appeal"
-          document.getSubmitButton.text() shouldBe "Accept and continue"
+          "the user is an authorised agent" in {
+            stubAuth(OK, successfulAgentAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
+
+            val result = get("/honesty-declaration", isAgent = true)
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Honesty declaration"
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
+            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this request for a review"
+            document.getSubmitButton.text() shouldBe "Accept and continue"
+          }
         }
       }
     }
