@@ -48,7 +48,8 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
   private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
     reviewAppealStartView(
       user.isAppealLate(),
-      routes.ReasonableExcuseController.onPageLoad()
+      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad()
+      else routes.ReasonableExcuseController.onPageLoad()
     )
 
   private def renderAppealStartAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html = {
