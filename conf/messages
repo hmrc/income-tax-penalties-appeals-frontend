@@ -112,6 +112,7 @@ clientPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital = TBC unex
 clientPlanned.clientAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal
+honestyDeclaration.li.review = I will provide honest and accurate information in this request for a review
 
 # When did the event happen page
 # ----------------------------------------------------------
