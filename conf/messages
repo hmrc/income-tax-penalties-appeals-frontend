@@ -414,7 +414,7 @@ uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal
 uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty.
 uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed.
 uploadEvidence.nonJs.p3 = You can upload up to {0} files.
-uploadEvidence.nonJs.p4 = Each file must be smaller than 6MB.
+uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
 uploadEvidence.nonJs.label = Select a file
 
 # NonJS File Upload Page
@@ -430,7 +430,7 @@ uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF)
 # Synchronous Upscan Error
 # ----------------------------------------------------------
 uploadEvidence.error.fileTooSmall = The selected file is empty. Choose another file.
-uploadEvidence.error.fileTooLarge = The selected file must be smaller than 6MB. Choose another file.
+uploadEvidence.error.fileTooLarge = The selected file must be smaller than {0}MB. Choose another file.
 uploadEvidence.error.noFileSpecified = Select a file.
 uploadEvidence.error.unableToUpload = The selected file could not be uploaded. Choose another file.
 
@@ -438,8 +438,7 @@ uploadEvidence.error.unableToUpload = The selected file could not be uploaded. C
 # ----------------------------------------------------------
 uploadEvidence.error.QUARANTINE = The selected file contains a virus. Choose another file.
 uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file.
-#TODO: Update error message below with wording from Phil when ready
-uploadEvidence.error.INVALID_FILENAME = The selected file name is invalid (placeholder!!!)
+uploadEvidence.error.INVALID_FILENAME = Filenames can only contain upper and lower case letters, digits from 0-9, hyphens, underscores and full stops.
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------

@@ -40,7 +40,7 @@ class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with Guice
       }
 
       "have the correct error message for the EntityTooLarge code" in {
-        UploadDocumentForm.errorMessages("EntityTooLarge") shouldBe messagesForLanguage.errorFileTooLarge
+        UploadDocumentForm.errorMessages("EntityTooLarge") shouldBe messagesForLanguage.errorFileTooLarge(appConfig.upscanMaxFileSizeMB)
       }
 
       "have the correct error message for the InvalidArgument code" in {

@@ -53,7 +53,6 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val secondPenaltyNumber: Option[String] = penaltyData.multiplePenaltiesData.map(_.secondPenaltyChargeReference)
   val firstPenaltyCommunicationDate: Option[LocalDate] = penaltyData.multiplePenaltiesData.map(_.firstPenaltyCommunicationDate)
   val secondPenaltyCommunicationDate: Option[LocalDate] = penaltyData.multiplePenaltiesData.map(_.secondPenaltyCommunicationDate)
-  val isAppealingMultipleLPPs: Boolean = userAnswers.getAnswer(JointAppealPage).contains(true)
 
   def getMandatoryAnswer[T](page: Page[T])(implicit reads: Reads[T]): T =
     userAnswers.getAnswer(page) match {
