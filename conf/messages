@@ -438,6 +438,8 @@ uploadEvidence.error.unableToUpload = The selected file could not be uploaded. C
 # ----------------------------------------------------------
 uploadEvidence.error.QUARANTINE = The selected file contains a virus. Choose another file.
 uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file.
+#TODO: Update error message below with wording from Phil when ready
+uploadEvidence.error.INVALID_FILENAME = The selected file name is invalid (placeholder!!!)
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------

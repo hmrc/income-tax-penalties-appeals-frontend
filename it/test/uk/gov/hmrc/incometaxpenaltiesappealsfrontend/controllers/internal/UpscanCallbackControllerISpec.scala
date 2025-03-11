@@ -18,6 +18,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal
 
 import fixtures.FileUploadFixtures
 import play.api.test.Helpers._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureDetails
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.INVALID_FILENAME
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.FAILED
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.ComponentSpecHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -37,16 +40,44 @@ class UpscanCallbackControllerISpec extends ComponentSpecHelper with FileUploadF
 
     "a valid UploadJourney payload is received" when {
 
-      "a file for that callback reference exists within the File Upload journey" should {
+      "a file for that callback reference exists within the File Upload journey" when {
 
-        "update the File Upload Journey, persisiting the values of the UploadFields. Returning a NO_CONTENT" in {
+        "the filename is invalid (includes special character not in regex)" should {
 
-          await(fileUploadRepository.upsertFileUpload(testJourneyId, waitingFile))
+          "update the File Upload Journey as FAILED, persisting the values of the UploadFields. Returning a NO_CONTENT" in {
 
-          val result = post(s"/internal/upscan-callback/$testJourneyId")(callbackModel)
+            await(fileUploadRepository.upsertFileUpload(testJourneyId, waitingFile))
 
-          result.status shouldBe NO_CONTENT
-          await(fileUploadRepository.getFile(testJourneyId, callbackModel.reference)) shouldBe Some(callbackModel.copy(uploadFields = Some(uploadFields)))
+            val invalidFileNameModel =
+              callbackModel.copy(uploadDetails = Some(callbackModel.uploadDetails.get.copy(fileName = "file&.txt")))
+
+            val result = post(s"/internal/upscan-callback/$testJourneyId")(invalidFileNameModel)
+
+            result.status shouldBe NO_CONTENT
+            await(fileUploadRepository.getFile(testJourneyId, callbackModel.reference)) shouldBe Some(
+              invalidFileNameModel.copy(
+                uploadFields = Some(uploadFields),
+                fileStatus = FAILED,
+                failureDetails = Some(FailureDetails(
+                  failureReason = INVALID_FILENAME,
+                  message = "Filename contains invalid characters, filename='file&.txt'"
+                ))
+              )
+            )
+          }
+        }
+
+        "the filename is valid" should {
+
+          "update the File Upload Journey, persisting the values of the UploadFields. Returning a NO_CONTENT" in {
+
+            await(fileUploadRepository.upsertFileUpload(testJourneyId, waitingFile))
+
+            val result = post(s"/internal/upscan-callback/$testJourneyId")(callbackModel)
+
+            result.status shouldBe NO_CONTENT
+            await(fileUploadRepository.getFile(testJourneyId, callbackModel.reference)) shouldBe Some(callbackModel.copy(uploadFields = Some(uploadFields)))
+          }
         }
       }
 

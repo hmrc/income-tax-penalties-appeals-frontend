@@ -16,20 +16,20 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan
 
-import fixtures.messages.SynchronousUpscanErrorMessages
+import fixtures.messages.UpscanErrorMessages
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.{QUARANTINE, REJECTED, UNKNOWN}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.{INVALID_FILENAME, QUARANTINE, REJECTED, UNKNOWN}
 
 class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite {
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  Seq(SynchronousUpscanErrorMessages.English, SynchronousUpscanErrorMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(UpscanErrorMessages.English, UpscanErrorMessages.Welsh).foreach { messagesForLanguage =>
 
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
@@ -57,6 +57,10 @@ class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with Guice
 
       s"have the correct error message for the $UNKNOWN code" in {
         UploadDocumentForm.errorMessages(UNKNOWN.toString) shouldBe messagesForLanguage.errorUploadFailed
+      }
+
+      s"have the correct error message for the $INVALID_FILENAME code" in {
+        UploadDocumentForm.errorMessages(INVALID_FILENAME.toString) shouldBe messagesForLanguage.errorFilename
       }
 
       "have the correct error message for any other code" in {
