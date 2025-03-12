@@ -250,6 +250,14 @@ missedDeadlineReason.lsp.error.required = You must provide some information abou
 missedDeadlineReason.lsp.error.length = Explain the reason in {0} characters or fewer
 missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters
 
+# Missed deadline reason for review page - LSP
+# ----------------------------------------------------------
+missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to review this decision?
+missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
+missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision
+
+
+
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment late?

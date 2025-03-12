@@ -32,9 +32,11 @@
         govukErrorSummary: GovukErrorSummary,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLPP: Boolean, secondStageAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages(s"${messageKeyPrefix(isLPP)}.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@prefix = {@if(secondStageAppeal){.review}}
+
+@layout(Some(titleBuilder(messages(s"${messageKeyPrefix(isLPP)}$prefix.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -50,11 +52,11 @@
                 name = MissedDeadlineReasonForm.key,
                 maxLength = Some(appConfig.numberOfCharsInTextArea),
                 label = Label(
-                    content = Text(messages(s"${messageKeyPrefix(isLPP)}.headingAndTitle")),
+                    content = Text(messages(s"${messageKeyPrefix(isLPP)}$prefix.headingAndTitle")),
                     classes = "govuk-label govuk-label--l"
                 ),
                 hint = Some(Hint(
-                    content = Text(messages(s"${messageKeyPrefix(isLPP)}.hint"))
+                    content = Text(messages(s"${messageKeyPrefix(isLPP)}$prefix.hint"))
                 )),
                 errorMessage = form.errors(MissedDeadlineReasonForm.key) match {
                     case Nil => None
