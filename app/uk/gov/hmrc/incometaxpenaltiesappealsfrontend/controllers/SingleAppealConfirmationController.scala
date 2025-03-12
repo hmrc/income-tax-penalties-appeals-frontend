@@ -25,7 +25,6 @@ import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetri
 
 import javax.inject.Inject
 
-
 class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView: SingleAppealConfirmationView,
                                                    val authorised: AuthAction,
                                                    withNavBar: NavBarRetrievalAction,
@@ -41,7 +40,8 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
           isLPP2 = user.isLPP2,
           amount =
             if(user.isLPP2) multiplePenaltiesData.secondPenaltyAmount
-            else multiplePenaltiesData.firstPenaltyAmount
+            else multiplePenaltiesData.firstPenaltyAmount,
+          isSecondStageAppeal = user.is2ndStageAppeal
         ))
       case _ =>
         Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())

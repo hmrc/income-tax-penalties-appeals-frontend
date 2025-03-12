@@ -52,7 +52,14 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
 
     "return an OK with a view" when {
 
-      "the user is an authorised agent AND page NOT already answered" in new Setup() {
+      "the user is an authorised individual" in new Setup() {
+        stubAuth(OK, successfulIndividualAuthResponse)
+
+        val result: WSResponse = get("/single-appeal")
+        result.status shouldBe OK
+      }
+
+      "the user is an authorised agent" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
 
         val result: WSResponse = get("/single-appeal", isAgent = true)
@@ -60,40 +67,88 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
       }
     }
 
-    "the page has the correct elements" when {
-      "the user is an authorised individual" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        val result: WSResponse = get("/single-appeal")
+    "the journey is for a 1st Stage Appeal" when {
+      "the page has the correct elements" when {
+        "the user is an authorised individual" in new Setup() {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          val result: WSResponse = get("/single-appeal")
 
-        val document: nodes.Document = Jsoup.parse(result.body)
+          val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
-        document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
-        document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
-        document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
-        document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
+          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
+          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
+          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2
+          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+        }
+
+        "the user is an authorised agent" in new Setup() {
+          stubAuth(OK, successfulAgentAuthResponse)
+          val result: WSResponse = get("/single-appeal", isAgent = true)
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
+          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
+          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
+          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2
+          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+
+        }
       }
+    }
 
-      "the user is an authorised agent" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
-        val result: WSResponse = get("/single-appeal", isAgent = true)
+    "the journey is for a 2nd Stage Appeal" when {
+      "the page has the correct elements" when {
+        "the user is an authorised individual" in new Setup() {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
-        val document: nodes.Document = Jsoup.parse(result.body)
+          val result: WSResponse = get("/single-appeal")
 
-        document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
-        document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
-        document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
-        document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
-        document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+          val document: nodes.Document = Jsoup.parse(result.body)
 
+          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
+          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitleReview
+          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1Review(multiplePenaltiesModel.firstPenaltyAmount)
+          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2Review
+          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+        }
+
+        "the user is an authorised agent" in new Setup() {
+          stubAuth(OK, successfulAgentAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+
+          val result: WSResponse = get("/single-appeal", isAgent = true)
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
+          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitleReview
+          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1Review(multiplePenaltiesModel.firstPenaltyAmount)
+          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2Review
+          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+        }
       }
     }
   }
