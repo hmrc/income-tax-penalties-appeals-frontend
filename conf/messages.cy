@@ -66,7 +66,10 @@ honestyDeclaration.li.review = I will provide honest and accurate information in
 # Multiple Appeals LPP
 # ----------------------------------------------------------
 multipleAppeals.headingAndTitle = The appeal will cover both penalties (Welsh)
+multipleAppeals.headingAndTitle.review = This review will cover both appeal decisions (Welsh)
 multipleAppeals.p1 = This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately. (Welsh)
+multipleAppeals.p1.review = This allows you to upload evidence once for both reviews. However, we will consider each review separately. (Welsh)
+
 # Who Planned to Submit
 # ----------------------------------------------------------
 agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission? (Welsh)

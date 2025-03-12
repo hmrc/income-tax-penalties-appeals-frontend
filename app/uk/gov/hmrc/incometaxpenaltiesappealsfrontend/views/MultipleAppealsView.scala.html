@@ -27,14 +27,15 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@appealStage = {@if(isSecondStageAppeal) {.review} else {}}
 
-@layout(Some(titleBuilder(messages("multipleAppeals.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"multipleAppeals.headingAndTitle$appealStage"))), backLinkEnabled = true) {
 
     @caption()
 
-    @h1("multipleAppeals.headingAndTitle")
-    @p("multipleAppeals.p1", elmId = Some("multipleAppealsConfirm"))
+    @h1(s"multipleAppeals.headingAndTitle$appealStage")
+    @p(s"multipleAppeals.p1$appealStage", elmId = Some("multipleAppealsConfirm"))
 
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MultipleAppealsController.submit()) {
