@@ -256,12 +256,6 @@ missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to revie
 missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
 missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision
 
-missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision?
-missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
-missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision
-
-
-
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment late?
@@ -269,6 +263,15 @@ missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any oth
 missedDeadlineReason.lpp.error.required = You must provide some information about why the payment was late
 missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer
 missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters
+
+# Missed deadline reason for review page - LPP
+# ----------------------------------------------------------
+missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision?
+missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
+missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision
+
+
+
 
 # Has the crime been reported page
 # ----------------------------------------------------------

@@ -97,6 +97,13 @@ missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to revie
 missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)
 missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision (Welsh)
 
+# Missed deadline reason for review page - LPP
+# ----------------------------------------------------------
+missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision? (Welsh)
+missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)
+missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision (Welsh)
+
+
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment late? (Welsh)
