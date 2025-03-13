@@ -32,9 +32,9 @@
         govukErrorSummary: GovukErrorSummary,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLPP: Boolean, secondStageAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLPP: Boolean, isSecondStageAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@prefix = {@if(secondStageAppeal){.review}}
+@prefix = {@if(isSecondStageAppeal){.review}}
 
 @layout(Some(titleBuilder(messages(s"${messageKeyPrefix(isLPP)}$prefix.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 

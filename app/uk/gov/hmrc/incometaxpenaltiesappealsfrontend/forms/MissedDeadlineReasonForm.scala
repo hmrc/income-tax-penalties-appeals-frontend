@@ -29,8 +29,8 @@ object MissedDeadlineReasonForm extends Mappings {
 
   val key = "missedDeadlineReason"
 
-  def form(isLPP: Boolean = false, secondStageAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages): Form[String] = {
-    val prefix = if (secondStageAppeal) ".review" else ""
+  def form(isLPP: Boolean = false, isSecondStageAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages): Form[String] = {
+    val prefix = if (isSecondStageAppeal) ".review" else ""
     Form[String](
       single(
         key -> text(messages(s"${messageKeyPrefix(isLPP)}.error$prefix.required"))

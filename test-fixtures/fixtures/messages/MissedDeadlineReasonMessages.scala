@@ -22,13 +22,25 @@ object MissedDeadlineReasonMessages {
     def headingAndTitle(isLPP: Boolean): String = {
       if(isLPP) "Why was the payment late?" else "Why was the submission deadline missed?"
     }
+    def headingAndTitleSecondStage(isLPP: Boolean): String = {
+      if(isLPP) "Why was the payment late?" else "Why are you asking us to review this decision?"
+    }
+
     def hintText(isLPP: Boolean): String = {
       if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
       else "We only need to know about this penalty. Other penalties should be appealed separately."
     }
+    def hintTextSecondStage(isLPP: Boolean): String = {
+      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
+      else "Briefly explain why you feel that the original appeal decision was incorrect."
+    }
     def errorRequired(isLPP: Boolean): String = {
       if(isLPP) "You must provide some information about why the payment was late"
       else "You must provide some information about why the deadline was missed"
+    }
+    def errorRequiredSecondStage(isLPP: Boolean): String = {
+      if(isLPP) "You must provide some information about why the payment was late"
+      else "You must provide some information about why you are asking to review this decision"
     }
     val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer"
     val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
@@ -50,13 +62,28 @@ object MissedDeadlineReasonMessages {
     override def headingAndTitle(isLPP: Boolean): String = {
       if(isLPP) "Why was the payment late? (Welsh)" else "Why was the submission deadline missed? (Welsh)"
     }
+
+    override def headingAndTitleSecondStage(isLPP: Boolean): String = {
+      if(isLPP) "Why was the payment late? (Welsh)" else "Why are you asking us to review this decision? (Welsh)"
+    }
+
     override def hintText(isLPP: Boolean): String = {
       if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
       else "We only need to know about this penalty. Other penalties should be appealed separately. (Welsh)"
     }
+
+    override def hintTextSecondStage(isLPP: Boolean): String = {
+      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
+      else "Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)"
+    }
+
     override def errorRequired(isLPP: Boolean): String = {
       if(isLPP) "You must provide some information about why the payment was late (Welsh)"
       else "You must provide some information about why the deadline was missed (Welsh)"
+    }
+    override def errorRequiredSecondStage(isLPP: Boolean): String = {
+      if(isLPP) "You must provide some information about why the payment was late (Welsh)"
+      else "You must provide some information about why you are asking to review this decision (Welsh)"
     }
     override val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer (Welsh)"
     override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"

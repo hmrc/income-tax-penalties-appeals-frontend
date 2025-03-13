@@ -84,7 +84,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
       }
 
-      "the page has the correct elements" when {
+      "the page has the correct elements for first stage appeals" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
@@ -125,6 +125,48 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
           document.getSubmitButton.text() shouldBe "Continue"
         }
       }
+
+      "the page has the correct elements for second stage appeals" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+
+          val result = get("/missed-deadline-reason")
+
+          val document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = false)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = false)
+          document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintTextSecondStage(isLPP = false)
+          document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+
+          val result = get("/missed-deadline-reason", isAgent = true)
+
+          val document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = false)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = false)
+          document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintTextSecondStage(isLPP = false)
+          document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+      }
     }
 
 
@@ -150,7 +192,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
     "the text area content is invalid" should {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
+      "render a bad request in first stage appeal with the Form Error on the page with a link to the field in error" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
@@ -165,6 +207,24 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
         error1Link.text() shouldBe MissedDeadlineReasonMessages.English.errorRequired(isLPP = false)
+        error1Link.attr("href") shouldBe s"#${MissedDeadlineReasonForm.key}"
+      }
+
+      "render a bad request in second stage appeal with the Form Error on the page with a link to the field in error" in {
+
+        stubAuth(OK, successfulIndividualAuthResponse)
+        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+
+        val result = post("/missed-deadline-reason")(Map(MissedDeadlineReasonForm.key -> ""))
+        result.status shouldBe BAD_REQUEST
+
+        val document = Jsoup.parse(result.body)
+
+        document.title() should include(MissedDeadlineReasonMessages.English.errorPrefix)
+        document.select(".govuk-error-summary__title").text() shouldBe MissedDeadlineReasonMessages.English.thereIsAProblem
+
+        val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+        error1Link.text() shouldBe MissedDeadlineReasonMessages.English.errorRequiredSecondStage(isLPP = false)
         error1Link.attr("href") shouldBe s"#${MissedDeadlineReasonForm.key}"
       }
     }
