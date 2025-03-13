@@ -92,6 +92,7 @@ trait BaseFixtures {
   val emptyUserAnswersWithMultipleLPPs: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(multiplePenaltiesData = Some(multiplePenaltiesModel)))
   val emptyUserAnswersWithLSP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(is2ndStageAppeal = true))
   val emptyUserAnswersWithLPP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(is2ndStageAppeal = true))
+  val emptyUserAnswersWithMultipleLSPs2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(multiplePenaltiesData = Some(multiplePenaltiesModel), is2ndStageAppeal = true))
   val emptyUserAnswersWithMultipleLPPs2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(multiplePenaltiesData = Some(multiplePenaltiesModel), is2ndStageAppeal = true))
 
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] = {

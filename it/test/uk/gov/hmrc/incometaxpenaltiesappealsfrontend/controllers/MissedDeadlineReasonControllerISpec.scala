@@ -129,7 +129,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
       "the page has the correct elements for second stage appeals" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLSPs2ndStage).futureValue
 
           val result = get("/missed-deadline-reason")
 
@@ -149,7 +149,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
         "the user is an authorised agent" in {
           stubAuth(OK, successfulAgentAuthResponse)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLSPs2ndStage).futureValue
 
           val result = get("/missed-deadline-reason", isAgent = true)
 
@@ -213,7 +213,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
       "render a bad request in second stage appeal with the Form Error on the page with a link to the field in error" in {
 
         stubAuth(OK, successfulIndividualAuthResponse)
-        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLSPs2ndStage).futureValue
 
         val result = post("/missed-deadline-reason")(Map(MissedDeadlineReasonForm.key -> ""))
         result.status shouldBe BAD_REQUEST

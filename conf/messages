@@ -256,6 +256,10 @@ missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to revie
 missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
 missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision
 
+missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision?
+missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
+missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision
+
 
 
 # Missed deadline reason page - LPP
