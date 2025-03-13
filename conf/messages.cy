@@ -110,9 +110,11 @@ crime.error.invalid = Tell us if the police have been told about the crime (Wels
 # Extra evidence page
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = Do you want to upload evidence to support your appeal? (Welsh)
+extraEvidence.headingAndTitle.review = Do you want to upload evidence? (Welsh)
 extraEvidence.yes = Iawn
 extraEvidence.no = Na
 extraEvidence.hint = Uploading evidence is optional. We will still review this appeal if you do not upload evidence. (Welsh)
+extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence. (Welsh)
 extraEvidence.error.required = Tell us if you want to upload evidence (Welsh)
 extraEvidence.error.invalid = Tell us if you want to upload evidence (Welsh)
 

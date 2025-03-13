@@ -35,10 +35,12 @@
 
 @(form: Form[_],
         isLate: Boolean,
-        isAgent: Boolean
+        isAgent: Boolean,
+        isSecondStageAppeal: Boolean
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@appealStage = {@if(isSecondStageAppeal) {.review} else {}}
 
-@layout(pageTitle = Some(titleBuilder(messages("extraEvidence.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@layout(pageTitle = Some(titleBuilder(messages(s"extraEvidence.headingAndTitle$appealStage"), Some(form))), backLinkEnabled = true) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -51,13 +53,13 @@
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
                 legend = Some(Legend(
-                    content = Text(messages("extraEvidence.headingAndTitle")),
+                    content = Text(messages(s"extraEvidence.headingAndTitle$appealStage")),
                     classes = "govuk-fieldset__legend--l",
                     isPageHeading = true
                 ))
             )),
             name = ExtraEvidenceForm.key,
-            hint = Some(Hint(content = Text(messages("extraEvidence.hint")))),
+            hint = Some(Hint(content = Text(messages(s"extraEvidence.hint$appealStage")))),
             items = YesNoRadioHelper.radios(),
             classes = "govuk-radios--inline"
         ).withFormField(form(ExtraEvidenceForm.key)))
