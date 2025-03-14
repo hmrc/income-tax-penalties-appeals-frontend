@@ -29,17 +29,20 @@
         caption: components.PenaltyCaption
 )
 
-@(isLPP2: Boolean, amount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLPP2: Boolean, amount: BigDecimal, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@appealStage = {@if(isSecondStageAppeal) {.review} else {}}
 
-@layout(Some(titleBuilder(messages("single.appeal.headingAndTitle")))) {
+@layout(Some(titleBuilder(messages(s"single.appeal.headingAndTitle$appealStage")))) {
 
     @caption()
 
-    @h1("single.appeal.headingAndTitle")
+    @h1(s"single.appeal.headingAndTitle$appealStage")
 
     @defining(if(isLPP2) "second" else "first") { penaltyType =>
-        @p(s"single.appeal.which.penalty.$penaltyType", args = Seq(CurrencyFormatter.uiFormat(amount)), elmId = Some("whichPenalty"))
+        @p(s"single.appeal.which.penalty.$penaltyType$appealStage", args = Seq(CurrencyFormatter.uiFormat(amount)), elmId = Some("whichPenalty"))
     }
+
+    @p(s"single.appeal.can.still.appeal.other$appealStage", elmId = Some("p2"))
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SingleAppealConfirmationController.submit()) {
         <div class="govuk-form-group">
