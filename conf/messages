@@ -73,7 +73,9 @@ jointAppeal.error.required.review = Tell us if you want both appeal decisions to
 # Multiple Appeals LPP
 # ----------------------------------------------------------
 multipleAppeals.headingAndTitle = The appeal will cover both penalties
+multipleAppeals.headingAndTitle.review = This review will cover both appeal decisions
 multipleAppeals.p1 = This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately.
+multipleAppeals.p1.review = This allows you to upload evidence once for both reviews. However, we will consider each review separately.
 
 # Honesty declaration
 # ----------------------------------------------------------

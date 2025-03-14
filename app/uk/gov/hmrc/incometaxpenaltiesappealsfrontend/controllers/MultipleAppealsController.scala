@@ -35,7 +35,7 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-      Future(Ok(multipleAppeals(user.isAgent)))
+      Future(Ok(multipleAppeals(user.isAgent, isSecondStageAppeal = user.is2ndStageAppeal)))
   }
 
   def submit(): Action[AnyContent] = authorised {
