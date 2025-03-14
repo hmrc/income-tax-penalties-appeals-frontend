@@ -35,7 +35,7 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[String] = MissedDeadlineReasonForm.form()
+      val form: Form[String] = MissedDeadlineReasonForm.form(isSecondStageAppeal = false)
 
       "bind" when {
 
