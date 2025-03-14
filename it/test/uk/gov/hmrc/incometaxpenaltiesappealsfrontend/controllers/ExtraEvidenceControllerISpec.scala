@@ -17,11 +17,13 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.ExtraEvidenceMessages
-import org.jsoup.Jsoup
+import org.jsoup.select.Elements
+import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
@@ -72,10 +74,10 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         stubAuth(OK, successfulIndividualAuthResponse)
         userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, true)).futureValue
 
-        val result = get("/upload-extra-evidence")
+        val result: WSResponse = get("/upload-extra-evidence")
         result.status shouldBe OK
 
-        val document = Jsoup.parse(result.body)
+        val document: nodes.Document = Jsoup.parse(result.body)
         document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe true
         document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
       }
@@ -83,55 +85,106 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuth(OK, successfulAgentAuthResponse)
 
-        val result = get("/upload-extra-evidence", isAgent = true)
+        val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
         result.status shouldBe OK
 
-        val document = Jsoup.parse(result.body)
+        val document: nodes.Document = Jsoup.parse(result.body)
         document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe false
         document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
       }
     }
 
-    "the page has the correct elements" when {
-      "the user is an authorised individual" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
-        val result = get("/upload-extra-evidence")
+    "the journey is for a 1st Stage Appeal" when {
+      "the page has the correct elements" when {
+        "the user is an authorised individual" in new Setup() {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          val result: WSResponse = get("/upload-extra-evidence")
 
-        val document = Jsoup.parse(result.body)
+          val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
-        document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
-        document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-        document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-        document.getSubmitButton.text() shouldBe "Continue"
-      }
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
+          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
 
-      "the user is an authorised agent" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
-        val result = get("/upload-extra-evidence", isAgent = true)
+        "the user is an authorised agent" in new Setup() {
+          stubAuth(OK, successfulAgentAuthResponse)
+          val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
 
-        val document = Jsoup.parse(result.body)
+          val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
-        document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
-        document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-        document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-        document.getSubmitButton.text() shouldBe "Continue"
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
+          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
 
+        }
       }
     }
+
+    "the journey is for a 2nd Stage Appeal" when {
+      "the page has the correct elements" when {
+        "the user is an authorised individual" in new Setup() {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+
+          val result: WSResponse = get("/upload-extra-evidence")
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised agent" in new Setup() {
+          stubAuth(OK, successfulAgentAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+
+          val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+
+        }
+      }
+    }
+
+
   }
 
   "POST /upload-extra-evidence" when {
@@ -142,7 +195,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
-        val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> true))
+        val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> true))
 
         result.status shouldBe SEE_OTHER
         result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url)
@@ -158,7 +211,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
             stubAuth(OK, successfulIndividualAuthResponse)
 
-            val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
+            val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
             result.status shouldBe SEE_OTHER
             result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
@@ -173,7 +226,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
             stubAuth(OK, successfulIndividualAuthResponse)
 
-            val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
+            val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
             result.status shouldBe SEE_OTHER
             result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
@@ -190,14 +243,14 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         stubAuth(OK, successfulIndividualAuthResponse)
 
-        val result = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> ""))
+        val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> ""))
         result.status shouldBe BAD_REQUEST
 
-        val document = Jsoup.parse(result.body)
+        val document: nodes.Document = Jsoup.parse(result.body)
         document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
         document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
 
-        val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+        val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
         error1Link.text() shouldBe ExtraEvidenceMessages.English.errorRequired
         error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
       }

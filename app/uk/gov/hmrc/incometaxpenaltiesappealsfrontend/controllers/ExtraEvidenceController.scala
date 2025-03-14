@@ -45,7 +45,8 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
     Ok(extraEvidence(
       form = fillForm(ExtraEvidenceForm.form(), ExtraEvidencePage),
       isLate = user.isAppealLate(),
-      isAgent = user.isAgent
+      isAgent = user.isAgent,
+      isSecondStageAppeal = user.is2ndStageAppeal
     ))
   }
 
@@ -55,7 +56,8 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
         Future(BadRequest(extraEvidence(
           form = formWithErrors,
           isLate = user.isAppealLate(),
-          isAgent = user.isAgent
+          isAgent = user.isAgent,
+          isSecondStageAppeal = user.is2ndStageAppeal
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
