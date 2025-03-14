@@ -35,26 +35,29 @@ class JointAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOne
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[Boolean] = JointAppealForm.form()
+      for (isSecondStageAppeal <- Seq(true, false)) {
 
-      "bind" when {
+        val form: Form[Boolean] = JointAppealForm.form(isSecondStageAppeal)
 
-        behave like mandatoryField(
-          form = form,
-          fieldName = JointAppealForm.key,
-          requiredError = FormError(JointAppealForm.key, messagesForLanguage.errorRequired)
-        )
+        s"bind with isSecondStageAppeal = $isSecondStageAppeal" when {
 
-        "bind valid values" in {
-          Seq("true", "false").foreach  { value =>
-            val result = form.bind(Map(JointAppealForm.key -> value))
-            result.value shouldBe Some(value.toBoolean)
+          behave like mandatoryField(
+            form = form,
+            fieldName = JointAppealForm.key,
+            requiredError = FormError(JointAppealForm.key, if(isSecondStageAppeal)messagesForLanguage.errorRequiredReview else messagesForLanguage.errorRequired)
+          )
+
+          "bind valid values" in {
+            Seq("true", "false").foreach { value =>
+              val result = form.bind(Map(JointAppealForm.key -> value))
+              result.value shouldBe Some(value.toBoolean)
+            }
           }
-        }
 
-        "reject invalid values" in {
-          val result = form.bind(Map(JointAppealForm.key -> "foo"))
-          result.errors.headOption shouldBe Some(FormError(JointAppealForm.key, messagesForLanguage.errorInvalid))
+          "reject invalid values" in {
+            val result = form.bind(Map(JointAppealForm.key -> "foo"))
+            result.errors.headOption shouldBe Some(FormError(JointAppealForm.key, if(isSecondStageAppeal)messagesForLanguage.errorInvalidReview else messagesForLanguage.errorInvalid))
+          }
         }
       }
     }

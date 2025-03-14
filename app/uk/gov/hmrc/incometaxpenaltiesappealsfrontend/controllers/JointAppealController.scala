@@ -44,10 +44,11 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
         Ok(jointAppeal(
-          form = fillForm(JointAppealForm.form(), JointAppealPage),
+          form = fillForm(JointAppealForm.form(user.is2ndStageAppeal), JointAppealPage),
           isAgent = user.isAgent,
           firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
-          secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount
+          secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount,
+          isSecondStageAppeal = user.is2ndStageAppeal
         ))
       case _ =>
         Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
@@ -56,7 +57,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
 
-    JointAppealForm.form().bindFromRequest().fold(
+    JointAppealForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors => {
         user.penaltyData.multiplePenaltiesData match {
           case Some(multiplePenaltiesData) =>
@@ -64,7 +65,8 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
               form = formWithErrors,
               isAgent = user.isAgent,
               firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
-              secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount
+              secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount,
+              isSecondStageAppeal = user.is2ndStageAppeal
             )))
           case _ =>
             Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
