@@ -26,12 +26,15 @@ object JointAppealForm extends Mappings {
 
   val key = "jointAppeal"
 
-  def form()(implicit messages: Messages): Form[Boolean] = Form[Boolean](
+  def form(isSecondStageAppeal: Boolean)(implicit messages: Messages): Form[Boolean] = {
+    val suffix = if(isSecondStageAppeal)".review" else ""
+    Form[Boolean](
     single(
       key -> boolean(
-        requiredKey = messages("jointAppeal.error.required"),
-        invalidKey = messages("jointAppeal.error.required")
+        requiredKey = messages(s"jointAppeal.error.required$suffix"),
+        invalidKey = messages(s"jointAppeal.error.required$suffix")
       )
     )
   )
+  }
 }

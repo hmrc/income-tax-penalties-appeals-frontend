@@ -37,9 +37,10 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @individualOrAgent = {@if(isAgent) {agent} else {individual}}
+@appealStage = {@if(isSecondStageAppeal) {.review} else {}}
 
 @layout(pageTitle = Some(titleBuilder(messages("jointAppeal.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -58,12 +59,12 @@
             ), elmId = Some("penaltiesList")
         )
 
-      @p(s"$individualOrAgent.jointAppeal.p2", elmId = Some("paragraph2"))
+      @p(s"$individualOrAgent.jointAppeal.p2$appealStage", elmId = Some("paragraph2"))
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
                 legend = Some(Legend(
-                    content = Text(messages("jointAppeal.radioHeading")),
+                    content = Text(messages(s"jointAppeal.radioHeading$appealStage")),
                     classes = "govuk-fieldset__legend--m",
                     isPageHeading = false
                 ))

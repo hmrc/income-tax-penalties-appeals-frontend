@@ -49,12 +49,16 @@ lateAppeal.error.regex = The text must contain only letters, numbers and standar
 # ----------------------------------------------------------
 jointAppeal.headingAndTitle = There are 2 penalties for this overdue tax charge (Welsh)
 jointAppeal.radioHeading =  Do you intend to appeal both penalties for the same reason? (Welsh)
+jointAppeal.radioHeading.review =  Do you want both appeal decisions to be reviewed at the same time? (Welsh)
 jointAppeal.p1 = These are: (Welsh)
 jointAppeal.l1 = £{0} first late payment penalty (Welsh)
 jointAppeal.l2 = £{0} second late payment penalty (Welsh)
 individual.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty. (Welsh)
+individual.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your evidence applies to both of the original appeals. (Welsh)
 agent.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty. (Welsh)
+agent.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your client’s evidence applies to both of the original appeals. (Welsh)
 jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason (Welsh)
+jointAppeal.error.required.review = Tell us if you want both appeal decisions to be reviewed at the same time (Welsh)
 
 # Honesty declaration
 # ----------------------------------------------------------
@@ -66,7 +70,10 @@ honestyDeclaration.li.review = I will provide honest and accurate information in
 # Multiple Appeals LPP
 # ----------------------------------------------------------
 multipleAppeals.headingAndTitle = The appeal will cover both penalties (Welsh)
+multipleAppeals.headingAndTitle.review = This review will cover both appeal decisions (Welsh)
 multipleAppeals.p1 = This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately. (Welsh)
+multipleAppeals.p1.review = This allows you to upload evidence once for both reviews. However, we will consider each review separately. (Welsh)
+
 # Who Planned to Submit
 # ----------------------------------------------------------
 agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission? (Welsh)
@@ -132,9 +139,11 @@ crime.error.invalid = Tell us if the police have been told about the crime (Wels
 # Extra evidence page
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = Do you want to upload evidence to support your appeal? (Welsh)
+extraEvidence.headingAndTitle.review = Do you want to upload evidence? (Welsh)
 extraEvidence.yes = Iawn
 extraEvidence.no = Na
 extraEvidence.hint = Uploading evidence is optional. We will still review this appeal if you do not upload evidence. (Welsh)
+extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence. (Welsh)
 extraEvidence.error.required = Tell us if you want to upload evidence (Welsh)
 extraEvidence.error.invalid = Tell us if you want to upload evidence (Welsh)
 
@@ -443,8 +452,12 @@ reasonableExcuse.error.message = Select the reason for missing the submission de
 
 # Single Appeal Confirmation
 # ----------------------------------------------------------
-single.appeal.headingAndTitle=The appeal will cover a single penalty (Welsh)
-single.appeal.which.penalty.first=You have chosen to appeal the £{0} first late payment penalty. (Welsh)
-single.appeal.which.penalty.second=You have chosen to appeal the £{0} second late payment penalty. (Welsh)
-single.appeal.can.still.appeal.other=You can still appeal other penalties separately. (Welsh)
+single.appeal.headingAndTitle = The appeal will cover a single penalty (Welsh)
+single.appeal.headingAndTitle.review = This review will cover a single penalty (Welsh)
+single.appeal.which.penalty.first = You have chosen to appeal the £{0} first penalty for late payment. (Welsh)
+single.appeal.which.penalty.second = You have chosen to appeal the £{0} second penalty for late payment. (Welsh)
+single.appeal.which.penalty.first.review = You have asked for the appeal decision for the £{0} first late payment penalty to be reviewed. (Welsh)
+single.appeal.which.penalty.second.review = You have asked for the appeal decision for the £{0} second late payment penalty to be reviewed. (Welsh)
+single.appeal.can.still.appeal.other = You can still appeal other penalties separately. (Welsh)
+single.appeal.can.still.appeal.other.review = You can still ask for other penalties to be reviewed separately. (Welsh)
 
