@@ -36,7 +36,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], upscanFormFields: UploadFormFields)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], upscanFormFields: UploadFormFields)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @supportedFileTypes = {
     @p(messages("uploadEvidence.typesOfFile.p1"))
@@ -53,47 +53,52 @@
 
 @layout(pageTitle = Some(titleBuilder(messages("uploadEvidence.nonJs.headingAndTitle"), Some(form)))) {
 
-    @if(form.errors.nonEmpty) {
-        @govukErrorSummary(ErrorSummaryViewModel(form))
-    }
+    @defining(if(user.is2ndStageAppeal) ".review" else "") { appealStage =>
+        @defining(if(user.isLPP) ".lpp" else ".lsp") { penaltyType =>
 
-    @caption()
-    @h1("uploadEvidence.nonJs.headingAndTitle")
+            @if(form.errors.nonEmpty) {
+                @govukErrorSummary(ErrorSummaryViewModel(form))
+            }
 
-    <p class="govuk-body">@messages("uploadEvidence.nonJs.p1")</p>
-    <p class="govuk-body">@messages("uploadEvidence.nonJs.p2")</p>
-    <p class="govuk-body">@messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles)</p>
-    <p class="govuk-body">@messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)</p>
+            @caption()
+            @h1("uploadEvidence.nonJs.headingAndTitle")
 
-    @details("uploadEvidence.typesOfFile.heading", supportedFileTypes)
+            <p class="govuk-body">@messages(s"uploadEvidence.nonJs.p1$appealStage")</p>
+            <p class="govuk-body">@messages(s"uploadEvidence.nonJs.p2$penaltyType")</p>
+            <p class="govuk-body">@messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles)</p>
+            <p class="govuk-body">@messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)</p>
 
-    <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data">
-        @for((key, value) <- upscanFormFields.fields) {
-            <input type="hidden" name="@key" value="@value"/>
+            @details("uploadEvidence.typesOfFile.heading", supportedFileTypes)
+
+            <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data">
+                @for((key, value) <- upscanFormFields.fields) {
+                    <input type="hidden" name="@key" value="@value"/>
+                }
+
+                @govukFileUpload(FileUpload(
+                    id = UploadDocumentForm.key,
+                    name = UploadDocumentForm.key,
+                    label = Label(
+                        content = Text(messages(s"uploadEvidence.nonJs.label")),
+                        classes = "govuk-label--m"
+                    ),
+                    errorMessage = form.errors(UploadDocumentForm.key) match {
+                        case Nil => None
+                        case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
+                    },
+                    attributes = Map(
+                        "accept" -> appConfig.upscanAcceptedMimeTypes,
+                        "data-max-file-size" -> appConfig.upscanMaxFileSize.toString,
+                        "data-min-file-size" -> appConfig.upscanMinFileSize.toString
+                    )
+                ))
+
+                <div class="govuk-form-group">
+                    @govukButton(Button(
+                        content = Text(messages("common.continue"))
+                    ))
+                </div>
+            </form>
         }
-
-        @govukFileUpload(FileUpload(
-            id = UploadDocumentForm.key,
-            name = UploadDocumentForm.key,
-            label = Label(
-                content = Text(messages(s"uploadEvidence.nonJs.label")),
-                classes = "govuk-label--m"
-            ),
-            errorMessage = form.errors(UploadDocumentForm.key) match {
-                case Nil => None
-                case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
-            },
-            attributes = Map(
-                "accept" -> appConfig.upscanAcceptedMimeTypes,
-                "data-max-file-size" -> appConfig.upscanMaxFileSize.toString,
-                "data-min-file-size" -> appConfig.upscanMinFileSize.toString
-            )
-        ))
-
-        <div class="govuk-form-group">
-            @govukButton(Button(
-                content = Text(messages("common.continue"))
-            ))
-        </div>
-    </form>
+    }
 }

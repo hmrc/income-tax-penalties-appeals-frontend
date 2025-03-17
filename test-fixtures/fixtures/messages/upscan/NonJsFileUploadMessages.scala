@@ -23,7 +23,9 @@ object NonJsFileUploadMessages {
   sealed trait Messages { _: i18n =>
     val headingAndTitle = "Evidence to support this appeal"
     val p1 = "Use this page to upload any evidence to help us review the penalty."
-    val p2 = "Evidence might include any documents or letters that show why the submission deadline was missed."
+    val p1Review = "Use this page to upload any evidence to help us review the appeal decision."
+    val p2LSP = "Evidence might include any documents or letters that show why the submission deadline was missed."
+    val p2LPP = "Evidence might include any documents or letters that show why the tax bill was paid late."
     val p3: Int => String = n => s"You can upload up to $n files."
     val p4: Int => String = n => s"Each file must be smaller than ${n}MB."
     val label = "Select a file"
@@ -34,7 +36,9 @@ object NonJsFileUploadMessages {
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Evidence to support this appeal (Welsh)"
     override val p1 = "Use this page to upload any evidence to help us review the penalty. (Welsh)"
-    override val p2 = "Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)"
+    override val p1Review = "Use this page to upload any evidence to help us review the appeal decision. (Welsh)"
+    override val p2LSP = "Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)"
+    override val p2LPP = "Evidence might include any documents or letters that show why the tax bill was paid late. (Welsh)"
     override val p3: Int => String = n => s"You can upload up to $n files. (Welsh)"
     override val p4: Int => String = n => s"Each file must be smaller than ${n}MB. (Welsh)"
     override val label = "Select a file (Welsh)"
