@@ -395,6 +395,7 @@ checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission
 
 checkYourAnswers.declaration.h2 = Declaration (Welsh)
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
+checkYourAnswers.declaration.text.1.review = By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution. (Welsh)
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal? (Welsh)
