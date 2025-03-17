@@ -35,20 +35,20 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[String] = MissedDeadlineReasonForm.form(isSecondStageAppeal = false)
+      val formLpp: Form[String] = MissedDeadlineReasonForm.form(isLPP = true, isSecondStageAppeal = false, isMultipleAppeal = false)
 
-      "bind" when {
+      "bind LPP" when {
 
         behave like mandatoryField(
-          form = form,
+          form = formLpp,
           fieldName = MissedDeadlineReasonForm.key,
-          requiredError = FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRequired(false))
+          requiredError = FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRequired(true))
         )
 
         s"allow a text value with length <= ${appConfig.numberOfCharsInTextArea}" in {
 
           val value = "A" * appConfig.numberOfCharsInTextArea
-          val result = form.bind(Map(MissedDeadlineReasonForm.key -> value))
+          val result = formLpp.bind(Map(MissedDeadlineReasonForm.key -> value))
 
           result.hasErrors shouldBe false
           result.value shouldBe Some(value)
@@ -57,7 +57,7 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
         s"reject more than ${appConfig.numberOfCharsInTextArea} characters with correct error message" in {
 
           val value = "A" * (appConfig.numberOfCharsInTextArea + 1)
-          val result = form.bind(Map(MissedDeadlineReasonForm.key -> value))
+          val result = formLpp.bind(Map(MissedDeadlineReasonForm.key -> value))
 
           result.errors.headOption shouldBe Some(FormError(
             key = MissedDeadlineReasonForm.key,
@@ -67,11 +67,50 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
 
         "reject non0standard character give regex error and not bind in" in {
 
-          val result = form.bind(Map(MissedDeadlineReasonForm.key -> invalidChars))
+          val result = formLpp.bind(Map(MissedDeadlineReasonForm.key -> invalidChars))
 
           result.errors.headOption shouldBe Some(FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRegex))
         }
       }
+
+      val formLsp: Form[String] = MissedDeadlineReasonForm.form(isLPP = false, isSecondStageAppeal = false, isMultipleAppeal = false)
+
+      "bind LSP" when {
+
+        behave like mandatoryField(
+          form = formLsp,
+          fieldName = MissedDeadlineReasonForm.key,
+          requiredError = FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRequired(false))
+        )
+
+        s"allow a text value with length <= ${appConfig.numberOfCharsInTextArea}" in {
+
+          val value = "A" * appConfig.numberOfCharsInTextArea
+          val result = formLsp.bind(Map(MissedDeadlineReasonForm.key -> value))
+
+          result.hasErrors shouldBe false
+          result.value shouldBe Some(value)
+        }
+
+        s"reject more than ${appConfig.numberOfCharsInTextArea} characters with correct error message" in {
+
+          val value = "A" * (appConfig.numberOfCharsInTextArea + 1)
+          val result = formLsp.bind(Map(MissedDeadlineReasonForm.key -> value))
+
+          result.errors.headOption shouldBe Some(FormError(
+            key = MissedDeadlineReasonForm.key,
+            message = messagesForLanguage.errorLength(appConfig.numberOfCharsInTextArea)
+          ))
+        }
+
+        "reject non0standard character give regex error and not bind in" in {
+
+          val result = formLsp.bind(Map(MissedDeadlineReasonForm.key -> invalidChars))
+
+          result.errors.headOption shouldBe Some(FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRegex))
+        }
+      }
+
     }
   }
 }

@@ -23,15 +23,16 @@ object MissedDeadlineReasonMessages {
       if(isLPP) "Why was the payment late?" else "Why was the submission deadline missed?"
     }
     def headingAndTitleSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late?" else "Why are you asking us to review this decision?"
+      if(isLPP) "Why are you asking us to review this decision?" else "Why are you asking us to review this decision?"
     }
+
 
     def hintText(isLPP: Boolean): String = {
       if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
       else "We only need to know about this penalty. Other penalties should be appealed separately."
     }
     def hintTextSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
+      if(isLPP) "Briefly explain why you feel that the original appeal decision was incorrect."
       else "Briefly explain why you feel that the original appeal decision was incorrect."
     }
     def errorRequired(isLPP: Boolean): String = {
@@ -64,7 +65,7 @@ object MissedDeadlineReasonMessages {
     }
 
     override def headingAndTitleSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late? (Welsh)" else "Why are you asking us to review this decision? (Welsh)"
+      if(isLPP) "Why are you asking us to review this decision? (Welsh)" else "Why are you asking us to review this decision? (Welsh)"
     }
 
     override def hintText(isLPP: Boolean): String = {
