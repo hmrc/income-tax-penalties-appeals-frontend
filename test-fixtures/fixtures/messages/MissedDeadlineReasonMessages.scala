@@ -47,15 +47,17 @@ object MissedDeadlineReasonMessages {
     val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer"
     val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
 
-    def cyaKey(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late?"
-      else      "Why was the submission deadline missed?"
-    }
+    def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
+      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
+      else if(is2ndStageAppeal) "Why are you asking us to review this decision?"
+      else if(isLPP) "Why was the payment late?"
+      else "Why was the submission deadline missed?"
 
-    def cyaHidden(isLPP: Boolean): String = {
-      if(isLPP) "why was the payment late"
-      else      "why was the submission deadline missed"
-    }
+    def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
+      if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions"
+      else if(is2ndStageAppeal) "why are you asking us to review this decision"
+      else if(isLPP) "why was the payment late"
+      else "why was the submission deadline missed"
   }
 
   object English extends Messages with En
@@ -94,14 +96,16 @@ object MissedDeadlineReasonMessages {
     override val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer (Welsh)"
     override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"
 
-    override def cyaKey(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late? (Welsh)"
-      else      "Why was the submission deadline missed? (Welsh)"
-    }
+    override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
+      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions? (Welsh)"
+      else if(is2ndStageAppeal) "Why are you asking us to review this decision? (Welsh)"
+      else if(isLPP) "Why was the payment late? (Welsh)"
+      else "Why was the submission deadline missed? (Welsh)"
 
-    override def cyaHidden(isLPP: Boolean): String = {
-      if(isLPP) "why was the payment late (Welsh)"
-      else      "why was the submission deadline missed (Welsh)"
-    }
+    override def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
+      if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions (Welsh)"
+      else if(is2ndStageAppeal) "why are you asking us to review this decision (Welsh)"
+      else if(isLPP) "why was the payment late (Welsh)"
+      else "why was the submission deadline missed (Welsh)"
   }
 }

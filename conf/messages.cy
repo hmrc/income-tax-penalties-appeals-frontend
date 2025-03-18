@@ -342,6 +342,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused y
 
 checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason? (Welsh)
 checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason (Welsh)
+checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time? (Welsh)
+checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time (Welsh)
 
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline (Welsh)
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline (Welsh)
@@ -392,6 +394,10 @@ checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late? (Welsh
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed? (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed (Welsh)
+checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision? (Welsh)
+checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions? (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions (Welsh)
 
 checkYourAnswers.declaration.h2 = Declaration (Welsh)
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
