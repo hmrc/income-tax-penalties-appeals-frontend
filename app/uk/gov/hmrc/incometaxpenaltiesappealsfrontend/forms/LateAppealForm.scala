@@ -22,15 +22,16 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Regexes
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.LateAppealHelper.messageKeyPrefix
 
 
 object LateAppealForm extends Mappings {
 
   val key = "delayReason"
 
-  def form()(implicit appConfig: AppConfig, messages: Messages): Form[String] = Form[String](
+  def form(isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages): Form[String] = Form[String](
     single(
-      key -> text(messages("lateAppeal.error.required"))
+      key -> text(messages(s"lateAppeal.error.required${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}"))
         .verifying(
           error = messages("lateAppeal.error.length", appConfig.numberOfCharsInTextArea),
           constraint = _.length <= appConfig.numberOfCharsInTextArea

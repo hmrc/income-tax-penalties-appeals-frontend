@@ -39,9 +39,25 @@ reviewAppeal.start.p3.bullet2 = details of why you did not ask for a review soon
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.lpp = This penalty was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple = The penalties were issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.review = The appeal decision was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple.review = The appeal decisions were issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple.lpp = The penalties were issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.review.lpp = The appeal decision was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple.review.lpp = The appeal decisions were issued more than {0} days ago (Welsh)
 lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice. (Welsh)
+lateAppeal.p1.multiple = You usually need to appeal within {0} days of the date on the penalty notice. (Welsh)
+lateAppeal.p1.review = You usually need to ask for a review within {0} days of the date of the decision. (Welsh)
+lateAppeal.p1.multiple.review = You usually need to ask for a review within {0} days of the date of the decision. (Welsh)
 lateAppeal.charCount = Tell us why you could not appeal within {0} days (Welsh)
-lateAppeal.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
+lateAppeal.charCount.multiple = Tell us why you could not appeal within {0} days (Welsh)
+lateAppeal.charCount.review = Tell us why you have not asked for a review within {0} days (Welsh)
+lateAppeal.charCount.multiple.review = Tell us why you have not asked for a review within {0} days (Welsh)
+lateAppeal.error.required =  Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
+lateAppeal.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
+lateAppeal.error.required.review = You must provide some information about why you did not ask for a review sooner (Welsh)
+lateAppeal.error.required.multiple.review = You must provide some information about why you did not ask for a review sooner (Welsh)
 lateAppeal.error.length = Explain the reason in {0} characters or fewer (Welsh)
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
 
