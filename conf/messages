@@ -379,6 +379,8 @@ checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you a
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal
+checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review
+checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review
 
 checkYourAnswers.declaration.h2 = Declaration
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge.

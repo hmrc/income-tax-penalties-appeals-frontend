@@ -389,6 +389,8 @@ checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days 
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal (Welsh)
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal (Welsh)
+checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review (Welsh)
+checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review (Welsh)
 
 checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late? (Welsh)
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late (Welsh)
