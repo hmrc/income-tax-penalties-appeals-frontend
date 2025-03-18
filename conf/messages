@@ -323,6 +323,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused y
 
 checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason?
 checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason
+checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time?
+checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time
 
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline
@@ -370,6 +372,10 @@ checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late?
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed?
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
+checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision?
+checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions?
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal

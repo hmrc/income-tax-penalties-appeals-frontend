@@ -212,7 +212,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
                   document.select(Selectors.summaryRowValue(6)).text() shouldBe reasonableExcuseMessages.other
                   document.select(Selectors.summaryRowKey(7)).text() shouldBe whenEventHappenedMessages.cyaKey(Other)
                   document.select(Selectors.summaryRowValue(7)).text() shouldBe dateToString(LocalDate.of(2025, 2, 1), withNBSP = false)
-                  document.select(Selectors.summaryRowKey(8)).text() shouldBe missedDeadlineMessages.cyaKey(isLPP = false)
+                  document.select(Selectors.summaryRowKey(8)).text() shouldBe missedDeadlineMessages.cyaKey(isLPP = false, is2ndStageAppeal = false, isJointAppeal = false)
                   document.select(Selectors.summaryRowValue(8)).text() shouldBe "Forgot"
                   document.select(Selectors.summaryRowKey(9)).text() shouldBe extraEvidenceMessages.cyaKey
                   document.select(Selectors.summaryRowValue(9)).text() shouldBe extraEvidenceMessages.yes
@@ -224,7 +224,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
                   document.select(Selectors.summaryRowValue(4)).text() shouldBe reasonableExcuseMessages.other
                   document.select(Selectors.summaryRowKey(5)).text() shouldBe whenEventHappenedMessages.cyaKey(Other)
                   document.select(Selectors.summaryRowValue(5)).text() shouldBe dateToString(LocalDate.of(2025, 2, 1), withNBSP = false)
-                  document.select(Selectors.summaryRowKey(6)).text() shouldBe missedDeadlineMessages.cyaKey(isLPP = false)
+                  document.select(Selectors.summaryRowKey(6)).text() shouldBe missedDeadlineMessages.cyaKey(isLPP = false, is2ndStageAppeal = false, isJointAppeal = false)
                   document.select(Selectors.summaryRowValue(6)).text() shouldBe "Forgot"
                   document.select(Selectors.summaryRowKey(7)).text() shouldBe extraEvidenceMessages.cyaKey
                   document.select(Selectors.summaryRowValue(7)).text() shouldBe extraEvidenceMessages.yes

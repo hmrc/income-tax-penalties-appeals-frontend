@@ -29,15 +29,18 @@ object JointAppealSummary extends SummaryListRowHelper {
 
   def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(user.hasMultipleLPPs)(JointAppealPage.value.map { appealBoth =>
+
+      val msgSuffix = if(user.is2ndStageAppeal) ".review" else ""
+
       summaryListRow(
-        label = messages(s"checkYourAnswers.jointAppeal.key"),
+        label = messages(s"checkYourAnswers.jointAppeal.key$msgSuffix"),
         value = Html(messages(s"common.${if(appealBoth) "yes" else "no"}")),
         actions = Option.when(showActionLinks)(Actions(
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
               href = controllers.routes.JointAppealController.onPageLoad().url,
-              visuallyHiddenText = Some(messages(s"checkYourAnswers.jointAppeal.change.hidden"))
+              visuallyHiddenText = Some(messages(s"checkYourAnswers.jointAppeal.change.hidden$msgSuffix"))
             ).withId("changeJointAppeal")
           )
         ))

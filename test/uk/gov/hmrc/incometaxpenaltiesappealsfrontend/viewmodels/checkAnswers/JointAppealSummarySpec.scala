@@ -62,42 +62,69 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
 
           "there's an answer" when {
 
-            "show action links is set to true" should {
+            "when it's a 1st Stage Appeal journey" when {
 
-              "must output the expected row with a change link" in {
+              "show action links is set to true" should {
+
+                "must output the expected row with a change link" in {
+
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)
+                  )
+
+                  JointAppealSummary.row() shouldBe Some(summaryListRow(
+                    label = messagesForLanguage.cyaKey,
+                    value = Html(messagesForLanguage.yes),
+                    actions = Some(Actions(
+                      items = Seq(
+                        ActionItem(
+                          content = Text(messagesForLanguage.change),
+                          href = controllers.routes.JointAppealController.onPageLoad().url,
+                          visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                        ).withId("changeJointAppeal")
+                      )
+                    ))
+                  ))
+                }
+              }
+
+              "show action links is set to false" should {
+
+                "must output the expected row WITHOUT a change link" in {
+
+                  implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                    emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)
+                  )
+
+                  JointAppealSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                    label = messagesForLanguage.cyaKey,
+                    value = Html(messagesForLanguage.yes),
+                    actions = None
+                  ))
+                }
+              }
+            }
+
+            "when it's a 2nd Stage Appeal journey" should {
+
+              "output the 'Review appeal' content" in {
 
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                  emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)
+                  emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, true)
                 )
 
                 JointAppealSummary.row() shouldBe Some(summaryListRow(
-                  label = messagesForLanguage.cyaKey,
+                  label = messagesForLanguage.cyaKeyReview,
                   value = Html(messagesForLanguage.yes),
                   actions = Some(Actions(
                     items = Seq(
                       ActionItem(
                         content = Text(messagesForLanguage.change),
                         href = controllers.routes.JointAppealController.onPageLoad().url,
-                        visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                        visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                       ).withId("changeJointAppeal")
                     )
                   ))
-                ))
-              }
-            }
-
-            "show action links is set to false" should {
-
-              "must output the expected row WITHOUT a change link" in {
-
-                implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                  emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)
-                )
-
-                JointAppealSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
-                  label = messagesForLanguage.cyaKey,
-                  value = Html(messagesForLanguage.yes),
-                  actions = None
                 ))
               }
             }
