@@ -167,6 +167,49 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
           document.getSubmitButton.text() shouldBe "Continue"
         }
       }
+
+//LPP (multiple)
+      "the page has the correct elements for first stage multiple payment penalties" when {
+        "the user is an authorised individual" in {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
+
+          val result = get("/missed-deadline-reason")
+
+          val document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)
+          document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true)
+          document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised agent" in {
+          stubAuth(OK, successfulAgentAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
+
+          val result = get("/missed-deadline-reason", isAgent = true)
+
+          val document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)
+          document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true)
+          document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+      }
 //LSP Review/Second stage
       "the page has the correct elements for second stage appeals" when {
         "the user is an authorised individual" in {
@@ -350,7 +393,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         document.select(".govuk-error-summary__title").text() shouldBe MissedDeadlineReasonMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe MissedDeadlineReasonMessages.English.errorRequiredSecondStage(isLPP = false)
+        error1Link.text() shouldBe MissedDeadlineReasonMessages.English.errorRequiredSecondStage
         error1Link.attr("href") shouldBe s"#${MissedDeadlineReasonForm.key}"
       }
     }
