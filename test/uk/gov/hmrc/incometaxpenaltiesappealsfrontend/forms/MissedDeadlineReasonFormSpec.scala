@@ -35,8 +35,6 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val formLpp: Form[String] = MissedDeadlineReasonForm.form(isLPP = true, isSecondStageAppeal = false, isMultipleAppeal = false)
-
       for (isLPP <- Seq(true, false)) {
         for (isSecondStageAppeal <- Seq(true, false)) {
           s"MissedDeadlineReasonForm with LPP='$isLPP' and second stage='$isSecondStageAppeal'" when {
