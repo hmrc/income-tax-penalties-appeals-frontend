@@ -37,8 +37,6 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other))
-
   "UploadedDocumentsSummary" when {
 
     Seq(UploadedDocumentsSummaryMessages.English, UploadedDocumentsSummaryMessages.Welsh).foreach { messagesForLanguage =>
@@ -50,58 +48,128 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
         "there's no uploaded files" should {
 
           "return None" in {
+
+            implicit lazy val user: CurrentUserRequestWithAnswers[_] =
+              userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other))
+
             UploadedDocumentsSummary.row(Seq()) shouldBe None
           }
         }
 
-        "there's one uploaded file which is ready (unready ignored) (show action links == true)" when {
+        "there's one uploaded file which is ready (unready ignored)" when {
 
-          "must output the expected row with ready filenames listed and a change link" in {
+          "is 1st Stage Appeal" when {
 
-            UploadedDocumentsSummary.row(Seq(
-              waitingFile,
-              callbackModel,
-              callbackModelFailed
-            )) shouldBe Some(summaryListRow(
-              label = messagesForLanguage.cyaKey,
-              value = HtmlFormat.fill(Seq(
-                Html("file1.txt")
-              )),
-              actions = Some(Actions(
-                items = Seq(
-                  ActionItem(
-                    content = Text(messagesForLanguage.change),
-                    href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url,
-                    visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
-                  ).withId("changeUploadedFiles")
-                )
-              ))
-            ))
+            implicit lazy val user: CurrentUserRequestWithAnswers[_] =
+              userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other))
+
+            "who action links == true" should {
+
+              "output the expected row with ready filenames listed and a change link" in {
+
+                UploadedDocumentsSummary.row(Seq(
+                  waitingFile,
+                  callbackModel,
+                  callbackModelFailed
+                )) shouldBe Some(summaryListRow(
+                  label = messagesForLanguage.cyaKey,
+                  value = HtmlFormat.fill(Seq(
+                    Html("file1.txt")
+                  )),
+                  actions = Some(Actions(
+                    items = Seq(
+                      ActionItem(
+                        content = Text(messagesForLanguage.change),
+                        href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url,
+                        visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                      ).withId("changeUploadedFiles")
+                    )
+                  ))
+                ))
+              }
+            }
+
+            "show action links == false" should {
+
+              "output the expected row with ready filenames listed WITHOUT a change link" in {
+
+                UploadedDocumentsSummary.row(
+                  Seq(
+                    waitingFile,
+                    callbackModel,
+                    callbackModel2,
+                    callbackModel2.copy(uploadDetails = callbackModel2.uploadDetails.map(_.copy(fileName = "file3.txt"))),
+                    callbackModelFailed
+                  ),
+                  showActionLinks = false
+                ) shouldBe Some(summaryListRow(
+                  label = messagesForLanguage.cyaKey,
+                  value = HtmlFormat.fill(Seq(
+                    Html("file1.txt<br>"),
+                    Html("file2.txt<br>"),
+                    Html("file3.txt")
+                  )),
+                  actions = None
+                ))
+              }
+            }
           }
-        }
 
-        "there's multiple uploaded files which are ready (unready ignored) (show action links == false)" when {
+          "is 2nd Stage Appeal (Review)" when {
 
-          "must output the expected row with ready filenames listed WITHOUT a change link" in {
+            implicit lazy val user: CurrentUserRequestWithAnswers[_] =
+              userRequestWithAnswers(emptyUserAnswersWithLSP2ndStage.setAnswer(ReasonableExcusePage, Other))
 
-            UploadedDocumentsSummary.row(
-              Seq(
-                waitingFile,
-                callbackModel,
-                callbackModel2,
-                callbackModel2.copy(uploadDetails = callbackModel2.uploadDetails.map(_.copy(fileName = "file3.txt"))),
-                callbackModelFailed
-              ),
-              showActionLinks = false
-            ) shouldBe Some(summaryListRow(
-              label = messagesForLanguage.cyaKey,
-              value = HtmlFormat.fill(Seq(
-                Html("file1.txt<br>"),
-                Html("file2.txt<br>"),
-                Html("file3.txt")
-              )),
-              actions = None
-            ))
+            "who action links == true" should {
+
+              "output the expected row with ready filenames listed and a change link" in {
+
+                UploadedDocumentsSummary.row(Seq(
+                  waitingFile,
+                  callbackModel,
+                  callbackModelFailed
+                )) shouldBe Some(summaryListRow(
+                  label = messagesForLanguage.cyaKeyReview,
+                  value = HtmlFormat.fill(Seq(
+                    Html("file1.txt")
+                  )),
+                  actions = Some(Actions(
+                    items = Seq(
+                      ActionItem(
+                        content = Text(messagesForLanguage.change),
+                        href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url,
+                        visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
+                      ).withId("changeUploadedFiles")
+                    )
+                  ))
+                ))
+              }
+            }
+
+            "show action links == false" should {
+
+              "output the expected row with ready filenames listed WITHOUT a change link" in {
+
+                UploadedDocumentsSummary.row(
+                  Seq(
+                    waitingFile,
+                    callbackModel,
+                    callbackModel2,
+                    callbackModel2.copy(uploadDetails = callbackModel2.uploadDetails.map(_.copy(fileName = "file3.txt"))),
+                    callbackModelFailed
+                  ),
+                  showActionLinks = false
+                ) shouldBe Some(summaryListRow(
+                  label = messagesForLanguage.cyaKeyReview,
+                  value = HtmlFormat.fill(Seq(
+                    Html("file1.txt<br>"),
+                    Html("file2.txt<br>"),
+                    Html("file3.txt")
+                  )),
+                  actions = None
+                ))
+              }
+            }
           }
         }
       }
