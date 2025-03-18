@@ -66,47 +66,97 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
 
               "there's an answer" when {
 
-                "show action links is set to true" should {
+                "is a 1st Stage Appeal" when {
 
-                  "must output the expected row with a change link" in {
+                  "show action links is set to true" should {
 
-                    implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUserAnswersWithLSP
-                        .setAnswer(ReasonableExcusePage, reason)
-                        .setAnswer(ExtraEvidencePage, true)
-                    )
+                    "must output the expected row with a change link" in {
 
-                    ExtraEvidenceSummary.row() shouldBe Some(summaryListRow(
-                      label = messagesForLanguage.cyaKey,
-                      value = Html(messagesForLanguage.yes),
-                      actions = Some(Actions(
-                        items = Seq(
-                          ActionItem(
-                            content = Text(messagesForLanguage.change),
-                            href = controllers.routes.ExtraEvidenceController.onPageLoad().url,
-                            visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
-                          ).withId("changeExtraEvidence")
-                        )
+                      implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                        emptyUserAnswersWithLSP
+                          .setAnswer(ReasonableExcusePage, reason)
+                          .setAnswer(ExtraEvidencePage, true)
+                      )
+
+                      ExtraEvidenceSummary.row() shouldBe Some(summaryListRow(
+                        label = messagesForLanguage.cyaKey,
+                        value = Html(messagesForLanguage.yes),
+                        actions = Some(Actions(
+                          items = Seq(
+                            ActionItem(
+                              content = Text(messagesForLanguage.change),
+                              href = controllers.routes.ExtraEvidenceController.onPageLoad().url,
+                              visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
+                            ).withId("changeExtraEvidence")
+                          )
+                        ))
                       ))
-                    ))
+                    }
+                  }
+
+                  "show action links is set to false" should {
+
+                    "must output the expected row WITHOUT a change link" in {
+
+                      implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                        emptyUserAnswersWithLSP
+                          .setAnswer(ReasonableExcusePage, reason)
+                          .setAnswer(ExtraEvidencePage, true)
+                      )
+
+                      ExtraEvidenceSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                        label = messagesForLanguage.cyaKey,
+                        value = Html(messagesForLanguage.yes),
+                        actions = None
+                      ))
+                    }
                   }
                 }
 
-                "show action links is set to false" should {
+                "is a 2nd Stage Appeal (Review appeal)" when {
 
-                  "must output the expected row WITHOUT a change link" in {
+                  "show action links is set to true" should {
 
-                    implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUserAnswersWithLSP
-                        .setAnswer(ReasonableExcusePage, reason)
-                        .setAnswer(ExtraEvidencePage, true)
-                    )
+                    "must output the expected row with a change link" in {
 
-                    ExtraEvidenceSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
-                      label = messagesForLanguage.cyaKey,
-                      value = Html(messagesForLanguage.yes),
-                      actions = None
-                    ))
+                      implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                        emptyUserAnswersWithLSP2ndStage
+                          .setAnswer(ReasonableExcusePage, reason)
+                          .setAnswer(ExtraEvidencePage, true)
+                      )
+
+                      ExtraEvidenceSummary.row() shouldBe Some(summaryListRow(
+                        label = messagesForLanguage.cyaKeyReview,
+                        value = Html(messagesForLanguage.yes),
+                        actions = Some(Actions(
+                          items = Seq(
+                            ActionItem(
+                              content = Text(messagesForLanguage.change),
+                              href = controllers.routes.ExtraEvidenceController.onPageLoad().url,
+                              visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
+                            ).withId("changeExtraEvidence")
+                          )
+                        ))
+                      ))
+                    }
+                  }
+
+                  "show action links is set to false" should {
+
+                    "must output the expected row WITHOUT a change link" in {
+
+                      implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                        emptyUserAnswersWithLSP2ndStage
+                          .setAnswer(ReasonableExcusePage, reason)
+                          .setAnswer(ExtraEvidencePage, true)
+                      )
+
+                      ExtraEvidenceSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                        label = messagesForLanguage.cyaKeyReview,
+                        value = Html(messagesForLanguage.yes),
+                        actions = None
+                      ))
+                    }
                   }
                 }
               }
