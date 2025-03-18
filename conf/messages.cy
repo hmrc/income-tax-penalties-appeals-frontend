@@ -406,6 +406,8 @@ checkYourAnswers.declaration.text.2 = A false declaration can result in prosecut
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal? (Welsh)
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal (Welsh)
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence? (Welsh)
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence (Welsh)
 
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 

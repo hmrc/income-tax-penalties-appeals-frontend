@@ -24,6 +24,8 @@ object ExtraEvidenceMessages {
 
     val cyaKey = "Do you want to upload evidence to support your appeal?"
     val cyaHidden = "do you want to upload evidence to support your appeal"
+    val cyaKeyReview = "Do you want to upload evidence?"
+    val cyaHiddenReview = "do you want to upload evidence"
   }
 
   object English extends Messages with En
@@ -34,5 +36,7 @@ object ExtraEvidenceMessages {
 
     override val cyaKey = "Do you want to upload evidence to support your appeal? (Welsh)"
     override val cyaHidden = "do you want to upload evidence to support your appeal (Welsh)"
+    override val cyaKeyReview = "Do you want to upload evidence? (Welsh)"
+    override val cyaHiddenReview = "do you want to upload evidence (Welsh)"
   }
 }
