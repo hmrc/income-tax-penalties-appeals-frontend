@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
-import play.api.libs.json.{Json, OFormat, Writes}
+import play.api.libs.json.{JsObject, Json, OFormat, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, ReasonableExcuse}
 
 import java.time.LocalDateTime
@@ -67,6 +67,15 @@ object CrimeAppealInformation {
       )(
         isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
       )
+    )
+  }
+
+  val auditWrites: Writes[CrimeAppealInformation] = Writes { model =>
+    Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
+      "startDateOfEvent" -> model.startDateOfEvent,
+      "wasCrimeReported" -> model.reportedIssueToPolice,
+      "submittedAppealLate" -> model.lateAppeal,
+      "lateAppealReason" -> model.lateAppealReason
     )
   }
 }

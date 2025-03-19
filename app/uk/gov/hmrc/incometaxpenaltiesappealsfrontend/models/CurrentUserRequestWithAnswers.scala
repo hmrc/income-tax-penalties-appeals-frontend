@@ -16,13 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
-import play.api.libs.json.Reads
+import play.api.libs.json.{JsObject, Json, Reads}
 import play.api.mvc.{Request, WrappedRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, Page, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, Page, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
@@ -83,6 +83,15 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
       }
     }
   }
+
+  val auditJson: JsObject = Json.obj(
+    "submittedBy" -> (if (isAgent) "agent" else "customer"),
+    "identifierType" -> "MTDITID",
+    "taxIdentifier" -> mtdItId
+  ) ++ arn.fold(Json.obj())(arn => Json.obj("agentDetails" -> Json.obj(
+    "agentReferenceNo" -> arn,
+    "isExcuseRelatedToAgent" -> userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).contains(AgentClientEnum.agent)
+  )))
 }
 
 object CurrentUserRequestWithAnswers {
