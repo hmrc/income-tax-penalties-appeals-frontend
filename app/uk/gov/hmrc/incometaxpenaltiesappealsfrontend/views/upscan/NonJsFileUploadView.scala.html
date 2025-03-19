@@ -53,7 +53,14 @@
 
 @layout(pageTitle = Some(titleBuilder(messages("uploadEvidence.nonJs.headingAndTitle"), Some(form)))) {
 
-    @defining(if(user.is2ndStageAppeal) ".review" else "") { appealStage =>
+    @defining(
+        (user.is2ndStageAppeal, user.isJointAppeal) match {
+            case (true, true) => ".joint.review"
+            case (true, _) => ".review"
+            case (_, true) => ".joint"
+            case _ => ""
+        }
+    ) { appealStage =>
         @defining(if(user.isLPP) ".lpp" else ".lsp") { penaltyType =>
 
             @if(form.errors.nonEmpty) {

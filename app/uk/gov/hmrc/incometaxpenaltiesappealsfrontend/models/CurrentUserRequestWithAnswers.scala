@@ -47,6 +47,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val isLPP2: Boolean = penaltyData.isAdditional
   val is2ndStageAppeal: Boolean = penaltyData.is2ndStageAppeal
   val hasMultipleLPPs: Boolean = penaltyData.multiplePenaltiesData.isDefined
+  val isJointAppeal: Boolean = userAnswers.getAnswer(JointAppealPage).contains(true)
 
   //Multiple Penalties Data
   val firstPenaltyNumber: Option[String] = penaltyData.multiplePenaltiesData.map(_.firstPenaltyChargeReference)
