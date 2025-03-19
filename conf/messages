@@ -420,9 +420,11 @@ appealConfirmation.feedback.link.text = to share your feedback on this service.
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details
+viewAppealDetails.headingAndTitle.review = Review details
 viewAppealDetails.ni = National Insurance number
 viewAppealDetails.penaltyAppealed = Penalty appealed
 viewAppealDetails.appealDate = Appeal date
+viewAppealDetails.appealDate.review = Review request sent
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
 viewAppealDetails.printThisPage = Print this page

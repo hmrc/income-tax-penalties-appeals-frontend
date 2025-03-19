@@ -416,9 +416,11 @@ checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details (Welsh)
+viewAppealDetails.headingAndTitle.review = Review details (Welsh)
 viewAppealDetails.ni = National Insurance number (Welsh)
 viewAppealDetails.penaltyAppealed = Penalty appealed (Welsh)
 viewAppealDetails.appealDate = Appeal date (Welsh)
+viewAppealDetails.appealDate.review = Review request sent (Welsh)
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it. (Welsh)
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later. (Welsh)
 viewAppealDetails.printThisPage = Print this page (Welsh)
