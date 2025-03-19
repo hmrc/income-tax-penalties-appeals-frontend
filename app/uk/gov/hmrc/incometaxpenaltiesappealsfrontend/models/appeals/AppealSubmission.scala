@@ -214,4 +214,25 @@ object AppealSubmission {
       )
     )
   }
+
+  val auditWrites: Writes[AppealSubmission] = Writes { model =>
+    model.appealInformation match {
+      case info: BereavementAppealInformation =>
+        Json.toJson(info)(BereavementAppealInformation.auditWrites)
+      case info: CrimeAppealInformation =>
+        Json.toJson(info)(CrimeAppealInformation.auditWrites)
+      case info: FireOrFloodAppealInformation =>
+        Json.toJson(info)(FireOrFloodAppealInformation.auditWrites)
+      case info: LossOfStaffAppealInformation =>
+        Json.toJson(info)(LossOfStaffAppealInformation.auditWrites)
+      case info: TechnicalIssuesAppealInformation =>
+        Json.toJson(info)(TechnicalIssuesAppealInformation.auditWrites)
+      case info: HealthAppealInformation =>
+        Json.toJson(info)(HealthAppealInformation.auditWrites)
+      case info: OtherAppealInformation =>
+        Json.toJson(info)(OtherAppealInformation.auditWrites)
+      case info =>
+        throw new UnsupportedOperationException(s"Audit writes for model of type '${info.getClass.getSimpleName}' are not supported")
+    }
+  }
 }
