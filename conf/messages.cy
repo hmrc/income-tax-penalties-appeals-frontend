@@ -98,6 +98,12 @@ missedDeadlineReason.lsp.error.required = You must provide some information abou
 missedDeadlineReason.lsp.error.length = Explain the reason in {0} characters or fewer (Welsh)
 missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
 
+# Missed deadline reason for review page - LSP
+# ----------------------------------------------------------
+missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to review this decision? (Welsh)
+missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)
+missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision (Welsh)
+
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment late? (Welsh)
@@ -105,6 +111,22 @@ missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any oth
 missedDeadlineReason.lpp.error.required = You must provide some information about why the payment was late (Welsh)
 missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer (Welsh)
 missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
+
+missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment late? (Welsh)
+missedDeadlineReason.lpp.hint.multiple = We only need to know about these penalties. Any other penalties should be appealed separately. (Welsh)
+missedDeadlineReason.lpp.error.required.multiple = You must provide some information about why the payment was late (Welsh)
+
+# Missed deadline reason for review page - LPP
+# ----------------------------------------------------------
+missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision? (Welsh)
+missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)
+missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision (Welsh)
+
+missedDeadlineReason.lpp.review.headingAndTitle.multiple = Why are you asking us to review these appeal decisions? (Welsh)
+missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect. (Welsh)
+missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking to review these decisions (Welsh)
+
+
 # Has the crime been reported page
 # ----------------------------------------------------------
 crime.headingAndTitle = Has this crime been reported to the police? (Welsh)

@@ -29,17 +29,21 @@ object MissedDeadlineReasonForm extends Mappings {
 
   val key = "missedDeadlineReason"
 
-  def form(isLPP: Boolean = false)(implicit appConfig: AppConfig, messages: Messages): Form[String] = Form[String](
-    single(
-      key -> text(messages(s"${messageKeyPrefix(isLPP)}.error.required"))
-        .verifying(
-          error = messages(s"${messageKeyPrefix(isLPP)}.error.length", appConfig.numberOfCharsInTextArea),
-          constraint = _.length <= appConfig.numberOfCharsInTextArea
-        )
-        .verifying(
-          error = messages(s"${messageKeyPrefix(isLPP)}.error.regex"),
-          constraint = _.matches(Regexes.textArea)
-        )
+  def form(isLPP: Boolean, isSecondStageAppeal: Boolean, isMultipleAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages): Form[String] = {
+    val prefix = if (isSecondStageAppeal) ".review" else ""
+    val multipleAppeal = if (isMultipleAppeal) ".multiple" else ""
+    Form[String](
+      single(
+        key -> text(messages(s"${messageKeyPrefix(isLPP)}.error$prefix.required$multipleAppeal"))
+          .verifying(
+            error = messages(s"${messageKeyPrefix(isLPP)}.error.length", appConfig.numberOfCharsInTextArea),
+            constraint = _.length <= appConfig.numberOfCharsInTextArea
+          )
+          .verifying(
+            error = messages(s"${messageKeyPrefix(isLPP)}.error.regex"),
+            constraint = _.matches(Regexes.textArea)
+          )
+      )
     )
-  )
+  }
 }

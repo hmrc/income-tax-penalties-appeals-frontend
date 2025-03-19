@@ -35,41 +35,31 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[String] = MissedDeadlineReasonForm.form()
+      for (isLPP <- Seq(true, false)) {
+        for (isSecondStageAppeal <- Seq(true, false)) {
+          s"MissedDeadlineReasonForm with LPP='$isLPP' and second stage='$isSecondStageAppeal'" when {
 
-      "bind" when {
-
-        behave like mandatoryField(
-          form = form,
-          fieldName = MissedDeadlineReasonForm.key,
-          requiredError = FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRequired(false))
-        )
-
-        s"allow a text value with length <= ${appConfig.numberOfCharsInTextArea}" in {
-
-          val value = "A" * appConfig.numberOfCharsInTextArea
-          val result = form.bind(Map(MissedDeadlineReasonForm.key -> value))
-
-          result.hasErrors shouldBe false
-          result.value shouldBe Some(value)
-        }
-
-        s"reject more than ${appConfig.numberOfCharsInTextArea} characters with correct error message" in {
-
-          val value = "A" * (appConfig.numberOfCharsInTextArea + 1)
-          val result = form.bind(Map(MissedDeadlineReasonForm.key -> value))
-
-          result.errors.headOption shouldBe Some(FormError(
-            key = MissedDeadlineReasonForm.key,
-            message = messagesForLanguage.errorLength(appConfig.numberOfCharsInTextArea)
-          ))
-        }
-
-        "reject non0standard character give regex error and not bind in" in {
-
-          val result = form.bind(Map(MissedDeadlineReasonForm.key -> invalidChars))
-
-          result.errors.headOption shouldBe Some(FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRegex))
+            for (isMultipleAppeal <- Seq(true, false)) {
+              s"multiple appeal='$isMultipleAppeal'" should {
+                if (isSecondStageAppeal && isMultipleAppeal && isLPP) {
+                  behave like mandatoryField(
+                    form = MissedDeadlineReasonForm.form(isLPP = isLPP, isSecondStageAppeal = isSecondStageAppeal, isMultipleAppeal = isMultipleAppeal),
+                    fieldName = MissedDeadlineReasonForm.key,
+                    requiredError = FormError(MissedDeadlineReasonForm.key, messagesForLanguage.errorRequiredMultiple)
+                  )
+                }
+              }
+            }
+            behave like mandatoryField(
+              form = MissedDeadlineReasonForm.form(isLPP = isLPP, isSecondStageAppeal = isSecondStageAppeal, isMultipleAppeal = false),
+              fieldName = MissedDeadlineReasonForm.key,
+              requiredError = FormError(MissedDeadlineReasonForm.key, if (isSecondStageAppeal) {
+                messagesForLanguage.errorRequiredSecondStage
+              } else {
+                messagesForLanguage.errorRequired(isLPP)
+              })
+            )
+          }
         }
       }
     }

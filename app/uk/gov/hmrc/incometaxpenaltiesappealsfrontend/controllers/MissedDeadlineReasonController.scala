@@ -40,17 +40,21 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(missedDeadlineReason(
-      form = fillForm(MissedDeadlineReasonForm.form(), MissedDeadlineReasonPage),
-      isLPP = user.isLPP
+      form = fillForm(MissedDeadlineReasonForm.form(user.isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs), MissedDeadlineReasonPage),
+      isLPP = user.isLPP,
+      isSecondStageAppeal = user.is2ndStageAppeal,
+      isMultipleAppeal = user.isAppealingMultipleLPPs
     ))
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    MissedDeadlineReasonForm.form().bindFromRequest().fold(
+    MissedDeadlineReasonForm.form(user.isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(missedDeadlineReason(
           form = formWithErrors,
-          isLPP = user.isLPP
+          isLPP = user.isLPP,
+          isSecondStageAppeal = user.is2ndStageAppeal,
+          isMultipleAppeal = user.isAppealingMultipleLPPs
         ))),
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)
