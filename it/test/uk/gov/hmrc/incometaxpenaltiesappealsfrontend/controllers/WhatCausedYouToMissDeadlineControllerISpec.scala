@@ -42,7 +42,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP)
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }
 

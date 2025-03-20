@@ -273,8 +273,15 @@ date.year = Blwyddyn
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal (Welsh)
-uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty. (Welsh)
-uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)
+uploadEvidence.nonJs.headingAndTitle.review = Upload evidence (Welsh)
+uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review this penalty. (Welsh)
+uploadEvidence.nonJs.p1.joint = Use this page to upload any evidence to help us review these penalties. (Welsh)
+uploadEvidence.nonJs.p1.review = Use this page to upload any evidence to help us review the appeal decision. (Welsh)
+uploadEvidence.nonJs.p1.joint.review = Use this page to upload any evidence to help us review the appeal decisions. (Welsh)
+uploadEvidence.nonJs.p2.lsp = Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)
+uploadEvidence.nonJs.p2.lsp.review = Evidence might include any documents or letters that show why the submission was sent late. (Welsh)
+uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters that show why the payment deadline was missed. (Welsh)
+uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the tax bill was paid late. (Welsh)
 uploadEvidence.nonJs.p3 = You can upload up to {0} files. (Welsh)
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB. (Welsh)
 uploadEvidence.nonJs.label = Select a file (Welsh)
