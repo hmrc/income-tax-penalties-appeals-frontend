@@ -87,8 +87,8 @@ object OtherAppealInformation {
         Some("startDateOfEvent" -> model.startDateOfEvent),
         Some("submittedAppealLate" -> model.lateAppeal),
         Some("lateAppealReason" -> model.lateAppealReason),
-        model.supportingEvidence.map(evidence => "numberOfUploadedFiles" -> evidence.noOfUploadedFiles),
-        model.uploadedFiles.map(uploads => "uploadedFiles" -> uploads)
+        model.supportingEvidence.map("numberOfUploadedFiles" -> _.noOfUploadedFiles),
+        model.uploadedFiles.map("uploadedFiles" -> _)
       ).flatten: _*
     )
   }
