@@ -142,10 +142,10 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
-            Selectors.title -> messagesForLanguage.headingAndTitle,
-            Selectors.h1 -> messagesForLanguage.headingAndTitle,
+            Selectors.title -> messagesForLanguage.headingAndTitleReview,
+            Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
             Selectors.p(1) -> messagesForLanguage.p1Review,
-            Selectors.p(2) -> messagesForLanguage.p2LSP,
+            Selectors.p(2) -> messagesForLanguage.p2LSPReview,
             Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
             Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
             Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
@@ -170,10 +170,10 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
-            Selectors.title -> messagesForLanguage.headingAndTitle,
-            Selectors.h1 -> messagesForLanguage.headingAndTitle,
+            Selectors.title -> messagesForLanguage.headingAndTitleReview,
+            Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
             Selectors.p(1) -> messagesForLanguage.p1Review,
-            Selectors.p(2) -> messagesForLanguage.p2LPP,
+            Selectors.p(2) -> messagesForLanguage.p2LPPReview,
             Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
             Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
             Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
@@ -198,10 +198,10 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
-            Selectors.title -> messagesForLanguage.headingAndTitle,
-            Selectors.h1 -> messagesForLanguage.headingAndTitle,
+            Selectors.title -> messagesForLanguage.headingAndTitleReview,
+            Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
             Selectors.p(1) -> messagesForLanguage.p1JointReview,
-            Selectors.p(2) -> messagesForLanguage.p2LPP,
+            Selectors.p(2) -> messagesForLanguage.p2LPPReview,
             Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
             Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
             Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
