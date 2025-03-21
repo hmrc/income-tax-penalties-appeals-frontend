@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
+import play.api.libs.json.{Json, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 trait AppealInformation {
@@ -24,4 +25,14 @@ trait AppealInformation {
   val statement: Option[String]
   val isClientResponsibleForSubmission: Option[Boolean]
   val isClientResponsibleForLateSubmission: Option[Boolean]
+}
+
+object AppealInformation {
+  val auditWrites: Writes[AppealInformation] = Writes { model =>
+    Json.obj(
+      "reasonForAppeal" -> model.reasonableExcuse,
+      "honestyDeclaration" -> model.honestyDeclaration,
+      "statementToExplainAppealReason" -> model.statement
+    )
+  }
 }

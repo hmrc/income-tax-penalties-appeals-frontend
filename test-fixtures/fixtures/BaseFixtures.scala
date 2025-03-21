@@ -19,7 +19,7 @@ package fixtures
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, FireOrFlood, Health, LossOfStaff, Other, TechnicalIssues}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
@@ -94,27 +94,28 @@ trait BaseFixtures {
   val emptyUserAnswersWithLPP2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(is2ndStageAppeal = true))
   val emptyUserAnswersWithMultipleLPPs2ndStage: UserAnswers = emptyUserAnswers.setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLPP.copy(multiplePenaltiesData = Some(multiplePenaltiesModel), is2ndStageAppeal = true))
 
-  val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] = {
-
-    val penaltyData = PenaltyData(
-      penaltyNumber = "123456789",
-      is2ndStageAppeal = false,
-      appealData = lateSubmissionAppealData,
-      multiplePenaltiesData = None
-    )
-
+  val fakeRequestForBereavementJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
       userAnswers = emptyUserAnswersWithLSP
-        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
-        .setAnswer(JointAppealPage, false)
+        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+        .setAnswer(ReasonableExcusePage, Bereavement)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
+      penaltyData = penaltyDataLSP
+    )(FakeRequest())
+
+  val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = emptyUserAnswersWithLSP
+        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+        .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
-        .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyData
+      penaltyData = penaltyDataLSP
     )(FakeRequest())
-  }
 
   val fakeRequestForCrimeJourneyMultiple: CurrentUserRequestWithAnswers[AnyContent] = {
 
@@ -137,6 +138,56 @@ trait BaseFixtures {
       penaltyData = penaltyData
     )(FakeRequest())
   }
+
+  val fakeRequestForFireAndFloodJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = emptyUserAnswersWithLSP
+        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+        .setAnswer(ReasonableExcusePage, FireOrFlood)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
+      penaltyData = penaltyDataLSP
+    )(FakeRequest())
+
+  val fakeRequestForLossOfStaffJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = emptyUserAnswersWithLSP
+        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+        .setAnswer(ReasonableExcusePage, LossOfStaff)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
+      penaltyData = penaltyDataLSP
+    )(FakeRequest())
+
+  val fakeRequestForTechnicalIssuesJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = emptyUserAnswersWithLSP
+        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+        .setAnswer(ReasonableExcusePage, TechnicalIssues)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
+        .setAnswer(WhenDidEventEndPage, LocalDate.of(2022, 1, 4)),
+      penaltyData = penaltyDataLSP
+    )(FakeRequest())
+
+  val fakeRequestForHealthIssuesJourney: CurrentUserRequestWithAnswers[AnyContent] =
+    CurrentUserRequestWithAnswers(
+      mtdItId = testMtdItId,
+      userAnswers = emptyUserAnswersWithLSP
+        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
+        .setAnswer(ReasonableExcusePage, Health)
+        .setAnswer(HonestyDeclarationPage, true)
+        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
+        .setAnswer(WhenDidEventEndPage, LocalDate.of(2022, 1, 4)),
+      penaltyData = penaltyDataLSP
+    )(FakeRequest().withSession(
+        //TODO: These will be removed and become pages from UserAnswers when the Health journey is implemented
+        IncomeTaxSessionKeys.wasHospitalStayRequired -> "yes",
+        IncomeTaxSessionKeys.hasHealthEventEnded-> "no"
+    ))
 
   val fakeRequestForOtherJourney: CurrentUserRequestWithAnswers[AnyContent] = {
 

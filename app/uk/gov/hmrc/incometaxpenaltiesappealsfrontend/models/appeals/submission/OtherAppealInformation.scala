@@ -16,7 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
-import play.api.libs.json.{Json, OFormat, Writes}
+import play.api.libs.json.Json.JsValueWrapper
+import play.api.libs.json.{JsObject, Json, OFormat, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
@@ -77,6 +78,18 @@ object OtherAppealInformation {
       )(
         uploadedFiles => Json.obj("uploadedFiles" -> uploadedFiles)
       )
+    )
+  }
+
+  val auditWrites: Writes[OtherAppealInformation] = Writes { model =>
+    Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
+      Seq[Option[(String, JsValueWrapper)]](
+        Some("startDateOfEvent" -> model.startDateOfEvent),
+        Some("submittedAppealLate" -> model.lateAppeal),
+        model.lateAppealReason.map("lateAppealReason" -> _),
+        model.supportingEvidence.map("numberOfUploadedFiles" -> _.noOfUploadedFiles.toInt),
+        model.uploadedFiles.map(files => "uploadedFiles" -> Json.toJson(files)(Writes.seq(UploadJourney.auditWrites)))
+      ).flatten: _*
     )
   }
 }

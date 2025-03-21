@@ -16,7 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
-import play.api.libs.json.{Json, OFormat, Writes}
+import play.api.libs.json.Json.JsValueWrapper
+import play.api.libs.json.{JsObject, Json, OFormat, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 import java.time.LocalDateTime
@@ -67,6 +68,17 @@ object TechnicalIssuesAppealInformation {
       )(
         isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
       )
+    )
+  }
+
+  val auditWrites: Writes[TechnicalIssuesAppealInformation] = Writes { model =>
+    Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
+      Seq[Option[(String, JsValueWrapper)]](
+        Some("startDateOfEvent" -> model.startDateOfEvent),
+        Some("endDateOfEvent" -> model.endDateOfEvent),
+        Some("submittedAppealLate" -> model.lateAppeal),
+        model.lateAppealReason.map("lateAppealReason" -> _)
+      ).flatten:_*
     )
   }
 }
