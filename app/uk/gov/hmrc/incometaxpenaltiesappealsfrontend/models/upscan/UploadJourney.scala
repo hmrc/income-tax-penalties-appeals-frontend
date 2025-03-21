@@ -16,7 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan
 
-import play.api.libs.json.{Format, JsValue, Json, OWrites, Reads}
+import play.api.libs.json.Json.JsValueWrapper
+import play.api.libs.json._
 
 import java.time.LocalDateTime
 
@@ -53,4 +54,17 @@ object UploadJourney {
   }
 
   implicit val format: Format[UploadJourney] = Format(reads, writes)
+
+  val auditWrites: Writes[UploadJourney] = Writes { model =>
+    Json.obj(
+      Seq[Option[(String, JsValueWrapper)]](
+        Some("upscanReference" -> model.reference),
+        model.uploadDetails.map(_.uploadTimestamp).map("uploadTimestamp" -> _),
+        model.uploadDetails.map(_.fileName).map("fileName" -> _),
+        model.uploadDetails.map(_.fileMimeType).map("fileMimeType" -> _),
+        model.uploadDetails.map(_.checksum).map("fileChecksum" -> _),
+        model.downloadUrl.map("downloadUrl" -> _)
+      ).flatten: _*
+    )
+  }
 }
