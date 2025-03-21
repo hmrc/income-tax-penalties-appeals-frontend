@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
+import play.api.libs.json.Json.JsValueWrapper
 import play.api.libs.json.{JsObject, Json, OFormat, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
@@ -86,12 +87,14 @@ object HealthAppealInformation {
 
   val auditWrites: Writes[HealthAppealInformation] = Writes { model =>
     Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
-      "startDateOfEvent" -> model.startDateOfEvent,
-      "endDateOfEvent" -> model.endDateOfEvent,
-      "hospitalStayInvolved" -> model.hospitalStayInvolved,
-      "eventIsOngoing" -> model.eventOngoing,
-      "submittedAppealLate" -> model.lateAppeal,
-      "lateAppealReason" -> model.lateAppealReason
+      Seq[Option[(String, JsValueWrapper)]](
+        model.startDateOfEvent.map("startDateOfEvent" -> _),
+        model.endDateOfEvent.map("endDateOfEvent" -> _),
+        Some("hospitalStayInvolved" -> model.hospitalStayInvolved),
+        Some("eventIsOngoing" -> model.eventOngoing),
+        Some("submittedAppealLate" -> model.lateAppeal),
+        model.lateAppealReason.map("lateAppealReason" -> _)
+      ).flatten:_*
     )
   }
 }

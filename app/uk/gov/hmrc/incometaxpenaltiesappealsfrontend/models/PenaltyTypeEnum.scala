@@ -41,6 +41,6 @@ object PenaltyTypeEnum extends Enumeration {
   val auditWrites: Writes[PenaltyTypeEnum.Value] = Writes {
     case Late_Submission => JsString("Late Submission Penalty")
     case Late_Payment => JsString("Late Payment Penalty 1")
-    case Additional => JsString("Late Payment Penalty 2")
+    case _ => JsString("Late Payment Penalty 2")
   }
 }

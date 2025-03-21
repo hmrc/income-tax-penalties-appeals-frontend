@@ -86,9 +86,9 @@ object OtherAppealInformation {
       Seq[Option[(String, JsValueWrapper)]](
         Some("startDateOfEvent" -> model.startDateOfEvent),
         Some("submittedAppealLate" -> model.lateAppeal),
-        Some("lateAppealReason" -> model.lateAppealReason),
-        model.supportingEvidence.map("numberOfUploadedFiles" -> _.noOfUploadedFiles),
-        model.uploadedFiles.map("uploadedFiles" -> _)
+        model.lateAppealReason.map("lateAppealReason" -> _),
+        model.supportingEvidence.map("numberOfUploadedFiles" -> _.noOfUploadedFiles.toInt),
+        model.uploadedFiles.map(files => "uploadedFiles" -> Json.toJson(files)(Writes.seq(UploadJourney.auditWrites)))
       ).flatten: _*
     )
   }
