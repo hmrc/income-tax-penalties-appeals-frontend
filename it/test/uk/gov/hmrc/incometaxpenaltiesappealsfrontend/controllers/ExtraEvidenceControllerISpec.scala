@@ -31,7 +31,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, JointAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -109,7 +109,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
+          document.getElementById("extraEvidence-hint").text() shouldBe "We will still review your appeal if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"
@@ -128,7 +128,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review this appeal if you do not upload evidence."
+          document.getElementById("extraEvidence-hint").text() shouldBe "We will still review your appeal if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"
@@ -155,6 +155,48 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
           )
           document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
           document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised individual appealing a single LPPs" in new Setup() {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, false))
+
+          val result: WSResponse = get("/upload-extra-evidence")
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
+            dateToString(latePaymentAppealData.startDate),
+            dateToString(latePaymentAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised individual appealing multiple LPPs" in new Setup() {
+          stubAuth(OK, successfulIndividualAuthResponse)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, true))
+
+          val result: WSResponse = get("/upload-extra-evidence")
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
+          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
+            dateToString(latePaymentAppealData.startDate),
+            dateToString(latePaymentAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"

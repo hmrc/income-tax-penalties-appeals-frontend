@@ -298,11 +298,15 @@ crime.error.invalid = Tell us if the police have been told about the crime
 # Extra evidence page
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = Do you want to upload evidence to support your appeal?
+extraEvidence.headingAndTitle.multiple = Do you want to upload evidence to support your appeal?
 extraEvidence.headingAndTitle.review = Do you want to upload evidence?
+extraEvidence.headingAndTitle.multiple.review = Do you want to upload evidence?
 extraEvidence.yes = Yes
 extraEvidence.no = No
-extraEvidence.hint = Uploading evidence is optional. We will still review this appeal if you do not upload evidence.
+extraEvidence.hint = We will still review your appeal if you do not upload evidence.
+extraEvidence.hint.multiple = We will still review your appeal if you do not upload evidence.
 extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence.
+extraEvidence.hint.multiple.review = Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence.
 extraEvidence.error.required = Tell us if you want to upload evidence
 extraEvidence.error.invalid = Tell us if you want to upload evidence
 

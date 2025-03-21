@@ -46,7 +46,8 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
       form = fillForm(ExtraEvidenceForm.form(), ExtraEvidencePage),
       isLate = user.isAppealLate(),
       isAgent = user.isAgent,
-      isSecondStageAppeal = user.is2ndStageAppeal
+      isSecondStageAppeal = user.is2ndStageAppeal,
+      isAppealingMultipleLPPs = user.isAppealingMultipleLPPs
     ))
   }
 
@@ -57,7 +58,8 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
           form = formWithErrors,
           isLate = user.isAppealLate(),
           isAgent = user.isAgent,
-          isSecondStageAppeal = user.is2ndStageAppeal
+          isSecondStageAppeal = user.is2ndStageAppeal,
+          isAppealingMultipleLPPs = user.isAppealingMultipleLPPs
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
