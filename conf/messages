@@ -323,6 +323,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused y
 
 checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason?
 checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason
+checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time?
+checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time
 
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline
@@ -370,16 +372,25 @@ checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late?
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed?
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
+checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision?
+checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions?
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal
+checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review
+checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review
 
 checkYourAnswers.declaration.h2 = Declaration
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
+checkYourAnswers.declaration.text.1.review = By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution.
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal?
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence?
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence
 
 checkYourAnswers.acceptAndSend = Accept and send
 
@@ -409,9 +420,11 @@ appealConfirmation.feedback.link.text = to share your feedback on this service.
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details
+viewAppealDetails.headingAndTitle.review = Review details
 viewAppealDetails.ni = National Insurance number
 viewAppealDetails.penaltyAppealed = Penalty appealed
 viewAppealDetails.appealDate = Appeal date
+viewAppealDetails.appealDate.review = Review request sent
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
 viewAppealDetails.printThisPage = Print this page

@@ -30,7 +30,13 @@ object MissedDeadlineReasonSummary extends SummaryListRowHelper {
 
   def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(ReasonableExcusePage.value.contains(Other))(MissedDeadlineReasonPage.value.map { reason =>
-      val infix = if(user.isLPP) "lpp" else "lsp"
+      val infix =
+        (user.is2ndStageAppeal, user.isLPP, user.isJointAppeal) match {
+          case (true, true, true) => "joint.review"
+          case (true, _, _)       => "review"
+          case (_, true, _)       => "lpp"
+          case _                  => "lsp"
+        }
       summaryListRow(
         label = messages(s"checkYourAnswers.missedDeadlineReason.$infix.key"),
         value = HtmlFormat.escape(reason),

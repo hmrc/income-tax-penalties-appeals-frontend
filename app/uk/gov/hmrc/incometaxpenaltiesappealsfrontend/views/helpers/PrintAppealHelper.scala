@@ -44,12 +44,14 @@ class PrintAppealHelper @Inject()(checkAnswersHelper: CheckAnswersHelper,
       actions = None
     )
 
-  private def appealDateRow()(implicit messages: Messages): SummaryListRow =
+  private def appealDateRow()(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_]): SummaryListRow = {
+    val msgSuffix = if(user.is2ndStageAppeal) ".review" else ""
     summaryListRow(
-      label = messages("viewAppealDetails.appealDate"),
+      label = messages(s"viewAppealDetails.appealDate$msgSuffix"),
       value = Html(dateToString(timeMachine.getCurrentDate)),
       actions = None
     )
+  }
 
   private def penaltyPeriodRow()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): SummaryListRow =
     summaryListRow(

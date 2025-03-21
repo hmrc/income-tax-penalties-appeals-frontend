@@ -50,48 +50,82 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
         val uploads = Seq(callbackModel, callbackModel2)
 
-        val userAnswers = emptyUserAnswersWithLSP
-          .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
-          .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
-          .setAnswer(ReasonableExcusePage, Health)
-          .setAnswer(LateAppealPage, "I was late")
-          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
-          .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 2, 2))
+        "when it's a 1st Stage Appeal" when {
 
-        implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
+          val userAnswers = emptyUserAnswersWithLSP
+            .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+            .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
+            .setAnswer(ReasonableExcusePage, Health)
+            .setAnswer(LateAppealPage, "I was late")
+            .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
+            .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 2, 2))
 
-        "a NINO exists" should {
+          implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
 
-          "return expecting print rows with a NINO row" in {
+          "a NINO exists" should {
 
-            printAppealHelper.constructPrintSummaryRows(uploads, Some(testNino)) shouldBe Seq(
-              summaryListRow(
-                label = messagesForLanguage.nino,
-                value = Html(testNino)
-              ),
-              summaryListRow(
-                label = messagesForLanguage.appealDate,
-                value = Html(dateToString(timeMachine.getCurrentDate))
-              ),
-              summaryListRow(
-                label = messagesForLanguage.penaltyAppealed,
-                value = Html(messagesForLanguage.lspCaption(
-                  dateToString(lateSubmissionAppealData.startDate),
-                  dateToString(lateSubmissionAppealData.endDate),
-                  removeNBSP = false
-                ))
-              )
-            ) ++ checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false)
+            "return expecting print rows with a NINO row" in {
+
+              printAppealHelper.constructPrintSummaryRows(uploads, Some(testNino)) shouldBe Seq(
+                summaryListRow(
+                  label = messagesForLanguage.nino,
+                  value = Html(testNino)
+                ),
+                summaryListRow(
+                  label = messagesForLanguage.appealDate,
+                  value = Html(dateToString(timeMachine.getCurrentDate))
+                ),
+                summaryListRow(
+                  label = messagesForLanguage.penaltyAppealed,
+                  value = Html(messagesForLanguage.lspCaption(
+                    dateToString(lateSubmissionAppealData.startDate),
+                    dateToString(lateSubmissionAppealData.endDate),
+                    removeNBSP = false
+                  ))
+                )
+              ) ++ checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false)
+            }
+          }
+
+          "a NINO does NOT exist" should {
+
+            "return expected print rows WITHOUT a NINO" in {
+
+              printAppealHelper.constructPrintSummaryRows(uploads, None) shouldBe Seq(
+                summaryListRow(
+                  label = messagesForLanguage.appealDate,
+                  value = Html(dateToString(timeMachine.getCurrentDate))
+                ),
+                summaryListRow(
+                  label = messagesForLanguage.penaltyAppealed,
+                  value = Html(messagesForLanguage.lspCaption(
+                    dateToString(lateSubmissionAppealData.startDate),
+                    dateToString(lateSubmissionAppealData.endDate),
+                    removeNBSP = false
+                  ))
+                )
+              ) ++ checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false)
+            }
           }
         }
 
-        "a NINO does NOT exist" should {
+        "it's a 2nd Stage Appeal (Review)" should {
 
-          "return expected print rows WITHOUT a NINO" in {
+          val userAnswers = emptyUserAnswersWithLSP2ndStage
+            .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+            .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
+            .setAnswer(ReasonableExcusePage, Health)
+            .setAnswer(LateAppealPage, "I was late")
+            .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
+            .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 2, 2))
+
+          implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
+
+          "return expected print rows with review message content" in {
 
             printAppealHelper.constructPrintSummaryRows(uploads, None) shouldBe Seq(
               summaryListRow(
-                label = messagesForLanguage.appealDate,
+                label = messagesForLanguage.appealDateReview,
                 value = Html(dateToString(timeMachine.getCurrentDate))
               ),
               summaryListRow(

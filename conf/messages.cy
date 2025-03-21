@@ -342,6 +342,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused y
 
 checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason? (Welsh)
 checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason (Welsh)
+checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time? (Welsh)
+checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time (Welsh)
 
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline (Welsh)
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline (Welsh)
@@ -387,27 +389,38 @@ checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days 
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal (Welsh)
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal (Welsh)
+checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review (Welsh)
+checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review (Welsh)
 
 checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late? (Welsh)
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed? (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed (Welsh)
+checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision? (Welsh)
+checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions? (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions (Welsh)
 
 checkYourAnswers.declaration.h2 = Declaration (Welsh)
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
+checkYourAnswers.declaration.text.1.review = By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution. (Welsh)
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal? (Welsh)
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal (Welsh)
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence? (Welsh)
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence (Welsh)
 
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details (Welsh)
+viewAppealDetails.headingAndTitle.review = Review details (Welsh)
 viewAppealDetails.ni = National Insurance number (Welsh)
 viewAppealDetails.penaltyAppealed = Penalty appealed (Welsh)
 viewAppealDetails.appealDate = Appeal date (Welsh)
+viewAppealDetails.appealDate.review = Review request sent (Welsh)
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it. (Welsh)
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later. (Welsh)
 viewAppealDetails.printThisPage = Print this page (Welsh)

@@ -32,9 +32,11 @@
 
 @(printRows: Seq[SummaryListRow])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("viewAppealDetails.headingAndTitle"))), backLinkEnabled = false, isPageFullWidth = true) {
+@defining(if(request.is2ndStageAppeal) ".review" else "") { msgSuffix =>
 
-    @h1("viewAppealDetails.headingAndTitle")
+@layout(Some(titleBuilder(messages(s"viewAppealDetails.headingAndTitle$msgSuffix"))), backLinkEnabled = false, isPageFullWidth = true) {
+
+    @h1(s"viewAppealDetails.headingAndTitle$msgSuffix")
 
     @govukSummaryList(SummaryList(printRows))
 
@@ -54,4 +56,5 @@
         ))
     </div>
 
+}
 }

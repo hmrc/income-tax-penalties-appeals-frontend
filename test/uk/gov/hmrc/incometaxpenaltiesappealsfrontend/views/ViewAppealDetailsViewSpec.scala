@@ -36,39 +36,74 @@ class ViewAppealDetailsViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-  implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
 
   object Selectors extends BaseSelectors
 
   Seq(PrintAppealMessages.English, PrintAppealMessages.Welsh).foreach { messagesForLanguage =>
 
-    s"When rendering the View Appeal Details page in language '${messagesForLanguage.lang.name}'" should {
+    s"When rendering the View Appeal Details page in language '${messagesForLanguage.lang.name}'" when {
 
       implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-      implicit val doc = asDocument(view(Seq(
-        summaryListRow(messagesForLanguage.nino, Html(testNino)),
-        summaryListRow(messagesForLanguage.penaltyAppealed, Html(messagesForLanguage.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        ))),
-        summaryListRow(messagesForLanguage.appealDate, Html(dateToString(timeMachine.getCurrentDate, withNBSP = false))),
-      )))
 
-      behave like pageWithExpectedElementsAndMessages(
-        Selectors.title -> messagesForLanguage.headingAndTitle,
-        Selectors.h1 -> messagesForLanguage.headingAndTitle,
-        Selectors.summaryRowKey(1) -> messagesForLanguage.nino,
-        Selectors.summaryRowValue(1) -> testNino,
-        Selectors.summaryRowKey(2) -> messagesForLanguage.penaltyAppealed,
-        Selectors.summaryRowValue(2) -> messagesForLanguage.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        ),
-        Selectors.summaryRowKey(3) -> messagesForLanguage.appealDate,
-        Selectors.summaryRowValue(3) -> dateToString(timeMachine.getCurrentDate, withNBSP = false),
-        Selectors.p(1) -> concat(messagesForLanguage.warn1, messagesForLanguage.warn2),
-        Selectors.button -> messagesForLanguage.printThisPage
-      )
+      "is a 1st Stage Appeal" should {
+
+        implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
+
+        implicit val doc = asDocument(view(Seq(
+          summaryListRow(messagesForLanguage.nino, Html(testNino)),
+          summaryListRow(messagesForLanguage.penaltyAppealed, Html(messagesForLanguage.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          ))),
+          summaryListRow(messagesForLanguage.appealDate, Html(dateToString(timeMachine.getCurrentDate, withNBSP = false))),
+        )))
+
+        behave like pageWithExpectedElementsAndMessages(
+          Selectors.title -> messagesForLanguage.headingAndTitle,
+          Selectors.h1 -> messagesForLanguage.headingAndTitle,
+          Selectors.summaryRowKey(1) -> messagesForLanguage.nino,
+          Selectors.summaryRowValue(1) -> testNino,
+          Selectors.summaryRowKey(2) -> messagesForLanguage.penaltyAppealed,
+          Selectors.summaryRowValue(2) -> messagesForLanguage.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          ),
+          Selectors.summaryRowKey(3) -> messagesForLanguage.appealDate,
+          Selectors.summaryRowValue(3) -> dateToString(timeMachine.getCurrentDate, withNBSP = false),
+          Selectors.p(1) -> concat(messagesForLanguage.warn1, messagesForLanguage.warn2),
+          Selectors.button -> messagesForLanguage.printThisPage
+        )
+      }
+
+      "is a 2nd Stage Appeal (Review)" should {
+
+        implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP2ndStage)
+
+        implicit val doc = asDocument(view(Seq(
+          summaryListRow(messagesForLanguage.nino, Html(testNino)),
+          summaryListRow(messagesForLanguage.penaltyAppealed, Html(messagesForLanguage.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          ))),
+          summaryListRow(messagesForLanguage.appealDateReview, Html(dateToString(timeMachine.getCurrentDate, withNBSP = false))),
+        )))
+
+        behave like pageWithExpectedElementsAndMessages(
+          Selectors.title -> messagesForLanguage.headingAndTitleReview,
+          Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
+          Selectors.summaryRowKey(1) -> messagesForLanguage.nino,
+          Selectors.summaryRowValue(1) -> testNino,
+          Selectors.summaryRowKey(2) -> messagesForLanguage.penaltyAppealed,
+          Selectors.summaryRowValue(2) -> messagesForLanguage.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          ),
+          Selectors.summaryRowKey(3) -> messagesForLanguage.appealDateReview,
+          Selectors.summaryRowValue(3) -> dateToString(timeMachine.getCurrentDate, withNBSP = false),
+          Selectors.p(1) -> concat(messagesForLanguage.warn1, messagesForLanguage.warn2),
+          Selectors.button -> messagesForLanguage.printThisPage
+        )
+      }
     }
   }
 }
