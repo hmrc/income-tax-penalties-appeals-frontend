@@ -35,41 +35,47 @@ class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneA
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[String] = LateAppealForm.form()
+      for (isAppealingMultipleLPPs <- Seq(true, false)) {
 
-      "bind" when {
+        for (isSecondStageAppeal <- Seq(true, false)) {
 
-        behave like mandatoryField(
-          form = form,
-          fieldName = LateAppealForm.key,
-          requiredError = FormError(LateAppealForm.key, messagesForLanguage.errorRequired)
-        )
+          val form: Form[String] = LateAppealForm.form(isAppealingMultipleLPPs,isSecondStageAppeal)
 
-        s"allow a text value with length <= ${appConfig.numberOfCharsInTextArea}" in {
+          s"bind with isAppealingMultipleLPPs = $isAppealingMultipleLPPs and isSecondStageAppeal = $isSecondStageAppeal" when {
 
-          val value = "A" * appConfig.numberOfCharsInTextArea
-          val result = form.bind(Map(LateAppealForm.key -> value))
+            behave like mandatoryField(
+              form = form,
+              fieldName = LateAppealForm.key,
+              requiredError = FormError(LateAppealForm.key, if(isSecondStageAppeal)messagesForLanguage.errorRequiredReview else messagesForLanguage.errorRequired)
+            )
 
-          result.hasErrors shouldBe false
-          result.value shouldBe Some(value)
-        }
+            s"allow a text value with length <= ${appConfig.numberOfCharsInTextArea}" in {
 
-        s"reject more than ${appConfig.numberOfCharsInTextArea} characters with correct error message" in {
+              val value = "A" * appConfig.numberOfCharsInTextArea
+              val result = form.bind(Map(LateAppealForm.key -> value))
 
-          val value = "A" * (appConfig.numberOfCharsInTextArea + 1)
-          val result = form.bind(Map(LateAppealForm.key -> value))
+              result.hasErrors shouldBe false
+              result.value shouldBe Some(value)
+            }
 
-          result.errors.headOption shouldBe Some(FormError(
-            key = LateAppealForm.key,
-            message = messagesForLanguage.errorLength(appConfig.numberOfCharsInTextArea)
-          ))
-        }
+            s"reject more than ${appConfig.numberOfCharsInTextArea} characters with correct error message" in {
 
-        "reject non0standard character give regex error and not bind in" in {
+              val value = "A" * (appConfig.numberOfCharsInTextArea + 1)
+              val result = form.bind(Map(LateAppealForm.key -> value))
 
-          val result = form.bind(Map(LateAppealForm.key -> invalidChars))
+              result.errors.headOption shouldBe Some(FormError(
+                key = LateAppealForm.key,
+                message = messagesForLanguage.errorLength(appConfig.numberOfCharsInTextArea)
+              ))
+            }
 
-          result.errors.headOption shouldBe Some(FormError(LateAppealForm.key, messagesForLanguage.errorRegex))
+            "reject non0standard character give regex error and not bind in" in {
+
+              val result = form.bind(Map(LateAppealForm.key -> invalidChars))
+
+              result.errors.headOption shouldBe Some(FormError(LateAppealForm.key, messagesForLanguage.errorRegex))
+            }
+          }
         }
       }
     }
