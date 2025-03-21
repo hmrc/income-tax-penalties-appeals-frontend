@@ -20,7 +20,7 @@ import fixtures.messages.MissedDeadlineReasonMessages
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.data.{Form, FormError}
+import play.api.data.FormError
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 
