@@ -395,6 +395,39 @@ checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to
 
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 
+
+# Appeal Confirmation page
+# ----------------------------------------------------------
+
+appealConfirmation.headingAndTitle = Appeal received (Welsh)
+appealConfirmation.typeAndPeriod = {0}: {1} tax year (Welsh)
+appealConfirmation.p1 = You do not need a reference number. (Welsh)
+appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal. (Welsh)
+appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal. (Welsh)
+appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab) (Welsh)
+appealConfirmation.whatHappensNext.h2 = What happens next (Welsh)
+appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days. (Welsh)
+appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you’ll be notified about the outcome of this appeal and the reasons for our decision. (Welsh)
+appealConfirmation.whatHappensNext.p2.agent =  When a decision has been made, your client will be notified about the outcome of this appeal and the reasons for our decision. (Welsh)
+appealConfirmation.whatHappensNext.link1.client = Return to your Self Assessment penalties (Welsh)
+appealConfirmation.whatHappensNext.link1.agent = Return to your client’s Self Assessment penalties (Welsh)
+appealConfirmation.whatHappensNext.link2.client = View your Self Assessment account (Welsh)
+appealConfirmation.whatHappensNext.link2.agent = View your client’s Self Assessment account (Welsh)
+
+appealConfirmation.feedback.h2 = Before you go (Welsh)
+appealConfirmation.feedback.p = Your feedback helps us make our service better. (Welsh)
+appealConfirmation.feedback.link = Take a short survey (Welsh)
+appealConfirmation.feedback.link.text = to share your feedback on this service. (Welsh)
+appealConfirmation.viewOrPrint.review = View or print details of this review (opens in new tab) (Welsh)
+
+appealConfirmation.review.headingAndTitle = Review request received (Welsh)
+appealConfirmation.p2.client.review = This request for a review has been logged against your National Insurance number. Please quote this number if you call HMRC about this review. (Welsh)
+appealConfirmation.p2.agent.review = This request for a review has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this review. (Welsh)
+appealConfirmation.whatHappensNext.p1.review = We aim to complete reviews within 45 days. (Welsh)
+appealConfirmation.whatHappensNext.p2.client.review = When a decision has been made, you’ll be notified about the outcome of the review and the reasons for our decision. (Welsh)
+appealConfirmation.whatHappensNext.p2.agent.review =  When a decision has been made, your client will be notified about the outcome of the review and the reasons for our decision. (Welsh)
+
+
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details (Welsh)

@@ -405,6 +405,14 @@ appealConfirmation.feedback.h2 = Before you go
 appealConfirmation.feedback.p = Your feedback helps us make our service better.
 appealConfirmation.feedback.link = Take a short survey
 appealConfirmation.feedback.link.text = to share your feedback on this service.
+appealConfirmation.viewOrPrint.review = View or print details of this review (opens in new tab)
+
+appealConfirmation.review.headingAndTitle = Review request received
+appealConfirmation.p2.client.review = This request for a review has been logged against your National Insurance number. Please quote this number if you call HMRC about this review.
+appealConfirmation.p2.agent.review = This request for a review has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this review.
+appealConfirmation.whatHappensNext.p1.review = We aim to complete reviews within 45 days.
+appealConfirmation.whatHappensNext.p2.client.review = When a decision has been made, you’ll be notified about the outcome of the review and the reasons for our decision.
+appealConfirmation.whatHappensNext.p2.agent.review =  When a decision has been made, your client will be notified about the outcome of the review and the reasons for our decision.
 
 # View appeal details page
 # -----------------------------------------------------------

@@ -19,32 +19,36 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 
 @this(layout: Layout,
         govukPanel: GovukPanel,
         p:P,
         h2:H2,
+        caption: components.PenaltyCaption,
         link: Link)
 
-@(isLate: Boolean, isAgent: Boolean)(implicit request: Request[_], messages: Messages)
+@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @clientOrAgent = {@if(isAgent){agent} else {client}}
+@reviewOrAppeal = {@if(isSecondStageAppeal){.review}}
 
-@layout(Some(titleBuilder(messages("appealConfirmation.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle"))), backLinkEnabled = true) {
 
     @govukPanel(Panel(
-        title = Text(messages("appealConfirmation.headingAndTitle")),
-        content = HtmlContent(messages("appealConfirmation.typeAndPeriod", "Late payment penalty", DateFormatter.htmlNonBroken("2027 to 2028")))
+        title = Text(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle")),
+        content = HtmlContent(caption(confirmationBox = true))
     ))
 
     @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))
-    @p(s"appealConfirmation.p2.$clientOrAgent", elmId = Some(s"confirmationSecondParagraph"))
+    @p(s"appealConfirmation.p2.$clientOrAgent$reviewOrAppeal", elmId = Some(s"confirmationSecondParagraph"))
 
-    @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad().url, messageKey = "appealConfirmation.viewOrPrint", id = Some("viewOrPrint-link"), attrTarget = true)
+    @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad().url, messageKey = s"appealConfirmation.viewOrPrint$reviewOrAppeal", id = Some("viewOrPrint-link"), attrTarget = true)
 
     @h2("appealConfirmation.whatHappensNext.h2", elmId = "whatHappensNext")
-    @p("appealConfirmation.whatHappensNext.p1", elmId = Some("confirmationThirdParagraph"))
-    @p(s"appealConfirmation.whatHappensNext.p2.$clientOrAgent", elmId = Some("confirmationFourthParagraph"))
+    @p(s"appealConfirmation.whatHappensNext.p1$reviewOrAppeal", elmId = Some("confirmationThirdParagraph"))
+    @p(s"appealConfirmation.whatHappensNext.p2.$clientOrAgent$reviewOrAppeal", elmId = Some("confirmationFourthParagraph"))
 
     @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link1.$clientOrAgent", id = Some("returnToSA-link"))
 
