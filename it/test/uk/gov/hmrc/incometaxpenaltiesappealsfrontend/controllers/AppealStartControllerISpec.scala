@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.{English, ReviewAppealStartMessages}
 import org.jsoup.Jsoup
+import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
@@ -39,7 +40,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
   "GET /appeal-start" when {
 
     testNavBar("/appeal-start")(
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP)
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     )
 
     Seq(
@@ -52,7 +53,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
           "the penalty type is Late Submission Penalty (LSP)" should {
             "render the page has the correct elements" in {
               stubAuth(OK, authResponse)
-              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
               val result = get("/appeal-start", isAgent = isAgent)
 
@@ -88,7 +89,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
           "the penalty type is Late Payment Penalty (LPP) (single Penalty)" should {
             "render the page with a link to Reasonable Excuse" in {
               stubAuth(OK, authResponse)
-              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
               val result = get("/appeal-start", isAgent = isAgent)
               val document = Jsoup.parse(result.body)
@@ -101,7 +102,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
           "the penalty type is Late Payment Penalty (LPP) (multiple Penalty)" should {
             "render the page with a link to Multiple Appeals page" in {
               stubAuth(OK, authResponse)
-              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
               val result = get("/appeal-start", isAgent = isAgent)
               val document = Jsoup.parse(result.body)
@@ -116,7 +117,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
           "the penalty type is LPP and there are multiple penalties" should {
             "render the ReviewAppeal page with correct elements" in {
               stubAuth(OK, authResponse)
-              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
               val result = get("/appeal-start", isAgent = isAgent)
 
@@ -143,7 +144,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
           "the penalty type is LPP and there is a single LPP" should {
             "render the ReviewAppeal page with correct elements" in {
               stubAuth(OK, authResponse)
-              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
               val result = get("/appeal-start", isAgent = isAgent)
 
@@ -170,7 +171,7 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
           "the penalty type is LSP" should {
             "render the ReviewAppeal page with correct elements" in {
               stubAuth(OK, authResponse)
-              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
 
               val result = get("/appeal-start", isAgent = isAgent)
 
