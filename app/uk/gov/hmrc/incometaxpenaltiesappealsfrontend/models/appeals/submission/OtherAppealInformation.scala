@@ -38,47 +38,23 @@ case class OtherAppealInformation(
                                  ) extends AppealInformation
 
 object OtherAppealInformation {
+
   implicit val evidenceFormatter: OFormat[Evidence] = Evidence.format
   implicit val otherAppealInformationFormatter: OFormat[OtherAppealInformation] = Json.format[OtherAppealInformation]
 
-  val otherAppealInformationWrites: Writes[OtherAppealInformation] = (otherAppealInformation: OtherAppealInformation) => {
-    Json.obj(
-      "reasonableExcuse" -> otherAppealInformation.reasonableExcuse,
-      "honestyDeclaration" -> otherAppealInformation.honestyDeclaration,
-      "startDateOfEvent" -> otherAppealInformation.startDateOfEvent,
-      "statement" -> otherAppealInformation.statement.get,
-      "lateAppeal" -> otherAppealInformation.lateAppeal
-    ).deepMerge(
-      otherAppealInformation.lateAppealReason.fold(
-        Json.obj()
-      )(
-        lateAppealReason => Json.obj("lateAppealReason" -> lateAppealReason)
-      )
-    ).deepMerge(
-      otherAppealInformation.supportingEvidence.fold(
-        Json.obj()
-      )(
-        evidence => Json.obj("supportingEvidence" -> evidence)
-      )
-    ).deepMerge(
-      otherAppealInformation.isClientResponsibleForSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForSubmission => Json.obj("isClientResponsibleForSubmission" -> isClientResponsibleForSubmission)
-      )
-    ).deepMerge(
-      otherAppealInformation.isClientResponsibleForLateSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
-      )
-    ).deepMerge(
-      otherAppealInformation.uploadedFiles.fold(
-        Json.obj()
-      )(
-        uploadedFiles => Json.obj("uploadedFiles" -> uploadedFiles)
-      )
-    )
+  val otherAppealInformationWrites: Writes[OtherAppealInformation] = Writes { model =>
+    Json.obj(Seq[Option[(String, JsValueWrapper)]](
+      Some("reasonableExcuse" -> model.reasonableExcuse),
+      Some("honestyDeclaration" -> model.honestyDeclaration),
+      Some("startDateOfEvent" -> model.startDateOfEvent),
+      Some("lateAppeal" -> model.lateAppeal),
+      model.statement.map("statement" -> _),
+      model.lateAppealReason.map("lateAppealReason" -> _),
+      model.supportingEvidence.map("supportingEvidence" -> _),
+      model.isClientResponsibleForSubmission.map("isClientResponsibleForSubmission" -> _),
+      model.isClientResponsibleForLateSubmission.map("isClientResponsibleForLateSubmission" -> _),
+      model.uploadedFiles.map("uploadedFiles" -> _)
+    ).flatten: _*)
   }
 
   val auditWrites: Writes[OtherAppealInformation] = Writes { model =>

@@ -34,39 +34,20 @@ case class BereavementAppealInformation(
                                        ) extends AppealInformation
 
 object BereavementAppealInformation {
+
   implicit val bereavementAppealInformationFormatter: OFormat[BereavementAppealInformation] = Json.format[BereavementAppealInformation]
 
-  val bereavementAppealWrites: Writes[BereavementAppealInformation] = (bereavementAppealInformation: BereavementAppealInformation) => {
-    Json.obj(
-      "reasonableExcuse" -> bereavementAppealInformation.reasonableExcuse,
-      "honestyDeclaration" -> bereavementAppealInformation.honestyDeclaration,
-      "startDateOfEvent" -> bereavementAppealInformation.startDateOfEvent,
-      "lateAppeal" -> bereavementAppealInformation.lateAppeal
-    ).deepMerge(
-      bereavementAppealInformation.statement.fold(
-        Json.obj()
-      )(
-        statement => Json.obj("statement" -> statement)
-      )
-    ).deepMerge(
-      bereavementAppealInformation.lateAppealReason.fold(
-        Json.obj()
-      )(
-        lateAppealReason => Json.obj("lateAppealReason" -> lateAppealReason)
-      )
-    ).deepMerge(
-      bereavementAppealInformation.isClientResponsibleForSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForSubmission => Json.obj("isClientResponsibleForSubmission" -> isClientResponsibleForSubmission)
-      )
-    ).deepMerge(
-      bereavementAppealInformation.isClientResponsibleForLateSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
-      )
-    )
+  val bereavementAppealWrites: Writes[BereavementAppealInformation] = Writes { model =>
+    Json.obj(Seq[Option[(String, JsValueWrapper)]](
+      Some("reasonableExcuse" -> model.reasonableExcuse),
+      Some("honestyDeclaration" -> model.honestyDeclaration),
+      Some("startDateOfEvent" -> model.startDateOfEvent),
+      Some("lateAppeal" -> model.lateAppeal),
+      model.statement.map("statement" -> _),
+      model.lateAppealReason.map("lateAppealReason" -> _),
+      model.isClientResponsibleForSubmission.map("isClientResponsibleForSubmission" -> _),
+      model.isClientResponsibleForLateSubmission.map("isClientResponsibleForLateSubmission" -> _)
+    ).flatten: _*)
   }
 
   val auditWrites: Writes[BereavementAppealInformation] = Writes { model =>

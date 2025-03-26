@@ -35,40 +35,21 @@ case class TechnicalIssuesAppealInformation(
                                            ) extends AppealInformation
 
 object TechnicalIssuesAppealInformation {
+
   implicit val technicalIssuesAppealInformationFormatter: OFormat[TechnicalIssuesAppealInformation] = Json.format[TechnicalIssuesAppealInformation]
 
-  val technicalIssuesAppealWrites: Writes[TechnicalIssuesAppealInformation] = (technicalIssuesAppealInformation: TechnicalIssuesAppealInformation) => {
-    Json.obj(
-      "reasonableExcuse" -> technicalIssuesAppealInformation.reasonableExcuse,
-      "honestyDeclaration" -> technicalIssuesAppealInformation.honestyDeclaration,
-      "startDateOfEvent" -> technicalIssuesAppealInformation.startDateOfEvent,
-      "endDateOfEvent" -> technicalIssuesAppealInformation.endDateOfEvent,
-      "lateAppeal" -> technicalIssuesAppealInformation.lateAppeal
-    ).deepMerge(
-      technicalIssuesAppealInformation.statement.fold(
-        Json.obj()
-      )(
-        statement => Json.obj("statement" -> statement)
-      )
-    ).deepMerge(
-      technicalIssuesAppealInformation.lateAppealReason.fold(
-        Json.obj()
-      )(
-        lateAppealReason => Json.obj("lateAppealReason" -> lateAppealReason)
-      )
-    ).deepMerge(
-      technicalIssuesAppealInformation.isClientResponsibleForSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForSubmission => Json.obj("isClientResponsibleForSubmission" -> isClientResponsibleForSubmission)
-      )
-    ).deepMerge(
-      technicalIssuesAppealInformation.isClientResponsibleForLateSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
-      )
-    )
+  val technicalIssuesAppealWrites: Writes[TechnicalIssuesAppealInformation] = Writes { model =>
+    Json.obj(Seq[Option[(String, JsValueWrapper)]](
+      Some("reasonableExcuse" -> model.reasonableExcuse),
+      Some("honestyDeclaration" -> model.honestyDeclaration),
+      Some("startDateOfEvent" -> model.startDateOfEvent),
+      Some("endDateOfEvent" -> model.endDateOfEvent),
+      Some("lateAppeal" -> model.lateAppeal),
+      model.statement.map("statement" -> _),
+      model.lateAppealReason.map("lateAppealReason" -> _),
+      model.isClientResponsibleForSubmission.map("isClientResponsibleForSubmission" -> _),
+      model.isClientResponsibleForLateSubmission.map("isClientResponsibleForLateSubmission" -> _)
+    ).flatten: _*)
   }
 
   val auditWrites: Writes[TechnicalIssuesAppealInformation] = Writes { model =>
