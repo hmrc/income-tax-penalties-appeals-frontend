@@ -37,52 +37,23 @@ case class HealthAppealInformation(
                                   ) extends AppealInformation
 
 object HealthAppealInformation {
+
   implicit val healthAppealInformationFormatter: OFormat[HealthAppealInformation] = Json.format[HealthAppealInformation]
 
-  val healthAppealWrites: Writes[HealthAppealInformation] = (healthAppealInformation: HealthAppealInformation) => {
-    Json.obj(
-      "reasonableExcuse" -> healthAppealInformation.reasonableExcuse,
-      "honestyDeclaration" -> healthAppealInformation.honestyDeclaration,
-      "hospitalStayInvolved" -> healthAppealInformation.hospitalStayInvolved,
-      "eventOngoing" -> healthAppealInformation.eventOngoing,
-      "lateAppeal" -> healthAppealInformation.lateAppeal
-    ).deepMerge(
-      healthAppealInformation.statement.fold(
-        Json.obj()
-      )(
-        statement => Json.obj("statement" -> statement)
-      )
-    ).deepMerge(
-      healthAppealInformation.lateAppealReason.fold(
-        Json.obj()
-      )(
-        lateAppealReason => Json.obj("lateAppealReason" -> lateAppealReason)
-      )
-    ).deepMerge(
-      (healthAppealInformation.hospitalStayInvolved, healthAppealInformation.eventOngoing) match {
-        case (true, false) =>
-          Json.obj(
-            "startDateOfEvent" -> healthAppealInformation.startDateOfEvent.get,
-            "endDateOfEvent" -> healthAppealInformation.endDateOfEvent.get
-          )
-        case _ =>
-          Json.obj(
-            "startDateOfEvent" -> healthAppealInformation.startDateOfEvent.get
-          )
-      }
-    ).deepMerge(
-      healthAppealInformation.isClientResponsibleForSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForSubmission => Json.obj("isClientResponsibleForSubmission" -> isClientResponsibleForSubmission)
-      )
-    ).deepMerge(
-      healthAppealInformation.isClientResponsibleForLateSubmission.fold(
-        Json.obj()
-      )(
-        isClientResponsibleForLateSubmission => Json.obj("isClientResponsibleForLateSubmission" -> isClientResponsibleForLateSubmission)
-      )
-    )
+  val healthAppealWrites: Writes[HealthAppealInformation] = Writes { model =>
+    Json.obj(Seq[Option[(String, JsValueWrapper)]](
+      Some("reasonableExcuse" -> model.reasonableExcuse),
+      Some("honestyDeclaration" -> model.honestyDeclaration),
+      Some("hospitalStayInvolved" -> model.hospitalStayInvolved),
+      Some("eventOngoing" -> model.eventOngoing),
+      Some("lateAppeal" -> model.lateAppeal),
+      model.statement.map("statement" -> _),
+      model.lateAppealReason.map("lateAppealReason" -> _),
+      model.startDateOfEvent.map("startDateOfEvent" -> _),
+      model.endDateOfEvent.map("endDateOfEvent" -> _),
+      model.isClientResponsibleForSubmission.map("isClientResponsibleForSubmission" -> _),
+      model.isClientResponsibleForLateSubmission.map("isClientResponsibleForLateSubmission" -> _)
+    ).flatten: _*)
   }
 
   val auditWrites: Writes[HealthAppealInformation] = Writes { model =>

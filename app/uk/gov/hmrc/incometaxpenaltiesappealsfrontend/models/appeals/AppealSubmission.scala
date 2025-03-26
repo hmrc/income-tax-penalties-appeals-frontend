@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals
 
 import play.api.libs.json._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission._
@@ -64,13 +65,10 @@ object AppealSubmission {
 
   //scalastyle:off
   def constructModelBasedOnReasonableExcuse(reasonableExcuse: ReasonableExcuse,
-                                            isLateAppeal: Boolean,
-                                            agentReferenceNo: Option[String],
-                                            uploadedFiles: Option[Seq[UploadJourney]],
-                                            mtdItId: String)
-                                           (implicit request: CurrentUserRequestWithAnswers[_], timeMachine: TimeMachine): AppealSubmission = {
-    val isClientResponsibleForSubmission: Option[Boolean] = if (request.isLPP && agentReferenceNo.isDefined) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
-    val isClientResponsibleForLateSubmission: Option[Boolean] = if (request.isLPP && agentReferenceNo.isDefined) Some(true)
+                                            uploadedFiles: Option[Seq[UploadJourney]])
+                                           (implicit request: CurrentUserRequestWithAnswers[_], timeMachine: TimeMachine, appConfig: AppConfig): AppealSubmission = {
+    val isClientResponsibleForSubmission: Option[Boolean] = if (request.isLPP && request.isAgent) Some(true) else request.userAnswers.getAnswer(WhoPlannedToSubmitPage).map(_ == AgentClientEnum.client)
+    val isClientResponsibleForLateSubmission: Option[Boolean] = if (request.isLPP && request.isAgent) Some(true)
     else if (request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent)) {
       request.userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).map(_ == AgentClientEnum.client)
     } else None
@@ -78,11 +76,11 @@ object AppealSubmission {
     def baseAppealSubmission(appealInfo: AppealInformation) = AppealSubmission(
       sourceSystem = "MDTP",
       taxRegime = "ITSA",
-      customerReferenceNo = s"MTDITID$mtdItId",
+      customerReferenceNo = s"MTDITID${request.mtdItId}",
       dateOfAppeal = timeMachine.getCurrentDateTime.truncatedTo(ChronoUnit.SECONDS),
       isLPP = request.isLPP,
-      appealSubmittedBy = if (agentReferenceNo.isDefined) "agent" else "customer",
-      agentDetails = if (agentReferenceNo.isDefined) Some(constructAgentDetails(agentReferenceNo)) else None,
+      appealSubmittedBy = if (request.isAgent) "agent" else "customer",
+      agentDetails = request.arn.map(constructAgentDetails),
       appealInformation = appealInfo
     )
 
@@ -93,8 +91,8 @@ object AppealSubmission {
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -106,8 +104,8 @@ object AppealSubmission {
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           reportedIssueToPolice = request.getMandatoryAnswer(CrimeReportedPage),
           statement = None,
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -118,8 +116,8 @@ object AppealSubmission {
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -130,8 +128,8 @@ object AppealSubmission {
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -143,8 +141,8 @@ object AppealSubmission {
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           endDateOfEvent = request.getMandatoryAnswer(WhenDidEventEndPage).atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS),
           statement = None,
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -161,8 +159,8 @@ object AppealSubmission {
           endDateOfEvent = Option.when(!isOngoingHospitalStay)(request.userAnswers.getAnswer(WhenDidEventEndPage).map(_.atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS))).flatten,
           eventOngoing = isOngoingHospitalStay,
           statement = None,
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -179,8 +177,8 @@ object AppealSubmission {
           ,
           statement = request.userAnswers.getAnswer(MissedDeadlineReasonPage),
           supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),
-          lateAppeal = isLateAppeal,
-          lateAppealReason = if (isLateAppeal) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission,
           uploadedFiles = uploadedFiles
@@ -190,9 +188,9 @@ object AppealSubmission {
     }
   }
 
-  private def constructAgentDetails(agentReferenceNo: Option[String])(implicit request: CurrentUserRequestWithAnswers[_]): AgentDetails =
+  private def constructAgentDetails(arn: String)(implicit request: CurrentUserRequestWithAnswers[_]): AgentDetails =
     AgentDetails(
-      agentReferenceNo = agentReferenceNo.get,
+      agentReferenceNo = arn,
       isExcuseRelatedToAgent = request.userAnswers.getAnswer(WhoPlannedToSubmitPage).contains(AgentClientEnum.agent) &&
         request.userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).contains(AgentClientEnum.agent))
 

@@ -16,22 +16,27 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit
 
+import play.api.libs.json.Json.JsValueWrapper
 import play.api.libs.json.{JsValue, Json}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, PenaltyTypeEnum}
 
 case class AppealSubmissionAuditModel(penaltyNumber: String,
                                       penaltyType: PenaltyTypeEnum.Value,
-                                      caseId: String,
+                                      caseId: Option[String],
+                                      error: Option[String],
                                       correlationId: String,
                                       appealSubmission: AppealSubmission)(implicit user: CurrentUserRequestWithAnswers[_]) extends AuditModel {
 
   override val auditType: String = "UserAppealInfo"
   override val detail: JsValue = user.auditJson ++ Json.obj(
-    "penaltyNumber" -> penaltyNumber,
-    "penaltyType" -> Json.toJson(penaltyType)(PenaltyTypeEnum.auditWrites),
-    "caseId" -> caseId,
-    "correlationId" -> correlationId,
-    "appealInformation" -> Json.toJson(appealSubmission)(AppealSubmission.auditWrites)
+    Seq[Option[(String, JsValueWrapper)]](
+      Some("penaltyNumber" -> penaltyNumber),
+      Some("penaltyType" -> Json.toJson(penaltyType)(PenaltyTypeEnum.auditWrites)),
+      Some("correlationId" -> correlationId),
+      Some("appealInformation" -> Json.toJson(appealSubmission)(AppealSubmission.auditWrites)),
+      caseId.map("caseId" -> _),
+      error.map("error" -> _)
+    ).flatten:_*
   )
 }
