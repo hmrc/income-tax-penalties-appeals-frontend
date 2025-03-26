@@ -24,9 +24,10 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnect
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.ErrorResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealFailed, AppealSubmission, AppealSubmissionResponseModel, MultiAppealFailedBoth, MultiAppealFailedLPP1, MultiAppealFailedLPP2, MultiplePenaltiesData, SubmissionErrorResponse, SubmissionSuccessResponse, SuccessfulAppeal, SuccessfulMultiAppeal, UnexpectedFailedFuture}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AppealSubmissionAuditModel
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
@@ -38,7 +39,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                               upscanService: UpscanService,
-                              idGenerator: UUIDGenerator
+                              idGenerator: UUIDGenerator,
+                              auditService: AuditService
                              )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FeatureSwitching {
 
   def validatePenaltyIdForEnrolmentKey(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, mtdItId: String)
@@ -88,27 +90,27 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                            uploadedFiles: Seq[UploadJourney])
                           (implicit request: CurrentUserRequestWithAnswers[_], ec: ExecutionContext, hc: HeaderCarrier): Future[Either[SubmissionErrorResponse, SubmissionSuccessResponse]] = {
     val correlationId = idGenerator.generateUUID
-    val modelFromRequest: AppealSubmission =
+    implicit val modelFromRequest: AppealSubmission =
       AppealSubmission.constructModelBasedOnReasonableExcuse(
         reasonableExcuse = reasonableExcuse,
-        isLateAppeal = request.isAppealLate(),
-        agentReferenceNo = request.arn,
-        uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
-        mtdItId = request.mtdItId
+        uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles)
       )
 
-    penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false).map {
-      case Left(error) =>
-        logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
-        Left(AppealFailed)
+    for {
+      response <- penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false)
+      _ = auditSubmission(response, request.penaltyData.appealData.`type`, correlationId)
+    } yield response match {
       case Right(response) =>
         logger.info("[AppealService][singleAppeal] - Received OK from the appeal submission call")
         Right(SuccessfulAppeal(response))
-    }.recover {
-      case e =>
-        logger.error(s"[AppealService][singleAppeal] - An unknown error occurred, error message: ${e.getMessage}")
-        Left(UnexpectedFailedFuture(e))
+      case Left(error) =>
+        logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
+        Left(AppealFailed)
     }
+  }.recover {
+    case e =>
+      logger.error(s"[AppealService][singleAppeal] - An unknown error occurred, error message: ${e.getMessage}")
+      Left(UnexpectedFailedFuture(e))
   }
 
   private def multipleAppeal(reasonableExcuse: ReasonableExcuse,
@@ -119,12 +121,9 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     val firstPenaltyNumber = request.firstPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] First penalty number not found in session"))
     val secondPenaltyNumber = request.secondPenaltyNumber.getOrElse(throw new RuntimeException("[AppealService][multipleAppeal] Second penalty number not found in session"))
 
-    val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(
+    implicit val modelFromRequest: AppealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(
       reasonableExcuse = reasonableExcuse,
-      isLateAppeal = request.isAppealLate(),
-      agentReferenceNo = request.arn,
-      uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles),
-      mtdItId = request.mtdItId
+      uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles)
     )
 
     //vals intentionally outside `for comprehension` so that they run async in parallel
@@ -135,6 +134,8 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       lpp1Response <- submitLPP1
       lpp2Response <- submitLPP2
       _ = logMultipleAppeal(lpp1Response, lpp2Response, firstCorrelationId, secondCorrelationId)
+      _ = auditSubmission(lpp1Response, PenaltyTypeEnum.Late_Payment, firstCorrelationId)
+      _ = auditSubmission(lpp2Response, PenaltyTypeEnum.Additional, secondCorrelationId)
     } yield (lpp1Response, lpp2Response) match {
       case (Right(lpp1Success), Right(lpp2Success)) =>
         Right(SuccessfulMultiAppeal(lpp1Success, lpp2Success))
@@ -151,22 +152,47 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       Left(UnexpectedFailedFuture(e))
   }
 
+  private def auditSubmission(response: Either[ErrorResponse, AppealSubmissionResponseModel],
+                              penaltyType: PenaltyTypeEnum.Value,
+                              correlationId: String)(implicit modelFromRequest: AppealSubmission, user: CurrentUserRequestWithAnswers[_], hc: HeaderCarrier): Unit =
+    response match {
+      case Left(error) =>
+        auditService.audit(AppealSubmissionAuditModel(
+          penaltyNumber = user.penaltyNumber,
+          penaltyType = penaltyType,
+          caseId = None,
+          error = Some(error.body),
+          correlationId = correlationId,
+          appealSubmission = modelFromRequest
+        ))
+      case Right(success) =>
+        auditService.audit(AppealSubmissionAuditModel(
+          penaltyNumber = user.penaltyNumber,
+          penaltyType = penaltyType,
+          caseId = success.caseId,
+          error = success.error,
+          correlationId = correlationId,
+          appealSubmission = modelFromRequest
+        ))
+    }
+
   private def logMultipleAppeal(lpp1Response: Either[ErrorResponse, AppealSubmissionResponseModel],
                                 lpp2Response: Either[ErrorResponse, AppealSubmissionResponseModel],
                                 firstCorrelationId: String,
                                 secondCorrelationId: String)(implicit request: CurrentUserRequestWithAnswers[_]): Unit = {
     logger.debug(s"[AppealService][multipleAppeal] - First penalty was $lpp1Response, second penalty was $lpp2Response")
     val isSuccess = lpp1Response.exists(_.status == OK) && lpp2Response.exists(_.status == OK)
+    val logCaseId: Option[String] => String = _.fold("")(id => s"(case ID is $id)")
     if (!isSuccess) {
       val lpp1Message = lpp1Response match {
-        case Right(model) if model.status == OK => s"LPP1 appeal was submitted successfully, case ID is ${model.caseId}. Correlation ID for LPP1: $firstCorrelationId. "
-        case Right(model) if model.status == MULTI_STATUS => s"LPP1 appeal was submitted successfully (case ID is ${model.caseId}) but there was an issue storing the notification for uploaded files, response body (${model.error}). Correlation ID for LPP1: $firstCorrelationId. "
+        case Right(model) if model.status == OK => s"LPP1 appeal was submitted successfully ${logCaseId(model.caseId)}. Correlation ID for LPP1: $firstCorrelationId. "
+        case Right(model) if model.status == MULTI_STATUS => s"LPP1 appeal was submitted successfully ${logCaseId(model.caseId)} but there was an issue storing the notification for uploaded files, response body (${model.error}). Correlation ID for LPP1: $firstCorrelationId. "
         case Left(model) => s"LPP1 appeal was not submitted successfully, Reason given ${model.body}. Correlation ID for LPP1: $firstCorrelationId. "
         case _ => throw new MatchError(s"[AppealService][multipleAppeal] - unknown lpp1 response $lpp1Response")
       }
       val lpp2Message = lpp2Response match {
-        case Right(model) if model.status == OK => s"LPP2 appeal was submitted successfully, case ID is ${model.caseId}. Correlation ID for LPP2: $secondCorrelationId. "
-        case Right(model) if model.status == MULTI_STATUS => s"LPP2 appeal was submitted successfully (case ID is ${model.caseId}) but there was an issue storing the notification for uploaded files, response body (${model.error}). Correlation ID for LPP2: $secondCorrelationId. "
+        case Right(model) if model.status == OK => s"LPP2 appeal was submitted successfully ${logCaseId(model.caseId)}. Correlation ID for LPP2: $secondCorrelationId. "
+        case Right(model) if model.status == MULTI_STATUS => s"LPP2 appeal was submitted successfully ${logCaseId(model.caseId)} but there was an issue storing the notification for uploaded files, response body (${model.error}). Correlation ID for LPP2: $secondCorrelationId. "
         case Left(model) => s"LPP2 appeal was not submitted successfully, Reason given ${model.body}. Correlation ID for LPP2: $secondCorrelationId. "
         case _ => throw new MatchError(s"[AppealService][multipleAppeal] - unknown lpp2 response $lpp2Response")
       }

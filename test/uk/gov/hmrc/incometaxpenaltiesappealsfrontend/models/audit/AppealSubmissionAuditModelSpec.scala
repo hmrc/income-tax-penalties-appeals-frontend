@@ -43,7 +43,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -85,7 +86,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
         }
       }
 
-      "penalty is an LPP1 (not late)" should {
+      "penalty is an LPP1 (not late - submission failed in PEGA/ETMP)" should {
 
         "serialise the Audit event correctly" in {
 
@@ -94,7 +95,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = None,
+            error = Some("Something went wrong!"),
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -122,7 +124,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
             "taxIdentifier" -> "123456789",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
-            "caseId" -> "case1234",
+            "error" -> "Something went wrong!",
             "correlationId" -> "correlation1234",
             "appealInformation" -> Json.obj(
               "reasonForAppeal" -> "bereavement",
@@ -149,7 +151,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -206,7 +209,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -259,7 +263,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -316,7 +321,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -375,7 +381,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -426,7 +433,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -481,7 +489,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -538,7 +547,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -589,7 +599,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -644,7 +655,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -701,7 +713,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -754,7 +767,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -811,7 +825,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -870,7 +885,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -927,7 +943,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -986,7 +1003,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -1049,7 +1067,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Submission,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -1121,7 +1140,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Late_Payment,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
@@ -1197,7 +1217,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
           AppealSubmissionAuditModel(
             penaltyNumber = "pen1234",
             penaltyType = PenaltyTypeEnum.Additional,
-            caseId = "case1234",
+            caseId = Some("case1234"),
+            error = None,
             correlationId = "correlation1234",
             appealSubmission =
               AppealSubmission(
