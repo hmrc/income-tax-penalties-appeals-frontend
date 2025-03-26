@@ -19,10 +19,17 @@
 
 @this()
 
-@()(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
+@(confirmationBox: Boolean = false)(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
 
-<span class="govuk-caption-l" id="captionSpan">
-  @defining(if(user.isLPP) "service.lpp.caption" else "service.lsp.caption") { messageKey =>
-    @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
-  }
-</span>
+
+@if(confirmationBox) {
+    @defining(if(user.isLPP) "service.lpp.caption" else "service.lsp.caption") { messageKey =>
+        @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+    }
+} else {
+    <span class="govuk-caption-l" id="captionSpan">
+        @defining(if(user.isLPP) "service.lpp.caption" else "service.lsp.caption") { messageKey =>
+            @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+        }
+    </span>
+}

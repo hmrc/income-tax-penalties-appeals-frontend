@@ -35,6 +35,9 @@ class ConfirmationController @Inject()(confirmation: ConfirmationView,
                                       )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit currentUser =>
-    Ok(confirmation(currentUser.isAppealLate(), currentUser.isAgent))
+    Ok(confirmation(
+        currentUser.isAppealLate(),
+        currentUser.isAgent,
+        currentUser.is2ndStageAppeal))
   }
 }
