@@ -30,16 +30,17 @@ object ExtraEvidenceSummary extends SummaryListRowHelper {
 
   def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(ReasonableExcusePage.value.contains(Other)) {
+      val msgSuffix = if(user.is2ndStageAppeal) ".review" else ""
       ExtraEvidencePage.value.map { extraEvidence =>
         summaryListRow(
-          label = messages("checkYourAnswers.extraEvidence.key"),
+          label = messages(s"checkYourAnswers.extraEvidence.key$msgSuffix"),
           value = Html(messages(s"common.${if(extraEvidence) "yes" else "no"}")),
           actions = Option.when(showActionLinks)(Actions(
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
                 href = controllers.routes.ExtraEvidenceController.onPageLoad().url,
-                visuallyHiddenText = Some(messages("checkYourAnswers.extraEvidence.change.hidden"))
+                visuallyHiddenText = Some(messages(s"checkYourAnswers.extraEvidence.change.hidden$msgSuffix"))
               ).withId("changeExtraEvidence")
             ))
           )

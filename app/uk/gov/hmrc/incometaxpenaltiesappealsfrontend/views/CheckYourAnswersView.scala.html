@@ -34,31 +34,34 @@
         h2: components.H2
 )
 
-@(isLate: Boolean, isAgent: Boolean, uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("checkYourAnswers.headingAndTitle"))), backLinkEnabled = true) {
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit()) {
+    @defining(if (user.is2ndStageAppeal) ".review" else "") { appealStage =>
 
-        @caption()
-        @h1("checkYourAnswers.headingAndTitle")
-        @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
+        @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit()) {
 
-        @govukSummaryList(SummaryList(helper.constructSummaryListRows(uploadedFiles)))
+            @caption()
+            @h1("checkYourAnswers.headingAndTitle")
+            @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
+
+            @govukSummaryList(SummaryList(helper.constructSummaryListRows(uploadedFiles)))
 
 
-        @h2("checkYourAnswers.declaration.h2", elmId = "declaration")
+            @h2("checkYourAnswers.declaration.h2", elmId = "declaration")
 
-        @warning {
-            @messages("checkYourAnswers.declaration.text.1")
-            <br>
-            @messages("checkYourAnswers.declaration.text.2")
-        }
+            @warning {
+                @messages(s"checkYourAnswers.declaration.text.1$appealStage")
+                <br>
+                @messages("checkYourAnswers.declaration.text.2")
+            }
 
-        <div class="govuk-form-group">
+            <div class="govuk-form-group">
             @govukButton(Button(
                 content = Text(messages("checkYourAnswers.acceptAndSend"))
             ))
-        </div>
+            </div>
+        }
     }
 }

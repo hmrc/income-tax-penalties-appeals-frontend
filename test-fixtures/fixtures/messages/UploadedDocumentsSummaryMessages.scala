@@ -21,6 +21,8 @@ object UploadedDocumentsSummaryMessages {
   sealed trait Messages { _: i18n =>
     val cyaKey = "Evidence to support this appeal"
     val cyaHidden = "evidence to support this appeal"
+    val cyaKeyReview = "Evidence to support this review"
+    val cyaHiddenReview = "evidence to support this review"
   }
 
   object English extends Messages with En
@@ -28,5 +30,7 @@ object UploadedDocumentsSummaryMessages {
   object Welsh extends Messages with Cy {
     override val cyaKey = "Evidence to support this appeal (Welsh)"
     override val cyaHidden = "evidence to support this appeal (Welsh)"
+    override val cyaKeyReview = "Evidence to support this review (Welsh)"
+    override val cyaHiddenReview = "evidence to support this review (Welsh)"
   }
 }

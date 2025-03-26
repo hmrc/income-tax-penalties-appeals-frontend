@@ -20,9 +20,11 @@ object PrintAppealMessages {
 
   sealed trait Messages { _: i18n =>
     val headingAndTitle = "Appeal details"
+    val headingAndTitleReview = "Review details"
     val nino = "National Insurance number"
     val penaltyAppealed = "Penalty appealed"
     val appealDate = "Appeal date"
+    val appealDateReview = "Review request sent"
     val warn1 = "Print or download this page if you want to keep it."
     val warn2 = "You will not be able to return to these appeal details later."
     val printThisPage = "Print this page"
@@ -32,9 +34,11 @@ object PrintAppealMessages {
 
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Appeal details (Welsh)"
+    override val headingAndTitleReview = "Review details (Welsh)"
     override val nino = "National Insurance number (Welsh)"
     override val penaltyAppealed = "Penalty appealed (Welsh)"
     override val appealDate = "Appeal date (Welsh)"
+    override val appealDateReview = "Review request sent (Welsh)"
     override val warn1 = "Print or download this page if you want to keep it. (Welsh)"
     override val warn2 = "You will not be able to return to these appeal details later. (Welsh)"
     override val printThisPage = "Print this page (Welsh)"

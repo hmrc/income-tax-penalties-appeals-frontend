@@ -242,9 +242,25 @@ whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The dat
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago
+lateAppeal.headingAndTitle.lpp = This penalty was issued more than {0} days ago
+lateAppeal.headingAndTitle.multiple = The penalties were issued more than {0} days ago
+lateAppeal.headingAndTitle.review = The appeal decision was issued more than {0} days ago
+lateAppeal.headingAndTitle.multiple.review = The appeal decisions were issued more than {0} days ago
+lateAppeal.headingAndTitle.multiple.lpp = The penalties were issued more than {0} days ago
+lateAppeal.headingAndTitle.review.lpp = The appeal decision was issued more than {0} days ago
+lateAppeal.headingAndTitle.multiple.review.lpp = The appeal decisions were issued more than {0} days ago
 lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice.
+lateAppeal.p1.multiple = You usually need to appeal within {0} days of the date on the penalty notice.
+lateAppeal.p1.review = You usually need to ask for a review within {0} days of the date of the decision.
+lateAppeal.p1.multiple.review = You usually need to ask for a review within {0} days of the date of the decision.
 lateAppeal.charCount = Tell us why you could not appeal within {0} days
+lateAppeal.charCount.multiple = Tell us why you could not appeal within {0} days
+lateAppeal.charCount.review = Tell us why you have not asked for a review within {0} days
+lateAppeal.charCount.multiple.review = Tell us why you have not asked for a review within {0} days
 lateAppeal.error.required = You must provide some information about why you did not appeal sooner
+lateAppeal.error.required.multiple = You must provide some information about why you did not appeal sooner
+lateAppeal.error.required.review = You must provide some information about why you did not ask for a review sooner
+lateAppeal.error.required.multiple.review = You must provide some information about why you did not ask for a review sooner
 lateAppeal.error.length = Explain the reason in {0} characters or fewer
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters
 
@@ -298,11 +314,15 @@ crime.error.invalid = Tell us if the police have been told about the crime
 # Extra evidence page
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = Do you want to upload evidence to support your appeal?
+extraEvidence.headingAndTitle.multiple = Do you want to upload evidence to support your appeal?
 extraEvidence.headingAndTitle.review = Do you want to upload evidence?
+extraEvidence.headingAndTitle.multiple.review = Do you want to upload evidence?
 extraEvidence.yes = Yes
 extraEvidence.no = No
-extraEvidence.hint = Uploading evidence is optional. We will still review this appeal if you do not upload evidence.
+extraEvidence.hint = We will still review your appeal if you do not upload evidence.
+extraEvidence.hint.multiple = We will still review your appeal if you do not upload evidence.
 extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence.
+extraEvidence.hint.multiple.review = Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence.
 extraEvidence.error.required = Tell us if you want to upload evidence
 extraEvidence.error.invalid = Tell us if you want to upload evidence
 
@@ -323,6 +343,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused y
 
 checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason?
 checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason
+checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time?
+checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time
 
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline
@@ -370,16 +392,25 @@ checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late?
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed?
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
+checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision?
+checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions?
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal
+checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review
+checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review
 
 checkYourAnswers.declaration.h2 = Declaration
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
+checkYourAnswers.declaration.text.1.review = By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution.
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal?
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence?
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence
 
 checkYourAnswers.acceptAndSend = Accept and send
 
@@ -417,9 +448,11 @@ appealConfirmation.whatHappensNext.p2.agent.review =  When a decision has been m
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details
+viewAppealDetails.headingAndTitle.review = Review details
 viewAppealDetails.ni = National Insurance number
 viewAppealDetails.penaltyAppealed = Penalty appealed
 viewAppealDetails.appealDate = Appeal date
+viewAppealDetails.appealDate.review = Review request sent
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
 viewAppealDetails.printThisPage = Print this page
@@ -449,8 +482,15 @@ date.year = Year
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal
-uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty.
-uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed.
+uploadEvidence.nonJs.headingAndTitle.review = Upload evidence
+uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review this penalty.
+uploadEvidence.nonJs.p1.joint = Use this page to upload any evidence to help us review these penalties.
+uploadEvidence.nonJs.p1.review = Use this page to upload any evidence to help us review the appeal decision.
+uploadEvidence.nonJs.p1.joint.review = Use this page to upload any evidence to help us review the appeal decisions.
+uploadEvidence.nonJs.p2.lsp = Evidence might include any documents or letters that show why the submission deadline was missed.
+uploadEvidence.nonJs.p2.lsp.review = Evidence might include any documents or letters that show why the submission was sent late.
+uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters that show why the payment deadline was missed.
+uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the tax bill was paid late.
 uploadEvidence.nonJs.p3 = You can upload up to {0} files.
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
 uploadEvidence.nonJs.label = Select a file

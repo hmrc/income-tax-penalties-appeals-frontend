@@ -33,15 +33,16 @@ object UploadedDocumentsSummary extends SummaryListRowHelper {
 
   def row(uploadedFiles: Seq[UploadJourney], showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     Option.when(uploadedFiles.exists(_.uploadDetails.isDefined) && ReasonableExcusePage.value.contains(Other)) {
+      val msgSuffix = if (user.is2ndStageAppeal) ".review" else ""
       summaryListRow(
-        label = messages("checkYourAnswers.uploadedDocuments.key"),
+        label = messages(s"checkYourAnswers.uploadedDocuments.key$msgSuffix"),
         value = HtmlFormat.fill(filenames(uploadedFiles.flatMap(_.uploadDetails))),
         actions = Option.when(showActionLinks)(Actions(
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
               href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url,
-              visuallyHiddenText = Some(messages("checkYourAnswers.uploadedDocuments.change.hidden"))
+              visuallyHiddenText = Some(messages(s"checkYourAnswers.uploadedDocuments.change.hidden$msgSuffix"))
             ).withId("changeUploadedFiles")
           )
         ))

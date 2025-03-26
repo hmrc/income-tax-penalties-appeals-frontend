@@ -39,9 +39,25 @@ reviewAppeal.start.p3.bullet2 = details of why you did not ask for a review soon
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.lpp = This penalty was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple = The penalties were issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.review = The appeal decision was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple.review = The appeal decisions were issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple.lpp = The penalties were issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.review.lpp = The appeal decision was issued more than {0} days ago (Welsh)
+lateAppeal.headingAndTitle.multiple.review.lpp = The appeal decisions were issued more than {0} days ago (Welsh)
 lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice. (Welsh)
+lateAppeal.p1.multiple = You usually need to appeal within {0} days of the date on the penalty notice. (Welsh)
+lateAppeal.p1.review = You usually need to ask for a review within {0} days of the date of the decision. (Welsh)
+lateAppeal.p1.multiple.review = You usually need to ask for a review within {0} days of the date of the decision. (Welsh)
 lateAppeal.charCount = Tell us why you could not appeal within {0} days (Welsh)
-lateAppeal.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
+lateAppeal.charCount.multiple = Tell us why you could not appeal within {0} days (Welsh)
+lateAppeal.charCount.review = Tell us why you have not asked for a review within {0} days (Welsh)
+lateAppeal.charCount.multiple.review = Tell us why you have not asked for a review within {0} days (Welsh)
+lateAppeal.error.required =  Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
+lateAppeal.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
+lateAppeal.error.required.review = You must provide some information about why you did not ask for a review sooner (Welsh)
+lateAppeal.error.required.multiple.review = You must provide some information about why you did not ask for a review sooner (Welsh)
 lateAppeal.error.length = Explain the reason in {0} characters or fewer (Welsh)
 lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
 
@@ -273,8 +289,15 @@ date.year = Blwyddyn
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal (Welsh)
-uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review the penalty. (Welsh)
-uploadEvidence.nonJs.p2 = Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)
+uploadEvidence.nonJs.headingAndTitle.review = Upload evidence (Welsh)
+uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review this penalty. (Welsh)
+uploadEvidence.nonJs.p1.joint = Use this page to upload any evidence to help us review these penalties. (Welsh)
+uploadEvidence.nonJs.p1.review = Use this page to upload any evidence to help us review the appeal decision. (Welsh)
+uploadEvidence.nonJs.p1.joint.review = Use this page to upload any evidence to help us review the appeal decisions. (Welsh)
+uploadEvidence.nonJs.p2.lsp = Evidence might include any documents or letters that show why the submission deadline was missed. (Welsh)
+uploadEvidence.nonJs.p2.lsp.review = Evidence might include any documents or letters that show why the submission was sent late. (Welsh)
+uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters that show why the payment deadline was missed. (Welsh)
+uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the tax bill was paid late. (Welsh)
 uploadEvidence.nonJs.p3 = You can upload up to {0} files. (Welsh)
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB. (Welsh)
 uploadEvidence.nonJs.label = Select a file (Welsh)
@@ -335,6 +358,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused y
 
 checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason? (Welsh)
 checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason (Welsh)
+checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time? (Welsh)
+checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time (Welsh)
 
 checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline (Welsh)
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline (Welsh)
@@ -380,18 +405,27 @@ checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days 
 
 checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal (Welsh)
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal (Welsh)
+checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review (Welsh)
+checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review (Welsh)
 
 checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late? (Welsh)
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed? (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed (Welsh)
+checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision? (Welsh)
+checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions? (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions (Welsh)
 
 checkYourAnswers.declaration.h2 = Declaration (Welsh)
 checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
+checkYourAnswers.declaration.text.1.review = By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution. (Welsh)
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal? (Welsh)
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal (Welsh)
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence? (Welsh)
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence (Welsh)
 
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 
@@ -431,9 +465,11 @@ appealConfirmation.whatHappensNext.p2.agent.review =  When a decision has been m
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Appeal details (Welsh)
+viewAppealDetails.headingAndTitle.review = Review details (Welsh)
 viewAppealDetails.ni = National Insurance number (Welsh)
 viewAppealDetails.penaltyAppealed = Penalty appealed (Welsh)
 viewAppealDetails.appealDate = Appeal date (Welsh)
+viewAppealDetails.appealDate.review = Review request sent (Welsh)
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it. (Welsh)
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later. (Welsh)
 viewAppealDetails.printThisPage = Print this page (Welsh)

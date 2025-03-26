@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{MissedDeadlineReasonPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures with SummaryListRowHelper {
@@ -55,45 +55,96 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
 
         "there's an answer" when {
 
-          Seq(true, false).foreach { isLPP =>
+          Seq(true, false).foreach { is2ndStageAppeal =>
 
-            s"penalty type isLPP='$isLPP'" when {
+            s"is a 2nd Stage Appeal == $is2ndStageAppeal" when {
 
-              implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                userAnswers = (if (isLPP) emptyUserAnswersWithLPP else emptyUserAnswersWithLSP)
-                  .setAnswer(ReasonableExcusePage, Other)
-                  .setAnswer(MissedDeadlineReasonPage, "foo")
-              )
+              "when penalty type is LPP" when {
 
-              "show actions links == true" when {
+                Seq(true, false).foreach { isJointAppeal =>
 
-                "must output the expected row with change link" in {
+                  s"joint appeal == $isJointAppeal" when {
 
-                  MissedDeadlineReasonSummary.row() shouldBe Some(summaryListRow(
-                    label = messagesForLanguage.cyaKey(isLPP),
-                    value = Html("foo"),
-                    actions = Some(Actions(
-                      items = Seq(
-                        ActionItem(
-                          content = Text(messagesForLanguage.change),
-                          href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
-                          visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP))
-                        ).withId("changeMissedDeadlineReason")
-                      )
-                    ))
-                  ))
+                    implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                      userAnswers = (if (is2ndStageAppeal) emptyUserAnswersWithLPP2ndStage else emptyUserAnswersWithLPP)
+                        .setAnswer(ReasonableExcusePage, Other)
+                        .setAnswer(JointAppealPage, isJointAppeal)
+                        .setAnswer(MissedDeadlineReasonPage, "foo")
+                    )
+
+                    "show actions links == true" when {
+
+                      "must output the expected row with change link" in {
+
+                        MissedDeadlineReasonSummary.row() shouldBe Some(summaryListRow(
+                          label = messagesForLanguage.cyaKey(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal),
+                          value = Html("foo"),
+                          actions = Some(Actions(
+                            items = Seq(
+                              ActionItem(
+                                content = Text(messagesForLanguage.change),
+                                href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
+                                visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal))
+                              ).withId("changeMissedDeadlineReason")
+                            )
+                          ))
+                        ))
+                      }
+                    }
+
+                    "show action links == false" when {
+
+                      "must output the expected row WITHOUT a change link" in {
+
+                        MissedDeadlineReasonSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                          label = messagesForLanguage.cyaKey(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal),
+                          value = Html("foo"),
+                          actions = None
+                        ))
+                      }
+                    }
+                  }
                 }
               }
 
-              "show action links == false" when {
+              "when penalty type is LSP" when {
 
-                "must output the expected row WITHOUT a change link" in {
+                implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                  userAnswers = (if (is2ndStageAppeal) emptyUserAnswersWithLSP2ndStage else emptyUserAnswersWithLSP)
+                    .setAnswer(ReasonableExcusePage, Other)
+                    .setAnswer(MissedDeadlineReasonPage, "foo")
+                )
 
-                  MissedDeadlineReasonSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
-                    label = messagesForLanguage.cyaKey(isLPP),
-                    value = Html("foo"),
-                    actions = None
-                  ))
+                "show actions links == true" when {
+
+                  "must output the expected row with change link" in {
+
+                    MissedDeadlineReasonSummary.row() shouldBe Some(summaryListRow(
+                      label = messagesForLanguage.cyaKey(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false),
+                      value = Html("foo"),
+                      actions = Some(Actions(
+                        items = Seq(
+                          ActionItem(
+                            content = Text(messagesForLanguage.change),
+                            href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
+                            visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false))
+                          ).withId("changeMissedDeadlineReason")
+                        )
+                      ))
+                    ))
+                  }
+                }
+
+                "show action links == false" when {
+
+                  "must output the expected row WITHOUT a change link" in {
+
+                    MissedDeadlineReasonSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                      label = messagesForLanguage.cyaKey(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false),
+                      value = Html("foo"),
+                      actions = None
+                    ))
+                  }
                 }
               }
             }
