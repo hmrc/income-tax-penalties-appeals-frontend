@@ -345,6 +345,7 @@ uploadRemoveFile.nonJs.error.invalid = Dewiswch ‘Iawn’ os ydych am dynnu’r
 # ----------------------------------------------------------
 checkYourAnswers.headingAndTitle = Check your answers (Welsh)
 checkYourAnswers.appealDetails.h2 = Appeal details (Welsh)
+checkYourAnswers.appealDetails.h2.review = Details of review (Welsh)
 
 agent.checkYourAnswers.whoPlannedToSubmit.key = Before the deadline, who planned to send the submission? (Welsh)
 agent.checkYourAnswers.whoPlannedToSubmit.value.agent = I did (Welsh)
@@ -468,10 +469,12 @@ viewAppealDetails.headingAndTitle = Appeal details (Welsh)
 viewAppealDetails.headingAndTitle.review = Review details (Welsh)
 viewAppealDetails.ni = National Insurance number (Welsh)
 viewAppealDetails.penaltyAppealed = Penalty appealed (Welsh)
+viewAppealDetails.penaltyAppealed.multiple = Penalties appealed (Welsh)
 viewAppealDetails.appealDate = Appeal date (Welsh)
 viewAppealDetails.appealDate.review = Review request sent (Welsh)
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it. (Welsh)
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later. (Welsh)
+viewAppealDetails.warn.2.review = You will not be able to return to these review details later. (Welsh)
 viewAppealDetails.printThisPage = Print this page (Welsh)
 
 

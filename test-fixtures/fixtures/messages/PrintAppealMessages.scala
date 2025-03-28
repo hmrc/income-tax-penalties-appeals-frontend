@@ -27,6 +27,7 @@ object PrintAppealMessages {
     val appealDateReview = "Review request sent"
     val warn1 = "Print or download this page if you want to keep it."
     val warn2 = "You will not be able to return to these appeal details later."
+    val warn2Review = "You will not be able to return to these review details later."
     val printThisPage = "Print this page"
   }
 
@@ -41,6 +42,7 @@ object PrintAppealMessages {
     override val appealDateReview = "Review request sent (Welsh)"
     override val warn1 = "Print or download this page if you want to keep it. (Welsh)"
     override val warn2 = "You will not be able to return to these appeal details later. (Welsh)"
+    override val warn2Review = "You will not be able to return to these review details later. (Welsh)"
     override val printThisPage = "Print this page (Welsh)"
   }
 }

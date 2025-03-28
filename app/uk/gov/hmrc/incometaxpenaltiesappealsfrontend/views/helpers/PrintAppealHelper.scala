@@ -53,13 +53,15 @@ class PrintAppealHelper @Inject()(checkAnswersHelper: CheckAnswersHelper,
     )
   }
 
-  private def penaltyPeriodRow()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): SummaryListRow =
+  private def penaltyPeriodRow()(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): SummaryListRow = {
+    val msgSuffix = if(user.isAppealingMultipleLPPs) ".multiple" else ""
     summaryListRow(
-      label = messages("viewAppealDetails.penaltyAppealed"),
+      label = messages(s"viewAppealDetails.penaltyAppealed$msgSuffix"),
       value = Html {
         val messageKey = if(user.isLPP) "service.lpp.caption" else "service.lsp.caption"
         messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
       },
       actions = None
     )
+  }
 }
