@@ -100,7 +100,7 @@ class ViewAppealDetailsViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
           ),
           Selectors.summaryRowKey(3) -> messagesForLanguage.appealDateReview,
           Selectors.summaryRowValue(3) -> dateToString(timeMachine.getCurrentDate, withNBSP = false),
-          Selectors.p(1) -> concat(messagesForLanguage.warn1, messagesForLanguage.warn2),
+          Selectors.p(1) -> concat(messagesForLanguage.warn1, messagesForLanguage.warn2Review),
           Selectors.button -> messagesForLanguage.printThisPage
         )
       }

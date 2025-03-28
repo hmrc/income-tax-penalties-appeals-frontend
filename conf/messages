@@ -330,6 +330,7 @@ extraEvidence.error.invalid = Tell us if you want to upload evidence
 # ----------------------------------------------------------
 checkYourAnswers.headingAndTitle = Check your answers
 checkYourAnswers.appealDetails.h2 = Appeal details
+checkYourAnswers.appealDetails.h2.review = Details of review
 
 agent.checkYourAnswers.whoPlannedToSubmit.key = Before the deadline, who planned to send the submission?
 agent.checkYourAnswers.whoPlannedToSubmit.value.agent = I did
@@ -451,10 +452,12 @@ viewAppealDetails.headingAndTitle = Appeal details
 viewAppealDetails.headingAndTitle.review = Review details
 viewAppealDetails.ni = National Insurance number
 viewAppealDetails.penaltyAppealed = Penalty appealed
+viewAppealDetails.penaltyAppealed.multiple = Penalties appealed
 viewAppealDetails.appealDate = Appeal date
 viewAppealDetails.appealDate.review = Review request sent
 viewAppealDetails.warn.1 = Print or download this page if you want to keep it.
 viewAppealDetails.warn.2 = You will not be able to return to these appeal details later.
+viewAppealDetails.warn.2.review = You will not be able to return to these review details later.
 viewAppealDetails.printThisPage = Print this page
 
 # Who Planned to Submit

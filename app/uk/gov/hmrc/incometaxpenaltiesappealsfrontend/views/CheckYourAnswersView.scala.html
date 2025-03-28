@@ -44,7 +44,7 @@
 
             @caption()
             @h1("checkYourAnswers.headingAndTitle")
-            @h2("checkYourAnswers.appealDetails.h2", elmId = "appealDetails")
+            @h2(s"checkYourAnswers.appealDetails.h2$appealStage", elmId = "appealDetails")
 
             @govukSummaryList(SummaryList(helper.constructSummaryListRows(uploadedFiles)))
 
