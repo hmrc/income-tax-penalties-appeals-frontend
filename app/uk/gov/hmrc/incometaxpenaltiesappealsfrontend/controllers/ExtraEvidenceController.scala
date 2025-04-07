@@ -43,7 +43,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(extraEvidence(
-      form = fillForm(ExtraEvidenceForm.form(), ExtraEvidencePage),
+      form = fillForm(ExtraEvidenceForm.form(user.is2ndStageAppeal), ExtraEvidencePage),
       isLate = user.isAppealLate(),
       isAgent = user.isAgent,
       isSecondStageAppeal = user.is2ndStageAppeal,
@@ -52,7 +52,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
   }
 
   def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
-    ExtraEvidenceForm.form().bindFromRequest().fold(
+    ExtraEvidenceForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(extraEvidence(
           form = formWithErrors,

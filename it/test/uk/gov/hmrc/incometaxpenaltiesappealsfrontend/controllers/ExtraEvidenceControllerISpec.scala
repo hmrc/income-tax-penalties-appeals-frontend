@@ -148,12 +148,12 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
           val document: nodes.Document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
           document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
@@ -169,12 +169,12 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
           val document: nodes.Document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
           document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
@@ -190,12 +190,12 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
           val document: nodes.Document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
           document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
@@ -211,12 +211,12 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
           val document: nodes.Document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence? - Appeal a Self Assessment penalty - GOV.UK"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence?"
+          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
           document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
           document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no

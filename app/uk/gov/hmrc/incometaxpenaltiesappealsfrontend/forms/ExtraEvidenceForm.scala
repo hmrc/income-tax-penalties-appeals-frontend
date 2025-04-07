@@ -26,12 +26,15 @@ object ExtraEvidenceForm extends Mappings {
 
   val key = "extraEvidence"
 
-  def form()(implicit messages: Messages): Form[Boolean] = Form[Boolean](
+  def form(isSecondStageAppeal: Boolean)(implicit messages: Messages): Form[Boolean] = {
+    val suffix = if(isSecondStageAppeal)".review" else ""
+    Form[Boolean](
     single(
       key -> boolean(
-        requiredKey = messages("extraEvidence.error.required"),
-        invalidKey = messages("extraEvidence.error.required")
+        requiredKey = messages(s"extraEvidence.error.required$suffix"),
+        invalidKey = messages(s"extraEvidence.error.required$suffix")
       )
     )
   )
+  }
 }

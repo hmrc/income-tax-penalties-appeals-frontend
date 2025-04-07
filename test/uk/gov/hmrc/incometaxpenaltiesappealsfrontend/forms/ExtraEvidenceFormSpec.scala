@@ -35,26 +35,29 @@ class ExtraEvidenceFormSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[Boolean] = ExtraEvidenceForm.form()
+      for (isSecondStageAppeal <- Seq(true, false)) {
 
-      "bind" when {
+        val form: Form[Boolean] = ExtraEvidenceForm.form(isSecondStageAppeal)
 
-        behave like mandatoryField(
-          form = form,
-          fieldName = ExtraEvidenceForm.key,
-          requiredError = FormError(ExtraEvidenceForm.key, messagesForLanguage.errorRequired)
-        )
+        s"bind with isSecondStageAppeal = $isSecondStageAppeal" when {
 
-        "bind valid values" in {
-          Seq("true", "false").foreach  { value =>
-            val result = form.bind(Map(ExtraEvidenceForm.key -> value))
-            result.value shouldBe Some(value.toBoolean)
+          behave like mandatoryField(
+            form = form,
+            fieldName = ExtraEvidenceForm.key,
+            requiredError = FormError(ExtraEvidenceForm.key, if(isSecondStageAppeal)messagesForLanguage.errorRequiredReview else messagesForLanguage.errorRequired)
+          )
+
+          "bind valid values" in {
+            Seq("true", "false").foreach { value =>
+              val result = form.bind(Map(ExtraEvidenceForm.key -> value))
+              result.value shouldBe Some(value.toBoolean)
+            }
           }
-        }
 
-        "reject invalid values" in {
-          val result = form.bind(Map(ExtraEvidenceForm.key -> "foo"))
-          result.errors.headOption shouldBe Some(FormError(ExtraEvidenceForm.key, messagesForLanguage.errorInvalid))
+          "reject invalid values" in {
+            val result = form.bind(Map(ExtraEvidenceForm.key -> "foo"))
+            result.errors.headOption shouldBe Some(FormError(ExtraEvidenceForm.key, if(isSecondStageAppeal)messagesForLanguage.errorRequiredReview else messagesForLanguage.errorRequired))
+          }
         }
       }
     }

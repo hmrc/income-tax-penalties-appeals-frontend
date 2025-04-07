@@ -276,7 +276,7 @@ missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbe
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to review this decision?
 missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
-missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision
+missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking us to review this decision
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
@@ -294,11 +294,11 @@ missedDeadlineReason.lpp.error.required.multiple = You must provide some informa
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision?
 missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
-missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision
+missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking us to review this decision
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Why are you asking us to review these appeal decisions?
 missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect.
-missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking to review these decisions
+missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking us to review these decisions
 
 
 
@@ -315,16 +315,18 @@ crime.error.invalid = Tell us if the police have been told about the crime
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = Do you want to upload evidence to support your appeal?
 extraEvidence.headingAndTitle.multiple = Do you want to upload evidence to support your appeal?
-extraEvidence.headingAndTitle.review = Do you want to upload evidence?
-extraEvidence.headingAndTitle.multiple.review = Do you want to upload evidence?
+extraEvidence.headingAndTitle.review = Do you want to upload evidence to support this review?
+extraEvidence.headingAndTitle.multiple.review = Do you want to upload evidence to support this review?
 extraEvidence.yes = Yes
 extraEvidence.no = No
 extraEvidence.hint = We will still review your appeal if you do not upload evidence.
 extraEvidence.hint.multiple = We will still review your appeal if you do not upload evidence.
 extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence.
 extraEvidence.hint.multiple.review = Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence.
-extraEvidence.error.required = Tell us if you want to upload evidence
-extraEvidence.error.invalid = Tell us if you want to upload evidence
+extraEvidence.error.required = Tell us if you want to upload evidence to support your appeal
+extraEvidence.error.required.review = Tell us if you want to upload evidence to support this review
+extraEvidence.error.invalid = Tell us if you want to upload evidence to support your appeal
+extraEvidence.error.invalid.review = Tell us if you want to upload evidence to support this review
 
 # Check your answers page
 # ----------------------------------------------------------
@@ -410,8 +412,8 @@ checkYourAnswers.declaration.text.2 = A false declaration can result in prosecut
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal?
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal
-checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence?
-checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence to support this review?
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence to support this review?
 
 checkYourAnswers.acceptAndSend = Accept and send
 

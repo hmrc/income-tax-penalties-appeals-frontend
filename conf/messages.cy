@@ -118,7 +118,7 @@ missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbe
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to review this decision? (Welsh)
 missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)
-missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking to review this decision (Welsh)
+missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking us to review this decision (Welsh)
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
@@ -136,11 +136,11 @@ missedDeadlineReason.lpp.error.required.multiple = You must provide some informa
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision? (Welsh)
 missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)
-missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking to review this decision (Welsh)
+missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking us to review this decision (Welsh)
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Why are you asking us to review these appeal decisions? (Welsh)
 missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect. (Welsh)
-missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking to review these decisions (Welsh)
+missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking us to review these decisions (Welsh)
 
 
 # Has the crime been reported page
@@ -155,13 +155,19 @@ crime.error.invalid = Tell us if the police have been told about the crime (Wels
 # Extra evidence page
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = Do you want to upload evidence to support your appeal? (Welsh)
-extraEvidence.headingAndTitle.review = Do you want to upload evidence? (Welsh)
+extraEvidence.headingAndTitle.multiple = Do you want to upload evidence to support your appeal? (Welsh)
+extraEvidence.headingAndTitle.review = Do you want to upload evidence to support this review? (Welsh)
+extraEvidence.headingAndTitle.multiple.review = Do you want to upload evidence to support this review? (Welsh)
 extraEvidence.yes = Iawn
 extraEvidence.no = Na
-extraEvidence.hint = Uploading evidence is optional. We will still review this appeal if you do not upload evidence. (Welsh)
+extraEvidence.hint = We will still review your appeal if you do not upload evidence. (Welsh)
+extraEvidence.hint.multiple = We will still review your appeal if you do not upload evidence. (Welsh)
 extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence. (Welsh)
-extraEvidence.error.required = Tell us if you want to upload evidence (Welsh)
-extraEvidence.error.invalid = Tell us if you want to upload evidence (Welsh)
+extraEvidence.hint.multiple.review = Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence. (Welsh)
+extraEvidence.error.required = Tell us if you want to upload evidence to support your appeal (Welsh)
+extraEvidence.error.required.review = Tell us if you want to upload evidence to support this review (Welsh)
+extraEvidence.error.invalid = Tell us if you want to upload evidence to support your appeal (Welsh)
+extraEvidence.error.invalid.review = Tell us if you want to upload evidence to support this review (Welsh)
 
 # When did the event happen page
 # ----------------------------------------------------------
@@ -425,8 +431,8 @@ checkYourAnswers.declaration.text.2 = A false declaration can result in prosecut
 
 checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal? (Welsh)
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal (Welsh)
-checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence? (Welsh)
-checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence (Welsh)
+checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence to support this review? (Welsh)
+checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence to support this review? (Welsh)
 
 checkYourAnswers.acceptAndSend = Accept and send (Welsh)
 

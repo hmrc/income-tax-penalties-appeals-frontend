@@ -19,24 +19,28 @@ package fixtures.messages
 object ExtraEvidenceMessages {
 
   sealed trait Messages { _: i18n =>
-    val errorRequired = "Tell us if you want to upload evidence"
-    val errorInvalid = "Tell us if you want to upload evidence"
+    val errorRequired = "Tell us if you want to upload evidence to support your appeal"
+    val errorInvalid = "Tell us if you want to upload evidence to support your appeal"
+    val errorRequiredReview = "Tell us if you want to upload evidence to support this review"
+    val errorInvalidReview = "Tell us if you want to upload evidence to support this review"
 
     val cyaKey = "Do you want to upload evidence to support your appeal?"
     val cyaHidden = "do you want to upload evidence to support your appeal"
-    val cyaKeyReview = "Do you want to upload evidence?"
-    val cyaHiddenReview = "do you want to upload evidence"
+    val cyaKeyReview = "Do you want to upload evidence to support this review?"
+    val cyaHiddenReview = "do you want to upload evidence to support this review?"
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val errorRequired = "Tell us if you want to upload evidence (Welsh)"
-    override val errorInvalid = "Tell us if you want to upload evidence (Welsh)"
+    override val errorRequired = "Tell us if you want to upload evidence to support your appeal (Welsh)"
+    override val errorInvalid = "Tell us if you want to upload evidence to support your appeal (Welsh)"
+    override val errorRequiredReview = "Tell us if you want to upload evidence to support this review (Welsh)"
+    override val errorInvalidReview = "Tell us if you want to upload evidence to support this review (Welsh)"
 
     override val cyaKey = "Do you want to upload evidence to support your appeal? (Welsh)"
     override val cyaHidden = "do you want to upload evidence to support your appeal (Welsh)"
-    override val cyaKeyReview = "Do you want to upload evidence? (Welsh)"
-    override val cyaHiddenReview = "do you want to upload evidence (Welsh)"
+    override val cyaKeyReview = "Do you want to upload evidence to support this review? (Welsh)"
+    override val cyaHiddenReview = "do you want to upload evidence to support this review? (Welsh)"
   }
 }
