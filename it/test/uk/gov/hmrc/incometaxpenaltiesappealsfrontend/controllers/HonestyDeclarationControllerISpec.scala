@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.English
+import fixtures.messages.{English, HonestyDeclarationMessages}
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -41,26 +41,15 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val dueDate: String = dateToString(lateSubmissionAppealData.dueDate).replace("\u00A0", " ")
-
-  val bereavementMessage: String = s"because I was affected by someone’s death, I was unable to send the submission due on $dueDate"
-  val cessationMessage: String = s"TBC cessation - I was unable to send the submission due on $dueDate"
-  val crimeMessage: String = s"because I was affected by a crime, I was unable to send the submission due on $dueDate"
-  val fireOrFloodReasonMessage: String = s"because of a fire or flood, I was unable to send the submission due on $dueDate"
-  val healthMessage: String = s"TBC health - I was unable to send the submission due on $dueDate"
-  val technicalIssueMessage: String = s"because of software or technology issues, I was unable to send the submission due on $dueDate"
-  val unexpectedHospitalMessage: String = s"TBC unexpectedHospital - I was unable to send the submission due on $dueDate"
-  val otherMessage: String = s"TBC other - I was unable to send the submission due on $dueDate"
-
-  val reasonsList: List[(ReasonableExcuse, String)]= List(
-    (Bereavement, bereavementMessage),
-    (Cessation, cessationMessage),
-    (Crime, crimeMessage),
-    (FireOrFlood, fireOrFloodReasonMessage),
-    (Health, healthMessage),
-    (TechnicalIssues, technicalIssueMessage),
-    (UnexpectedHospital, unexpectedHospitalMessage),
-    (Other, otherMessage)
+  val reasonsList: List[(ReasonableExcuse, String, String)]= List(
+  (Bereavement, HonestyDeclarationMessages.English.bereavementMessageLSP, HonestyDeclarationMessages.English.bereavementMessageLPP),
+  (Cessation, HonestyDeclarationMessages.English.cessationMessageLSP, HonestyDeclarationMessages.English.cessationMessageLPP),
+  (Crime, HonestyDeclarationMessages.English.crimeMessageLSP, HonestyDeclarationMessages.English.crimeMessageLPP),
+  (FireOrFlood, HonestyDeclarationMessages.English.fireOrFloodReasonMessageLSP, HonestyDeclarationMessages.English.fireOrFloodReasonMessageLPP),
+  (Health, HonestyDeclarationMessages.English.healthMessageLSP, HonestyDeclarationMessages.English.healthMessageLPP),
+  (TechnicalIssues, HonestyDeclarationMessages.English.technicalIssueMessageLSP, HonestyDeclarationMessages.English.technicalIssueMessageLPP),
+  (UnexpectedHospital, HonestyDeclarationMessages.English.unexpectedHospitalMessageLSP, HonestyDeclarationMessages.English.unexpectedHospitalMessageLPP),
+  (Other, HonestyDeclarationMessages.English.otherMessageLSP, HonestyDeclarationMessages.English.otherMessageLPP)
   )
 
   override def beforeEach(): Unit = {
@@ -70,8 +59,11 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
   for(reason <- reasonsList) {
 
-    val userAnswersWithReason =
+    val userAnswersWithReasonLSP =
       emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
+
+    val userAnswersWithReasonLPP =
+      emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, reason._1)
 
     val userAnswersWithReason2ndStage =
       emptyUserAnswersWithLSP2ndStage.setAnswer(ReasonableExcusePage, reason._1)
@@ -79,13 +71,13 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
     s"GET /honesty-declaration with ${reason._1}" should {
 
       testNavBar(url = "/honesty-declaration") {
-        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
       }
 
       "return an OK with a view" when {
         "the user is an authorised individual" in {
           stubAuth(OK, successfulIndividualAuthResponse)
-          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+          userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
           val result = get("/honesty-declaration")
 
@@ -94,58 +86,91 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "the user is an authorised agent" in {
           stubAuth(OK, successfulAgentAuthResponse)
-          userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+          userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
           val result = get("/honesty-declaration", isAgent = true)
 
           result.status shouldBe OK
         }
       }
+
       "the journey is for a 1st Stage Appeal" when {
-        "the page has the correct elements" when {
+        "the page has the correct LSP elements" when {
           "the user is an authorised individual" in {
             stubAuth(OK, successfulIndividualAuthResponse)
-            userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration")
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe "Honesty declaration"
-            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
             document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
-            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this appeal"
-            document.getSubmitButton.text() shouldBe "Accept and continue"
+            if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
+            else if(reason._1 == UnexpectedHospital){document.getElementById("honestyDeclarationHospital").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHospital}
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
 
           "the user is an authorised agent" in {
             stubAuth(OK, successfulAgentAuthResponse)
-            userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe "Honesty declaration"
-            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
             document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
-            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this appeal"
-            document.getSubmitButton.text() shouldBe "Accept and continue"
+            if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
+            else if(reason._1 == UnexpectedHospital){document.getElementById("honestyDeclarationHospital").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHospital}
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
         }
+
+        "the page has the correct LPP elements" when {
+          "the user is an authorised individual" in {
+            stubAuth(OK, successfulIndividualAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
+
+            val result = get("/honesty-declaration")
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._3
+            if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
+            else if(reason._1 == UnexpectedHospital){document.getElementById("honestyDeclarationHospital").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHospital}
+            document.getElementById("honestyDeclarationLPP").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationLPP
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
+          }
+        }
+
       }
+
       "the journey is for a 2nd Stage Appeal" when {
         "the page has the correct elements" when {
           "the user is an authorised individual" in {
@@ -156,16 +181,16 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe "Honesty declaration"
-            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
-            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this request for a review"
-            document.getSubmitButton.text() shouldBe "Accept and continue"
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfoReview
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
 
           "the user is an authorised agent" in {
@@ -176,16 +201,16 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe "Honesty declaration - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe "Honesty declaration"
-            document.getElementById("honestyDeclarationConfirm").text() shouldBe "I confirm that:"
-            document.getElementById("honestyDeclaration").text() shouldBe "I will provide honest and accurate information in this request for a review"
-            document.getSubmitButton.text() shouldBe "Accept and continue"
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfoReview
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
         }
       }

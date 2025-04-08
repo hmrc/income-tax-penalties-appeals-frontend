@@ -80,6 +80,34 @@ jointAppeal.error.required.review = Tell us if you want both appeal decisions to
 # ----------------------------------------------------------
 honestyDeclaration.headingAndTitle = Honesty declaration (Welsh)
 honestyDeclaration.p1 = I confirm that: (Welsh)
+
+clientSubmitted.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.bereavement.lpp = because I was affected by someone’s death, I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.crime.lpp = because I was affected by a crime, I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.fireandflood.lpp = because of a fire or flood, I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.health.lpp = because of a serious or life-threatening health issue, I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.technicalIssue.lpp = because of software or technology issues, I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.unexpectedHospital.lpp = because of a stay in hospital, I was unable to make the payment due on {0} (Welsh)
+
+clientSubmitted.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.other.lpp = I was unable to make the payment due on {0} (Welsh)
+
+honestyDeclaration.li.lpp = no one else was available to make the payment for me (Welsh)
+honestyDeclaration.li.hospital = the timing of the hospital stay was unexpected (Welsh)
+honestyDeclaration.li.health = the timing of the health issue was unexpected (Welsh)
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal (Welsh)
 honestyDeclaration.li.review = I will provide honest and accurate information in this request for a review (Welsh)
 

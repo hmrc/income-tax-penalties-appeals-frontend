@@ -30,8 +30,8 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
-
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@isLPPText = {@if(isLPP) {lpp} else {lsp}}
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
     @caption()
@@ -40,7 +40,10 @@
     @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
 
     <ul class="govuk-list govuk-list--bullet">
-        <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuse", DateFormatter.dateToString(request.periodDueDate))</li>
+        <li id="honestyDeclarationReason">@messages(s"clientSubmitted.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
+        @if(reasonableExcuse.toString == "unexpectedHospital"){<li id="honestyDeclarationHospital">@messages("honestyDeclaration.li.hospital")</li>}
+        @if(reasonableExcuse.toString == "health"){<li id="honestyDeclarationHealth">@messages("honestyDeclaration.li.health")</li>}
+        @if(isLPP){<li id="honestyDeclarationLPP">@messages("honestyDeclaration.li.lpp")</li>}
         <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 
@@ -51,5 +54,4 @@
         ))
         </div>
     }
-
 }

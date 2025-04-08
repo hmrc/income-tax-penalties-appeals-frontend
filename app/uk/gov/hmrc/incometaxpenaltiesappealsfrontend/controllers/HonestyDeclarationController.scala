@@ -42,7 +42,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(
         if(user.is2ndStageAppeal) reviewHonestyDeclarationView(user.isAgent, reasonableExcuse)
-        else honestyDeclaration(user.isAgent, reasonableExcuse)))
+        else honestyDeclaration(user.isAgent, reasonableExcuse, user.isLPP)))
     }
   }
 
