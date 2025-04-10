@@ -80,3 +80,7 @@ POST       /single-appeal                     uk.gov.hmrc.incometaxpenaltiesappe
 #Multiple appeals LPP
 GET        /multiple-appeals             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad()
 POST       /multiple-appeals             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit()
+
+# Has hospital stay ended
+GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad()
+POST       /has-hospital-stay-ended             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit()

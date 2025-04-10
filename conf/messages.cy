@@ -248,12 +248,12 @@ whenDidEventHappen.health.date.error.required = TBC (Welsh)
 whenDidEventHappen.health.date.error.notInFuture = TBC (Welsh)
 
 # Hospital Messages
-whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital (Welsh)
-whenDidEventHappen.unexpectedHospital.date.error.invalid = TBC (Welsh)
-whenDidEventHappen.unexpectedHospital.date.error.required.all = TBC (Welsh)
-whenDidEventHappen.unexpectedHospital.date.error.required.two = TBC (Welsh)
-whenDidEventHappen.unexpectedHospital.date.error.required = TBC (Welsh)
-whenDidEventHappen.unexpectedHospital.date.error.notInFuture = TBC (Welsh)
+whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin? (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.invalid = The date that the hospital stay began must be a real date (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.required.all = Enter the date that the hospital stay began (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.required.two = The date that the hospital stay began must include a {0} and a {1} (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.required = The date that the hospital stay began must include a {0} (Welsh)
+whenDidEventHappen.unexpectedHospital.date.error.notInFuture = The date that the hospital stay began must be today or in the past (Welsh)
 
 # Loss of Staff Messages
 whenDidEventHappen.lossOfEssentialStaff.headingAndTitle = TBC lossOfStaff (Welsh)
@@ -313,6 +313,14 @@ whenDidEventEnd.technicalIssue.end.date.error.required = The date the software o
 whenDidEventEnd.technicalIssue.end.date.error.invalid = The date the software or technology issues ended must be a real date (Welsh)
 whenDidEventEnd.technicalIssue.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past (Welsh)
 whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
+
+whenDidEventEnd.unexpectedHospital.headingAndTitle = When did the hospital stay end? (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Tell us when the hospital stay ended (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.required.two = The date that the hospital stay ended must include a {0} and a {1} (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.required = The date that the hospital stay ended must include a {0} (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.invalid = The date that the hospital stay ended must be a real date (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = The date that the hospital stay ended must be today or in the past (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date that the hospital stay ended must be {0} or later (Welsh)
 
 # Date input fields
 # ----------------------------------------------------------
@@ -566,4 +574,9 @@ single.appeal.which.penalty.first.review = You have asked for the appeal decisio
 single.appeal.which.penalty.second.review = You have asked for the appeal decision for the £{0} second late payment penalty to be reviewed. (Welsh)
 single.appeal.can.still.appeal.other = You can still appeal other penalties separately. (Welsh)
 single.appeal.can.still.appeal.other.review = You can still ask for other penalties to be reviewed separately. (Welsh)
+
+# Has Hospital Stay Ended
+# ----------------------------------------------------------
+hasHospitalStayEnded.headingAndTitle = Has the hospital stay ended? (Welsh)
+hasHospitalStayEnded.error.required = Tell us if the hospital stay has ended (Welsh)
 

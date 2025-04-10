@@ -23,7 +23,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.TechnicalIssues
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
@@ -44,18 +44,19 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
       implicit lazy val i18n: i18n = messagesForLanguage
 
-      val form: Form[LocalDate] = WhenDidEventEndForm.form(TechnicalIssues, LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
+      val formTechnicalIssues: Form[LocalDate] = WhenDidEventEndForm.form(TechnicalIssues, LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
+      val formUnexpectedHospital: Form[LocalDate] = WhenDidEventEndForm.form(UnexpectedHospital, LocalDate.of(2021, 1, 1))(messages, appConfig, timeMachine)
 
       s"WhenDidEventEndForm with technicalIssue" should {
         behave like dateForm(
-          form = form,
+          form = formTechnicalIssues,
           fieldName = "date",
           errorMessageKey = errorType => s"whenDidEventEnd.technicalIssue.end.date.error.$errorType",
-          errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, args:_*)
+          errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, TechnicalIssues, args:_*)
         )
 
         "not bind when the date entered is earlier than the date provided previously" in {
-          val result = form.bind(
+          val result = formTechnicalIssues.bind(
             Map(
               "date.day" -> "31",
               "date.month" -> "12",
@@ -67,7 +68,36 @@ class WhenDidEventEndFormSpec extends AnyWordSpec with should.Matchers with Guic
             FormError(
               key = "date.day",
               message = messagesForLanguage.errorMessageConstructor(
-                "endDateLessThanStartDate",
+                "endDateLessThanStartDate", TechnicalIssues,
+                s"1 ${monthMessages.january} 2021".replace(" ", "\u00A0")
+              ),
+              args = Seq(monthMessages.day, monthMessages.month, monthMessages.year)
+            )
+        }
+      }
+
+      s"WhenDidEventEndForm with unexpectedHospital" should {
+        behave like dateForm(
+          form = formUnexpectedHospital,
+          fieldName = "date",
+          errorMessageKey = errorType => s"whenDidEventEnd.unexpectedHospital.end.date.error.$errorType",
+          errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(errorType, UnexpectedHospital, args:_*)
+        )
+
+        "not bind when the date entered is earlier than the date provided previously" in {
+          val result = formUnexpectedHospital.bind(
+            Map(
+              "date.day" -> "31",
+              "date.month" -> "12",
+              "date.year" -> "2020"
+            )
+          )
+          result.errors.size shouldBe 1
+          result.errors.head shouldBe
+            FormError(
+              key = "date.day",
+              message = messagesForLanguage.errorMessageConstructor(
+                "endDateLessThanStartDate", UnexpectedHospital,
                 s"1 ${monthMessages.january} 2021".replace(" ", "\u00A0")
               ),
               args = Seq(monthMessages.day, monthMessages.month, monthMessages.year)
