@@ -182,12 +182,12 @@ whenDidEventHappen.technicalIssue.date.error.required = The date the software or
 whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past
 
 # Health Messages
-whenDidEventHappen.health.headingAndTitle = TBC health
-whenDidEventHappen.health.date.error.invalid = TBC
-whenDidEventHappen.health.date.error.required.all = TBC
-whenDidEventHappen.health.date.error.required.two = TBC
-whenDidEventHappen.health.date.error.required = TBC
-whenDidEventHappen.health.date.error.notInFuture = TBC
+whenDidEventHappen.health.headingAndTitle = When did the health issue first stop you from meeting the submission deadline?
+whenDidEventHappen.health.date.error.invalid = The date of the health issue must be a real date
+whenDidEventHappen.health.date.error.required.all = Enter the date that the health issue began
+whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a day, a month and a year
+whenDidEventHappen.health.date.error.required = The date of the health issue must include a day, a month and a year
+whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past
 
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital

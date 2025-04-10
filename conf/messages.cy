@@ -240,12 +240,12 @@ whenDidEventHappen.technicalIssue.date.error.required = The date the software or
 whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past (Welsh)
 
 # Health Messages
-whenDidEventHappen.health.headingAndTitle = TBC health (Welsh)
-whenDidEventHappen.health.date.error.invalid = TBC (Welsh)
-whenDidEventHappen.health.date.error.required.all = TBC (Welsh)
-whenDidEventHappen.health.date.error.required.two = TBC (Welsh)
-whenDidEventHappen.health.date.error.required = TBC (Welsh)
-whenDidEventHappen.health.date.error.notInFuture = TBC (Welsh)
+whenDidEventHappen.health.headingAndTitle = When did the health issue first stop you from meeting the submission deadline? (Welsh)
+whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn     (Welsh)
+whenDidEventHappen.health.date.error.required.all = Nodwch ddyddiad y tân neu lifogydd
+whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a day, a month and a year (Welsh)
+whenDidEventHappen.health.date.error.required = The date of the health issue must include a day, a month and a year (Welsh)
+whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
 
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital (Welsh)
