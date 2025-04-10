@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other, TechnicalIssues}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other, TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -69,6 +69,8 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
                 Redirect(routes.WhenDidEventEndController.onPageLoad())
               case Crime =>
                 Redirect(routes.CrimeReportedController.onPageLoad())
+              case UnexpectedHospital =>
+                Redirect(routes.HasHospitalStayEndedController.onPageLoad())
               case Other =>
                 Redirect(routes.MissedDeadlineReasonController.onPageLoad())
               case _ =>
