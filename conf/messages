@@ -181,8 +181,9 @@ whenDidEventHappen.technicalIssue.date.error.required.two = The date the softwar
 whenDidEventHappen.technicalIssue.date.error.required = The date the software or technology issues began must include a {0}
 whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past
 
-# Health Messages
-whenDidEventHappen.health.headingAndTitle = When did the health issue first stop you from meeting the submission deadline?
+# Health Messages LSP
+whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop you from meeting the submission deadline?
+whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop you making the payment?
 whenDidEventHappen.health.date.error.invalid = The date of the health issue must be a real date
 whenDidEventHappen.health.date.error.required.all = Enter the date that the health issue began
 whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a {0} and a {1}

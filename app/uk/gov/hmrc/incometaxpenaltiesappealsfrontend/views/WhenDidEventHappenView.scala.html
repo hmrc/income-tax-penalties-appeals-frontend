@@ -34,7 +34,10 @@
 
 @(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+
+@infix = {@if(isLPP){.lpp}else{.lsp}}
+
+@layout(Some(titleBuilder(messages(s"whenDidEventHappen.health$infix.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
     @if(form.hasErrors) {
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
@@ -46,7 +49,7 @@
 
         @dateInput(
             form = form,
-            legendContent = messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle"),
+            legendContent = messages(s"whenDidEventHappen.health$infix.headingAndTitle"),
             legendClasses = Some("govuk-fieldset__legend--l"),
             hintText = Some(messages("common.dateHint"))
         )
