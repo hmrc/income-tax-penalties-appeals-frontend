@@ -241,10 +241,10 @@ whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software
 
 # Health Messages
 whenDidEventHappen.health.headingAndTitle = When did the health issue first stop you from meeting the submission deadline? (Welsh)
-whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn     (Welsh)
+whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn
 whenDidEventHappen.health.date.error.required.all = Nodwch ddyddiad y tân neu lifogydd
-whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a day, a month and a year (Welsh)
-whenDidEventHappen.health.date.error.required = The date of the health issue must include a day, a month and a year (Welsh)
+whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0} a {1}
+whenDidEventHappen.health.date.error.required = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0}
 whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
 
 # Hospital Messages
