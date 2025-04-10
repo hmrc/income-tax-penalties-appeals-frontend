@@ -37,7 +37,7 @@
 
 @infix = {@if(isLPP){.lpp}else{.lsp}}
 
-@layout(Some(titleBuilder(messages(s"whenDidEventHappen.health$infix.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"whenDidEventHappen.$reasonableExcuse$infix.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
     @if(form.hasErrors) {
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
@@ -49,7 +49,7 @@
 
         @dateInput(
             form = form,
-            legendContent = messages(s"whenDidEventHappen.health$infix.headingAndTitle"),
+            legendContent = messages(s"whenDidEventHappen.$reasonableExcuse$infix.headingAndTitle"),
             legendClasses = Some("govuk-fieldset__legend--l"),
             hintText = Some(messages("common.dateHint"))
         )
