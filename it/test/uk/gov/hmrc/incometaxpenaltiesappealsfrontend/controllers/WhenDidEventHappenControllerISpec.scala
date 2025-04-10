@@ -25,7 +25,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, Other, TechnicalIssues}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, Other, TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
@@ -161,6 +161,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
             val redirectLocation = reason match {
               case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad().url
               case Crime => routes.CrimeReportedController.onPageLoad().url
+              case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad().url
               case Other => routes.MissedDeadlineReasonController.onPageLoad().url
               case _ =>
                 if (isLate) routes.LateAppealController.onPageLoad().url

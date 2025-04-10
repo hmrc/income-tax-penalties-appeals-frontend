@@ -30,7 +30,7 @@ object WhenDidEventHappenMessages {
       case TechnicalIssues => "When did the software or technology issues begin?"
       case Cessation => "TBC cessation"
       case Health => "When did the health issue first stop you from meeting the submission deadline?"
-      case UnexpectedHospital => "TBC unexpectedHospital"
+      case UnexpectedHospital => "When did the hospital stay begin?"
       case LossOfStaff => "TBC lossOfStaff"
       case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
@@ -167,7 +167,7 @@ object WhenDidEventHappenMessages {
     val bereavementInvalid = "The date must be a real date"
     val cessationInvalid = "TBC"
     val healthInvalid = "The date of the health issue must be a real date"
-    val unexpectedHospitalInvalid = "TBC"
+    val unexpectedHospitalInvalid = "The date that the hospital stay began must be a real date"
     val lossOfStaffInvalid = "TBC"
     def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -185,7 +185,7 @@ object WhenDidEventHappenMessages {
     val bereavementRequiredAll = "Enter the date when the person died"
     val cessationRequiredAll = "TBC"
     val healthRequiredAll = "Enter the date that the health issue began"
-    val unexpectedHospitalRequiredAll = "TBC"
+    val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay began"
     val lossOfStaffRequiredAll = "TBC"
     def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -202,7 +202,7 @@ object WhenDidEventHappenMessages {
     def bereavementRequiredTwo(missing: String, missingTwo: String) = s"The date must include a $missing and a $missingTwo"
     def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def healthRequiredTwo(missing: String, missingTwo: String) = s"The date of the health issue must include a $missing and a $missingTwo"
-    def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = "TBC"
+    def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay began must include a $missing and a $missingTwo"
     def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -219,7 +219,7 @@ object WhenDidEventHappenMessages {
     def bereavementRequired(missing: String) = s"The date must include a $missing"
     def cessationRequired(missing: String) = "TBC"
     def healthRequired(missing: String) = s"The date of the health issue must include a $missing"
-    def unexpectedHospitalRequired(missing: String) = "TBC"
+    def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay began must include a $missing"
     def lossOfStaffRequired(missing: String) = "TBC"
     def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -236,7 +236,7 @@ object WhenDidEventHappenMessages {
     val bereavementNotInFuture = "The date must be today or in the past"
     val cessationNotInFuture = "TBC"
     val healthNotInFuture = "The date of the health issue must be today or in the past"
-    val unexpectedHospitalNotInFuture = "TBC"
+    val unexpectedHospitalNotInFuture = "The date that the hospital stay began must be today or in the past"
     val lossOfStaffNotInFuture = "TBC"
     def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -259,7 +259,7 @@ object WhenDidEventHappenMessages {
       case TechnicalIssues => "When did the software or technology issues begin? (Welsh)"
       case Cessation => "TBC cessation (Welsh)"
       case Health => "When did the health issue first stop you from meeting the submission deadline? (Welsh)"
-      case UnexpectedHospital => "TBC unexpectedHospital (Welsh)"
+      case UnexpectedHospital => "When did the hospital stay begin? (Welsh)"
       case LossOfStaff => "TBC lossOfStaff (Welsh)"
       case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
@@ -279,7 +279,7 @@ object WhenDidEventHappenMessages {
     override val bereavementInvalid = "Mae’n rhaid i’r dyddiad fod yn ddyddiad go iawn"
     override val cessationInvalid = "TBC (Welsh)"
     override val healthInvalid = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn"
-    override val unexpectedHospitalInvalid = "TBC (Welsh)"
+    override val unexpectedHospitalInvalid = "The date that the hospital stay began must be a real date (Welsh)"
     override val lossOfStaffInvalid = "TBC (Welsh)"
     override def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -297,7 +297,7 @@ object WhenDidEventHappenMessages {
     override val bereavementRequiredAll = "Nodwch y dyddiad y bu farw’r person"
     override val cessationRequiredAll = "TBC (Welsh)"
     override val healthRequiredAll = "Nodwch ddyddiad y tân neu lifogydd"
-    override val unexpectedHospitalRequiredAll = "TBC (Welsh)"
+    override val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay began (Welsh)"
     override val lossOfStaffRequiredAll = "TBC (Welsh)"
     override def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -314,7 +314,7 @@ object WhenDidEventHappenMessages {
     override def bereavementRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad gynnwys $missing a $missingTwo"
     override def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def healthRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing a $missingTwo"
-    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
+    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay began must include a $missing and a $missingTwo (Welsh)"
     override def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -331,7 +331,7 @@ object WhenDidEventHappenMessages {
     override def bereavementRequired(missing: String) = s"Mae’n rhaid i’r dyddiad gynnwys $missing"
     override def cessationRequired(missing: String) = "TBC (Welsh)"
     override def healthRequired(missing: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing"
-    override def unexpectedHospitalRequired(missing: String) = "TBC (Welsh)"
+    override def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay began must include a $missing (Welsh)"
     override def lossOfStaffRequired(missing: String) = "TBC (Welsh)"
     override def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -348,7 +348,7 @@ object WhenDidEventHappenMessages {
     override val bereavementNotInFuture = "Mae’n rhaid i’r dyddiad fod heddiw neu yn y gorffennol"
     override val cessationNotInFuture = "TBC (Welsh)"
     override val healthNotInFuture = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol"
-    override val unexpectedHospitalNotInFuture = "TBC (Welsh)"
+    override val unexpectedHospitalNotInFuture = "The date that the hospital stay began must be today or in the past (Welsh)"
     override val lossOfStaffNotInFuture = "TBC (Welsh)"
     override def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {

@@ -191,12 +191,12 @@ whenDidEventHappen.health.date.error.required = The date of the health issue mus
 whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past
 
 # Hospital Messages
-whenDidEventHappen.unexpectedHospital.headingAndTitle = TBC unexpectedHospital
-whenDidEventHappen.unexpectedHospital.date.error.invalid = TBC
-whenDidEventHappen.unexpectedHospital.date.error.required.all = TBC
-whenDidEventHappen.unexpectedHospital.date.error.required.two = TBC
-whenDidEventHappen.unexpectedHospital.date.error.required = TBC
-whenDidEventHappen.unexpectedHospital.date.error.notInFuture = TBC
+whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
+whenDidEventHappen.unexpectedHospital.date.error.invalid = The date that the hospital stay began must be a real date
+whenDidEventHappen.unexpectedHospital.date.error.required.all = Enter the date that the hospital stay began
+whenDidEventHappen.unexpectedHospital.date.error.required.two = The date that the hospital stay began must include a {0} and a {1}
+whenDidEventHappen.unexpectedHospital.date.error.required = The date that the hospital stay began must include a {0}
+whenDidEventHappen.unexpectedHospital.date.error.notInFuture = The date that the hospital stay began must be today or in the past
 
 # Loss of Staff Messages
 whenDidEventHappen.lossOfEssentialStaff.headingAndTitle = TBC lossOfStaff
@@ -258,6 +258,13 @@ whenDidEventEnd.technicalIssue.end.date.error.invalid = The date the software or
 whenDidEventEnd.technicalIssue.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
 whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
 
+whenDidEventEnd.unexpectedHospital.headingAndTitle = When did the hospital stay end?
+whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Tell us when the hospital stay ended
+whenDidEventEnd.unexpectedHospital.end.date.error.required.two = The date that the hospital stay ended must include a {0} and a {1}
+whenDidEventEnd.unexpectedHospital.end.date.error.required = The date that the hospital stay ended must include a {0}
+whenDidEventEnd.unexpectedHospital.end.date.error.invalid = The date that the hospital stay ended must be a real date
+whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = The date that the hospital stay ended must be today or in the past
+whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date that the hospital stay ended must be {0} or later
 
 # Late appeal page
 # ----------------------------------------------------------
@@ -570,6 +577,10 @@ single.appeal.which.penalty.second.review = You have asked for the appeal decisi
 single.appeal.can.still.appeal.other = You can still appeal other penalties separately.
 single.appeal.can.still.appeal.other.review = You can still ask for other penalties to be reviewed separately.
 
+# Has Hospital Stay Ended
+# ----------------------------------------------------------
+hasHospitalStayEnded.headingAndTitle = Has the hospital stay ended?
+hasHospitalStayEnded.error.required = Tell us if the hospital stay has ended
 
 # Months
 # -----------------------------------------------------------
