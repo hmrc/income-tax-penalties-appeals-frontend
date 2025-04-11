@@ -125,7 +125,7 @@ object WhenDidEventHappenMessages {
     val cyaKeyHealth: String = "When did the health issue first stop you making the payment?"
     val cyaKeyLossOfStaff: String = "TBC lossOfStaff"
     val cyaKeyOther: String = "TBC other"
-    val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital"
+    val cyaKeyUnexpectedHospital: String = "When did the hospital stay begin?"
 
     def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case Bereavement => cyaKeyBereavement
@@ -145,7 +145,7 @@ object WhenDidEventHappenMessages {
     val cyaHiddenTechnical: String = "when did the software or technology issues begin"
     val cyaHiddenCessation: String = "TBC cessation"
     val cyaHiddenHealth: String = "when did the health issue first stop you making the payment"
-    val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital"
+    val cyaHiddenUnexpectedHospital: String = "when did the hospital stay begin"
     val cyaHiddenLossOfStaff: String = "TBC lossOfStaff"
     val cyaHiddenOther: String = "TBC other"
 
@@ -365,7 +365,7 @@ object WhenDidEventHappenMessages {
     override val cyaKeyTechnical: String = "When did the software or technology issues begin? (Welsh)"
     override val cyaKeyCessation: String = "TBC cessation (Welsh)"
     override val cyaKeyHealth: String = "When did the health issue first stop you making the payment? (Welsh)"
-    override val cyaKeyUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
+    override val cyaKeyUnexpectedHospital: String = "When did the hospital stay begin? (Welsh)"
     override val cyaKeyLossOfStaff: String = "TBC lossOfStaff (Welsh)"
     override val cyaKeyOther: String = "TBC other (Welsh)"
 
@@ -375,7 +375,7 @@ object WhenDidEventHappenMessages {
     override val cyaHiddenTechnical: String = "when did the software or technology issues begin (Welsh)"
     override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
     override val cyaHiddenHealth: String = "when did the health issue first stop you making the payment (Welsh)"
-    override val cyaHiddenUnexpectedHospital: String = "TBC unexpectedHospital (Welsh)"
+    override val cyaHiddenUnexpectedHospital: String = "when did the hospital stay begin (Welsh)"
     override val cyaHiddenLossOfStaff: String = "TBC lossOfStaff (Welsh)"
     override val cyaHiddenOther: String = "TBC other (Welsh)"
   }

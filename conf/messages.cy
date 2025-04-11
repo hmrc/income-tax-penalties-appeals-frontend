@@ -419,6 +419,9 @@ checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any
 checkYourAnswers.crimeReported.key = Has this crime been reported to the police? (Welsh)
 checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police (Welsh)
 
+checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = Has the hospital stay ended? (Welsh)
+checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = has the hospital stay ended (Welsh)
+
 checkYourAnswers.whenDidEventHappen.bereavement.key =  When did the person die? (Welsh)
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  when did the person die (Welsh)
 checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation (Welsh)
@@ -431,8 +434,8 @@ checkYourAnswers.whenDidEventHappen.health.key = When did the health issue first
 checkYourAnswers.whenDidEventHappen.health.change.hidden = when did the health issue first stop you making the payment (Welsh)
 checkYourAnswers.whenDidEventHappen.technicalIssue.key = When did the software or technology issues begin? (Welsh)
 checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = when did the software or technology issues begin (Welsh)
-checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = TBC unexpectedHospital (Welsh)
-checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = TBC unexpectedHospital (Welsh)
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = When did the hospital stay begin? (Welsh)
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = when did the hospital stay begin (Welsh)
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff (Welsh)
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff (Welsh)
 checkYourAnswers.whenDidEventHappen.other.key = TBC other (Welsh)
@@ -440,8 +443,8 @@ checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other (Welsh)
 
 checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = When did the software or technology issues end? (Welsh)
 checkYourAnswers.whenDidTheEventEnd.technicalIssue.change.hidden = when did the software or technology issues end (Welsh)
-checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = TBC unexpectedHospital (Welsh)
-checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = TBC unexpectedHospital (Welsh)
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = When did the hospital stay end? (Welsh)
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = when did the hospital stay end (Welsh)
 
 checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days (Welsh)
 checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days (Welsh)
