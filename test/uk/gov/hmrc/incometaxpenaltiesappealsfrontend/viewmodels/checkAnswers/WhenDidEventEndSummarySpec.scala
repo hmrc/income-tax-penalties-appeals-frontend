@@ -27,8 +27,9 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -37,6 +38,11 @@ import java.time.LocalDate
 class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures with SummaryListRowHelper {
 
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
+  lazy val getEmptyUserAnswers: Boolean => UserAnswers = (requireHospitalStayEnded) => {
+    if(requireHospitalStayEnded) emptyUserAnswersWithLSP.setAnswer(HasHospitalStayEndedPage, true)
+     else emptyUserAnswersWithLSP
+  }
 
   "WhenDidEventEndSummary" when {
 
@@ -62,12 +68,37 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
               if (Seq(TechnicalIssues, UnexpectedHospital).contains(reason)) {
 
+                if(reason == UnexpectedHospital) {
+                  "return None" when {
+                    "the HasHospitalStayEndedPage is missing" in {
+                      implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                        emptyUserAnswersWithLSP
+                          .setAnswer(ReasonableExcusePage, reason)
+                          .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
+                      )
+
+                      WhenDidEventEndSummary.row() shouldBe None
+                    }
+
+                    "the HasHospitalStayEndedPage is false" in {
+                      implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
+                        emptyUserAnswersWithLSP
+                          .setAnswer(ReasonableExcusePage, reason)
+                          .setAnswer(HasHospitalStayEndedPage, false)
+                          .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
+                      )
+
+                      WhenDidEventEndSummary.row() shouldBe None
+                    }
+                  }
+                }
+
                 "show actions links == true" should {
 
                   "must output the expected row with a change link" in {
 
                     implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUserAnswersWithLSP
+                      getEmptyUserAnswers(reason == UnexpectedHospital)
                         .setAnswer(ReasonableExcusePage, reason)
                         .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                     )
@@ -93,7 +124,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                   "must output the expected row WITHOUT a change link" in {
 
                     implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(
-                      emptyUserAnswersWithLSP
+                      getEmptyUserAnswers(reason == UnexpectedHospital)
                         .setAnswer(ReasonableExcusePage, reason)
                         .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                     )

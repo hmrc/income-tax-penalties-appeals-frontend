@@ -52,7 +52,7 @@ object WhenDidEventEndMessages {
     }
     
     val cyaKeyTechnical = "When did the software or technology issues end?"
-    val cyaKeyHospital = "TBC unexpectedHospital"
+    val cyaKeyHospital = "When did the hospital stay end?"
 
     def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => cyaKeyTechnical
@@ -61,7 +61,7 @@ object WhenDidEventEndMessages {
     }
 
     val cyaHiddenTechnical = "when did the software or technology issues end"
-    val cyaHiddenHospital = "TBC unexpectedHospital"
+    val cyaHiddenHospital = "when did the hospital stay end"
 
     def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => cyaHiddenTechnical
@@ -103,10 +103,10 @@ object WhenDidEventEndMessages {
     override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"The date that the hospital stay ended must be $startDate or later (Welsh)"
 
     override val cyaKeyTechnical = "When did the software or technology issues end? (Welsh)"
-    override val cyaKeyHospital = "TBC unexpectedHospital (Welsh)"
+    override val cyaKeyHospital = "When did the hospital stay end? (Welsh)"
 
     override val cyaHiddenTechnical = "when did the software or technology issues end (Welsh)"
-    override val cyaHiddenHospital = "TBC unexpectedHospital (Welsh)"
+    override val cyaHiddenHospital = "when did the hospital stay end (Welsh)"
 
     override def headingAndTitle(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => "When did the software or technology issues end?"

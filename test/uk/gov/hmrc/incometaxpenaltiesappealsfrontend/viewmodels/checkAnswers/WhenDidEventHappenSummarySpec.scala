@@ -69,7 +69,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
                       .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
                   )
 
-                  WhenDidEventHappenSummary.row() shouldBe Some(summaryListRow(
+                  WhenDidEventHappenSummary.row() shouldEqual Some(summaryListRow(
                     label = messagesForLanguage.cyaKey(reason),
                     value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                     actions = Some(Actions(
