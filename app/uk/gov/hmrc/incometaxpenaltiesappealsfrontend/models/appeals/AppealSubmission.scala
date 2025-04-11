@@ -57,6 +57,8 @@ object AppealSubmission {
         Json.toJson(payload.asInstanceOf[TechnicalIssuesAppealInformation])(TechnicalIssuesAppealInformation.technicalIssuesAppealWrites)
       case Health =>
         Json.toJson(payload.asInstanceOf[HealthAppealInformation])(HealthAppealInformation.healthAppealWrites)
+      case UnexpectedHospital =>
+        Json.toJson(payload.asInstanceOf[HealthAppealInformation])(HealthAppealInformation.healthAppealWrites)
       case Other =>
         Json.toJson(payload.asInstanceOf[OtherAppealInformation])(OtherAppealInformation.otherAppealInformationWrites)
       case reason =>
@@ -148,13 +150,26 @@ object AppealSubmission {
         ))
 
       case Health =>
-        //TODO: These will need updating when we built the health flow to retrieve from User Answers
-        val isHospitalStay = request.session.get(IncomeTaxSessionKeys.wasHospitalStayRequired).get == "yes"
-        val isOngoingHospitalStay = request.session.get(IncomeTaxSessionKeys.hasHealthEventEnded).contains("no")
         baseAppealSubmission(HealthAppealInformation(
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
-          hospitalStayInvolved = isHospitalStay,
+          hospitalStayInvolved = false,
+          startDateOfEvent = request.userAnswers.getAnswer(WhenDidEventHappenPage).map(_.atStartOfDay()),
+          endDateOfEvent = None,
+          eventOngoing = false,
+          statement = None,
+          lateAppeal = request.isAppealLate(),
+          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          isClientResponsibleForSubmission = isClientResponsibleForSubmission,
+          isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
+        ))
+
+      case UnexpectedHospital =>
+        val isOngoingHospitalStay = !request.getMandatoryAnswer(HasHospitalStayEndedPage)
+        baseAppealSubmission(HealthAppealInformation(
+          reasonableExcuse = reasonableExcuse,
+          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
+          hospitalStayInvolved = true,
           startDateOfEvent = request.userAnswers.getAnswer(WhenDidEventHappenPage).map(_.atStartOfDay()),
           endDateOfEvent = Option.when(!isOngoingHospitalStay)(request.userAnswers.getAnswer(WhenDidEventEndPage).map(_.atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS))).flatten,
           eventOngoing = isOngoingHospitalStay,
