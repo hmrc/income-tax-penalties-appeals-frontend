@@ -34,10 +34,8 @@
 
 @(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-
 @infix = {@if(isLPP){.lpp}else{.lsp}}
-
-@heading = {@if(reasonableExcuse.toString == "other" && user.isAgent){@messages(s"agent.whenDidEventHappen.$reasonableExcuse$infix.headingAndTitle")} else {@messages(s"whenDidEventHappen.$reasonableExcuse$infix.headingAndTitle")}}
+@heading = @{if(reasonableExcuse.toString == "health") {messages(s"whenDidEventHappen.$reasonableExcuse$infix.headingAndTitle")} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle")}}
 
 @layout(Some(titleBuilder(heading.toString, Some(form))), backLinkEnabled = true) {
 
@@ -57,9 +55,9 @@
         )
 
         <div class="govuk-form-group">
-            @govukButton(Button(
-                content = Text(messages("common.continue"))
-            ))
+        @govukButton(Button(
+            content = Text(messages("common.continue"))
+        ))
         </div>
     }
 

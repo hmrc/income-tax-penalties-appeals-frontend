@@ -142,8 +142,7 @@ honestyDeclaration.li.review = I will provide honest and accurate information in
 # When did the event happen page
 # ----------------------------------------------------------
 # Bereavement Messages
-whenDidEventHappen.bereavement.lsp.headingAndTitle = When did the person die?
-whenDidEventHappen.bereavement.lpp.headingAndTitle = When did the person die?
+whenDidEventHappen.bereavement.headingAndTitle = When did the person die?
 whenDidEventHappen.bereavement.date.error.invalid = The date must be a real date
 whenDidEventHappen.bereavement.date.error.required.all = Enter the date when the person died
 whenDidEventHappen.bereavement.date.error.required.two = The date must include a {0} and a {1}
@@ -151,8 +150,7 @@ whenDidEventHappen.bereavement.date.error.required = The date must include a {0}
 whenDidEventHappen.bereavement.date.error.notInFuture = The date must be today or in the past
 
 # Cessation Messages
-whenDidEventHappen.cessation.lsp.headingAndTitle = TBC cessation
-whenDidEventHappen.cessation.lpp.headingAndTitle = TBC cessation
+whenDidEventHappen.cessation.headingAndTitle = TBC cessation
 whenDidEventHappen.cessation.date.error.invalid = TBC
 whenDidEventHappen.cessation.date.error.required.all = TBC
 whenDidEventHappen.cessation.date.error.required.two = TBC
@@ -160,8 +158,7 @@ whenDidEventHappen.cessation.date.error.required = TBC
 whenDidEventHappen.cessation.date.error.notInFuture = TBC
 
 # Crime Messages
-whenDidEventHappen.crime.lsp.headingAndTitle = When did the crime happen?
-whenDidEventHappen.crime.lpp.headingAndTitle = When did the crime happen?
+whenDidEventHappen.crime.headingAndTitle = When did the crime happen?
 whenDidEventHappen.crime.date.error.invalid = The date of the crime must be a real date
 whenDidEventHappen.crime.date.error.required.all = Enter the date of the crime
 whenDidEventHappen.crime.date.error.required.two = The date of the crime must include a {0} and a {1}
@@ -169,8 +166,7 @@ whenDidEventHappen.crime.date.error.required = The date of the crime must includ
 whenDidEventHappen.crime.date.error.notInFuture = The date of the crime must be today or in the past
 
 # Fire or Flood Messages
-whenDidEventHappen.fireandflood.lsp.headingAndTitle = When did the fire or flood happen?
-whenDidEventHappen.fireandflood.lpp.headingAndTitle = When did the fire or flood happen?
+whenDidEventHappen.fireandflood.headingAndTitle = When did the fire or flood happen?
 whenDidEventHappen.fireandflood.date.error.invalid = The date of the fire or flood must be a real date
 whenDidEventHappen.fireandflood.date.error.required.all = Enter the date of the fire or flood
 whenDidEventHappen.fireandflood.date.error.required.two = The date of the fire or flood must include a {0} and a {1}
@@ -178,8 +174,7 @@ whenDidEventHappen.fireandflood.date.error.required = The date of the fire or fl
 whenDidEventHappen.fireandflood.date.error.notInFuture = The date of the fire or flood must be today or in the past
 
 # Technical Error Messages
-whenDidEventHappen.technicalIssue.lsp.headingAndTitle = When did the software or technology issues begin?
-whenDidEventHappen.technicalIssue.lpp.headingAndTitle = When did the software or technology issues begin?
+whenDidEventHappen.technicalIssue.headingAndTitle = When did the software or technology issues begin?
 whenDidEventHappen.technicalIssue.date.error.invalid = The date the software or technology issues began must be a real date
 whenDidEventHappen.technicalIssue.date.error.required.all = Tell us when the software or technology issues began
 whenDidEventHappen.technicalIssue.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
@@ -196,8 +191,7 @@ whenDidEventHappen.health.date.error.required = The date of the health issue mus
 whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past
 
 # Hospital Messages
-whenDidEventHappen.unexpectedHospital.lsp.headingAndTitle = When did the hospital stay begin?
-whenDidEventHappen.unexpectedHospital.lpp.headingAndTitle = When did the hospital stay begin?
+whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
 whenDidEventHappen.unexpectedHospital.date.error.invalid = The date that the hospital stay began must be a real date
 whenDidEventHappen.unexpectedHospital.date.error.required.all = Enter the date that the hospital stay began
 whenDidEventHappen.unexpectedHospital.date.error.required.two = The date that the hospital stay began must include a {0} and a {1}
@@ -205,8 +199,7 @@ whenDidEventHappen.unexpectedHospital.date.error.required = The date that the ho
 whenDidEventHappen.unexpectedHospital.date.error.notInFuture = The date that the hospital stay began must be today or in the past
 
 # Loss of Staff Messages
-whenDidEventHappen.lossOfEssentialStaff.lsp.headingAndTitle = TBC lossOfStaff
-whenDidEventHappen.lossOfEssentialStaff.lpp.headingAndTitle = TBC lossOfStaff
+whenDidEventHappen.lossOfEssentialStaff.headingAndTitle = TBC lossOfStaff
 whenDidEventHappen.lossOfEssentialStaff.date.error.invalid = TBC
 whenDidEventHappen.lossOfEssentialStaff.date.error.required.all = TBC
 whenDidEventHappen.lossOfEssentialStaff.date.error.required.two = TBC
