@@ -390,6 +390,9 @@ checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any
 checkYourAnswers.crimeReported.key = Has this crime been reported to the police?
 checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police
 
+checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = Has the hospital stay ended?
+checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = has the hospital stay ended
+
 checkYourAnswers.whenDidEventHappen.bereavement.key =  When did the person die?
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  when did the person die
 checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation
@@ -398,12 +401,12 @@ checkYourAnswers.whenDidEventHappen.crime.key =  When did the crime happen?
 checkYourAnswers.whenDidEventHappen.crime.change.hidden =  when did the crime happen
 checkYourAnswers.whenDidEventHappen.fireandflood.key =  When did the fire or flood happen?
 checkYourAnswers.whenDidEventHappen.fireandflood.change.hidden =  when did the fire or flood happen
-checkYourAnswers.whenDidEventHappen.health.key = TBC health
-checkYourAnswers.whenDidEventHappen.health.change.hidden = TBC health
+checkYourAnswers.whenDidEventHappen.health.key = When did the health issue first stop you making the payment?
+checkYourAnswers.whenDidEventHappen.health.change.hidden = when did the health issue first stop you making the payment
 checkYourAnswers.whenDidEventHappen.technicalIssue.key = When did the software or technology issues begin?
 checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = when did the software or technology issues begin
-checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = TBC unexpectedHospital
-checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = TBC unexpectedHospital
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = When did the hospital stay begin?
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = when did the hospital stay begin
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff
 checkYourAnswers.whenDidEventHappen.other.key = TBC other
@@ -411,8 +414,8 @@ checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other
 
 checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = When did the software or technology issues end?
 checkYourAnswers.whenDidTheEventEnd.technicalIssue.change.hidden = when did the software or technology issues end
-checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = TBC unexpectedHospital
-checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = TBC unexpectedHospital
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = When did the hospital stay end?
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = when did the hospital stay end
 
 checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days
 checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days
