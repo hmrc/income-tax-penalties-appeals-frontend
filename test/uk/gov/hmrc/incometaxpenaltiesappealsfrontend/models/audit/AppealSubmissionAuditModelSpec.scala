@@ -901,8 +901,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   reasonableExcuse = ReasonableExcuse.Health,
                   honestyDeclaration = true,
                   startDateOfEvent = Some(LocalDate.of(2023, 1, 1).atStartOfDay()),
-                  endDateOfEvent = Some(LocalDate.of(2023, 1, 4).atStartOfDay()),
-                  hospitalStayInvolved = true,
+                  endDateOfEvent = None,
+                  hospitalStayInvolved = false,
                   eventOngoing = false,
                   statement = Some("Health statement"),
                   lateAppeal = true,
@@ -924,8 +924,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Health statement",
               "startDateOfEvent" -> "2023-01-01T00:00:00",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
-              "hospitalStayInvolved" -> true,
+              "hospitalStayInvolved" -> false,
               "eventIsOngoing" -> false,
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Health late appeal reason"
@@ -1019,7 +1018,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   reasonableExcuse = ReasonableExcuse.Health,
                   honestyDeclaration = true,
                   startDateOfEvent = None,
-                  endDateOfEvent = Some(LocalDate.of(2023, 1, 4).atStartOfDay()),
+                  endDateOfEvent = None,
                   statement = Some("Health statement"),
                   lateAppeal = false,
                   lateAppealReason = None,
@@ -1045,9 +1044,190 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "health",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Health statement",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
               "submittedAppealLate" -> false,
               "hospitalStayInvolved" -> false,
+              "eventIsOngoing" -> false,
+              "submittedAppealLate" -> false
+            )
+          )
+        }
+      }
+    }
+
+    "auditing an Unexpected Hospital Stay request" when {
+
+      "penalty is an LSP (late appeal)" should {
+
+        "serialise the Audit event correctly" in {
+
+          implicit val request: CurrentUserRequestWithAnswers[_] = fakeRequestForHospitalStayJourney
+
+          AppealSubmissionAuditModel(
+            penaltyNumber = "pen1234",
+            penaltyType = PenaltyTypeEnum.Late_Submission,
+            caseId = Some("case1234"),
+            error = None,
+            correlationId = "correlation1234",
+            appealSubmission =
+              AppealSubmission(
+                sourceSystem = "MDTP",
+                taxRegime = "ITSA",
+                customerReferenceNo = "123456789",
+                dateOfAppeal = LocalDate.of(2023, 1, 5).atStartOfDay(),
+                isLPP = false,
+                appealSubmittedBy = "customer",
+                agentDetails = None,
+                appealInformation = HealthAppealInformation(
+                  reasonableExcuse = ReasonableExcuse.UnexpectedHospital,
+                  honestyDeclaration = true,
+                  startDateOfEvent = Some(LocalDate.of(2023, 1, 1).atStartOfDay()),
+                  endDateOfEvent = Some(LocalDate.of(2023, 1, 4).atStartOfDay()),
+                  hospitalStayInvolved = true,
+                  eventOngoing = false,
+                  statement = Some("UnexpectedHospital statement"),
+                  lateAppeal = true,
+                  lateAppealReason = Some("UnexpectedHospital late appeal reason"),
+                  isClientResponsibleForSubmission = Some(true),
+                  isClientResponsibleForLateSubmission = Some(true)
+                )
+              )
+          ).detail shouldBe Json.obj(
+            "submittedBy" -> "customer",
+            "identifierType" -> "MTDITID",
+            "taxIdentifier" -> "123456789",
+            "penaltyNumber" -> "pen1234",
+            "penaltyType" -> "Late Submission Penalty",
+            "caseId" -> "case1234",
+            "correlationId" -> "correlation1234",
+            "appealInformation" -> Json.obj(
+              "reasonForAppeal" -> "unexpectedHospital",
+              "honestyDeclaration" -> true,
+              "statementToExplainAppealReason" -> "UnexpectedHospital statement",
+              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "hospitalStayInvolved" -> true,
+              "eventIsOngoing" -> false,
+              "submittedAppealLate" -> true,
+              "lateAppealReason" -> "UnexpectedHospital late appeal reason"
+            )
+          )
+        }
+      }
+
+      "penalty is an LPP1 (not late)" should {
+
+        "serialise the Audit event correctly" in {
+
+          implicit val request: CurrentUserRequestWithAnswers[_] = fakeRequestForHospitalStayJourney
+
+          AppealSubmissionAuditModel(
+            penaltyNumber = "pen1234",
+            penaltyType = PenaltyTypeEnum.Late_Payment,
+            caseId = Some("case1234"),
+            error = None,
+            correlationId = "correlation1234",
+            appealSubmission =
+              AppealSubmission(
+                sourceSystem = "MDTP",
+                taxRegime = "ITSA",
+                customerReferenceNo = "123456789",
+                dateOfAppeal = LocalDate.of(2023, 1, 5).atStartOfDay(),
+                isLPP = false,
+                appealSubmittedBy = "customer",
+                agentDetails = None,
+                appealInformation = HealthAppealInformation(
+                  reasonableExcuse = ReasonableExcuse.UnexpectedHospital,
+                  honestyDeclaration = true,
+                  startDateOfEvent = None,
+                  endDateOfEvent = None,
+                  eventOngoing = false,
+                  hospitalStayInvolved = true,
+                  statement = Some("UnexpectedHospital statement"),
+                  lateAppeal = false,
+                  lateAppealReason = None,
+                  isClientResponsibleForSubmission = Some(true),
+                  isClientResponsibleForLateSubmission = Some(true)
+                )
+              )
+          ).detail shouldBe Json.obj(
+            "submittedBy" -> "customer",
+            "identifierType" -> "MTDITID",
+            "taxIdentifier" -> "123456789",
+            "penaltyNumber" -> "pen1234",
+            "penaltyType" -> "Late Payment Penalty 1",
+            "caseId" -> "case1234",
+            "correlationId" -> "correlation1234",
+            "appealInformation" -> Json.obj(
+              "reasonForAppeal" -> "unexpectedHospital",
+              "honestyDeclaration" -> true,
+              "statementToExplainAppealReason" -> "UnexpectedHospital statement",
+              "hospitalStayInvolved" -> true,
+              "eventIsOngoing" -> false,
+              "submittedAppealLate" -> false
+            )
+          )
+        }
+      }
+
+      "penalty is an LPP2 (agent - not at fault)" should {
+
+        "serialise the Audit event correctly" in {
+
+          implicit val request: CurrentUserRequestWithAnswers[_] = fakeRequestForHospitalStayJourney.copy(
+            arn = Some("XARN1234567"),
+            userAnswers = fakeRequestForCrimeJourney.userAnswers
+              .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
+              .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.client)
+          )(FakeRequest())
+
+          AppealSubmissionAuditModel(
+            penaltyNumber = "pen1234",
+            penaltyType = PenaltyTypeEnum.Additional,
+            caseId = Some("case1234"),
+            error = None,
+            correlationId = "correlation1234",
+            appealSubmission =
+              AppealSubmission(
+                sourceSystem = "MDTP",
+                taxRegime = "ITSA",
+                customerReferenceNo = "123456789",
+                dateOfAppeal = LocalDate.of(2023, 1, 5).atStartOfDay(),
+                isLPP = false,
+                appealSubmittedBy = "customer",
+                agentDetails = None,
+                appealInformation = HealthAppealInformation(
+                  reasonableExcuse = ReasonableExcuse.UnexpectedHospital,
+                  honestyDeclaration = true,
+                  startDateOfEvent = None,
+                  endDateOfEvent = Some(LocalDate.of(2023, 1, 4).atStartOfDay()),
+                  statement = Some("UnexpectedHospital statement"),
+                  lateAppeal = false,
+                  lateAppealReason = None,
+                  eventOngoing = false,
+                  hospitalStayInvolved = true,
+                  isClientResponsibleForSubmission = Some(true),
+                  isClientResponsibleForLateSubmission = Some(true)
+                )
+              )
+          ).detail shouldBe Json.obj(
+            "submittedBy" -> "agent",
+            "identifierType" -> "MTDITID",
+            "taxIdentifier" -> "123456789",
+            "agentDetails" -> Json.obj(
+              "agentReferenceNo" -> "XARN1234567",
+              "isExcuseRelatedToAgent" -> false
+            ),
+            "penaltyNumber" -> "pen1234",
+            "penaltyType" -> "Late Payment Penalty 2",
+            "caseId" -> "case1234",
+            "correlationId" -> "correlation1234",
+            "appealInformation" -> Json.obj(
+              "reasonForAppeal" -> "unexpectedHospital",
+              "honestyDeclaration" -> true,
+              "statementToExplainAppealReason" -> "UnexpectedHospital statement",
+              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "submittedAppealLate" -> false,
+              "hospitalStayInvolved" -> true,
               "eventIsOngoing" -> false,
               "submittedAppealLate" -> false
             )
