@@ -100,8 +100,8 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Has this crime been reported to the police? - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
@@ -118,8 +118,8 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Has this crime been reported to the police? - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)

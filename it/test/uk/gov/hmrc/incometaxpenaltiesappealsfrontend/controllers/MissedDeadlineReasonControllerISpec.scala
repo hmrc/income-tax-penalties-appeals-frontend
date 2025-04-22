@@ -93,8 +93,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -113,8 +113,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -135,8 +135,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -155,8 +155,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -178,8 +178,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -198,8 +198,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -219,8 +219,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
           val result = get("/missed-deadline-reason")
 
           val document = Jsoup.parse(result.body)
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -239,8 +239,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -262,8 +262,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -282,8 +282,8 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitleSecondStage(isLPP = true)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe MissedDeadlineReasonMessages.English.lppCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

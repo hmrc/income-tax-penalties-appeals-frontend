@@ -81,8 +81,8 @@ class MultipleAppealsControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "The appeal will cover both penalties - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -98,8 +98,8 @@ class MultipleAppealsControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "The appeal will cover both penalties - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -122,8 +122,8 @@ class MultipleAppealsControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "This review will cover both appeal decisions - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -141,8 +141,8 @@ class MultipleAppealsControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "This review will cover both appeal decisions - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)

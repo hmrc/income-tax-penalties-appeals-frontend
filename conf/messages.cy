@@ -1,4 +1,4 @@
-service.name = Appeal a Self Assessment penalty (Welsh)
+service.name = Manage your Self Assessment (Welsh)
 
 error.title.prefix = Gwall:
 govuk.suffix = GOV.UK

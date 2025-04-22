@@ -102,8 +102,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -121,8 +121,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -147,8 +147,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -168,8 +168,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -189,8 +189,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -210,8 +210,8 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

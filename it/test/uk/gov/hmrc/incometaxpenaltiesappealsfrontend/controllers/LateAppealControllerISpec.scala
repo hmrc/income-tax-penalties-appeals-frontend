@@ -128,8 +128,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
@@ -149,8 +149,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
@@ -173,8 +173,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe s"This penalty was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"This penalty was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -197,8 +197,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe s"The penalties were issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"The penalties were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -224,8 +224,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-              document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
@@ -245,8 +245,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-              document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
@@ -269,8 +269,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -293,8 +293,8 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-            document.title() shouldBe s"The appeal decisions were issued more than ${reason._2} days ago - Appeal a Self Assessment penalty - GOV.UK"
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"The appeal decisions were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)

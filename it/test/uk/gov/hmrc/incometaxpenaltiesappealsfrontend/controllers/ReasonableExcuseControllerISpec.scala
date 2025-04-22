@@ -109,8 +109,8 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -135,8 +135,8 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "What was the reason for missing the submission deadline? - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

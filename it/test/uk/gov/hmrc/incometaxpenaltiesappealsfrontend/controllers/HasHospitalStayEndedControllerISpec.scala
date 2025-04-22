@@ -100,8 +100,8 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
         val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
@@ -118,8 +118,8 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
         val document: nodes.Document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
