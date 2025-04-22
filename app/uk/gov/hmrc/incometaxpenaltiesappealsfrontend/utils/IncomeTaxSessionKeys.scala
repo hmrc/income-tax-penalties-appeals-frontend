@@ -27,7 +27,4 @@ object IncomeTaxSessionKeys {
   val journeyId = "ITSAPR_journeyId"
   val penaltyData = "ITSAPR_penaltyData"
 
-  //TODO: Remove all these when their answer has been moved into UserAnswers
-  val wasHospitalStayRequired = "wasHospitalStayRequired"
-  val hasHealthEventEnded = "hasHealthEventEnded"
 }
