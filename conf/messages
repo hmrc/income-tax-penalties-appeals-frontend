@@ -84,62 +84,63 @@ honestyDeclaration.p1 = I confirm that:
 
 clientSubmitted.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.bereavement.lpp = because I was affected by someone’s death, I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.bereavement.lpp = because my client was affected by someone’s death, they were unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.bereavement.lpp = because my client was affected by someone’s death, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.cessation.lpp = TBC cessation - I was unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.crime.lpp = because I was affected by a crime, I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.crime.lpp = because my client was affected by a crime, they was unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.crime.lpp = because my client was affected by a crime, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.fireandflood.lpp = because of a fire or flood, I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.fireandflood.lpp = because my client was affected by a fire or flood, they were unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.fireandflood.lpp = because my client was affected by a fire or flood, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.health.lpp = because of a serious or life-threatening health issue, I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.health.lpp = because my client had a serious or life-threatening health issue, they were unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.health.lpp = because my client had a serious or life-threatening health issue, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.technicalIssue.lpp = because of software or technology issues, I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.technicalIssue.lpp = because my client was affected by software or technology issues, they were unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.technicalIssue.lpp = because my client was affected by software or technology issues, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lpp = because of a stay in hospital, I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected hospital stay, they were unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected hospital stay, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.other.lpp = I was unable to make the payment due on {0}
-agent.honestyDeclaration.li.other.lpp = my client was unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.other.lpp = my client was unable to make the payment due on {0}
 
-agentPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone’s death, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.crime = because my client was affected by a crime, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.fireandflood = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.technicalIssue = because my client was affected by software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
 
-agentPlanned.agentAffected.honestyDeclaration.li.bereavement = because I was affected by someone’s death, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.crime = because I was affected by a crime, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.fireandflood = because of a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue = because of software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, my client was unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, they were unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, my client was unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = because my client had an unexpected hospital stay, they were unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.other.lsp = my client was unable to send the submission due on {0}
 
-clientPlanned.clientAffected.honestyDeclaration.li.bereavement = because my client was affected by someone’s death, they were unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.cessation = TBC cessation - I was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.crime = because my client was affected by a crime, they were unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.fireandflood =  because of a fire or flood, my client was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.health = TBC health - I was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.technicalIssue = because of software or technology issues, my client was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital = TBC unexpectedHospital - I was unable to send the submission due on {0}
-clientPlanned.clientAffected.honestyDeclaration.li.other = TBC other - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.technicalIssue.lsp = because my client was affected by software or technology issues, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = because my client had an unexpected hospital stay, I was unable to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = because of an issue affecting my client, I was unable to send the submission due on  {0}
+
+agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because I had a serious or life-threatening health issue, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because I had an unexpected hospital stay, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
+
 
 honestyDeclaration.li.lpp = no one else was available to make the payment for me
 agent.honestyDeclaration.li.lpp = no one else was available to make the payment for them

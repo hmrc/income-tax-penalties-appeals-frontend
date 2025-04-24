@@ -20,4 +20,5 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 
 object WhoPlannedToSubmitPage extends Page[AgentClientEnum.Value] {
   val key = "whoPlannedToSubmit"
+  override val subKey: String = "agentData"
 }

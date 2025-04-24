@@ -33,16 +33,26 @@ case class UserAnswers(
     (data \ key).validate.fold(_ => None, Some(_))
 
   def getAnswer[A](page: Page[A])(implicit reads: Reads[A]): Option[A] =
-    getAnswerForKey(page.key)
+    getAnswerForKey(page.pageKey)
 
   def setAnswerForKey[A](key: String, value: A)(implicit writes: Writes[A]): UserAnswers =
     UserAnswers(journeyId, data ++ Json.obj(key -> value))
 
   def setAnswer[A](page: Page[A], value: A)(implicit writes: Writes[A]): UserAnswers =
-    setAnswerForKey(page.key, value)
+    setAnswerForKey(page.pageKey, value)
 
   def removeAnswer[A](page: Page[A]): UserAnswers =
-    UserAnswers(journeyId, data - page.key)
+    UserAnswers(journeyId, data - page.pageKey)
+
+  def removeAppealReasonsData(): UserAnswers = {
+    val keysToRemove = data.keys.filter(_.startsWith("appealReasons."))
+    keysToRemove.foreach(key => data - key)
+    UserAnswers(journeyId, data)
+  }
+
+//  def removeAppealReasonsData(): UserAnswers = {
+//    UserAnswers(journeyId, data - "appealReasons")
+//  }
 }
 
 object UserAnswers {

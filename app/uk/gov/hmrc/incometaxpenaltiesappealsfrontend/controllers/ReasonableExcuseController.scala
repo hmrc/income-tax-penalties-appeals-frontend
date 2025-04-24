@@ -67,8 +67,9 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
   private def updateUserAnswersAndRedirect(newAnswer: ReasonableExcuse)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] = {
     val updatedAnswers = user.userAnswers.getAnswer(ReasonableExcusePage) match {
       case Some(existingAnswer) if existingAnswer != newAnswer =>
-        UserAnswers(user.journeyId)
-          .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, user.penaltyData)
+        user.userAnswers
+//          .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, user.penaltyData)
+          .removeAppealReasonsData()
           .setAnswer(ReasonableExcusePage, newAnswer)
       case _ =>
         user.userAnswers.setAnswer(ReasonableExcusePage, newAnswer)

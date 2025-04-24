@@ -21,6 +21,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 
 @this(layout: Layout,
         govukButton : GovukButton,
@@ -30,8 +31,14 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean, whoPlannedToSubmit: Option[AgentClientEnum.Value], whatCausedYouToMissDeadline: Option[AgentClientEnum.Value])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+
 @isLPPText = {@if(isLPP) {lpp} else {lsp}}
+
+@whoPlannedToSubmitText = {@if(whoPlannedToSubmit == Option(AgentClientEnum.client)) {clientPlanned} else {agentPlanned}}
+
+@whatCausedYouToMissDeadlineText = {@if(whatCausedYouToMissDeadline == Option(AgentClientEnum.client)) {clientAffected} else {agentAffected}}
+
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
     @caption()
@@ -40,8 +47,27 @@
     @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
 
     <ul class="govuk-list govuk-list--bullet">
-        <li id="honestyDeclarationReason">@messages(s"agent.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
-@*        @if(reasonableExcuse.toString == "unexpectedHospital"){<li id="honestyDeclarationHospital">@messages("agent.li.hospital")</li>}*@
+
+        @if(whoPlannedToSubmit == Option(AgentClientEnum.agent)) {
+
+            whoPlannedToSubmit= @whoPlannedToSubmit <br>
+            whoPlannedToSubmitText = @whoPlannedToSubmitText <br><br>
+            whatCausedYouToMissDeadline= @whatCausedYouToMissDeadline <br>
+            whatCausedYouToMissDeadlineText = @whatCausedYouToMissDeadlineText <br><br><br>
+
+
+            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.$whatCausedYouToMissDeadlineText.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
+        }else {
+
+            whoPlannedToSubmit= @whoPlannedToSubmit <br>
+            whoPlannedToSubmitText = @whoPlannedToSubmitText <br><br>
+            whatCausedYouToMissDeadline= @whatCausedYouToMissDeadline <br>
+            whatCausedYouToMissDeadlineText = @whatCausedYouToMissDeadlineText <br><br><br>
+
+
+            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
+        }
+
         @if(reasonableExcuse.toString == "health"){<li id="honestyDeclarationHealth">@messages("honestyDeclaration.li.health")</li>}
         @if(isLPP){<li id="honestyDeclarationLPP">@messages("agent.honestyDeclaration.li.lpp")</li>}
         <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
