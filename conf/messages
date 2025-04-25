@@ -116,6 +116,7 @@ agentPlanned.honestyDeclaration.li.other.lpp = my client was unable to make the 
 
 
 clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, my client was unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, they were unable to send the submission due on {0}

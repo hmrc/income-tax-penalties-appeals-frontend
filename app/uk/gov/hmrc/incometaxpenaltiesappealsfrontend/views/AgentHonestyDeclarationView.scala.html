@@ -50,19 +50,15 @@
 
         @if(whoPlannedToSubmit == Option(AgentClientEnum.agent)) {
 
-            whoPlannedToSubmit= @whoPlannedToSubmit <br>
-            whoPlannedToSubmitText = @whoPlannedToSubmitText <br><br>
-            whatCausedYouToMissDeadline= @whatCausedYouToMissDeadline <br>
-            whatCausedYouToMissDeadlineText = @whatCausedYouToMissDeadlineText <br><br><br>
+            whoPlannedToSubmit = @whoPlannedToSubmit <br>
+            whatCausedYouToMissDeadline = @whatCausedYouToMissDeadline <br><br><br>
 
 
             <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.$whatCausedYouToMissDeadlineText.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
         }else {
 
-            whoPlannedToSubmit= @whoPlannedToSubmit <br>
-            whoPlannedToSubmitText = @whoPlannedToSubmitText <br><br>
-            whatCausedYouToMissDeadline= @whatCausedYouToMissDeadline <br>
-            whatCausedYouToMissDeadlineText = @whatCausedYouToMissDeadlineText <br><br><br>
+            whoPlannedToSubmit = @whoPlannedToSubmit <br>
+            whatCausedYouToMissDeadline = @whatCausedYouToMissDeadline <br><br><br>
 
 
             <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>

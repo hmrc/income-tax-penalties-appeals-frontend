@@ -68,7 +68,6 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
     val updatedAnswers = user.userAnswers.getAnswer(ReasonableExcusePage) match {
       case Some(existingAnswer) if existingAnswer != newAnswer =>
         user.userAnswers
-//          .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, user.penaltyData)
           .removeAppealReasonsData()
           .setAnswer(ReasonableExcusePage, newAnswer)
       case _ =>

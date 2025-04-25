@@ -43,16 +43,13 @@ case class UserAnswers(
 
   def removeAnswer[A](page: Page[A]): UserAnswers =
     UserAnswers(journeyId, data - page.pageKey)
-
+  
   def removeAppealReasonsData(): UserAnswers = {
     val keysToRemove = data.keys.filter(_.startsWith("appealReasons."))
-    keysToRemove.foreach(key => data - key)
-    UserAnswers(journeyId, data)
+    val updData = keysToRemove.foldLeft(data)(_ - _)
+    UserAnswers(journeyId, updData)
   }
-
-//  def removeAppealReasonsData(): UserAnswers = {
-//    UserAnswers(journeyId, data - "appealReasons")
-//  }
+  
 }
 
 object UserAnswers {
