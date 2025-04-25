@@ -97,8 +97,8 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Check your answers - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Check your answers - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -121,8 +121,8 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "Check your answers - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "Check your answers - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

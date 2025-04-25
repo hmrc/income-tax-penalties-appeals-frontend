@@ -109,8 +109,8 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -129,8 +129,8 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason)} - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

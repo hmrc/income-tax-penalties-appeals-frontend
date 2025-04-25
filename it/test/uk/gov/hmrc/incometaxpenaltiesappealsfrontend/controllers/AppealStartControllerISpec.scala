@@ -59,8 +59,8 @@ class AppealStartControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-              document.title() shouldBe "Appeal a Self Assessment penalty - Appeal a Self Assessment penalty - GOV.UK"
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe "Appeal a Self Assessment penalty - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)

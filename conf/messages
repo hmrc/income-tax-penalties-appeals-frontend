@@ -1,4 +1,4 @@
-service.name = Appeal a Self Assessment penalty
+service.name = Manage your Self Assessment
 
 error.title.prefix = Error:
 govuk.suffix = GOV.UK

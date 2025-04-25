@@ -67,8 +67,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late submission penalty point: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -92,8 +92,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late submission penalty point: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -119,8 +119,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -144,8 +144,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -171,8 +171,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -196,8 +196,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Appeal received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -223,8 +223,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Review request received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -248,8 +248,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Review request received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -275,8 +275,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Review request received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."
@@ -300,8 +300,8 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-        document.title() shouldBe "Review request received - Appeal a Self Assessment penalty - GOV.UK"
+        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late payment penalty: 1 January 2024 to 31 January 2024"
         document.getElementById("confirmationFistParagraph").text() shouldBe "You do not need a reference number."

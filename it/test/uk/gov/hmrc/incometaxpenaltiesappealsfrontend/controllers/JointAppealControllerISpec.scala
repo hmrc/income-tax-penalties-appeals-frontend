@@ -86,8 +86,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -109,8 +109,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -138,8 +138,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -163,8 +163,8 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Appeal a Self Assessment penalty"
-          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Appeal a Self Assessment penalty - GOV.UK"
+          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaption(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
