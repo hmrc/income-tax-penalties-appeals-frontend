@@ -58,8 +58,8 @@ trait Cy extends i18n {
     val message = s"Late payment penalty: $from to $to (Welsh)"
     if (removeNBSP) message.replace("\u00A0", " ") else message
   }
-  override val serviceName = "Appeal a Self Assessment penalty (Welsh)"
-  override def titleWithSuffix(title: String): String = title + s" - Appeal a Self Assessment penalty - GOV.UK (Welsh)"
+  override val serviceName = "Manage your Self Assessment (Welsh)"
+  override def titleWithSuffix(title: String): String = title + s" - Manage your Self Assessment - GOV.UK (Welsh)"
   override val continue = "Yn eich blaen"
   override val remove = "Tynnu"
   override val change = "Newid"
