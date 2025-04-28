@@ -39,8 +39,8 @@ class UserAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite
   lazy val testPage2: Page[TestModel] = new Page[TestModel] { val key = "page2" }
 
   lazy val answersAsJson: JsObject = Json.obj(
-    testPage1.key -> "foo",
-    testPage2.key -> testPage2Value
+    testPage1.pageKey -> "foo",
+    testPage2.pageKey -> testPage2Value
   )
 
   lazy val now: Instant = Instant.now.truncatedTo(ChronoUnit.MILLIS)

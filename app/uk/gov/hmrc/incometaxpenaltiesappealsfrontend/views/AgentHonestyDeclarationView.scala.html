@@ -48,20 +48,16 @@
 
     <ul class="govuk-list govuk-list--bullet">
 
-        @if(whoPlannedToSubmit == Option(AgentClientEnum.agent)) {
+        @if(isLPP){
 
-            whoPlannedToSubmit = @whoPlannedToSubmit <br>
-            whatCausedYouToMissDeadline = @whatCausedYouToMissDeadline <br><br><br>
+            <li id="honestyDeclarationReason">@messages(s"agentPlanned.honestyDeclaration.li.$reasonableExcuse.lpp", DateFormatter.dateToString(request.periodDueDate))</li>
 
+        }else if(whoPlannedToSubmit == Option(AgentClientEnum.agent)){
 
-            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.$whatCausedYouToMissDeadlineText.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
-        }else {
+            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.$whatCausedYouToMissDeadlineText.honestyDeclaration.li.$reasonableExcuse.lsp", DateFormatter.dateToString(request.periodDueDate))</li>
+        }else{
 
-            whoPlannedToSubmit = @whoPlannedToSubmit <br>
-            whatCausedYouToMissDeadline = @whatCausedYouToMissDeadline <br><br><br>
-
-
-            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.honestyDeclaration.li.$reasonableExcuse.$isLPPText", DateFormatter.dateToString(request.periodDueDate))</li>
+            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.honestyDeclaration.li.$reasonableExcuse.lsp", DateFormatter.dateToString(request.periodDueDate))</li>
         }
 
         @if(reasonableExcuse.toString == "health"){<li id="honestyDeclarationHealth">@messages("honestyDeclaration.li.health")</li>}
