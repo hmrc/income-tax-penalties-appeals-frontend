@@ -35,7 +35,26 @@
 @(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @infix = {@if(isLPP){.lpp}else{.lsp}}
-@heading = @{if(reasonableExcuse.toString == "health") {messages(s"whenDidEventHappen.$reasonableExcuse$infix.headingAndTitle")} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle")}}
+@healthHeading = {
+    @if(isLPP) {
+        @if(user.isAgent){@messages("client.whenDidEventHappen.health.lpp.headingAndTitle")} else {@messages("whenDidEventHappen.health.lpp.headingAndTitle")}
+
+    } else {
+        @if(user.isAgent) {
+            @if(user.whoPlannedToSubmit.getOrElse("").toString == "client") {
+                @messages("client.whenDidEventHappen.health.lsp.headingAndTitle")
+            } else {
+                @messages("whenDidEventHappen.health.lsp.headingAndTitle")
+            }
+        } else {
+            @messages("whenDidEventHappen.health.lsp.headingAndTitle")
+        }
+    }
+}
+
+
+
+@heading = @{if(reasonableExcuse.toString == "health") {healthHeading} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle")}}
 
 @layout(Some(titleBuilder(heading.toString, Some(form))), backLinkEnabled = true) {
 
