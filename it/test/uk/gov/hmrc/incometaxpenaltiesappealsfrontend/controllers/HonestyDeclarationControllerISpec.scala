@@ -25,9 +25,9 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.Json
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -41,15 +41,15 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
-  val reasonsList: List[(ReasonableExcuse, String, String)]= List(
-  (Bereavement, HonestyDeclarationMessages.English.bereavementMessageLSP, HonestyDeclarationMessages.English.bereavementMessageLPP),
-  (Cessation, HonestyDeclarationMessages.English.cessationMessageLSP, HonestyDeclarationMessages.English.cessationMessageLPP),
-  (Crime, HonestyDeclarationMessages.English.crimeMessageLSP, HonestyDeclarationMessages.English.crimeMessageLPP),
-  (FireOrFlood, HonestyDeclarationMessages.English.fireOrFloodReasonMessageLSP, HonestyDeclarationMessages.English.fireOrFloodReasonMessageLPP),
-  (Health, HonestyDeclarationMessages.English.healthMessageLSP, HonestyDeclarationMessages.English.healthMessageLPP),
-  (TechnicalIssues, HonestyDeclarationMessages.English.technicalIssueMessageLSP, HonestyDeclarationMessages.English.technicalIssueMessageLPP),
-  (UnexpectedHospital, HonestyDeclarationMessages.English.unexpectedHospitalMessageLSP, HonestyDeclarationMessages.English.unexpectedHospitalMessageLPP),
-  (Other, HonestyDeclarationMessages.English.otherMessageLSP, HonestyDeclarationMessages.English.otherMessageLPP)
+  val reasonsList: List[(ReasonableExcuse, String, String, String, String, String, String)]= List(
+  (Bereavement, HonestyDeclarationMessages.English.bereavementMessageLSP, HonestyDeclarationMessages.English.bereavementMessageLPP, HonestyDeclarationMessages.English.agentBereavementMessageLPP, HonestyDeclarationMessages.English.clientPlannedBereavementMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedBereavementMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedBereavementMessageLSP),
+  (Cessation, HonestyDeclarationMessages.English.cessationMessageLSP, HonestyDeclarationMessages.English.cessationMessageLPP, HonestyDeclarationMessages.English.agentCessationMessageLPP, HonestyDeclarationMessages.English.clientPlannedCessationMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedCessationMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedCessationMessageLSP),
+  (Crime, HonestyDeclarationMessages.English.crimeMessageLSP, HonestyDeclarationMessages.English.crimeMessageLPP, HonestyDeclarationMessages.English.agentCrimeMessageLPP, HonestyDeclarationMessages.English.clientPlannedCrimeMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedCrimeMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedCrimeMessageLSP),
+  (FireOrFlood, HonestyDeclarationMessages.English.fireOrFloodReasonMessageLSP, HonestyDeclarationMessages.English.fireOrFloodReasonMessageLPP, HonestyDeclarationMessages.English.agentFireOrFloodReasonMessageLPP, HonestyDeclarationMessages.English.clientPlannedFireOrFloodReasonMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedFireOrFloodReasonMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedFireOrFloodReasonMessageLSP),
+  (Health, HonestyDeclarationMessages.English.healthMessageLSP, HonestyDeclarationMessages.English.healthMessageLPP, HonestyDeclarationMessages.English.agentHealthMessageLPP, HonestyDeclarationMessages.English.clientPlannedHealthMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedHealthMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedHealthMessageLSP),
+  (TechnicalIssues, HonestyDeclarationMessages.English.technicalIssueMessageLSP, HonestyDeclarationMessages.English.technicalIssueMessageLPP, HonestyDeclarationMessages.English.agentTechnicalIssueMessageLPP, HonestyDeclarationMessages.English.clientPlannedTechnicalIssueMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedTechnicalIssueMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedTechnicalIssueMessageLSP),
+  (UnexpectedHospital, HonestyDeclarationMessages.English.unexpectedHospitalMessageLSP, HonestyDeclarationMessages.English.unexpectedHospitalMessageLPP, HonestyDeclarationMessages.English.agentUnexpectedHospitalMessageLPP, HonestyDeclarationMessages.English.clientPlannedUnexpectedHospitalMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedUnexpectedHospitalMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedUnexpectedHospitalMessageLSP),
+  (Other, HonestyDeclarationMessages.English.otherMessageLSP, HonestyDeclarationMessages.English.otherMessageLPP, HonestyDeclarationMessages.English.agentOtherMessageLPP, HonestyDeclarationMessages.English.clientPlannedOtherMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedOtherMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedOtherMessageLSP)
   )
 
   override def beforeEach(): Unit = {
@@ -61,6 +61,23 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
     val userAnswersWithReasonLSP =
       emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
+
+    val agentPlannedAgentAffectedUserAnswersWithReasonLSP =
+      emptyUserAnswersWithLSP
+        .setAnswer(ReasonableExcusePage, reason._1)
+        .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+        .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+
+    val agentPlannedClientAffectedUserAnswersWithReasonLSP =
+      emptyUserAnswersWithLSP
+        .setAnswer(ReasonableExcusePage, reason._1)
+        .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+        .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
+
+    val clientPlannedAgentUserAnswersWithReasonLSP =
+      emptyUserAnswersWithLSP
+        .setAnswer(ReasonableExcusePage, reason._1)
+        .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.client)
 
     val userAnswersWithReasonLPP =
       emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, reason._1)
@@ -119,9 +136,9 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
             document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
 
-          "the user is an authorised agent" in {
+          "the user is an authorised agent - agent planned - agent affected" in {
             stubAuth(OK, successfulAgentAuthResponse)
-            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
+            userAnswersRepo.upsertUserAnswer(agentPlannedAgentAffectedUserAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
 
@@ -135,9 +152,52 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
             )
             document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
             document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
-            document.getElementById("honestyDeclarationReason").text() shouldBe reason._2
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._7
             if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
-            else if(reason._1 == UnexpectedHospital){document.getElementById("honestyDeclarationHospital").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHospital}
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
+          }
+
+          "the user is an authorised agent - agent planned - client affected" in {
+            stubAuth(OK, successfulAgentAuthResponse)
+            userAnswersRepo.upsertUserAnswer(agentPlannedClientAffectedUserAnswersWithReasonLSP).futureValue
+
+            val result = get("/honesty-declaration", isAgent = true)
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._6
+            if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
+          }
+
+          "the user is an authorised agent - client planned" in {
+            stubAuth(OK, successfulAgentAuthResponse)
+            userAnswersRepo.upsertUserAnswer(clientPlannedAgentUserAnswersWithReasonLSP).futureValue
+
+            val result = get("/honesty-declaration", isAgent = true)
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementById("captionSpan").text() shouldBe English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._5
+            if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
             document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
             document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
@@ -167,8 +227,29 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
             document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
             document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
-        }
 
+          "the user is an authorised agent" in {
+            stubAuth(OK, successfulAgentAuthResponse)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
+
+            val result = get("/honesty-declaration", isAgent = true)
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
+            document.getElementById("honestyDeclarationReason").text() shouldBe reason._4
+            if(reason._1 == Health){document.getElementById("honestyDeclarationHealth").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationHealth}
+            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfo
+            document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
+          }
+        }
       }
 
       "the journey is for a 2nd Stage Appeal" when {

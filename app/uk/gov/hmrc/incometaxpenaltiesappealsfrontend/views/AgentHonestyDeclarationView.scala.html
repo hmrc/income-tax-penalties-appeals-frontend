@@ -1,0 +1,75 @@
+@*
+ * Copyright 2024 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+
+@this(layout: Layout,
+        govukButton : GovukButton,
+        formHelper: FormWithCSRF,
+        p: components.P,
+        h1: components.H1,
+        caption: components.PenaltyCaption
+)
+
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean, whoPlannedToSubmit: Option[AgentClientEnum.Value], whatCausedYouToMissDeadline: Option[AgentClientEnum.Value])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+
+@isLPPText = {@if(isLPP) {lpp} else {lsp}}
+
+@whoPlannedToSubmitText = {@if(whoPlannedToSubmit == Option(AgentClientEnum.client)) {clientPlanned} else {agentPlanned}}
+
+@whatCausedYouToMissDeadlineText = {@if(whatCausedYouToMissDeadline == Option(AgentClientEnum.client)) {clientAffected} else {agentAffected}}
+
+@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
+
+    @caption()
+
+    @h1("honestyDeclaration.headingAndTitle")
+    @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
+
+    <ul class="govuk-list govuk-list--bullet">
+
+        @if(isLPP){
+
+            <li id="honestyDeclarationReason">@messages(s"agentPlanned.honestyDeclaration.li.$reasonableExcuse.lpp", DateFormatter.dateToString(request.periodDueDate))</li>
+
+        }else if(whoPlannedToSubmit == Option(AgentClientEnum.agent)){
+
+            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.$whatCausedYouToMissDeadlineText.honestyDeclaration.li.$reasonableExcuse.lsp", DateFormatter.dateToString(request.periodDueDate))</li>
+        }else{
+
+            <li id="honestyDeclarationReason">@messages(s"$whoPlannedToSubmitText.honestyDeclaration.li.$reasonableExcuse.lsp", DateFormatter.dateToString(request.periodDueDate))</li>
+        }
+
+        @if(reasonableExcuse.toString == "health"){<li id="honestyDeclarationHealth">@messages("honestyDeclaration.li.health")</li>}
+        @if(isLPP){<li id="honestyDeclarationLPP">@messages("agent.honestyDeclaration.li.lpp")</li>}
+        <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
+    </ul>
+
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {
+        <div class="govuk-form-group">
+        @govukButton(Button(
+            content = Text(messages("common.acceptAndContinue"))
+        ))
+        </div>
+    }
+}

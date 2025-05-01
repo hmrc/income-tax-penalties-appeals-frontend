@@ -21,7 +21,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWi
 
 trait Page[A] {
   val key: String
-
+  val subKey: String = "appealReasons"
+  lazy val pageKey: String = s"$subKey.$key"
   def value(implicit user: CurrentUserRequestWithAnswers[_], reads: Reads[A]): Option[A] = user.userAnswers.getAnswer[A](this)
 
 }
