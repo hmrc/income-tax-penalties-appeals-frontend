@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -58,7 +58,13 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
           user.isAgent
         ))),
       whoPlannedToSubmit => {
-        val updatedAnswers = user.userAnswers.setAnswer(WhoPlannedToSubmitPage, whoPlannedToSubmit)
+        val answerChanged = user.userAnswers.getAnswer(WhoPlannedToSubmitPage).fold(false)(_ != whoPlannedToSubmit)
+        val updatedAnswers = if(answerChanged && whoPlannedToSubmit == AgentClientEnum.client) {
+          user.userAnswers.setAnswer(WhoPlannedToSubmitPage, whoPlannedToSubmit)
+            .removeAnswer(WhatCausedYouToMissDeadlinePage)
+        } else {
+          user.userAnswers.setAnswer(WhoPlannedToSubmitPage, whoPlannedToSubmit)
+        }
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           whoPlannedToSubmit match {
             case AgentClientEnum.agent =>
