@@ -20,4 +20,5 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 
 object WhatCausedYouToMissDeadlinePage extends Page[AgentClientEnum.Value] {
   val key = "whatCausedYouToMissTheDeadline"
+  override val subKey: String = "agentData"
 }

@@ -22,7 +22,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, Page, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, Page, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
@@ -48,6 +48,8 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   val is2ndStageAppeal: Boolean = penaltyData.is2ndStageAppeal
   val hasMultipleLPPs: Boolean = penaltyData.multiplePenaltiesData.isDefined
   val isJointAppeal: Boolean = userAnswers.getAnswer(JointAppealPage).contains(true)
+  val whoPlannedToSubmit: Option[AgentClientEnum.Value] = userAnswers.getAnswer(WhoPlannedToSubmitPage)
+  val whatCausedYouToMissDeadline: Option[AgentClientEnum.Value] = userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage)
 
   //Multiple Penalties Data
   val firstPenaltyNumber: Option[String] = penaltyData.multiplePenaltiesData.map(_.firstPenaltyChargeReference)

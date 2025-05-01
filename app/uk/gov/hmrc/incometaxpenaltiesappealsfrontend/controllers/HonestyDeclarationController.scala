@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{HonestyDeclarationView, ReviewHonestyDeclarationView}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{HonestyDeclarationView, ReviewHonestyDeclarationView, AgentHonestyDeclarationView}
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
@@ -30,6 +30,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarationView,
                                              reviewHonestyDeclarationView: ReviewHonestyDeclarationView,
+                                             agentHonestyDeclarationView: AgentHonestyDeclarationView,
                                              val authorised: AuthAction,
                                              withNavBar: NavBarRetrievalAction,
                                              withAnswers: UserAnswersAction,
@@ -42,6 +43,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(
         if(user.is2ndStageAppeal) reviewHonestyDeclarationView(user.isAgent, reasonableExcuse)
+        else if(user.isAgent)agentHonestyDeclarationView(user.isAgent, reasonableExcuse, user.isLPP, user.whoPlannedToSubmit, user.whatCausedYouToMissDeadline)
         else honestyDeclaration(user.isAgent, reasonableExcuse, user.isLPP)))
     }
   }
