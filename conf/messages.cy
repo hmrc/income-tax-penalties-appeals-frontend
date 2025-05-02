@@ -283,6 +283,11 @@ whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i ddyddiad y t
 whenDidEventHappen.health.date.error.required = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0}
 whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
 
+# Health Messages LSP Agent
+client.whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop your client from meeting the submission deadline? (Welsh)
+client.whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop your client making the payment? (Welsh)
+
+
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin? (Welsh)
 whenDidEventHappen.unexpectedHospital.date.error.invalid = The date that the hospital stay began must be a real date (Welsh)

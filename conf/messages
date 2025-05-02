@@ -201,6 +201,11 @@ whenDidEventHappen.health.date.error.required.two = The date of the health issue
 whenDidEventHappen.health.date.error.required = The date of the health issue must include a {0}
 whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past
 
+# Health Messages LSP Agent
+client.whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop your client from meeting the submission deadline?
+client.whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop your client making the payment?
+
+
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
 whenDidEventHappen.unexpectedHospital.date.error.invalid = The date that the hospital stay began must be a real date
