@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
 import play.api.libs.json.Reads
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 
 trait Page[A] {
   val key: String

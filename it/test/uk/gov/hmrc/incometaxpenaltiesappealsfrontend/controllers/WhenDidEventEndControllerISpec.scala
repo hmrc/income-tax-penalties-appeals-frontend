@@ -30,13 +30,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.LocalDate
 
-class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -79,7 +78,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
       "return an OK with a view" when {
 
         "the user is an authorised individual AND the page has already been answered" in new Setup(reasonableExcuse = reason) {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswer.setAnswer(WhenDidEventEndPage, LocalDate.of(2024, 4, 2))).futureValue
           val result = get("/when-did-the-event-end")
 
@@ -91,7 +90,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         }
 
         "the user is an authorised agent AND page NOT already answered" in new Setup(reasonableExcuse = reason) {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           val result = get("/when-did-the-event-end", isAgent = true)
 
           result.status shouldBe OK
@@ -104,7 +103,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup(reasonableExcuse = reason) {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           val result = get("/when-did-the-event-end")
 
           val document = Jsoup.parse(result.body)
@@ -124,7 +123,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         }
 
         "the user is an authorised agent" in new Setup(reasonableExcuse = reason) {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           val result = get("/when-did-the-event-end", isAgent = true)
 
           val document = Jsoup.parse(result.body)
@@ -153,7 +152,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
         "save the value to UserAnswers AND redirect" when {
           "the appeal is late" should {
             "redirect to the LateAppeal page" in new Setup(isLate = true, reasonableExcuse = reason) {
-              stubAuth(OK, successfulIndividualAuthResponse)
+              stubAuthRequests(false)
 
               val result = post("/when-did-the-event-end")(Map(
                 WhenDidEventEndForm.key + ".day" -> "02",
@@ -169,7 +168,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
           "the appeal is NOT late" should {
             "redirect to the CheckAnswers page" in new Setup(reasonableExcuse = reason) {
-              stubAuth(OK, successfulIndividualAuthResponse)
+              stubAuthRequests(false)
 
               val result = post("/when-did-the-event-end")(Map(
                 WhenDidEventEndForm.key + ".day" -> "02",
@@ -189,7 +188,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "",
@@ -213,7 +212,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "01",
@@ -237,7 +236,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "01",
@@ -261,7 +260,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "",
@@ -285,7 +284,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "",
@@ -309,7 +308,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "01",
@@ -333,7 +332,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "",
@@ -357,7 +356,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "02",
@@ -381,7 +380,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/when-did-the-event-end")(Map(
             WhenDidEventEndForm.key + ".day" -> "02",

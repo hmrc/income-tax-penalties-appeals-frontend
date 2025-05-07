@@ -23,10 +23,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class ConfirmationControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
@@ -44,14 +42,14 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 
     "return an OK with a view" when {
       "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         val result = get("/appeal-confirmation")
 
         result.status shouldBe OK
       }
 
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         val result = get("/appeal-confirmation", isAgent = true)
 
         result.status shouldBe OK
@@ -60,7 +58,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 //LSP
     "the page has the correct elements for first stage appeals" when {
       "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
         val result = get("/appeal-confirmation")
@@ -85,7 +83,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
       }
 
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
         val result = get("/appeal-confirmation", isAgent = true)
@@ -112,7 +110,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 //LPP
     "the page has the correct elements for first stage late payment penalty" when {
       "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
         val result = get("/appeal-confirmation")
@@ -137,7 +135,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
       }
 
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
         val result = get("/appeal-confirmation", isAgent = true)
@@ -164,7 +162,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 //LPP (multiple)
     "the page has the correct elements for first multiple payment penalties" when {
       "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
         val result = get("/appeal-confirmation")
@@ -189,7 +187,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
       }
 
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
         val result = get("/appeal-confirmation", isAgent = true)
@@ -216,7 +214,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 ///LPP Review/Second stage (single)
     "the page has the correct elements for second stage appeal payment penalty (single)" when {
       "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
         val result = get("/appeal-confirmation")
@@ -241,7 +239,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
       }
 
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
         val result = get("/appeal-confirmation", isAgent = true)
@@ -268,7 +266,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
 // LPP Review/Second stage (multiple)
     "the page has the correct elements for second stage appeal payment penalty (multiple)" when {
       "the user is an authorised individual" in {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
         val result = get("/appeal-confirmation")
@@ -293,7 +291,7 @@ class ConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelpe
       }
 
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
         val result = get("/appeal-confirmation", isAgent = true)

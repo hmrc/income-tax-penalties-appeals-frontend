@@ -21,7 +21,7 @@ import play.api.i18n.I18nSupport
 import play.api.libs.json.Reads
 import play.api.mvc.Result
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController

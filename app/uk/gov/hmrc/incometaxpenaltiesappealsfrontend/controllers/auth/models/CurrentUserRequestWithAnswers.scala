@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models
 
 import play.api.libs.json.{JsObject, Json, Reads}
 import play.api.mvc.{Request, WrappedRequest}
@@ -22,13 +22,15 @@ import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, Page, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, PenaltyData, RequestWithNavBar}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
 
 case class CurrentUserRequestWithAnswers[A](mtdItId: String,
+                                            nino: String,
                                             arn: Option[String] = None,
                                             override val navBar: Option[Html] = None,
                                             userAnswers: UserAnswers,
@@ -98,5 +100,5 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
 
 object CurrentUserRequestWithAnswers {
   def apply[A](userAnswers: UserAnswers, penaltyData: PenaltyData)(implicit userRequest: CurrentUserRequest[A]): CurrentUserRequestWithAnswers[A] =
-    CurrentUserRequestWithAnswers(userRequest.mtdItId, userRequest.arn, userRequest.navBar, userAnswers, penaltyData)
+    CurrentUserRequestWithAnswers(userRequest.mtdItId, userRequest.nino, userRequest.arn, userRequest.navBar, userAnswers, penaltyData)
 }

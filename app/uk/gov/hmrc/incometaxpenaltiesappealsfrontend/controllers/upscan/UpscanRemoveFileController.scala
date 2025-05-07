@@ -20,34 +20,31 @@ import play.api.data.Form
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.BaseUserAnswersController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFileForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRouts}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsRemoveFileView
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
                                            upscanService: UpscanService,
-                                           val authorised: AuthAction,
-                                           withNavBar: NavBarRetrievalAction,
-                                           withAnswers: UserAnswersAction,
+                                           val authActions: AuthActions,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents
                                           )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(fileReference: String, index: Int): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(fileReference: String, index: Int): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     renderView(Ok, UploadRemoveFileForm.form(), fileReference, index)
   }
 
 
-  def onSubmit(fileReference: String, index: Int): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onSubmit(fileReference: String, index: Int): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     UploadRemoveFileForm.form().bindFromRequest().fold(
       renderView(BadRequest, _, fileReference, index), {
         case true =>

@@ -26,8 +26,9 @@ import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, CurrentUserRequestWithAnswers, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 

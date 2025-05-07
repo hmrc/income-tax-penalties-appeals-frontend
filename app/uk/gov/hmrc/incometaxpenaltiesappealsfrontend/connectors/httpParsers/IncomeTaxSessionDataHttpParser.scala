@@ -17,9 +17,8 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers
 
 import play.api.http.Status._
-import play.api.libs.json.{JsError, JsSuccess, Json}
+import play.api.libs.json.{JsError, JsSuccess}
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.SessionData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
@@ -29,25 +28,24 @@ object IncomeTaxSessionDataHttpParser {
 
   type GetSessionDataResponse = Either[ErrorResponse, Option[SessionData]]
 
-  def reads()(implicit user: CurrentUserRequestWithAnswers[_]): HttpReads[GetSessionDataResponse] =
+  def reads(): HttpReads[GetSessionDataResponse] =
     (_: String, _: String, response: HttpResponse) =>
       response.status match {
         case OK =>
           response.json.validate[SessionData] match {
             case JsSuccess(model, _) =>
-              logger.debug(s"[GetSessionData][read] Successful call for journeyId: ${user.journeyId}, response:\n${Json.toJson(model)}")
               Right(Some(model))
             case JsError(errors) =>
-              logger.debug(s"[GetSessionData][read] Failed to parse session data response for journeyId: ${user.journeyId} - failures: $errors")
-              logger.error(s"[GetSessionData][read] Failed to parse session data response for journeyId: ${user.journeyId}")
+              logger.debug(s"[GetSessionData][read] Failed to parse session data response - failures: $errors")
+              logger.error(s"[GetSessionData][read] Failed to parse session data response")
               PagerDutyHelper.log("GetSessionData", "read", INVALID_JSON_RECEIVED_FROM_INCOME_TAX_SESSION_DATA)
               Left(InvalidJson)
           }
         case NOT_FOUND =>
-          logger.warn(s"[GetSessionData][read] No session data was returned for journeyId: ${user.journeyId}")
+          logger.warn(s"[GetSessionData][read] No session data was returned")
           Right(None)
         case BAD_REQUEST =>
-          logger.error(s"[GetSessionData][read]: Bad request returned for journeyId: ${user.journeyId} with reason: ${response.body}")
+          logger.error(s"[GetSessionData][read]: Bad request returned")
           PagerDutyHelper.log("GetSessionData", "read", RECEIVED_4XX_FROM_INCOME_TAX_SESSION_DATA)
           Left(BadRequest)
         case status =>

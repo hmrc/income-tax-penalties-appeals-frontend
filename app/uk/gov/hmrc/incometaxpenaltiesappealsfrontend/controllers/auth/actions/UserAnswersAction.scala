@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import play.api.mvc.Results.{InternalServerError, Redirect}
-import play.api.mvc.{ActionRefiner, Result}
+import play.api.mvc._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger

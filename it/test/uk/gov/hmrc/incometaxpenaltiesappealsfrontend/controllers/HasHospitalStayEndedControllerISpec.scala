@@ -32,11 +32,10 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Une
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
-class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
@@ -70,7 +69,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(hospitalAnswers.setAnswer(HasHospitalStayEndedPage, true)).futureValue
 
         val result: WSResponse = get("/has-hospital-stay-ended")
@@ -82,7 +81,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
       }
 
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result: WSResponse = get("/has-hospital-stay-ended", isAgent = true)
         result.status shouldBe OK
@@ -95,7 +94,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
     "the page has the correct elements" when {
       "the user is an authorised individual" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         val result: WSResponse = get("/has-hospital-stay-ended")
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -113,7 +112,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
       }
 
       "the user is an authorised agent" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         val result: WSResponse = get("/has-hospital-stay-ended", isAgent = true)
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -141,7 +140,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
         "save the value to UserAnswers AND redirect to the WhenDidEventEnd page when hasHospitalStayEnded is true" in new Setup(isLate = true) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
@@ -153,7 +152,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
         "save the value to UserAnswers AND redirect to the LateAppeal page when hasHospitalStayEnded is false" in new Setup(isLate = true) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
 
@@ -168,7 +167,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
         "save the value to UserAnswers AND redirect to the Check Answers page when hasHospitalStayEnded is true" in new Setup() {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
@@ -180,7 +179,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
         "save the value to UserAnswers AND redirect to the Check Answers page when hasHospitalStayEnded is false" in new Setup() {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
 
@@ -196,7 +195,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
 
       "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
 
         val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> ""))
         result.status shouldBe BAD_REQUEST

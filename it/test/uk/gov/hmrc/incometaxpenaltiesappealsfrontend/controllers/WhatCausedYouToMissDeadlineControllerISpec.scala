@@ -32,7 +32,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -48,11 +48,9 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
   s"GET /what-caused-you-to-miss-the-deadline" should {
 
-    testNavBar(url = "/what-caused-you-to-miss-the-deadline")()
-
     "return an OK with a view pre-populated" when {
       "the user is an authorised agent AND the page has already been answered" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(
           emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
         ).futureValue
@@ -68,7 +66,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
     "the page has the correct elements" when {
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)
         result.status shouldBe OK
@@ -96,7 +94,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
       "save the value to UserAnswers AND redirect to the ReasonableExcuse page" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(true)
 
         val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
 
@@ -111,7 +109,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ComponentSpecHelper wit
 
       "render a bad request with the Form Error on the page with a link to the field in error" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(true)
 
         val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> ""))
         result.status shouldBe BAD_REQUEST

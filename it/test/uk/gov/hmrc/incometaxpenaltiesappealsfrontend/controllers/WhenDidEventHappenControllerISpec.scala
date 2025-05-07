@@ -30,13 +30,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.LocalDate
 
-class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
@@ -74,7 +73,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "return an OK with a view" when {
         "the user is an authorised individual AND the page has already been answered" in new Setup(reason) {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           userAnswersRepo.upsertUserAnswer(userAnswers.setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 4, 2))).futureValue
 
@@ -88,7 +87,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
         }
 
         "the user is an authorised agent AND page NOT already answered" in new Setup(reason) {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = get("/when-did-the-event-happen", isAgent = true)
@@ -104,7 +103,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup(reason) {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = get("/when-did-the-event-happen")
@@ -126,7 +125,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
         }
 
         "the user is an authorised agent" in new Setup(reason) {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = get("/when-did-the-event-happen", isAgent = true)
@@ -170,7 +169,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
             s"save the value to UserAnswers AND redirect to $redirectLocation" in new Setup(reason, isLate) {
 
-              stubAuth(OK, successfulIndividualAuthResponse)
+              stubAuthRequests(false)
               userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
               val result = post("/when-did-the-event-happen")(Map(
@@ -191,7 +190,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -216,7 +215,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -241,7 +240,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -266,7 +265,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -291,7 +290,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -316,7 +315,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -341,7 +340,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -366,7 +365,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -391,7 +390,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -416,7 +415,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(
@@ -441,7 +440,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/when-did-the-event-happen")(Map(

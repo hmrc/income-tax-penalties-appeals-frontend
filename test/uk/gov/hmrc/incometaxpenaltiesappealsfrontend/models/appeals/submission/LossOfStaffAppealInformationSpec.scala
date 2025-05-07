@@ -22,8 +22,6 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadJourney, UploadStatusEnum}
 
 import java.time.LocalDateTime
 

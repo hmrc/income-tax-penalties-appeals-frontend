@@ -25,15 +25,13 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.Json
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -93,7 +91,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "return an OK with a view" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
           val result = get("/honesty-declaration")
@@ -102,7 +100,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
           val result = get("/honesty-declaration", isAgent = true)
@@ -114,7 +112,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
       "the journey is for a 1st Stage Appeal" when {
         "the page has the correct LSP elements" when {
           "the user is an authorised individual" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration")
@@ -137,7 +135,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
           }
 
           "the user is an authorised agent - agent planned - agent affected" in {
-            stubAuth(OK, successfulAgentAuthResponse)
+            stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(agentPlannedAgentAffectedUserAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
@@ -159,7 +157,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
           }
 
           "the user is an authorised agent - agent planned - client affected" in {
-            stubAuth(OK, successfulAgentAuthResponse)
+            stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(agentPlannedClientAffectedUserAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
@@ -181,7 +179,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
           }
 
           "the user is an authorised agent - client planned" in {
-            stubAuth(OK, successfulAgentAuthResponse)
+            stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(clientPlannedAgentUserAnswersWithReasonLSP).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
@@ -205,7 +203,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
         "the page has the correct LPP elements" when {
           "the user is an authorised individual" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
 
             val result = get("/honesty-declaration")
@@ -229,7 +227,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
           }
 
           "the user is an authorised agent" in {
-            stubAuth(OK, successfulAgentAuthResponse)
+            stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
@@ -255,7 +253,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
       "the journey is for a 2nd Stage Appeal" when {
         "the page has the correct elements" when {
           "the user is an authorised individual" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
 
             val result = get("/honesty-declaration")
@@ -275,7 +273,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
           }
 
           "the user is an authorised agent" in {
-            stubAuth(OK, successfulAgentAuthResponse)
+            stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
 
             val result = get("/honesty-declaration", isAgent = true)
@@ -302,7 +300,7 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
 
     "redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers" in {
 
-      stubAuth(OK, successfulIndividualAuthResponse)
+      stubAuthRequests(false)
       userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
       val result = post("/honesty-declaration")(Json.obj())

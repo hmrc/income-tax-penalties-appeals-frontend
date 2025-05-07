@@ -18,27 +18,24 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealView
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class LateAppealController @Inject()(lateAppeal: LateAppealView,
-                                     val authorised: AuthAction,
-                                     withNavBar: NavBarRetrievalAction,
-                                     withAnswers: UserAnswersAction,
+                                     val authActions: AuthActions,
                                      userAnswersService: UserAnswersService,
                                      override val errorHandler: ErrorHandler,
                                      override val controllerComponents: MessagesControllerComponents
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
     Ok(lateAppeal(
       form = fillForm(LateAppealForm.form(user.isAppealingMultipleLPPs, user.is2ndStageAppeal), LateAppealPage),
       isLPP = user.isLPP,
@@ -48,7 +45,7 @@ class LateAppealController @Inject()(lateAppeal: LateAppealView,
     ))
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     LateAppealForm.form(user.isAppealingMultipleLPPs, user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(lateAppeal(

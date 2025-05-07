@@ -33,11 +33,10 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Oth
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, JointAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 
-class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -71,7 +70,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, true)).futureValue
 
         val result: WSResponse = get("/upload-extra-evidence")
@@ -83,7 +82,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
       }
 
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
         result.status shouldBe OK
@@ -97,7 +96,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
     "the journey is for a 1st Stage Appeal" when {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           val result: WSResponse = get("/upload-extra-evidence")
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -116,7 +115,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         }
 
         "the user is an authorised agent" in new Setup() {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -140,7 +139,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
     "the journey is for a 2nd Stage Appeal" when {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
 
           val result: WSResponse = get("/upload-extra-evidence")
@@ -161,7 +160,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         }
 
         "the user is an authorised individual appealing a single LPPs" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, false))
 
           val result: WSResponse = get("/upload-extra-evidence")
@@ -182,7 +181,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         }
 
         "the user is an authorised individual appealing multiple LPPs" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, true))
 
           val result: WSResponse = get("/upload-extra-evidence")
@@ -203,7 +202,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
         }
 
         "the user is an authorised agent" in new Setup() {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
 
           val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
@@ -235,7 +234,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
       "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
 
         val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> true))
 
@@ -251,7 +250,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           "redirect to the LateAppeal page" in new Setup(isLate = true) {
 
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
 
             val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
@@ -266,7 +265,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
           "redirect to the CheckAnswers page" in new Setup() {
 
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
 
             val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
@@ -283,7 +282,7 @@ class ExtraEvidenceControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
       "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
 
         val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> ""))
         result.status shouldBe BAD_REQUEST

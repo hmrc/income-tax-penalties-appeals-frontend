@@ -50,9 +50,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   def btaBaseUrl: String = servicesConfig.baseUrl("business-tax-account")
 
-  def incomeTaxSessionDataBaseUrl: String =
-    if (isEnabled(StubIncomeTaxSessionData)) s"${servicesConfig.baseUrl("income-tax-penalties-stubs")}/income-tax-penalties-stubs"
-    else servicesConfig.baseUrl("income-tax-session-data")
+  def incomeTaxSessionDataBaseUrl: String = servicesConfig.baseUrl("income-tax-session-data")
 
   val appName: String = servicesConfig.getString("appName")
 
@@ -95,4 +93,5 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val upscanCheckInterval: FiniteDuration = config.get[FiniteDuration]("upscan.checkInterval")
   lazy val upscanTimeout: FiniteDuration = config.get[FiniteDuration]("upscan.timeout")
 
+  lazy val enterClientUTRVandCUrl: String = config.get[String]("income-tax-view-change.enterClientUTR.url")
 }

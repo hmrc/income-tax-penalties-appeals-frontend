@@ -20,25 +20,22 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{AppealStartView, ReviewAppealStartView}
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
 
 class AppealStartController @Inject()(appealStart: AppealStartView,
                                       reviewAppealStartView: ReviewAppealStartView,
-                                      val authorised: AuthAction,
-                                      withNavBar: NavBarRetrievalAction,
-                                      withAnswers: UserAnswersAction,
+                                      val authActions: AuthActions,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
     Ok(
       if(user.is2ndStageAppeal) renderReviewAppeal()
       else renderAppealStartAppeal()

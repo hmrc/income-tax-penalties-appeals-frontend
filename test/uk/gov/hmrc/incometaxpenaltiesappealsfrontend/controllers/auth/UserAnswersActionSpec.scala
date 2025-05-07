@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth
 
 import fixtures.BaseFixtures
 import org.scalatest.matchers.should
@@ -26,8 +26,10 @@ import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.UserAnswersAction
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledIndividual, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequest, CurrentUserRequestWithAnswers, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockSessionService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 
@@ -59,7 +61,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       "redirect to the Income Tax penalties home page" in {
 
-        val userRequest = CurrentUserRequest("1234567890")
+        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
 
         val result = testAction.invokeBlock(userRequest, block)
 
@@ -80,7 +82,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
           mockGetUserAnswers(testJourneyId)(Future.successful(None))
 
-          val userRequest = CurrentUserRequest("1234567890")
+          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
 
           val result = testAction.invokeBlock(userRequest, block)
 
@@ -103,7 +105,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
             mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
 
-            val userRequest = CurrentUserRequest("1234567890")
+            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
 
             val result = testAction.invokeBlock(userRequest, block)
 
@@ -124,7 +126,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
             mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
 
-            val userRequest = CurrentUserRequest("1234567890")
+            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
 
             val result = testAction.invokeBlock(userRequest, block)
 
@@ -132,6 +134,22 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
             redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage)
           }
         }
+      }
+    }
+
+    "a mongo error occurs" should {
+
+      "render the error page" in {
+        implicit lazy val request: Request[AnyContent] =
+          FakeRequest().withSession(IncomeTaxSessionKeys.journeyId -> testJourneyId)
+
+        mockGetUserAnswersMongoFailure(testJourneyId)
+
+        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+
+        val result = testAction.invokeBlock(userRequest, block)
+
+        status(result) shouldBe INTERNAL_SERVER_ERROR
       }
     }
   }
