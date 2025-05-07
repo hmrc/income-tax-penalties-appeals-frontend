@@ -1,3 +1,4 @@
+import play.sbt.routes.RoutesKeys
 import uk.gov.hmrc.DefaultBuildSettings
 
 ThisBuild / majorVersion := 0
@@ -5,6 +6,11 @@ ThisBuild / scalaVersion := "2.13.16"
 
 lazy val microservice = Project("income-tax-penalties-appeals-frontend", file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
+  .settings(RoutesKeys.routesImport ++= Seq(
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._",
+    "uk.gov.hmrc.play.bootstrap.binders.RedirectUrl"
+  ))
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
     // https://www.scala-lang.org/2021/01/12/configuring-and-suppressing-warnings.html

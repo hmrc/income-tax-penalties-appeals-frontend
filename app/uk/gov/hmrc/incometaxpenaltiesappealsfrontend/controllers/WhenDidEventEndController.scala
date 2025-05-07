@@ -20,6 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -40,40 +41,36 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
                                          )(implicit ec: ExecutionContext,
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
-      withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-        Future(Ok(whenDidEventEnd(
-          form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
-          isAgent = user.isAgent,
-          reasonableExcuse = reasonableExcuse
-        )))
-      }
+      Future(Ok(whenDidEventEnd(
+        form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
+        isAgent = user.isAgent,
+        reasonableExcuse = reasonableExcuse
+      )))
     }
   }
 
 
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
-      withAnswer(ReasonableExcusePage) { reasonableExcuse =>
-        WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
-          formWithErrors =>
-            Future.successful(BadRequest(whenDidEventEnd(
-              user.isAgent,
-              reasonableExcuse,
-              formWithErrors
-            ))),
-          dateOfEvent => {
-            val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
-            userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-              if(user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad())
-              } else {
-                Redirect(routes.CheckYourAnswersController.onPageLoad())
-              }
+      WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
+        formWithErrors =>
+          Future.successful(BadRequest(whenDidEventEnd(
+            user.isAgent,
+            reasonableExcuse,
+            formWithErrors
+          ))),
+        dateOfEvent => {
+          val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
+          userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+            if (user.isAppealLate()) {
+              Redirect(routes.LateAppealController.onPageLoad())
+            } else {
+              Redirect(routes.CheckYourAnswersController.onPageLoad())
             }
-          })
-      }
+          }
+        })
     }
   }
 }

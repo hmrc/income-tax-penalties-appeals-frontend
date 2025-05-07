@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
 import play.api.i18n.Messages
 import play.api.libs.json.{JsString, Reads, Writes}
+import play.api.mvc.JavascriptLiteral
 import uk.gov.hmrc.govukfrontend.views.Aliases.{Hint, RadioItem, Text}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.ReasonableExcusesEnabled
@@ -102,5 +103,10 @@ object ReasonableExcuse {
 
   implicit val reads: Reads[ReasonableExcuse] = Reads { json =>
     json.validate[String].map(ReasonableExcuse.apply)
+  }
+
+  implicit val jsLiteral: JavascriptLiteral[ReasonableExcuse] = new JavascriptLiteral[ReasonableExcuse] {
+    override def to(reasonableExcuse: ReasonableExcuse): String = {reasonableExcuse.toString}
+    
   }
 }

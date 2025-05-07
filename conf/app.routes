@@ -26,13 +26,49 @@ POST       /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /honesty-declaration             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HonestyDeclarationController.onPageLoad()
 POST       /honesty-declaration             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HonestyDeclarationController.submit()
 
-# When did the event happen
-GET        /when-did-the-event-happen       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad()
-POST       /when-did-the-event-happen       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit()
+# When did the person die
+GET        /when-did-the-person-die                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement)
+POST       /when-did-the-person-die                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement)
 
-# When did the event end
-GET        /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad()
-POST       /when-did-the-event-end          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit()
+# TBC cessation
+GET        /cessation                              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation)
+POST       /cessation                              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation)
+
+# When did the crime happen
+GET        /when-did-the-crime-happen              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime)
+POST       /when-did-the-crime-happen              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime)
+
+# When did the fire or flood happen
+GET        /when-did-the-fire-or-flood-happen      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood)
+POST       /when-did-the-fire-or-flood-happen      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood)
+
+# When did the health issue begin
+GET        /when-did-the-health-issue-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health)
+POST       /when-did-the-health-issue-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health)
+
+# When did the technology issue begin
+GET        /when-did-the-technology-issues-begin   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues)
+POST       /when-did-the-technology-issues-begin   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues)
+
+# When did the hospital stay begin
+GET        /when-did-the-hospital-stay-begin       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital)
+POST       /when-did-the-hospital-stay-begin       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital)
+
+# TBC LossOfStaff
+GET        /lossOfStaff                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff)
+POST       /lossOfStaff                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff)
+
+# When did the other stop you
+GET        /when-did-the-issue-stop-you           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other)
+POST       /when-did-the-issue-stop-you           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other)
+
+## When did the technology issues end
+GET        /when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues)
+POST       /when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues)
+
+# When did the hospital stay end
+GET        /when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital)
+POST       /when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital)
 
 # Late appeal page
 GET        /making-a-late-appeal            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad()

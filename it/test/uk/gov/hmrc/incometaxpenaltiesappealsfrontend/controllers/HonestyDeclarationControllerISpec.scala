@@ -298,19 +298,24 @@ class HonestyDeclarationControllerISpec extends ComponentSpecHelper with ViewSpe
     }
   }
 
-  s"POST /honesty-declaration" should {
+  for(reason <- reasonsList) {
 
-    "redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers" in {
+    val userAnswersWithReason = emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)
 
-      stubAuth(OK, successfulIndividualAuthResponse)
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
+    s"POST /honesty-declaration" should {
 
-      val result = post("/honesty-declaration")(Json.obj())
+      s"redirect to the WhenDidEventHappen page and add the Declaration flag to UserAnswers with ${reason._1}" in {
 
-      result.status shouldBe SEE_OTHER
-      result.header("Location") shouldBe Some(routes.WhenDidEventHappenController.onPageLoad().url)
+        stubAuth(OK, successfulIndividualAuthResponse)
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-      userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HonestyDeclarationPage)) shouldBe Some(true)
+        val result = post("/honesty-declaration")(Json.obj())
+
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(routes.WhenDidEventHappenController.onPageLoad(reason._1).url)
+
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HonestyDeclarationPage)) shouldBe Some(true)
+      }
     }
   }
 }

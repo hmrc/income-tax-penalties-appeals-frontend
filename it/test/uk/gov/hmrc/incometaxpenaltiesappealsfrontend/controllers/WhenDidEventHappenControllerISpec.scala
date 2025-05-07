@@ -25,7 +25,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, Other, TechnicalIssues, UnexpectedHospital}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
@@ -44,6 +44,18 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+
+  val reasonsWithUrls: List[(ReasonableExcuse, String)] = List(
+    (Bereavement, "/when-did-the-person-die"),
+    (Cessation, "/cessation"),
+    (Crime, "/when-did-the-crime-happen"),
+    (FireOrFlood, "/when-did-the-fire-or-flood-happen"),
+    (Health, "/when-did-the-health-issue-begin"),
+    (TechnicalIssues, "/when-did-the-technology-issues-begin"),
+    (UnexpectedHospital, "/when-did-the-hospital-stay-begin"),
+    (LossOfStaff, "/lossOfStaff"),
+    (Other, "/when-did-the-issue-stop-you")
+  )
 
   class Setup(reason: ReasonableExcuse, isLate: Boolean = false) {
 
@@ -64,21 +76,21 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
     userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
   }
 
-  for (reason <- ReasonableExcuse.allReasonableExcuses) {
+  for (reason <- reasonsWithUrls) {
 
-    s"GET /when-did-the-event-happen with $reason" should {
+    s"GET ${reason._2} with ${reason._1}" should {
 
       testNavBar(url = "/honesty-declaration") {
-        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)).futureValue
+        userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason._1)).futureValue
       }
 
       "return an OK with a view" when {
-        "the user is an authorised individual AND the page has already been answered" in new Setup(reason) {
+        s"the user is an authorised individual AND the page has already been answered with ${reason._1}" in new Setup(reason._1) {
           stubAuth(OK, successfulIndividualAuthResponse)
 
           userAnswersRepo.upsertUserAnswer(userAnswers.setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 4, 2))).futureValue
 
-          val result = get("/when-did-the-event-happen")
+          val result = get(reason._2)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -87,11 +99,11 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.getElementById(s"${WhenDidEventHappenForm.key + ".year"}").`val`() shouldBe "2024"
         }
 
-        "the user is an authorised agent AND page NOT already answered" in new Setup(reason) {
+        "the user is an authorised agent AND page NOT already answered" in new Setup(reason._1) {
           stubAuth(OK, successfulAgentAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = get("/when-did-the-event-happen", isAgent = true)
+          val result = get(reason._2, isAgent = true)
 
           result.status shouldBe OK
 
@@ -103,21 +115,21 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
       }
 
       "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup(reason) {
+        "the user is an authorised individual" in new Setup(reason._1) {
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = get("/when-did-the-event-happen")
+          val result = get(reason._2)
 
           val document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe WhenDidEventHappenMessages.English.serviceName
-          document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = false, wasClientInformationIssue = false))
+          document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reason._1, isLPP = false, isAgent = false, wasClientInformationIssue = false))
           document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = false, wasClientInformationIssue = false)
+          document.getH1Elements.text() shouldBe WhenDidEventHappenMessages.English.headingAndTitle(reason._1, isLPP = false, isAgent = false, wasClientInformationIssue = false)
           document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
           document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
           document.getElementsByAttributeValue("for", "date.month").text() shouldBe "Month"
@@ -125,21 +137,21 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.getSubmitButton.text() shouldBe "Continue"
         }
 
-        "the user is an authorised agent" in new Setup(reason) {
+        "the user is an authorised agent" in new Setup(reason._1) {
           stubAuth(OK, successfulAgentAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = get("/when-did-the-event-happen", isAgent = true)
+          val result = get(reason._2, isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe WhenDidEventHappenMessages.English.serviceName
-          document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = true, wasClientInformationIssue = false))
+          document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reason._1, isLPP = false, isAgent = true, wasClientInformationIssue = false))
           document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe WhenDidEventHappenMessages.English.headingAndTitle(reason, isLPP = false, isAgent = true, wasClientInformationIssue = false)
+          document.getH1Elements.text() shouldBe WhenDidEventHappenMessages.English.headingAndTitle(reason._1, isLPP = false, isAgent = true, wasClientInformationIssue = false)
           document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
           document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
           document.getElementsByAttributeValue("for", "date.month").text() shouldBe "Month"
@@ -150,7 +162,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
       }
     }
 
-    s"POST /when-did-the-event-happen $reason" when {
+    s"POST ${reason._2} with  ${reason._1}" when {
 
       "the date is valid" when {
 
@@ -158,8 +170,8 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
           s"the appeal isLate='$isLate'" should {
 
-            val redirectLocation = reason match {
-              case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad().url
+            val redirectLocation = reason._1 match {
+              case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reason._1).url
               case Crime => routes.CrimeReportedController.onPageLoad().url
               case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad().url
               case Other => routes.MissedDeadlineReasonController.onPageLoad().url
@@ -168,12 +180,12 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
                 else routes.CheckYourAnswersController.onPageLoad().url
             }
 
-            s"save the value to UserAnswers AND redirect to $redirectLocation" in new Setup(reason, isLate) {
+            s"save the value to UserAnswers AND redirect to $redirectLocation" in new Setup(reason._1, isLate) {
 
               stubAuth(OK, successfulIndividualAuthResponse)
               userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-              val result = post("/when-did-the-event-happen")(Map(
+              val result = post(reason._2)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "02",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -189,12 +201,12 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "the date is not valid - day missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "",
             WhenDidEventHappenForm.key + ".month" -> "04",
             WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -207,19 +219,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required", args = Seq("day"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required", args = Seq("day"))
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
 
       "the date is not valid - month missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "02",
             WhenDidEventHappenForm.key + ".month" -> "",
             WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -232,19 +244,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required", args = Seq("month"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required", args = Seq("month"))
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
         }
       }
 
       "the date is not valid - year missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "02",
             WhenDidEventHappenForm.key + ".month" -> "04",
             WhenDidEventHappenForm.key + ".year" -> ""))
@@ -257,19 +269,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required", args = Seq("year"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required", args = Seq("year"))
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
         }
       }
 
       "the date is not valid - two fields missing - day and month" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "",
             WhenDidEventHappenForm.key + ".month" -> "",
             WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -282,19 +294,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required.two", args = Seq("day", "month"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.two", args = Seq("day", "month"))
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
 
       "the date is not valid - two fields missing - day and year" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "",
             WhenDidEventHappenForm.key + ".month" -> "04",
             WhenDidEventHappenForm.key + ".year" -> ""))
@@ -307,19 +319,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required.two", args = Seq("day", "year"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.two", args = Seq("day", "year"))
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
 
       "the date is not valid - two fields missing - month and year" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "04",
             WhenDidEventHappenForm.key + ".month" -> "",
             WhenDidEventHappenForm.key + ".year" -> ""))
@@ -332,19 +344,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required.two", args = Seq("month", "year"))
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.two", args = Seq("month", "year"))
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
         }
       }
 
       "the date is not valid - all fields missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "",
             WhenDidEventHappenForm.key + ".month" -> "",
             WhenDidEventHappenForm.key + ".year" -> ""))
@@ -357,19 +369,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "required.all")
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "required.all")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
 
       "the date is not valid - Invalid format day" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "aa",
             WhenDidEventHappenForm.key + ".month" -> "04",
             WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -382,19 +394,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "invalid")
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "invalid")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }
 
       "the date is not valid - Invalid format month" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "02",
             WhenDidEventHappenForm.key + ".month" -> "aa",
             WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -407,19 +419,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "invalid")
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "invalid")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
         }
       }
 
       "the date is not valid - Invalid format year" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "02",
             WhenDidEventHappenForm.key + ".month" -> "04",
             WhenDidEventHappenForm.key + ".year" -> "aaaa"))
@@ -432,19 +444,19 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "invalid")
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "invalid")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
         }
       }
 
       "the date is not valid - date is in the future" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-          val result = post("/when-did-the-event-happen")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventHappenForm.key + ".day" -> "02",
             WhenDidEventHappenForm.key + ".month" -> "04",
             WhenDidEventHappenForm.key + ".year" -> "2027"))
@@ -457,7 +469,7 @@ class WhenDidEventHappenControllerISpec extends ComponentSpecHelper with ViewSpe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason, "notInFuture")
+          error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reason._1, "notInFuture")
           error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
         }
       }

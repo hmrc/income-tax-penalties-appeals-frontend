@@ -20,7 +20,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.HasHospitalStayEndedPage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -37,7 +38,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
                                                userAnswersService: UserAnswersService,
                                                override val errorHandler: ErrorHandler,
                                                override val controllerComponents: MessagesControllerComponents
-                                       )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                              )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
     Ok(hospitalStayEnded(
@@ -57,11 +58,12 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(HasHospitalStayEndedPage, value)
-        userAnswersService.updateAnswers(updatedAnswers).map  { _ =>
+        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           if (value) {
-            Redirect(routes.WhenDidEventEndController.onPageLoad()) 
+            val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
+            Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse))
           } else {
-            if(user.isAppealLate()) {
+            if (user.isAppealLate()) {
               Redirect(routes.LateAppealController.onPageLoad())
             } else {
               Redirect(routes.CheckYourAnswersController.onPageLoad())
