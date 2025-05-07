@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models
 
 import fixtures.BaseFixtures
 import org.mockito.Mockito.when
@@ -26,7 +26,8 @@ import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, HonestyDeclarationPage, JointAppealPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 
 import java.time.LocalDate
@@ -56,6 +57,8 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
       CurrentUserRequestWithAnswers(
         mtdItId = testMtdItId,
+        nino = testNino,
+        arn = None,
         userAnswers = emptyUserAnswersWithLSP
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)
@@ -78,6 +81,8 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
       CurrentUserRequestWithAnswers(
         mtdItId = testMtdItId,
+        nino = testNino,
+        arn = None,
         userAnswers = emptyUserAnswersWithLSP
           .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
           .setAnswer(HonestyDeclarationPage, true)

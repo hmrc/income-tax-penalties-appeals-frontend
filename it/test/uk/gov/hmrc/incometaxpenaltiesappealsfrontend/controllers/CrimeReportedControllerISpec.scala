@@ -26,15 +26,14 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, IncomeTaxSessionKeys, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
 
-class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
@@ -68,7 +67,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(crimeAnswers.setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)).futureValue
 
         val result = get("/has-this-crime-been-reported")
@@ -81,7 +80,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
       }
 
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result = get("/has-this-crime-been-reported", isAgent = true)
         result.status shouldBe OK
@@ -95,7 +94,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
     "the page has the correct elements" when {
       "the user is an authorised individual" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         val result = get("/has-this-crime-been-reported")
 
         val document = Jsoup.parse(result.body)
@@ -113,7 +112,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
       }
 
       "the user is an authorised agent" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         val result = get("/has-this-crime-been-reported", isAgent = true)
 
         val document = Jsoup.parse(result.body)
@@ -141,7 +140,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         "save the value to UserAnswers AND redirect to the LateAppeal page" in new Setup(isLate = true) {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
@@ -156,7 +155,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
         "save the value to UserAnswers AND redirect to the Check Answers page" in new Setup() {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
@@ -172,7 +171,7 @@ class CrimeReportedControllerISpec extends ComponentSpecHelper with ViewSpecHelp
 
       "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
 
         val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> ""))
         result.status shouldBe BAD_REQUEST

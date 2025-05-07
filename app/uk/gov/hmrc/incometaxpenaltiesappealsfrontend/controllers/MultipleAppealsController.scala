@@ -17,28 +17,25 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.MultipleAppealsView
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
-                                          val authorised: AuthAction,
-                                          withNavBar: NavBarRetrievalAction,
-                                          withAnswers: UserAnswersAction,
+                                          val authActions: AuthActions,
                                           override val controllerComponents: MessagesControllerComponents,
                                           override val errorHandler: ErrorHandler
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
       Future(Ok(multipleAppeals(user.isAgent, isSecondStageAppeal = user.is2ndStageAppeal)))
   }
 
-  def submit(): Action[AnyContent] = authorised {
+  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve {
       Redirect(routes.ReasonableExcuseController.onPageLoad())
   }
 }

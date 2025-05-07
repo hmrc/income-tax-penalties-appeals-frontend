@@ -27,11 +27,9 @@ import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
-class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -53,14 +51,14 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
     "return an OK with a view" when {
 
       "the user is an authorised individual" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
 
         val result: WSResponse = get("/single-appeal")
         result.status shouldBe OK
       }
 
       "the user is an authorised agent" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result: WSResponse = get("/single-appeal", isAgent = true)
         result.status shouldBe OK
@@ -70,7 +68,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
     "the journey is for a 1st Stage Appeal" when {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           val result: WSResponse = get("/single-appeal")
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -88,7 +86,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
         }
 
         "the user is an authorised agent" in new Setup() {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           val result: WSResponse = get("/single-appeal", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -111,7 +109,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
     "the journey is for a 2nd Stage Appeal" when {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
           val result: WSResponse = get("/single-appeal")
@@ -131,7 +129,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
         }
 
         "the user is an authorised agent" in new Setup() {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
           val result: WSResponse = get("/single-appeal", isAgent = true)
@@ -157,7 +155,7 @@ class SingleAppealConfirmationControllerISpec extends ComponentSpecHelper with V
 
     "redirect to the Reasonable Excuse page" in {
 
-      stubAuth(OK, successfulIndividualAuthResponse)
+      stubAuthRequests(false)
 
       val result = post("/single-appeal")(Json.obj())
 

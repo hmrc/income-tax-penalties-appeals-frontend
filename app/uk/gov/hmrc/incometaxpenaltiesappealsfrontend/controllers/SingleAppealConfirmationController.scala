@@ -19,20 +19,17 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 
 class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView: SingleAppealConfirmationView,
-                                                   val authorised: AuthAction,
-                                                   withNavBar: NavBarRetrievalAction,
-                                                   withAnswers: UserAnswersAction,
+                                                   val authActions: AuthActions,
                                                    override val errorHandler: ErrorHandler,
                                                    override val controllerComponents: MessagesControllerComponents) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
@@ -48,7 +45,7 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
     }
   }
 
-  def submit(): Action[AnyContent] = authorised {
+  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve {
     Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
   }
 

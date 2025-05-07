@@ -18,8 +18,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit
 
 import play.api.libs.json.Json.JsValueWrapper
 import play.api.libs.json.{JsValue, Json}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CurrentUserRequestWithAnswers, PenaltyTypeEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyTypeEnum
 
 case class AppealSubmissionAuditModel(penaltyNumber: String,
                                       penaltyType: PenaltyTypeEnum.Value,

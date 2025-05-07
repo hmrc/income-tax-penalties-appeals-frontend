@@ -17,22 +17,20 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 
-import play.api.http.Status.{NO_CONTENT, OK, SEE_OTHER}
+import play.api.http.Status.{NO_CONTENT, SEE_OTHER}
 import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, ViewSpecHelper}
 
 import java.net.URLEncoder
 
 
-class ServiceControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub {
+class ServiceControllerISpec extends ControllerISpecHelper {
 
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "GET /view-or-appeal-penalty/self-assessment/sign-out" should {
     "redirect to sign-out route with the continue URL set to the feedback survey" in {
-      val appConfig = app.injector.instanceOf[AppConfig]
-      stubAuth(OK, successfulIndividualAuthResponse)
+      stubAuthRequests(false)
 
       val result = get("/logout")
 
@@ -47,7 +45,7 @@ class ServiceControllerISpec extends ComponentSpecHelper with ViewSpecHelper wit
 
   "GET /view-or-appeal-penalty/self-assessment/keep-alive" should {
     "return No-Content" in {
-      stubAuth(OK, successfulIndividualAuthResponse)
+      stubAuthRequests(false)
 
       val result = get("/keep-alive")
       result.status shouldBe NO_CONTENT

@@ -24,22 +24,19 @@ import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import play.api.libs.json.JsValue
 import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.StubIncomeTaxSessionData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
 
-class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper with FileUploadFixtures {
+class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUploadFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -48,20 +45,18 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
 
-  class Setup(authResponse: JsValue, userAnswers: UserAnswers) {
-    disable(StubIncomeTaxSessionData)
+  class Setup(userAnswers: UserAnswers, isAgent: Boolean) {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
-    when(GET, uri = "/income-tax-session-data").thenReturn(status = OK, body = sessionData)
-    stubAuth(OK, authResponse)
+    stubAuthRequests(isAgent)
   }
 
   object Selectors extends BaseSelectors
 
   Seq(
-    false -> successfulIndividualAuthResponse,
-    true -> successfulAgentAuthResponse
-  ).foreach { case (isAgent, authResponse) =>
+    false,
+    true
+  ).foreach { case isAgent =>
 
     s"When the user is an ${if (isAgent) "Agent" else "Individual"}" when {
 
@@ -107,8 +102,6 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
 
             if (!isAgent) {
               testNavBar(url = "/appeal-details") {
-                disable(StubIncomeTaxSessionData)
-                when(GET, uri = "/income-tax-session-data").thenReturn(status = OK, body = sessionData)
                 userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
               }
             }
@@ -124,7 +117,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
                 .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
                 .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
 
-              "return an OK with a view with expected data" in new Setup(authResponse, userAnswers) {
+              "return an OK with a view with expected data" in new Setup(userAnswers, isAgent) {
 
                 val result: WSResponse = get(
                   uri = "/appeal-details",
@@ -179,7 +172,7 @@ class ViewAppealDetailsControllerISpec extends ComponentSpecHelper with ViewSpec
                 .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
                 .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
 
-              "return an OK with a view with expected data" in new Setup(authResponse, userAnswers) {
+              "return an OK with a view with expected data" in new Setup(userAnswers, isAgent) {
 
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel2).futureValue

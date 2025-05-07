@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.MessageCountConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequest
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledIndividual, CurrentUserRequest}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.BtaNavBarService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -42,31 +42,31 @@ class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountCon
   override def refine[A](request: CurrentUserRequest[A]): Future[Either[Result, CurrentUserRequest[A]]] = {
 
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
-    implicit val _req: CurrentUserRequest[A] = request
 
-    if (request.isAgent) Future.successful(Right(request)) else {
-      request.session.get(IncomeTaxSessionKeys.origin) match {
-        case Some("PTA") => handlePtaNavBar()
-        case Some("BTA") => handleBtaNavBar()
+    request match {
+      case _req: AuthorisedAndEnrolledIndividual[A] => request.session.get(IncomeTaxSessionKeys.origin) match {
+        case Some("PTA") => handlePtaNavBar()(_req, implicitly)
+        case Some("BTA") => handleBtaNavBar()(_req, implicitly)
         case _ =>
           logger.info("[NavBarRetrievalAction][refine] No origin found in session, not constructing a Nav Bar as can't determine PTA or BTA")
           Future.successful(Right(request))
       }
+      case _ => Future.successful(Right(request))
     }
   }
 
-  private def handlePtaNavBar[A]()(implicit request: CurrentUserRequest[A], hc: HeaderCarrier): Future[Either[Result, CurrentUserRequest[A]]] = {
+  private def handlePtaNavBar[A]()(implicit request: AuthorisedAndEnrolledIndividual[A], hc: HeaderCarrier): Future[Either[Result, CurrentUserRequest[A]]] = {
     messageCountConnector.getMessageCount().map {
       case Right(count) =>
-        Right(request.copy(navBar = Some(ptaNavBar(count.count))))
+        Right(request.addNavBar(ptaNavBar(count.count)))
       case _ =>
         logger.warn("[NavBarRetrievalAction][refine] Failed to retrieve message count from 'message' microservice, continuing with 0 messages to continue gracefully")
-        Right(request.copy(navBar = Some(ptaNavBar(0))))
+        Right(request.addNavBar(ptaNavBar(0)))
     }
   }
 
-  private def handleBtaNavBar[A]()(implicit request: CurrentUserRequest[A], hc: HeaderCarrier): Future[Right[Result, CurrentUserRequest[A]]] =
+  private def handleBtaNavBar[A]()(implicit request: AuthorisedAndEnrolledIndividual[A], hc: HeaderCarrier): Future[Right[Result, CurrentUserRequest[A]]] =
     btaNavBarService.retrieveBtaLinksAndRenderNavBar().map(btaNavBarHtml =>
-      Right(request.copy(navBar = btaNavBarHtml))
+      Right(btaNavBarHtml.fold[CurrentUserRequest[A]](request)(content => request.addNavBar(content)))
     )
 }

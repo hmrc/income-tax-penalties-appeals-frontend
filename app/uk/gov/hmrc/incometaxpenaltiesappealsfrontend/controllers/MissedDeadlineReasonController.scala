@@ -18,27 +18,24 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.MissedDeadlineReasonPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.MissedDeadlineReasonView
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadlineReasonView,
-                                               val authorised: AuthAction,
-                                               withNavBar: NavBarRetrievalAction,
-                                               withAnswers: UserAnswersAction,
+                                               val authActions: AuthActions,
                                                userAnswersService: UserAnswersService,
                                                override val errorHandler: ErrorHandler,
                                                override val controllerComponents: MessagesControllerComponents
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
     Ok(missedDeadlineReason(
       form = fillForm(MissedDeadlineReasonForm.form(user.isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs), MissedDeadlineReasonPage),
       isLPP = user.isLPP,
@@ -47,7 +44,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
     ))
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     MissedDeadlineReasonForm.form(user.isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(missedDeadlineReason(
