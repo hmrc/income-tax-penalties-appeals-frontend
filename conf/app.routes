@@ -2,7 +2,7 @@
 
 ->         /hmrc-frontend                   hmrcfrontend.Routes
 
-->         /upload-supporting-evidence      upscan.Routes
+->         /upload-evidence      upscan.Routes
 
 GET        /logout                          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ServiceController.logout
 GET        /keep-alive                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ServiceController.keepAlive
@@ -14,8 +14,8 @@ GET        /appeal-start                    uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean ?= false)
 
 #Joint appeal LPP
-GET        /joint-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad()
-POST       /joint-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit()
+GET        /multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad()
+POST       /multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit()
 
 #Reasonable excuse list
 GET        /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad()
@@ -45,13 +45,13 @@ POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappeal
 
 # Upload Extra Evidence
 
-GET        /upload-extra-evidence           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad()
-POST       /upload-extra-evidence           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit()
+GET        /upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad()
+POST       /upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit()
 
 # Missed deadline reason
 
-GET        /missed-deadline-reason           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad()
-POST       /missed-deadline-reason           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit()
+GET        /why-was-the-submission-late     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad()
+POST       /why-was-the-submission-late     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit()
 
 
 # Check Your Answers page
@@ -65,21 +65,21 @@ GET        /appeal-confirmation             uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /appeal-details                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ViewAppealDetailsController.onPageLoad()
 
 # Agents - Who Planned to Submit
-GET        /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad()
-POST       /who-planned-to-submit           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit()
+GET        /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad()
+POST       /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit()
 
 # Agents - What caused you to miss the deadline
 GET        /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.onPageLoad()
 POST       /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.submit()
 
 #Single Appeal Confirmation
-GET        /single-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.onPageLoad()
-POST       /single-appeal                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.submit()
+GET        /appeal-single-penalty                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.onPageLoad()
+POST       /appeal-single-penalty                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.submit()
 
 
 #Multiple appeals LPP
-GET        /multiple-appeals             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad()
-POST       /multiple-appeals             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit()
+GET        /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad()
+POST       /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit()
 
 # Has hospital stay ended
 GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad()
