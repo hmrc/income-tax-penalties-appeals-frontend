@@ -19,6 +19,7 @@ package fixtures
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledAgent, AuthorisedAndEnrolledIndividual, CurrentUserRequest, CurrentUserRequestWithAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, FireOrFlood, Health, LossOfStaff, Other, TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
@@ -36,15 +37,11 @@ trait BaseFixtures {
   val testJourneyId: String = "journeyId123"
   val testNino = "AA123456A"
   val testUtr = "9999912345"
-  val testInternalId: String = UUID.randomUUID().toString
-  val testSessionId: String = UUID.randomUUID().toString
 
   val sessionData: SessionData = SessionData(
     mtditid = testMtdItId,
     nino = testNino,
-    utr = testUtr,
-    internalId = testInternalId,
-    sessionId = testSessionId,
+    utr = testUtr
   )
 
   val latePaymentAppealData: AppealData = AppealData(
@@ -97,6 +94,7 @@ trait BaseFixtures {
   val fakeRequestForBereavementJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, Bereavement)
@@ -108,6 +106,7 @@ trait BaseFixtures {
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, Crime)
@@ -128,6 +127,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(JointAppealPage, true)
@@ -142,6 +142,7 @@ trait BaseFixtures {
   val fakeRequestForFireAndFloodJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, FireOrFlood)
@@ -153,6 +154,7 @@ trait BaseFixtures {
   val fakeRequestForLossOfStaffJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, LossOfStaff)
@@ -164,6 +166,7 @@ trait BaseFixtures {
   val fakeRequestForTechnicalIssuesJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, TechnicalIssues)
@@ -176,6 +179,7 @@ trait BaseFixtures {
   val fakeRequestForHealthIssuesJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, Health)
@@ -187,6 +191,7 @@ trait BaseFixtures {
   val fakeRequestForHospitalStayJourney: CurrentUserRequestWithAnswers[AnyContent] =
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, UnexpectedHospital)
@@ -208,6 +213,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(JointAppealPage, false)
@@ -231,6 +237,7 @@ trait BaseFixtures {
 
     CurrentUserRequestWithAnswers(
       mtdItId = testMtdItId,
+      nino = testNino,
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyData)
         .setAnswer(JointAppealPage, false)
@@ -276,9 +283,13 @@ trait BaseFixtures {
       |}
       |""".stripMargin)
 
-  def userRequestWithAnswers(userAnswers: UserAnswers, arn: Option[String] = None): CurrentUserRequestWithAnswers[_] = {
+  def userRequestWithAnswers(userAnswers: UserAnswers, optArn: Option[String] = None): CurrentUserRequestWithAnswers[_] = {
     val penaltyData = userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).getOrElse(penaltyDataLSP)
-    CurrentUserRequestWithAnswers(userAnswers, penaltyData)(CurrentUserRequest(testMtdItId, arn)(FakeRequest()))
+    val enrolledRequest = optArn match {
+      case Some(_) => AuthorisedAndEnrolledAgent(sessionData, optArn)(FakeRequest())
+      case _ => AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)(FakeRequest())
+    }
+    CurrentUserRequestWithAnswers(userAnswers, penaltyData)(enrolledRequest)
   }
 
   def agentUserRequestWithAnswers(userAnswers: UserAnswers): CurrentUserRequestWithAnswers[_] =

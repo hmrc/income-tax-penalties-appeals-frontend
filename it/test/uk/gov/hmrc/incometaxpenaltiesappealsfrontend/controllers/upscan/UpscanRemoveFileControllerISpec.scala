@@ -25,17 +25,15 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFileForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, TimeMachine, ViewSpecHelper}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecHelper with NavBarTesterHelper
-  with AuthStub
+class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
   with FileUploadFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
@@ -61,15 +59,15 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
   }
 
   Seq(
-    false -> successfulIndividualAuthResponse,
-    true -> successfulAgentAuthResponse
-  ).foreach { case (isAgent, authResponse) =>
+    false,
+    true
+  ).foreach { isAgent =>
 
     s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
 
       if(!isAgent) {
         testNavBar(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1") {
-          stubAuth(OK, authResponse)
+          stubAuthRequests(isAgent)
           fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
         }
       }
@@ -79,7 +77,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
         "the file does not exists" should {
 
           "redirect to the Upscan Check Answers page" in {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
 
             val result = get(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
             result.status shouldBe SEE_OTHER
@@ -90,7 +88,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
         "the file is in the wrong state" should {
 
           "redirect to the Upscan Check Answers page" in {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
             val result = get(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
@@ -102,7 +100,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
         "the file exists in the READY state" should {
 
           "render the Remove File page with Yes No radio" in {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
             val result = get(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
@@ -122,7 +120,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
         "the file does not exists" should {
 
           "redirect to the Upscan Check Answers page" in {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
 
             val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
@@ -134,7 +132,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
         "the file is in the wrong state" should {
 
           "redirect to the Upscan Check Answers page" in {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
             val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
@@ -151,7 +149,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
             "it's the last file that's being removed" should {
 
               "redirect to the Extra Evidence page, removing the file" in {
-                stubAuth(OK, authResponse)
+                stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
                 fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
 
@@ -167,7 +165,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
             "it's NOT the last file that's being removed" should {
 
               "redirect to the Upscan Check Answers page, removing the file" in {
-                stubAuth(OK, authResponse)
+                stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel2).futureValue
                 fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 2
@@ -185,7 +183,7 @@ class UpscanRemoveFileControllerISpec extends ComponentSpecHelper with ViewSpecH
           "the user selects 'No' to keep the file" should {
 
             "redirect to the Upscan Check Answers page, WITHOUT removing the file" in {
-              stubAuth(OK, authResponse)
+              stubAuthRequests(isAgent)
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
               fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
 

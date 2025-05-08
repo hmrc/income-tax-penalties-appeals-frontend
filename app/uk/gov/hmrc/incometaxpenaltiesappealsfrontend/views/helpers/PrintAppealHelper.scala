@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
 import play.api.i18n.Messages
 import play.twirl.api.Html
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -29,13 +29,13 @@ import javax.inject.Inject
 class PrintAppealHelper @Inject()(checkAnswersHelper: CheckAnswersHelper,
                                   timeMachine: TimeMachine) extends SummaryListRowHelper {
 
-  def constructPrintSummaryRows(uploadedFiles: Seq[UploadJourney], nino: Option[String])
+  def constructPrintSummaryRows(uploadedFiles: Seq[UploadJourney], nino: String)
                                (implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Seq[SummaryListRow] =
     Seq(
-      nino map ninoSummaryRow,
-      Some(appealDateRow()),
-      Some(penaltyPeriodRow()),
-    ).flatten ++ checkAnswersHelper.constructSummaryListRows(uploadedFiles, showActionLinks = false)
+      ninoSummaryRow(nino),
+      appealDateRow(),
+      penaltyPeriodRow(),
+    ) ++ checkAnswersHelper.constructSummaryListRows(uploadedFiles, showActionLinks = false)
 
   private def ninoSummaryRow(nino: String)(implicit messages: Messages): SummaryListRow =
     summaryListRow(

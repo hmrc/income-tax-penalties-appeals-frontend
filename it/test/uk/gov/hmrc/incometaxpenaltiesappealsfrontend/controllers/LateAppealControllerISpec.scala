@@ -29,11 +29,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class LateAppealControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -91,7 +89,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
       "return an OK with a view pre-populated" when {
         "the user is an authorised individual AND the page has already been answered" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(
             userAnswersWithReasonLSP.setAnswer(LateAppealPage, "Some reason")
           ).futureValue
@@ -104,7 +102,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
         }
 
         "the user is an authorised agent AND the page has already been answered" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(
             userAnswersWithReasonLSP.setAnswer(LateAppealPage, "Some reason")
           ).futureValue
@@ -121,7 +119,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
         "the penalty type is LSP" when {
           "the page has the correct elements" when {
             "the user is an authorised individual" in {
-              stubAuth(OK, successfulIndividualAuthResponse)
+              stubAuthRequests(false)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
               val result = get("/making-a-late-appeal")
@@ -142,7 +140,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
             }
 
             "the user is an authorised agent" in {
-              stubAuth(OK, successfulAgentAuthResponse)
+              stubAuthRequests(true)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
               val result = get("/making-a-late-appeal", isAgent = true)
@@ -166,7 +164,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
         "the penalty type is LPP - Single Appeal" when {
           "the page has the correct elements" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
 
             val result = get("/making-a-late-appeal")
@@ -190,7 +188,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
         "the penalty type is LPP - Multiple Appeals" when {
           "the page has the correct elements" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReasonMultipleLPP).futureValue
 
             val result = get("/making-a-late-appeal")
@@ -217,7 +215,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
         "the penalty type is LSP" when {
           "the page has the correct elements" when {
             "the user is an authorised individual" in {
-              stubAuth(OK, successfulIndividualAuthResponse)
+              stubAuthRequests(false)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
 
               val result = get("/making-a-late-appeal")
@@ -238,7 +236,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
             }
 
             "the user is an authorised agent" in {
-              stubAuth(OK, successfulAgentAuthResponse)
+              stubAuthRequests(true)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
 
               val result = get("/making-a-late-appeal", isAgent = true)
@@ -262,7 +260,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
         "the penalty type is LPP - Single Appeal" when {
           "the page has the correct elements" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithSingleLPPsSecondStage).futureValue
 
             val result = get("/making-a-late-appeal")
@@ -286,7 +284,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
         "the penalty type is LPP - Multiple Appeals" when {
           "the page has the correct elements" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithMultipleLPPsSecondStage).futureValue
 
             val result = get("/making-a-late-appeal")
@@ -319,7 +317,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
       "save the value to UserAnswers AND redirect to the CheckAnswers page" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
         val result = post("/making-a-late-appeal")(Map(LateAppealForm.key -> "Some reason"))
@@ -335,7 +333,7 @@ class LateAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper 
 
       "render a bad request with the Form Error on the page with a link to the field in error" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
         val result = post("/making-a-late-appeal")(Map(LateAppealForm.key -> ""))

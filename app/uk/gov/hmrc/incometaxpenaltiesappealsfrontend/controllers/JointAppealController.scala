@@ -19,27 +19,24 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class JointAppealController @Inject()(jointAppeal: JointAppealView,
-                                      val authorised: AuthAction,
-                                      withNavBar: NavBarRetrievalAction,
-                                      withAnswers: UserAnswersAction,
+                                      val authActions: AuthActions,
                                       userAnswersService: UserAnswersService,
                                       override val errorHandler: ErrorHandler,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers) { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
@@ -55,7 +52,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
     }
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
 
     JointAppealForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors => {

@@ -21,10 +21,10 @@ import org.jsoup.Jsoup
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.http.Status.OK
 import play.api.libs.json.Json
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLinksStub, MessagesStub}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLinksStub, IncomeTaxSessionDataStub, MessagesStub}
 
 
-trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesStub with BtaNavContentFixture { _: ComponentSpecHelper with AuthStub =>
+trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesStub with BtaNavContentFixture { _: ComponentSpecHelper with AuthStub with IncomeTaxSessionDataStub =>
 
   def testNavBar(url: String, queryParams: Map[String, String] = Map.empty)(runStubsAndUserAnswersSetup: => Unit = ()): Unit = {
     "Checking the Navigation Bar" when {
@@ -73,6 +73,7 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
       "the user is an Agent" should {
         "render without a Nav" in {
           stubAuth(OK, successfulAgentAuthResponse)
+          stubGetIncomeTaxSessionDataSuccessResponse()
           runStubsAndUserAnswersSetup
           val result = get(url, isAgent = true, origin = None, queryParams = queryParams)
 

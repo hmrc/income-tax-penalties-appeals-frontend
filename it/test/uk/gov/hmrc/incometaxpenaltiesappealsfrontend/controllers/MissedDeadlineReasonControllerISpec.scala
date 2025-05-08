@@ -25,15 +25,13 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{MissedDeadlineReasonPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -58,7 +56,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
       "return an OK with a view pre-populated" when {
         "the user is an authorised individual AND the page has already been answered" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(
             userAnswersWithReason.setAnswer(MissedDeadlineReasonPage, "Some reason")
           ).futureValue
@@ -71,7 +69,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
 
         "the user is an authorised agent AND the page has already been answered" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(
             userAnswersWithReason.setAnswer(MissedDeadlineReasonPage, "Some reason")
           ).futureValue
@@ -86,7 +84,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 //LSP
       "the page has the correct elements for first stage appeals" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
           val result = get("/missed-deadline-reason")
@@ -106,7 +104,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
           val result = get("/missed-deadline-reason", isAgent = true)
@@ -128,7 +126,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 //LPP
       "the page has the correct elements for first stage payment penalty" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
           val result = get("/missed-deadline-reason")
@@ -148,7 +146,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
           val result = get("/missed-deadline-reason", isAgent = true)
@@ -171,7 +169,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 //LPP (multiple)
       "the page has the correct elements for first stage multiple payment penalties" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
           val result = get("/missed-deadline-reason")
@@ -191,7 +189,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
           val result = get("/missed-deadline-reason", isAgent = true)
@@ -213,7 +211,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 //LPP Review/Second stage (single)
       "the page has the correct elements for second stage appeal payment penalty (single)" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
           val result = get("/missed-deadline-reason")
@@ -232,7 +230,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
           val result = get("/missed-deadline-reason", isAgent = true)
@@ -255,7 +253,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 // LPP Review/Second stage (multiple)
       "the page has the correct elements for second stage appeal payment penalty (multiple)" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
           val result = get("/missed-deadline-reason")
@@ -275,7 +273,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
           val result = get("/missed-deadline-reason", isAgent = true)
@@ -305,7 +303,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
       "save the value to UserAnswers AND redirect to the Extra Evidence page" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
         val result = post("/missed-deadline-reason")(Map(MissedDeadlineReasonForm.key -> "Some reason"))
@@ -321,7 +319,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
       "render a bad request in first stage appeal with the Form Error on the page with a link to the field in error" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
         val result = post("/missed-deadline-reason")(Map(MissedDeadlineReasonForm.key -> ""))
@@ -339,7 +337,7 @@ class MissedDeadlineReasonControllerISpec extends ComponentSpecHelper with ViewS
 
       "render a bad request in second stage appeal with the Form Error on the page with a link to the field in error" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
         val result = post("/missed-deadline-reason")(Map(MissedDeadlineReasonForm.key -> ""))

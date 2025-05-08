@@ -19,21 +19,21 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class ServiceController @Inject()(
-                                   val authorised: AuthAction,
+                                   val authActions: AuthActions,
                                    override val controllerComponents: MessagesControllerComponents
                                  )(implicit appConfig: AppConfig) extends FrontendBaseController  with I18nSupport {
 
-  def logout: Action[AnyContent] = authorised {
+  def logout: Action[AnyContent] = authActions.authoriseAndRetrieve {
     Redirect(appConfig.signOutUrl, Map("continue" -> Seq(appConfig.survey)))
   }
 
-  val keepAlive: Action[AnyContent] = authorised { _ => NoContent }
+  val keepAlive: Action[AnyContent] = authActions.authoriseAndRetrieve { _ => NoContent }
 
 }
