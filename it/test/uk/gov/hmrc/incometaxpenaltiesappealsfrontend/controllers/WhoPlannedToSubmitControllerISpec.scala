@@ -29,11 +29,9 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitFor
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
-class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper with BaseFixtures {
+class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -49,11 +47,9 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
   s"GET /who-planned-to-submit" should {
 
-    testNavBar(url = "/who-planned-to-submit")()
-
     "return an OK with a view pre-populated" when {
       "the user is an authorised agent AND the page has already been answered" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(
           emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
         ).futureValue
@@ -69,7 +65,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
     "the page has the correct elements" when {
       "the user is an authorised agent" in {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result = get("/who-planned-to-submit", isAgent = true)
         result.status shouldBe OK
@@ -97,7 +93,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "save the value to UserAnswers AND redirect to the ReasonableExcuse page" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(true)
 
         val result = post("/who-planned-to-submit")(Map(WhoPlannedToSubmitForm.key -> AgentClientEnum.agent))
 
@@ -112,7 +108,7 @@ class WhoPlannedToSubmitControllerISpec extends ComponentSpecHelper with ViewSpe
 
       "render a bad request with the Form Error on the page with a link to the field in error" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(true)
 
         val result = post("/who-planned-to-submit")(Map(WhoPlannedToSubmitForm.key -> ""))
         result.status shouldBe BAD_REQUEST

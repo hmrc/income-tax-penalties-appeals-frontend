@@ -18,12 +18,11 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{AgentHonestyDeclarationView, HonestyDeclarationView, ReviewHonestyDeclarationView}
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,15 +31,13 @@ import scala.concurrent.{ExecutionContext, Future}
 class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarationView,
                                              reviewHonestyDeclarationView: ReviewHonestyDeclarationView,
                                              agentHonestyDeclarationView: AgentHonestyDeclarationView,
-                                             val authorised: AuthAction,
-                                             withNavBar: NavBarRetrievalAction,
-                                             withAnswers: UserAnswersAction,
+                                             val authActions: AuthActions,
                                              userAnswersService: UserAnswersService,
                                              override val controllerComponents: MessagesControllerComponents,
                                              override val errorHandler: ErrorHandler
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(
         if(user.is2ndStageAppeal) reviewHonestyDeclarationView(user.isAgent, reasonableExcuse)
@@ -49,7 +46,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
     }
   }
 
-  def submit(): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     val updatedAnswers = user.userAnswers.setAnswer(HonestyDeclarationPage, true)
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
       Redirect(if(user.is2ndStageAppeal) {

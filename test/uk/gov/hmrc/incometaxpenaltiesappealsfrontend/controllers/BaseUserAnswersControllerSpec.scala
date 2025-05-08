@@ -26,7 +26,7 @@ import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -57,6 +57,7 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
 
         implicit val user: CurrentUserRequestWithAnswers[_] = CurrentUserRequestWithAnswers(
           mtdItId = "123456789",
+          nino = testNino,
           userAnswers = UserAnswers("1234").setAnswer(testPage, "foo"),
           penaltyData = penaltyDataLSP
         )(FakeRequest())
@@ -74,6 +75,7 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
 
         implicit val user: CurrentUserRequestWithAnswers[_] = CurrentUserRequestWithAnswers(
           mtdItId = "123456789",
+          nino = testNino,
           userAnswers = UserAnswers("1234"),
           penaltyData = penaltyDataLSP
         )(FakeRequest())

@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
-import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK, SEE_OTHER}
+import play.api.http.Status.{INTERNAL_SERVER_ERROR, SEE_OTHER}
 import play.api.libs.json.Json
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -25,13 +25,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.U
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyTypeEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, PenaltiesStub}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.temporal.ChronoUnit
 import java.time.{LocalDate, LocalDateTime, ZoneOffset}
 
-class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper
+class InitialisationControllerISpec extends ControllerISpecHelper
   with PenaltiesStub {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
@@ -58,7 +58,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
       "initialise the UserAnswers and redirect to the /appeal-start page, adding the journeyId to session" when {
         "the user is an authorised individual (is2ndStageAppeal==false)" in {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
 
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false&is2ndStageAppeal=false")
@@ -88,7 +88,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
 
         "the user is an authorised agent (and LPP with multiple) (is2ndStageAppeal==true)" in {
 
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, testMtdItId, isLPP = true)
           successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, testMtdItId)
 
@@ -130,7 +130,7 @@ class InitialisationControllerISpec extends ComponentSpecHelper with ViewSpecHel
     "penalty appeal data fails to be returned from penalties BE" should {
       "render an ISE" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
 
         val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false")

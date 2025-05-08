@@ -30,11 +30,10 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
-class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class JointAppealControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
@@ -55,7 +54,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
     "return an OK with a view" when {
       "the user is an authorised individual AND the page has already been answered" in new Setup() {
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)).futureValue
 
         val result: WSResponse = get("/joint-appeal")
@@ -67,7 +66,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
       }
 
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
-        stubAuth(OK, successfulAgentAuthResponse)
+        stubAuthRequests(true)
 
         val result: WSResponse = get("/joint-appeal", isAgent = true)
         result.status shouldBe OK
@@ -81,7 +80,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
     "the journey is for a 1st Stage Appeal" when {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           val result: WSResponse = get("/joint-appeal")
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -104,7 +103,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         }
 
         "the user is an authorised agent" in new Setup() {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           val result: WSResponse = get("/joint-appeal", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -131,7 +130,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
     "the journey is for a 2nd Stage Appeal" when {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
           val result: WSResponse = get("/joint-appeal")
@@ -156,7 +155,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
         }
 
         "the user is an authorised agent" in new Setup() {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
           val result: WSResponse = get("/joint-appeal", isAgent = true)
@@ -189,7 +188,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
       "save the value to UserAnswers AND redirect to the MultipleAppeals page if the answer is 'Yes'" in new Setup() {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
 
         val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> true))
 
@@ -201,7 +200,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
       "save the value to UserAnswers AND redirect to the SingleAppeal page if the answer is 'No'" in new Setup() {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> false))
 
         result.status shouldBe SEE_OTHER
@@ -217,7 +216,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
 
           val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> ""))
           result.status shouldBe BAD_REQUEST
@@ -238,7 +237,7 @@ class JointAppealControllerISpec extends ComponentSpecHelper with ViewSpecHelper
 
         "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
           val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> ""))

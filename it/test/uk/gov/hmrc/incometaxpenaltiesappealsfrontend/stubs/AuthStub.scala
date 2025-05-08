@@ -54,7 +54,8 @@ trait AuthStub extends WiremockMethods {
       "optionalCredentials" -> Json.obj(
         "providerId" -> "12345",
         "providerType" -> "credType"
-      )
+      ),
+      "nino" -> "AA123456A"
     )
 
   val successfulAgentAuthResponse: JsObject =

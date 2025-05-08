@@ -30,14 +30,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 import java.time.LocalDate
 
 
-class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
+class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -61,7 +59,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
     "when the appeal is a 2nd Stage Appeal" when {
       "should save the reason as 'Other' and redirect" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
 
           val result = get("/reason-for-missing-deadline")
@@ -70,7 +68,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         }
 
         "the user is an authorised Agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
 
           val result = get("/reason-for-missing-deadline", isAgent = true)
@@ -83,7 +81,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
     "when the appeal is a 1st Stage Appeal" when {
       "return an OK with a view pre-populated" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(
             emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
           ).futureValue
@@ -95,7 +93,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
 
           val result = get("/reason-for-missing-deadline", isAgent = true)
 
@@ -104,7 +102,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
       }
       "the page has the correct elements" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           val result = get("/reason-for-missing-deadline")
 
           val document = Jsoup.parse(result.body)
@@ -130,7 +128,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           val result = get("/reason-for-missing-deadline", isAgent = true)
 
           val document = Jsoup.parse(result.body)
@@ -168,7 +166,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         "save the value to UserAnswers AND redirect to the Honesty Declaration page" in {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Bereavement.toString))
@@ -187,7 +185,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         "save the value to UserAnswers, clear down existing journey answers AND redirect to the Honesty Declaration page" in {
 
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(existingAnswers).futureValue
 
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Crime.toString))
@@ -206,7 +204,7 @@ class ReasonableExcuseControllerISpec extends ComponentSpecHelper with ViewSpecH
 
       "render a bad request with the Form Error on the page with a link to the radios in error" in {
 
-        stubAuth(OK, successfulIndividualAuthResponse)
+        stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
         val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> ""))
 

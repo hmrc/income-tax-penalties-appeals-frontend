@@ -24,8 +24,9 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Health
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CurrentUserRequestWithAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -50,7 +51,7 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
         val uploads = Seq(callbackModel, callbackModel2)
 
-        "when it's a 1st Stage Appeal" when {
+        "when it's a 1st Stage Appeal" should {
 
           val userAnswers = emptyUserAnswersWithLSP
             .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
@@ -62,11 +63,9 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
           implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
 
-          "a NINO exists" should {
-
             "return expecting print rows with a NINO row" in {
 
-              printAppealHelper.constructPrintSummaryRows(uploads, Some(testNino)) shouldBe Seq(
+              printAppealHelper.constructPrintSummaryRows(uploads, testNino) shouldBe Seq(
                 summaryListRow(
                   label = messagesForLanguage.nino,
                   value = Html(testNino)
@@ -87,28 +86,6 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
             }
           }
 
-          "a NINO does NOT exist" should {
-
-            "return expected print rows WITHOUT a NINO" in {
-
-              printAppealHelper.constructPrintSummaryRows(uploads, None) shouldBe Seq(
-                summaryListRow(
-                  label = messagesForLanguage.appealDate,
-                  value = Html(dateToString(timeMachine.getCurrentDate))
-                ),
-                summaryListRow(
-                  label = messagesForLanguage.penaltyAppealed,
-                  value = Html(messagesForLanguage.lspCaption(
-                    dateToString(lateSubmissionAppealData.startDate),
-                    dateToString(lateSubmissionAppealData.endDate),
-                    removeNBSP = false
-                  ))
-                )
-              ) ++ checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false)
-            }
-          }
-        }
-
         "it's a 2nd Stage Appeal (Review)" should {
 
           val userAnswers = emptyUserAnswersWithLSP2ndStage
@@ -123,7 +100,11 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
 
           "return expected print rows with review message content" in {
 
-            printAppealHelper.constructPrintSummaryRows(uploads, None) shouldBe Seq(
+            printAppealHelper.constructPrintSummaryRows(uploads, testNino) shouldBe Seq(
+              summaryListRow(
+                label = messagesForLanguage.nino,
+                value = Html(testNino)
+              ),
               summaryListRow(
                 label = messagesForLanguage.appealDateReview,
                 value = Html(dateToString(timeMachine.getCurrentDate))

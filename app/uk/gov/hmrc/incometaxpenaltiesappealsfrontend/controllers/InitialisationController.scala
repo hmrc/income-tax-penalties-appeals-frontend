@@ -19,10 +19,11 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.AuthAction
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, CurrentUserRequest, PenaltyData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, UUIDGenerator}
@@ -31,7 +32,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class InitialisationController @Inject()(val authorised: AuthAction,
+class InitialisationController @Inject()(val authActions: AuthActions,
                                          override val controllerComponents: MessagesControllerComponents,
                                          userAnswersService: UserAnswersService,
                                          appealService: AppealService,
@@ -39,7 +40,7 @@ class InitialisationController @Inject()(val authorised: AuthAction,
                                          uuid: UUIDGenerator
                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authorised.async { implicit user =>
+  def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.authoriseAndRetrieve.async { implicit user =>
     for {
       appealData <- appealService.validatePenaltyIdForEnrolmentKey(penaltyId, isLPP, isAdditional, user.mtdItId)
       multiPenaltyData <- if (isLPP) appealService.validateMultiplePenaltyDataForEnrolmentKey(penaltyId, user.mtdItId) else Future.successful(None)

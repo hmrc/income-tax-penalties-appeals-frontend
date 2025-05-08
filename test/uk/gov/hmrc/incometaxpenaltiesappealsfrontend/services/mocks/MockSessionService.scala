@@ -31,4 +31,7 @@ trait MockSessionService extends MockitoSugar {
   def mockGetUserAnswers(journeyId: String)(response: Future[Option[UserAnswers]]): Unit =
     when(mockSessionService.getUserAnswers(eqTo(journeyId))).thenReturn(response)
 
+  def mockGetUserAnswersMongoFailure(journeyId: String): Unit =
+    when(mockSessionService.getUserAnswers(eqTo(journeyId))).thenReturn(Future.failed(new Exception("error")))
+
 }

@@ -22,7 +22,6 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, StringContextOps}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.IncomeTaxSessionDataHttpParser.GetSessionDataResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{IncomeTaxSessionDataHttpParser, UnexpectedFailure}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import javax.inject.Inject
@@ -31,7 +30,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class IncomeTaxSessionDataConnector @Inject()(httpClient: HttpClientV2,
                                               val appConfig: AppConfig) {
 
-  def getSessionData()(implicit user: CurrentUserRequestWithAnswers[_], hc: HeaderCarrier, ec: ExecutionContext): Future[GetSessionDataResponse] = {
+  def getSessionData()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[GetSessionDataResponse] = {
 
     implicit val reads: HttpReads[GetSessionDataResponse] = IncomeTaxSessionDataHttpParser.reads()
 

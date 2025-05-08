@@ -21,30 +21,27 @@ import org.apache.pekko.pattern.after
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.BaseUserAnswersController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.{FAILED, READY, WAITING}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
                                          upscanService: UpscanService,
-                                         val authorised: AuthAction,
-                                         withNavBar: NavBarRetrievalAction,
-                                         withAnswers: UserAnswersAction,
+                                         val authActions: AuthActions,
                                          actor: ActorSystem,
                                          override val errorHandler: ErrorHandler,
                                          override val controllerComponents: MessagesControllerComponents
                                         )(implicit ec: ExecutionContext, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(key: Option[String], errorCode: Option[String]): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(key: Option[String], errorCode: Option[String]): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     val form = UploadDocumentForm.form
     withFileUploadFormFields(key) { formFields =>
       errorCode match {
@@ -76,7 +73,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
   }
 
 
-  def onSubmitSuccessRedirect(key: String): Action[AnyContent] = (authorised andThen withAnswers).async { implicit user =>
+  def onSubmitSuccessRedirect(key: String): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     waitForUpscanResponse(user.journeyId, key) { uploadJourney =>
       (uploadJourney.fileStatus, uploadJourney.failureDetails) match {
         case (READY, _) =>

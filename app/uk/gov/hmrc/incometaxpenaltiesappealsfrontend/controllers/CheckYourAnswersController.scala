@@ -18,35 +18,32 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersView,
-                                           val authorised: AuthAction,
-                                           withNavBar: NavBarRetrievalAction,
-                                           withAnswers: UserAnswersAction,
+                                           val authActions: AuthActions,
                                            appealService: AppealService,
                                            upscanService: UpscanService,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
       Ok(checkYourAnswers(uploadedFiles))
     }
   }
 
 
-  def submit(): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async {
+  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async {
     implicit user => {
       withAnswer(ReasonableExcusePage) { reasonableExcuse =>
         appealService.submitAppeal(reasonableExcuse).flatMap(_.fold(

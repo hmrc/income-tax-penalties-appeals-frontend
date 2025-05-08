@@ -25,21 +25,19 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper with NavBarTesterHelper
-  with AuthStub
+class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
   with FileUploadFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
@@ -76,15 +74,14 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
   }
 
   Seq(
-    false -> successfulIndividualAuthResponse,
-    true -> successfulAgentAuthResponse
-  ).foreach { case (isAgent, authResponse) =>
+    false,
+    true
+  ).foreach { case isAgent =>
 
     s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
 
       if(!isAgent) {
         testNavBar("/upload-supporting-evidence/check-answers"){
-          stubAuth(OK, authResponse)
           fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
         }
       }
@@ -94,7 +91,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
         s"the number of files uploaded is < ${appConfig.upscanMaxNumberOfFiles}" should {
 
           "render the File Upload check answers page with a form action to add another file" in new Setup() {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
             val result = get("/upload-supporting-evidence/check-answers", isAgent = isAgent)
@@ -111,7 +108,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
         s"the number of files uploaded is == ${appConfig.upscanMaxNumberOfFiles}" should {
 
           "render the File Upload check answers page with a form action but without the 'Add another file' question" in new Setup() {
-            stubAuth(OK, authResponse)
+            stubAuthRequests(isAgent)
 
             (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
@@ -137,7 +134,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
             "redirect to the UpscanInitiate page" in new Setup() {
 
-              stubAuth(OK, authResponse)
+              stubAuthRequests(isAgent)
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
               val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(
@@ -155,7 +152,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
               "redirect to Late Appeal page" in new Setup(isLate = true) {
 
-                stubAuth(OK, authResponse)
+                stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
                 val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(
@@ -171,7 +168,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
               "redirect to Check Answers page" in new Setup() {
 
-                stubAuth(OK, authResponse)
+                stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
                 val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(
@@ -191,7 +188,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
             "redirect to Late Appeal page" in new Setup(isLate = true) {
 
-              stubAuth(OK, authResponse)
+              stubAuthRequests(isAgent)
               (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
               }
@@ -207,7 +204,7 @@ class UpscanCheckAnswersControllerISpec extends ComponentSpecHelper with ViewSpe
 
             "redirect to Check Answers page" in new Setup() {
 
-              stubAuth(OK, authResponse)
+              stubAuthRequests(isAgent)
               (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
               }

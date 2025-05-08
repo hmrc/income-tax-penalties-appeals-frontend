@@ -31,14 +31,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.FireOrFlood
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, PenaltiesStub}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 import java.time.LocalDate
 
-class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecHelper
-  with AuthStub with NavBarTesterHelper with PenaltiesStub {
+class CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -70,7 +68,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
       "return an OK with a view" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
           val result = get("/check-your-answers")
@@ -79,7 +77,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
           val result = get("/check-your-answers", isAgent = true)
@@ -90,7 +88,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
       "the page has the correct elements" when {
         "the user is an authorised individual" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
           val result = get("/check-your-answers")
@@ -114,7 +112,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
         }
 
         "the user is an authorised agent" in {
-          stubAuth(OK, successfulAgentAuthResponse)
+          stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
           val result = get("/check-your-answers", isAgent = true)
@@ -152,7 +150,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         "a successful response is returned from the downstream service" should {
           "redirect to the confirmation page" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
             successfulAppealSubmission(testMtdItId, isLPP = false, penaltyDataLSP.penaltyNumber)
@@ -166,7 +164,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
 
         "an Error response is returned from the downstream service" should {
           "render an ISE" in {
-            stubAuth(OK, successfulIndividualAuthResponse)
+            stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
             failedAppealSubmission(testMtdItId, isLPP = false, penaltyDataLSP.penaltyNumber)
@@ -187,7 +185,7 @@ class CheckYourAnswersControllerISpec extends ComponentSpecHelper with ViewSpecH
             .setAnswer(WhenDidEventHappenPage, LocalDate.of(2024, 1, 1))
 
         "render an ISE" in {
-          stubAuth(OK, successfulIndividualAuthResponse)
+          stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
           val result = post("/check-your-answers")(Json.obj())

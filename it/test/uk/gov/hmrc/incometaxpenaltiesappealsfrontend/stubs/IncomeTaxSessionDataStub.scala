@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs
 
-import play.api.mvc.{Request, WrappedRequest}
-import play.twirl.api.Html
+import fixtures.BaseFixtures
+import play.api.http.Status.OK
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.SessionData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.WiremockMethods
 
-case class CurrentUserRequest[A](mtdItId: String,
-                                 arn: Option[String] = None,
-                                 override val navBar: Option[Html] = None)(implicit request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
-  val isAgent: Boolean = arn.isDefined
+trait IncomeTaxSessionDataStub extends WiremockMethods with BaseFixtures{
+
+  val incomeTaxSessionDataUrl = "/income-tax-session-data"
+
+  def stubGetIncomeTaxSessionDataSuccessResponse[T](): Unit =
+    when(method = GET, uri = incomeTaxSessionDataUrl)
+      .thenReturn(status = OK, body = sessionData)(SessionData.fmt)
+
+
+
 }

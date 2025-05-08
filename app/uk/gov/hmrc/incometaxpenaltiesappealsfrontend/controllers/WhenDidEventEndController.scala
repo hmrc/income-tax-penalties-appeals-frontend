@@ -18,30 +18,27 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
-import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
-                                          val authorised: AuthAction,
-                                          withNavBar: NavBarRetrievalAction,
-                                          withAnswers: UserAnswersAction,
+                                          val authActions: AuthActions,
                                           userAnswersService: UserAnswersService,
                                           override val controllerComponents: MessagesControllerComponents,
                                           override val errorHandler: ErrorHandler
                                          )(implicit ec: ExecutionContext,
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       Future(Ok(whenDidEventEnd(
         form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
@@ -52,7 +49,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
   }
 
 
-  def submit(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = (authorised andThen withNavBar andThen withAnswers).async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
         formWithErrors =>
