@@ -38,7 +38,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.WhenDidEventHappenController.onPageLoad().url,
+                href = controllers.routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.change.hidden"))
               ).withId("changeWhenDidEventHappen")
             )

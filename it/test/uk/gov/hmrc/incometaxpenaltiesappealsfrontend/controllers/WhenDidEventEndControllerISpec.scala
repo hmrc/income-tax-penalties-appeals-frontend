@@ -25,7 +25,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
@@ -47,6 +47,11 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
   val testStartDate: LocalDate = LocalDate.of(2024, 3, 2)
 
+  val reasonsWithUrls: List[(ReasonableExcuse, String)] = List(
+    (TechnicalIssues, "/when-did-the-technology-issues-end"),
+    (UnexpectedHospital, "/when-did-the-hospital-stay-end"),
+  )
+
   class Setup(isLate: Boolean = false, reasonableExcuse: ReasonableExcuse) {
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
@@ -65,23 +70,23 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
     userAnswersRepo.upsertUserAnswer(userAnswer).futureValue
   }
 
-  for (reason <- Seq(TechnicalIssues, UnexpectedHospital)) {
+  for (reason <- reasonsWithUrls) {
 
-    s"GET /when-did-the-event-end with $reason" should {
+    s"GET ${reason._2} with ${reason._1}" should {
 
-      testNavBar(url = "/when-did-the-event-end")(
+      testNavBar(url = reason._2)(
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP
-          .setAnswer(ReasonableExcusePage, reason)
+          .setAnswer(ReasonableExcusePage, reason._1)
           .setAnswer(WhenDidEventHappenPage, testStartDate)
         ).futureValue
       )
 
       "return an OK with a view" when {
 
-        "the user is an authorised individual AND the page has already been answered" in new Setup(reasonableExcuse = reason) {
+        s"the user is an authorised individual AND the page has already been answered with ${reason._1}" in new Setup(reasonableExcuse = reason._1) {
           stubAuth(OK, successfulIndividualAuthResponse)
           userAnswersRepo.upsertUserAnswer(userAnswer.setAnswer(WhenDidEventEndPage, LocalDate.of(2024, 4, 2))).futureValue
-          val result = get("/when-did-the-event-end")
+          val result = get(reason._2)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -90,9 +95,9 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.getElementById(s"${WhenDidEventEndForm.key + ".year"}").`val`() shouldBe "2024"
         }
 
-        "the user is an authorised agent AND page NOT already answered" in new Setup(reasonableExcuse = reason) {
+        s"the user is an authorised agent AND page NOT already answered with ${reason._1}" in new Setup(reasonableExcuse = reason._1) {
           stubAuth(OK, successfulAgentAuthResponse)
-          val result = get("/when-did-the-event-end", isAgent = true)
+          val result = get(reason._2, isAgent = true)
 
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
@@ -103,19 +108,19 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
       }
 
       "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup(reasonableExcuse = reason) {
+        "the user is an authorised individual" in new Setup(reasonableExcuse = reason._1) {
           stubAuth(OK, successfulIndividualAuthResponse)
-          val result = get("/when-did-the-event-end")
+          val result = get(reason._2)
 
           val document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason)} - Manage your Self Assessment - GOV.UK"
+          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason._1)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason)
+          document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason._1)
           document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
           document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
           document.getElementsByAttributeValue("for", "date.month").text() shouldBe "Month"
@@ -123,19 +128,19 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.getSubmitButton.text() shouldBe "Continue"
         }
 
-        "the user is an authorised agent" in new Setup(reasonableExcuse = reason) {
+        "the user is an authorised agent" in new Setup(reasonableExcuse = reason._1) {
           stubAuth(OK, successfulAgentAuthResponse)
-          val result = get("/when-did-the-event-end", isAgent = true)
+          val result = get(reason._2, isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
           document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason)} - Manage your Self Assessment - GOV.UK"
+          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason._1)} - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason)
+          document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason._1)
           document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
           document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
           document.getElementsByAttributeValue("for", "date.month").text() shouldBe "Month"
@@ -146,16 +151,16 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
     }
   }
 
-  for (reason <- Seq(TechnicalIssues, UnexpectedHospital)) {
-    s"POST /when-did-the-event-end with $reason" when {
+  for (reason <- reasonsWithUrls) {
+    s"POST ${reason._2} $reason" when {
 
       "the date is valid" should {
         "save the value to UserAnswers AND redirect" when {
           "the appeal is late" should {
-            "redirect to the LateAppeal page" in new Setup(isLate = true, reasonableExcuse = reason) {
+            "redirect to the LateAppeal page" in new Setup(isLate = true, reasonableExcuse = reason._1) {
               stubAuth(OK, successfulIndividualAuthResponse)
 
-              val result = post("/when-did-the-event-end")(Map(
+              val result = post(reason._2)(Map(
                 WhenDidEventEndForm.key + ".day" -> "02",
                 WhenDidEventEndForm.key + ".month" -> "04",
                 WhenDidEventEndForm.key + ".year" -> "2024"))
@@ -168,10 +173,10 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           }
 
           "the appeal is NOT late" should {
-            "redirect to the CheckAnswers page" in new Setup(reasonableExcuse = reason) {
+            "redirect to the CheckAnswers page" in new Setup(reasonableExcuse = reason._1) {
               stubAuth(OK, successfulIndividualAuthResponse)
 
-              val result = post("/when-did-the-event-end")(Map(
+              val result = post(reason._2)(Map(
                 WhenDidEventEndForm.key + ".day" -> "02",
                 WhenDidEventEndForm.key + ".month" -> "04",
                 WhenDidEventEndForm.key + ".year" -> "2024"))
@@ -187,11 +192,11 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
 
       "the date is not valid - day missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "",
             WhenDidEventEndForm.key + ".month" -> "04",
             WhenDidEventEndForm.key + ".year" -> "2024"))
@@ -204,18 +209,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason, "day")
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "day")
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
         }
       }
 
       "the date is not valid - month missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "01",
             WhenDidEventEndForm.key + ".month" -> "",
             WhenDidEventEndForm.key + ".year" -> "2024"))
@@ -228,18 +233,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason,  "month")
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1,  "month")
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
         }
       }
 
       "the date is not valid - year missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "01",
             WhenDidEventEndForm.key + ".month" -> "04",
             WhenDidEventEndForm.key + ".year" -> ""))
@@ -252,18 +257,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason, "year")
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "year")
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".year"}"
         }
       }
 
       "the date is not valid - two fields missing - day and month" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "",
             WhenDidEventEndForm.key + ".month" -> "",
             WhenDidEventEndForm.key + ".year" -> "2024"))
@@ -276,18 +281,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason, "day", "month")
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "day", "month")
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
         }
       }
 
       "the date is not valid - two fields missing - day and year" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "",
             WhenDidEventEndForm.key + ".month" -> "04",
             WhenDidEventEndForm.key + ".year" -> ""))
@@ -300,18 +305,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason, "day", "year")
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "day", "year")
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
         }
       }
 
       "the date is not valid - two fields missing - month and year" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "01",
             WhenDidEventEndForm.key + ".month" -> "",
             WhenDidEventEndForm.key + ".year" -> ""))
@@ -324,18 +329,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason, "month", "year")
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "month", "year")
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
         }
       }
 
       "the date is not valid - all fields missing" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "",
             WhenDidEventEndForm.key + ".month" -> "",
             WhenDidEventEndForm.key + ".year" -> ""))
@@ -348,18 +353,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.all", reason)
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.all", reason._1)
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
         }
       }
 
       "the date is not valid - date is in the future" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "02",
             WhenDidEventEndForm.key + ".month" -> "04",
             WhenDidEventEndForm.key + ".year" -> "2027"))
@@ -372,18 +377,18 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("notInFuture", reason)
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("notInFuture", reason._1)
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
         }
       }
 
       "the date is not valid - end date is before start date" should {
 
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason) {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
           stubAuth(OK, successfulIndividualAuthResponse)
 
-          val result = post("/when-did-the-event-end")(Map(
+          val result = post(reason._2)(Map(
             WhenDidEventEndForm.key + ".day" -> "02",
             WhenDidEventEndForm.key + ".month" -> "02",
             WhenDidEventEndForm.key + ".year" -> "2024"))
@@ -413,7 +418,7 @@ class WhenDidEventEndControllerISpec extends ComponentSpecHelper with ViewSpecHe
           document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
 
           val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("endDateLessThanStartDate", reason, formattedDate)
+          error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("endDateLessThanStartDate", reason._1, formattedDate)
           error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
         }
       }

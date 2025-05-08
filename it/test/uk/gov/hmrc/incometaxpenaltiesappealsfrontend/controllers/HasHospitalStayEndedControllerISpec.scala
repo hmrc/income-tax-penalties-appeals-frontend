@@ -27,14 +27,16 @@ import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.UnexpectedHospital
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Other, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
+
+import scala.concurrent.Future
 
 class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewSpecHelper with AuthStub with NavBarTesterHelper {
 
@@ -60,6 +62,8 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
       .setAnswer(ReasonableExcusePage, UnexpectedHospital)
 
     userAnswersRepo.upsertUserAnswer(hospitalAnswers).futureValue
+
+    val reasonableExcuse: Option[ReasonableExcuse] = userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ReasonableExcusePage))
   }
 
   "GET /has-hospital-stay-ended" should {
@@ -146,7 +150,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other)).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
         }
@@ -173,7 +177,7 @@ class HasHospitalStayEndedControllerISpec extends ComponentSpecHelper with ViewS
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other)).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
         }

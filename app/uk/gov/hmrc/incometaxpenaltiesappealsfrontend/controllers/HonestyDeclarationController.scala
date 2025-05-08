@@ -19,9 +19,10 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.predicates.{AuthAction, UserAnswersAction}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{HonestyDeclarationView, ReviewHonestyDeclarationView, AgentHonestyDeclarationView}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{AgentHonestyDeclarationView, HonestyDeclarationView, ReviewHonestyDeclarationView}
 import uk.gov.hmrc.incometaxpenaltiesfrontend.controllers.predicates.NavBarRetrievalAction
 
 import javax.inject.Inject
@@ -54,7 +55,8 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
       Redirect(if(user.is2ndStageAppeal) {
         routes.MissedDeadlineReasonController.onPageLoad()
       } else {
-        routes.WhenDidEventHappenController.onPageLoad()
+        val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
+        routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse)
       })
     }
   }
