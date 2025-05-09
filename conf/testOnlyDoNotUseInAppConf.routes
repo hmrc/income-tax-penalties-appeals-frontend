@@ -18,8 +18,4 @@ GET        /view-or-appeal-penalty/self-assessment/test-only/api/feature-switche
 GET        /view-or-appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
 POST       /view-or-appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
 
-GET        /view-or-appeal-penalty/self-assessment/test-only/add-agent-session/:mtdItId            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.testOnly.controllers.AddAgentSessionController.addAgentSession(mtdItId: String)
-
-GET        /view-or-appeal-penalty/self-assessment/test-only/add-to-session                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.testOnly.controllers.AddToSessionController.addToSessionAndRedirect(key: String, value: String)
-
 ->         /                                                                                prod.Routes
