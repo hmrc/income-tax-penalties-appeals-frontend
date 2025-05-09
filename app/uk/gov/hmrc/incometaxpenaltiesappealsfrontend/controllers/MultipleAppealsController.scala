@@ -35,7 +35,7 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
       Future(Ok(multipleAppeals(user.isAgent, isSecondStageAppeal = user.is2ndStageAppeal)))
   }
 
-  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve {
-      Redirect(routes.ReasonableExcuseController.onPageLoad())
+  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve { implicit user  =>
+      Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
   }
 }

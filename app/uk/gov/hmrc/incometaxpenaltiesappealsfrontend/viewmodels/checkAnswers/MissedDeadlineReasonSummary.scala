@@ -44,7 +44,7 @@ object MissedDeadlineReasonSummary extends SummaryListRowHelper {
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
+              href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isAgent = user.isAgent).url,
               visuallyHiddenText = Some(messages(s"checkYourAnswers.missedDeadlineReason.$infix.change.hidden"))
             ).withId("changeMissedDeadlineReason")
           )

@@ -36,14 +36,14 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            override val controllerComponents: MessagesControllerComponents,
                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
       Ok(checkYourAnswers(uploadedFiles))
     }
   }
 
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async {
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async {
     implicit user => {
       withAnswer(ReasonableExcusePage) { reasonableExcuse =>
         appealService.submitAppeal(reasonableExcuse).flatMap(_.fold(
@@ -52,7 +52,7 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
             errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
           },
           _ => {
-            Future.successful(Redirect(routes.ConfirmationController.onPageLoad()))
+            Future.successful(Redirect(routes.ConfirmationController.onPageLoad(isAgent = user.isAgent)))
           }
         ))
       }

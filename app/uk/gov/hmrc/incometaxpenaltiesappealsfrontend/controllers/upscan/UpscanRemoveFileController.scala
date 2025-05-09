@@ -53,7 +53,7 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
             count <- upscanService.countAllReadyFiles(user.journeyId)
           } yield Redirect(
             if(count > 0) routes.UpscanCheckAnswersController.onPageLoad()
-            else          appealsRouts.ExtraEvidenceController.onPageLoad()
+            else          appealsRouts.ExtraEvidenceController.onPageLoad(isAgent = user.isAgent)
           )
         case false =>
           Future(Redirect(routes.UpscanCheckAnswersController.onPageLoad()))

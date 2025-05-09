@@ -35,7 +35,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
                                                override val controllerComponents: MessagesControllerComponents
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(missedDeadlineReason(
       form = fillForm(MissedDeadlineReasonForm.form(user.isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs), MissedDeadlineReasonPage),
       isLPP = user.isLPP,
@@ -44,7 +44,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
     ))
   }
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     MissedDeadlineReasonForm.form(user.isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(missedDeadlineReason(
@@ -56,7 +56,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          Redirect(routes.ExtraEvidenceController.onPageLoad())
+          Redirect(routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent))
         }
       }
     )

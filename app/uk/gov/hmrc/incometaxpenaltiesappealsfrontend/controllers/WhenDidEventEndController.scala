@@ -62,9 +62,9 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
           val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
           userAnswersService.updateAnswers(updatedAnswers).map { _ =>
             if (user.isAppealLate()) {
-              Redirect(routes.LateAppealController.onPageLoad())
+              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
             } else {
-              Redirect(routes.CheckYourAnswersController.onPageLoad())
+              Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
             }
           }
         })

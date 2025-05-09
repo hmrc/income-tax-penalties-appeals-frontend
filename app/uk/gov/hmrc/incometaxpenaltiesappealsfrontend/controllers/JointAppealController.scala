@@ -48,7 +48,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
           isSecondStageAppeal = user.is2ndStageAppeal
         ))
       case _ =>
-        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
     }
   }
 
@@ -66,7 +66,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
               isSecondStageAppeal = user.is2ndStageAppeal
             )))
           case _ =>
-            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad()))
+            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)))
         }
       },
       appealBothPenalties => {

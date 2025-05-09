@@ -37,7 +37,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
                                              override val errorHandler: ErrorHandler
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(
         if(user.is2ndStageAppeal) reviewHonestyDeclarationView(user.isAgent, reasonableExcuse)
@@ -46,11 +46,11 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
     }
   }
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     val updatedAnswers = user.userAnswers.setAnswer(HonestyDeclarationPage, true)
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
       Redirect(if(user.is2ndStageAppeal) {
-        routes.MissedDeadlineReasonController.onPageLoad()
+        routes.MissedDeadlineReasonController.onPageLoad(isAgent = user.isAgent)
       } else {
         val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
         routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse)

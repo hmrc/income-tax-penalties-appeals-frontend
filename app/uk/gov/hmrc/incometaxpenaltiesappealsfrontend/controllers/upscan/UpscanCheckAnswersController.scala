@@ -71,9 +71,9 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
       Redirect(routes.UpscanInitiateController.onPageLoad())
     } else {
       if (user.isAppealLate()) {
-        Redirect(appealsRoutes.LateAppealController.onPageLoad())
+        Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent))
       } else {
-        Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad())
+        Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
       }
     }
 

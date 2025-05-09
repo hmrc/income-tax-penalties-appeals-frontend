@@ -38,7 +38,7 @@ object HasHospitalStayEndedSummary extends SummaryListRowHelper with DateFormatt
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.HasHospitalStayEndedController.onPageLoad().url,
+                href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.hasHospitalStayEnded.$reasonableExcuse.change.hidden"))
               ).withId("changehasHospitalStayEnded")
             )

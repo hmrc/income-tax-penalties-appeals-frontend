@@ -41,12 +41,12 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
           isSecondStageAppeal = user.is2ndStageAppeal
         ))
       case _ =>
-        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
     }
   }
 
-  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve {
-    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad())
+  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve { implicit user  =>
+    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
   }
 
 }
