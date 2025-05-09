@@ -44,9 +44,9 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                               auditService: AuditService
                              )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FeatureSwitching {
 
-  def validatePenaltyIdForEnrolmentKey(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, mtdItId: String)
+  def validatePenaltyIdForEnrolmentKey(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, nino: String)
                                       (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[AppealData]] = {
-    penaltiesConnector.getAppealsDataForPenalty(penaltyId, mtdItId, isLPP, isAdditional).map {
+    penaltiesConnector.getAppealsDataForPenalty(penaltyId, nino, isLPP, isAdditional).map {
       case None =>
         logger.warn(s"[AppealService][validatePenaltyIdForEnrolmentKey] - Found no appeal data for penalty ID: $penaltyId")
         None
@@ -62,9 +62,9 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }
 
-  def validateMultiplePenaltyDataForEnrolmentKey(penaltyId: String, mtdItId: String)
+  def validateMultiplePenaltyDataForEnrolmentKey(penaltyId: String, nino: String)
                                                 (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[MultiplePenaltiesData]] = {
-    penaltiesConnector.getMultiplePenaltiesForPrincipleCharge(penaltyId, mtdItId).map {
+    penaltiesConnector.getMultiplePenaltiesForPrincipleCharge(penaltyId, nino).map {
       case Right(model) =>
         logger.info(s"[AppealService][validateMultiplePenaltyDataForEnrolmentKey] - Received Right with parsed model")
         Some(model)
@@ -98,7 +98,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       )
 
     for {
-      response <- penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false)
+      response <- penaltiesConnector.submitAppeal(modelFromRequest, request.nino, request.isLPP, request.penaltyNumber, correlationId, isMultiAppeal = false)
       _ = auditSubmission(response, request.penaltyData.appealData.`type`, correlationId)
     } yield response match {
       case Right(response) =>
@@ -128,8 +128,8 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     )
 
     //vals intentionally outside `for comprehension` so that they run async in parallel
-    val submitLPP1 = penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
-    val submitLPP2 = penaltiesConnector.submitAppeal(modelFromRequest, request.mtdItId, request.isLPP, secondPenaltyNumber, secondCorrelationId, isMultiAppeal = true)
+    val submitLPP1 = penaltiesConnector.submitAppeal(modelFromRequest, request.nino, request.isLPP, firstPenaltyNumber, firstCorrelationId, isMultiAppeal = true)
+    val submitLPP2 = penaltiesConnector.submitAppeal(modelFromRequest, request.nino, request.isLPP, secondPenaltyNumber, secondCorrelationId, isMultiAppeal = true)
 
     for {
       lpp1Response <- submitLPP1
