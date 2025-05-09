@@ -54,20 +54,20 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   val appName: String = servicesConfig.getString("appName")
 
-  def appealLPPDataForPenaltyUrl(penaltyId: String, mtditid: String, isAdditional: Boolean): String =
-    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/late-payments/MTDITID/$mtditid?penaltyId=$penaltyId&isAdditional=$isAdditional"
+  def appealLPPDataForPenaltyUrl(penaltyId: String, nino: String, isAdditional: Boolean): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/late-payments/NINO/$nino?penaltyId=$penaltyId&isAdditional=$isAdditional"
 
-  def appealLSPDataForPenaltyUrl(penaltyId: String, mtditid: String): String =
-    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/late-submissions/MTDITID/$mtditid?penaltyId=$penaltyId"
+  def appealLSPDataForPenaltyUrl(penaltyId: String, nino: String): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/late-submissions/NINO/$nino?penaltyId=$penaltyId"
 
-  def multiplePenaltyDataUrl(penaltyId: String, mtditid: String): String =
-    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/multiple-penalties/MTDITID/$mtditid?penaltyId=$penaltyId"
+  def multiplePenaltyDataUrl(penaltyId: String, nino: String): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/multiple-penalties/NINO/$nino?penaltyId=$penaltyId"
 
-  def reasonableExcuseFetchUrl(mtditid: String): String =
-    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/reasonable-excuses/MTDITID/$mtditid"
+  def reasonableExcuseFetchUrl(nino: String): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/reasonable-excuses/NINO/$nino"
 
-  def submitAppealUrl(mtditid: String, isLPP: Boolean, penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean): String =
-    s"$penaltiesServiceBaseUrl/ITSA/appeals/submit-appeal/MTDITID/$mtditid?isLPP=$isLPP&penaltyNumber=$penaltyNumber&correlationId=$correlationId&isMultiAppeal=$isMultiAppeal"
+  def submitAppealUrl(nino: String, isLPP: Boolean, penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean): String =
+    s"$penaltiesServiceBaseUrl/ITSA/appeals/submit-appeal/NINO/$nino?isLPP=$isLPP&penaltyNumber=$penaltyNumber&correlationId=$correlationId&isMultiAppeal=$isMultiAppeal"
 
   lazy val signInUrl: String = config.get[String]("signIn.url")
   lazy val signOutUrl: String = config.get[String]("signOut.url")

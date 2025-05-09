@@ -36,22 +36,22 @@ import scala.concurrent.{ExecutionContext, Future}
 class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
                                    appConfig: AppConfig) {
 
-  def getAppealUrlBasedOnPenaltyType(penaltyId: String, mtdItId: String, isLPP: Boolean, isAdditional: Boolean): String = {
+  def getAppealUrlBasedOnPenaltyType(penaltyId: String, nino: String, isLPP: Boolean, isAdditional: Boolean): String = {
     if (isLPP) {
-      appConfig.appealLPPDataForPenaltyUrl(penaltyId, mtdItId, isAdditional)
-    } else appConfig.appealLSPDataForPenaltyUrl(penaltyId, mtdItId)
+      appConfig.appealLPPDataForPenaltyUrl(penaltyId, nino, isAdditional)
+    } else appConfig.appealLSPDataForPenaltyUrl(penaltyId, nino)
   }
 
-  def getAppealsDataForPenalty(penaltyId: String, mtdItId: String, isLPP: Boolean, isAdditional: Boolean)
+  def getAppealsDataForPenalty(penaltyId: String, nino: String, isLPP: Boolean, isAdditional: Boolean)
                               (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[JsValue]] = {
     val startOfLogMsg: String = "[PenaltiesConnector][getAppealsDataForPenalty] -"
     httpClient.get(
-      url"${getAppealUrlBasedOnPenaltyType(penaltyId, mtdItId, isLPP, isAdditional)}"
+      url"${getAppealUrlBasedOnPenaltyType(penaltyId, nino, isLPP, isAdditional)}"
     ).execute[HttpResponse].map {
       response =>
         response.status match {
           case OK =>
-            logger.debug(s"$startOfLogMsg OK response returned from Penalties backend for penalty with ID: $penaltyId and enrolment key $mtdItId")
+            logger.debug(s"$startOfLogMsg OK response returned from Penalties backend for penalty with ID: $penaltyId and enrolment key $nino")
             Some(response.json)
           case NOT_FOUND =>
             logger.info(s"$startOfLogMsg Returned 404 from Penalties backend - with body: ${response.body}")
@@ -69,19 +69,19 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
     }
   }
 
-  def getMultiplePenaltiesForPrincipleCharge(penaltyId: String, mtdItId: String)
+  def getMultiplePenaltiesForPrincipleCharge(penaltyId: String, nino: String)
                                             (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[MultiplePenaltiesResponse] = {
     val startOfLogMsg: String = "[PenaltiesConnector][getMultiplePenaltiesForPrincipleCharge] -"
-    logger.debug(s"$startOfLogMsg Calling penalties backend with $penaltyId and $mtdItId")
+    logger.debug(s"$startOfLogMsg Calling penalties backend with $penaltyId and $nino")
     httpClient
-      .get(url"${appConfig.multiplePenaltyDataUrl(penaltyId, mtdItId)}")
+      .get(url"${appConfig.multiplePenaltyDataUrl(penaltyId, nino)}")
       .execute[MultiplePenaltiesResponse](MultiplePenaltiesResponseReads, ec)
   }
 
-  def getListOfReasonableExcuses(mtdItId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[JsValue]] = {
+  def getListOfReasonableExcuses(nino: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[JsValue]] = {
     val startOfLogMsg: String = "[PenaltiesConnector][getListOfReasonableExcuses] -"
     httpClient
-      .get(url"${appConfig.reasonableExcuseFetchUrl(mtdItId)}")
+      .get(url"${appConfig.reasonableExcuseFetchUrl(nino)}")
       .execute[HttpResponse].map(
         response => Some(response.json)
       ).recover {
@@ -99,11 +99,11 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
       }
   }
 
-  def submitAppeal(appealSubmission: AppealSubmission, mtdItId: String, isLPP: Boolean,
+  def submitAppeal(appealSubmission: AppealSubmission, nino: String, isLPP: Boolean,
                    penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean)
                   (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[AppealSubmissionResponse] = {
 
-    val url = url"${appConfig.submitAppealUrl(mtdItId, isLPP, penaltyNumber, correlationId, isMultiAppeal)}"
+    val url = url"${appConfig.submitAppealUrl(nino, isLPP, penaltyNumber, correlationId, isMultiAppeal)}"
     logger.debug(s"[PenaltiesConnector][submitAppeal] POST $url\nSubmitting appeal model send to backend:\n${Json.toJson(appealSubmission)}")
     httpClient
       .post(url)

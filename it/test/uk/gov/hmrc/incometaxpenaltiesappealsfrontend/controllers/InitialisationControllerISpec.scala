@@ -59,7 +59,7 @@ class InitialisationControllerISpec extends ControllerISpecHelper
         "the user is an authorised individual (is2ndStageAppeal==false)" in {
 
           stubAuthRequests(false)
-          successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
+          successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testNino)
 
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false&is2ndStageAppeal=false")
 
@@ -89,8 +89,8 @@ class InitialisationControllerISpec extends ControllerISpecHelper
         "the user is an authorised agent (and LPP with multiple) (is2ndStageAppeal==true)" in {
 
           stubAuthRequests(true)
-          successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, testMtdItId, isLPP = true)
-          successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, testMtdItId)
+          successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, testNino, isLPP = true)
+          successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, testNino)
 
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLPP.penaltyNumber}&isLPP=true&isAdditional=false&is2ndStageAppeal=true", isAgent = true)
 
@@ -131,7 +131,7 @@ class InitialisationControllerISpec extends ControllerISpecHelper
       "render an ISE" in {
 
         stubAuthRequests(false)
-        failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testMtdItId)
+        failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testNino)
 
         val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false")
 
