@@ -98,7 +98,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit().url
+            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent).url
             document.select(BaseSelectors.legend).text() shouldBe NonJsUploadCheckAnswersMessages.English.uploadAnotherFileLegend
             document.select(BaseSelectors.radio(1)).text() shouldBe NonJsUploadCheckAnswersMessages.English.yes
             document.select(BaseSelectors.radio(2)).text() shouldBe NonJsUploadCheckAnswersMessages.English.no
@@ -118,7 +118,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit().url
+            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent).url
             document.select(BaseSelectors.legend).isEmpty shouldBe true
             document.select(BaseSelectors.radio(1)).isEmpty shouldBe true
             document.select(BaseSelectors.radio(2)).isEmpty shouldBe true
@@ -142,7 +142,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               )
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.UpscanInitiateController.onPageLoad().url)
+              result.header("Location") shouldBe Some(routes.UpscanInitiateController.onPageLoad(isAgent = isAgent).url)
             }
           }
 
@@ -160,7 +160,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 )
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad().url)
+                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent).url)
               }
             }
 
@@ -176,7 +176,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 )
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad().url)
+                result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
               }
             }
           }
@@ -196,7 +196,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(Map.empty[String, String])
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad().url)
+              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent).url)
             }
           }
 
@@ -212,7 +212,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               val result = post("/upload-supporting-evidence/check-answers", isAgent = isAgent)(Map.empty[String, String])
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad().url)
+              result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
             }
           }
         }

@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
 import fixtures.messages.CrimeReportedMessages
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -84,7 +85,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.CrimeReportedController.onPageLoad().url,
+                            href = controllers.routes.CrimeReportedController.onPageLoad(isAgent).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changeCrimeReported")
                         )

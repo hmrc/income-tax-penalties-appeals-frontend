@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.LateAppealMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -107,7 +108,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             userAnswersWithReasonLSP.setAnswer(LateAppealPage, "Some reason")
           ).futureValue
 
-          val result = get("/making-a-late-appeal", isAgent = true)
+          val result = get("/agent-making-a-late-appeal", isAgent = true)
           result.status shouldBe OK
 
           val document = Jsoup.parse(result.body)
@@ -143,7 +144,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(true)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
-              val result = get("/making-a-late-appeal", isAgent = true)
+              val result = get("/agent-making-a-late-appeal", isAgent = true)
 
               val document = Jsoup.parse(result.body)
 
@@ -239,7 +240,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(true)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
 
-              val result = get("/making-a-late-appeal", isAgent = true)
+              val result = get("/agent-making-a-late-appeal", isAgent = true)
 
               val document = Jsoup.parse(result.body)
 
@@ -323,7 +324,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
         val result = post("/making-a-late-appeal")(Map(LateAppealForm.key -> "Some reason"))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+        result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(LateAppealPage)) shouldBe Some("Some reason")
       }

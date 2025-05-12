@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.SingleAppealConfirmationMessages
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
@@ -60,7 +61,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
       "the user is an authorised agent" in new Setup() {
         stubAuthRequests(true)
 
-        val result: WSResponse = get("/single-appeal", isAgent = true)
+        val result: WSResponse = get("/agent-single-appeal", isAgent = true)
         result.status shouldBe OK
       }
     }
@@ -87,7 +88,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
         "the user is an authorised agent" in new Setup() {
           stubAuthRequests(true)
-          val result: WSResponse = get("/single-appeal", isAgent = true)
+          val result: WSResponse = get("/agent-single-appeal", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -132,7 +133,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
-          val result: WSResponse = get("/single-appeal", isAgent = true)
+          val result: WSResponse = get("/agent-single-appeal", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -160,7 +161,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
       val result = post("/single-appeal")(Json.obj())
 
       result.status shouldBe SEE_OTHER
-      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
+      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent).url)
     }
   }
 }

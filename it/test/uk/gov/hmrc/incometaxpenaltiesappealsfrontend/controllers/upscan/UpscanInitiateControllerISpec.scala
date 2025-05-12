@@ -149,7 +149,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 calculateRuntime {
                   val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
-                  result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+                  result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
               }
             }
@@ -177,7 +177,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 calculateRuntime {
                   val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
-                  result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString)).url)
+                  result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
               }
             }
@@ -190,7 +190,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
               val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
               result.status shouldBe SEE_OTHER
-              result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload")).url)
+              result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent).url)
             }
           }
         }

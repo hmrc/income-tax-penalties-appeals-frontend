@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.upscan.NonJsRemoveFileMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -50,7 +51,7 @@ class NonJsRemoveFileViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
       implicit val doc = asDocument(uploadCheckAnswers(
         UploadDocumentForm.form,
         UploadedFilesViewModel(callbackModel, fileIndex).get,
-        controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, fileIndex)
+        controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, fileIndex, isAgent)
       ))
 
       behave like pageWithExpectedElementsAndMessages(

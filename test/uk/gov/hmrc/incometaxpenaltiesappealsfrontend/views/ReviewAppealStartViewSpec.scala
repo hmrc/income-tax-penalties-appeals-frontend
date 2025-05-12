@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views
 
 import fixtures.BaseFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.ReviewAppealStartMessages
 import fixtures.views.BaseSelectors
 import org.jsoup.nodes.Document
@@ -48,7 +49,7 @@ class ReviewAppealStartViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
       "appeal isLate == false" should {
 
-        implicit val doc: Document = asDocument(view(isLate = false, routes.ReasonableExcuseController.onPageLoad()))
+        implicit val doc: Document = asDocument(view(isLate = false, routes.ReasonableExcuseController.onPageLoad(isAgent)))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -64,7 +65,7 @@ class ReviewAppealStartViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
       "appeal isLate == true" should {
 
-        implicit val doc: Document = asDocument(view(isLate = true, routes.ReasonableExcuseController.onPageLoad()))
+        implicit val doc: Document = asDocument(view(isLate = true, routes.ReasonableExcuseController.onPageLoad(isAgent)))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,

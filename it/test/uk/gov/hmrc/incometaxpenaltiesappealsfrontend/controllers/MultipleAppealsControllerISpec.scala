@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.English
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -65,7 +66,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
       "the user is an authorised agent" in new Setup() {
         stubAuthRequests(true)
-        val result: WSResponse = get("/multiple-appeals", isAgent = true)
+        val result: WSResponse = get("/agent-multiple-appeals", isAgent = true)
 
         result.status shouldBe OK
       }
@@ -92,7 +93,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
         "the user is an authorised agent" in new Setup() {
           stubAuthRequests(true)
-          val result: WSResponse = get("/multiple-appeals", isAgent = true)
+          val result: WSResponse = get("/agent-multiple-appeals", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -135,7 +136,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
-          val result: WSResponse = get("/multiple-appeals", isAgent = true)
+          val result: WSResponse = get("/agent-multiple-appeals", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -159,7 +160,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
       stubAuthRequests(false)
       val result = post("/multiple-appeals")(Json.obj())
       result.status shouldBe SEE_OTHER
-      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
+      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent).url)
     }
   }
 

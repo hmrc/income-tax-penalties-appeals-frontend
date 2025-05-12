@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.MissedDeadlineReasonMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -74,7 +75,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
             userAnswersWithReason.setAnswer(MissedDeadlineReasonPage, "Some reason")
           ).futureValue
 
-          val result = get("/missed-deadline-reason", isAgent = true)
+          val result = get("/agent-missed-deadline-reason", isAgent = true)
           result.status shouldBe OK
 
           val document = Jsoup.parse(result.body)
@@ -107,7 +108,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-          val result = get("/missed-deadline-reason", isAgent = true)
+          val result = get("/agent-missed-deadline-reason", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -149,7 +150,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
-          val result = get("/missed-deadline-reason", isAgent = true)
+          val result = get("/agent-missed-deadline-reason", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -192,7 +193,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
-          val result = get("/missed-deadline-reason", isAgent = true)
+          val result = get("/agent-missed-deadline-reason", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -233,7 +234,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
-          val result = get("/missed-deadline-reason", isAgent = true)
+          val result = get("/agent-missed-deadline-reason", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -276,7 +277,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
-          val result = get("/missed-deadline-reason", isAgent = true)
+          val result = get("/agent-missed-deadline-reason", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -309,7 +310,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
         val result = post("/missed-deadline-reason")(Map(MissedDeadlineReasonForm.key -> "Some reason"))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.ExtraEvidenceController.onPageLoad().url)
+        result.header("Location") shouldBe Some(routes.ExtraEvidenceController.onPageLoad(isAgent).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(MissedDeadlineReasonPage)) shouldBe Some("Some reason")
       }

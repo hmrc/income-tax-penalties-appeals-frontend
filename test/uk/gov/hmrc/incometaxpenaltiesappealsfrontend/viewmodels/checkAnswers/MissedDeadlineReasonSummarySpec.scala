@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.MissedDeadlineReasonMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -83,7 +84,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
                             items = Seq(
                               ActionItem(
                                 content = Text(messagesForLanguage.change),
-                                href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
+                                href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isAgent).url,
                                 visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal))
                               ).withId("changeMissedDeadlineReason")
                             )
@@ -126,7 +127,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.MissedDeadlineReasonController.onPageLoad().url,
+                            href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isAgent).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false))
                           ).withId("changeMissedDeadlineReason")
                         )

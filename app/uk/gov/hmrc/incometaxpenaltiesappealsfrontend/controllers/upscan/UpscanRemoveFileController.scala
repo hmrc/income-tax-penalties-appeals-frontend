@@ -39,12 +39,12 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
                                            override val controllerComponents: MessagesControllerComponents
                                           )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(fileReference: String, index: Int): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(fileReference: String, index: Int, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     renderView(Ok, UploadRemoveFileForm.form(), fileReference, index)
   }
 
 
-  def onSubmit(fileReference: String, index: Int): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onSubmit(fileReference: String, index: Int, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     UploadRemoveFileForm.form().bindFromRequest().fold(
       renderView(BadRequest, _, fileReference, index), {
         case true =>
@@ -52,11 +52,11 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
             _ <- upscanService.removeFile(user.journeyId, fileReference)
             count <- upscanService.countAllReadyFiles(user.journeyId)
           } yield Redirect(
-            if(count > 0) routes.UpscanCheckAnswersController.onPageLoad()
+            if(count > 0) routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent)
             else          appealsRouts.ExtraEvidenceController.onPageLoad(isAgent = user.isAgent)
           )
         case false =>
-          Future(Redirect(routes.UpscanCheckAnswersController.onPageLoad()))
+          Future(Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent)))
       }
     )
   }
@@ -64,9 +64,9 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
   private def renderView(status: Status, form: Form[_], fileReference: String, index: Int)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
     upscanService.getFile(user.journeyId, fileReference).map(_.flatMap(UploadedFilesViewModel(_, index))).map {
       case Some(viewModel) =>
-        status(nonJsRemoveFile(form, viewModel, routes.UpscanRemoveFileController.onSubmit(fileReference, index)))
+        status(nonJsRemoveFile(form, viewModel, routes.UpscanRemoveFileController.onSubmit(fileReference, index, user.isAgent)))
       case _ =>
         logger.info("[UpscanRemoveFileController][onPageLoad] User attempted to remove a file that does not exist, bouncing back to Upscan Check Answers page")
-        Redirect(routes.UpscanCheckAnswersController.onPageLoad())
+        Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent))
     }
 }

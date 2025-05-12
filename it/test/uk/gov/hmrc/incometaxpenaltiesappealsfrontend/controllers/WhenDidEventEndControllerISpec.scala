@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.WhenDidEventEndMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -165,7 +166,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
                 WhenDidEventEndForm.key + ".year" -> "2024"))
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
 
               userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
             }
@@ -181,7 +182,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
                 WhenDidEventEndForm.key + ".year" -> "2024"))
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+              result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
 
               userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
             }

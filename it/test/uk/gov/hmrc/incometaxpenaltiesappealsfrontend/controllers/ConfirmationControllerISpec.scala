@@ -50,7 +50,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
       "the user is an authorised agent" in {
         stubAuthRequests(true)
-        val result = get("/appeal-confirmation", isAgent = true)
+        val result = get("/agent-appeal-confirmation", isAgent = true)
 
         result.status shouldBe OK
       }
@@ -86,7 +86,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
-        val result = get("/appeal-confirmation", isAgent = true)
+        val result = get("/agent-appeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 
@@ -138,7 +138,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP).futureValue
 
-        val result = get("/appeal-confirmation", isAgent = true)
+        val result = get("/agent-appeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 
@@ -190,7 +190,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
 
-        val result = get("/appeal-confirmation", isAgent = true)
+        val result = get("/agent-appeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 
@@ -242,7 +242,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
-        val result = get("/appeal-confirmation", isAgent = true)
+        val result = get("/agent-ppeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 
@@ -294,7 +294,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
-        val result = get("/appeal-confirmation", isAgent = true)
+        val result = get("/agent-appeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 

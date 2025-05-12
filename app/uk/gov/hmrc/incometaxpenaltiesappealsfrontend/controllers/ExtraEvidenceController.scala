@@ -62,7 +62,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
         userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
           if (value) {
-            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad()))
+            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
               if(user.isAppealLate()) {

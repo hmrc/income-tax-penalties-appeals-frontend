@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.{English, ReasonableExcuseMessages}
 import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
@@ -80,7 +81,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-          val result = get("/check-your-answers", isAgent = true)
+          val result = get("/agent-check-your-answers", isAgent = true)
 
           result.status shouldBe OK
         }
@@ -115,7 +116,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-          val result = get("/check-your-answers", isAgent = true)
+          val result = get("/agent-check-your-answers", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -158,7 +159,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
             val result = post("/check-your-answers")(Json.obj())
 
             result.status shouldBe SEE_OTHER
-            result.header(LOCATION) shouldBe Some(routes.ConfirmationController.onPageLoad().url)
+            result.header(LOCATION) shouldBe Some(routes.ConfirmationController.onPageLoad(isAgent).url)
           }
         }
 

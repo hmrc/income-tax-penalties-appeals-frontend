@@ -81,7 +81,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
 
             val result = get(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+            result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
           }
         }
 
@@ -93,7 +93,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
 
             val result = get(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+            result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
           }
         }
 
@@ -107,7 +107,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanRemoveFileController.onSubmit(fileRef1, 1).url
+            document.select("form").attr("action") shouldBe routes.UpscanRemoveFileController.onSubmit(fileRef1, 1, isAgent).url
             document.select(BaseSelectors.legend).text() shouldBe NonJsRemoveFileMessages.English.headingAndTitle(1)
             document.select(BaseSelectors.radio(1)).text() shouldBe NonJsRemoveFileMessages.English.yes
             document.select(BaseSelectors.radio(2)).text() shouldBe NonJsRemoveFileMessages.English.no
@@ -125,7 +125,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
             val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad().url)
+            result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad(isAgent).url)
           }
         }
 
@@ -138,7 +138,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
             val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad().url)
+            result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad(isAgent).url)
           }
         }
 
@@ -156,7 +156,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
                 val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad().url)
+                result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad(isAgent).url)
 
                 fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 0
               }
@@ -173,7 +173,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
                 val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+                result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
 
                 fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
               }
@@ -190,7 +190,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
               val result = post(s"/upload-supporting-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "false"))
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad().url)
+              result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
 
               fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
             }

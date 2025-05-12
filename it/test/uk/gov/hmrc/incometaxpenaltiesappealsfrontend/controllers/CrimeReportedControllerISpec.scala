@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.CrimeReportedMessages
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -82,7 +83,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuthRequests(true)
 
-        val result = get("/has-this-crime-been-reported", isAgent = true)
+        val result = get("/agent-has-this-crime-been-reported", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)
@@ -113,7 +114,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
       "the user is an authorised agent" in new Setup() {
         stubAuthRequests(true)
-        val result = get("/has-this-crime-been-reported", isAgent = true)
+        val result = get("/agent-has-this-crime-been-reported", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 
@@ -145,7 +146,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
           val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
         }
@@ -160,7 +161,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
           val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
         }

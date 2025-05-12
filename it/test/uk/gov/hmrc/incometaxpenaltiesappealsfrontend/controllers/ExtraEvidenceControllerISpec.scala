@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.ExtraEvidenceMessages
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
@@ -84,7 +85,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuthRequests(true)
 
-        val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
+        val result: WSResponse = get("/agent-upload-extra-evidence", isAgent = true)
         result.status shouldBe OK
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -116,7 +117,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
         "the user is an authorised agent" in new Setup() {
           stubAuthRequests(true)
-          val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
+          val result: WSResponse = get("/agent-upload-extra-evidence", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -205,7 +206,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
 
-          val result: WSResponse = get("/upload-extra-evidence", isAgent = true)
+          val result: WSResponse = get("/agent-upload-extra-evidence", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -239,7 +240,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
         val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> true))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad().url)
+        result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
       }
@@ -255,7 +256,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
             val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+            result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
 
             userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
           }
@@ -270,7 +271,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
             val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+            result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
 
             userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
           }
