@@ -58,7 +58,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           if (value) {
             val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
-            Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse))
+            Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent))
           } else {
             if (user.isAppealLate()) {
               Redirect(routes.LateAppealController.onPageLoad())
