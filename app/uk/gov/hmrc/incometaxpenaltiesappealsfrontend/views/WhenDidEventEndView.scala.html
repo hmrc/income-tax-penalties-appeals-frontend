@@ -38,7 +38,7 @@
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventEndController.submit(reasonableExcuse)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventEndController.submit(reasonableExcuse, request.isAgent)) {
 
         @caption()
 

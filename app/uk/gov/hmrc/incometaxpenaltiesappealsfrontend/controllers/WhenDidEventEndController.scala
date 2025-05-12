@@ -38,23 +38,23 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
                                          )(implicit ec: ExecutionContext,
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       Future(Ok(whenDidEventEnd(
         form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
-        isAgent = user.isAgent,
+        isAgent = isAgent,
         reasonableExcuse = reasonableExcuse
       )))
     }
   }
 
 
-  def submit(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(whenDidEventEnd(
-            user.isAgent,
+            isAgent,
             reasonableExcuse,
             formWithErrors
           ))),
