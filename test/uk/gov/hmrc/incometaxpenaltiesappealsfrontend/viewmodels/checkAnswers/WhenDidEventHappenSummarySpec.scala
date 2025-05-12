@@ -77,7 +77,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
-                          href = controllers.routes.WhenDidEventHappenController.onPageLoad(reason).url,
+                          href = controllers.routes.WhenDidEventHappenController.onPageLoad(reason, isAgent = false).url,
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
                         ).withId("changeWhenDidEventHappen")
                       )

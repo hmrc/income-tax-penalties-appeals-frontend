@@ -43,7 +43,8 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit(isAgent = user.isAgent)) {
+
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit(isLPP, user.isAgent)) {
 
         @caption()
 

@@ -54,7 +54,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
           emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
         ).futureValue
 
-        val result = get("/agent-who-planned-to-submit", isAgent = true)
+        val result = get("/who-planned-to-submit", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)
@@ -67,7 +67,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
       "the user is an authorised agent" in {
         stubAuthRequests(true)
 
-        val result = get("/agent-who-planned-to-submit", isAgent = true)
+        val result = get("/who-planned-to-submit", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)

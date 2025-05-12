@@ -40,7 +40,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     Future(Ok(whenDidEventHappen(
       form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
       reasonableExcuse = reasonableExcuse,
@@ -48,7 +48,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
     )))
   }
 
-  def submit(reasonableExcuse: ReasonableExcuse): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
     WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
       formWithErrors =>
         Future.successful(BadRequest(whenDidEventHappen(
@@ -61,13 +61,13 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           reasonableExcuse match {
             case TechnicalIssues =>
-              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse))
+              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
             case Crime =>
               Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent))
             case UnexpectedHospital =>
               Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
             case Other =>
-              Redirect(routes.MissedDeadlineReasonController.onPageLoad(isAgent = user.isAgent))
+              Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent))
             case _ =>
               if (user.isAppealLate()) {
                 Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))

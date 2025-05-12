@@ -42,8 +42,8 @@ class InitialisationController @Inject()(val authActions: AuthActions,
 
   def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.authoriseAndRetrieve.async { implicit user =>
     for {
-      appealData <- appealService.validatePenaltyIdForEnrolmentKey(penaltyId, isLPP, isAdditional, user.mtdItId)
-      multiPenaltyData <- if (isLPP) appealService.validateMultiplePenaltyDataForEnrolmentKey(penaltyId, user.mtdItId) else Future.successful(None)
+      appealData <- appealService.validatePenaltyIdForEnrolmentKey(penaltyId, isLPP, isAdditional, user.nino)
+      multiPenaltyData <- if (isLPP) appealService.validateMultiplePenaltyDataForEnrolmentKey(penaltyId, user.nino) else Future.successful(None)
       result <- appealData match {
         case Some(data) =>
           storyPenaltyDataAndRedirect(penaltyId, is2ndStageAppeal, data, multiPenaltyData)

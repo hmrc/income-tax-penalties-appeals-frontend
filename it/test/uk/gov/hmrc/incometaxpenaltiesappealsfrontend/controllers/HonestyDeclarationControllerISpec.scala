@@ -310,7 +310,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
         val result = post("/honesty-declaration")(Json.obj())
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.WhenDidEventHappenController.onPageLoad(reason._1).url)
+        result.header("Location") shouldBe Some(routes.WhenDidEventHappenController.onPageLoad(reason._1, isAgent = false).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HonestyDeclarationPage)) shouldBe Some(true)
       }

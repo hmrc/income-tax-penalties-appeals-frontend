@@ -111,7 +111,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.WhenDidEventEndController.onPageLoad(reason).url,
+                            href = controllers.routes.WhenDidEventEndController.onPageLoad(reason, isAgent = false).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
                           ).withId("changeWhenDidEventEnd")
                         )

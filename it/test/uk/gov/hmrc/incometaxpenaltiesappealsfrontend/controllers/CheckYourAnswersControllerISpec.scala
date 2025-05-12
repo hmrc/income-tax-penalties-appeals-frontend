@@ -154,7 +154,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
             stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-            successfulAppealSubmission(testMtdItId, isLPP = false, penaltyDataLSP.penaltyNumber)
+            successfulAppealSubmission(testNino, isLPP = false, penaltyDataLSP.penaltyNumber)
 
             val result = post("/check-your-answers")(Json.obj())
 
@@ -168,7 +168,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
             stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
 
-            failedAppealSubmission(testMtdItId, isLPP = false, penaltyDataLSP.penaltyNumber)
+            failedAppealSubmission(testNino, isLPP = false, penaltyDataLSP.penaltyNumber)
 
             val result = post("/check-your-answers")(Json.obj())
 
