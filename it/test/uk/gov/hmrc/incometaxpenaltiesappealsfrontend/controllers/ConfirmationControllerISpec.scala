@@ -242,7 +242,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(true)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP2ndStage).futureValue
 
-        val result = get("/agent-ppeal-confirmation", isAgent = true)
+        val result = get("/agent-appeal-confirmation", isAgent = true)
 
         val document = Jsoup.parse(result.body)
 

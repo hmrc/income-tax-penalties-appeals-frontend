@@ -63,6 +63,8 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
     true
   ).foreach { isAgent =>
 
+    val url = if(isAgent) {"agent-remove-file"} else {"remove-file"}
+
     s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
 
       if(!isAgent) {
@@ -79,7 +81,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
           "redirect to the Upscan Check Answers page" in {
             stubAuthRequests(isAgent)
 
-            val result = get(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
+            val result = get(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)
             result.status shouldBe SEE_OTHER
             result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
           }
@@ -91,7 +93,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
             stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
-            val result = get(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
+            val result = get(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)
             result.status shouldBe SEE_OTHER
             result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
           }
@@ -103,7 +105,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
             stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-            val result = get(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)
+            val result = get(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
@@ -122,7 +124,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
           "redirect to the Upscan Check Answers page" in {
             stubAuthRequests(isAgent)
 
-            val result = post(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
+            val result = post(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
             result.status shouldBe SEE_OTHER
             result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad(isAgent).url)
@@ -135,7 +137,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
             stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
-            val result = post(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
+            val result = post(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
             result.status shouldBe SEE_OTHER
             result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad(isAgent).url)
@@ -153,7 +155,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
                 fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
 
-                val result = post(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
+                val result = post(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
                 result.status shouldBe SEE_OTHER
                 result.header("Location") shouldBe Some(appealsRoutes.ExtraEvidenceController.onPageLoad(isAgent).url)
@@ -170,7 +172,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel2).futureValue
                 fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 2
 
-                val result = post(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
+                val result = post(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "true"))
 
                 result.status shouldBe SEE_OTHER
                 result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
@@ -187,7 +189,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
               fileUploadRepo.getAllFiles(testJourneyId).futureValue.size shouldBe 1
 
-              val result = post(s"/upload-evidence/remove-file?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "false"))
+              val result = post(s"/upload-evidence/$url?fileReference=$fileRef1&index=1", isAgent = isAgent)(Map(UploadRemoveFileForm.key -> "false"))
 
               result.status shouldBe SEE_OTHER
               result.header("Location") shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)

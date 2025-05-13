@@ -74,7 +74,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val result = get("/agent-reason-for-missing-deadline", isAgent = true)
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(true).url)
         }
       }
     }

@@ -78,6 +78,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
     true
   ).foreach { case isAgent =>
 
+    val url = if(isAgent){"/upload-evidence/agent-upload-another-file"} else {"/upload-evidence/upload-another-file"}
     s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
 
       if(!isAgent) {
@@ -94,7 +95,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
             stubAuthRequests(isAgent)
             fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-            val result = get("/upload-evidence/upload-another-file", isAgent = isAgent)
+            val result = get(url, isAgent = isAgent)
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
@@ -114,7 +115,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
             }
 
-            val result = get("/upload-evidence/upload-another-file", isAgent = isAgent)
+            val result = get(url, isAgent = isAgent)
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
@@ -137,7 +138,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               stubAuthRequests(isAgent)
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-              val result = post("/upload-evidence/upload-another-file", isAgent = isAgent)(
+              val result = post(url, isAgent = isAgent)(
                 Map(UploadAnotherFileForm.key -> "true")
               )
 
@@ -155,7 +156,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-                val result = post("/upload-evidence/upload-another-file", isAgent = isAgent)(
+                val result = post(url, isAgent = isAgent)(
                   Map(UploadAnotherFileForm.key -> "false")
                 )
 
@@ -171,7 +172,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-                val result = post("/upload-evidence/upload-another-file", isAgent = isAgent)(
+                val result = post(url, isAgent = isAgent)(
                   Map(UploadAnotherFileForm.key -> "false")
                 )
 
@@ -193,7 +194,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
               }
 
-              val result = post("/upload-evidence/upload-another-file", isAgent = isAgent)(Map.empty[String, String])
+              val result = post(url, isAgent = isAgent)(Map.empty[String, String])
 
               result.status shouldBe SEE_OTHER
               result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent).url)
@@ -209,7 +210,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
               }
 
-              val result = post("/upload-evidence/upload-another-file", isAgent = isAgent)(Map.empty[String, String])
+              val result = post(url, isAgent = isAgent)(Map.empty[String, String])
 
               result.status shouldBe SEE_OTHER
               result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
