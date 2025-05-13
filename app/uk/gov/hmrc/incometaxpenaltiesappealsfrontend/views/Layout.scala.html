@@ -106,7 +106,7 @@
   HmrcStandardPageParams(
       serviceURLs = ServiceURLs(
           serviceUrl = Some(appConfig.ITSAPenaltiesAppealsHomeUrl),
-          signOutUrl = None
+          signOutUrl = Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ServiceController.logout.url)
       ),
     pageTitle = pageTitle,
     isWelshTranslationAvailable = appConfig.welshLanguageSupportEnabled,
