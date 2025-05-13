@@ -132,9 +132,11 @@ GET        /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenalt
 POST       /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.submit()
 
 #Single Appeal Confirmation
-GET        /appeal-single-penalty                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.onPageLoad()
-POST       /appeal-single-penalty                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.submit()
+GET        /appeal-single-penalty                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.onPageLoad(isAgent: Boolean = false)
+POST       /appeal-single-penalty                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.submit(isAgent: Boolean = false)
 
+GET        /agent-appeal-single-penalty               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.onPageLoad(isAgent: Boolean = true)
+POST       /agent-appeal-single-penalty               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.submit(isAgent: Boolean = true)
 
 #Multiple appeals LPP
 GET        /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad()

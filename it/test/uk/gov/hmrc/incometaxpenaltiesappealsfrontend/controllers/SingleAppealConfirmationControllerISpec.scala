@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.SingleAppealConfirmationMessages
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
@@ -42,126 +41,87 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
   }
+  
+  List(true, false).foreach { isAgent =>
+    
+    val url = if(isAgent) "/agent-appeal-single-penalty" else "/appeal-single-penalty"
 
-  "GET /single-appeal" should {
+    s"GET $url" should {
 
-    testNavBar(url = "/single-appeal")(
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
-    )
-
-    "return an OK with a view" when {
-
-      "the user is an authorised individual" in new Setup() {
-        stubAuthRequests(false)
-
-        val result: WSResponse = get("/single-appeal")
-        result.status shouldBe OK
+      if(!isAgent) {
+        testNavBar(url = url)(
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
+        )
       }
 
-      "the user is an authorised agent" in new Setup() {
-        stubAuthRequests(true)
+      "return an OK with a view" when {
 
-        val result: WSResponse = get("/agent-single-appeal", isAgent = true)
-        result.status shouldBe OK
-      }
-    }
+        "the user is an authorised" in new Setup() {
+          stubAuthRequests(isAgent)
 
-    "the journey is for a 1st Stage Appeal" when {
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup() {
-          stubAuthRequests(false)
-          val result: WSResponse = get("/single-appeal")
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
-          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
-          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
-          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
-          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2
-          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
-        }
-
-        "the user is an authorised agent" in new Setup() {
-          stubAuthRequests(true)
-          val result: WSResponse = get("/agent-single-appeal", isAgent = true)
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
-          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
-          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
-          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
-          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2
-          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
-
+          val result: WSResponse = get(url)
+          result.status shouldBe OK
         }
       }
-    }
 
-    "the journey is for a 2nd Stage Appeal" when {
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup() {
-          stubAuthRequests(false)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+      "the journey is for a 1st Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised" in new Setup() {
+            stubAuthRequests(isAgent)
+            val result: WSResponse = get(url)
 
-          val result: WSResponse = get("/single-appeal")
+            val document: nodes.Document = Jsoup.parse(result.body)
 
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
-          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
-          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitleReview
-          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1Review(multiplePenaltiesModel.firstPenaltyAmount)
-          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2Review
-          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+            document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+            document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
+            document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitle
+            document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1(multiplePenaltiesModel.firstPenaltyAmount)
+            document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2
+            document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+          }
         }
+      }
 
-        "the user is an authorised agent" in new Setup() {
-          stubAuthRequests(true)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+      "the journey is for a 2nd Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised" in new Setup() {
+            stubAuthRequests(isAgent)
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 
-          val result: WSResponse = get("/agent-single-appeal", isAgent = true)
+            val result: WSResponse = get(url)
 
-          val document: nodes.Document = Jsoup.parse(result.body)
+            val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
-          document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
-          document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitleReview
-          document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1Review(multiplePenaltiesModel.firstPenaltyAmount)
-          document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2Review
-          document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+            document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+            document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
+            document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe SingleAppealConfirmationMessages.English.headingAndTitleReview
+            document.getElementById("whichPenalty").text() shouldBe SingleAppealConfirmationMessages.English.p1_LPP1Review(multiplePenaltiesModel.firstPenaltyAmount)
+            document.getElementById("p2").text() shouldBe SingleAppealConfirmationMessages.English.p2Review
+            document.getSubmitButton.text() shouldBe SingleAppealConfirmationMessages.English.continue
+          }
         }
       }
     }
-  }
 
-  s"POST /single-appeal" should {
+    s"POST $url" should {
 
-    "redirect to the Reasonable Excuse page" in {
+      "redirect to the Reasonable Excuse page" in {
 
-      stubAuthRequests(false)
+        stubAuthRequests(isAgent)
 
-      val result = post("/single-appeal")(Json.obj())
+        val result = post(url)(Json.obj())
 
-      result.status shouldBe SEE_OTHER
-      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent).url)
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent).url)
+      }
     }
   }
 }

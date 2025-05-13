@@ -29,7 +29,7 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
                                                    override val errorHandler: ErrorHandler,
                                                    override val controllerComponents: MessagesControllerComponents) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
@@ -45,8 +45,8 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
     }
   }
 
-  def submit(): Action[AnyContent] = authActions.authoriseAndRetrieve { implicit user  =>
-    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { _ =>
+    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = isAgent))
   }
 
 }

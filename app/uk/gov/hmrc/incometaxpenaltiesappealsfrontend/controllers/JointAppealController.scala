@@ -74,7 +74,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           Redirect(
             if(appealBothPenalties) routes.MultipleAppealsController.onPageLoad()
-            else routes.SingleAppealConfirmationController.onPageLoad()
+            else routes.SingleAppealConfirmationController.onPageLoad(user.isAgent)
           )
         }
       }
