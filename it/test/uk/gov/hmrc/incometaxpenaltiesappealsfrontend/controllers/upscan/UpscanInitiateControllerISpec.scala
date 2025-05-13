@@ -67,7 +67,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
     s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
 
-      s"GET /upload-supporting-evidence/upload-file" when {
+      s"GET /upload-evidence/upload-file" when {
 
         "loading normal variant of the page (i.e. User is initiating the upload for the first time)" when {
 
@@ -77,7 +77,8 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
               stubAuthRequests(isAgent)
               stubUpscanInitiate(status = OK, body = initiateResponse)
 
-              val result = get("/upload-supporting-evidence/upload-file", isAgent = isAgent)
+              val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
+              val result = get(s"/upload-evidence/$uploadFileUrl", isAgent = isAgent)
               result.status shouldBe OK
 
               val document = Jsoup.parse(result.body)
@@ -100,7 +101,8 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
               stubAuthRequests(isAgent)
               fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
-              val result = get(s"/upload-supporting-evidence/upload-file?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
+              val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
+              val result = get(s"/upload-evidence/$uploadFileUrl?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
               result.status shouldBe BAD_REQUEST
 
               val document = Jsoup.parse(result.body)
@@ -117,7 +119,8 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
               stubAuthRequests(isAgent)
               stubUpscanInitiate(status = OK, body = initiateResponse)
 
-              val result = get(s"/upload-supporting-evidence/upload-file?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
+              val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
+              val result = get(s"/upload-evidence/$uploadFileUrl?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
               result.status shouldBe BAD_REQUEST
 
               val document = Jsoup.parse(result.body)
@@ -133,7 +136,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
         }
       }
 
-      s"GET /upload-supporting-evidence/success-redirect" when {
+      s"GET /upload-evidence/success-redirect" when {
 
         "the callback from upscan is received with a key (fileReference)" when {
 
@@ -147,7 +150,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
                 calculateRuntime {
-                  val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+                  val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
                   result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
@@ -162,7 +165,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
                 calculateRuntime {
-                  val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+                  val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe NOT_IMPLEMENTED
                 }.shouldTakeAtLeast(appConfig.upscanTimeout)
               }
@@ -175,7 +178,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelFailed).futureValue
 
                 calculateRuntime {
-                  val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+                  val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
                   result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
@@ -188,7 +191,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
             "redirect to the initiate upload page with the errorCode set to 'UnableToUpload'" in {
               stubAuthRequests(isAgent)
 
-              val result = get(s"/upload-supporting-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+              val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
               result.status shouldBe SEE_OTHER
               result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent).url)
             }
