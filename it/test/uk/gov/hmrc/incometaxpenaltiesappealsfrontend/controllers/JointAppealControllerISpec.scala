@@ -193,7 +193,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
         val result: WSResponse = post("/multiple-penalties-for-this-period")(Map(JointAppealForm.key -> true))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(controllers.routes.MultipleAppealsController.onPageLoad().url)
+        result.header("Location") shouldBe Some(controllers.routes.MultipleAppealsController.onPageLoad(false).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(JointAppealPage)) shouldBe Some(true)
       }

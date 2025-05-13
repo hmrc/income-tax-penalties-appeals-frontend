@@ -139,8 +139,11 @@ GET        /agent-appeal-single-penalty               uk.gov.hmrc.incometaxpenal
 POST       /agent-appeal-single-penalty               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SingleAppealConfirmationController.submit(isAgent: Boolean = true)
 
 #Multiple appeals LPP
-GET        /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad()
-POST       /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit()
+GET        /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad(isAgent: Boolean = false)
+POST       /appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit(isAgent: Boolean = false)
+
+GET        /agent-appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.onPageLoad(isAgent: Boolean = true)
+POST       /agent-appeal-cover-for-both-penalties              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MultipleAppealsController.submit(isAgent: Boolean = true)
 
 # Has hospital stay ended
 GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false)

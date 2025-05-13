@@ -63,238 +63,192 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
     userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
   }
 
-  "GET /upload-extra-evidence" should {
+  List(true, false).foreach { isAgent =>
 
-    testNavBar(url = "/upload-extra-evidence")(
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)).futureValue
-    )
+    val url = if(isAgent) "/agent-upload-evidence-for-the-appeal" else "/upload-evidence-for-the-appeal"
 
-    "return an OK with a view" when {
-      "the user is an authorised individual AND the page has already been answered" in new Setup() {
-        stubAuthRequests(false)
-        userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, true)).futureValue
+    s"GET $url" should {
 
-        val result: WSResponse = get("/upload-extra-evidence")
-        result.status shouldBe OK
-
-        val document: nodes.Document = Jsoup.parse(result.body)
-        document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe true
-        document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
+      if(!isAgent) {
+        testNavBar(url = url)(
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)).futureValue
+        )
       }
 
-      "the user is an authorised agent AND page NOT already answered" in new Setup() {
-        stubAuthRequests(true)
+      "return an OK with a view" when {
+        "the user is an authorised AND the page has already been answered" in new Setup() {
+          stubAuthRequests(isAgent)
+          userAnswersRepo.upsertUserAnswer(otherAnswers.setAnswer(ExtraEvidencePage, true)).futureValue
 
-        val result: WSResponse = get("/agent-upload-extra-evidence", isAgent = true)
-        result.status shouldBe OK
-
-        val document: nodes.Document = Jsoup.parse(result.body)
-        document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe false
-        document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
-      }
-    }
-
-    "the journey is for a 1st Stage Appeal" when {
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup() {
-          stubAuthRequests(false)
-          val result: WSResponse = get("/upload-extra-evidence")
+          val result: WSResponse = get(url)
+          result.status shouldBe OK
 
           val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "We will still review your appeal if you do not upload evidence."
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-
-        "the user is an authorised agent" in new Setup() {
-          stubAuthRequests(true)
-          val result: WSResponse = get("/agent-upload-extra-evidence", isAgent = true)
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "Do you want to upload evidence to support your appeal? - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "We will still review your appeal if you do not upload evidence."
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-          document.getSubmitButton.text() shouldBe "Continue"
-
+          document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe true
+          document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
         }
       }
-    }
 
-    "the journey is for a 2nd Stage Appeal" when {
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup() {
-          stubAuthRequests(false)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+      "the journey is for a 1st Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised individual" in new Setup() {
+            stubAuthRequests(isAgent)
+            val result: WSResponse = get(url)
 
-          val result: WSResponse = get("/upload-extra-evidence")
+            val document: nodes.Document = Jsoup.parse(result.body)
 
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-
-        "the user is an authorised individual appealing a single LPPs" in new Setup() {
-          stubAuthRequests(false)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, false))
-
-          val result: WSResponse = get("/upload-extra-evidence")
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
-            dateToString(latePaymentAppealData.startDate),
-            dateToString(latePaymentAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-
-        "the user is an authorised individual appealing multiple LPPs" in new Setup() {
-          stubAuthRequests(false)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, true))
-
-          val result: WSResponse = get("/upload-extra-evidence")
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
-            dateToString(latePaymentAppealData.startDate),
-            dateToString(latePaymentAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence."
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-
-        "the user is an authorised agent" in new Setup() {
-          stubAuthRequests(true)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
-
-          val result: WSResponse = get("/agent-upload-extra-evidence", isAgent = true)
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
-          document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-          document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-          document.getSubmitButton.text() shouldBe "Continue"
-
-        }
-      }
-    }
-
-
-  }
-
-  "POST /upload-extra-evidence" when {
-
-    "the radio option posted is valid" should {
-
-      "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
-
-        stubAuthRequests(false)
-
-        val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> true))
-
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
-
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
-      }
-
-      "save the value to UserAnswers AND redirect the answer is 'No'" when {
-
-        "appeal is Late" should {
-
-          "redirect to the LateAppeal page" in new Setup(isLate = true) {
-
-            stubAuthRequests(false)
-
-            val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
-
-            result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
-
-            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-          }
-        }
-
-        "appeal is NOT Late" should {
-
-          "redirect to the CheckAnswers page" in new Setup() {
-
-            stubAuthRequests(false)
-
-            val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> false))
-
-            result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
-
-            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "Do you want to upload evidence to support your appeal? - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Do you want to upload evidence to support your appeal?"
+            document.getElementById("extraEvidence-hint").text() shouldBe "We will still review your appeal if you do not upload evidence."
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+            document.getSubmitButton.text() shouldBe "Continue"
           }
         }
       }
+
+      "the journey is for a 2nd Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised" in new Setup() {
+            stubAuthRequests(isAgent)
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage)
+
+            val result: WSResponse = get(url)
+
+            val document: nodes.Document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
+            document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+            document.getSubmitButton.text() shouldBe "Continue"
+          }
+
+          "the user is an authorised appealing a single LPPs" in new Setup() {
+            stubAuthRequests(isAgent)
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, false))
+
+            val result: WSResponse = get(url)
+
+            val document: nodes.Document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
+            document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+            document.getSubmitButton.text() shouldBe "Continue"
+          }
+
+          "the user is an authorised appealing multiple LPPs" in new Setup() {
+            stubAuthRequests(isAgent)
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage.setAnswer(JointAppealPage, true))
+
+            val result: WSResponse = get(url)
+
+            val document: nodes.Document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Do you want to upload evidence to support this review?"
+            document.getElementById("extraEvidence-hint").text() shouldBe "Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence."
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+            document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+            document.getSubmitButton.text() shouldBe "Continue"
+          }
+        }
+      }
+
+
     }
 
-    "the radio option is invalid" should {
+    s"POST $url" when {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
+      "the radio option posted is valid" should {
 
-        stubAuthRequests(false)
+        "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
 
-        val result: WSResponse = post("/upload-extra-evidence")(Map(ExtraEvidenceForm.key -> ""))
-        result.status shouldBe BAD_REQUEST
+          stubAuthRequests(isAgent)
 
-        val document: nodes.Document = Jsoup.parse(result.body)
-        document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
-        document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
+          val result: WSResponse = post(url)(Map(ExtraEvidenceForm.key -> true))
 
-        val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe ExtraEvidenceMessages.English.errorRequired
-        error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
+
+          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
+        }
+
+        "save the value to UserAnswers AND redirect the answer is 'No'" when {
+
+          "appeal is Late" should {
+
+            "redirect to the LateAppeal page" in new Setup(isLate = true) {
+
+              stubAuthRequests(isAgent)
+
+              val result: WSResponse = post(url)(Map(ExtraEvidenceForm.key -> false))
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
+
+              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+            }
+          }
+
+          "appeal is NOT Late" should {
+
+            "redirect to the CheckAnswers page" in new Setup() {
+
+              stubAuthRequests(isAgent)
+
+              val result: WSResponse = post(url)(Map(ExtraEvidenceForm.key -> false))
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+            }
+          }
+        }
+      }
+
+      "the radio option is invalid" should {
+
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
+
+          stubAuthRequests(isAgent)
+
+          val result: WSResponse = post(url)(Map(ExtraEvidenceForm.key -> ""))
+          result.status shouldBe BAD_REQUEST
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+          document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
+          document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
+
+          val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+          error1Link.text() shouldBe ExtraEvidenceMessages.English.errorRequired
+          error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
+        }
       }
     }
   }
