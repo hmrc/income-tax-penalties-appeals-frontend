@@ -14,8 +14,12 @@ GET        /appeal-start                    uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean ?= false)
 
 #Joint appeal LPP
-GET        /multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad()
-POST       /multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit()
+GET        /multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false)
+POST       /multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false)
+
+
+GET        /agent-multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true)
+POST       /agent-multiple-penalties-for-this-period                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true)
 
 #Reasonable excuse list
 GET        /reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false)

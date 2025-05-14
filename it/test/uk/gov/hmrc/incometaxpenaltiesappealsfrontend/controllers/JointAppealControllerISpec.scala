@@ -68,7 +68,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuthRequests(true)
 
-        val result: WSResponse = get("/multiple-penalties-for-this-period", isAgent = true)
+        val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
         result.status shouldBe OK
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -104,7 +104,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
         "the user is an authorised agent" in new Setup() {
           stubAuthRequests(true)
-          val result: WSResponse = get("/multiple-penalties-for-this-period", isAgent = true)
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -158,7 +158,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
-          val result: WSResponse = get("/multiple-penalties-for-this-period", isAgent = true)
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 

@@ -36,7 +36,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
@@ -52,7 +52,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
     }
   }
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
 
     JointAppealForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors => {
