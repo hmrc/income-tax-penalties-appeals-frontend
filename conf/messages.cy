@@ -145,7 +145,7 @@ agent.honestyDeclaration.li.lpp = no one else was available to make the payment 
 honestyDeclaration.li.hospital = the timing of the hospital stay was unexpected (Welsh)
 honestyDeclaration.li.health = the timing of the health issue was unexpected (Welsh)
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal (Welsh)
-honestyDeclaration.li.review = I will provide honest and accurate information in this request for a review (Welsh)
+honestyDeclaration.li.review = I confirm that I will provide honest and accurate information in this request for a review. (Welsh)
 
 # Multiple Appeals LPP
 # ----------------------------------------------------------

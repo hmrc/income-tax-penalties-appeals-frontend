@@ -148,7 +148,7 @@ agent.honestyDeclaration.li.lpp = no one else was available to make the payment 
 honestyDeclaration.li.hospital = the timing of the hospital stay was unexpected
 honestyDeclaration.li.health = the timing of the health issue was unexpected
 honestyDeclaration.li.2 = I will provide honest and accurate information in this appeal
-honestyDeclaration.li.review = I will provide honest and accurate information in this request for a review
+honestyDeclaration.li.review = I confirm that I will provide honest and accurate information in this request for a review.
 
 # When did the event happen page
 # ----------------------------------------------------------

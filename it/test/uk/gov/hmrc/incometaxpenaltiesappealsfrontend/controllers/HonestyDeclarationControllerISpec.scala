@@ -267,8 +267,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
               dateToString(lateSubmissionAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
-            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
-            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfoReview
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfoReview
             document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
 
@@ -287,8 +286,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
               dateToString(lateSubmissionAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe HonestyDeclarationMessages.English.headingAndTitle
-            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.confirmParagraph
-            document.getElementById("honestyDeclaration").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfoReview
+            document.getElementById("honestyDeclarationConfirm").text() shouldBe HonestyDeclarationMessages.English.honestyDeclarationInfoReview
             document.getSubmitButton.text() shouldBe HonestyDeclarationMessages.English.acceptAndContinue
           }
         }
