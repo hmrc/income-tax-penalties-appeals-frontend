@@ -103,7 +103,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val timeMachineDate: String =
     config.get[String]("timemachine.date")
-  private val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+  private val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
 
   def optCurrentDate: Option[LocalDate]  = if (timeMachineEnabled && !timeMachineDate.equalsIgnoreCase("now")){
     Try(LocalDate.parse(timeMachineDate, timeMachineDateFormatter)).toOption
