@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal
 
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{Action, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.INVALID_FILENAME
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, UploadJourney}
@@ -36,6 +36,7 @@ class UpscanCallbackController @Inject()(service: UpscanService,
   def callbackFromUpscan(journeyId: String): Action[JsValue] = Action.async(parse.json) { implicit request =>
     logger.info(s"[UpscanCallbackController][callbackFromUpscan] Callback from Upscan received for journeyId: $journeyId")
     withJsonBody[UploadJourney] { callbackModel =>
+      logger.info(s"[UpscanCallbackController][callbackFromUpscan] Callback from Upscan response for journeyId: $journeyId is ${Json.toJson(callbackModel)}")
       service.getFile(journeyId, callbackModel.reference).flatMap {
         case Some(file) =>
           val validatedCallbackModel = validateFilename(callbackModel.copy(uploadFields = file.uploadFields))
