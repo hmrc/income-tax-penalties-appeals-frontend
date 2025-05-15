@@ -34,6 +34,7 @@ class UpscanCallbackController @Inject()(service: UpscanService,
                                         (implicit ec: ExecutionContext) extends FrontendBaseController {
 
   def callbackFromUpscan(journeyId: String): Action[JsValue] = Action.async(parse.json) { implicit request =>
+    logger.info(s"[UpscanCallbackController][callbackFromUpscan] Callback from Upscan received for journeyId: $journeyId")
     withJsonBody[UploadJourney] { callbackModel =>
       service.getFile(journeyId, callbackModel.reference).flatMap {
         case Some(file) =>
