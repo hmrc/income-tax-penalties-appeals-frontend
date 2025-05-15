@@ -32,9 +32,9 @@ object UpscanInitiateRequest {
   implicit val writes: Writes[UpscanInitiateRequest] = Json.writes[UpscanInitiateRequest]
 
   def apply(journeyId: String, appConfig: AppConfig): UpscanInitiateRequest = UpscanInitiateRequest(
-    callbackUrl     = appConfig.host + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
-    successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
-    errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad().url),
+    callbackUrl     = appConfig.upscanCallbackBaseUrl + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
+    successRedirect = Some(appConfig.upscanCallbackBaseUrl + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
+    errorRedirect   = Some(appConfig.upscanCallbackBaseUrl + upscanRoutes.UpscanInitiateController.onPageLoad().url),
     minimumFileSize = Some(appConfig.upscanMinFileSize),
     maximumFileSize = Some(appConfig.upscanMaxFileSize)
   )

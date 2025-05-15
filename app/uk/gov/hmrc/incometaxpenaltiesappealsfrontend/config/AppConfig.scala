@@ -84,6 +84,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val bereavementLateDays: Int = config.get[Int]("constants.bereavementLateDays")
 
   lazy val host: String = config.get[String]("income-tax-penalties-appeals-frontend-host")
+  lazy val upscanCallbackBaseUrl: String = config.get[String]("upscan.callback.base")
 
   lazy val upscanMinFileSize: Int = config.get[Int]("upscan.minFileSize")
   lazy val upscanMaxFileSize: Int = config.get[Int]("upscan.maxFileSize")
