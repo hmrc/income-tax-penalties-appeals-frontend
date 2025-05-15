@@ -35,11 +35,7 @@
     @caption()
 
     @h1("honestyDeclaration.headingAndTitle")
-    @p("honestyDeclaration.p1", elmId = Some("honestyDeclarationConfirm"))
-
-    <ul class="govuk-list govuk-list--bullet">
-        <li id="honestyDeclaration">@messages("honestyDeclaration.li.review")</li>
-    </ul>
+    @p("honestyDeclaration.li.review", elmId = Some("honestyDeclarationConfirm"))
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {
         <div class="govuk-form-group">
