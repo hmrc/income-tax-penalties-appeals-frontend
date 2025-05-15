@@ -32,7 +32,7 @@ object UpscanInitiateRequest {
   implicit val writes: Writes[UpscanInitiateRequest] = Json.writes[UpscanInitiateRequest]
 
   def apply(journeyId: String, appConfig: AppConfig, isAgent: Boolean): UpscanInitiateRequest = UpscanInitiateRequest(
-    callbackUrl     = appConfig.host + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
+    callbackUrl     = appConfig.upscanCallbackBaseUrl + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
     successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
     errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent).url),
     minimumFileSize = Some(appConfig.upscanMinFileSize),
