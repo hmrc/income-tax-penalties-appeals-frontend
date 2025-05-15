@@ -23,6 +23,7 @@ import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
+import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
@@ -40,15 +41,19 @@ import java.time.temporal.ChronoUnit
 class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
   with FileUploadFixtures {
 
-  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  private lazy val configApp: Application =
+    new GuiceApplicationBuilder().build()
 
-  lazy val timeMachine: TimeMachine = new TimeMachine {
+  override lazy val appConfig: AppConfig = configApp.injector.instanceOf[AppConfig]
+
+  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
     override def getCurrentDateTime: LocalDateTime = testDateTime
   }
 
   override lazy val app: Application = appWithOverrides(
     inject.bind[TimeMachine].toInstance(timeMachine)
   )
+
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]

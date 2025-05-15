@@ -38,7 +38,7 @@ class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  lazy val timeMachine: TimeMachine = new TimeMachine {
+  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
     override def getCurrentDateTime: LocalDateTime = testDateTime
   }
 
