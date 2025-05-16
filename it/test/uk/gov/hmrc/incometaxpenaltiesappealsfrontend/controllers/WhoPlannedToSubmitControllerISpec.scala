@@ -45,7 +45,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
     super.beforeEach()
   }
 
-  s"GET /who-planned-to-submit" should {
+  s"GET /who-planned-to-send-submission" should {
 
     "return an OK with a view pre-populated" when {
       "the user is an authorised agent AND the page has already been answered" in {
@@ -54,7 +54,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
           emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
         ).futureValue
 
-        val result = get("/who-planned-to-submit", isAgent = true)
+        val result = get("/who-planned-to-send-submission", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)
@@ -67,7 +67,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
       "the user is an authorised agent" in {
         stubAuthRequests(true)
 
-        val result = get("/who-planned-to-submit", isAgent = true)
+        val result = get("/who-planned-to-send-submission", isAgent = true)
         result.status shouldBe OK
 
         val document = Jsoup.parse(result.body)
@@ -87,7 +87,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
     }
   }
 
-  "POST /who-planned-to-submit" when {
+  "POST /who-planned-to-send-submission" when {
 
     "a valid radio option has been selected" should {
 
@@ -95,7 +95,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
 
         stubAuthRequests(true)
 
-        val result = post("/who-planned-to-submit")(Map(WhoPlannedToSubmitForm.key -> AgentClientEnum.agent))
+        val result = post("/who-planned-to-send-submission")(Map(WhoPlannedToSubmitForm.key -> AgentClientEnum.agent))
 
         result.status shouldBe SEE_OTHER
         result.header("Location") shouldBe Some(routes.WhatCausedYouToMissDeadlineController.onPageLoad().url)
@@ -110,7 +110,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
 
         stubAuthRequests(true)
 
-        val result = post("/who-planned-to-submit")(Map(WhoPlannedToSubmitForm.key -> ""))
+        val result = post("/who-planned-to-send-submission")(Map(WhoPlannedToSubmitForm.key -> ""))
         result.status shouldBe BAD_REQUEST
 
         val document = Jsoup.parse(result.body)

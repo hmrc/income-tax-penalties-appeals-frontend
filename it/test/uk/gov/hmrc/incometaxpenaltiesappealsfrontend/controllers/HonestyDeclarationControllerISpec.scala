@@ -103,7 +103,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
 
-          val result = get("/honesty-declaration", isAgent = true)
+          val result = get("/agent-honesty-declaration", isAgent = true)
 
           result.status shouldBe OK
         }
@@ -138,7 +138,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(agentPlannedAgentAffectedUserAnswersWithReasonLSP).futureValue
 
-            val result = get("/honesty-declaration", isAgent = true)
+            val result = get("/agent-honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 
@@ -160,7 +160,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(agentPlannedClientAffectedUserAnswersWithReasonLSP).futureValue
 
-            val result = get("/honesty-declaration", isAgent = true)
+            val result = get("/agent-honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 
@@ -182,7 +182,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(clientPlannedAgentUserAnswersWithReasonLSP).futureValue
 
-            val result = get("/honesty-declaration", isAgent = true)
+            val result = get("/agent-honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 
@@ -230,7 +230,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
 
-            val result = get("/honesty-declaration", isAgent = true)
+            val result = get("/agent-honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 
@@ -275,7 +275,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
 
-            val result = get("/honesty-declaration", isAgent = true)
+            val result = get("/agent-honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 

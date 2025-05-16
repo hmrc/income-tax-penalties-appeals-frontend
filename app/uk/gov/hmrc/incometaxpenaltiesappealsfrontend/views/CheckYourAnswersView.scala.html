@@ -40,7 +40,7 @@
 
     @defining(if (user.is2ndStageAppeal) ".review" else "") { appealStage =>
 
-        @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit()) {
+        @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CheckYourAnswersController.submit(isAgent = user.isAgent)) {
 
             @caption()
             @h1("checkYourAnswers.headingAndTitle")

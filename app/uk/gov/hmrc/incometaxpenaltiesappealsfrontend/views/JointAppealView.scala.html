@@ -48,7 +48,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit(isAgent = isAgent)) {
 
         @caption()
         @h1("jointAppeal.headingAndTitle")

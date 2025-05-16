@@ -38,7 +38,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(extraEvidence(
       form = fillForm(ExtraEvidenceForm.form(user.is2ndStageAppeal), ExtraEvidencePage),
       isLate = user.isAppealLate(),
@@ -48,7 +48,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
     ))
   }
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     ExtraEvidenceForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(extraEvidence(
@@ -62,13 +62,13 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
         userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
           if (value) {
-            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad()))
+            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
               if(user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad())
+                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
               } else {
-                Redirect(routes.CheckYourAnswersController.onPageLoad())
+                Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
               }
             )
           }

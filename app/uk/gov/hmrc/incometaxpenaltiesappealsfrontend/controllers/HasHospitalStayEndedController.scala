@@ -37,7 +37,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
                                                override val controllerComponents: MessagesControllerComponents
                                               )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hospitalStayEnded(
       form = fillForm(HasHospitalStayEndedForm.form(), HasHospitalStayEndedPage),
       isLate = user.isAppealLate(),
@@ -45,7 +45,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
     ))
   }
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     HasHospitalStayEndedForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(hospitalStayEnded(
@@ -61,9 +61,9 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
             Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent))
           } else {
             if (user.isAppealLate()) {
-              Redirect(routes.LateAppealController.onPageLoad())
+              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
             } else {
-              Redirect(routes.CheckYourAnswersController.onPageLoad())
+              Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
             }
           }
         }

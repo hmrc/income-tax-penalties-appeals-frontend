@@ -38,7 +38,7 @@
     @p(s"multipleAppeals.p1$appealStage", elmId = Some("multipleAppealsConfirm"))
 
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MultipleAppealsController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MultipleAppealsController.submit(isAgent)) {
         <div class="govuk-form-group">
         @govukButton(Button(
             content = Text(messages("common.continue"))

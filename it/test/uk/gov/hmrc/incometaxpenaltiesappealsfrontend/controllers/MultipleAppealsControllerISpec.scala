@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.English
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -50,117 +51,78 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
     userAnswersRepo.upsertUserAnswer(otherAnswers).futureValue
   }
+  
+  List(true, false).foreach { isAgent =>
+    
+    val url = if(isAgent) "/agent-appeal-cover-for-both-penalties" else "/appeal-cover-for-both-penalties"
 
-  "GET /multiple-appeals" should {
+    s"GET $url" should {
 
-    testNavBar("/multiple-appeals")()
-
-    "return an OK with a view" when {
-      "the user is an authorised individual" in new Setup() {
-        stubAuthRequests(false)
-        val result: WSResponse = get("/multiple-appeals")
-
-        result.status shouldBe OK
+      if(!isAgent) {
+        testNavBar(url)()
       }
 
-      "the user is an authorised agent" in new Setup() {
-        stubAuthRequests(true)
-        val result: WSResponse = get("/multiple-appeals", isAgent = true)
+      "return an OK with a view" when {
+        "the user is an authorised" in new Setup() {
+          stubAuthRequests(isAgent)
+          val result: WSResponse = get(url)
 
-        result.status shouldBe OK
+          result.status shouldBe OK
+        }
+      }
+
+      "the journey is for a 1st Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised" in new Setup() {
+            stubAuthRequests(isAgent)
+            val result: WSResponse = get(url)
+
+            val document: nodes.Document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "The appeal will cover both penalties"
+            document.getParagraphs.get(0).text() shouldBe "This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately."
+            document.getSubmitButton.text() shouldBe "Continue"
+          }
+        }
+      }
+
+      "the journey is for a 2nd Stage Appeal" when {
+        "the page has the correct elements" when {
+          "the user is an authorised" in new Setup() {
+            stubAuthRequests(isAgent)
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
+
+            val result: WSResponse = get(url)
+
+            val document: nodes.Document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "This review will cover both appeal decisions"
+            document.getParagraphs.get(0).text() shouldBe "This allows you to upload evidence once for both reviews. However, we will consider each review separately."
+            document.getSubmitButton.text() shouldBe "Continue"
+          }
+        }
       }
     }
 
-    "the journey is for a 1st Stage Appeal" when {
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup() {
-          stubAuthRequests(false)
-          val result: WSResponse = get("/multiple-appeals")
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe English.lppCaption(
-            dateToString(latePaymentAppealData.startDate),
-            dateToString(latePaymentAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "The appeal will cover both penalties"
-          document.getParagraphs.get(0).text() shouldBe "This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately."
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-
-        "the user is an authorised agent" in new Setup() {
-          stubAuthRequests(true)
-          val result: WSResponse = get("/multiple-appeals", isAgent = true)
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe English.lppCaption(
-            dateToString(latePaymentAppealData.startDate),
-            dateToString(latePaymentAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "The appeal will cover both penalties"
-          document.getParagraphs.get(0).text() shouldBe "This allows you to enter appeal details once for penalties linked to the same charge. However, we will still review each penalty separately."
-
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-      }
-    }
-
-    "the journey is for a 2nd Stage Appeal" when {
-      "the page has the correct elements" when {
-        "the user is an authorised individual" in new Setup() {
-          stubAuthRequests(false)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
-
-          val result: WSResponse = get("/multiple-appeals")
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe English.lppCaption(
-            dateToString(latePaymentAppealData.startDate),
-            dateToString(latePaymentAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "This review will cover both appeal decisions"
-          document.getParagraphs.get(0).text() shouldBe "This allows you to upload evidence once for both reviews. However, we will consider each review separately."
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-
-        "the user is an authorised agent" in new Setup() {
-          stubAuthRequests(true)
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
-
-          val result: WSResponse = get("/multiple-appeals", isAgent = true)
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe English.lppCaption(
-            dateToString(latePaymentAppealData.startDate),
-            dateToString(latePaymentAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe "This review will cover both appeal decisions"
-          document.getParagraphs.get(0).text() shouldBe "This allows you to upload evidence once for both reviews. However, we will consider each review separately."
-
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
+    s"POST $url" should {
+      "redirect to the Reasonable Excuse page" in {
+        stubAuthRequests(isAgent)
+        val result = post(url)(Json.obj())
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent).url)
       }
     }
   }
-
-  s"POST /multiple-appeals" should {
-    "redirect to the Reasonable Excuse page" in {
-      stubAuthRequests(false)
-      val result = post("/multiple-appeals")(Json.obj())
-      result.status shouldBe SEE_OTHER
-      result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
-    }
-  }
-
 }

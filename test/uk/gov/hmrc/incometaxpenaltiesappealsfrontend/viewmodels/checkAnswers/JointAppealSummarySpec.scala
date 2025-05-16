@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.JointAppealMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -79,7 +80,7 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
-                          href = controllers.routes.JointAppealController.onPageLoad().url,
+                          href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent).url,
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                         ).withId("changeJointAppeal")
                       )
@@ -120,7 +121,7 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
                     items = Seq(
                       ActionItem(
                         content = Text(messagesForLanguage.change),
-                        href = controllers.routes.JointAppealController.onPageLoad().url,
+                        href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent).url,
                         visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                       ).withId("changeJointAppeal")
                     )

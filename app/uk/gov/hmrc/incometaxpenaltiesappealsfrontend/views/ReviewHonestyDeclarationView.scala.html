@@ -37,7 +37,7 @@
     @h1("honestyDeclaration.headingAndTitle")
     @p("honestyDeclaration.li.review", elmId = Some("honestyDeclarationConfirm"))
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent)) {
         <div class="govuk-form-group">
         @govukButton(Button(
             content = Text(messages("common.acceptAndContinue"))

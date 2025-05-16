@@ -39,7 +39,7 @@ object ExtraEvidenceSummary extends SummaryListRowHelper {
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.ExtraEvidenceController.onPageLoad().url,
+                href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent = user.isAgent).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.extraEvidence.change.hidden$msgSuffix"))
               ).withId("changeExtraEvidence")
             ))

@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.ReasonableExcuseMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -64,16 +65,16 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val result = get("/reason-for-missing-deadline")
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
         }
 
         "the user is an authorised Agent" in {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
 
-          val result = get("/reason-for-missing-deadline", isAgent = true)
+          val result = get("/agent-reason-for-missing-deadline", isAgent = true)
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(true).url)
         }
       }
     }
@@ -95,7 +96,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
         "the user is an authorised agent" in {
           stubAuthRequests(true)
 
-          val result = get("/reason-for-missing-deadline", isAgent = true)
+          val result = get("/agent-reason-for-missing-deadline", isAgent = true)
 
           result.status shouldBe OK
         }
@@ -129,7 +130,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
         "the user is an authorised agent" in {
           stubAuthRequests(true)
-          val result = get("/reason-for-missing-deadline", isAgent = true)
+          val result = get("/agent-reason-for-missing-deadline", isAgent = true)
 
           val document = Jsoup.parse(result.body)
 
@@ -172,7 +173,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Bereavement.toString))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
 
         }
       }
@@ -191,7 +192,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Crime.toString))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
 
           val updatedData = userAnswersRepo.getUserAnswer(existingAnswers.journeyId).futureValue.map(_.data).get
           updatedData shouldBe emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime).data

@@ -37,7 +37,7 @@ class ViewAppealDetailsController @Inject()(viewAppealDetails: ViewAppealDetails
                                             override val controllerComponents: MessagesControllerComponents,
                                            )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
 
     val fUploadedFiles = upscanService.getAllReadyFiles(user.journeyId)
 

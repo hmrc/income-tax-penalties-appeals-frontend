@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.WhenDidEventHappenMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -181,18 +182,19 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
           "the date is valid" when {
 
+
             Seq(true, false).foreach { isLate =>
 
               s"the appeal isLate='$isLate'" should {
 
                 val redirectLocation = reasonWithUrl._1 match {
                   case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent).url
-                  case Crime => routes.CrimeReportedController.onPageLoad().url
-                  case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad().url
+                  case Crime => routes.CrimeReportedController.onPageLoad(isAgent).url
+                  case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
                   case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent).url
                   case _ =>
-                    if (isLate) routes.LateAppealController.onPageLoad().url
-                    else routes.CheckYourAnswersController.onPageLoad().url
+                    if (isLate) routes.LateAppealController.onPageLoad(isAgent).url
+                    else routes.CheckYourAnswersController.onPageLoad(isAgent).url
                 }
 
                 s"save the value to UserAnswers AND redirect to $redirectLocation with ${reasonWithUrl._1}" in new Setup(reasonWithUrl._1, isLate) {
