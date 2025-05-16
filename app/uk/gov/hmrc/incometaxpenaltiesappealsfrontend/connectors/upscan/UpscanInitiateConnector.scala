@@ -35,7 +35,7 @@ class UpscanInitiateConnector @Inject()(http: HttpClientV2,
 
   def initiate(journeyId: String, request: UpscanInitiateRequest)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Either[ErrorResponse, UpscanInitiateResponse]] =
     withExceptionHandling("initiate", Map("journeyId" -> journeyId)) {
-      logger.warn(s"[UpscanConnector][initiate] POST to $postInitiateUrl to start File Upload journey, for journeyId: $journeyId with body:\n" + Json.toJson(request))
+      logger.debug(s"[UpscanConnector][initiate] POST to $postInitiateUrl to start File Upload journey, for journeyId: $journeyId with body:\n" + Json.toJson(request))
       implicit val reads: HttpReads[Either[ErrorResponse, UpscanInitiateResponse]] = read(journeyId)
       http
         .post(url"$postInitiateUrl")

@@ -35,7 +35,7 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
                               timeMachine: TimeMachine)
                              (implicit ec: ExecutionContext) extends ExceptionHandlingUtil {
 
-  def initiateNewFileUpload(journeyId: String)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] = {
+  def initiateNewFileUpload(journeyId: String)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
     withExceptionHandling(
       methodName = "initiateNewFileUpload",
       identifiers = Map("journeyId" -> journeyId),
@@ -56,7 +56,6 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
           Future.failed(new Exception(s"Failed to initiate file upload for journeyId: $journeyId with error: $error"))
       }
     }
-  }
 
   def upsertFileUpload(journeyId: String, uploadJourney: UploadJourney): Future[UploadJourney] =
     withExceptionHandling(
