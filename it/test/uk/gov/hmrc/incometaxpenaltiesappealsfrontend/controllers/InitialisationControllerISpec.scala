@@ -40,7 +40,7 @@ class InitialisationControllerISpec extends ControllerISpecHelper
 
   val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
 
-  lazy val timeMachine: TimeMachine = new TimeMachine {
+  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
     override def getCurrentDateTime: LocalDateTime = testDateTime
   }
 
