@@ -83,7 +83,7 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val honestyDeclarationHospital = "the timing of the hospital stay was unexpected"
     val honestyDeclarationHealth = "the timing of the health issue was unexpected"
     val honestyDeclarationInfo= "I will provide honest and accurate information in this appeal"
-    val honestyDeclarationInfoReview= "I will provide honest and accurate information in this request for a review"
+    val honestyDeclarationInfoReview= "I confirm that I will provide honest and accurate information in this request for a review."
     val acceptAndContinue = "Accept and continue"
   }
 
@@ -151,7 +151,7 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val honestyDeclarationHospital = "the timing of the hospital stay was unexpected (Welsh)"
     override val honestyDeclarationHealth = "the timing of the health issue was unexpected (Welsh)"
     override val honestyDeclarationInfo = "I will provide honest and accurate information in this appeal (Welsh)"
-    override val honestyDeclarationInfoReview= "I will provide honest and accurate information in this request for a review (Welsh)"
+    override val honestyDeclarationInfoReview= "I confirm that I will provide honest and accurate information in this request for a review. (Welsh)"
     override val acceptAndContinue = "Accept and continue (Welsh)"
 
   }

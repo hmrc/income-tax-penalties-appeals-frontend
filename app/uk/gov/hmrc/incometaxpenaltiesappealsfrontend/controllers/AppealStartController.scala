@@ -45,16 +45,16 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
   private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
     reviewAppealStartView(
       user.isAppealLate(),
-      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad()
-      else routes.ReasonableExcuseController.onPageLoad()
+      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent)
+      else routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
     )
 
   private def renderAppealStartAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html = {
     val redirect =
       (user.isAgent, user.isLPP, user.hasMultipleLPPs) match {
         case (true, false, _) => routes.WhoPlannedToSubmitController.onPageLoad()
-        case (_, _, true) => routes.JointAppealController.onPageLoad()
-        case _ => routes.ReasonableExcuseController.onPageLoad()
+        case (_, _, true) => routes.JointAppealController.onPageLoad(isAgent = user.isAgent)
+        case _ => routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
       }
 
     appealStart(user.isAppealLate(), redirect)

@@ -44,7 +44,7 @@
 
     @p(s"single.appeal.can.still.appeal.other$appealStage", elmId = Some("p2"))
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SingleAppealConfirmationController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.SingleAppealConfirmationController.submit(request.isAgent)) {
         <div class="govuk-form-group">
             @govukButton(Button(
                 content = Text(messages("common.continue"))

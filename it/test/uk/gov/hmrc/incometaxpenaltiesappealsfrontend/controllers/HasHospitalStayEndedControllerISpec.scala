@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.HasHospitalStayEndedMessages
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
 import org.mongodb.scala.Document
@@ -34,6 +35,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEnded
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
+
 import scala.concurrent.Future
 
 class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
@@ -86,7 +88,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuthRequests(true)
 
-        val result: WSResponse = get("/has-hospital-stay-ended", isAgent = true)
+        val result: WSResponse = get("/agent-has-hospital-stay-ended", isAgent = true)
         result.status shouldBe OK
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -116,7 +118,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
       "the user is an authorised agent" in new Setup() {
         stubAuthRequests(true)
-        val result: WSResponse = get("/has-hospital-stay-ended", isAgent = true)
+        val result: WSResponse = get("/agent-has-hospital-stay-ended", isAgent = true)
 
         val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -160,7 +162,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
         }
@@ -187,7 +189,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
         }

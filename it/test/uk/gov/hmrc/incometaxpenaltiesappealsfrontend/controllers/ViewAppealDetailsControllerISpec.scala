@@ -58,6 +58,8 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
     true
   ).foreach { case isAgent =>
 
+    val url = if(isAgent) "/agent-appeal-details" else "/appeal-details"
+
     s"When the user is an ${if (isAgent) "Agent" else "Individual"}" when {
 
       Seq(
@@ -98,10 +100,10 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
 
         s"when Accept-Language is '${messagesForLanguage.lang.code}'" when {
 
-          s"GET /appeal-details" when {
+          s"GET $url" when {
 
             if (!isAgent) {
-              testNavBar(url = "/appeal-details") {
+              testNavBar(url = url) {
                 userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
               }
             }
@@ -120,7 +122,7 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
               "return an OK with a view with expected data" in new Setup(userAnswers, isAgent) {
 
                 val result: WSResponse = get(
-                  uri = "/appeal-details",
+                  uri = url,
                   isAgent = isAgent,
                   cookie = if (messagesForLanguage.lang.code == "cy") cyLangCookie else enLangCookie
                 )
@@ -178,7 +180,7 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel2).futureValue
 
                 val result: WSResponse = get(
-                  uri = "/appeal-details",
+                  uri = url,
                   isAgent = isAgent,
                   cookie = if (messagesForLanguage.lang.code == "cy") cyLangCookie else enLangCookie
                 )

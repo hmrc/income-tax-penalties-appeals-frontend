@@ -46,9 +46,9 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
   }
 
-  "GET /joint-appeal" should {
+  "GET /multiple-penalties-for-this-period" should {
 
-    testNavBar(url = "/joint-appeal")(
+    testNavBar(url = "/multiple-penalties-for-this-period")(
       userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
     )
 
@@ -57,7 +57,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
         stubAuthRequests(false)
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs.setAnswer(JointAppealPage, true)).futureValue
 
-        val result: WSResponse = get("/joint-appeal")
+        val result: WSResponse = get("/multiple-penalties-for-this-period")
         result.status shouldBe OK
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -68,7 +68,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
       "the user is an authorised agent AND page NOT already answered" in new Setup() {
         stubAuthRequests(true)
 
-        val result: WSResponse = get("/joint-appeal", isAgent = true)
+        val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
         result.status shouldBe OK
 
         val document: nodes.Document = Jsoup.parse(result.body)
@@ -81,7 +81,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
       "the page has the correct elements" when {
         "the user is an authorised individual" in new Setup() {
           stubAuthRequests(false)
-          val result: WSResponse = get("/joint-appeal")
+          val result: WSResponse = get("/multiple-penalties-for-this-period")
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -104,7 +104,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
         "the user is an authorised agent" in new Setup() {
           stubAuthRequests(true)
-          val result: WSResponse = get("/joint-appeal", isAgent = true)
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -133,7 +133,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
-          val result: WSResponse = get("/joint-appeal")
+          val result: WSResponse = get("/multiple-penalties-for-this-period")
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -158,7 +158,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(true)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
-          val result: WSResponse = get("/joint-appeal", isAgent = true)
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -182,7 +182,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
     }
   }
 
-  "POST /joint-appeal" when {
+  "POST /multiple-penalties-for-this-period" when {
 
     "the radio option posted is valid" should {
 
@@ -190,10 +190,10 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
         stubAuthRequests(false)
 
-        val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> true))
+        val result: WSResponse = post("/multiple-penalties-for-this-period")(Map(JointAppealForm.key -> true))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(controllers.routes.MultipleAppealsController.onPageLoad().url)
+        result.header("Location") shouldBe Some(controllers.routes.MultipleAppealsController.onPageLoad(false).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(JointAppealPage)) shouldBe Some(true)
       }
@@ -201,10 +201,10 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
       "save the value to UserAnswers AND redirect to the SingleAppeal page if the answer is 'No'" in new Setup() {
 
         stubAuthRequests(false)
-        val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> false))
+        val result: WSResponse = post("/multiple-penalties-for-this-period")(Map(JointAppealForm.key -> false))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(controllers.routes.SingleAppealConfirmationController.onPageLoad().url)
+        result.header("Location") shouldBe Some(controllers.routes.SingleAppealConfirmationController.onPageLoad(false).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(JointAppealPage)) shouldBe Some(false)
       }
@@ -218,7 +218,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           stubAuthRequests(false)
 
-          val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> ""))
+          val result: WSResponse = post("/multiple-penalties-for-this-period")(Map(JointAppealForm.key -> ""))
           result.status shouldBe BAD_REQUEST
 
           val document: nodes.Document = Jsoup.parse(result.body)
@@ -240,7 +240,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           stubAuthRequests(false)
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
-          val result: WSResponse = post("/joint-appeal")(Map(JointAppealForm.key -> ""))
+          val result: WSResponse = post("/multiple-penalties-for-this-period")(Map(JointAppealForm.key -> ""))
           result.status shouldBe BAD_REQUEST
 
           val document: nodes.Document = Jsoup.parse(result.body)

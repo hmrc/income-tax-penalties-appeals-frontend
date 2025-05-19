@@ -56,7 +56,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(WhatCausedYouToMissDeadlinePage, value)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          Redirect(routes.ReasonableExcuseController.onPageLoad())
+          Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
         }
       }
     )

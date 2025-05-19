@@ -38,7 +38,7 @@ object CrimeReportedSummary extends SummaryListRowHelper {
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.CrimeReportedController.onPageLoad().url,
+                href = controllers.routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent).url,
                 visuallyHiddenText = Some(messages("checkYourAnswers.crimeReported.change.hidden"))
               ).withId("changeCrimeReported")
             ))

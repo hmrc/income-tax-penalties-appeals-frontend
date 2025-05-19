@@ -36,7 +36,7 @@ object ReasonableExcuseSummary extends SummaryListRowHelper {
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.ReasonableExcuseController.onPageLoad().url,
+              href = controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent).url,
               visuallyHiddenText = Some(messages("checkYourAnswers.reasonableExcuse.change.hidden"))
             ).withId("changeReasonableExcuse")
           )

@@ -70,20 +70,6 @@ trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesS
         }
       }
 
-      "the user is an Agent" should {
-        "render without a Nav" in {
-          stubAuth(OK, successfulAgentAuthResponse)
-          stubGetIncomeTaxSessionDataSuccessResponse()
-          runStubsAndUserAnswersSetup
-          val result = get(url, isAgent = true, origin = None, queryParams = queryParams)
-
-          result.status shouldBe OK
-          val document = Jsoup.parse(result.body)
-
-          document.select("nav#secondary-nav-bta.hmrc-account-menu").isEmpty shouldBe true
-          document.select("nav#secondary-nav.hmrc-account-menu").isEmpty shouldBe true
-        }
-      }
     }
   }
 }

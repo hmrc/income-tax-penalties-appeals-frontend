@@ -36,7 +36,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hasTheCrimeBeenReported(
       form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
       isLate = user.isAppealLate(),
@@ -44,7 +44,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
     ))
   }
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     CrimeReportedForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(hasTheCrimeBeenReported(
@@ -56,9 +56,9 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
         val updatedAnswers = user.userAnswers.setAnswer(CrimeReportedPage, value)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           if(user.isAppealLate()) {
-            Redirect(routes.LateAppealController.onPageLoad())
+            Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
           } else {
-            Redirect(routes.CheckYourAnswersController.onPageLoad())
+            Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
           }
         }
       }

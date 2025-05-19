@@ -42,7 +42,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HasHospitalStayEndedController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HasHospitalStayEndedController.submit(isAgent = isAgent)) {
 
         @caption()
 

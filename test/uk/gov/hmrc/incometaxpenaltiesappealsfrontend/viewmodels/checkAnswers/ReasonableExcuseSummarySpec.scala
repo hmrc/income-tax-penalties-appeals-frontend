@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.ReasonableExcuseMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -72,7 +73,7 @@ class ReasonableExcuseSummarySpec extends AnyWordSpec with Matchers with GuiceOn
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
-                          href = controllers.routes.ReasonableExcuseController.onPageLoad().url,
+                          href = controllers.routes.ReasonableExcuseController.onPageLoad(isAgent).url,
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                         ).withId("changeReasonableExcuse")
                       )

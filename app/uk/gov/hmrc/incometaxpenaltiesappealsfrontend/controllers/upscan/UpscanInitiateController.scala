@@ -41,7 +41,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
                                          override val controllerComponents: MessagesControllerComponents
                                         )(implicit ec: ExecutionContext, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(key: Option[String], errorCode: Option[String]): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(key: Option[String], errorCode: Option[String], isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     val form = UploadDocumentForm.form
     withFileUploadFormFields(key) { formFields =>
       errorCode match {
@@ -67,35 +67,35 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
   private def initiateNewUpload(f: UploadFormFields => Future[Result])
                                (implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] = {
     logger.info(s"[UpscanInitiateController][initiateNewUpload] Initiating new file upload for journeyId: ${user.journeyId}")
-    upscanService.initiateNewFileUpload(user.journeyId).flatMap { upscanResponse =>
+    upscanService.initiateNewFileUpload(user.journeyId, user.isAgent).flatMap { upscanResponse =>
       f(upscanResponse.uploadRequest)
     }
   }
 
 
   def onSubmitSuccessRedirect(key: String): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
-    waitForUpscanResponse(user.journeyId, key) { uploadJourney =>
+    waitForUpscanResponse(user.isAgent, user.journeyId, key) { uploadJourney =>
       (uploadJourney.fileStatus, uploadJourney.failureDetails) match {
         case (READY, _) =>
-          Future.successful(Redirect(routes.UpscanCheckAnswersController.onPageLoad()))
+          Future.successful(Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent)))
         case (FAILED, Some(error)) =>
-          Future.successful(Redirect(routes.UpscanInitiateController.onPageLoad(Some(key), Some(error.failureReason.toString))))
+          Future.successful(Redirect(routes.UpscanInitiateController.onPageLoad(Some(key), Some(error.failureReason.toString), isAgent = user.isAgent)))
         case _ =>
           Future.successful(NotImplemented) //TODO: Redirect to "It's taking longer than we expected" page
       }
     }
   }
 
-  private def waitForUpscanResponse(journeyId: String, fileReference: String, startTime: Long = System.currentTimeMillis())
+  private def waitForUpscanResponse(isAgent: Boolean, journeyId: String, fileReference: String, startTime: Long = System.currentTimeMillis())
                                    (f: UploadJourney => Future[Result]): Future[Result] =
     after(appConfig.upscanCheckInterval, actor.scheduler) {
       upscanService.getFile(journeyId, fileReference).flatMap(_.fold {
         logger.warn(s"[UpscanInitiateController][waitForUpscanResponse] Redirecting to re-initiate with error message for journeyId: $journeyId, fileReference: $fileReference")
-        Future(Redirect(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload")).url))
+        Future(Redirect(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent).url))
       } { uploadJourney =>
         uploadJourney.fileStatus match {
           case WAITING if (System.currentTimeMillis() - startTime) <= appConfig.upscanTimeout.toMillis =>
-            waitForUpscanResponse(journeyId, fileReference, startTime)(f)
+            waitForUpscanResponse(isAgent = isAgent, journeyId, fileReference, startTime)(f)
           case status =>
             if(status == WAITING) {
               logger.warn(s"[UpscanInitiateController][waitForUpscanResponse] Upscan file was still $status after ${appConfig.upscanTimeout.toMillis}ms for journeyId: $journeyId, fileReference: $fileReference")

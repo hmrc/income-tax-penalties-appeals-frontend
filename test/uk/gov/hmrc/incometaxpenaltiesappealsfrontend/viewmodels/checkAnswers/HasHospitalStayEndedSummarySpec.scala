@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
 import fixtures.messages.HasHospitalStayEndedMessages
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -84,7 +85,7 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad().url,
+                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changehasHospitalStayEnded")
                         )
@@ -110,7 +111,7 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad().url,
+                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changehasHospitalStayEnded")
                         )

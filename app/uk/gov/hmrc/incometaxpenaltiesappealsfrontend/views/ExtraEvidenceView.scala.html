@@ -47,7 +47,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit(isAgent = isAgent)) {
 
         @caption()
 

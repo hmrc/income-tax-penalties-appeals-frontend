@@ -35,13 +35,13 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
                               timeMachine: TimeMachine)
                              (implicit ec: ExecutionContext) extends ExceptionHandlingUtil {
 
-  def initiateNewFileUpload(journeyId: String)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
+  def initiateNewFileUpload(journeyId: String, isAgent: Boolean)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
     withExceptionHandling(
       methodName = "initiateNewFileUpload",
       identifiers = Map("journeyId" -> journeyId),
       pagerDutyTriggerKey = Some(FAILED_INITIATE_CALL_UPSCAN)
     ) {
-      upscanConnector.initiate(journeyId, UpscanInitiateRequest(journeyId, appConfig)).flatMap {
+      upscanConnector.initiate(journeyId, UpscanInitiateRequest(journeyId, appConfig, isAgent)).flatMap {
         case Right(response) =>
           uploadRepo.upsertFileUpload(journeyId, UploadJourney(
             reference = response.reference,

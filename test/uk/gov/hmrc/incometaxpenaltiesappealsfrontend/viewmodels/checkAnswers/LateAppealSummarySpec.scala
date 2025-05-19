@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.LateAppealMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -73,7 +74,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
                   items = Seq(
                     ActionItem(
                       content = Text(messagesForLanguage.change),
-                      href = controllers.routes.LateAppealController.onPageLoad().url,
+                      href = controllers.routes.LateAppealController.onPageLoad(isAgent).url,
                       visuallyHiddenText = Some(messagesForLanguage.cyaHidden(appConfig.bereavementLateDays))
                     ).withId("changeLateAppeal")
                   )

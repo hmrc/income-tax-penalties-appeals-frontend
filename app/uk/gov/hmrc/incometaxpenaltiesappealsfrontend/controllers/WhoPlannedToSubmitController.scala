@@ -67,9 +67,9 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
             case AgentClientEnum.agent =>
               Redirect(routes.WhatCausedYouToMissDeadlineController.onPageLoad())
             case AgentClientEnum.client =>
-              Redirect(routes.ReasonableExcuseController.onPageLoad())
+              Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
             case _ =>
-              Redirect(routes.ReasonableExcuseController.onPageLoad())
+              Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
           }
         }
       }

@@ -39,7 +39,7 @@ class LateAppealSummary @Inject()(implicit val appConfig: AppConfig) extends Sum
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.LateAppealController.onPageLoad().url,
+              href = controllers.routes.LateAppealController.onPageLoad(isAgent = user.isAgent).url,
               visuallyHiddenText = Some(messages("checkYourAnswers.lateAppeal.change.hidden", user.lateAppealDays()))
             ).withId("changeLateAppeal")
           )

@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.WhatCausedYouToMissDeadlineMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -99,7 +100,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
         val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad().url)
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true).url)
 
         userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhatCausedYouToMissDeadlinePage)) shouldBe Some(AgentClientEnum.agent)
       }

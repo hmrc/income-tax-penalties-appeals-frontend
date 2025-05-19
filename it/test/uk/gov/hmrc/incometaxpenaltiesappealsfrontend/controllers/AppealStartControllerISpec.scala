@@ -78,7 +78,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               document.getSubmitButton.text() shouldBe "Continue"
               document.getSubmitButton.attr("href") shouldBe {
                 if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad().url
-                else routes.ReasonableExcuseController.onPageLoad().url
+                else routes.ReasonableExcuseController.onPageLoad(isAgent).url
               }
             }
           }
@@ -92,7 +92,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               val document = Jsoup.parse(result.body)
 
               document.getSubmitButton.text() shouldBe "Continue"
-              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad().url
+              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
             }
           }
 
@@ -105,7 +105,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               val document = Jsoup.parse(result.body)
 
               document.getSubmitButton.text() shouldBe "Continue"
-              document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad().url
+              document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent).url
             }
           }
         }
@@ -134,7 +134,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
 
               document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-              document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad().url
+              document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent).url
             }
           }
 
@@ -161,7 +161,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
 
               document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad().url
+              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
             }
           }
 
@@ -187,7 +187,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
               document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
               document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad().url
+              document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
             }
           }
         }

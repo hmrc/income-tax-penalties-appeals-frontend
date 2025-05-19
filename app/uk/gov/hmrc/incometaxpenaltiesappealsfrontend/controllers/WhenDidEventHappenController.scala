@@ -63,16 +63,16 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
             case TechnicalIssues =>
               Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
             case Crime =>
-              Redirect(routes.CrimeReportedController.onPageLoad())
+              Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent))
             case UnexpectedHospital =>
-              Redirect(routes.HasHospitalStayEndedController.onPageLoad())
+              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
             case Other =>
               Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent))
             case _ =>
               if (user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad())
+                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
               } else {
-                Redirect(routes.CheckYourAnswersController.onPageLoad())
+                Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
               }
           }
         }

@@ -31,7 +31,7 @@ class ConfirmationController @Inject()(confirmation: ConfirmationView,
                                        override val controllerComponents: MessagesControllerComponents
                                       )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit currentUser =>
+  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit currentUser =>
     Ok(confirmation(
         currentUser.isAppealLate(),
         currentUser.isAgent,

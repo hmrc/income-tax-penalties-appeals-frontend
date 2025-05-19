@@ -45,7 +45,7 @@ object UploadedFilesViewModel extends SummaryListRowHelper {
   def apply(files: Seq[UploadJourney]): Seq[UploadedFilesViewModel] =
     files.zipWithIndex.flatMap { case (file, index) => apply(file, index) }
 
-  def toSummaryListRows(files: Seq[UploadedFilesViewModel])
+  def toSummaryListRows(files: Seq[UploadedFilesViewModel], isAgent: Boolean)
                        (implicit messages: Messages): Seq[SummaryListRow] =
     files.map { file =>
       summaryListRow(
@@ -54,7 +54,7 @@ object UploadedFilesViewModel extends SummaryListRowHelper {
         actions = Some(Actions(
           items = Seq(
             ActionItem(
-              href = upscanRoutes.UpscanRemoveFileController.onPageLoad(file.fileReference, file.index + 1).url,
+              href = upscanRoutes.UpscanRemoveFileController.onPageLoad(file.fileReference, file.index + 1, isAgent).url,
               content = Text(messages("common.remove")),
               visuallyHiddenText = Some(messages("uploadCheckAnswers.nonJs.summaryKey", file.index + 1))
             )

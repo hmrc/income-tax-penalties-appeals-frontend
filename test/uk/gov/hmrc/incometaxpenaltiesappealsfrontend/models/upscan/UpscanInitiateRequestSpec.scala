@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan
 
 import fixtures.BaseFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -32,11 +33,11 @@ class UpscanInitiateRequestSpec extends AnyWordSpec with Matchers with GuiceOneA
 
     "construct a model with the correct values" in {
 
-      val actualModel = UpscanInitiateRequest(testJourneyId, appConfig)
+      val actualModel = UpscanInitiateRequest(testJourneyId, appConfig, isAgent)
       val expectedModel = UpscanInitiateRequest(
         callbackUrl     = "http://localhost:9188" + internalRoutes.UpscanCallbackController.callbackFromUpscan(testJourneyId).url,
         successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
-        errorRedirect   = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad().url),
+        errorRedirect   = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent).url),
         minimumFileSize = Some(1),
         maximumFileSize = Some(10485760)
       )
