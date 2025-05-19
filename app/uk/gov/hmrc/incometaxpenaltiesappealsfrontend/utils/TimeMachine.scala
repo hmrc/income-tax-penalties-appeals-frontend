@@ -16,11 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+
 import java.time.{LocalDate, LocalDateTime}
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class TimeMachine @Inject() {
+class TimeMachine @Inject()(appConfig: AppConfig) {
   def getCurrentDateTime: LocalDateTime = LocalDateTime.now()
-  def getCurrentDate: LocalDate = getCurrentDateTime.toLocalDate
+  def getCurrentDate: LocalDate = appConfig.optCurrentDate.getOrElse(LocalDate.now())
 }

@@ -48,7 +48,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
   lazy val testDateTime: LocalDateTime = LocalDateTime.now()
 
-  lazy val timeMachine: TimeMachine = new TimeMachine {
+  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
     override def getCurrentDateTime: LocalDateTime = testDateTime
   }
 

@@ -19,8 +19,11 @@ import play.api.Configuration
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, StubIncomeTaxSessionData, UseStubForBackend}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.duration.{Duration, FiniteDuration}
+import scala.util.Try
 
 @Singleton
 class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesConfig) extends FeatureSwitching {
@@ -95,4 +98,15 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val upscanTimeout: FiniteDuration = config.get[FiniteDuration]("upscan.timeout")
 
   lazy val enterClientUTRVandCUrl: String = config.get[String]("income-tax-view-change.enterClientUTR.url")
+
+  lazy val timeMachineEnabled: Boolean =
+    config.get[Boolean]("timemachine.enabled")
+
+  lazy val timeMachineDate: String =
+    config.get[String]("timemachine.date")
+  private val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
+
+  def optCurrentDate: Option[LocalDate]  = if (timeMachineEnabled && !timeMachineDate.equalsIgnoreCase("now")){
+    Try(LocalDate.parse(timeMachineDate, timeMachineDateFormatter)).toOption
+  } else None
 }
