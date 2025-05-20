@@ -123,8 +123,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
           document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
           document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
-          document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
-          document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
+          document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "Other reason that is not covered by any other category"
           document.getSubmitButton.text() shouldBe "Continue"
         }
 
@@ -149,8 +148,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
           document.getElementsByAttributeValue("for", s"$TechnicalIssues").text() shouldBe "Software or technology issues"
           document.getElementsByAttributeValue("for", s"$UnexpectedHospital").text() shouldBe "Unexpected hospital stay"
-          document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "The reason does not fit into any of the other categories"
-          document.getHintText.get(1).text() shouldBe "You should only choose this if the reason is not covered by any of the other options."
+          document.getElementsByAttributeValue("for", s"$Other").text() shouldBe "Other reason that is not covered by any other category"
           document.getSubmitButton.text() shouldBe "Continue"
 
         }
