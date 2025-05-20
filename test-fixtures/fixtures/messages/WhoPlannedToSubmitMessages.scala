@@ -35,8 +35,8 @@ object WhoPlannedToSubmitMessages {
     override val titleAndHeading = "Before the deadline, who planned to send the submission? (Welsh)"
     override val agent: String = "I did (Welsh)"
     override val client: String = "My client did (Welsh)"
-    override val errorRequired: String = "Tell us who planned to send the submission (Welsh)"
-    override val errorInvalid: String = "Tell us who planned to send the submission (Welsh)"
+    override val errorRequired: String = "Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad"
+    override val errorInvalid: String = "Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad"
 
     override val cyaKey = "Before the deadline, who planned to send the submission? (Welsh)"
     override val cyaHidden = "before the deadline, who planned to send the submission (Welsh)"

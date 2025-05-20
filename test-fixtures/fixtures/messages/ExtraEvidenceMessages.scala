@@ -35,8 +35,8 @@ object ExtraEvidenceMessages {
   object Welsh extends Messages with Cy {
     override val errorRequired = "Tell us if you want to upload evidence to support your appeal (Welsh)"
     override val errorInvalid = "Tell us if you want to upload evidence to support your appeal (Welsh)"
-    override val errorRequiredReview = "Tell us if you want to upload evidence to support this review (Welsh)"
-    override val errorInvalidReview = "Tell us if you want to upload evidence to support this review (Welsh)"
+    override val errorRequiredReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
+    override val errorInvalidReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
 
     override val cyaKey = "Do you want to upload evidence to support your appeal? (Welsh)"
     override val cyaHidden = "do you want to upload evidence to support your appeal (Welsh)"

@@ -35,8 +35,8 @@ object WhatCausedYouToMissDeadlineMessages {
     override val titleAndHeading = "What caused you to miss the deadline? (Welsh)"
     override val agent: String = "Something else happened to delay me (Welsh)"
     override val client: String = "My client did not get information to me on time (Welsh)"
-    override val errorRequired: String = "Tell us the reason the return was submitted late (Welsh)"
-    override val errorInvalid: String = "Tell us the reason the return was submitted late (Welsh)"
+    override val errorRequired: String = "Rhowch y rheswm dros gyflwyno’r cyflwyniad yn hwyr"
+    override val errorInvalid: String = "Rhowch y rheswm dros gyflwyno’r cyflwyniad yn hwyr"
 
     override val cyaKey = "What caused you to miss the deadline? (Welsh)"
     override val cyaHidden = "what caused you to miss the deadline (Welsh)"

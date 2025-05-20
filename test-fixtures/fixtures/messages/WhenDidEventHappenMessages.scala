@@ -275,11 +275,11 @@ object WhenDidEventHappenMessages {
 
     override val crimeInvalid = "Mae’n rhaid i ddyddiad y drosedd fod yn ddyddiad go iawn"
     override val fireOrFloodInvalid = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn"
-    override val technicalIssueInvalid = "The date the software or technology issues began must be a real date (Welsh)"
+    override val technicalIssueInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod yn ddyddiad go iawn"
     override val bereavementInvalid = "Mae’n rhaid i’r dyddiad fod yn ddyddiad go iawn"
     override val cessationInvalid = "TBC (Welsh)"
-    override val healthInvalid = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn"
-    override val unexpectedHospitalInvalid = "The date that the hospital stay began must be a real date (Welsh)"
+    override val healthInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod yn ddyddiad go iawn"
+    override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod yn ddyddiad go iawn"
     override val lossOfStaffInvalid = "TBC (Welsh)"
     override def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -287,17 +287,17 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => "The date when the issue first stopped your client paying the tax bill by the due date must be a real date (Welsh)"
         case (true, _, false) => "The date when the issue first stopped your client from meeting the submission deadline must be a real date (Welsh)"
         case (false, _, true) => "The date the issue first stopped you paying the tax bill by the due date must be a real date (Welsh)"
-        case (_, _, _)        => "The date the issue first stopped you meeting the submission deadline must be a real date (Welsh)"
+        case (_, _, _)        => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod yn ddyddiad go iawn"
       }
     }
 
     override val crimeRequiredAll = "Nodwch ddyddiad y drosedd"
     override val fireOrFloodRequiredAll = "Nodwch ddyddiad y tân neu lifogydd"
-    override val technicalIssueRequiredAll = "Tell us when the software or technology issues began (Welsh)"
+    override val technicalIssueRequiredAll = "Rhowch wybod i ni pryd y dechreuodd y problemau technoleg neu’r problemau meddalwedd"
     override val bereavementRequiredAll = "Nodwch y dyddiad y bu farw’r person"
     override val cessationRequiredAll = "TBC (Welsh)"
-    override val healthRequiredAll = "Nodwch ddyddiad y tân neu lifogydd"
-    override val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay began (Welsh)"
+    override val healthRequiredAll = "Nodwch y dyddiad pan ddechreuodd y broblem iechyd"
+    override val unexpectedHospitalRequiredAll = "Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben"
     override val lossOfStaffRequiredAll = "TBC (Welsh)"
     override def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -305,16 +305,16 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => "Tell us when the issue first stopped your client paying the tax bill by the due date (Welsh)"
         case (true, _, false) => "Tell us when the issue first stopped your client from meeting the submission deadline? (Welsh)"
         case (false, _, true) => "Tell us when the issue first stopped you paying the tax bill by the due date (Welsh)"
-        case (_, _, _)        => "Tell us when the issue first stopped you meeting the submission deadline (Welsh)"
+        case (_, _, _)        => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
       }
 
     override def crimeRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing a $missingTwo"
     override def fireOrFloodRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing a $missingTwo"
-    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues began must include a $missing and a $missingTwo (Welsh)"
+    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys $missing a $missingTwo"
     override def bereavementRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad gynnwys $missing a $missingTwo"
     override def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
-    override def healthRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing a $missingTwo"
-    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay began must include a $missing and a $missingTwo (Welsh)"
+    override def healthRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys $missing a $missingTwo"
+    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys $missing a $missingTwo"
     override def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -322,16 +322,16 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must include a $missing and a $missingTwo (Welsh)"
         case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must include a $missing and a $missingTwo (Welsh)"
         case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing and a $missingTwo (Welsh)"
-        case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing and a $missingTwo (Welsh)"
+        case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing a $missingTwo"
       }
 
     override def crimeRequired(missing: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing"
     override def fireOrFloodRequired(missing: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing"
-    override def technicalIssueRequired(missing: String) = s"The date the software or technology issues began must include a $missing (Welsh)"
+    override def technicalIssueRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys $missing"
     override def bereavementRequired(missing: String) = s"Mae’n rhaid i’r dyddiad gynnwys $missing"
     override def cessationRequired(missing: String) = "TBC (Welsh)"
-    override def healthRequired(missing: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing"
-    override def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay began must include a $missing (Welsh)"
+    override def healthRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys $missing"
+    override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys $missing"
     override def lossOfStaffRequired(missing: String) = "TBC (Welsh)"
     override def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -339,16 +339,16 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must include a $missing (Welsh)"
         case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must include a $missing (Welsh)"
         case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing (Welsh)"
-        case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing (Welsh)"
+        case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing"
       }
 
     override val crimeNotInFuture = "Mae’n rhaid i ddyddiad y drosedd fod heddiw neu yn y gorffennol"
     override val fireOrFloodNotInFuture = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol"
-    override val technicalIssueNotInFuture = "The date the software or technology issues began must be today or in the past (Welsh)"
+    override val technicalIssueNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod heddiw neu yn y gorffennol"
     override val bereavementNotInFuture = "Mae’n rhaid i’r dyddiad fod heddiw neu yn y gorffennol"
     override val cessationNotInFuture = "TBC (Welsh)"
-    override val healthNotInFuture = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol"
-    override val unexpectedHospitalNotInFuture = "The date that the hospital stay began must be today or in the past (Welsh)"
+    override val healthNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod heddiw neu yn y gorffennol"
+    override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod heddiw neu yn y gorffennol"
     override val lossOfStaffNotInFuture = "TBC (Welsh)"
     override def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
@@ -356,7 +356,7 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past (Welsh)"
         case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must be today or in the past (Welsh)"
         case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must be today or in the past (Welsh)"
-        case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must be today or in the past (Welsh)"
+        case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
       }
 
     override val cyaKeyBereavement: String = "When did the person die? (Welsh)"

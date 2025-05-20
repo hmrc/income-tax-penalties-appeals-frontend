@@ -35,8 +35,8 @@ object JointAppealMessages {
   object Welsh extends Messages with Cy {
     override val errorRequired = "Tell us if you intend to appeal both penalties for the same reason (Welsh)"
     override val errorInvalid = "Tell us if you intend to appeal both penalties for the same reason (Welsh)"
-    override val errorRequiredReview = "Tell us if you want both appeal decisions to be reviewed at the same time (Welsh)"
-    override val errorInvalidReview = "Tell us if you want both appeal decisions to be reviewed at the same time (Welsh)"
+    override val errorRequiredReview = "Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd"
+    override val errorInvalidReview = "Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd"
 
     override val cyaKey = "Do you intend to appeal both penalties for the same reason? (Welsh)"
     override val cyaHidden = "do you intend to appeal both penalties for the same reason (Welsh)"

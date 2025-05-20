@@ -65,9 +65,9 @@ object ReasonableExcuseMessages {
     override val lossOfStaff: String = "TBC lossOfStaff (Welsh)"
     override val other: String = "The reason does not fit into any of the other categories (Welsh)"
     override val otherHint: String = "You should only choose this if the reason is not covered by any of the other options. (Welsh)"
-    override val errorRequired: String = "Select the reason for missing the submission deadline (Welsh)"
+    override val errorRequired: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
 
-    override val cyaKey = "Reason for missing the submission deadline (Welsh)"
-    override val cyaHidden = "reason for missing the submission deadline (Welsh)"
+    override val cyaKey = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+    override val cyaHidden = "dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
   }
 }
