@@ -445,8 +445,8 @@ checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalt
 checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time? (Welsh)
 checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time (Welsh)
 
-checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline (Welsh)
-checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline (Welsh)
+checkYourAnswers.reasonableExcuse.key = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
+checkYourAnswers.reasonableExcuse.change.hidden = dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died) (Welsh)
 checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source (Welsh)
 checkYourAnswers.reasonableExcuse.value.crime =  Crime (Welsh)
@@ -592,7 +592,7 @@ common.change = Newid
 
 # Reasonable excuse
 # ----------------------------------------------------------
-reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline? (Welsh)
+reasonableExcuses.headingAndTitle = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline. (Welsh)
 reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline. (Welsh)
 reasonableExcuses.bereavement = Bereavement (someone died) (Welsh)
