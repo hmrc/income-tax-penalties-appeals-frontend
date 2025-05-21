@@ -97,17 +97,19 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
           "a file upload journey exists within the File Upload repo" should {
 
-            "render a BadRequest, NOT call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
+            "render a BadRequest, call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
               stubAuthRequests(isAgent)
-              fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
+              stubUpscanInitiate(status = OK, body = initiateResponse)
+
+              fileUploadRepo.upsertFileUpload(testJourneyId, rejectedFile).futureValue
 
               val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
               val result = get(s"/upload-evidence/$uploadFileUrl?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
               result.status shouldBe BAD_REQUEST
 
               val document = Jsoup.parse(result.body)
-              document.select("form").attr("action") shouldBe waitingFile.uploadFields.get.href
-              waitingFile.uploadFields.get.fields.map { case (key, value) =>
+              document.select("form").attr("action") shouldBe rejectedFile.uploadFields.get.href
+              rejectedFile.uploadFields.get.fields.map { case (key, value) =>
                 document.select(s"input[name=$key]").`val`() shouldBe value
               }
             }

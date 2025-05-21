@@ -58,7 +58,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
     key.fold(initiateNewUpload(f)) { fileReference =>
       logger.info(s"[UpscanInitiateController][withFileUploadFormFields] Attempting to retrieve existing form fields for fileReference: $fileReference, journeyId: ${user.journeyId}")
       for {
-        existingFormFields <- upscanService.getFormFieldsForFile(user.journeyId, fileReference)
+        existingFormFields <- upscanService.reinitialiseFileAndReturnFormFields(user.journeyId, fileReference)
         _ = if(existingFormFields.isEmpty) logger.warn(s"[UpscanInitiateController][withFileUploadFormFields] No existing form fields found for fileReference: $fileReference, journeyId: ${user.journeyId}")
         result <- existingFormFields.fold(initiateNewUpload(f))(f)
       } yield result
