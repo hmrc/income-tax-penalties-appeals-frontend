@@ -97,7 +97,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
           "a file upload journey exists within the File Upload repo" should {
 
-            "render a BadRequest, call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
+            "render a BadRequest, NOT call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
               stubAuthRequests(isAgent)
               stubUpscanInitiate(status = OK, body = initiateResponse)
 

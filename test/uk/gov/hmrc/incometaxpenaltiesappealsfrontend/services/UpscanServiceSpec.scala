@@ -366,13 +366,21 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     }
   }
 
-  "calling .getFormFieldsForFile()" when {
+  "calling .reinitialiseFileAndReturnFormFields()" when {
 
-    "file is returned from Mongo" when {
+    "file is returned from Mongo with uploadFields" should {
+      "reinitialise the upload file and return the upload fields" in {
+        mockGetFile(testJourneyId, fileRef1)(Future.successful(Some(rejectedFile)))
+        val reinitialisedUploadFile = rejectedFile.copy(fileStatus = UploadStatusEnum.WAITING, failureDetails = None, lastUpdated = testDateTime)
+        mockUpsertFileUpload(testJourneyId, reinitialisedUploadFile)(Future.successful(cacheItem(reinitialisedUploadFile)))
+        await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1)) shouldBe reinitialisedUploadFile.uploadFields
+      }
+    }
 
-      "return the upload fields" in {
+    "file is returned from Mongo with no uploadFields" should {
+      "not reinitialise the upload file and return None" in {
         mockGetFile(testJourneyId, fileRef1)(Future.successful(Some(callbackModelFailed)))
-        await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1)) shouldBe callbackModel.uploadFields
+        await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1)) shouldBe None
       }
     }
 
