@@ -23,7 +23,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.{JsString, Json}
-import uk.gov.hmrc.govukfrontend.views.Aliases.{Hint, RadioItem, Text}
+import uk.gov.hmrc.govukfrontend.views.Aliases.{RadioItem, Text}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, ReasonableExcusesEnabled}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
@@ -129,14 +129,8 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
                 id = Some(LossOfStaff.toString)
               ),
               RadioItem(
-                divider = Some(messagesForLang.or)
-              ),
-              RadioItem(
                 content = Text(messagesForLang.other),
                 value = Some(Other.toString),
-                hint = Some(Hint(
-                  content = Text(messages(messagesForLang.otherHint))
-                )),
                 id = Some(Other.toString)
               )
             )
@@ -174,14 +168,8 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
                 id = Some(Crime.toString)
               ),
               RadioItem(
-                divider = Some(messagesForLang.or)
-              ),
-              RadioItem(
                 content = Text(messagesForLang.other),
                 value = Some(Other.toString),
-                hint = Some(Hint(
-                  content = Text(messages(messagesForLang.otherHint))
-                )),
                 id = Some(Other.toString),
               )
             )

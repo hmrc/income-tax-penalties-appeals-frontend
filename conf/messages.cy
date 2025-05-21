@@ -455,7 +455,7 @@ checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill
 checkYourAnswers.reasonableExcuse.value.technicalIssue = Software or technology issues (Welsh)
 checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital stay (Welsh)
-checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any of the other categories (Welsh)
+checkYourAnswers.reasonableExcuse.value.other = Other reason that is not covered by any other category (Welsh)
 
 checkYourAnswers.crimeReported.key = Has this crime been reported to the police? (Welsh)
 checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police (Welsh)
@@ -603,7 +603,7 @@ reasonableExcuses.health = Serious or life-threatening ill health (Welsh)
 reasonableExcuses.technicalIssue = Software or technology issues (Welsh)
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay (Welsh)
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
-reasonableExcuses.other = The reason does not fit into any of the other categories (Welsh)
+reasonableExcuses.other = Other reason that is not covered by any other category (Welsh)
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
 reasonableExcuse.error.message = Select the reason for missing the submission deadline (Welsh)
 
