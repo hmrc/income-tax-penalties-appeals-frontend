@@ -102,6 +102,8 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val viewAndChangeBaseUrl: String = config.get[String]("urls.viewAndChangeBaseUrl")
 
+  def incomeTaxPenaltiesFrontendHomepageUrl: String = incomeTaxPenaltiesFrontendBaseUrl + "/penalties/income-tax"
+
   def viewAndChangeSAHomepageUrl(isAgent: Boolean): String = if (isAgent) {
     viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/agents"
   } else {
