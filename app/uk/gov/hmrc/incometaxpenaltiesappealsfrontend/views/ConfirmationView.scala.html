@@ -21,6 +21,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 
 @this(layout: Layout,
         govukPanel: GovukPanel,
@@ -29,7 +30,7 @@
         caption: components.PenaltyCaption,
         link: Link)
 
-@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
 
 @clientOrAgent = {@if(isAgent){agent} else {client}}
 @reviewOrAppeal = {@if(isSecondStageAppeal){.review}}
@@ -52,7 +53,7 @@
 
     @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link1.$clientOrAgent", id = Some("returnToSA-link"))
 
-    @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link2.$clientOrAgent", id = Some("viewSA-link"))
+    @link(link = appConfig.viewAndChangeSAHomepageUrl(isAgent = isAgent), messageKey = s"appealConfirmation.whatHappensNext.link2.$clientOrAgent", id = Some("viewSA-link"))
 
     @h2("appealConfirmation.feedback.h2", elmId = "beforeYouGo")
 
