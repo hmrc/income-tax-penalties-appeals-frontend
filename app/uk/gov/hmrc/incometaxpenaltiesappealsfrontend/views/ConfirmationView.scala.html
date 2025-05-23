@@ -60,7 +60,7 @@
     @p("appealConfirmation.feedback.p", elmId = Some("confirmationFifthParagraph"))
 
     <p class="govuk-body govuk-!-margin-bottom-9" id="confirmationSixthParagraph">
-        <a class="govuk-link" href="#" id="survey-link">@messages("appealConfirmation.feedback.link")</a>
+        <a class="govuk-link" href="@appConfig.survey" id="survey-link">@messages("appealConfirmation.feedback.link")</a>
         @messages("appealConfirmation.feedback.link.text")
     </p>
 }
