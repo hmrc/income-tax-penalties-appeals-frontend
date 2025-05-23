@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.WhenDidEventHappenMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -191,9 +190,9 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                   case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent).url
                   case Crime => routes.CrimeReportedController.onPageLoad(isAgent).url
                   case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
-                  case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent).url
+                  case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false ).url
                   case _ =>
-                    if (isLate) routes.LateAppealController.onPageLoad(isAgent).url
+                    if (isLate) routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
                     else routes.CheckYourAnswersController.onPageLoad(isAgent).url
                 }
 

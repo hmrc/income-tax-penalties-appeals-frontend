@@ -39,7 +39,7 @@ object JointAppealSummary extends SummaryListRowHelper {
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.JointAppealController.onPageLoad(isAgent = user.isAgent).url,
+              href = controllers.routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal).url,
               visuallyHiddenText = Some(messages(s"checkYourAnswers.jointAppeal.change.hidden$msgSuffix"))
             ).withId("changeJointAppeal")
           )

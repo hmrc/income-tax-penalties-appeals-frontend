@@ -28,8 +28,8 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -87,7 +87,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                           items = Seq(
                             ActionItem(
                               content = Text(messagesForLanguage.change),
-                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent).url,
+                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal = false).url,
                               visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                             ).withId("changeExtraEvidence")
                           )
@@ -134,7 +134,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                           items = Seq(
                             ActionItem(
                               content = Text(messagesForLanguage.change),
-                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent).url,
+                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal = true).url,
                               visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                             ).withId("changeExtraEvidence")
                           )

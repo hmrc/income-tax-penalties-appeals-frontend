@@ -48,7 +48,7 @@
     @h1(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), args = Seq(uploadedFiles.size))
 
     @govukSummaryList(SummaryList(
-        UploadedFilesViewModel.toSummaryListRows(uploadedFiles, request.isAgent)
+        UploadedFilesViewModel.toSummaryListRows(uploadedFiles, request.isAgent, request.is2ndStageAppeal)
     ))
 
     @formHelper(action = postAction) {

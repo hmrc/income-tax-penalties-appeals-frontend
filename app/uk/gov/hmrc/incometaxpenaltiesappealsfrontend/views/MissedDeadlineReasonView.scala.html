@@ -44,7 +44,7 @@
     }
 
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit(isLPP, user.isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit(isLPP, user.isAgent, user.is2ndStageAppeal)) {
 
         @caption()
 

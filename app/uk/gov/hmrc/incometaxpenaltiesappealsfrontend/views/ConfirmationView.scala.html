@@ -43,7 +43,7 @@
     @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))
     @p(s"appealConfirmation.p2.$clientOrAgent$reviewOrAppeal", elmId = Some(s"confirmationSecondParagraph"))
 
-    @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad(isAgent = isAgent).url, messageKey = s"appealConfirmation.viewOrPrint$reviewOrAppeal", id = Some("viewOrPrint-link"), attrTarget = true)
+    @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = isSecondStageAppeal).url, messageKey = s"appealConfirmation.viewOrPrint$reviewOrAppeal", id = Some("viewOrPrint-link"), attrTarget = true)
 
     @h2("appealConfirmation.whatHappensNext.h2", elmId = "whatHappensNext")
     @p(s"appealConfirmation.whatHappensNext.p1$reviewOrAppeal", elmId = Some("confirmationThirdParagraph"))

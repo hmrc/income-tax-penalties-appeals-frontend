@@ -28,7 +28,7 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
@@ -37,7 +37,7 @@
     @h1("honestyDeclaration.headingAndTitle")
     @p("honestyDeclaration.li.review", elmId = Some("honestyDeclarationConfirm"))
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
         <div class="govuk-form-group">
         @govukButton(Button(
             content = Text(messages("common.acceptAndContinue"))

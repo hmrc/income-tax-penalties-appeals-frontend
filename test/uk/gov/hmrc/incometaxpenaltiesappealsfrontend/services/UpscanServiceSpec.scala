@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar
@@ -63,7 +64,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
   "calling .initiateNewFileUpload()" when {
 
-    val initiateRequest = UpscanInitiateRequest(testJourneyId, appConfig, isAgent)
+    val initiateRequest = UpscanInitiateRequest(testJourneyId, appConfig, isAgent, is2ndStageAppeal)
 
     "a successful response is returned from the UpscanConnector" when {
 
@@ -73,7 +74,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           mockInitiate(testJourneyId, initiateRequest)(Future.successful(Right(initiateResponse)))
           mockUpsertFileUpload(testJourneyId, waitingFile.copy(lastUpdated = testDateTime))(Future.successful(cacheItem(waitingFile)))
 
-          await(testService.initiateNewFileUpload(testJourneyId, isAgent)) shouldBe initiateResponse
+          await(testService.initiateNewFileUpload(testJourneyId, isAgent, is2ndStageAppeal)) shouldBe initiateResponse
         }
       }
 
@@ -84,7 +85,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           mockUpsertFileUpload(testJourneyId, waitingFile.copy(lastUpdated = testDateTime))(Future.failed(new Exception("bang")))
 
           withCaptureOfLoggingFrom(logger) { logs =>
-            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId, isAgent)))
+            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId, isAgent, is2ndStageAppeal)))
             logs.exists(_.getMessage.contains(s"[$FAILED_INITIATE_CALL_UPSCAN][UpscanService][initiateNewFileUpload] An exception of type Exception occurred for journeyId: $testJourneyId")) shouldBe true
           }
         }
@@ -98,7 +99,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         "throw and exception with useful logging, including a PagerDuty trigger" in {
           mockInitiate(testJourneyId, initiateRequest)(Future.successful(Left(BadRequest)))
           withCaptureOfLoggingFrom(logger) { logs =>
-            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId, isAgent)))
+            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId, isAgent, is2ndStageAppeal)))
             logs.exists(_.getMessage.contains(s"[$FAILED_INITIATE_CALL_UPSCAN][UpscanService][initiateNewFileUpload] An exception of type Exception occurred for journeyId: $testJourneyId")) shouldBe true
           }
         }
@@ -109,7 +110,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         "throw and exception with useful logging, including a PagerDuty trigger" in {
           mockInitiate(testJourneyId, initiateRequest)(Future.failed(new Exception("bang")))
           withCaptureOfLoggingFrom(logger) { logs =>
-            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId, isAgent)))
+            intercept[Exception](await(testService.initiateNewFileUpload(testJourneyId, isAgent, is2ndStageAppeal)))
             logs.exists(_.getMessage.contains(s"[$FAILED_INITIATE_CALL_UPSCAN][UpscanService][initiateNewFileUpload] An exception of type Exception occurred for journeyId: $testJourneyId")) shouldBe true
           }
         }
