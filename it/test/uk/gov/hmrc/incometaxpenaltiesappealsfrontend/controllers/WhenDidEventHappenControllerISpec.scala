@@ -54,7 +54,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
     (TechnicalIssues, "/when-did-the-technology-issues-begin", "/agent-when-did-the-technology-issues-begin"),
     (UnexpectedHospital, "/when-did-the-hospital-stay-begin", "/agent-when-did-the-hospital-stay-begin"),
     (LossOfStaff, "/lossOfStaff", "/agent-lossOfStaff"),
-    (Other, "/when-did-the-issue-stop-you", "/agent-when-did-the-issue-stop-you")
+    (Other, "/when-did-the-issue-cause-missed-deadline", "/agent-when-did-the-issue-cause-missed-deadline")
   )
 
   class Setup(reason: ReasonableExcuse, isLate: Boolean = false) {
@@ -89,7 +89,6 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
   for (reasonWithUrl <- reasonsWithUrls) {
 
     s"GET ${reasonWithUrl._2} with ${reasonWithUrl._1}" should {
-
 
       testNavBar(url = reasonWithUrl._2) {
         userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reasonWithUrl._1)).futureValue
@@ -177,11 +176,11 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
       Seq(true, false).foreach { isLPP =>
 
-        s"POST ${if (isAgent) reasonWithUrl._3 else reasonWithUrl._2} with ${reasonWithUrl._1} isAgent = $isAgent, isLPP = $isLPP" when {
+        val postUrl = if (isAgent) reasonWithUrl._3 else reasonWithUrl._2
+
+        s"POST ${postUrl} with ${reasonWithUrl._1} isAgent = $isAgent, isLPP = $isLPP" when {
 
           "the date is valid" when {
-
-
             Seq(true, false).foreach { isLate =>
 
               s"the appeal isLate='$isLate'" should {
@@ -201,7 +200,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                   stubAuthRequests(isAgent)
                   userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-                  val result: WSResponse = post(if (isAgent) reasonWithUrl._3 else reasonWithUrl._2)(Map(
+                  val result: WSResponse = post(postUrl)(Map(
                     WhenDidEventHappenForm.key + ".day" -> "02",
                     WhenDidEventHappenForm.key + ".month" -> "04",
                     WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -222,7 +221,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -247,7 +246,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "02",
                 WhenDidEventHappenForm.key + ".month" -> "",
                 WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -272,7 +271,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "02",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> ""))
@@ -297,7 +296,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "",
                 WhenDidEventHappenForm.key + ".month" -> "",
                 WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -322,7 +321,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> ""))
@@ -347,7 +346,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "04",
                 WhenDidEventHappenForm.key + ".month" -> "",
                 WhenDidEventHappenForm.key + ".year" -> ""))
@@ -372,7 +371,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "",
                 WhenDidEventHappenForm.key + ".month" -> "",
                 WhenDidEventHappenForm.key + ".year" -> ""))
@@ -397,7 +396,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "aa",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -422,7 +421,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "02",
                 WhenDidEventHappenForm.key + ".month" -> "aa",
                 WhenDidEventHappenForm.key + ".year" -> "2024"))
@@ -447,7 +446,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "02",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> "aaaa"))
@@ -472,7 +471,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(isAgent)
               userAnswersRepo.upsertUserAnswer(if(isLPP)userAnswersLPP else userAnswersLSP).futureValue
 
-              val result = post(reasonWithUrl._2)(Map(
+              val result = post(postUrl)(Map(
                 WhenDidEventHappenForm.key + ".day" -> "02",
                 WhenDidEventHappenForm.key + ".month" -> "04",
                 WhenDidEventHappenForm.key + ".year" -> "2027"))
