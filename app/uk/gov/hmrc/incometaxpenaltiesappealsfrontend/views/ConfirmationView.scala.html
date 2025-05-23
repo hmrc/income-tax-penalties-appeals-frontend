@@ -15,12 +15,11 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
 
 @this(layout: Layout,
         govukPanel: GovukPanel,
@@ -29,7 +28,7 @@
         caption: components.PenaltyCaption,
         link: Link)
 
-@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
 
 @clientOrAgent = {@if(isAgent){agent} else {client}}
 @reviewOrAppeal = {@if(isSecondStageAppeal){.review}}
@@ -50,16 +49,16 @@
     @p(s"appealConfirmation.whatHappensNext.p1$reviewOrAppeal", elmId = Some("confirmationThirdParagraph"))
     @p(s"appealConfirmation.whatHappensNext.p2.$clientOrAgent$reviewOrAppeal", elmId = Some("confirmationFourthParagraph"))
 
-    @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link1.$clientOrAgent", id = Some("returnToSA-link"))
+    @link(link = appConfig.incomeTaxPenaltiesFrontendHomepageUrl, messageKey = s"appealConfirmation.whatHappensNext.link1.$clientOrAgent", id = Some("returnToSA-link"))
 
-    @link(link = "#", messageKey = s"appealConfirmation.whatHappensNext.link2.$clientOrAgent", id = Some("viewSA-link"))
+    @link(link = appConfig.viewAndChangeSAHomepageUrl(isAgent = isAgent), messageKey = s"appealConfirmation.whatHappensNext.link2.$clientOrAgent", id = Some("viewSA-link"))
 
     @h2("appealConfirmation.feedback.h2", elmId = "beforeYouGo")
 
     @p("appealConfirmation.feedback.p", elmId = Some("confirmationFifthParagraph"))
 
     <p class="govuk-body govuk-!-margin-bottom-9" id="confirmationSixthParagraph">
-        <a class="govuk-link" href="#" id="survey-link">@messages("appealConfirmation.feedback.link")</a>
+        <a class="govuk-link" href="@appConfig.survey" id="survey-link">@messages("appealConfirmation.feedback.link")</a>
         @messages("appealConfirmation.feedback.link.text")
     </p>
 }
