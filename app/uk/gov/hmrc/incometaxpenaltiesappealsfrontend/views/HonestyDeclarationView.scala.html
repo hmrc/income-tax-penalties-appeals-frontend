@@ -30,7 +30,7 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean, is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 @isLPPText = {@if(isLPP) {lpp} else {lsp}}
 @layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
 
@@ -47,7 +47,7 @@
         <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
         <div class="govuk-form-group">
         @govukButton(Button(
             content = Text(messages("common.acceptAndContinue"))

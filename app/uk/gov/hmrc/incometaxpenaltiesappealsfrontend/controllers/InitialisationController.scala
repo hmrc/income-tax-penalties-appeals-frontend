@@ -73,7 +73,7 @@ class InitialisationController @Inject()(val authActions: AuthActions,
     )
 
     userAnswersService.updateAnswers(answers).map { _ =>
-      Redirect(routes.AppealStartController.onPageLoad())
+      Redirect(routes.AppealStartController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal))
         .addingToSession((IncomeTaxSessionKeys.journeyId, journeyId))
     }
   }

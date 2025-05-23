@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.CrimeReportedMessages
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -146,7 +147,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
           val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
+          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
         }

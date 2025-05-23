@@ -36,7 +36,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
@@ -45,14 +45,14 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
           isAgent = user.isAgent,
           firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
           secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount,
-          isSecondStageAppeal = user.is2ndStageAppeal
+          is2ndStageAppeal = user.is2ndStageAppeal
         ))
       case _ =>
         Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
     }
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
 
     JointAppealForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors => {
@@ -63,7 +63,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
               isAgent = user.isAgent,
               firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
               secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount,
-              isSecondStageAppeal = user.is2ndStageAppeal
+              is2ndStageAppeal = user.is2ndStageAppeal
             )))
           case _ =>
             Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)))
@@ -73,8 +73,8 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
         val updatedAnswers = user.userAnswers.setAnswer(JointAppealPage, appealBothPenalties)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           Redirect(
-            if(appealBothPenalties) routes.MultipleAppealsController.onPageLoad(user.isAgent)
-            else routes.SingleAppealConfirmationController.onPageLoad(user.isAgent)
+            if(appealBothPenalties) routes.MultipleAppealsController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
+            else routes.SingleAppealConfirmationController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
           )
         }
       }

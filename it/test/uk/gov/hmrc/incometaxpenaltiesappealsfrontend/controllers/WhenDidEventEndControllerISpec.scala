@@ -166,7 +166,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
                 WhenDidEventEndForm.key + ".year" -> "2024"))
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent).url)
+              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
 
               userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
             }

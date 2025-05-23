@@ -37,23 +37,23 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
                                              override val errorHandler: ErrorHandler
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>
       Future(Ok(
-        if(user.is2ndStageAppeal) reviewHonestyDeclarationView(user.isAgent, reasonableExcuse)
-        else if(user.isAgent)agentHonestyDeclarationView(user.isAgent, reasonableExcuse, user.isLPP, user.whoPlannedToSubmit, user.whatCausedYouToMissDeadline)
-        else honestyDeclaration(user.isAgent, reasonableExcuse, user.isLPP)))
+        if(is2ndStageAppeal) reviewHonestyDeclarationView(isAgent, reasonableExcuse, is2ndStageAppeal)
+        else if(isAgent)agentHonestyDeclarationView(isAgent, reasonableExcuse, user.isLPP, user.whoPlannedToSubmit, user.whatCausedYouToMissDeadline, is2ndStageAppeal)
+        else honestyDeclaration(isAgent, reasonableExcuse, user.isLPP, is2ndStageAppeal)))
     }
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     val updatedAnswers = user.userAnswers.setAnswer(HonestyDeclarationPage, true)
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-      Redirect(if(user.is2ndStageAppeal) {
-        routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, user.isAgent)
+      Redirect(if(is2ndStageAppeal) {
+        routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, is2ndStageAppeal)
       } else {
         val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
-        routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent)
+        routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, isAgent)
       })
     }
   }

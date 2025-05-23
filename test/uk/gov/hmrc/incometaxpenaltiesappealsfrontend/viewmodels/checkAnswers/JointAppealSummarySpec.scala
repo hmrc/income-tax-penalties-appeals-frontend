@@ -80,7 +80,7 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
-                          href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent).url,
+                          href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = false).url,
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                         ).withId("changeJointAppeal")
                       )
@@ -121,7 +121,7 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
                     items = Seq(
                       ActionItem(
                         content = Text(messagesForLanguage.change),
-                        href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent).url,
+                        href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = true).url,
                         visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                       ).withId("changeJointAppeal")
                     )
