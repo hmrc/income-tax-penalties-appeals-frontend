@@ -15,6 +15,7 @@
  */
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
+
 import play.api.Configuration
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, StubIncomeTaxSessionData, UseStubForBackend}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
@@ -36,9 +37,11 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
   def getFeatureSwitchValue(feature: String): Boolean = config.get[Boolean](feature)
+
   def getCheckboxFeatureSwitchValues(checkboxList: String): Seq[String] = config.get[Seq[String]](checkboxList)
 
   def selfUrl: String = servicesConfig.baseUrl("income-tax-penalties-appeals-frontend")
+
   def incomeTaxPenaltiesFrontendBaseUrl: String = servicesConfig.baseUrl("income-tax-penalties-frontend")
 
   def penaltiesServiceBaseUrl: String =
@@ -97,6 +100,16 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val upscanCheckInterval: FiniteDuration = config.get[FiniteDuration]("upscan.checkInterval")
   lazy val upscanTimeout: FiniteDuration = config.get[FiniteDuration]("upscan.timeout")
 
+  lazy val viewAndChangeBaseUrl: String = config.get[String]("urls.viewAndChangeBaseUrl")
+
+  def incomeTaxPenaltiesFrontendHomepageUrl: String = incomeTaxPenaltiesFrontendBaseUrl + "/penalties/income-tax"
+
+  def viewAndChangeSAHomepageUrl(isAgent: Boolean): String = if (isAgent) {
+    viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/agents"
+  } else {
+    viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view"
+  }
+
   lazy val enterClientUTRVandCUrl: String = config.get[String]("income-tax-view-change.enterClientUTR.url")
 
   lazy val timeMachineEnabled: Boolean =
@@ -106,7 +119,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
     config.get[String]("timemachine.date")
   private val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
 
-  def optCurrentDate: Option[LocalDate]  = if (timeMachineEnabled && !timeMachineDate.equalsIgnoreCase("now")){
+  def optCurrentDate: Option[LocalDate] = if (timeMachineEnabled && !timeMachineDate.equalsIgnoreCase("now")) {
     Try(LocalDate.parse(timeMachineDate, timeMachineDateFormatter)).toOption
   } else None
 }
