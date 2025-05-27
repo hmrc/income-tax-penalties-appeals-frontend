@@ -86,11 +86,11 @@ object MissedDeadlineReasonMessages {
       else "You must provide some information about why the deadline was missed (Welsh)"
     }
     override def errorRequiredSecondStage: String = {
-      "You must provide some information about why you are asking us to review this decision (Welsh)"
+      "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn"
     }
 
     override def errorRequiredMultiple: String = {
-      "You must provide some information about why you are asking us to review these decisions (Welsh)"
+      "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn"
     }
 
     override val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer (Welsh)"

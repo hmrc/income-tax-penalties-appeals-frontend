@@ -201,7 +201,7 @@ missedDeadlineReason.lpp.error.required.multiple = You must provide some informa
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 missedDeadlineReason.lpp.review.hint = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir.
-missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking us to review this decision (Welsh)
+missedDeadlineReason.lpp.error.review.required = Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 missedDeadlineReason.lpp.review.hint.multiple = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir.

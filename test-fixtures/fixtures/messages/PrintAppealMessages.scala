@@ -34,15 +34,15 @@ object PrintAppealMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val headingAndTitle = "Appeal details (Welsh)"
+    override val headingAndTitle = "Manylion yr apêl"
     override val headingAndTitleReview = "Review details (Welsh)"
-    override val nino = "National Insurance number (Welsh)"
-    override val penaltyAppealed = "Penalty appealed (Welsh)"
-    override val appealDate = "Appeal date (Welsh)"
+    override val nino = "Rhif Yswiriant Gwladol"
+    override val penaltyAppealed = "Y gosb sydd wedi’i hapelio"
+    override val appealDate = "Dyddiad yr apêl"
     override val appealDateReview = "Review request sent (Welsh)"
-    override val warn1 = "Print or download this page if you want to keep it. (Welsh)"
-    override val warn2 = "You will not be able to return to these appeal details later. (Welsh)"
+    override val warn1 = "Argraffwch neu lawrlwythwch y dudalen hon os hoffech ei chadw."
+    override val warn2 = "Ni fyddwch yn gallu dychwelyd i’r manylion hyn o ran yr apêl yn nes ymlaen."
     override val warn2Review = "You will not be able to return to these review details later. (Welsh)"
-    override val printThisPage = "Print this page (Welsh)"
+    override val printThisPage = "Argraffu’r dudalen hon"
   }
 }
