@@ -64,11 +64,11 @@ object MissedDeadlineReasonMessages {
 
   object Welsh extends Messages with Cy {
     override def headingAndTitle(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late? (Welsh)" else "Why was the submission deadline missed? (Welsh)"
+      if(isLPP) "Pam oedd y taliad yn hwyr?" else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     }
 
     override def headingAndTitleSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "Why are you asking us to review this decision? (Welsh)" else "Why are you asking us to review this decision? (Welsh)"
+      if(isLPP) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?" else "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
     }
 
     override def hintText(isLPP: Boolean): String = {
@@ -93,19 +93,19 @@ object MissedDeadlineReasonMessages {
       "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn"
     }
 
-    override val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer (Welsh)"
+    override val errorLength: Int => String = n => s"Esboniwch y rheswm gan ddefnyddio ${"%,d".format(n)} o gymeriadau neu lai"
     override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"
 
     override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions? (Welsh)"
-      else if(is2ndStageAppeal) "Why are you asking us to review this decision? (Welsh)"
-      else if(isLPP) "Why was the payment late? (Welsh)"
-      else "Why was the submission deadline missed? (Welsh)"
+      else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
+      else if(isLPP) "Pam oedd y taliad yn hwyr?"
+      else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
 
     override def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions (Welsh)"
-      else if(is2ndStageAppeal) "why are you asking us to review this decision (Welsh)"
-      else if(isLPP) "why was the payment late (Welsh)"
+      else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
+      else if(isLPP) "Pam oedd y taliad yn hwyr"
       else "why was the submission deadline missed (Welsh)"
   }
 }

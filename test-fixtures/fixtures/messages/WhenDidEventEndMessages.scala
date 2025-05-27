@@ -102,11 +102,11 @@ object WhenDidEventEndMessages {
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol"
     override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"The date that the hospital stay ended must be $startDate or later (Welsh)"
 
-    override val cyaKeyTechnical = "When did the software or technology issues end? (Welsh)"
-    override val cyaKeyHospital = "When did the hospital stay end? (Welsh)"
+    override val cyaKeyTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben?"
+    override val cyaKeyHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?"
 
-    override val cyaHiddenTechnical = "when did the software or technology issues end (Welsh)"
-    override val cyaHiddenHospital = "when did the hospital stay end (Welsh)"
+    override val cyaHiddenTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben"
+    override val cyaHiddenHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben"
 
     override def headingAndTitle(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => "When did the software or technology issues end?"

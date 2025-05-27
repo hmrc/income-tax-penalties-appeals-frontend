@@ -432,7 +432,7 @@ checkYourAnswers.appealDetails.h2 = Manylion yr apêl
 checkYourAnswers.appealDetails.h2.review = Manylion yr adolygiad
 
 agent.checkYourAnswers.whoPlannedToSubmit.key = Before the deadline, who planned to send the submission? (Welsh)
-agent.checkYourAnswers.whoPlannedToSubmit.value.agent = I did (Welsh)
+agent.checkYourAnswers.whoPlannedToSubmit.value.agent = Fi
 agent.checkYourAnswers.whoPlannedToSubmit.value.client = My client did (Welsh)
 agent.checkYourAnswers.whoPlannedToSubmit.change.hidden = before the deadline, who planned to send the submission (Welsh)
 
@@ -583,7 +583,7 @@ month.12 = Rhagfyr
 
 common.warning = Rhybudd
 common.dateHint = Er enghraifft, 12 3 2018
-common.continue = Parhau
+common.continue = Yn eich blaen
 common.acceptAndContinue = Derbyn ac yn eich blaen
 common.or = neu
 common.yes = Iawn
