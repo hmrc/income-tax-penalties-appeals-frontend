@@ -124,10 +124,17 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
       })
     }
 
-  def getFormFieldsForFile(journeyId: String, fileReference: String): Future[Option[UploadFormFields]] =
-    getFile(journeyId, fileReference).map(_.flatMap(_.uploadFields)).map { formFields =>
-      logger.debug(s"[UpscanService][getFormFieldsForFile] Form fields for journeyId: $journeyId and fileReference: $fileReference\n\n" + formFields.map("\n" + _))
-      formFields
+  def reinitialiseFileAndReturnFormFields(journeyId: String, fileReference: String): Future[Option[UploadFormFields]] =
+    getFile(journeyId, fileReference).flatMap{
+      case Some(uploadJourney) if uploadJourney.uploadFields.isDefined =>
+        logger.debug(s"[UpscanService][getFormFieldsForFile] Form fields for journeyId: $journeyId and fileReference: $fileReference\n\n" + uploadJourney.uploadFields.map("\n" + _))
+        val resetUploadJourney = uploadJourney.copy(
+          fileStatus = UploadStatusEnum.WAITING,
+          failureDetails = None,
+          lastUpdated = timeMachine.getCurrentDateTime
+        )
+        upsertFileUpload(journeyId, resetUploadJourney).map(_.uploadFields)
+      case _ => Future.successful(None)
     }
 
   def removeFile(journeyId: String, fileReference: String): Future[Boolean] =

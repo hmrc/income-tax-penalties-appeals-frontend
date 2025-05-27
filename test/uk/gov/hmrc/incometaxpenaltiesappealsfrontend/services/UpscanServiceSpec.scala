@@ -366,13 +366,21 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     }
   }
 
-  "calling .getFormFieldsForFile()" when {
+  "calling .reinitialiseFileAndReturnFormFields()" when {
 
-    "file is returned from Mongo" when {
+    "file is returned from Mongo with uploadFields" should {
+      "reinitialise the upload file and return the upload fields" in {
+        mockGetFile(testJourneyId, fileRef1)(Future.successful(Some(rejectedFile)))
+        val reinitialisedUploadFile = rejectedFile.copy(fileStatus = UploadStatusEnum.WAITING, failureDetails = None, lastUpdated = testDateTime)
+        mockUpsertFileUpload(testJourneyId, reinitialisedUploadFile)(Future.successful(cacheItem(reinitialisedUploadFile)))
+        await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1)) shouldBe reinitialisedUploadFile.uploadFields
+      }
+    }
 
-      "return the upload fields" in {
+    "file is returned from Mongo with no uploadFields" should {
+      "not reinitialise the upload file and return None" in {
         mockGetFile(testJourneyId, fileRef1)(Future.successful(Some(callbackModelFailed)))
-        await(testService.getFormFieldsForFile(testJourneyId, fileRef1)) shouldBe callbackModel.uploadFields
+        await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1)) shouldBe None
       }
     }
 
@@ -380,7 +388,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       "return None" in {
         mockGetFile(testJourneyId, fileRef1)(Future.successful(None))
-        await(testService.getFormFieldsForFile(testJourneyId, fileRef1)) shouldBe None
+        await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1)) shouldBe None
       }
     }
 
@@ -390,7 +398,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
         withCaptureOfLoggingFrom(logger) { logs =>
           mockGetFile(testJourneyId, fileRef1)(Future.failed(new RuntimeException("bang")))
 
-          intercept[RuntimeException](await(testService.getFormFieldsForFile(testJourneyId, fileRef1))).getMessage shouldBe "bang"
+          intercept[RuntimeException](await(testService.reinitialiseFileAndReturnFormFields(testJourneyId, fileRef1))).getMessage shouldBe "bang"
 
           logs.exists(_.getMessage.contains(s"[UpscanService][getFile] An exception of type RuntimeException occurred for journeyId: $testJourneyId, fileReference: $fileRef1")) shouldBe true
         }

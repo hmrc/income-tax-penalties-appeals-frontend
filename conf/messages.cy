@@ -458,6 +458,7 @@ checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff (
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Aros yn yr ysbyty yn annisgwyl
 checkYourAnswers.reasonableExcuse.value.other = Rheswm arall
 
+
 checkYourAnswers.crimeReported.key = A roddwyd gwybod i’r heddlu am y drosedd hon?
 checkYourAnswers.crimeReported.change.hidden = A roddwyd gwybod i’r heddlu am y drosedd hon
 
@@ -605,6 +606,7 @@ reasonableExcuses.technicalIssue = Problemau technoleg neu broblemau meddalwedd
 reasonableExcuses.unexpectedHospital = Aros yn yr ysbyty yn annisgwyl
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 reasonableExcuses.other = Rheswm arall
+
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
 reasonableExcuse.error.message = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 

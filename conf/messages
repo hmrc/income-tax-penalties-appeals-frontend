@@ -50,7 +50,7 @@ reasonableExcuses.health = Serious or life-threatening ill health
 reasonableExcuses.technicalIssue = Software or technology issues
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
-reasonableExcuses.other = The reason does not fit into any of the other categories
+reasonableExcuses.other = Other reason that is not covered by any other category
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
 reasonableExcuse.error.message = Select the reason for missing the submission deadline
 
@@ -402,7 +402,7 @@ checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill
 checkYourAnswers.reasonableExcuse.value.technicalIssue = Software or technology issues
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital stay
 checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff
-checkYourAnswers.reasonableExcuse.value.other = The reason does not fit into any of the other categories
+checkYourAnswers.reasonableExcuse.value.other = Other reason that is not covered by any other category
 
 checkYourAnswers.crimeReported.key = Has this crime been reported to the police?
 checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police

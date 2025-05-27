@@ -68,15 +68,9 @@ object ReasonableExcuse {
       if(Other.isEnabled()) {
         Seq(
           RadioItem(
-            divider = Some(messages("common.or"))
-          ),
-          RadioItem(
             id = Some(Other.toString),
             content = Text(messages("reasonableExcuses.other")),
-            value = Some(Other.toString),
-            hint = Some(Hint(
-              content = Text(messages("reasonableExcuses.other.hint"))
-            ))
+            value = Some(Other.toString)
           )
         )
       } else {

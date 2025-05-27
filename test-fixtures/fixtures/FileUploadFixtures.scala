@@ -54,6 +54,15 @@ trait FileUploadFixtures extends BaseFixtures {
     uploadFields = Some(uploadFields)
   )
 
+  val rejectedFile: UploadJourney = UploadJourney(
+    reference = fileRef1,
+    fileStatus = UploadStatusEnum.FAILED,
+    downloadUrl = None,
+    uploadDetails = None,
+    uploadFields = Some(uploadFields),
+    failureDetails = Some(FailureDetails(FailureReasonEnum.REJECTED, "error"))
+  )
+
   val callbackModel: UploadJourney = UploadJourney(
     reference = fileRef1,
     fileStatus = UploadStatusEnum.READY,
