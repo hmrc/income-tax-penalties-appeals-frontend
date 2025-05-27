@@ -29,10 +29,10 @@ object CheckYourAnswersMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val headingAndTitle = "Check your answers"
-    override val declarationH2 = "Declaration (Welsh)"
-    override val declarationP1 = "By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)"
-    override val declarationP1Review = "By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge. (Welsh)"
-    override val declarationP2 = "A false declaration can result in prosecution. (Welsh)"
+    override val headingAndTitle = "Gwiriwch eich atebion"
+    override val declarationH2 = "Datganiad"
+    override val declarationP1 = "Wrth gyflwyno’r apêl hon, rydych yn gwneud datganiad cyfreithlon bod yr wybodaeth yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a’ch cred."
+    override val declarationP1Review = "Wrth gyflwyno’r cais hwn i gael adolygiad, rydych yn gwneud datganiad cyfreithlon bod yr wybodaeth yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a’ch cred."
+    override val declarationP2 = "Gall datganiad ffug arwain at erlyniad."
   }
 }
