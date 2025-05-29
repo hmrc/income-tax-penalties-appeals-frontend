@@ -88,25 +88,25 @@ object WhenDidEventEndMessages {
 
   object Welsh extends Messages with Cy {
 
-    override val technicalIssueInvalid = "The date the software or technology issues ended must be a real date (Welsh)"
-    override val technicalIssueRequiredAll = "Tell us when the software or technology issues ended (Welsh)"
-    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues ended must include a $missing and a $missingTwo (Welsh)"
-    override def technicalIssueRequired(missing: String) = s"The date the software or technology issues ended must include a $missing (Welsh)"
-    override val technicalIssueNotInFuture = "The date the software or technology issues ended must be today or in the past (Welsh)"
+    override val technicalIssueInvalid = "Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod yn ddyddiad go iawn"
+    override val technicalIssueRequiredAll = "Rhowch wybod i ni pryd y daeth y problemau technoleg neu’r problemau meddalwedd i ben"
+    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys $missing a $missingTwo"
+    override def technicalIssueRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys $missing"
+    override val technicalIssueNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod heddiw neu yn y gorffennol"
     override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later (Welsh)"
 
-    override val unexpectedHospitalInvalid = "The date that the hospital stay ended must be a real date (Welsh)"
+    override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn"
     override val unexpectedHospitalRequiredAll = "Tell us when the hospital stay ended (Welsh)"
-    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay ended must include a $missing and a $missingTwo (Welsh)"
-    override def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay ended must include a $missing (Welsh)"
-    override val unexpectedHospitalNotInFuture = "The date that the hospital stay ended must be today or in the past (Welsh)"
+    override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing a $missingTwo"
+    override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing"
+    override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol"
     override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"The date that the hospital stay ended must be $startDate or later (Welsh)"
 
-    override val cyaKeyTechnical = "When did the software or technology issues end? (Welsh)"
-    override val cyaKeyHospital = "When did the hospital stay end? (Welsh)"
+    override val cyaKeyTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben?"
+    override val cyaKeyHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?"
 
-    override val cyaHiddenTechnical = "when did the software or technology issues end (Welsh)"
-    override val cyaHiddenHospital = "when did the hospital stay end (Welsh)"
+    override val cyaHiddenTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben"
+    override val cyaHiddenHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben"
 
     override def headingAndTitle(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => "When did the software or technology issues end?"

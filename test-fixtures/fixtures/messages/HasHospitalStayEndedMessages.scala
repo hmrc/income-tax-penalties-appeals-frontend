@@ -32,11 +32,11 @@ object HasHospitalStayEndedMessages {
 
   object Welsh extends Messages with Cy {
     
-    override val headingAndTitle = "Has the hospital stay ended? (Welsh)"
-    override val errorRequired = "Tell us if the hospital stay has ended (Welsh)"
-    override val errorInvalid = "Tell us if the hospital stay has ended (Welsh)"
+    override val headingAndTitle = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
+    override val errorRequired = "Rhowch wybod i ni a yw’r arhosiad yn yr ysbyty wedi dod i ben"
+    override val errorInvalid = "Rhowch wybod i ni a yw’r arhosiad yn yr ysbyty wedi dod i ben"
 
-    override val cyaKey = "Has the hospital stay ended? (Welsh)"
-    override val cyaHidden = "has the hospital stay ended (Welsh)"
+    override val cyaKey = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
+    override val cyaHidden = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
   }
 }

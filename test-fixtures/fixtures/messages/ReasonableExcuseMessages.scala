@@ -55,19 +55,21 @@ object ReasonableExcuseMessages {
 
   object Welsh extends Messages with Cy {
     override val titleAndHeading = "What was the reason for missing the submission deadline? (Welsh)"
-    override val bereavement: String = "Bereavement (someone died) (Welsh)"
+    override val bereavement: String = "Profedigaeth (roedd rhywun wedi marw)"
     override val cessation: String = "Cessation of income source (Welsh)"
-    override val crime: String = "Crime (Welsh)"
-    override val fireOrFlood: String = "Fire or flood (Welsh)"
-    override val health: String = "Serious or life-threatening ill health (Welsh)"
-    override val technical: String = "Software or technology issues (Welsh)"
-    override val unexpectedHospital: String = "Unexpected hospital stay (Welsh)"
+    override val crime: String = "Trosedd"
+    override val fireOrFlood: String = "Tân neu lifogydd"
+    override val health: String = "Salwch difrifol neu salwch a oedd yn berygl i fywyd"
+    override val technical: String = "Problemau technoleg neu broblemau meddalwedd"
+    override val unexpectedHospital: String = "Aros yn yr ysbyty yn annisgwyl"
     override val lossOfStaff: String = "TBC lossOfStaff (Welsh)"
-    override val other: String = "Other reason that is not covered by any other category (Welsh)"
-    override val otherHint: String = "You should only choose this if the reason is not covered by any of the other options. (Welsh)"
-    override val errorRequired: String = "Select the reason for missing the submission deadline (Welsh)"
 
-    override val cyaKey = "Reason for missing the submission deadline (Welsh)"
-    override val cyaHidden = "reason for missing the submission deadline (Welsh)"
+    override val other: String = "Rheswm arall"
+
+    override val otherHint: String = "You should only choose this if the reason is not covered by any of the other options. (Welsh)"
+    override val errorRequired: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+
+    override val cyaKey = "Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+    override val cyaHidden = "Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
   }
 }

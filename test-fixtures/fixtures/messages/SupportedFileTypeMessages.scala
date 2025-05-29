@@ -31,12 +31,12 @@ object SupportedFileTypeMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val summaryHeading = "Types of file you can upload (Welsh)"
-    override val p1 = "These file types are allowed: (Welsh)"
-    override val bullet1 = "image (.jpg, .jpeg, .png or .tiff) (Welsh)"
-    override val bullet2 = "PDF (.pdf) (Welsh)"
-    override val bullet3 = "email (.txt or .msg) (Welsh)"
-    override val bullet4 = "Microsoft (Word, Excel or PowerPoint) (Welsh)"
-    override val bullet5 = "Open Document Format (ODF) (Welsh)"
+    override val summaryHeading = "Y mathau o ffeiliau y gallwch eu huwchlwytho"
+    override val p1 = "Dyma’r ffeiliau y gallwch eu huwchlwytho:"
+    override val bullet1 = "delwedd (.jpg, .jpeg, .png or .tiff)"
+    override val bullet2 = "PDF (.pdf)"
+    override val bullet3 = "e-bost (.txt neu .msg)"
+    override val bullet4 = "Microsoft (Word, Excel neu PowerPoint)"
+    override val bullet5 = "Open Document Format (ODF)"
   }
 }

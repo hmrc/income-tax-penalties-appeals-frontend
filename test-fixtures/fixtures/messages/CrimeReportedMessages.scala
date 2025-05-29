@@ -34,7 +34,7 @@ object CrimeReportedMessages {
     override val errorRequired = "Tell us if the police have been told about the crime (Welsh)"
     override val errorInvalid = "Tell us if the police have been told about the crime (Welsh)"
 
-    override val cyaKey = "Has this crime been reported to the police? (Welsh)"
-    override val cyaHidden = "has this crime been reported to the police (Welsh)"
+    override val cyaKey = "A roddwyd gwybod i’r heddlu am y drosedd hon?"
+    override val cyaHidden = "A roddwyd gwybod i’r heddlu am y drosedd hon"
   }
 }
