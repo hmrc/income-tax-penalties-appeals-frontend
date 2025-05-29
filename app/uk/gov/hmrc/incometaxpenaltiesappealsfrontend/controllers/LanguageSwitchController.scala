@@ -20,7 +20,6 @@ import com.google.inject.Inject
 import play.api.i18n.Lang
 import play.api.mvc.ControllerComponents
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 
 class LanguageSwitchController @Inject()(
   languageUtils: LanguageUtils,
@@ -32,6 +31,5 @@ class LanguageSwitchController @Inject()(
     "cymraeg" -> Lang("cy")
   )
   
-  implicit val user: CurrentUserRequestWithAnswers[_] = null
-  override def fallbackURL: String = routes.AppealStartController.onPageLoad(user.isAgent, user.is2ndStageAppeal).url
+  override def fallbackURL: String = routes.AppealStartController.onPageLoad(isAgent = false, is2ndStageAppeal = false).url
 }

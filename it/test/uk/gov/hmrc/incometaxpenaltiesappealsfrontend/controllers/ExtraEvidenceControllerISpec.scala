@@ -136,7 +136,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
               userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, Other)).futureValue
             )
           }
-          
+
           "return an OK with a view" when {
             s"the user is an authorised AND the page has already been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" in new Setup() {
               stubAuthRequests(isAgent)
@@ -251,94 +251,75 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
       }
     }
   }
-
-
+  
   Seq(true, false).foreach { isAgent =>
-    Seq(true, false).foreach { is2ndStageAppeal =>
 
+    s"POST ${url(is2ndStageAppeal = false, isAgent = isAgent)}" when {
 
-      s"POST ${url(is2ndStageAppeal, isAgent)} with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" when {
+      "the radio option posted is valid" should {
 
-        "the radio option posted is valid" should {
+        "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
 
-          "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
+          stubAuthRequests(isAgent)
 
-            stubAuthRequests(isAgent)
+          val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> true))
 
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ExtraEvidencePage, true)).futureValue
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
 
-            val result: WSResponse = post(url(is2ndStageAppeal, isAgent))(Map(ExtraEvidenceForm.key -> true))
+          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
+        }
 
-            result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
+        "save the value to UserAnswers AND redirect the answer is 'No'" when {
 
-            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
+          "appeal is Late" should {
+
+            "redirect to the LateAppeal page" in new Setup(isLate = true) {
+
+              stubAuthRequests(isAgent)
+
+              val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> false))
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
+
+              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+            }
           }
 
-          "save the value to UserAnswers AND redirect the answer is 'No'" when {
+          "appeal is NOT Late" should {
 
-            "appeal is LATE" should {
+            "redirect to the CheckAnswers page" in new Setup() {
 
-              "redirect to the LateAppeal page" in new Setup(isLate = true) {
+              stubAuthRequests(isAgent)
 
-                stubAuthRequests(isAgent)
+              val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> false))
 
-                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)
-                  .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
-                    appealData = lateSubmissionAppealData.copy(
-                      dateCommunicationSent = timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
 
-                    ), is2ndStageAppeal = is2ndStageAppeal
-                  ))
-                  .setAnswer(ExtraEvidencePage, false)).futureValue
-
-                val result: WSResponse = post(url(is2ndStageAppeal, isAgent))(Map(ExtraEvidenceForm.key -> false))
-
-                result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
-
-                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-              }
-            }
-
-            "appeal is NOT LATE" should {
-
-              "redirect to the CheckAnswers page" in new Setup() {
-
-                stubAuthRequests(isAgent)
-
-                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ExtraEvidencePage, false)).futureValue
-
-                val result: WSResponse = post(url(is2ndStageAppeal, isAgent))(Map(ExtraEvidenceForm.key -> false))
-
-                result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
-
-                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-              }
+              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
             }
           }
         }
+      }
 
-        "the radio option is invalid" should {
+      "the radio option is invalid" should {
 
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
+        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
 
-            stubAuthRequests(isAgent)
+          stubAuthRequests(isAgent)
 
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
+          val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> ""))
+          result.status shouldBe BAD_REQUEST
 
-            val result: WSResponse = post(url(is2ndStageAppeal, isAgent))(Map(ExtraEvidenceForm.key -> ""))
-            result.status shouldBe BAD_REQUEST
+          val document: nodes.Document = Jsoup.parse(result.body)
+          document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
+          document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
 
-            val document: nodes.Document = Jsoup.parse(result.body)
-            document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
-
-            val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe ExtraEvidenceMessages.English.errorMessage(is2ndStage = is2ndStageAppeal)
-            error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
-          }
+          val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+          error1Link.text() shouldBe ExtraEvidenceMessages.English.errorRequired
+          error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
         }
       }
     }
