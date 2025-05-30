@@ -52,7 +52,7 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
             errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
           },
           _ => {
-            Future.successful(Redirect(routes.ConfirmationController.onPageLoad(isAgent = user.isAgent)))
+            Future.successful(Redirect(routes.ConfirmationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)))
           }
         ))
       }

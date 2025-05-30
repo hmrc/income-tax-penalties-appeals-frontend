@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import fixtures.messages.UploadedDocumentsSummaryMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -81,7 +82,7 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
                     items = Seq(
                       ActionItem(
                         content = Text(messagesForLanguage.change),
-                        href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent).url,
+                        href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal = false).url,
                         visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                       ).withId("changeUploadedFiles")
                     )
@@ -138,7 +139,7 @@ class UploadedDocumentsSummarySpec extends AnyWordSpec with Matchers with GuiceO
                     items = Seq(
                       ActionItem(
                         content = Text(messagesForLanguage.change),
-                        href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent).url,
+                        href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal = true).url,
                         visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                       ).withId("changeUploadedFiles")
                     )

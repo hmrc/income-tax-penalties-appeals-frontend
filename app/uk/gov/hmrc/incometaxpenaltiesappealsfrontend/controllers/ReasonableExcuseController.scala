@@ -71,7 +71,7 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
     }
 
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-      Redirect(routes.HonestyDeclarationController.onPageLoad(isAgent = user.isAgent))
+      Redirect(routes.HonestyDeclarationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
     }
   }
 }

@@ -38,7 +38,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
                                          )(implicit ec: ExecutionContext,
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       Future(Ok(whenDidEventEnd(
         form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
@@ -49,7 +49,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
   }
 
 
-  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
         formWithErrors =>
@@ -62,7 +62,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
           val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
           userAnswersService.updateAnswers(updatedAnswers).map { _ =>
             if (user.isAppealLate()) {
-              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
+              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
             } else {
               Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
             }

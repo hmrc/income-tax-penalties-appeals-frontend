@@ -56,7 +56,7 @@ class MissedDeadlineReasonFormSpec extends AnyWordSpec with should.Matchers with
               requiredError = FormError(MissedDeadlineReasonForm.key, if (isSecondStageAppeal) {
                 messagesForLanguage.errorRequiredSecondStage
               } else {
-                messagesForLanguage.errorRequired(isLPP)
+                messagesForLanguage.errorRequired(isLPP, isSecondStageAppeal)
               })
             )
           }

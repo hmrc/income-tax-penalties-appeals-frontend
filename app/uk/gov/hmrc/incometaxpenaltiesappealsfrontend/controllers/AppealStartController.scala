@@ -35,7 +35,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
     Ok(
       if(user.is2ndStageAppeal) renderReviewAppeal()
       else renderAppealStartAppeal()
@@ -45,7 +45,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
   private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
     reviewAppealStartView(
       user.isAppealLate(),
-      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent)
+      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
       else routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
     )
 
@@ -53,7 +53,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
     val redirect =
       (user.isAgent, user.isLPP, user.hasMultipleLPPs) match {
         case (true, false, _) => routes.WhoPlannedToSubmitController.onPageLoad()
-        case (_, _, true) => routes.JointAppealController.onPageLoad(isAgent = user.isAgent)
+        case (_, _, true) => routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
         case _ => routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
       }
 

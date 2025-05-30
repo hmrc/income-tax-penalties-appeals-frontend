@@ -31,7 +31,7 @@
         caption: components.PenaltyCaption
 )
 
-@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean, whoPlannedToSubmit: Option[AgentClientEnum.Value], whatCausedYouToMissDeadline: Option[AgentClientEnum.Value])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean, whoPlannedToSubmit: Option[AgentClientEnum.Value], whatCausedYouToMissDeadline: Option[AgentClientEnum.Value], is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @whoPlannedToSubmitText = {@if(whoPlannedToSubmit == Option(AgentClientEnum.client)) {clientPlanned} else {agentPlanned}}
 
@@ -63,7 +63,7 @@
         <li id="honestyDeclaration">@messages("honestyDeclaration.li.2")</li>
     </ul>
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HonestyDeclarationController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
         <div class="govuk-form-group">
         @govukButton(Button(
             content = Text(messages("common.acceptAndContinue"))

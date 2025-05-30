@@ -30,6 +30,6 @@ class LanguageSwitchController @Inject()(
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy")
   )
-
-  override def fallbackURL: String = routes.AppealStartController.onPageLoad().url
+  
+  override def fallbackURL: String = routes.AppealStartController.onPageLoad(isAgent = false, is2ndStageAppeal = false).url
 }

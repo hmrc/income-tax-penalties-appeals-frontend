@@ -25,6 +25,7 @@ import play.api.test.Helpers.LOCATION
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ControllerISpecHelper
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.UpscanStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -154,7 +155,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 calculateRuntime {
                   val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
-                  result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent).url)
+                  result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
               }
             }
@@ -182,7 +183,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 calculateRuntime {
                   val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
-                  result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent).url)
+                  result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent, is2ndStageAppeal).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
               }
             }
@@ -195,7 +196,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
               val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
               result.status shouldBe SEE_OTHER
-              result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent).url)
+              result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
             }
           }
         }

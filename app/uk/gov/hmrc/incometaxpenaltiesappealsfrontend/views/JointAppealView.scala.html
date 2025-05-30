@@ -37,10 +37,10 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal, is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @individualOrAgent = {@if(isAgent) {agent} else {individual}}
-@appealStage = {@if(isSecondStageAppeal) {.review} else {}}
+@appealStage = {@if(is2ndStageAppeal) {.review} else {}}
 
 @layout(pageTitle = Some(titleBuilder(messages("jointAppeal.headingAndTitle"), Some(form))), backLinkEnabled = true) {
 
@@ -48,7 +48,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
 
         @caption()
         @h1("jointAppeal.headingAndTitle")

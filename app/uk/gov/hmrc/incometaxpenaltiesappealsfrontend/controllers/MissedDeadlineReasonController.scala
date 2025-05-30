@@ -36,29 +36,29 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
 
-  def onPageLoad(isLPP: Boolean, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isLPP: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(missedDeadlineReason(
-      form = fillForm(MissedDeadlineReasonForm.form(isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs), MissedDeadlineReasonPage),
+      form = fillForm(MissedDeadlineReasonForm.form(isLPP, is2ndStageAppeal, user.isAppealingMultipleLPPs), MissedDeadlineReasonPage),
       isLPP = isLPP,
-      isSecondStageAppeal = user.is2ndStageAppeal,
+      isSecondStageAppeal = is2ndStageAppeal,
       isMultipleAppeal = user.isAppealingMultipleLPPs
     ))
   }
 
-  def submit(isLPP: Boolean, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    MissedDeadlineReasonForm.form(isLPP, user.is2ndStageAppeal, user.isAppealingMultipleLPPs).bindFromRequest().fold(
+  def submit(isLPP: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    MissedDeadlineReasonForm.form(isLPP, is2ndStageAppeal, user.isAppealingMultipleLPPs).bindFromRequest().fold(
 
       formWithErrors =>
         Future(BadRequest(missedDeadlineReason(
           form = formWithErrors,
           isLPP = isLPP,
-          isSecondStageAppeal = user.is2ndStageAppeal,
+          isSecondStageAppeal = is2ndStageAppeal,
           isMultipleAppeal = user.isAppealingMultipleLPPs
         ))),
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          Redirect(routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent))
+          Redirect(routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal))
         }
       }
     )

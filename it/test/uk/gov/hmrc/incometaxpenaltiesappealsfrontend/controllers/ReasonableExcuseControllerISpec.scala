@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import fixtures.messages.ReasonableExcuseMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -65,7 +66,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val result = get("/reason-for-missing-deadline")
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent = false, is2ndStageAppeal = true).url)
         }
 
         "the user is an authorised Agent" in {
@@ -74,7 +75,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val result = get("/agent-reason-for-missing-deadline", isAgent = true)
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(true).url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent = true, is2ndStageAppeal = true).url)
         }
       }
     }
@@ -171,7 +172,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Bereavement.toString))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent, is2ndStageAppeal).url)
 
         }
       }
@@ -190,7 +191,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           val result = post("/reason-for-missing-deadline")(Map(ReasonableExcusesForm.key -> Crime.toString))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent).url)
+          result.header("Location") shouldBe Some(routes.HonestyDeclarationController.onPageLoad(isAgent, is2ndStageAppeal).url)
 
           val updatedData = userAnswersRepo.getUserAnswer(existingAnswers.journeyId).futureValue.map(_.data).get
           updatedData shouldBe emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Crime).data

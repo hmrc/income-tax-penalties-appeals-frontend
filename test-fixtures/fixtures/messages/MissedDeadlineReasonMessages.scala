@@ -19,25 +19,28 @@ package fixtures.messages
 object MissedDeadlineReasonMessages {
 
   sealed trait Messages { _: i18n =>
-    def headingAndTitle(isLPP: Boolean): String = {
-      if(isLPP) "Why was the payment late?" else "Why was the submission deadline missed?"
-    }
-    def headingAndTitleSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "Why are you asking us to review this decision?" else "Why are you asking us to review this decision?"
+    def headingAndTitle(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
+      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
+      else if(is2ndStageAppeal) "Why are you asking us to review this decision?"
+      else if(isLPP) "Why was the payment late?"
+      else "Why was the submission deadline missed?"
     }
 
-    def hintText(isLPP: Boolean): String = {
-      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
+    def hintText(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
+      if(is2ndStageAppeal && isJointAppeal) "Briefly explain why you feel that the original appeal decisions were incorrect."
+      else if(is2ndStageAppeal) "Briefly explain why you feel that the original appeal decision was incorrect."
+      else if(isLPP && isJointAppeal) "We only need to know about these penalties. Any other penalties should be appealed separately."
+      else if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
       else "We only need to know about this penalty. Other penalties should be appealed separately."
     }
-    def hintTextSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "Briefly explain why you feel that the original appeal decision was incorrect."
-      else "Briefly explain why you feel that the original appeal decision was incorrect."
-    }
-    def errorRequired(isLPP: Boolean): String = {
-      if(isLPP) "You must provide some information about why the payment was late"
+
+    def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
+      if(is2ndStageAppeal && isJointAppeal && isLPP) "You must provide some information about why you are asking us to review these decisions"
+      else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision"
+      else if(isLPP) "You must provide some information about why the payment was late"
       else "You must provide some information about why the deadline was missed"
     }
+
     def errorRequiredSecondStage: String = {
       "You must provide some information about why you are asking us to review this decision"
     }
@@ -63,28 +66,28 @@ object MissedDeadlineReasonMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override def headingAndTitle(isLPP: Boolean): String = {
-      if(isLPP) "Pam oedd y taliad yn hwyr?" else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
+    override def headingAndTitle(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
+      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions? (Welsh)"
+      else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
+      else if(isLPP) "Pam oedd y taliad yn hwyr?"
+      else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     }
 
-    override def headingAndTitleSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?" else "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-    }
-
-    override def hintText(isLPP: Boolean): String = {
-      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
+    override def hintText(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
+      if(is2ndStageAppeal && isJointAppeal) "Briefly explain why you feel that the original appeal decisions were incorrect. (Welsh)"
+      else if(is2ndStageAppeal) "Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)"
+      else if(isLPP && isJointAppeal) "We only need to know about these penalties. Any other penalties should be appealed separately. (Welsh)"
+      else if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
       else "We only need to know about this penalty. Other penalties should be appealed separately. (Welsh)"
     }
 
-    override def hintTextSecondStage(isLPP: Boolean): String = {
-      if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
-      else "Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)"
-    }
-
-    override def errorRequired(isLPP: Boolean): String = {
-      if(isLPP) "You must provide some information about why the payment was late (Welsh)"
+    override def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
+      if(is2ndStageAppeal && isJointAppeal) "You must provide some information about why you are asking us to review these decisions (Welsh)"
+      else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision (Welsh)"
+      else if(isLPP) "You must provide some information about why the payment was late (Welsh)"
       else "You must provide some information about why the deadline was missed (Welsh)"
     }
+
     override def errorRequiredSecondStage: String = {
       "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn"
     }

@@ -38,35 +38,35 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(extraEvidence(
-      form = fillForm(ExtraEvidenceForm.form(user.is2ndStageAppeal), ExtraEvidencePage),
+      form = fillForm(ExtraEvidenceForm.form(is2ndStageAppeal), ExtraEvidencePage),
       isLate = user.isAppealLate(),
       isAgent = user.isAgent,
-      isSecondStageAppeal = user.is2ndStageAppeal,
+      is2ndStageAppeal = is2ndStageAppeal,
       isAppealingMultipleLPPs = user.isAppealingMultipleLPPs
     ))
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    ExtraEvidenceForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    ExtraEvidenceForm.form(is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(extraEvidence(
           form = formWithErrors,
           isLate = user.isAppealLate(),
           isAgent = user.isAgent,
-          isSecondStageAppeal = user.is2ndStageAppeal,
+          is2ndStageAppeal = is2ndStageAppeal,
           isAppealingMultipleLPPs = user.isAppealingMultipleLPPs
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
         userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
           if (value) {
-            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent)))
+            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
               if(user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
+                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
               } else {
                 Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
               }
