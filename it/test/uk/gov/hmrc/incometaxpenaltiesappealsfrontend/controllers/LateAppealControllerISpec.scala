@@ -198,7 +198,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe s"The penalties were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
-            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
+            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
@@ -294,7 +294,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe s"The appeal decisions were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
-            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
+            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )

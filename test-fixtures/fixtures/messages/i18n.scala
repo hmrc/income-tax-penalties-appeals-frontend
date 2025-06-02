@@ -28,6 +28,11 @@ sealed trait i18n {
     val message = s"Late payment penalty: $from to $to"
     if (removeNBSP) message.replace("\u00A0", " ") else message
   }
+
+  def lppCaptionMultiple(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Late payment penalties: $from to $to"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
   val serviceName = "Manage your Self Assessment"
   def titleWithSuffix(title: String): String = title + s" - Manage your Self Assessment - GOV.UK"
   val continue = "Continue"

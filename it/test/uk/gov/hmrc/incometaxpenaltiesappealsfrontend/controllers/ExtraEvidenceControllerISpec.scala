@@ -166,7 +166,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "Do you want to upload evidence to support this review? - Manage your Self Assessment - GOV.UK"
-            document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaption(
+            document.getElementById("captionSpan").text() shouldBe ExtraEvidenceMessages.English.lppCaptionMultiple(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
