@@ -115,6 +115,17 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
       dateToString(lateSubmissionAppealData.endDate)
     )
   }
+  def captionJointAppeal(isLPP: Boolean): String = if (isLPP) {
+    MissedDeadlineReasonMessages.English.lppCaptionMultiple(
+      dateToString(latePaymentAppealData.startDate),
+      dateToString(latePaymentAppealData.endDate)
+    )
+  } else {
+    MissedDeadlineReasonMessages.English.lspCaptionMultiple(
+      dateToString(lateSubmissionAppealData.startDate),
+      dateToString(lateSubmissionAppealData.endDate)
+    )
+  }
 
   //  LPP penalty type (First stage appeal/Second stage appeal  -  Single appeal/Joint appeal)
   Seq(true, false).foreach { isAgent =>
@@ -151,10 +162,12 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
               val result = get(urlLPP)
 
               val document = Jsoup.parse(result.body)
+              val whichCaption = if(isJointAppeal) captionJointAppeal(true) else caption(true)
 
               document.getServiceName.text() shouldBe "Manage your Self Assessment"
               document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)} - Manage your Self Assessment - GOV.UK"
-              document.getElementById("captionSpan").text() shouldBe caption(true)
+
+              document.getElementById("captionSpan").text() shouldBe whichCaption
 
               document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
               document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)

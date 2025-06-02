@@ -114,6 +114,17 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
         dateToString(lateSubmissionAppealData.endDate)
       )
     }
+    def captionJointAppeal(isLPP: Boolean): String = if (isLPP) {
+      ExtraEvidenceMessages.English.lppCaptionMultiple(
+        dateToString(latePaymentAppealData.startDate),
+        dateToString(latePaymentAppealData.endDate)
+      )
+    } else {
+      ExtraEvidenceMessages.English.lspCaptionMultiple(
+        dateToString(lateSubmissionAppealData.startDate),
+        dateToString(lateSubmissionAppealData.endDate)
+      )
+    }
   }
 
   def url(is2ndStageAppeal: Boolean, isAgent: Boolean): String = {
@@ -171,10 +182,11 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
                 val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
 
                 val document: nodes.Document = Jsoup.parse(result.body)
+                val whichCaption: String = if(isJointAppeal) captionJointAppeal(true) else caption(true)
 
                 document.getServiceName.text() shouldBe "Manage your Self Assessment"
                 document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
-                document.getElementById("captionSpan").text() shouldBe caption(true)
+                document.getElementById("captionSpan").text() shouldBe whichCaption
 
                 document.getH1Elements.text() shouldBe ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)
                 document.getElementById("extraEvidence-hint").text() shouldBe ExtraEvidenceMessages.English.hintText(is2ndStageAppeal, isJointAppeal)
