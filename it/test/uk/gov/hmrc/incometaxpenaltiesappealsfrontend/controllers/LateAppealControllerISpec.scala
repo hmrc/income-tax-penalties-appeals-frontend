@@ -219,7 +219,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(false)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
 
-              val result = get("/making-a-late-appeal")
+              val result = get("/making-a-late-review-request")
 
               val document = Jsoup.parse(result.body)
 
@@ -240,7 +240,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               stubAuthRequests(true)
               userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
 
-              val result = get("/agent-making-a-late-appeal", isAgent = true)
+              val result = get("/agent-making-a-late-review-request", isAgent = true)
 
               val document = Jsoup.parse(result.body)
 
@@ -264,7 +264,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithSingleLPPsSecondStage).futureValue
 
-            val result = get("/making-a-late-appeal")
+            val result = get("/making-a-late-review-request")
 
             val document = Jsoup.parse(result.body)
 
@@ -288,7 +288,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithMultipleLPPsSecondStage).futureValue
 
-            val result = get("/making-a-late-appeal")
+            val result = get("/making-a-late-review-request")
 
             val document = Jsoup.parse(result.body)
 

@@ -41,7 +41,7 @@ object UploadedDocumentsSummary extends SummaryListRowHelper {
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(user.isAgent).url,
+              href = controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(user.isAgent, user.is2ndStageAppeal).url,
               visuallyHiddenText = Some(messages(s"checkYourAnswers.uploadedDocuments.change.hidden$msgSuffix"))
             ).withId("changeUploadedFiles")
           )

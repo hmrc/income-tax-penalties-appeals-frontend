@@ -40,7 +40,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     Future(Ok(whenDidEventHappen(
       form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
       reasonableExcuse = reasonableExcuse,
@@ -48,7 +48,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
     )))
   }
 
-  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
       formWithErrors =>
         Future.successful(BadRequest(whenDidEventHappen(
@@ -67,10 +67,10 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
             case UnexpectedHospital =>
               Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
             case Other =>
-              Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent))
+              Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))
             case _ =>
               if (user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent))
+                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
               } else {
                 Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
               }

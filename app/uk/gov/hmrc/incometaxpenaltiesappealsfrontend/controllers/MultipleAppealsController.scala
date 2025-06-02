@@ -31,11 +31,11 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
                                           override val errorHandler: ErrorHandler
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
       Future(Ok(multipleAppeals(user.isAgent, isSecondStageAppeal = user.is2ndStageAppeal)))
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUser(isAgent) { implicit user  =>
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUser(isAgent) { implicit user  =>
       Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
   }
 }

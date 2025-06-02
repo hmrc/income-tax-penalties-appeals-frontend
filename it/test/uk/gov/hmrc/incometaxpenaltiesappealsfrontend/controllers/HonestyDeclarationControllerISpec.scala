@@ -26,6 +26,7 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
@@ -81,7 +82,8 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
       emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, reason._1)
 
     val userAnswersWithReason2ndStage =
-      emptyUserAnswersWithLSP2ndStage.setAnswer(ReasonableExcusePage, reason._1)
+      emptyUserAnswersWithLSP2ndStage.setAnswer(ReasonableExcusePage, Other)
+
 
     s"GET /honesty-declaration with ${reason._1}" should {
 
@@ -256,7 +258,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(false)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
 
-            val result = get("/honesty-declaration")
+            val result = get("/review-honesty-declaration")
 
             val document = Jsoup.parse(result.body)
 
@@ -275,7 +277,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
             stubAuthRequests(true)
             userAnswersRepo.upsertUserAnswer(userAnswersWithReason2ndStage).futureValue
 
-            val result = get("/agent-honesty-declaration", isAgent = true)
+            val result = get("/agent-review-honesty-declaration", isAgent = true)
 
             val document = Jsoup.parse(result.body)
 

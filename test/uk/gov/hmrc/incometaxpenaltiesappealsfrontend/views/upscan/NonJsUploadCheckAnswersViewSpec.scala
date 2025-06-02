@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForCrimeJourneyMultiple.isAgent
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForCrimeJourneyMultiple.is2ndStageAppeal
 import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -51,7 +52,7 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
         implicit val doc = asDocument(uploadCheckAnswers(
           UploadDocumentForm.form,
           UploadedFilesViewModel(Seq(callbackModel)),
-          controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent)
+          controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal)
         ))
 
         behave like pageWithExpectedElementsAndMessages(
@@ -67,7 +68,7 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
         )
 
         "have a remove link that redirects to the Remove File controller" in {
-          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent).url
+          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent, is2ndStageAppeal).url
         }
       }
 
@@ -80,7 +81,7 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
         implicit val doc = asDocument(uploadCheckAnswers(
           UploadDocumentForm.form,
           UploadedFilesViewModel(files),
-          controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent)
+          controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal)
         ))
 
         behave like pageWithExpectedElementsAndMessages(
@@ -104,7 +105,7 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
         )
 
         "have a remove link that redirects to the Remove File controller" in {
-          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent).url
+          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent, is2ndStageAppeal).url
         }
       }
     }
