@@ -37,30 +37,30 @@
 @(form: Form[_],
         isLate: Boolean,
         isAgent: Boolean,
-        isSecondStageAppeal: Boolean,
+        is2ndStageAppeal: Boolean,
         isAppealingMultipleLPPs: Boolean
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(pageTitle = Some(titleBuilder(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}"), Some(form))), backLinkEnabled = true) {
+@layout(pageTitle = Some(titleBuilder(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, is2ndStageAppeal)}"), Some(form))), backLinkEnabled = true) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
 
         @caption()
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
                 legend = Some(Legend(
-                    content = Text(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}")),
+                    content = Text(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, is2ndStageAppeal)}")),
                     classes = "govuk-fieldset__legend--l",
                     isPageHeading = true
                 ))
             )),
             name = ExtraEvidenceForm.key,
-            hint = Some(Hint(content = Text(messages(s"extraEvidence.hint${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}")))),
+            hint = Some(Hint(content = Text(messages(s"extraEvidence.hint${messageKeyPrefix(isAppealingMultipleLPPs, is2ndStageAppeal)}")))),
             items = YesNoRadioHelper.radios(),
             classes = "govuk-radios--inline"
         ).withFormField(form(ExtraEvidenceForm.key)))

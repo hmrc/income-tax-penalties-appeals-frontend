@@ -44,7 +44,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit(isAgent = user.isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)) {
 
         @caption()
 

@@ -38,17 +38,17 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
                                              override val controllerComponents: MessagesControllerComponents
                                             )(implicit ec: ExecutionContext, appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withNonEmptyReadyFiles { files =>
       Ok(nonJsCheckAnswers(
         UploadAnotherFileForm.form(),
         UploadedFilesViewModel(files),
-        routes.UpscanCheckAnswersController.onSubmit(isAgent = user.isAgent)
+        routes.UpscanCheckAnswersController.onSubmit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
       ))
     }
   }
 
-  def onSubmit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onSubmit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withNonEmptyReadyFiles { files =>
       if (files.size < appConfig.upscanMaxNumberOfFiles) {
         UploadAnotherFileForm.form().bindFromRequest().fold(
@@ -56,7 +56,7 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
             BadRequest(nonJsCheckAnswers(
               formWithErrors,
               UploadedFilesViewModel(files),
-              routes.UpscanCheckAnswersController.onSubmit(isAgent = user.isAgent)
+              routes.UpscanCheckAnswersController.onSubmit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
             )),
           onwardRoute(_)
         )
@@ -68,10 +68,10 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
 
   private def onwardRoute(uploadFile: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): Result =
     if(uploadFile) {
-      Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent))
+      Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
     } else {
       if (user.isAppealLate()) {
-        Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent))
+        Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
       } else {
         Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
       }
@@ -83,6 +83,6 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
       case files if files.nonEmpty =>
         f(files)
       case _ =>
-        Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent))
+        Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
     }
 }

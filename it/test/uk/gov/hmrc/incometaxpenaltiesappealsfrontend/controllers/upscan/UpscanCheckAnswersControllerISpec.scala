@@ -27,6 +27,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
@@ -104,7 +105,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent).url
+            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal).url
             document.select(BaseSelectors.legend).text() shouldBe NonJsUploadCheckAnswersMessages.English.uploadAnotherFileLegend
             document.select(BaseSelectors.radio(1)).text() shouldBe NonJsUploadCheckAnswersMessages.English.yes
             document.select(BaseSelectors.radio(2)).text() shouldBe NonJsUploadCheckAnswersMessages.English.no
@@ -124,7 +125,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
             result.status shouldBe OK
 
             val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent).url
+            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal).url
             document.select(BaseSelectors.legend).isEmpty shouldBe true
             document.select(BaseSelectors.radio(1)).isEmpty shouldBe true
             document.select(BaseSelectors.radio(2)).isEmpty shouldBe true
@@ -148,7 +149,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               )
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.UpscanInitiateController.onPageLoad(isAgent = isAgent).url)
+              result.header("Location") shouldBe Some(routes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
             }
           }
 
@@ -166,7 +167,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 )
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent).url)
+                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
               }
             }
 
@@ -202,7 +203,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               val result = post(url, isAgent = isAgent)(Map.empty[String, String])
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent).url)
+              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
             }
           }
 

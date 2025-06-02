@@ -64,7 +64,7 @@ class InitialisationControllerISpec extends ControllerISpecHelper
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false&is2ndStageAppeal=false")
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad(isAgent = false, is2ndStageAppeal = false).url)
           SessionCookieCrumbler.getSessionMap(result).get(IncomeTaxSessionKeys.journeyId) shouldBe Some(testJourneyId)
 
           userAnswers.getUserAnswer(testJourneyId).futureValue shouldBe Some(UserAnswers(
@@ -95,7 +95,7 @@ class InitialisationControllerISpec extends ControllerISpecHelper
           val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLPP.penaltyNumber}&isLPP=true&isAdditional=false&is2ndStageAppeal=true", isAgent = true)
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad().url)
+          result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad(isAgent = true, is2ndStageAppeal = true).url)
           SessionCookieCrumbler.getSessionMap(result).get(IncomeTaxSessionKeys.journeyId) shouldBe Some(testJourneyId)
 
           userAnswers.getUserAnswer(testJourneyId).futureValue shouldBe Some(UserAnswers(
