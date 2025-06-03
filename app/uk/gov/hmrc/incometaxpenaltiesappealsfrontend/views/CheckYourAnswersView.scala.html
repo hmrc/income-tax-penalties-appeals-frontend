@@ -59,7 +59,8 @@
 
             <div class="govuk-form-group">
             @govukButton(Button(
-                content = Text(messages("checkYourAnswers.acceptAndSend"))
+                content = Text(messages("checkYourAnswers.acceptAndSend")),
+                preventDoubleClick = Some(true)
             ))
             </div>
         }
