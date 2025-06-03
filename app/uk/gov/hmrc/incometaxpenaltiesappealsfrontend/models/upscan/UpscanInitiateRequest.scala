@@ -33,7 +33,7 @@ object UpscanInitiateRequest {
 
   def apply(journeyId: String, appConfig: AppConfig, isAgent: Boolean, is2ndStageAppeal: Boolean): UpscanInitiateRequest = UpscanInitiateRequest(
     callbackUrl     = appConfig.upscanCallbackBaseUrl + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
-    successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
+    successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent).url.replace("?key=", "")),
     errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url),
     minimumFileSize = Some(appConfig.upscanMinFileSize),
     maximumFileSize = Some(appConfig.upscanMaxFileSize)

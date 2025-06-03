@@ -73,7 +73,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
   }
 
 
-  def onSubmitSuccessRedirect(key: String): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def onSubmitSuccessRedirect(key: String, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     waitForUpscanResponse(user.isAgent, user.is2ndStageAppeal, user.journeyId, key) { uploadJourney =>
       (uploadJourney.fileStatus, uploadJourney.failureDetails) match {
         case (READY, _) =>
