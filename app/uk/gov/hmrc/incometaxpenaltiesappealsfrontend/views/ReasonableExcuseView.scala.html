@@ -34,7 +34,15 @@
 
 @standardOrAgent = {@if(isAgent){agent} else {standard}}
 
-@layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+
+@headingKey = @{
+    if(request.isLPP) "reasonableExcuses.headingAndTitlePayments"
+    else "reasonableExcuses.headingAndTitleSubmissions"
+}
+
+
+
+@layout(Some(titleBuilder(messages(headingKey), Some(form))), backLinkEnabled = true) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -47,7 +55,7 @@
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
                 legend = Some(Legend(
-                    content = Text(messages("reasonableExcuses.headingAndTitle")),
+                    content = Text(messages(headingKey)),
                     classes = "govuk-fieldset__legend--l",
                     isPageHeading = true
                 ))
