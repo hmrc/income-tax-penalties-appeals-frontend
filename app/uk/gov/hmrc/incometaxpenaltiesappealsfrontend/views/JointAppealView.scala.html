@@ -50,7 +50,7 @@
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
 
-        @caption()
+        @caption(isJointAppeal = true)
         @h1("jointAppeal.headingAndTitle")
         @p("jointAppeal.p1", elmId = Some("paragraph1"))
         @bullets(

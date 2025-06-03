@@ -19,7 +19,7 @@
 
 @this()
 
-@(confirmationBox: Boolean = false)(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
+@(confirmationBox: Boolean = false, isJointAppeal: Boolean = false)(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
 
 @captionKey(isLPP: Boolean, isJoint: Boolean) = @{
     if(isJoint) {
@@ -29,13 +29,15 @@
     }
 }
 
-@defining(captionKey(user.isLPP, user.isJointAppeal)) { messageKey =>
-    @if(confirmationBox) {
-        @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
-    } else {
-        <span class="govuk-caption-l" id="captionSpan">
-        @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
-        </span>
+@defining(if(isJointAppeal) true else user.isJointAppeal) { jointAppeal =>
+    @defining(captionKey(user.isLPP,jointAppeal)) { messageKey =>
+        @if(confirmationBox) {
+            @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+        } else {
+            <span class="govuk-caption-l" id="captionSpan">
+            @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+            </span>
+        }
     }
 }
 
