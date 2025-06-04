@@ -40,7 +40,7 @@ class InitialisationController @Inject()(val authActions: AuthActions,
                                          uuid: UUIDGenerator
                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.authoriseAndRetrieve.async { implicit user =>
+  def onPageLoad(penaltyId: String, isAgent: Boolean, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUser(isAgent).async { implicit user =>
     for {
       appealData <- appealService.validatePenaltyIdForEnrolmentKey(penaltyId, isLPP, isAdditional, user.nino)
       multiPenaltyData <- if (isLPP) appealService.validateMultiplePenaltyDataForEnrolmentKey(penaltyId, user.nino) else Future.successful(None)

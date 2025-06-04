@@ -13,7 +13,7 @@ GET        /language/:lang                  uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /appeal-start                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
 GET        /agent-appeal-start              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
 
-GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean ?= false)
+GET        /initialise-appeal               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.InitialisationController.onPageLoad(penaltyId: String, isAgent: Boolean, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean ?= false)
 
 # Initialise appeal and start page - Second Stage Appeal
 GET        /review-start                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)

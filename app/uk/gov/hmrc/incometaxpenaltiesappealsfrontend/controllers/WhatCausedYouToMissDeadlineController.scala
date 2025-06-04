@@ -45,7 +45,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
   }
 
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers().async { implicit user =>
     WhatCausedYouToMissDeadlineForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(whatCausedYouToMissTheDeadline(

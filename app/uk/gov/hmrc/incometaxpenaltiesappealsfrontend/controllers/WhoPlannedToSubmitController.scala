@@ -46,7 +46,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
   }
 
 
-  def submit(): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers().async { implicit user =>
+  def submit(): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers().async { implicit user =>
     WhoPlannedToSubmitForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(whoPlannedToSubmit(

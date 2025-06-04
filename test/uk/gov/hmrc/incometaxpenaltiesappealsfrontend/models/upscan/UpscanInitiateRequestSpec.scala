@@ -37,7 +37,7 @@ class UpscanInitiateRequestSpec extends AnyWordSpec with Matchers with GuiceOneA
       val actualModel = UpscanInitiateRequest(testJourneyId, appConfig, isAgent, is2ndStageAppeal)
       val expectedModel = UpscanInitiateRequest(
         callbackUrl     = "http://localhost:9188" + internalRoutes.UpscanCallbackController.callbackFromUpscan(testJourneyId).url,
-        successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("").url.replace("?key=", "")),
+        successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent).url.replace("?key=", "")),
         errorRedirect   = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url),
         minimumFileSize = Some(1),
         maximumFileSize = Some(10485760)

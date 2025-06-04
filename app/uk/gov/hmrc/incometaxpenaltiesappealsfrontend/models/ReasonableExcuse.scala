@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 import play.api.i18n.Messages
 import play.api.libs.json.{JsString, Reads, Writes}
 import play.api.mvc.JavascriptLiteral
-import uk.gov.hmrc.govukfrontend.views.Aliases.{Hint, RadioItem, Text}
+import uk.gov.hmrc.govukfrontend.views.Aliases.{RadioItem, Text}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.ReasonableExcusesEnabled
 
