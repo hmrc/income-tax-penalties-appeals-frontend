@@ -35,7 +35,7 @@
 @standardOrAgent = {@if(isAgent){agent} else {standard}}
 
 @layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"), Some(form))), backLinkEnabled = true) {
-    
+
     @if(form.errors.nonEmpty) {
         @defining(form.errors.groupBy(_.key).values.flatMap(_.headOption).map { error =>
             ErrorLink(

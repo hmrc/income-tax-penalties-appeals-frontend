@@ -216,7 +216,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
         error1Link.text() shouldBe ReasonableExcuseMessages.English.errorRequired
-        error1Link.attr("href") shouldBe s"#${ReasonableExcusesForm.key}"
+        error1Link.attr("href") shouldBe s"#bereavement"
       }
     }
   }
