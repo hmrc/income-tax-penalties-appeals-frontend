@@ -35,9 +35,19 @@
 @standardOrAgent = {@if(isAgent){agent} else {standard}}
 
 @layout(Some(titleBuilder(messages("reasonableExcuses.headingAndTitle"), Some(form))), backLinkEnabled = true) {
-
+    
     @if(form.errors.nonEmpty) {
-        @govukErrorSummary(ErrorSummaryViewModel(form))
+        @defining(form.errors.groupBy(_.key).values.flatMap(_.headOption).map { error =>
+            ErrorLink(
+                href = Some("#bereavement"),
+                content = Text(messages(error.message, error.args:_*))
+            )
+        }) { errorLinks =>
+            @govukErrorSummary(new uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorSummary(
+                errorList = errorLinks.toSeq,
+                title = Text(messages("error.summary.title"))
+            ))
+        }
     }
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.submit(isAgent = isAgent)) {
