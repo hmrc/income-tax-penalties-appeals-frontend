@@ -9,6 +9,10 @@ phaseBanner.linkText = feedback
 
 service.lsp.caption = Late submission penalty point: {0} to {1}
 service.lpp.caption = Late payment penalty: {0} to {1}
+
+service.lpp.caption.first = First late payment penalty: {0} to {1}
+service.lpp.caption.second = Second late payment penalty: {0} to {1}
+
 service.lsp.multiple.caption = Late submission penalties: {0} to {1}
 service.lpp.multiple.caption = Late payment penalties: {0} to {1}
 

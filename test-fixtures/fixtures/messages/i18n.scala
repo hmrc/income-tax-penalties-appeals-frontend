@@ -25,7 +25,7 @@ sealed trait i18n {
     if (removeNBSP) message.replace("\u00A0", " ") else message
   }
   def lppCaption(from: String, to: String, removeNBSP: Boolean = true): String = {
-    val message = s"Late payment penalty: $from to $to"
+    val message = s"First late payment penalty: $from to $to"
     if (removeNBSP) message.replace("\u00A0", " ") else message
   }
 
