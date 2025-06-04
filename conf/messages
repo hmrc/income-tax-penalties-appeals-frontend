@@ -55,7 +55,7 @@ reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
-reasonableExcuse.error.message = Select the reason for missing the submission deadline
+reasonableExcuse.error.message = Select the reason for missing the deadline
 
 
 # Joint appeal LPP

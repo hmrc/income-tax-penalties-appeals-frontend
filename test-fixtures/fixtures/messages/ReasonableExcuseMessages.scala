@@ -33,7 +33,7 @@ object ReasonableExcuseMessages {
     val lossOfStaff: String = "TBC lossOfStaff"
     val other: String = "Other reason that is not covered by any other category"
     val otherHint: String = "You should only choose this if the reason is not covered by any of the other options."
-    val errorRequired: String = "Select the reason for missing the submission deadline"
+    val errorRequired: String = "Select the reason for missing the deadline"
 
     val cyaKey = "Reason for missing the submission deadline"
     def cyaValue(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
