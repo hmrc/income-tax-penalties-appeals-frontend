@@ -88,14 +88,14 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
   def getUrl(isLpp: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean): String = {
     isLpp match {
-      case true if is2ndStageAppeal && isAgent => "/agent-why-are-you-asking-for-review-lpp-temp"
-      case true if is2ndStageAppeal && !isAgent => "/why-are-you-asking-for-review-lpp-temp"
+      case true if is2ndStageAppeal && isAgent => "/agent-why-are-you-asking-for-review-lpp"
+      case true if is2ndStageAppeal && !isAgent => "/why-are-you-asking-for-review-lpp"
 
       case true if !is2ndStageAppeal && isAgent => "/agent-why-was-the-payment-late"
       case true if !is2ndStageAppeal && !isAgent => "/why-was-the-payment-late"
 
-      case false if is2ndStageAppeal && isAgent => "/agent-why-are-you-asking-for-review-lsp-temp "
-      case false if is2ndStageAppeal && !isAgent => "/why-are-you-asking-for-review-lsp-temp "
+      case false if is2ndStageAppeal && isAgent => "/agent-why-are-you-asking-for-review-lsp"
+      case false if is2ndStageAppeal && !isAgent => "/why-are-you-asking-for-review-lsp"
 
       case false if !is2ndStageAppeal && isAgent => "/agent-why-was-the-submission-late"
       case false if !is2ndStageAppeal && !isAgent => "/why-was-the-submission-late"
