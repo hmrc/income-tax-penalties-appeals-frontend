@@ -120,7 +120,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
             document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
-            document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+            document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
@@ -147,7 +147,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
             document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
-            document.getElementById("captionSpan").text() shouldBe English.lppCaption(
+            document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
