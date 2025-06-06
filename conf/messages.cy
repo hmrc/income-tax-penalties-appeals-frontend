@@ -594,7 +594,8 @@ common.change = Newid
 
 # Reasonable excuse
 # ----------------------------------------------------------
-reasonableExcuses.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
+reasonableExcuses.headingAndTitleSubmissions = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
+reasonableExcuses.headingAndTitlePayments = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 reasonableExcuses.hintText.standard = Os oes mwy nag un rheswm, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar eich gallu i fodloni’r dyddiad cau.
 reasonableExcuses.hintText.agent = Os oes mwy nag un rheswm, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar allu eich cleient i fodloni’r dyddiad cau.
 reasonableExcuses.bereavement = Profedigaeth (roedd rhywun wedi marw)

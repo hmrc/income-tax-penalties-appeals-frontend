@@ -19,17 +19,32 @@
 
 @this()
 
-@(confirmationBox: Boolean = false)(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
+@(confirmationBox: Boolean = false, isJointAppeal: Boolean = false)(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
 
-
-@if(confirmationBox) {
-    @defining(if(user.isLPP) "service.lpp.caption" else "service.lsp.caption") { messageKey =>
-        @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+@captionKey(isLPP: Boolean, isSecondLPP:Boolean, isJoint: Boolean) = @{
+    if(isJoint) {
+        if(isLPP) "service.lpp.multiple.caption" else "service.lsp.multiple.caption"
+    } else {
+        if(isSecondLPP) "service.lpp.caption.second" else if(isLPP) "service.lpp.caption.first" else "service.lsp.caption"
     }
-} else {
-    <span class="govuk-caption-l" id="captionSpan">
-        @defining(if(user.isLPP) "service.lpp.caption" else "service.lsp.caption") { messageKey =>
-            @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
-        }
-    </span>
+
 }
+
+@defining(if(isJointAppeal) true else user.isJointAppeal) { jointAppeal =>
+    @defining(captionKey(user.isLPP,user.isLPP2,jointAppeal)) { messageKey =>
+        @if(confirmationBox) {
+            @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+        } else {
+            <span class="govuk-caption-l" id="captionSpan">
+            @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+            </span>
+        }
+    }
+}
+
+
+
+
+
+
+

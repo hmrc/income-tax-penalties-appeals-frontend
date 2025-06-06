@@ -20,13 +20,14 @@
 
 @this(
         layout: Layout,
-        caption: components.PenaltyCaption,
+        caption: components.AppealStartCaption,
         p: components.P,
         h1: components.H1,
         h2: components.H2,
         link: components.Link
 )
 @(isLate: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+
 
 @layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false) {
 

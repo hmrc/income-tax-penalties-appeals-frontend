@@ -1,0 +1,44 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter._
+
+@this()
+
+@(confirmationBox: Boolean = false)(implicit messages: Messages, user: CurrentUserRequestWithAnswers[_])
+
+@captionKey(isLPP: Boolean) = @{
+    if(isLPP) "service.lpp.caption" else "service.lsp.caption"
+}
+
+@defining(captionKey(user.isLPP)) { messageKey =>
+    @if(confirmationBox) {
+        @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+    } else {
+        <span class="govuk-caption-l" id="captionSpan">
+        @messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
+        </span>
+    }
+}
+
+
+
+
+
+
+
+
