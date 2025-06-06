@@ -139,7 +139,9 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
         }
       }
 
-      s"GET /upload-evidence/success-redirect" when {
+      val successRedirectPath = if(isAgent) "/upload-evidence/agent-success-redirect" else "/upload-evidence/success-redirect"
+
+      s"GET $successRedirectPath" when {
 
         "the callback from upscan is received with a key (fileReference)" when {
 
@@ -153,7 +155,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
                 calculateRuntime {
-                  val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+                  val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
                   result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
@@ -168,7 +170,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
                 calculateRuntime {
-                  val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+                  val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe NOT_IMPLEMENTED
                 }.shouldTakeAtLeast(appConfig.upscanTimeout)
               }
@@ -181,7 +183,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelFailed).futureValue
 
                 calculateRuntime {
-                  val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+                  val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
                   result.status shouldBe SEE_OTHER
                   result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent, is2ndStageAppeal).url)
                 }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
@@ -194,7 +196,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
             "redirect to the initiate upload page with the errorCode set to 'UnableToUpload'" in {
               stubAuthRequests(isAgent)
 
-              val result = get(s"/upload-evidence/success-redirect?key=$fileRef1", isAgent = isAgent)
+              val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
               result.status shouldBe SEE_OTHER
               result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
             }

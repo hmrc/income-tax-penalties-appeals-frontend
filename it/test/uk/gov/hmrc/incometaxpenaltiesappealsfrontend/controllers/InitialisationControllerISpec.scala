@@ -53,89 +53,53 @@ class InitialisationControllerISpec extends ControllerISpecHelper
     super.beforeEach()
   }
 
-  "GET /initialise-appeal" when {
-    "penalty appeal data is successfully returned from penalties BE" when {
-      "initialise the UserAnswers and redirect to the /appeal-start page, adding the journeyId to session" when {
-        "the user is an authorised individual (is2ndStageAppeal==false)" in {
+  List(true, false).foreach { isAgent =>
 
-          stubAuthRequests(false)
-          successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testNino)
+    s"GET /initialise-appeal (isAgent = $isAgent)" when {
+      "penalty appeal data is successfully returned from penalties BE" when {
+        "initialise the UserAnswers and redirect to the /appeal-start page, adding the journeyId to session" when {
+          "the user is authorised (is2ndStageAppeal==false)" in {
 
-          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false&is2ndStageAppeal=false")
+            stubAuthRequests(isAgent)
+            successfulGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testNino)
 
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad(isAgent = false, is2ndStageAppeal = false).url)
-          SessionCookieCrumbler.getSessionMap(result).get(IncomeTaxSessionKeys.journeyId) shouldBe Some(testJourneyId)
+            val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isAgent=$isAgent&isLPP=false&isAdditional=false&is2ndStageAppeal=false")
 
-          userAnswers.getUserAnswer(testJourneyId).futureValue shouldBe Some(UserAnswers(
-            journeyId = testJourneyId,
-            data = Json.obj(
-              IncomeTaxSessionKeys.penaltyData -> Json.obj(
-                "penaltyNumber" -> penaltyDataLSP.penaltyNumber,
-                "is2ndStageAppeal" -> false,
-                "appealData" -> Json.obj(
-                  "type" -> PenaltyTypeEnum.Late_Submission,
-                  "startDate" -> LocalDate.of(2020, 1, 1),
-                  "endDate" -> LocalDate.of(2020, 1, 31),
-                  "dueDate" -> LocalDate.of(2020, 3, 7),
-                  "dateCommunicationSent" -> LocalDate.of(2020, 3, 8)
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = false).url)
+            SessionCookieCrumbler.getSessionMap(result).get(IncomeTaxSessionKeys.journeyId) shouldBe Some(testJourneyId)
+
+            userAnswers.getUserAnswer(testJourneyId).futureValue shouldBe Some(UserAnswers(
+              journeyId = testJourneyId,
+              data = Json.obj(
+                IncomeTaxSessionKeys.penaltyData -> Json.obj(
+                  "penaltyNumber" -> penaltyDataLSP.penaltyNumber,
+                  "is2ndStageAppeal" -> false,
+                  "appealData" -> Json.obj(
+                    "type" -> PenaltyTypeEnum.Late_Submission,
+                    "startDate" -> LocalDate.of(2020, 1, 1),
+                    "endDate" -> LocalDate.of(2020, 1, 31),
+                    "dueDate" -> LocalDate.of(2020, 3, 7),
+                    "dateCommunicationSent" -> LocalDate.of(2020, 3, 8)
+                  )
                 )
-              )
-            ),
-            lastUpdated = testDateTime.toInstant(ZoneOffset.UTC)
-          ))
-        }
-
-        "the user is an authorised agent (and LPP with multiple) (is2ndStageAppeal==true)" in {
-
-          stubAuthRequests(true)
-          successfulGetAppealDataResponse(penaltyDataLPP.penaltyNumber, testNino, isLPP = true)
-          successfulGetMultiplePenalties(penaltyDataLPP.penaltyNumber, testNino)
-
-          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLPP.penaltyNumber}&isLPP=true&isAdditional=false&is2ndStageAppeal=true", isAgent = true)
-
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad(isAgent = true, is2ndStageAppeal = true).url)
-          SessionCookieCrumbler.getSessionMap(result).get(IncomeTaxSessionKeys.journeyId) shouldBe Some(testJourneyId)
-
-          userAnswers.getUserAnswer(testJourneyId).futureValue shouldBe Some(UserAnswers(
-            journeyId = testJourneyId,
-            data = Json.obj(
-              IncomeTaxSessionKeys.penaltyData -> Json.obj(
-                "penaltyNumber" -> penaltyDataLPP.penaltyNumber,
-                "is2ndStageAppeal" -> true,
-                "appealData" -> Json.obj(
-                  "type" -> PenaltyTypeEnum.Late_Payment,
-                  "startDate" -> LocalDate.of(2020, 1, 1),
-                  "endDate" -> LocalDate.of(2020, 1, 31),
-                  "dueDate" -> LocalDate.of(2020, 3, 7),
-                  "dateCommunicationSent" -> LocalDate.of(2020, 3, 8)
-                ),
-                "multiplePenaltiesData" -> Json.obj(
-                  "firstPenaltyChargeReference" -> "123456789",
-                  "firstPenaltyAmount" -> 101.01,
-                  "secondPenaltyChargeReference" -> "123456790",
-                  "secondPenaltyAmount" -> 1.02,
-                  "firstPenaltyCommunicationDate" -> "2023-04-06",
-                  "secondPenaltyCommunicationDate" -> "2023-04-07"
-                )
-              )
-            ),
-            lastUpdated = testDateTime.toInstant(ZoneOffset.UTC)
-          ))
+              ),
+              lastUpdated = testDateTime.toInstant(ZoneOffset.UTC)
+            ))
+          }
         }
       }
-    }
 
-    "penalty appeal data fails to be returned from penalties BE" should {
-      "render an ISE" in {
+      "penalty appeal data fails to be returned from penalties BE" should {
+        "render an ISE" in {
 
-        stubAuthRequests(false)
-        failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testNino)
+          stubAuthRequests(isAgent)
+          failedGetAppealDataResponse(penaltyDataLSP.penaltyNumber, testNino)
 
-        val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isLPP=false&isAdditional=false")
+          val result = get(s"/initialise-appeal?penaltyId=${penaltyDataLSP.penaltyNumber}&isAgent=$isAgent&isLPP=false&isAdditional=false")
 
-        result.status shouldBe INTERNAL_SERVER_ERROR
+          result.status shouldBe INTERNAL_SERVER_ERROR
+        }
       }
     }
   }

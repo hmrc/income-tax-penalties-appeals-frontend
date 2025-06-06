@@ -22,8 +22,7 @@ import uk.gov.hmrc.auth.core.{AuthConnector, AuthorisedFunctions}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
 
 @Singleton
-class AuthActions @Inject()(val authoriseAndRetrieve: AuthoriseAndRetrieve,
-                            val authoriseAndRetrieveMTDIndividual: AuthoriseAndRetrieveMTDIndividual,
+class AuthActions @Inject()(val authoriseAndRetrieveMTDIndividual: AuthoriseAndRetrieveMTDIndividual,
                             val authoriseAndRetrieveAgent: AuthoriseAndRetrieveAgent,
                             val withAgentClientData: RetrieveClientData,
                             val authoriseAndRetrieveMtdAgent: AuthoriseAndRetrieveMtdAgent,
@@ -40,25 +39,14 @@ class AuthActions @Inject()(val authoriseAndRetrieve: AuthoriseAndRetrieve,
     authoriseAndRetrieveAgent andThen withAgentClientData andThen authoriseAndRetrieveMtdAgent
   }
 
-  def asMTDUserOld(): ActionBuilder[CurrentUserRequest, AnyContent] = {
-    authoriseAndRetrieve andThen navBarRetrievalAction
-  }
-
   def asMTDUser(isAgent: Boolean): ActionBuilder[CurrentUserRequest, AnyContent] = {
     if(isAgent) asMTDAgent() else asMTDIndividual()
-  }
-
-  def asMTDIndividualWithUserAnswers(): ActionFunction[Request, CurrentUserRequestWithAnswers] = {
-    asMTDIndividual() andThen userAnswersAction
   }
 
   def asMTDAgentWithUserAnswers(): ActionBuilder[CurrentUserRequestWithAnswers, AnyContent] = {
     asMTDAgent() andThen userAnswersAction
   }
 
-  def asMTDUserOldWithUserAnswers(): ActionBuilder[CurrentUserRequestWithAnswers, AnyContent] = {
-    asMTDUserOld() andThen userAnswersAction
-  }
   def asMTDUserWithUserAnswers(isAgent: Boolean): ActionBuilder[CurrentUserRequestWithAnswers, AnyContent] = {
     asMTDUser(isAgent) andThen userAnswersAction
   }

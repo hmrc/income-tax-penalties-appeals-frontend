@@ -35,7 +35,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FrontendBaseController with I18nSupport with FeatureSwitching {
 
-  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserOldWithUserAnswers() { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(
       if(user.is2ndStageAppeal) renderReviewAppeal()
       else renderAppealStartAppeal()

@@ -45,7 +45,7 @@
 @layout(Some(titleBuilder(messages(headingKey), Some(form))), backLinkEnabled = true) {
 
     @if(form.errors.nonEmpty) {
-        @govukErrorSummary(ErrorSummaryViewModel(form))
+        @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("reasonableExcuse" -> "bereavement")))
     }
 
     @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.submit(isAgent = isAgent)) {
