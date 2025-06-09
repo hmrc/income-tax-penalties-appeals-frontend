@@ -10,6 +10,12 @@ phaseBanner.linkText = feedback
 service.lsp.caption = Late submission penalty point: {0} to {1}
 service.lpp.caption = Late payment penalty: {0} to {1}
 
+service.lpp.caption.first = First late payment penalty: {0} to {1}
+service.lpp.caption.second = Second late payment penalty: {0} to {1}
+
+service.lsp.multiple.caption = Late submission penalties: {0} to {1}
+service.lpp.multiple.caption = Late payment penalties: {0} to {1}
+
 # Appeal Start page
 # ----------------------------------------------------------
 appeal.start.header = Appeal a Self Assessment penalty
@@ -39,7 +45,8 @@ reviewAppeal.start.p3.bullet2 = details of why you did not ask for a review soon
 
 # Reasonable excuse
 # ----------------------------------------------------------
-reasonableExcuses.headingAndTitle = What was the reason for missing the submission deadline?
+reasonableExcuses.headingAndTitleSubmissions = What was the reason for missing the submission deadline?
+reasonableExcuses.headingAndTitlePayments = What was the reason for missing the payment deadline?
 reasonableExcuses.hintText.standard = If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline.
 reasonableExcuses.hintText.agent = If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline.
 reasonableExcuses.bereavement = Bereavement (someone died)
@@ -52,7 +59,7 @@ reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
-reasonableExcuse.error.message = Select the reason for missing the submission deadline
+reasonableExcuse.error.message = Select the reason for missing the deadline
 
 
 # Joint appeal LPP
