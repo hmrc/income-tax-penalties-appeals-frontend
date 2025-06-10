@@ -54,6 +54,7 @@
                 name = MissedDeadlineReasonForm.key,
                 maxLength = Some(appConfig.numberOfCharsInTextArea),
                 label = Label(
+                    isPageHeading = true,
                     content = Text(messages(s"${messageKeyPrefix(isLPP)}$prefix.headingAndTitle$multipleAppeal")),
                     classes = "govuk-label govuk-label--l"
                 ),
