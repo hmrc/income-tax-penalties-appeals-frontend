@@ -24,7 +24,7 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class FeatureSwitchProviderConfig @Inject()(appConfig: AppConfig) {
 
-  lazy val selfFeatureSwitchUrl = s"${appConfig.selfUrl}/view-or-appeal-penalty/self-assessment/test-only/api/feature-switches"
+  lazy val selfFeatureSwitchUrl = s"${appConfig.selfUrl}/appeal-penalty/self-assessment/test-only/api/feature-switches"
 
   lazy val incomeTaxPenaltiesFrontendFeatureSwitchUrl = s"${appConfig.incomeTaxPenaltiesFrontendBaseUrl}/penalties/income-tax/test-only/api/feature-switches"
 

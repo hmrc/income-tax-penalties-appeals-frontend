@@ -178,7 +178,7 @@ trait ComponentSpecHelper
       .delete())
   }
 
-  val baseUrl: String = "/view-or-appeal-penalty/self-assessment"
+  val baseUrl: String = "/appeal-penalty/self-assessment"
 
   private def buildClient(path: String): WSRequest = {
     val pathBuilder = if(path.startsWith("/internal/")) path else s"$baseUrl$path"
