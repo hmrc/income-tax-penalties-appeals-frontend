@@ -28,7 +28,7 @@ class ServiceControllerISpec extends ControllerISpecHelper {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  "GET /view-or-appeal-penalty/self-assessment/sign-out" should {
+  "GET /appeal-penalty/self-assessment/sign-out" should {
     "redirect to sign-out route with the continue URL set to the feedback survey" in {
       stubAuthRequests(false)
 
@@ -43,7 +43,7 @@ class ServiceControllerISpec extends ControllerISpecHelper {
     }
   }
 
-  "GET /view-or-appeal-penalty/self-assessment/keep-alive" should {
+  "GET /appeal-penalty/self-assessment/keep-alive" should {
     "return No-Content" in {
       stubAuthRequests(false)
 

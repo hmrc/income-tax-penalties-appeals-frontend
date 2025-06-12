@@ -33,7 +33,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
 
-  lazy val ITSAPenaltiesAppealsHomeUrl = "/view-or-appeal-penalty/self-assessment/appeal-start"
+  lazy val ITSAPenaltiesAppealsHomeUrl = "/appeal-penalty/self-assessment/appeal-start"
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
   def getFeatureSwitchValue(feature: String): Boolean = config.get[Boolean](feature)

@@ -12,10 +12,10 @@
 # Add all the application routes to the prod.routes file
 
 + nocsrf
-POST       /view-or-appeal-penalty/self-assessment/test-only/api/feature-switches                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers.FeatureSwitchApiController.updateFeatureSwitches()
-GET        /view-or-appeal-penalty/self-assessment/test-only/api/feature-switches                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers.FeatureSwitchApiController.getFeatureSwitches()
+POST       /appeal-penalty/self-assessment/test-only/api/feature-switches                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers.FeatureSwitchApiController.updateFeatureSwitches()
+GET        /appeal-penalty/self-assessment/test-only/api/feature-switches                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers.FeatureSwitchApiController.getFeatureSwitches()
 
-GET        /view-or-appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
-POST       /view-or-appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
+GET        /appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
+POST       /appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
 
 ->         /                                                                                prod.Routes
