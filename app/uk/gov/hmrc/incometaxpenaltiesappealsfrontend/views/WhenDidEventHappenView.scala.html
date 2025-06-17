@@ -34,7 +34,6 @@
 
 @(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@infix = {@if(isLPP){.lpp}else{.lsp}}
 @healthHeading = {
     @if(isLPP) {
         @if(user.isAgent){@messages("client.whenDidEventHappen.health.lpp.headingAndTitle")} else {@messages("whenDidEventHappen.health.lpp.headingAndTitle")}
