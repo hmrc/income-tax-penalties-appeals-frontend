@@ -24,22 +24,26 @@
         p: components.P,
         h1: components.H1,
         h2: components.H2,
-        link: components.Link
+        link: components.Link,
+        warning: components.WarningText,
 )
-@(isLate: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isLate: Boolean, isLPP: Boolean, isAgent: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
+@isLPPText = {@if(isLPP) {.lpp} else {.lsp}}
+@isAgentText = {@if(isAgent) {.agent} else {.individual}}
+@cessationLink = {@link(link = "#", messageKey = "appeal.start.cessation.link", id = Some("cessationLink"))}
 
 @layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false) {
 
     @caption()
     @h1("appeal.start.header")
-    @p("appeal.start.p1")
+    @p(s"appeal.start.p1$isLPPText")
     @p("appeal.start.p2")
     @h2("appeal.start.h2", elmId = "beforeYouStart")
     @p("appeal.start.p3")
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>@messages("appeal.start.li1")</li>
+        <li>@messages(s"appeal.start.li1$isLPPText")</li>
         <li>@messages("appeal.start.li2")</li>
         @if(isLate) {
             <li>@messages("appeal.start.li3")</li>
@@ -48,10 +52,19 @@
 
     @link(link = "#", messageKey = "appeal.start.guidanceLink",id = Some("guidanceLink"))
 
+    @if(!isLPP){
+        @h2("appeal.start.cessation.h2", elmId = "cessationH2")
+        @p(s"appeal.start.cessation.p1$isAgentText")
+        @p(s"appeal.start.cessation.p2$isAgentText")
+        @cessationLink
+        @h2("appeal.start.evidence.h2", elmId = "evidenceH2")
+    }
+
     @p("appeal.start.p4")
     @p("appeal.start.p5")
-    @p("appeal.start.p6")
 
-    @link(link = action.url, messageKey = "common.continue", classes = Some("govuk-button"))
+    @warning {@messages("appeal.start.p6")}
+
+    @link(link = action.url, messageKey = s"appeal.start.button$isLPPText", classes = Some("govuk-button"))
 
 }

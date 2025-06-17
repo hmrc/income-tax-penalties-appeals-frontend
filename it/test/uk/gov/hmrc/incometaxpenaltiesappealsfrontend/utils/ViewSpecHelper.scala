@@ -54,6 +54,8 @@ trait ViewSpecHelper {
     lazy val getSubmitButton: Elements = element.getElementsByClass("govuk-button")
 
     lazy val getHintText: Elements = element.getElementsByClass("govuk-hint")
+    
+    lazy val getWarningText: Elements = element.getElementsByClass("govuk-warning-text__text")
 
     lazy val getForm: Elements = element.select("form")
 

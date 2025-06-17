@@ -57,6 +57,6 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
         case _ => routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
       }
 
-    appealStart(user.isAppealLate(), redirect)
+    appealStart(user.isAppealLate(), user.isLPP, user.isAgent, redirect)
   }
 }

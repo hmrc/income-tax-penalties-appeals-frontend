@@ -44,7 +44,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
         )
       }
 
-      "the journey is for a 1st Stage Appeal" when {
+      s"the journey is for a 1st Stage Appeal with isAgent = $isAgent and path = $path" when {
         "the penalty type is Late Submission Penalty (LSP)" should {
           "render the page has the correct elements" in {
             stubAuthRequests(isAgent)
@@ -69,11 +69,29 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
-            document.getParagraphs.get(4).text() shouldBe "In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
-            document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
-            document.getParagraphs.get(6).text() shouldBe "If we decide we need extra evidence after reviewing your appeal, we will contact you."
+            document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
 
-            document.getSubmitButton.text() shouldBe "Continue"
+            if(isAgent){
+              document.getParagraphs.get(4).text() shouldBe "If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed. To do this, they will need to confirm the dates that a particular income source was ceased to HMRC."
+
+            } else {
+              document.getParagraphs.get(4).text() shouldBe "If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed. To do this, you will need to confirm the dates that a particular income source was ceased to HMRC."
+            }
+
+            if(isAgent){
+              document.getParagraphs.get(5).text() shouldBe "If your client has received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active."
+
+            } else {
+              document.getParagraphs.get(5).text() shouldBe "If you have received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active."
+            }
+
+            if(!isAgent){document.getLink("cessationLink").text() shouldBe "Cease an income source"}
+            document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
+            document.getParagraphs.get(7).text() shouldBe "In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
+            document.getParagraphs.get(8).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
+            document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
+
+            document.getSubmitButton.text() shouldBe "Start an appeal"
             document.getSubmitButton.attr("href") shouldBe {
               if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad().url
               else routes.ReasonableExcuseController.onPageLoad(isAgent).url
@@ -89,6 +107,24 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             val result = get(path, isAgent = isAgent)
             val document = Jsoup.parse(result.body)
 
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "Appeal a Self Assessment penalty - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
+            document.getParagraphs.get(0).text() shouldBe "To appeal a late payment penalty for Self Assessment, you’ll need to ask HMRC to look at your case again."
+            document.getParagraphs.get(1).text() shouldBe "This service is for appealing penalties given for individual submissions."
+            document.getH2Elements.get(0).text() shouldBe "Before you start"
+            document.getParagraphs.get(2).text() shouldBe "You’ll need:"
+            document.getBulletPoints.get(0).text() shouldBe "a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)"
+            document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
+            document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
+            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getParagraphs.get(4).text() shouldBe "In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
+            document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
+            document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
             document.getSubmitButton.text() shouldBe "Continue"
             document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
           }
@@ -101,6 +137,25 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             val result = get(path, isAgent = isAgent)
             val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe "Appeal a Self Assessment penalty - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
+            document.getParagraphs.get(0).text() shouldBe "To appeal a late payment penalty for Self Assessment, you’ll need to ask HMRC to look at your case again."
+            document.getParagraphs.get(1).text() shouldBe "This service is for appealing penalties given for individual submissions."
+            document.getH2Elements.get(0).text() shouldBe "Before you start"
+            document.getParagraphs.get(2).text() shouldBe "You’ll need:"
+            document.getBulletPoints.get(0).text() shouldBe "a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)"
+            document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
+            document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
+            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getParagraphs.get(4).text() shouldBe "In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
+            document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
+            document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
 
             document.getSubmitButton.text() shouldBe "Continue"
             document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
