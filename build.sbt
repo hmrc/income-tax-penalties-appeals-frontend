@@ -21,7 +21,6 @@ lazy val microservice = Project("income-tax-penalties-appeals-frontend", file(".
     PlayKeys.playDefaultPort := 9188
   )
   .settings(Test/logBuffered := false)
-  .settings(resolvers += Resolver.jcenterRepo)
   .settings(CodeCoverageSettings.settings *)
   .settings(inConfig(Test)(testSettings): _*)
 
