@@ -21,7 +21,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
@@ -117,9 +116,13 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val timeMachineDate: String =
     config.get[String]("timemachine.date")
-  private val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
 
-  def optCurrentDate: Option[LocalDate] = if (timeMachineEnabled && !timeMachineDate.equalsIgnoreCase("now")) {
-    Try(LocalDate.parse(timeMachineDate, timeMachineDateFormatter)).toOption
-  } else None
+  def optCurrentDate: Option[LocalDate] = {
+    if(timeMachineEnabled) {
+      val optDateString = sys.props.get(TIME_MACHINE_NOW).getOrElse(timeMachineDate)
+      Try(LocalDate.parse(optDateString, timeMachineDateFormatter)).toOption
+    } else {
+      None
+    }
+  }
 }
