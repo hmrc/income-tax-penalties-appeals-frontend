@@ -37,7 +37,8 @@ case class AppealSubmission(
                              isLPP: Boolean,
                              appealSubmittedBy: String,
                              agentDetails: Option[AgentDetails],
-                             appealInformation: AppealInformation
+                             appealInformation: AppealInformation,
+                             appealLevel: String
                            )
 
 object AppealSubmission {
@@ -84,7 +85,8 @@ object AppealSubmission {
       isLPP = request.isLPP,
       appealSubmittedBy = if (request.isAgent) "agent" else "customer",
       agentDetails = request.arn.map(constructAgentDetails),
-      appealInformation = appealInfo
+      appealInformation = appealInfo,
+      appealLevel = if (request.is2ndStageAppeal) "02" else "01"
     )
 
     reasonableExcuse match {
@@ -219,7 +221,8 @@ object AppealSubmission {
       "dateOfAppeal" -> appealSubmission.dateOfAppeal,
       "isLPP" -> appealSubmission.isLPP,
       "appealSubmittedBy" -> appealSubmission.appealSubmittedBy,
-      "appealInformation" -> parseAppealInformationToJson(appealSubmission.appealInformation)
+      "appealInformation" -> parseAppealInformationToJson(appealSubmission.appealInformation),
+      "appealLevel" -> appealSubmission.appealLevel,
     ).deepMerge(
       appealSubmission.agentDetails.fold(
         Json.obj()

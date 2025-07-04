@@ -301,7 +301,8 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           lateAppealReason = None,
           isClientResponsibleForSubmission = None,
           isClientResponsibleForLateSubmission = None
-        )
+        ),
+        appealLevel = "01"
       )
       val result = await(penaltiesConnector.submitAppeal(model, testNino, isLPP = false, "123456789", correlationId, isMultiAppeal = true))
       result.isRight shouldBe true
@@ -328,7 +329,8 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           lateAppealReason = None,
           isClientResponsibleForSubmission = None,
           isClientResponsibleForLateSubmission = None
-        )
+        ),
+        appealLevel = "02"
       )
       val result = await(penaltiesConnector.submitAppeal(model, testNino, isLPP = false, "123456789", correlationId, isMultiAppeal = true))
       result.isRight shouldBe true
@@ -355,7 +357,8 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           lateAppealReason = None,
           isClientResponsibleForSubmission = None,
           isClientResponsibleForLateSubmission = None
-        )
+        ),
+        appealLevel = "02"
       )
       val result = await(penaltiesConnector.submitAppeal(model, testNino, isLPP = true, "123456789", correlationId, isMultiAppeal = true))
       result.isRight shouldBe true
@@ -382,7 +385,8 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
           lateAppealReason = None,
           isClientResponsibleForSubmission = None,
           isClientResponsibleForLateSubmission = None
-        )
+        ),
+        appealLevel = "02"
       )
       val result = await(penaltiesConnector.submitAppeal(model, testNino, isLPP = true, "123456789", correlationId, isMultiAppeal = true))
       result.isLeft shouldBe true

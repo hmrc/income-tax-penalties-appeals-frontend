@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmi
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 
-import java.time.LocalDate
+import java.time.{LocalDate, LocalDateTime}
 
 class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with FileUploadFixtures {
 
@@ -65,7 +65,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("Bereavement late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -117,7 +118,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -173,7 +175,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -232,7 +235,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("Crime late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -286,7 +290,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -344,7 +349,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -403,7 +409,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("Fire late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -455,7 +462,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -511,7 +519,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -569,7 +578,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("Staff late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -621,7 +631,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -677,7 +688,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -736,7 +748,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("Technical late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -790,7 +803,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "01"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -848,7 +862,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -910,7 +925,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("Health late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -967,7 +983,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -1027,7 +1044,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   hospitalStayInvolved = false,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -1090,7 +1108,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = Some("UnexpectedHospital late appeal reason"),
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -1148,7 +1167,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   lateAppealReason = None,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -1208,7 +1228,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   hospitalStayInvolved = true,
                   isClientResponsibleForSubmission = Some(true),
                   isClientResponsibleForLateSubmission = Some(true)
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -1271,7 +1292,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   isClientResponsibleForLateSubmission = Some(true),
                   supportingEvidence = Some(Evidence(2)),
                   uploadedFiles = Some(Seq(callbackModel, callbackModel2))
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -1344,7 +1366,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   isClientResponsibleForLateSubmission = Some(true),
                   supportingEvidence = Some(Evidence(2)),
                   uploadedFiles = Some(Seq(callbackModel, callbackModel2))
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
@@ -1421,7 +1444,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
                   isClientResponsibleForLateSubmission = Some(true),
                   supportingEvidence = Some(Evidence(2)),
                   uploadedFiles = Some(Seq(callbackModel, callbackModel2))
-                )
+                ),
+                appealLevel = "02"
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
@@ -1463,6 +1487,63 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
             )
           )
         }
+      }
+    }
+
+    "AppealSubmission JSON Writes" should {
+
+      val now = LocalDateTime.of(2025, 6, 2, 15, 30)
+
+      "include appealLevel = 01 for a first-stage appeal" in {
+        val submission: AppealSubmission = AppealSubmission(
+          sourceSystem        = "MDTP",
+          taxRegime           = "ITSA",
+          customerReferenceNo = "MTDITID123",
+          dateOfAppeal        = now,
+          isLPP               = false,
+          appealSubmittedBy   = "customer",
+          agentDetails        = None,
+          appealInformation   = BereavementAppealInformation(
+            reasonableExcuse             = ReasonableExcuse.Bereavement,
+            honestyDeclaration           = true,
+            startDateOfEvent             = now,
+            statement                    = None,
+            lateAppeal                   = false,
+            lateAppealReason             = None,
+            isClientResponsibleForSubmission = None,
+            isClientResponsibleForLateSubmission = None
+          ),
+          appealLevel         = "01"
+        )
+
+        val js = Json.toJson(submission)
+        (js \ "appealLevel").as[String] shouldBe "01"
+      }
+
+      "include appealLevel = 02 for a second-stage appeal" in {
+        val submission: AppealSubmission = AppealSubmission(
+          sourceSystem        = "MDTP",
+          taxRegime           = "ITSA",
+          customerReferenceNo = "MTDITID123",
+          dateOfAppeal        = now,
+          isLPP               = false,
+          appealSubmittedBy   = "customer",
+          agentDetails        = None,
+          appealInformation   = BereavementAppealInformation(
+            reasonableExcuse             = ReasonableExcuse.Bereavement,
+            honestyDeclaration           = true,
+            startDateOfEvent             = now,
+            statement                    = None,
+            lateAppeal                   = false,
+            lateAppealReason             = None,
+            isClientResponsibleForSubmission = None,
+            isClientResponsibleForLateSubmission = None
+          ),
+          appealLevel         = "02"
+        )
+
+        val js = Json.toJson(submission)
+        (js \ "appealLevel").as[String] shouldBe "02"
       }
     }
   }
