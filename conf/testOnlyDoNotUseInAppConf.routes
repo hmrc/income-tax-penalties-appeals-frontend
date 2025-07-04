@@ -18,4 +18,6 @@ GET        /appeal-penalty/self-assessment/test-only/api/feature-switches       
 GET        /appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
 POST       /appeal-penalty/self-assessment/test-only/feature-switches                         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
 
-->         /                                                                                prod.Routes
+GET        /view-penalty/self-assessment/test-only/time-machine-now                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController.setTimeMachineDate(dateToSet: Option[String])
+
+->         /                                                                                  prod.Routes
