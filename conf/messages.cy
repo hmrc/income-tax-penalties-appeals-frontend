@@ -20,9 +20,9 @@ appeal.start.h2 = Cyn i chi ddechrau
 appeal.start.p3 = Bydd angen y canlynol arnoch:
 appeal.start.li1.lsp = rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno’r diweddariad chwarterol neu’r Ffurflen Dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.li1.lpp = rheswm dros fethu’r dyddiad cau ar gyfer talu’r dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
-appeal.start.cessation.h2 = Income sources that have ceased (Welsh)
-appeal.start.cessation.p1.individual = If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed. To do this, you will need to confirm the dates that a particular income source was ceased to HMRC. (Welsh)
-appeal.start.cessation.p2.individual = If you have received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active. (Welsh)
+appeal.start.cessation.h2 = Ffynonellau incwm sydd wedi dod i ben
+appeal.start.cessation.p1.individual = Os gawsoch gosb am gyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu. Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiadau pan ddaeth ffynhonnell incwm benodol i ben.
+appeal.start.cessation.p2.individual = Os ydych wedi cael cosb am fwy nag un ffynhonnell incwm sy’n hwyr neu ar goll yn yr un cyfnod diweddaru, ond dim ond un ohonynt a ddaeth i ben cyn dechrau’r cyfnod diweddaru, ni fydd y pwynt cosb hwnnw yn cael ei dynnu a bydd ar waith o hyd.
 appeal.start.cessation.p1.agent = If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed. To do this, they will need to confirm the dates that a particular income source was ceased to HMRC. (Welsh)
 appeal.start.cessation.p2.agent = If your client has received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active. (Welsh)
 appeal.start.cessation.link = Cease an income source (Welsh)
@@ -33,7 +33,7 @@ appeal.start.guidanceLink = Darllenwch yr arweiniad ynghylch esgusodion rhesymol
 appeal.start.p4 = Mewn rhai achosion, bydd gennych yr opsiwn i uwchlwytho tystiolaeth er mwyn ategu’ch apêl Dylech fynd ati i gasglu’r dystiolaeth hon cyn parhau, gan na fydd modd i chi gadw’r apêl a dod yn ôl ato yn nes ymlaen.
 appeal.start.p5 = Os na fydd gennych yr opsiwn i uwchlwytho tystiolaeth ychwanegol, mae hyn oherwydd, yn eich achos chi, nid oes angen unrhyw dystiolaeth arnom i wneud penderfyniad.
 appeal.start.p6 = Os byddwn yn penderfynu bod angen tystiolaeth ychwanegol arnom ar ôl adolygu’ch apêl, byddwn yn cysylltu â chi.
-appeal.start.button.lsp = Start an appeal (Welsh)
+appeal.start.button.lsp = Dechrau apêl
 appeal.start.button.lpp = Yn eich blaen
 
 # Review Appeal Start page
