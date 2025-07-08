@@ -372,7 +372,7 @@ object WhenDidEventHappenMessages {
     override val cyaHiddenBereavement: String = "Pryd y bu farw’r person"
     override val cyaHiddenCrime: String = "Pryd ddigwyddodd y drosedd"
     override val cyaHiddenFireOrFlood: String = "Pryd ddigwyddodd y tân neu lifogydd"
-    override val cyaHiddenTechnical: String = "when did the software or technology issues begin (Welsh)"
+    override val cyaHiddenTechnical: String = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau"
     override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
     override val cyaHiddenHealth: String = "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad"
     override val cyaHiddenUnexpectedHospital: String = "Pryd y dechreuodd yr arhosiad yn yr ysbyty?"

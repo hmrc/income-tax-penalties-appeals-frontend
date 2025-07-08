@@ -32,13 +32,13 @@ object WhatCausedYouToMissDeadlineMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val titleAndHeading = "What caused you to miss the deadline? (Welsh)"
-    override val agent: String = "Something else happened to delay me (Welsh)"
-    override val client: String = "My client did not get information to me on time (Welsh)"
+    override val titleAndHeading = "Beth oedd wedi’ch achosi i fethu’r dyddiad cau?"
+    override val agent: String = "Rheswm arall"
+    override val client: String = "Nid oedd fy nghleient wedi rhoi’r wybodaeth i mi mewn pryd"
     override val errorRequired: String = "Rhowch y rheswm dros gyflwyno’r cyflwyniad yn hwyr"
     override val errorInvalid: String = "Rhowch y rheswm dros gyflwyno’r cyflwyniad yn hwyr"
 
-    override val cyaKey = "What caused you to miss the deadline? (Welsh)"
-    override val cyaHidden = "what caused you to miss the deadline (Welsh)"
+    override val cyaKey = "Beth oedd wedi’ch achosi i fethu’r dyddiad cau?"
+    override val cyaHidden = "Beth oedd wedi’ch achosi i fethu’r dyddiad cau"
   }
 }

@@ -77,7 +77,7 @@ object WhenDidEventEndMessages {
     def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later"
 
     val unexpectedHospitalInvalid = "The date that the hospital stay ended must be a real date"
-    val unexpectedHospitalRequiredAll = "Tell us when the hospital stay ended"
+    val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay ended"
     def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay ended must include a $missing and a $missingTwo"
     def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay ended must include a $missing"
     val unexpectedHospitalNotInFuture = "The date that the hospital stay ended must be today or in the past"
@@ -96,7 +96,7 @@ object WhenDidEventEndMessages {
     override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later (Welsh)"
 
     override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn"
-    override val unexpectedHospitalRequiredAll = "Tell us when the hospital stay ended (Welsh)"
+    override val unexpectedHospitalRequiredAll = "Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben"
     override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing a $missingTwo"
     override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing"
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol"
