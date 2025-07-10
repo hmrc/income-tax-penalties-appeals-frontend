@@ -126,7 +126,7 @@ agentPlanned.honestyDeclaration.li.technicalIssue.lpp = because my client was af
 
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lpp = because of a stay in hospital, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected hospital stay, they were unable to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected stay in hospital, they were unable to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.other.lpp = I was unable to make the payment due on {0}
@@ -155,9 +155,9 @@ agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = because I was
 agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because I had a serious or life-threatening health issue, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because I had an unexpected hospital stay, I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
 
 
@@ -249,7 +249,7 @@ whenDidEventHappen.other.lsp.date.error.required = The date the issue first stop
 whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped you meeting the submission deadline must be today or in the past
 
 # Other Messages - LPP
-whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you paying the tax bill by the due date?
+whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you making the payment?
 whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped you paying the tax bill by the due date must be a real date
 whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped you paying the tax bill by the due date
 whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped you paying the tax bill by the due date must include a {0} and a {1}
@@ -273,7 +273,7 @@ agent.whenDidEventHappen.other.lsp.date.error.required = The date when the issue
 agent.whenDidEventHappen.other.lsp.date.error.notInFuture = The date when the issue first stopped your client from meeting the submission deadline must be today or in the past
 
 # Agent - Other Messages - LPP
-agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client paying the tax bill by the due date?
+agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client making the payment?
 agent.whenDidEventHappen.other.lpp.date.error.invalid = The date when the issue first stopped your client paying the tax bill by the due date must be a real date
 agent.whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped your client paying the tax bill by the due date
 agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
@@ -293,7 +293,7 @@ whenDidEventEnd.technicalIssue.end.date.error.notInFuture = The date the softwar
 whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
 
 whenDidEventEnd.unexpectedHospital.headingAndTitle = When did the hospital stay end?
-whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Tell us when the hospital stay ended
+whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Enter the date that the hospital stay ended
 whenDidEventEnd.unexpectedHospital.end.date.error.required.two = The date that the hospital stay ended must include a {0} and a {1}
 whenDidEventEnd.unexpectedHospital.end.date.error.required = The date that the hospital stay ended must include a {0}
 whenDidEventEnd.unexpectedHospital.end.date.error.invalid = The date that the hospital stay ended must be a real date
@@ -559,7 +559,7 @@ uploadEvidence.nonJs.p1.joint.review = Use this page to upload any evidence to h
 uploadEvidence.nonJs.p2.lsp = Evidence might include any documents or letters that show why the submission deadline was missed.
 uploadEvidence.nonJs.p2.lsp.review = Evidence might include any documents or letters that show why the submission was sent late.
 uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters that show why the payment deadline was missed.
-uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the tax bill was paid late.
+uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the payment deadline was missed.
 uploadEvidence.nonJs.p3 = You can upload up to {0} files.
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
 uploadEvidence.nonJs.label = Select a file

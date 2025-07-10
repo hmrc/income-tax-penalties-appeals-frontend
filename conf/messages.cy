@@ -84,7 +84,7 @@ jointAppeal.l2 = £{0} yr ail gosb am dalu’n hwyr
 individual.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty. (Welsh)
 individual.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw’ch tystiolaeth yn berthnasol i’r ddwy apêl wreiddiol.
 agent.jointAppeal.p2 = Gallwch apelio’r cosbau hyn ar yr un pryd os yw rheswm eich cleient dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth am y ddwy gosb.
-agent.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your client’s evidence applies to both of the original appeals. (Welsh)
+agent.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw tystiolaeth eich cleient yn berthnasol i’r ddwy apêl wreiddiol.
 jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason (Welsh)
 jointAppeal.error.required.review = Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd
 
@@ -119,7 +119,7 @@ agentPlanned.honestyDeclaration.li.technicalIssue.lpp = oherwydd problemau techn
 
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd arhosiad yn yr ysbyty, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lpp = oherwydd arhosiad yn yr ysbyty, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
-agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected hospital stay, they were unable to make the payment due on {0} (Welsh)
+agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = oherwydd bod fy nghleient wedi aros yn yr ysbyty yn annisgwyl, nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
 
 clientSubmitted.honestyDeclaration.li.other.lsp = nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientSubmitted.honestyDeclaration.li.other.lpp = nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
@@ -147,9 +147,9 @@ agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod 
 agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
 agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau,  {0}
 agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because I had a serious or life-threatening health issue, I was unable to send the submission due on {0} (Welsh)
+agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = oherwydd problemau technegol neu broblemau meddalwedd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because I had an unexpected hospital stay, I was unable to send the submission due on {0} (Welsh)
+agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd arhosiad yn yr ysbyty, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
 honestyDeclaration.li.lpp = nid oedd neb arall ar gael i dalu ar fy rhan
@@ -325,7 +325,7 @@ whenDidEventHappen.other.lsp.date.error.required = Mae’n rhaid i’r dyddiad p
 whenDidEventHappen.other.lsp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol
 
 # Other Messages - LPP
-whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you paying the tax bill by the due date? (Welsh)
+whenDidEventHappen.other.lpp.headingAndTitle = Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?
 whenDidEventHappen.other.lpp.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn
 whenDidEventHappen.other.lpp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu
 whenDidEventHappen.other.lpp.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0} a {1}
@@ -349,7 +349,7 @@ agent.whenDidEventHappen.other.lsp.date.error.required = Mae’n rhaid i’r dyd
 agent.whenDidEventHappen.other.lsp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol
 
 # Agent - Other Messages - LPP
-agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client paying the tax bill by the due date? (Welsh)
+agent.whenDidEventHappen.other.lpp.headingAndTitle = Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?
 agent.whenDidEventHappen.other.lpp.date.error.invalid = Mae’n rhaid i’r pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn
 agent.whenDidEventHappen.other.lpp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu
 agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
@@ -368,7 +368,7 @@ whenDidEventEnd.technicalIssue.end.date.error.notInFuture = Mae’n rhaid i’r 
 whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
 
 whenDidEventEnd.unexpectedHospital.headingAndTitle = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?
-whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Tell us when the hospital stay ended (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben
 whenDidEventEnd.unexpectedHospital.end.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys {0} a {1}
 whenDidEventEnd.unexpectedHospital.end.date.error.required = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys {0}
 whenDidEventEnd.unexpectedHospital.end.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn
@@ -386,13 +386,13 @@ date.year = Blwyddyn
 uploadEvidence.nonJs.headingAndTitle = Tystiolaeth i ategu’r apêl hon
 uploadEvidence.nonJs.headingAndTitle.review = Uwchlwytho tystiolaeth
 uploadEvidence.nonJs.p1 = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb.
-uploadEvidence.nonJs.p1.joint = Use this page to upload any evidence to help us review these penalties. (Welsh)
+uploadEvidence.nonJs.p1.joint = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn.
 uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r gosb.
 uploadEvidence.nonJs.p1.joint.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
 uploadEvidence.nonJs.p2.lsp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer cyflwyno ei fethu.
 uploadEvidence.nonJs.p2.lsp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y cyflwyniad ei anfon yn hwyr.
 uploadEvidence.nonJs.p2.lpp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
-uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the tax bill was paid late. (Welsh)
+uploadEvidence.nonJs.p2.lpp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
 uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
 uploadEvidence.nonJs.label = Select a file (Welsh)
@@ -442,15 +442,15 @@ checkYourAnswers.headingAndTitle = Gwiriwch eich atebion
 checkYourAnswers.appealDetails.h2 = Manylion yr apêl
 checkYourAnswers.appealDetails.h2.review = Manylion yr adolygiad
 
-agent.checkYourAnswers.whoPlannedToSubmit.key = Before the deadline, who planned to send the submission? (Welsh)
+agent.checkYourAnswers.whoPlannedToSubmit.key = Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad?
 agent.checkYourAnswers.whoPlannedToSubmit.value.agent = Fi
-agent.checkYourAnswers.whoPlannedToSubmit.value.client = My client did (Welsh)
-agent.checkYourAnswers.whoPlannedToSubmit.change.hidden = before the deadline, who planned to send the submission (Welsh)
+agent.checkYourAnswers.whoPlannedToSubmit.value.client = Fy nghleient
+agent.checkYourAnswers.whoPlannedToSubmit.change.hidden = Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad
 
-agent.checkYourAnswers.whatCausedYouToMissDeadline.key = What caused you to miss the deadline? (Welsh)
-agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else happened to delay me (Welsh)
-agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time (Welsh)
-agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline (Welsh)
+agent.checkYourAnswers.whatCausedYouToMissDeadline.key = Beth oedd wedi’ch achosi i fethu’r dyddiad cau?
+agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Rheswm arall
+agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = Nid oedd fy nghleient wedi rhoi’r wybodaeth i mi mewn pryd
+agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = Beth oedd wedi’ch achosi i fethu’r dyddiad cau
 
 checkYourAnswers.jointAppeal.key = A ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm?
 checkYourAnswers.jointAppeal.change.hidden = A ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm?
@@ -487,7 +487,7 @@ checkYourAnswers.whenDidEventHappen.fireandflood.change.hidden =  Pryd ddigwyddo
 checkYourAnswers.whenDidEventHappen.health.key = Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?
 checkYourAnswers.whenDidEventHappen.health.change.hidden = Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad
 checkYourAnswers.whenDidEventHappen.technicalIssue.key = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau?
-checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = when did the software or technology issues begin (Welsh)
+checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = Pryd y dechreuodd yr arhosiad yn yr ysbyty?
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff (Welsh)
@@ -555,8 +555,8 @@ appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
 appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd)
 
 appealConfirmation.review.headingAndTitle = Cais am adolygiad wedi dod i law
-appealConfirmation.p2.client.review = This request for a review has been logged against your National Insurance number. Please quote this number if you call HMRC about this review. (Welsh)
-appealConfirmation.p2.agent.review = This request for a review has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this review. (Welsh)
+appealConfirmation.p2.client.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
+appealConfirmation.p2.agent.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
 appealConfirmation.whatHappensNext.p1.review = Rydym yn bwriadu i wneud penderfyniad ynghylch adolygiadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2.client.review = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
 appealConfirmation.whatHappensNext.p2.agent.review =  Unwaith i’r penderfyniad gael ei wneud, bydd eich cleient yn cael gwybod am ganlyniad yr adolygiad hwn a’r rhesymau dros ein penderfyniad.

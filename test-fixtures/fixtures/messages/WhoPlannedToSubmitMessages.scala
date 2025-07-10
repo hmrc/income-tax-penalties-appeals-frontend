@@ -32,13 +32,13 @@ object WhoPlannedToSubmitMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val titleAndHeading = "Before the deadline, who planned to send the submission? (Welsh)"
+    override val titleAndHeading = "Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad?"
     override val agent: String = "Fi"
     override val client: String = 	"Fy nghleient"
     override val errorRequired: String = "Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad"
     override val errorInvalid: String = "Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad"
 
-    override val cyaKey = "Before the deadline, who planned to send the submission? (Welsh)"
-    override val cyaHidden = "before the deadline, who planned to send the submission (Welsh)"
+    override val cyaKey = "Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad?"
+    override val cyaHidden = "Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad"
   }
 }
