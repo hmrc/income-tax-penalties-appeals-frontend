@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan
 
 import play.api.libs.json.Json.JsValueWrapper
 import play.api.libs.json._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.JsonUtils
 
 import java.time.LocalDateTime
 
@@ -29,8 +30,21 @@ case class UploadJourney(reference: String,
                          lastUpdated: LocalDateTime = LocalDateTime.now(),
                          uploadFields: Option[UploadFormFields] = None)
 
-object UploadJourney {
-  val writes: OWrites[UploadJourney] = Json.format[UploadJourney]
+object UploadJourney extends JsonUtils {
+  val writesSubmission: OWrites[UploadJourney] = (o: UploadJourney) => {
+    jsonObjNoNulls(
+      ("reference" -> o.reference),
+      ("fileStatus" -> o.fileStatus),
+      ("downloadUrl" -> o.downloadUrl),
+      ("uploadDetails" -> o.uploadDetails),
+      ("failureDetails" -> o.failureDetails),
+      ("lastUpdated" -> o.lastUpdated),
+      ("uploadFields" -> o.uploadFields.map(_.fields))
+    )
+  }
+
+  val writes: Writes[UploadJourney] = Json.writes[UploadJourney]
+
   val reads: Reads[UploadJourney] = (json: JsValue) => {
     for {
       reference <- (json \ "reference").validate[String]

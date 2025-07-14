@@ -42,6 +42,8 @@ object OtherAppealInformation {
   implicit val evidenceFormatter: OFormat[Evidence] = Evidence.format
   implicit val otherAppealInformationFormatter: OFormat[OtherAppealInformation] = Json.format[OtherAppealInformation]
 
+  implicit val writesUploadFiles = UploadJourney.writesSubmission
+
   val otherAppealInformationWrites: Writes[OtherAppealInformation] = Writes { model =>
     Json.obj(Seq[Option[(String, JsValueWrapper)]](
       Some("reasonableExcuse" -> model.reasonableExcuse),
