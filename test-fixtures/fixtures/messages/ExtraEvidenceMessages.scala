@@ -79,8 +79,8 @@ object ExtraEvidenceMessages {
       }
     }
     
-    override val errorRequired = "Tell us if you want to upload evidence to support your appeal (Welsh)"
-    override val errorInvalid = "Tell us if you want to upload evidence to support your appeal (Welsh)"
+    override val errorRequired = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl"
+    override val errorInvalid = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl"
     override val errorRequiredReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
     override val errorInvalidReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
 
