@@ -84,8 +84,8 @@ object MissedDeadlineReasonMessages {
     override def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "You must provide some information about why you are asking us to review these decisions (Welsh)"
       else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision (Welsh)"
-      else if(isLPP) "You must provide some information about why the payment was late (Welsh)"
-      else "You must provide some information about why the deadline was missed (Welsh)"
+      else if(isLPP) "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr"
+      else "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr"
     }
 
     override def errorRequiredSecondStage: String = {
