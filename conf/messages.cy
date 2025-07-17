@@ -565,7 +565,7 @@ appealConfirmation.whatHappensNext.p2.agent.review =  Unwaith i’r penderfyniad
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Manylion yr apêl
-viewAppealDetails.headingAndTitle.review = Review details (Welsh)
+viewAppealDetails.headingAndTitle.review = Gwirio’r manylion
 viewAppealDetails.ni = Rhif Yswiriant Gwladol
 viewAppealDetails.penaltyAppealed = Y gosb sydd wedi’i hapelio
 viewAppealDetails.penaltyAppealed.multiple = Y cosbau a apeliwyd yn eu herbyn
