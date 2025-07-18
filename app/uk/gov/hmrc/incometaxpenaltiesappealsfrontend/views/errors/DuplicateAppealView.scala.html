@@ -1,0 +1,48 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
+
+@this(layout: Layout,
+govukPanel: GovukPanel,
+p:P,
+h2:H2,
+caption: components.PenaltyCaption,
+link: Link)
+
+@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
+
+@clientOrAgent = {@if(isAgent){agent} else {client}}
+@reviewOrAppeal = {@if(isSecondStageAppeal){.review}}
+
+@layout(Some(titleBuilder(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle"))), backLinkEnabled = true) {
+
+@govukPanel(Panel(
+title = Text(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle")),
+content = HtmlContent(caption(confirmationBox = true))
+))
+
+@p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))
+@p(s"appealConfirmation.p2.$clientOrAgent$reviewOrAppeal", elmId = Some(s"confirmationSecondParagraph"))
+
+@link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = isSecondStageAppeal).url, messageKey = s"appealConfirmation.viewOrPrint$reviewOrAppeal", id = Some("viewOrPrint-link"), attrTarget = true)
+
+}
