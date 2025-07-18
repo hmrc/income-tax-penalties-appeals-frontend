@@ -31,8 +31,8 @@ object CrimeReportedMessages {
 
   object Welsh extends Messages with Cy {
     override val unkownOption = "Nid wyf yn gwybod"
-    override val errorRequired = "Tell us if the police have been told about the crime (Welsh)"
-    override val errorInvalid = "Tell us if the police have been told about the crime (Welsh)"
+    override val errorRequired = "Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd"
+    override val errorInvalid = "Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd"
 
     override val cyaKey = "A roddwyd gwybod i’r heddlu am y drosedd hon?"
     override val cyaHidden = "A roddwyd gwybod i’r heddlu am y drosedd hon"

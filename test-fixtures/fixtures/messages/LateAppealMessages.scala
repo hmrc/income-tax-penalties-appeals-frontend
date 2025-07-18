@@ -35,7 +35,7 @@ object LateAppealMessages {
     override val errorRequiredReview: String = "Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt"
 
     override val errorLength: Int => String = n => s"Esboniwch y rheswm gan ddefnyddio ${"%,d".format(n)} o gymeriadau neu lai"
-    override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"
+    override val errorRegex: String = "Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig"
 
     override val cyaKey: Int => String = i => s"Reason for appealing after $i days (Welsh)"
     override val cyaHidden: Int => String = i => s"reason for appealing after $i days (Welsh)"

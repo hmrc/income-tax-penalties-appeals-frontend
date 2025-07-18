@@ -1,9 +1,9 @@
-service.name = Manage your Self Assessment (Welsh)
+service.name = Rheoli’ch Hunanasesiad
 
 error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
 
-phaseBanner.tag = Beta (Welsh)
+phaseBanner.tag = Beta
 phaseBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
 phaseBanner.linkText = feedback (Welsh)
 
@@ -71,7 +71,7 @@ lateAppeal.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth
 lateAppeal.error.required.review = Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt
 lateAppeal.error.required.multiple.review = Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt
 lateAppeal.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
-lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
+lateAppeal.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
 # Joint appeal LPP
 # ----------------------------------------------------------
@@ -81,11 +81,11 @@ jointAppeal.radioHeading.review =  A ydych am i’r ddau benderfyniad gael eu ha
 jointAppeal.p1 = Mae’r cosbau hyn fel y ganlyn:
 jointAppeal.l1 = £{0} y gosb gyntaf am dalu’n hwyr
 jointAppeal.l2 = £{0} yr ail gosb am dalu’n hwyr
-individual.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty. (Welsh)
+individual.jointAppeal.p2 = Gallwch apelio yn erbyn y cosbau hyn ar yr un pryd os yw’r rheswm dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth ar gyfer y ddwy gosb.
 individual.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw’ch tystiolaeth yn berthnasol i’r ddwy apêl wreiddiol.
 agent.jointAppeal.p2 = Gallwch apelio’r cosbau hyn ar yr un pryd os yw rheswm eich cleient dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth am y ddwy gosb.
 agent.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw tystiolaeth eich cleient yn berthnasol i’r ddwy apêl wreiddiol.
-jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason (Welsh)
+jointAppeal.error.required = Rhowch wybod i ni a ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm
 jointAppeal.error.required.review = Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd
 
 # Honesty declaration
@@ -186,9 +186,9 @@ agents.whatCausedYouToMissTheDeadline.error.invalid = Rhowch y rheswm dros gyflw
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
 missedDeadlineReason.lsp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn cosbau eraill ar wahân.
-missedDeadlineReason.lsp.error.required = You must provide some information about why the deadline was missed (Welsh)
+missedDeadlineReason.lsp.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam y methwyd y dyddiad cau
 missedDeadlineReason.lsp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
-missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
+missedDeadlineReason.lsp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
 # Missed deadline reason for review page - LSP
 # ----------------------------------------------------------
@@ -200,13 +200,13 @@ missedDeadlineReason.lsp.error.review.required = Mae’n rhaid i chi roi gwyboda
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment late? (Welsh)
 missedDeadlineReason.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
-missedDeadlineReason.lpp.error.required = You must provide some information about why the payment was late (Welsh)
+missedDeadlineReason.lpp.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr
 missedDeadlineReason.lpp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
-missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters (Welsh)
+missedDeadlineReason.lpp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
 missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment late? (Welsh)
 missedDeadlineReason.lpp.hint.multiple = Dim ond y cosbau hyn y mae angen i ni wybod amdanynt. Dylech apelio yn erbyn unrhyw gosbau eraill ar wahân.
-missedDeadlineReason.lpp.error.required.multiple = You must provide some information about why the payment was late (Welsh)
+missedDeadlineReason.lpp.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
@@ -225,8 +225,8 @@ crime.headingAndTitle = A roddwyd gwybod i’r heddlu am y drosedd hon?
 crime.yes = Iawn
 crime.no = Na
 crime.unknown = Nid wyf yn gwybod
-crime.error.required = Tell us if the police have been told about the crime (Welsh)
-crime.error.invalid = Tell us if the police have been told about the crime (Welsh)
+crime.error.required = Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd
+crime.error.invalid = Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd
 
 # Extra evidence page
 # ----------------------------------------------------------
@@ -240,9 +240,9 @@ extraEvidence.hint = Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwyt
 extraEvidence.hint.multiple = Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwytho tystiolaeth.
 extraEvidence.hint.review = Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth.
 extraEvidence.hint.multiple.review = Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r penderfyniadau ynghylch yr apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth.
-extraEvidence.error.required = Tell us if you want to upload evidence to support your appeal (Welsh)
+extraEvidence.error.required = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl
 extraEvidence.error.required.review = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad
-extraEvidence.error.invalid = Tell us if you want to upload evidence to support your appeal (Welsh)
+extraEvidence.error.invalid = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl
 extraEvidence.error.invalid.review = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad
 
 # When did the event happen page
@@ -534,7 +534,7 @@ checkYourAnswers.acceptAndSend = Derbyn ac anfon
 # ----------------------------------------------------------
 
 appealConfirmation.headingAndTitle = Apêl wedi dod i law
-appealConfirmation.typeAndPeriod = {0}: {1} tax year (Welsh)
+appealConfirmation.typeAndPeriod = Blwyddyn dreth {0}: {1}
 appealConfirmation.p1 = Does dim angen cyfeirnod arnoch.
 appealConfirmation.p2.client = Mae’ch apêl wedi’i chofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
 appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal. (Welsh)
@@ -565,15 +565,15 @@ appealConfirmation.whatHappensNext.p2.agent.review =  Unwaith i’r penderfyniad
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Manylion yr apêl
-viewAppealDetails.headingAndTitle.review = Review details (Welsh)
+viewAppealDetails.headingAndTitle.review = Gwirio’r manylion
 viewAppealDetails.ni = Rhif Yswiriant Gwladol
 viewAppealDetails.penaltyAppealed = Y gosb sydd wedi’i hapelio
-viewAppealDetails.penaltyAppealed.multiple = Penalties appealed (Welsh)
+viewAppealDetails.penaltyAppealed.multiple = Y cosbau a apeliwyd yn eu herbyn
 viewAppealDetails.appealDate = Dyddiad yr apêl
 viewAppealDetails.appealDate.review = Review request sent (Welsh)
 viewAppealDetails.warn.1 = Argraffwch neu lawrlwythwch y dudalen hon os hoffech ei chadw.
 viewAppealDetails.warn.2 = Ni fyddwch yn gallu dychwelyd i’r manylion hyn o ran yr apêl yn nes ymlaen.
-viewAppealDetails.warn.2.review = You will not be able to return to these review details later. (Welsh)
+viewAppealDetails.warn.2.review = Ni fyddwch yn gallu dychwelyd i’r dudalen ar gyfer y manylion hyn yn nes ymlaen.
 viewAppealDetails.printThisPage = Argraffu’r dudalen hon
 
 

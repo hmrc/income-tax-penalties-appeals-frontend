@@ -84,8 +84,8 @@ object MissedDeadlineReasonMessages {
     override def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "You must provide some information about why you are asking us to review these decisions (Welsh)"
       else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision (Welsh)"
-      else if(isLPP) "You must provide some information about why the payment was late (Welsh)"
-      else "You must provide some information about why the deadline was missed (Welsh)"
+      else if(isLPP) "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr"
+      else "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam y methwyd y dyddiad cau"
     }
 
     override def errorRequiredSecondStage: String = {
@@ -97,7 +97,7 @@ object MissedDeadlineReasonMessages {
     }
 
     override val errorLength: Int => String = n => s"Esboniwch y rheswm gan ddefnyddio ${"%,d".format(n)} o gymeriadau neu lai"
-    override val errorRegex: String = "The text must contain only letters, numbers and standard special characters (Welsh)"
+    override val errorRegex: String = "Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig"
 
     override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions? (Welsh)"
