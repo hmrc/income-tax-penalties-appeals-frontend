@@ -170,7 +170,7 @@ object AppealSubmission {
       case UnexpectedHospital =>
         val isOngoingHospitalStay = !request.getMandatoryAnswer(HasHospitalStayEndedPage)
         baseAppealSubmission(HealthAppealInformation(
-          reasonableExcuse = reasonableExcuse,
+          reasonableExcuse = Health,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           hospitalStayInvolved = true,
           startDateOfEvent = request.userAnswers.getAnswer(WhenDidEventHappenPage).map(_.atStartOfDay()),
