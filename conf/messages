@@ -645,3 +645,10 @@ common.no = No
 common.remove = Remove
 common.change = Change
 
+# Duplicate Appeal
+# ----------------------------------------------------------
+
+duplicateAppeal.headingAndTitle = Appeal already in progress
+duplicateAppeal.p1 = You can't submit more than one appeal for the same penalty at the same time.
+duplicateAppeal.link.text = Back to Self Assessment penalties and appeals
+duplicateAppeal.link.href = TODO-NIMO
