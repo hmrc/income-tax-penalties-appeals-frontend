@@ -32,7 +32,9 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
 
-  lazy val ITSAPenaltiesAppealsHomeUrl = "/appeal-penalty/self-assessment/appeal-start"
+  lazy val ITSAPenaltiesAppealsHomeUrl: Boolean => String = isAgent => {
+    s"/appeal-penalty/self-assessment${if(isAgent) "/agent-appeal-start" else "/appeal-start"}"
+  }
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
   def getFeatureSwitchValue(feature: String): Boolean = config.get[Boolean](feature)
@@ -80,7 +82,10 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val surveyOrigin: String = servicesConfig.getString("exit-survey-origin")
   lazy val survey = s"""${servicesConfig.getString("feedback-frontend-host")}/feedback/$surveyOrigin"""
 
-  lazy val penaltiesHomePage: String = config.get[String]("urls.incomeTaxPenaltiesHome")
+  lazy val penaltiesHomePage: Boolean => String = isAgent => {
+    val url = config.get[String]("urls.incomeTaxPenaltiesHome")
+    s"$url${if(isAgent) "/agent" else ""}"
+  }
 
   lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 

@@ -37,7 +37,7 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
 
     request.session.get(IncomeTaxSessionKeys.journeyId).fold[Future[Either[Result, CurrentUserRequestWithAnswers[A]]]]({
       logger.warn(s"[DataRetrievalAction][refine] No journey ID was found in the session for MTDITID: ${request.mtdItId}")
-      Future(Left(Redirect(appConfig.penaltiesHomePage)))
+      Future(Left(Redirect(appConfig.penaltiesHomePage(request.isAgent))))
     })(
       journeyId => {
         sessionService.getUserAnswers(journeyId).flatMap {
@@ -47,11 +47,11 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
                 Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
               case None =>
                 logger.warn(s"[DataRetrievalActionImpl][refine] No Penalty Appeal Data found in User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
-                Future(Left(Redirect(appConfig.penaltiesHomePage)))
+                Future(Left(Redirect(appConfig.penaltiesHomePage(request.isAgent))))
             }
           case None =>
             logger.warn(s"[DataRetrievalActionImpl][refine] No User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
-            Future(Left(Redirect(appConfig.penaltiesHomePage)))
+            Future(Left(Redirect(appConfig.penaltiesHomePage(request.isAgent))))
         }.recoverWith {
           case e =>
             logger.error(s"[DataRetrievalActionImpl][refine] Failed to query mongo for journey data with message: ${e.getMessage}")

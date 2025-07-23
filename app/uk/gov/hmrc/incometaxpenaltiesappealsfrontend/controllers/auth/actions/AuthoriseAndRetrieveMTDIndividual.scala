@@ -62,7 +62,7 @@ class AuthoriseAndRetrieveMTDIndividual @Inject()(override val authConnector: Au
         case Some(AffinityGroup.Agent) ~ _ ~ _ =>
           logger.info("Agent on individual endpoint")
           Future.successful(
-            Left(Redirect(appConfig.ITSAPenaltiesAppealsHomeUrl)))
+            Left(Redirect(appConfig.ITSAPenaltiesAppealsHomeUrl(true))))
         case _ ~ enrolments ~ Some(nino) =>
           enrolments.mtdItId match {
             case Some(mtditid) => Future.successful(
