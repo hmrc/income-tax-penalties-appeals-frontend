@@ -34,7 +34,7 @@
 
 @(form: Form[_], file: UploadedFilesViewModel, postAction: Call)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(pageTitle = Some(titleBuilder(messages("uploadRemoveFile.nonJs.headingAndTitle", file.index), Some(form)))) {
+@layout(pageTitle = Some(titleBuilder(messages("uploadRemoveFile.nonJs.headingAndTitle", file.index), Some(form))), isAgent = request.isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

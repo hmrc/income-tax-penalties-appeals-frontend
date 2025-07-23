@@ -66,7 +66,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
         val result = testAction.invokeBlock(userRequest, block)
 
         status(result) shouldBe SEE_OTHER
-        redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage)
+        redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
       }
     }
 
@@ -87,7 +87,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
           val result = testAction.invokeBlock(userRequest, block)
 
           status(result) shouldBe SEE_OTHER
-          redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage)
+          redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
         }
       }
 
@@ -131,7 +131,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
             val result = testAction.invokeBlock(userRequest, block)
 
             status(result) shouldBe SEE_OTHER
-            redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage)
+            redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
           }
         }
       }

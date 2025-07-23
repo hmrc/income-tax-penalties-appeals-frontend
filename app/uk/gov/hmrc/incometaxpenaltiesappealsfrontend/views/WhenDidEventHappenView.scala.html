@@ -55,7 +55,7 @@
 
 @heading = @{if(reasonableExcuse.toString == "health") {healthHeading} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle")}}
 
-@layout(Some(titleBuilder(heading.toString, Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(heading.toString, Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 
     @if(form.hasErrors) {
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))

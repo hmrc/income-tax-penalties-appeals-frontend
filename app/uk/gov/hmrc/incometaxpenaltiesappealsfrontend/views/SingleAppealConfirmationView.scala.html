@@ -32,7 +32,7 @@
 @(isLPP2: Boolean, amount: BigDecimal, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 @appealStage = {@if(isSecondStageAppeal) {.review} else {}}
 
-@layout(Some(titleBuilder(messages(s"single.appeal.headingAndTitle$appealStage")))) {
+@layout(Some(titleBuilder(messages(s"single.appeal.headingAndTitle$appealStage"))), isAgent = request.isAgent) {
 
     @caption()
 

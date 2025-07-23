@@ -55,7 +55,7 @@
     @defining(if(user.isJointAppeal) ".joint" else "") { joint =>
         @defining(if(user.isLPP) ".lpp" else ".lsp") { penaltyType =>
 
-            @layout(pageTitle = Some(titleBuilder(messages(s"uploadEvidence.nonJs.headingAndTitle$review"), Some(form)))) {
+            @layout(pageTitle = Some(titleBuilder(messages(s"uploadEvidence.nonJs.headingAndTitle$review"), Some(form))), isAgent = user.isAgent) {
 
                 @if(form.errors.nonEmpty) {
                     @govukErrorSummary(ErrorSummaryViewModel(form))

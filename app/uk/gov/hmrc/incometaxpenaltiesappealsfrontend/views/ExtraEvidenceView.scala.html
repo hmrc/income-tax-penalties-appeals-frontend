@@ -41,7 +41,7 @@
         isAppealingMultipleLPPs: Boolean
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(pageTitle = Some(titleBuilder(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, is2ndStageAppeal)}"), Some(form))), backLinkEnabled = true) {
+@layout(pageTitle = Some(titleBuilder(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, is2ndStageAppeal)}"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

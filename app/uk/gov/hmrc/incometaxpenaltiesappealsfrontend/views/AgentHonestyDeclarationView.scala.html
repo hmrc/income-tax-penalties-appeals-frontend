@@ -37,7 +37,7 @@
 
 @whatCausedYouToMissDeadlineText = {@if(whatCausedYouToMissDeadline == Option(AgentClientEnum.client)) {clientAffected} else {agentAffected}}
 
-@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true, isAgent = isAgent) {
 
     @caption()
 

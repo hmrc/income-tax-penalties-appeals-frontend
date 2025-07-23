@@ -34,7 +34,7 @@
 
 @defining(if(request.is2ndStageAppeal) ".review" else "") { msgSuffix =>
 
-@layout(Some(titleBuilder(messages(s"viewAppealDetails.headingAndTitle$msgSuffix"))), backLinkEnabled = false, isPageFullWidth = true) {
+@layout(Some(titleBuilder(messages(s"viewAppealDetails.headingAndTitle$msgSuffix"))), backLinkEnabled = false, isPageFullWidth = true, isAgent = request.isAgent) {
 
     @h1(s"viewAppealDetails.headingAndTitle$msgSuffix")
 
