@@ -62,7 +62,7 @@ class DuplicateControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getElementById("duplicatedAppealParagraph").text() shouldBe "You can't submit more than one appeal for the same penalty at the same time."
+        document.getElementById("duplicatedAppealParagraph").text() shouldBe "You can’t submit more than one appeal for the same penalty at the same time."
         document.getElementById("duplicateAppeal-link").text() shouldBe "Back to Self Assessment penalties and appeals"
       }
     }
@@ -70,13 +70,13 @@ class DuplicateControllerISpec extends ControllerISpecHelper {
 
     "the user is an authorised agent" in {
       stubAuthRequests(true)
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswers).futureValue
+      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
 
       val result = get("/agent-duplicate-appeal", isAgent = true)
 
       val document = Jsoup.parse(result.body)
 
-      document.getElementById("duplicatedAppealParagraph").text() shouldBe "You can't submit more than one appeal for the same penalty at the same time."
+      document.getElementById("duplicatedAppealParagraph").text() shouldBe "You can’t submit more than one appeal for the same penalty at the same time."
       document.getElementById("duplicateAppeal-link").text() shouldBe "Back to Self Assessment penalties and appeals"
     }
   }

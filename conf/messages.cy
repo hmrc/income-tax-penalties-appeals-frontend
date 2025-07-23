@@ -643,6 +643,5 @@ hasHospitalStayEnded.error.required = Rhowch wybod i ni a yw’r arhosiad yn yr 
 # ----------------------------------------------------------
 
 duplicateAppeal.headingAndTitle = Appeal already in progress (Welsh)
-duplicateAppeal.p1 = You can't submit more than one appeal for the same penalty at the same time. (Welsh)
+duplicateAppeal.p1 = You can’t submit more than one appeal for the same penalty at the same time. (Welsh)
 duplicateAppeal.link.text = Back to Self Assessment penalties and appeals (Welsh)
-duplicateAppeal.link.href = Back to Self Assessment penalties and appeals (Welsh) TODO-NIMO
