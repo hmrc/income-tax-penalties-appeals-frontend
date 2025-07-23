@@ -66,7 +66,6 @@ class DuplicateControllerISpec extends ControllerISpecHelper {
         document.getElementById("duplicateAppeal-link").text() shouldBe "Back to Self Assessment penalties and appeals"
       }
     }
-    //nimo
 
     "the user is an authorised agent" in {
       stubAuthRequests(true)
