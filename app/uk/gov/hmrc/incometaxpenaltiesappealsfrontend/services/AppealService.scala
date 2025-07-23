@@ -33,6 +33,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
+import play.api.http.Status.CONFLICT
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -104,6 +105,11 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
       case Right(response) =>
         logger.info("[AppealService][singleAppeal] - Received OK from the appeal submission call")
         Right(SuccessfulAppeal(response))
+
+      case Left(error) if error.status == CONFLICT =>
+        logger.error(s"[AppealService][singleAppeal] - Appeal already in progress: ${error.status}")
+          Left(DuplicateAppealInProgress)
+
       case Left(error) =>
         logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
         Left(AppealFailed)
@@ -140,10 +146,16 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     } yield (lpp1Response, lpp2Response) match {
       case (Right(lpp1Success), Right(lpp2Success)) =>
         Right(SuccessfulMultiAppeal(lpp1Success, lpp2Success))
+      case (Right(lpp1Success), Left(e)) if e.status == CONFLICT =>
+        Left(MultiAppealDuplicateLPP2(lpp1Success))
       case (Right(lpp1Success), Left(_)) =>
         Left(MultiAppealFailedLPP2(lpp1Success))
+      case (Left(e), Right(lpp2Success)) if e.status == CONFLICT  =>
+        Left(MultiAppealDuplicateLPP1(lpp2Success))
       case (Left(_), Right(lpp2Success)) =>
         Left(MultiAppealFailedLPP1(lpp2Success))
+      case (Left(e1), Left(e2)) if e1.status == CONFLICT || e2.status == CONFLICT =>
+        Left(MultiAppealDuplicateBoth)
       case _ =>
         Left(MultiAppealFailedBoth)
     }

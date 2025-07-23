@@ -31,9 +31,9 @@ link:components.Link)
 @layout(Some(titleBuilder(messages("duplicateAppeal.headingAndTitle"))), backLinkEnabled = true) {
 
 @h1("duplicateAppeal.headingAndTitle")
-@p("duplicateAppeal.p1")
+@p("duplicateAppeal.p1", elmId = Some("duplicatedAppealParagraph"))
 
-@link(link = "duplicateAppeal.link.href", messageKey = "duplicateAppeal.link.text", id = Some("TODO-NIMO"))
+@link(link = "duplicateAppeal.link.href", messageKey = "duplicateAppeal.link.text", id = Some("duplicateAppeal-link"))
 
 
 

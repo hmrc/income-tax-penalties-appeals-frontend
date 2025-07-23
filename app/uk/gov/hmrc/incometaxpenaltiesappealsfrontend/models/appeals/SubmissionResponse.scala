@@ -36,3 +36,15 @@ case class MultiAppealFailedLPP2(lpp1Success: AppealSubmissionResponseModel) ext
 case object MultiAppealFailedBoth extends SubmissionErrorResponse
 
 case class UnexpectedFailedFuture(e: Throwable) extends SubmissionErrorResponse
+
+
+
+abstract class DuplicateAppealError extends SubmissionErrorResponse
+
+case object DuplicateAppealInProgress extends DuplicateAppealError
+
+case class MultiAppealDuplicateLPP1(lpp2Success: AppealSubmissionResponseModel) extends DuplicateAppealError
+
+case class MultiAppealDuplicateLPP2(lpp1Success: AppealSubmissionResponseModel) extends DuplicateAppealError
+
+case object MultiAppealDuplicateBoth extends DuplicateAppealError
