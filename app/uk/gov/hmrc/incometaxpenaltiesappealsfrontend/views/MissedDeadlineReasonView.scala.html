@@ -37,7 +37,7 @@
 @prefix = {@if(isSecondStageAppeal){.review}}
 @multipleAppeal = {@if(isMultipleAppeal){.multiple}}
 
-@layout(Some(titleBuilder(messages(s"${messageKeyPrefix(isLPP)}$prefix.headingAndTitle$multipleAppeal"), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"${messageKeyPrefix(isLPP)}$prefix.headingAndTitle$multipleAppeal"), Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

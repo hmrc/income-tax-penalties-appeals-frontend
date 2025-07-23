@@ -32,7 +32,7 @@
 
 @(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, isLPP: Boolean, is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 @isLPPText = {@if(isLPP) {lpp} else {lsp}}
-@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true, isAgent = isAgent) {
 
     @caption()
 

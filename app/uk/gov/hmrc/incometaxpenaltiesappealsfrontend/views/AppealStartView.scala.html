@@ -33,7 +33,7 @@
 @isAgentText = {@if(isAgent) {.agent} else {.individual}}
 @cessationLink = {@link(link = "#", messageKey = "appeal.start.cessation.link", id = Some("cessationLink"))}
 
-@layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false) {
+@layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false, isAgent = isAgent) {
 
     @caption()
     @h1("appeal.start.header")

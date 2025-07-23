@@ -30,7 +30,7 @@
 @(isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 @appealStage = {@if(isSecondStageAppeal) {.review} else {}}
 
-@layout(Some(titleBuilder(messages(s"multipleAppeals.headingAndTitle$appealStage"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"multipleAppeals.headingAndTitle$appealStage"))), backLinkEnabled = true, isAgent = isAgent) {
 
     @caption()
 

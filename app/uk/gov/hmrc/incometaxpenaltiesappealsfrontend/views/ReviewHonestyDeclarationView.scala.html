@@ -30,7 +30,7 @@
 
 @(isAgent: Boolean, reasonableExcuse: ReasonableExcuse, is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("honestyDeclaration.headingAndTitle"))), backLinkEnabled = true, isAgent = isAgent) {
 
     @caption()
 

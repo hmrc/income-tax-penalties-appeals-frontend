@@ -42,7 +42,7 @@
 @individualOrAgent = {@if(isAgent) {agent} else {individual}}
 @appealStage = {@if(is2ndStageAppeal) {.review} else {}}
 
-@layout(pageTitle = Some(titleBuilder(messages("jointAppeal.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@layout(pageTitle = Some(titleBuilder(messages("jointAppeal.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

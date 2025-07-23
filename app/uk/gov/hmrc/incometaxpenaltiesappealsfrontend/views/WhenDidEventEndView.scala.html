@@ -32,7 +32,7 @@
 
 @(isAgent: Boolean, reasonableExcuse: ReasonableExcuse,  form: Form[LocalDate])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages(s"whenDidEventEnd.$reasonableExcuse.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"whenDidEventEnd.$reasonableExcuse.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
     @if(form.hasErrors) {
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))

@@ -36,7 +36,7 @@
         isAgent: Boolean
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("hasHospitalStayEnded.headingAndTitle"), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("hasHospitalStayEnded.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

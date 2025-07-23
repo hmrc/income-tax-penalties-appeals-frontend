@@ -36,7 +36,7 @@
 
 @(uploadedFiles: Seq[UploadJourney])(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("checkYourAnswers.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("checkYourAnswers.headingAndTitle"))), backLinkEnabled = true, isAgent = user.isAgent) {
 
     @defining(if (user.is2ndStageAppeal) ".review" else "") { appealStage =>
 

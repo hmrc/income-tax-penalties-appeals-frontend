@@ -64,7 +64,7 @@ class AuthoriseAndRetrieveAgent @Inject()(override val authConnector: AuthConnec
           case _ =>
             logger.info("Individual on agent endpoint")
             Future.successful(
-              Left(Redirect(appConfig.ITSAPenaltiesAppealsHomeUrl)))
+              Left(Redirect(appConfig.ITSAPenaltiesAppealsHomeUrl(false))))
         }.recoverWith {
           case authorisationException: AuthorisationException => handleAuthFailure(authorisationException, isAgent = false).map(Left(_))
         }

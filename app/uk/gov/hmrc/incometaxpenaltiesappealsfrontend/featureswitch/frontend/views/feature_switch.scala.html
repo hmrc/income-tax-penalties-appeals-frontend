@@ -27,7 +27,7 @@
 
 @(featureSwitchList: Seq[(FeatureSwitchProvider, Seq[FeatureSwitchSetting])], formAction: Call)(implicit request: Request[_], messages: Messages)
 
-@layout(Some("Choose which features to enable.")) {
+@layout(Some("Choose which features to enable."), isAgent = false) {
     <h1 class="govuk-heading-l" >Choose which features to enable.</h1>
 
     @formWithCSRF(action = formAction) {
