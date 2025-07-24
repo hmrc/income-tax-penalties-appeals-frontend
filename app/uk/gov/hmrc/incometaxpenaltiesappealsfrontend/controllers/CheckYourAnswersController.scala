@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealFailed, DuplicateAppealError, DuplicateAppealInProgress, MultiAppealFailedBoth, MultiAppealFailedLPP1, MultiAppealFailedLPP2, UnexpectedFailedFuture}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -49,7 +50,13 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
         appealService.submitAppeal(reasonableExcuse).flatMap(_.fold(
           status => {
             logger.error(s"[CheckYourAnswersController][submit] Received error status '$status' when submitting appeal for MTDITID: ${user.mtdItId}, journey: ${user.journeyId}")
-            errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+            status match {
+              case _: DuplicateAppealError =>
+                Future.successful(Redirect(routes.DuplicateAppealController.onPageLoad(isAgent = user.isAgent)))
+
+              case _ =>
+                errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
+            }
           },
           _ => {
             Future.successful(Redirect(routes.ConfirmationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)))

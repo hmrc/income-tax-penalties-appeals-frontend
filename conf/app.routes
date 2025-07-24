@@ -221,6 +221,9 @@ POST       /check-your-answers              uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /agent-check-your-answers        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CheckYourAnswersController.onPageLoad(isAgent: Boolean = true)
 POST       /agent-check-your-answers        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CheckYourAnswersController.submit(isAgent: Boolean = true)
 
+# Duplicate Appeal Page
+GET        /duplicate-appeal                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.DuplicateAppealController.onPageLoad(isAgent: Boolean = false)
+GET        /agent-duplicate-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.DuplicateAppealController.onPageLoad(isAgent: Boolean = true)
 
 # Appeal Confirmation page
 GET        /appeal-confirmation             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ConfirmationController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
