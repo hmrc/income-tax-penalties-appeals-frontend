@@ -38,7 +38,7 @@
 
 @(form: Form[_], uploadedFiles: Seq[UploadedFilesViewModel], postAction: Call)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle = Some(titleBuilder(messages(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), uploadedFiles.size), Some(form)))) {
+@layout(pageTitle = Some(titleBuilder(messages(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), uploadedFiles.size), Some(form))), isAgent = request.isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

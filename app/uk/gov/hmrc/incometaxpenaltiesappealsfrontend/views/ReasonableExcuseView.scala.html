@@ -42,7 +42,7 @@
 
 
 
-@layout(Some(titleBuilder(messages(headingKey), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(headingKey), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("reasonableExcuse" -> "bereavement")))

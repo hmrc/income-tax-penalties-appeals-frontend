@@ -38,7 +38,7 @@
 
 @(form: Form[_], isLPP: Boolean, isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 @isLPPText = {@if(isLPP) {.lpp} else {}}
-@layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}$isLPPText", user.lateAppealDays()), Some(form))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}$isLPPText", user.lateAppealDays()), Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))

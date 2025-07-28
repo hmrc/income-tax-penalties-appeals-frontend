@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealFailed, DuplicateAppealError, DuplicateAppealInProgress, MultiAppealFailedBoth, MultiAppealFailedLPP1, MultiAppealFailedLPP2, UnexpectedFailedFuture}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.DuplicateAppealError
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger

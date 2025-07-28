@@ -46,7 +46,8 @@
         pageTitle: Option[String] = None,
         backLinkEnabled: Boolean = true,
         isPageFullWidth: Boolean = false,
-        disableSessionExpired: Boolean = false
+        disableSessionExpired: Boolean = false,
+        isAgent: Boolean
 )(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
 
@@ -105,7 +106,7 @@
 @hmrcStandardPage(
   HmrcStandardPageParams(
       serviceURLs = ServiceURLs(
-          serviceUrl = Some(appConfig.ITSAPenaltiesAppealsHomeUrl),
+          serviceUrl = Some(appConfig.penaltiesHomePage(isAgent)),
           signOutUrl = Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ServiceController.logout.url)
       ),
     pageTitle = pageTitle,

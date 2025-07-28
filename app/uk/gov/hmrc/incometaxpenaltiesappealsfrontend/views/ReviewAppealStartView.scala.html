@@ -29,7 +29,7 @@
 )
 @(isLate: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("reviewAppeal.start.header"))), backLinkEnabled = false) {
+@layout(Some(titleBuilder(messages("reviewAppeal.start.header"))), backLinkEnabled = false, isAgent = user.isAgent) {
 
     @caption()
 
