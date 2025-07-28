@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
 import play.api.libs.json.Json.JsValueWrapper
-import play.api.libs.json.{JsObject, Json, OFormat, Writes}
+import play.api.libs.json.{JsObject, Json, OFormat, OWrites, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
@@ -42,7 +42,7 @@ object OtherAppealInformation {
   implicit val evidenceFormatter: OFormat[Evidence] = Evidence.format
   implicit val otherAppealInformationFormatter: OFormat[OtherAppealInformation] = Json.format[OtherAppealInformation]
 
-  implicit val writesUploadFiles = UploadJourney.writesSubmission
+  implicit val writesUploadFiles: OWrites[UploadJourney] = UploadJourney.writesSubmission
 
   val otherAppealInformationWrites: Writes[OtherAppealInformation] = Writes { model =>
     Json.obj(Seq[Option[(String, JsValueWrapper)]](

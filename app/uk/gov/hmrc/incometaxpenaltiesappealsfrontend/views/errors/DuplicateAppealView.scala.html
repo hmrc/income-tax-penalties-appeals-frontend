@@ -26,15 +26,13 @@ p:components.P,
 h1:components.H1,
 link:components.Link)
 
-@()(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
+@(isAgent: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("duplicateAppeal.headingAndTitle"))), backLinkEnabled = true) {
+@layout(Some(titleBuilder(messages("duplicateAppeal.headingAndTitle"))), backLinkEnabled = true, isAgent = isAgent) {
 
 @h1("duplicateAppeal.headingAndTitle")
 @p("duplicateAppeal.p1", elmId = Some("duplicatedAppealParagraph"))
 
-@link(link = appConfig.penaltiesHomePage, messageKey = "duplicateAppeal.link.text", id = Some("duplicateAppeal-link"))
-
-
+@link(link = appConfig.penaltiesHomePage(isAgent), messageKey = "duplicateAppeal.link.text", id = Some("duplicateAppeal-link"))
 
 }

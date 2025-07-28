@@ -29,6 +29,6 @@ class DuplicateAppealController @Inject()(duplicateAppealView: DuplicateAppealVi
                                           override val controllerComponents: MessagesControllerComponents
                                          )(implicit val appConfig: AppConfig) extends BaseUserAnswersController {
   def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit currentUser =>
-    Ok(duplicateAppealView())
+    Ok(duplicateAppealView(isAgent))
   }
 }
