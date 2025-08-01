@@ -289,11 +289,11 @@ whenDidEventHappen.technicalIssue.date.error.notInFuture = Mae’n rhaid i’r d
 
 # Health Messages
 whenDidEventHappen.health.headingAndTitle = Pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
-whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn
-whenDidEventHappen.health.date.error.required.all = Nodwch ddyddiad y tân neu lifogydd
-whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0} a {1}
-whenDidEventHappen.health.date.error.required = Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys {0}
-whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol
+whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod yn ddyddiad go iawn
+whenDidEventHappen.health.date.error.required.all = Nodwch y dyddiad pan ddechreuodd y broblem iechyd
+whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0} a {1}
+whenDidEventHappen.health.date.error.required = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0}
+whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod heddiw neu yn y gorffennol
 
 # Health Messages LSP Agent
 client.whenDidEventHappen.health.lsp.headingAndTitle = Pryd y gwnaeth y broblem iechyd rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
@@ -317,7 +317,7 @@ whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC (Welsh)
 whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC (Welsh)
 
 # Other Messages - LSP
-whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you meeting the submission deadline? (Welsh)
+whenDidEventHappen.other.lsp.headingAndTitle = Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
 whenDidEventHappen.other.lsp.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod yn ddyddiad go iawn
 whenDidEventHappen.other.lsp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno
 whenDidEventHappen.other.lsp.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys {0} a {1}
@@ -620,7 +620,9 @@ reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 reasonableExcuses.other = Rheswm arall
 
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
-reasonableExcuse.error.message = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
+reasonableExcuse.error.message.lsp = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
+#TODO
+reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline (Welsh)
 
 
 # Single Appeal Confirmation

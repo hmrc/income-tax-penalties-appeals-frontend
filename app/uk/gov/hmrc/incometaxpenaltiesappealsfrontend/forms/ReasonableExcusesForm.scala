@@ -28,13 +28,15 @@ object ReasonableExcusesForm extends Mappings {
 
   val key = "reasonableExcuse"
 
-  def form()(implicit messages: Messages): Form[ReasonableExcuse] = Form(
+  def form(isLPP: Boolean)(implicit messages: Messages): Form[ReasonableExcuse] = Form {
+
+    val suffix: String = if (isLPP) ".lpp" else ".lsp"
     single(
       key ->
-        text(messages("reasonableExcuse.error.message"))
-          .verifying("reasonableExcuse.error.message", value => Try(ReasonableExcuse.apply(value)).isSuccess)
+        text(messages(s"reasonableExcuse.error.message$suffix"))
+          .verifying(s"reasonableExcuse.error.message$suffix", value => Try(ReasonableExcuse.apply(value)).isSuccess)
           .transform[ReasonableExcuse](ReasonableExcuse.apply, _.toString)
     )
-  )
+  }
 
 }

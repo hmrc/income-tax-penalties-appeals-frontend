@@ -70,7 +70,8 @@ reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
-reasonableExcuse.error.message = Select the reason for missing the deadline
+reasonableExcuse.error.message.lsp = Select the reason for missing the submission deadline
+reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline
 
 
 # Joint appeal LPP
@@ -241,7 +242,7 @@ whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC
 whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC
 
 # Other Messages - LSP
-whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you meeting the submission deadline?
+whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you from meeting the submission deadline?
 whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped you meeting the submission deadline must be a real date
 whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped you meeting the submission deadline
 whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped you meeting the submission deadline must include a {0} and a {1}

@@ -36,14 +36,14 @@ class ReasonableExcuseFormSpec extends AnyWordSpec with should.Matchers with Gui
 
       implicit def messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-      val form: Form[ReasonableExcuse] = ReasonableExcusesForm.form()
+      val form: Form[ReasonableExcuse] = ReasonableExcusesForm.form(isLPP = false)
 
       "bind" when {
 
         behave like mandatoryField(
           form = form,
           fieldName = ReasonableExcusesForm.key,
-          requiredError = FormError(ReasonableExcusesForm.key, messagesForLanguage.errorRequired)
+          requiredError = FormError(ReasonableExcusesForm.key, messagesForLanguage.errorRequiredLsp)
         )
 
         "bind valid values" in {
