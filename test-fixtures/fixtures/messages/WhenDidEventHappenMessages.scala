@@ -41,7 +41,7 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => "When did the issue first stop your client paying the tax bill by the due date?"
         case (true, _, false) => "When did the issue first stop your client from meeting the submission deadline?"
         case (false, _, true) => "When did the issue first stop you paying the tax bill by the due date?"
-        case (_, _, _)        => "When did the issue first stop you meeting the submission deadline?"
+        case (_, _, _)        => "When did the issue first stop you from meeting the submission deadline?"
       }
 
     def errorMessageConstructor(reasonableExcuse: ReasonableExcuse,
@@ -270,7 +270,7 @@ object WhenDidEventHappenMessages {
         case (true, _, true)  => "When did the issue first stop your client paying the tax bill by the due date? (Welsh)"
         case (true, _, false) => "When did the issue first stop your client from meeting the submission deadline? (Welsh)"
         case (false, _, true) => "When did the issue first stop you paying the tax bill by the due date? (Welsh)"
-        case (_, _, _)        => "When did the issue first stop you meeting the submission deadline? (Welsh)"
+        case (_, _, _)        => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
       }
 
     override val crimeInvalid = "Mae’n rhaid i ddyddiad y drosedd fod yn ddyddiad go iawn"

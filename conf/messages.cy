@@ -186,7 +186,7 @@ agents.whatCausedYouToMissTheDeadline.error.invalid = Rhowch y rheswm dros gyflw
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
 missedDeadlineReason.lsp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn cosbau eraill ar wahân.
-missedDeadlineReason.lsp.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam y methwyd y dyddiad cau
+missedDeadlineReason.lsp.error.required = Rhowch reswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 missedDeadlineReason.lsp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
 missedDeadlineReason.lsp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
@@ -198,15 +198,15 @@ missedDeadlineReason.lsp.error.review.required = Mae’n rhaid i chi roi gwyboda
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
-missedDeadlineReason.lpp.headingAndTitle = Why was the payment late? (Welsh)
+missedDeadlineReason.lpp.headingAndTitle = Why was the payment deadline missed? (Welsh)
 missedDeadlineReason.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
-missedDeadlineReason.lpp.error.required = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr
+missedDeadlineReason.lpp.error.required = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
 missedDeadlineReason.lpp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
 missedDeadlineReason.lpp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
-missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment late? (Welsh)
+missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment deadline missed? (Welsh)
 missedDeadlineReason.lpp.hint.multiple = Dim ond y cosbau hyn y mae angen i ni wybod amdanynt. Dylech apelio yn erbyn unrhyw gosbau eraill ar wahân.
-missedDeadlineReason.lpp.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr
+missedDeadlineReason.lpp.error.required.multiple = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
@@ -508,14 +508,15 @@ checkYourAnswers.uploadedDocuments.change.hidden = Tystiolaeth i ategu’r apêl
 checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review (Welsh)
 checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review (Welsh)
 
-checkYourAnswers.missedDeadlineReason.lpp.key = Pam oedd y taliad yn hwyr?
-checkYourAnswers.missedDeadlineReason.lpp.change.hidden = Pam oedd y taliad yn hwyr
+#TODO
+checkYourAnswers.missedDeadlineReason.lpp.key =  Why was the payment deadline missed? (Welsh)
+checkYourAnswers.missedDeadlineReason.lpp.change.hidden =  why was the payment deadline missed (Welsh)
 checkYourAnswers.missedDeadlineReason.lsp.key = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
-checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed (Welsh)
+checkYourAnswers.missedDeadlineReason.lsp.change.hidden = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.missedDeadlineReason.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 checkYourAnswers.missedDeadlineReason.review.change.hidden = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
-checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions? (Welsh)
-checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions (Welsh)
+checkYourAnswers.missedDeadlineReason.joint.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
 
 checkYourAnswers.declaration.h2 = Datganiad
 checkYourAnswers.declaration.text.1 = Wrth gyflwyno’r apêl hon, rydych yn gwneud datganiad cyfreithlon bod yr wybodaeth yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a’ch cred.
