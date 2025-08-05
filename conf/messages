@@ -70,7 +70,8 @@ reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
 reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
-reasonableExcuse.error.message = Select the reason for missing the deadline
+reasonableExcuse.error.message.lsp = Select the reason for missing the submission deadline
+reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline
 
 
 # Joint appeal LPP
@@ -241,7 +242,7 @@ whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC
 whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC
 
 # Other Messages - LSP
-whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you meeting the submission deadline?
+whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you from meeting the submission deadline?
 whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped you meeting the submission deadline must be a real date
 whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped you meeting the submission deadline
 whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped you meeting the submission deadline must include a {0} and a {1}
@@ -329,7 +330,7 @@ lateAppeal.error.regex = The text must contain only letters, numbers and standar
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.headingAndTitle = Why was the submission deadline missed?
 missedDeadlineReason.lsp.hint = We only need to know about this penalty. Other penalties should be appealed separately.
-missedDeadlineReason.lsp.error.required = You must provide some information about why the deadline was missed
+missedDeadlineReason.lsp.error.required = Explain why the submission deadline was missed
 missedDeadlineReason.lsp.error.length = Explain the reason in {0} characters or fewer
 missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters
 
@@ -341,15 +342,15 @@ missedDeadlineReason.lsp.error.review.required = You must provide some informati
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
-missedDeadlineReason.lpp.headingAndTitle = Why was the payment late?
+missedDeadlineReason.lpp.headingAndTitle = Why was the payment deadline missed?
 missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately.
-missedDeadlineReason.lpp.error.required = You must provide some information about why the payment was late
+missedDeadlineReason.lpp.error.required = Explain why the payment deadline was missed
 missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer
 missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters
 
-missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment late?
+missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment deadline missed?
 missedDeadlineReason.lpp.hint.multiple = We only need to know about these penalties. Any other penalties should be appealed separately.
-missedDeadlineReason.lpp.error.required.multiple = You must provide some information about why the payment was late
+missedDeadlineReason.lpp.error.required.multiple = Explain why the payment deadline was missed
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
@@ -455,8 +456,8 @@ checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = when did 
 checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days
 checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days
 
-checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment late?
-checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment late
+checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment deadline missed?
+checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment deadline missed
 checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed?
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
 checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision?

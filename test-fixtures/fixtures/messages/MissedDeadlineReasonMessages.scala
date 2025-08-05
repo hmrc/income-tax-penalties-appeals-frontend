@@ -22,7 +22,7 @@ object MissedDeadlineReasonMessages {
     def headingAndTitle(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
       else if(is2ndStageAppeal) "Why are you asking us to review this decision?"
-      else if(isLPP) "Why was the payment late?"
+      else if(isLPP) "Why was the payment deadline missed?"
       else "Why was the submission deadline missed?"
     }
 
@@ -37,8 +37,8 @@ object MissedDeadlineReasonMessages {
     def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal && isLPP) "You must provide some information about why you are asking us to review these decisions"
       else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision"
-      else if(isLPP) "You must provide some information about why the payment was late"
-      else "You must provide some information about why the deadline was missed"
+      else if(isLPP) "Explain why the payment deadline was missed"
+      else "Explain why the submission deadline was missed"
     }
 
     def errorRequiredSecondStage: String = {
@@ -53,13 +53,13 @@ object MissedDeadlineReasonMessages {
     def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
       else if(is2ndStageAppeal) "Why are you asking us to review this decision?"
-      else if(isLPP) "Why was the payment late?"
+      else if(isLPP) "Why was the payment deadline missed?"
       else "Why was the submission deadline missed?"
 
     def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions"
       else if(is2ndStageAppeal) "why are you asking us to review this decision"
-      else if(isLPP) "why was the payment late"
+      else if(isLPP) "why was the payment deadline missed"
       else "why was the submission deadline missed"
   }
 
@@ -67,9 +67,9 @@ object MissedDeadlineReasonMessages {
 
   object Welsh extends Messages with Cy {
     override def headingAndTitle(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
-      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions? (Welsh)"
+      if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
       else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-      else if(isLPP) "Pam oedd y taliad yn hwyr?"
+      else if(isLPP) "Why was the payment deadline missed? (Welsh)"
       else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     }
 
@@ -84,8 +84,8 @@ object MissedDeadlineReasonMessages {
     override def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "You must provide some information about why you are asking us to review these decisions (Welsh)"
       else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision (Welsh)"
-      else if(isLPP) "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam oedd y taliad yn hwyr"
-      else "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynghylch pam y methwyd y dyddiad cau"
+      else if(isLPP) "Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu"
+      else "Rhowch reswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
     }
 
     override def errorRequiredSecondStage: String = {
@@ -100,15 +100,15 @@ object MissedDeadlineReasonMessages {
     override val errorRegex: String = "Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig"
 
     override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions? (Welsh)"
+      if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
       else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-      else if(isLPP) "Pam oedd y taliad yn hwyr?"
+      else if(isLPP) "Why was the payment deadline missed? (Welsh)"
       else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
 
     override def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions (Welsh)"
+      if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
       else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
-      else if(isLPP) "Pam oedd y taliad yn hwyr"
-      else "why was the submission deadline missed (Welsh)"
+      else if(isLPP) "why was the payment deadline missed (Welsh)"
+      else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
   }
 }

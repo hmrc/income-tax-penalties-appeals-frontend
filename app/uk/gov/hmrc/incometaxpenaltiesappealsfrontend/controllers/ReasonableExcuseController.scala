@@ -46,12 +46,12 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
       //      However, an API change may be needed for this to make the Reasonable Excuse optional in the appeal submission
       updateUserAnswersAndRedirect(Other)
     } else {
-      renderView(Ok, fillForm(ReasonableExcusesForm.form(), ReasonableExcusePage))
+      renderView(Ok, fillForm(ReasonableExcusesForm.form(user.isLPP), ReasonableExcusePage))
     }
   }
 
   def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    ReasonableExcusesForm.form().bindFromRequest().fold(
+    ReasonableExcusesForm.form(user.isLPP).bindFromRequest().fold(
       renderView(BadRequest, _),
       updateUserAnswersAndRedirect
     )
