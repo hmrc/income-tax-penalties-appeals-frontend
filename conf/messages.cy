@@ -395,6 +395,7 @@ uploadEvidence.nonJs.p2.lpp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy
 uploadEvidence.nonJs.p2.lpp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
 uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
+uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
 uploadEvidence.nonJs.label = Select a file (Welsh)
 
 # NonJS File Upload Page
