@@ -563,6 +563,7 @@ uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters th
 uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the payment deadline was missed.
 uploadEvidence.nonJs.p3 = You can upload up to {0} files.
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
+uploadEvidence.nonJs.p5 = Filenames cannot contain spaces.
 uploadEvidence.nonJs.label = Select a file
 
 # NonJS File Upload Page
