@@ -18,9 +18,13 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.IncomeTaxSessionDataConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.ViewStatusAuditModel
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AuditService, UpscanService}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.PrintAppealHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 
@@ -32,18 +36,36 @@ class ViewAppealDetailsController @Inject()(viewAppealDetails: ViewAppealDetails
                                             val authActions: AuthActions,
                                             printAppealService: PrintAppealHelper,
                                             upscanService: UpscanService,
-                                            incomeTaxSessionDataConnector: IncomeTaxSessionDataConnector,
+                                            auditService: AuditService,
                                             override val errorHandler: ErrorHandler,
                                             override val controllerComponents: MessagesControllerComponents,
-                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
   def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    withAnswer(ReasonableExcusePage) { reasonableExcuse =>
 
-    val fUploadedFiles = upscanService.getAllReadyFiles(user.journeyId)
+      val fUploadedFiles = upscanService.getAllReadyFiles(user.journeyId)
 
-    for {
-      uploadedFiles   <- fUploadedFiles
-      summaryListRows =  printAppealService.constructPrintSummaryRows(uploadedFiles, user.nino)
-    } yield Ok(viewAppealDetails(summaryListRows))
+      for {
+        uploadedFiles <- fUploadedFiles
+        summaryListRows = printAppealService.constructPrintSummaryRows(uploadedFiles, user.nino)
+      } yield {
+
+        val viewStatusAuditModel = ViewStatusAuditModel(
+          penaltyNumber = user.penaltyNumber,
+          penaltyType = user.penaltyData.appealData.`type`,
+          appealSubmission = AppealSubmission.constructModelBasedOnReasonableExcuse(
+            reasonableExcuse = reasonableExcuse,
+            uploadedFiles = Option.when(uploadedFiles.nonEmpty)(uploadedFiles)
+          ),
+          penaltyData = user.penaltyData
+        )
+
+        logger.info(s" Sending audit for ViewStatusAuditModel: $viewStatusAuditModel")
+        auditService.audit(viewStatusAuditModel)
+        Ok(viewAppealDetails(summaryListRows))
+      }
+
+    }
   }
 }
