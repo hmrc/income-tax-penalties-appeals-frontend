@@ -97,6 +97,10 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
         extraEvidenceMessages) =>
 
         implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
+        val userAnswersWithReason = emptyUserAnswersWithLSP
+          .setAnswer(ReasonableExcusePage, Bereavement)
+          .setAnswer(HonestyDeclarationPage, true)
+          .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
 
         s"when Accept-Language is '${messagesForLanguage.lang.code}'" when {
 
@@ -104,7 +108,7 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
 
             if (!isAgent) {
               testNavBar(url = url) {
-                userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
+                userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
               }
             }
 
@@ -112,6 +116,7 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
 
               val baseUserAnswers = emptyUserAnswersWithLSP
                 .setAnswer(ReasonableExcusePage, Bereavement)
+                .setAnswer(HonestyDeclarationPage, true)
                 .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
                 .setAnswer(LateAppealPage, "I was late")
 
@@ -166,6 +171,7 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
 
               val baseUserAnswers = emptyUserAnswersWithLSP
                 .setAnswer(ReasonableExcusePage, Other)
+                .setAnswer(HonestyDeclarationPage, true)
                 .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 2, 1))
                 .setAnswer(MissedDeadlineReasonPage, "Forgot")
                 .setAnswer(ExtraEvidencePage, true)
