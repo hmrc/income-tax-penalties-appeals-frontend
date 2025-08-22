@@ -241,7 +241,10 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            document.getSubmitButton.attr("href") shouldBe {
+              if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad().url
+              else routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            }
           }
         }
       }
