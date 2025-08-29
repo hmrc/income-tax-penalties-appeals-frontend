@@ -22,6 +22,8 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -241,9 +243,28 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            document.getSubmitButton.attr("href") shouldBe {
+              if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad().url
+              else routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            }
           }
         }
+
+
+        "When isClientResponsibleForSubmission is not empty" should {
+          "link to Reasonable Excuse bypassing the Who planned to submit page" in {
+            stubAuthRequests(isAgent = true)
+
+            val answer = emptyUserAnswersWithLSP2ndStage.copy().setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+            userAnswersRepo.upsertUserAnswer(answer).futureValue
+
+            val result = get("/agent-appeal-start", isAgent = true)
+            val document = Jsoup.parse(result.body)
+
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent = true).url
+          }
+        }
+
       }
     }
   }
