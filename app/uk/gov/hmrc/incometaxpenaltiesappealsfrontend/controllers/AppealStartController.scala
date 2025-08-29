@@ -45,8 +45,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
   private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
     reviewAppealStartView(
       user.isAppealLate(),
-      if(user.isAgent && !user.isLPP) routes.WhoPlannedToSubmitController.onPageLoad()
-      else if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
+      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
       else routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
     )
 
