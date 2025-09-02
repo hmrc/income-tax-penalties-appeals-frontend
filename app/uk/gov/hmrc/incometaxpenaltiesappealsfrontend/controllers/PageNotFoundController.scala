@@ -31,7 +31,7 @@ class PageNotFoundController @Inject()(
                                       )(implicit val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(isAgent: Boolean): Action[AnyContent] =
-    authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+    authActions.asMTDUser(isAgent) { implicit user =>
       Ok(pageNotFoundView(isAgent))
     }
 }

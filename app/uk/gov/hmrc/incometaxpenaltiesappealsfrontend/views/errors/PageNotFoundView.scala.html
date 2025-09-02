@@ -16,7 +16,7 @@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequest
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
@@ -28,7 +28,7 @@ h1: components.H1,
 link: components.Link
 )
 
-@(isAgent: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(isAgent: Boolean)(implicit user: CurrentUserRequest[_], messages: Messages, appConfig: AppConfig)
 
 @layout(Some(titleBuilder(messages("bypass.headingAndTitle"))), backLinkEnabled = false, isAgent = isAgent) {
 
