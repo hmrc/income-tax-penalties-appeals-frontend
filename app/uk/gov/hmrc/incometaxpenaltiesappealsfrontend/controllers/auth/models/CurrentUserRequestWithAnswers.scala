@@ -90,8 +90,8 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
 
   val auditJson: JsObject = Json.obj(
     "submittedBy" -> (if (isAgent) "agent" else "customer"),
-    "identifierType" -> "MTDITID",
-    "taxIdentifier" -> mtdItId
+    "identifierType" -> "NINO",
+    "taxIdentifier" -> nino
   ) ++ arn.fold(Json.obj())(arn => Json.obj("agentDetails" -> Json.obj(
     "agentReferenceNo" -> arn,
     "isExcuseRelatedToAgent" -> userAnswers.getAnswer(WhatCausedYouToMissDeadlinePage).contains(AgentClientEnum.agent)

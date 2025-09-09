@@ -68,8 +68,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "appealDate" -> "2023-01-05T00:00:00",
@@ -119,8 +119,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "appealDate" -> "2023-01-05T00:00:00",
@@ -174,8 +174,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> true
@@ -232,8 +232,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 )
             ).detail shouldBe Json.obj(
               "submittedBy" -> "customer",
-              "identifierType" -> "MTDITID",
-              "taxIdentifier" -> "123456789",
+              "identifierType" -> "NINO",
+              "taxIdentifier" -> "AA123456A",
               "penaltyNumber" -> "pen1234",
               "penaltyType" -> "Late Submission Penalty",
               "appealDate" -> "2023-01-05T00:00:00",
@@ -285,8 +285,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 )
             ).detail shouldBe Json.obj(
               "submittedBy" -> "customer",
-              "identifierType" -> "MTDITID",
-              "taxIdentifier" -> "123456789",
+              "identifierType" -> "NINO",
+              "taxIdentifier" -> "AA123456A",
               "penaltyNumber" -> "pen1234",
               "penaltyType" -> "Late Payment Penalty 1",
               "appealDate" -> "2023-01-05T00:00:00",
@@ -342,8 +342,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 )
             ).detail shouldBe Json.obj(
               "submittedBy" -> "agent",
-              "identifierType" -> "MTDITID",
-              "taxIdentifier" -> "123456789",
+              "identifierType" -> "NINO",
+              "taxIdentifier" -> "AA123456A",
               "agentDetails" -> Json.obj(
                 "agentReferenceNo" -> "XARN1234567",
                 "isExcuseRelatedToAgent" -> true
@@ -400,8 +400,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -452,8 +452,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -507,8 +507,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "agent",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "agentDetails" -> Json.obj(
                   "agentReferenceNo" -> "XARN1234567",
                   "isExcuseRelatedToAgent" -> false
@@ -564,8 +564,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -615,8 +615,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -670,8 +670,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "agent",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "agentDetails" -> Json.obj(
                   "agentReferenceNo" -> "XARN1234567",
                   "isExcuseRelatedToAgent" -> false
@@ -728,8 +728,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -781,8 +781,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -838,8 +838,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "agent",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "agentDetails" -> Json.obj(
                   "agentReferenceNo" -> "XARN1234567",
                   "isExcuseRelatedToAgent" -> false
@@ -899,8 +899,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -955,8 +955,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -1014,8 +1014,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "agent",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "agentDetails" -> Json.obj(
                   "agentReferenceNo" -> "XARN1234567",
                   "isExcuseRelatedToAgent" -> false
@@ -1076,8 +1076,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -1133,8 +1133,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -1192,8 +1192,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "agent",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "agentDetails" -> Json.obj(
                   "agentReferenceNo" -> "XARN1234567",
                   "isExcuseRelatedToAgent" -> false
@@ -1254,8 +1254,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -1326,8 +1326,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "customer",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
                 "appealDate" -> "2023-01-05T00:00:00",
@@ -1402,8 +1402,8 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                   )
               ).detail shouldBe Json.obj(
                 "submittedBy" -> "agent",
-                "identifierType" -> "MTDITID",
-                "taxIdentifier" -> "123456789",
+                "identifierType" -> "NINO",
+                "taxIdentifier" -> "AA123456A",
                 "agentDetails" -> Json.obj(
                   "agentReferenceNo" -> "XARN1234567",
                   "isExcuseRelatedToAgent" -> false
