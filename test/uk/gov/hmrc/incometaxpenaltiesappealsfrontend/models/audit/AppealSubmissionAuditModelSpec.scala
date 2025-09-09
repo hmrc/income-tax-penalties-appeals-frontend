@@ -70,8 +70,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -123,8 +123,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "error" -> "Something went wrong!",
@@ -180,8 +180,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> true
@@ -240,8 +240,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -295,8 +295,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -354,8 +354,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> true
@@ -414,8 +414,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -467,8 +467,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -524,8 +524,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> false
@@ -583,8 +583,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -636,8 +636,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -693,8 +693,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> false
@@ -753,8 +753,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -808,8 +808,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -867,8 +867,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> false
@@ -930,8 +930,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -988,8 +988,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -1049,8 +1049,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> false
@@ -1113,8 +1113,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -1172,8 +1172,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -1233,8 +1233,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> false
@@ -1297,8 +1297,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
             "caseId" -> "case1234",
@@ -1371,8 +1371,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "customer",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
             "caseId" -> "case1234",
@@ -1449,8 +1449,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               )
           ).detail shouldBe Json.obj(
             "submittedBy" -> "agent",
-            "identifierType" -> "MTDITID",
-            "taxIdentifier" -> "123456789",
+            "identifierType" -> "NINO",
+            "taxIdentifier" -> "AA123456A",
             "agentDetails" -> Json.obj(
               "agentReferenceNo" -> "XARN1234567",
               "isExcuseRelatedToAgent" -> false
