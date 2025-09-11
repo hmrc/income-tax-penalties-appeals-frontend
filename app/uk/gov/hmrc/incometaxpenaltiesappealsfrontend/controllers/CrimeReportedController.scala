@@ -16,10 +16,12 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.CrimeReportedPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -36,33 +38,37 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hasTheCrimeBeenReported(
       form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
       isLate = user.isAppealLate(),
-      isAgent = user.isAgent
+      isAgent = user.isAgent,
+      mode
     ))
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     CrimeReportedForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(hasTheCrimeBeenReported(
           form = formWithErrors,
           isLate = user.isAppealLate(),
-          isAgent = user.isAgent
+          isAgent = user.isAgent,
+          mode
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(CrimeReportedPage, value)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          if(user.isAppealLate()) {
-            Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
-          } else {
-            Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
-          }
+          Redirect(nextPage(mode))
         }
       }
     )
   }
 
+  private def nextPage(mode: Mode)(implicit user: CurrentUserRequestWithAnswers[AnyContent]): Call =
+    (user.isAppealLate(), mode) match {
+      case (true, NormalMode) => routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
+      case (false, NormalMode) => routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent)
+      case (_, CheckMode) => routes.CheckYourAnswersController.onPageLoad(user.isAgent)
+    }
 }
