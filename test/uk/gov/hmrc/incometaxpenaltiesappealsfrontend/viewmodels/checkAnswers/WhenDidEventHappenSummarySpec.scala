@@ -54,7 +54,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
-                WhenDidEventHappenSummary.row() shouldBe None
+                WhenDidEventHappenSummary.row(mode = NormalMode) shouldBe None
               }
             }
 
@@ -70,7 +70,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
                       .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
                   )
 
-                  WhenDidEventHappenSummary.row() shouldEqual Some(summaryListRow(
+                  WhenDidEventHappenSummary.row(mode = NormalMode) shouldEqual Some(summaryListRow(
                     label = messagesForLanguage.cyaKey(reason),
                     value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                     actions = Some(Actions(
@@ -96,7 +96,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
                       .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
                   )
 
-                  WhenDidEventHappenSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                  WhenDidEventHappenSummary.row(showActionLinks = false,mode = NormalMode) shouldBe Some(summaryListRow(
                     label = messagesForLanguage.cyaKey(reason),
                     value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                     actions = None

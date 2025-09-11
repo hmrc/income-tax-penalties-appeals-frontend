@@ -22,7 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
@@ -43,7 +43,7 @@ object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
               items = Seq(
                 ActionItem(
                   content = Text(messages("common.change")),
-                  href = controllers.routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode).url,
+                  href = controllers.routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode = mode).url,
                   visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.change.hidden"))
                 ).withId("changeWhenDidEventEnd")
               )

@@ -33,7 +33,7 @@ class CheckAnswersHelper @Inject()(lateAppealSummary: LateAppealSummary) {
       WhatCausedYouToMissDeadlineSummary.row(showActionLinks),
       JointAppealSummary.row(showActionLinks),
       ReasonableExcuseSummary.row(showActionLinks),
-      WhenDidEventHappenSummary.row(showActionLinks),
+      WhenDidEventHappenSummary.row(showActionLinks,mode),
       HasHospitalStayEndedSummary.row(showActionLinks, mode),
       WhenDidEventEndSummary.row(showActionLinks, mode),
       CrimeReportedSummary.row(showActionLinks),

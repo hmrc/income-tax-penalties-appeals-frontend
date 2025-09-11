@@ -22,14 +22,14 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true,mode:Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       WhenDidEventHappenPage.value.map { whenDidEventHappen =>
         summaryListRow(
@@ -39,7 +39,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, NormalMode).url,
+                href = controllers.routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, mode).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.change.hidden"))
               ).withId("changeWhenDidEventHappen")
             )
