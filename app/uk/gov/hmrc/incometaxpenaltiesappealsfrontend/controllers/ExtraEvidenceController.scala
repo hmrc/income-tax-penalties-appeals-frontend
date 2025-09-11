@@ -70,7 +70,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
               if(mode == NormalMode && user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = NormalMode))
               } else {
                 Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
               }

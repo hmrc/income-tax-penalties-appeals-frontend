@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, NormalMode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -147,7 +147,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
           val result = post("/has-this-crime-been-reported")(Map(CrimeReportedForm.key -> CrimeReportedEnum.yes))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(CrimeReportedPage)) shouldBe Some(CrimeReportedEnum.yes)
         }

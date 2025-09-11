@@ -162,7 +162,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, mode = NormalMode).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
         }

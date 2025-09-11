@@ -308,6 +308,234 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
         }
       }
     }
+
+    s"GET /making-a-late-appeal/check with ${reason._1}" should {
+
+      testNavBar(url = "/making-a-late-appeal/check") {
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
+      }
+
+      "return an OK with a view pre-populated in checkMode" when {
+        "the user is an authorised individual AND the page has already been answered" in {
+          stubAuthRequests(false)
+          userAnswersRepo.upsertUserAnswer(
+            userAnswersWithReasonLSP.setAnswer(LateAppealPage, "Some reason")
+          ).futureValue
+
+          val result = get("/making-a-late-appeal/check")
+          result.status shouldBe OK
+
+          val document = Jsoup.parse(result.body)
+          document.select(s"#${LateAppealForm.key}").text() shouldBe "Some reason"
+        }
+
+        "the user is an authorised agent AND the page has already been answered" in {
+          stubAuthRequests(true)
+          userAnswersRepo.upsertUserAnswer(
+            userAnswersWithReasonLSP.setAnswer(LateAppealPage, "Some reason")
+          ).futureValue
+
+          val result = get("/agent-making-a-late-appeal/check", isAgent = true)
+          result.status shouldBe OK
+
+          val document = Jsoup.parse(result.body)
+          document.select(s"#${LateAppealForm.key}").text() shouldBe "Some reason"
+        }
+      }
+
+      "the journey is for a 1st Stage Appeal" when {
+        "the penalty type is LSP" when {
+          "the page has the correct elements in checkMode" when {
+            "the user is an authorised individual" in {
+              stubAuthRequests(false)
+              userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
+
+              val result = get("/making-a-late-appeal/check")
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
+                dateToString(lateSubmissionAppealData.startDate),
+                dateToString(lateSubmissionAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
+              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
+              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+              document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+              document.getSubmitButton.text() shouldBe "Continue"
+            }
+
+            "the user is an authorised agent" in {
+              stubAuthRequests(true)
+              userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSP).futureValue
+
+              val result = get("/agent-making-a-late-appeal/check", isAgent = true)
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
+                dateToString(lateSubmissionAppealData.startDate),
+                dateToString(lateSubmissionAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
+              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
+              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+              document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+              document.getSubmitButton.text() shouldBe "Continue"
+            }
+          }
+        }
+
+        "the penalty type is LPP - Single Appeal" when {
+          "the page has the correct elements in checkMode" in {
+            stubAuthRequests(false)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLPP).futureValue
+
+            val result = get("/making-a-late-appeal/check")
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"This penalty was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe s"This penalty was issued more than ${reason._2} days ago"
+            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
+            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+            document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+            document.getSubmitButton.text() shouldBe "Continue"
+
+          }
+        }
+
+        "the penalty type is LPP - Multiple Appeals" when {
+          "the page has the correct elements in checkMode" in {
+            stubAuthRequests(false)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithReasonMultipleLPP).futureValue
+
+            val result = get("/making-a-late-appeal/check")
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"The penalties were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe s"The penalties were issued more than ${reason._2} days ago"
+            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
+            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+            document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+            document.getSubmitButton.text() shouldBe "Continue"
+
+          }
+        }
+      }
+
+      "the journey is for a 2nd Stage Appeal" when {
+        "the penalty type is LSP" when {
+          "the page has the correct elements in checkMode" when {
+            "the user is an authorised individual" in {
+              stubAuthRequests(false)
+              userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
+
+              val result = get("/making-a-late-review-request/check")
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
+                dateToString(lateSubmissionAppealData.startDate),
+                dateToString(lateSubmissionAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe s"The appeal decision was issued more than ${reason._2} days ago"
+              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to ask for a review within ${reason._2} days of the date of the decision."
+              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days"
+              document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+              document.getSubmitButton.text() shouldBe "Continue"
+            }
+
+            "the user is an authorised agent" in {
+              stubAuthRequests(true)
+              userAnswersRepo.upsertUserAnswer(userAnswersWithReasonLSPSecondStage).futureValue
+
+              val result = get("/agent-making-a-late-review-request/check", isAgent = true)
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
+                dateToString(lateSubmissionAppealData.startDate),
+                dateToString(lateSubmissionAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe s"The appeal decision was issued more than ${reason._2} days ago"
+              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to ask for a review within ${reason._2} days of the date of the decision."
+              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days"
+              document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+              document.getSubmitButton.text() shouldBe "Continue"
+            }
+          }
+        }
+
+        "the penalty type is LPP - Single Appeal" when {
+          "the page has the correct elements in checkMode" in {
+            stubAuthRequests(false)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithSingleLPPsSecondStage).futureValue
+
+            val result = get("/making-a-late-review-request/check")
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"The appeal decision was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe s"The appeal decision was issued more than ${reason._2} days ago"
+            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to ask for a review within ${reason._2} days of the date of the decision."
+            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days"
+            document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+            document.getSubmitButton.text() shouldBe "Continue"
+
+          }
+        }
+
+        "the penalty type is LPP - Multiple Appeals" when {
+          "the page has the correct elements in checkMode" in {
+            stubAuthRequests(false)
+            userAnswersRepo.upsertUserAnswer(userAnswersWithMultipleLPPsSecondStage).futureValue
+
+            val result = get("/making-a-late-review-request/check")
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"The appeal decisions were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
+              dateToString(latePaymentAppealData.startDate),
+              dateToString(latePaymentAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe s"The appeal decisions were issued more than ${reason._2} days ago"
+            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to ask for a review within ${reason._2} days of the date of the decision."
+            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days"
+            document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+            document.getSubmitButton.text() shouldBe "Continue"
+
+          }
+        }
+      }
+    }
+
   }
 
   "POST /making-a-late-appeal" when {
@@ -338,6 +566,48 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
         userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
         val result = post("/making-a-late-appeal")(Map(LateAppealForm.key -> ""))
+        result.status shouldBe BAD_REQUEST
+
+        val document = Jsoup.parse(result.body)
+
+        document.title() should include(LateAppealMessages.English.errorPrefix)
+        document.select(".govuk-error-summary__title").text() shouldBe LateAppealMessages.English.thereIsAProblem
+
+        val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+        error1Link.text() shouldBe LateAppealMessages.English.errorRequired
+        error1Link.attr("href") shouldBe s"#${LateAppealForm.key}"
+      }
+    }
+  }
+
+  "POST /making-a-late-appeal/check" when {
+
+    val userAnswersWithReason = emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)
+
+    "the text area content is valid in checkMode" should {
+
+      "save the value to UserAnswers AND redirect to the CheckAnswers page" in {
+
+        stubAuthRequests(false)
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+        val result = post("/making-a-late-appeal/check")(Map(LateAppealForm.key -> "Some reason"))
+
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(LateAppealPage)) shouldBe Some("Some reason")
+      }
+    }
+
+    "the text area content is invalid in checkMode" should {
+
+      "render a bad request with the Form Error on the page with a link to the field in error" in {
+
+        stubAuthRequests(false)
+        userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+        val result = post("/making-a-late-appeal/check")(Map(LateAppealForm.key -> ""))
         result.status shouldBe BAD_REQUEST
 
         val document = Jsoup.parse(result.body)
