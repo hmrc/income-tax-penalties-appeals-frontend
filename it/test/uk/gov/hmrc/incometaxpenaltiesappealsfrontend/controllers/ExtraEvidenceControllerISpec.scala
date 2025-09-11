@@ -28,7 +28,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, JointAppealPage, ReasonableExcusePage}
@@ -294,7 +294,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
               val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> false))
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
+              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, mode = NormalMode).url)
 
               userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
             }

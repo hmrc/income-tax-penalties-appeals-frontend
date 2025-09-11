@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
@@ -167,7 +167,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 )
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, mode = NormalMode).url)
               }
             }
 
@@ -203,7 +203,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               val result = post(url, isAgent = isAgent)(Map.empty[String, String])
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
             }
           }
 

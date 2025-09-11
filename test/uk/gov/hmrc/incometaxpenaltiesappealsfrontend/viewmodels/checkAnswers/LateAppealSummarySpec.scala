@@ -30,6 +30,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -75,7 +76,7 @@ class LateAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPe
                   items = Seq(
                     ActionItem(
                       content = Text(messagesForLanguage.change),
-                      href = controllers.routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url,
+                      href = controllers.routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, CheckMode).url,
                       visuallyHiddenText = Some(messagesForLanguage.cyaHidden(appConfig.bereavementLateDays))
                     ).withId("changeLateAppeal")
                   )

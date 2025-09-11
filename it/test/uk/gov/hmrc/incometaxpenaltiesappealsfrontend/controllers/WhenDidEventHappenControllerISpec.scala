@@ -28,7 +28,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -191,7 +191,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                   case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
                   case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false ).url
                   case _ =>
-                    if (isLate) routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+                    if (isLate) routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, mode = NormalMode).url
                     else routes.CheckYourAnswersController.onPageLoad(isAgent).url
                 }
 
