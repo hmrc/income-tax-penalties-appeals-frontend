@@ -9,7 +9,9 @@ lazy val microservice = Project("income-tax-penalties-appeals-frontend", file(".
   .settings(RoutesKeys.routesImport ++= Seq(
     "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse",
     "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._",
-    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode._",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ChangeMode",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode",
     "uk.gov.hmrc.play.bootstrap.binders.RedirectUrl"
   ))
   .settings(

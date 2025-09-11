@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other, TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhenDidEventHappenPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
@@ -40,21 +40,23 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     Future(Ok(whenDidEventHappen(
       form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
       reasonableExcuse = reasonableExcuse,
-      isLPP = user.isLPP
+      isLPP = user.isLPP,
+      mode = mode
     )))
   }
 
-  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
       formWithErrors =>
         Future.successful(BadRequest(whenDidEventHappen(
           reasonableExcuse,
           formWithErrors,
-          isLPP = user.isLPP
+          isLPP = user.isLPP,
+          mode = mode
         ))),
       dateOfEvent => {
         val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)

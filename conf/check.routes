@@ -33,14 +33,14 @@
 #GET        /agent-when-did-the-person-die               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true)
 #POST       /agent-when-did-the-person-die               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true)
 #
-## When did the crime happen
-#GET        /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false)
-#POST       /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false)
-#
-#GET        /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true)
-#POST       /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true)
-#
-#
+# When did the crime happen
+GET        /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true, mode: Mode = CheckMode)
+
+
 ## When did the fire or flood happen
 #GET        /when-did-the-fire-or-flood-happen           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false)
 #POST       /when-did-the-fire-or-flood-happen           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false)
