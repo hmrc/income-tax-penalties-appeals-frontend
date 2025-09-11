@@ -25,7 +25,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.{Cy, En}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Health
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers._
 
@@ -68,7 +68,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
               JointAppealSummary.row(),
               ReasonableExcuseSummary.row(),
               WhenDidEventHappenSummary.row(),
-              WhenDidEventEndSummary.row(),
+              WhenDidEventEndSummary.row(mode = NormalMode),
               CrimeReportedSummary.row(),
               MissedDeadlineReasonSummary.row(),
               lateAppealSummary.row(),
@@ -88,7 +88,7 @@ class CheckAnswersHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppP
               JointAppealSummary.row(showActionLinks = false),
               ReasonableExcuseSummary.row(showActionLinks = false),
               WhenDidEventHappenSummary.row(showActionLinks = false),
-              WhenDidEventEndSummary.row(showActionLinks = false),
+              WhenDidEventEndSummary.row(showActionLinks = false, mode = NormalMode),
               CrimeReportedSummary.row(showActionLinks = false),
               MissedDeadlineReasonSummary.row(showActionLinks = false),
               lateAppealSummary.row(showActionLinks = false),

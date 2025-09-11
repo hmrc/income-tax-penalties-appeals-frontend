@@ -22,13 +22,14 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 object HasHospitalStayEndedSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       HasHospitalStayEndedPage.value.map { stayEnded =>
         summaryListRow(
@@ -38,7 +39,7 @@ object HasHospitalStayEndedSummary extends SummaryListRowHelper with DateFormatt
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent).url,
+                href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent, mode).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.hasHospitalStayEnded.$reasonableExcuse.change.hidden"))
               ).withId("changehasHospitalStayEnded")
             )

@@ -29,7 +29,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.UnexpectedHospital
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -53,7 +53,7 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
-                HasHospitalStayEndedSummary.row() shouldBe None
+                HasHospitalStayEndedSummary.row(mode = NormalMode) shouldBe None
               }
 
             } else {
@@ -62,7 +62,7 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
 
                 "return None" in {
                   implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason))
-                  HasHospitalStayEndedSummary.row() shouldBe None
+                  HasHospitalStayEndedSummary.row(mode = NormalMode) shouldBe None
                 }
               }
 
@@ -78,14 +78,14 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
                         .setAnswer(HasHospitalStayEndedPage, true)
                     )
 
-                    HasHospitalStayEndedSummary.row() shouldBe Some(summaryListRow(
+                    HasHospitalStayEndedSummary.row(mode = NormalMode) shouldBe Some(summaryListRow(
                       label = messagesForLanguage.cyaKey,
                       value = Html(messagesForLanguage.yes),
                       actions = Some(Actions(
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent).url,
+                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent,mode = NormalMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changehasHospitalStayEnded")
                         )
@@ -104,14 +104,14 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
                         .setAnswer(HasHospitalStayEndedPage, false)
                     )
 
-                    HasHospitalStayEndedSummary.row() shouldBe Some(summaryListRow(
+                    HasHospitalStayEndedSummary.row(mode = NormalMode) shouldBe Some(summaryListRow(
                       label = messagesForLanguage.cyaKey,
                       value = Html(messagesForLanguage.no),
                       actions = Some(Actions(
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent).url,
+                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent, NormalMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changehasHospitalStayEnded")
                         )

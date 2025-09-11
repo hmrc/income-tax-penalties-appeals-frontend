@@ -28,7 +28,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -186,9 +186,9 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               s"the appeal isLate='$isLate'" should {
 
                 val redirectLocation = reasonWithUrl._1 match {
-                  case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent).url
+                  case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent,mode = NormalMode).url
                   case Crime => routes.CrimeReportedController.onPageLoad(isAgent).url
-                  case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
+                  case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent,mode = NormalMode).url
                   case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false ).url
                   case _ =>
                     if (isLate) routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url

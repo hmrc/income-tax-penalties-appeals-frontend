@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -61,7 +61,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
-                WhenDidEventEndSummary.row() shouldBe None
+                WhenDidEventEndSummary.row(mode = NormalMode) shouldBe None
               }
             }
 
@@ -78,7 +78,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                           .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                       )
 
-                      WhenDidEventEndSummary.row() shouldBe None
+                      WhenDidEventEndSummary.row(mode = NormalMode) shouldBe None
                     }
 
                     "the HasHospitalStayEndedPage is false" in {
@@ -89,7 +89,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                           .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                       )
 
-                      WhenDidEventEndSummary.row() shouldBe None
+                      WhenDidEventEndSummary.row(mode = NormalMode) shouldBe None
                     }
                   }
                 }
@@ -104,14 +104,14 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                         .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                     )
 
-                    WhenDidEventEndSummary.row() shouldBe Some(summaryListRow(
+                    WhenDidEventEndSummary.row(mode = NormalMode) shouldBe Some(summaryListRow(
                       label = messagesForLanguage.cyaKey(reason),
                       value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                       actions = Some(Actions(
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.WhenDidEventEndController.onPageLoad(reason, isAgent = false).url,
+                            href = controllers.routes.WhenDidEventEndController.onPageLoad(reason, isAgent = false, mode = NormalMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
                           ).withId("changeWhenDidEventEnd")
                         )
@@ -130,7 +130,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                         .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                     )
 
-                    WhenDidEventEndSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
+                    WhenDidEventEndSummary.row(showActionLinks = false, mode = NormalMode) shouldBe Some(summaryListRow(
                       label = messagesForLanguage.cyaKey(reason),
                       value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                       actions = None
@@ -145,7 +145,7 @@ class WhenDidEventEndSummarySpec extends AnyWordSpec with Matchers with GuiceOne
                       .setAnswer(ReasonableExcusePage, reason)
                       .setAnswer(WhenDidEventEndPage, LocalDate.of(2025, 1, 1))
                   )
-                  WhenDidEventEndSummary.row() shouldBe None
+                  WhenDidEventEndSummary.row(mode = NormalMode) shouldBe None
                 }
               }
             }

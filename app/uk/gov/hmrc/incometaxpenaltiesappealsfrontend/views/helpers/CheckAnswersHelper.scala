@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers._
 
@@ -26,15 +27,15 @@ import javax.inject.Inject
 
 class CheckAnswersHelper @Inject()(lateAppealSummary: LateAppealSummary) {
 
-  def constructSummaryListRows(uploadedFiles: Seq[UploadJourney], showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Seq[SummaryListRow] =
+  def constructSummaryListRows(uploadedFiles: Seq[UploadJourney], showActionLinks: Boolean = true, mode:Mode = NormalMode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Seq[SummaryListRow] =
     Seq(
       WhoPlannedToSubmitSummary.row(showActionLinks),
       WhatCausedYouToMissDeadlineSummary.row(showActionLinks),
       JointAppealSummary.row(showActionLinks),
       ReasonableExcuseSummary.row(showActionLinks),
       WhenDidEventHappenSummary.row(showActionLinks),
-      HasHospitalStayEndedSummary.row(showActionLinks),
-      WhenDidEventEndSummary.row(showActionLinks),
+      HasHospitalStayEndedSummary.row(showActionLinks, mode),
+      WhenDidEventEndSummary.row(showActionLinks, mode),
       CrimeReportedSummary.row(showActionLinks),
       MissedDeadlineReasonSummary.row(showActionLinks),
       lateAppealSummary.row(showActionLinks),
