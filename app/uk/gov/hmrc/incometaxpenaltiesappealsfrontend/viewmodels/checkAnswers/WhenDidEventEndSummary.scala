@@ -30,7 +30,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row(showActionLinks: Boolean = true, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] = {
     ReasonableExcusePage.value.collect { case reasonableExcuse@(TechnicalIssues | UnexpectedHospital) =>
       if (reasonableExcuse == UnexpectedHospital && !HasHospitalStayEndedPage.value.getOrElse(false)) {
         None
@@ -43,7 +43,7 @@ object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
               items = Seq(
                 ActionItem(
                   content = Text(messages("common.change")),
-                  href = controllers.routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode = mode).url,
+                  href = controllers.routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode = CheckMode).url,
                   visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.change.hidden"))
                 ).withId("changeWhenDidEventEnd")
               )

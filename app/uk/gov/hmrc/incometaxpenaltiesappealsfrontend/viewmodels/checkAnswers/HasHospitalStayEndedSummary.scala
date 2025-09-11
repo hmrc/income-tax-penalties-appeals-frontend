@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object HasHospitalStayEndedSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row(showActionLinks: Boolean = true, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       HasHospitalStayEndedPage.value.map { stayEnded =>
         summaryListRow(
@@ -39,7 +39,7 @@ object HasHospitalStayEndedSummary extends SummaryListRowHelper with DateFormatt
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent, mode).url,
+                href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent, mode = CheckMode).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.hasHospitalStayEnded.$reasonableExcuse.change.hidden"))
               ).withId("changehasHospitalStayEnded")
             )

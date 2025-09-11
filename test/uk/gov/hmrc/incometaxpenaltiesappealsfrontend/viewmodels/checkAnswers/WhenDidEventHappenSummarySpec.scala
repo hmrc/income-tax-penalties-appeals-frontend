@@ -27,7 +27,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -54,7 +54,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
 
               "return None" in {
                 implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
-                WhenDidEventHappenSummary.row(mode = NormalMode) shouldBe None
+                WhenDidEventHappenSummary.row() shouldBe None
               }
             }
 
@@ -70,14 +70,14 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
                       .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
                   )
 
-                  WhenDidEventHappenSummary.row(mode = NormalMode) shouldEqual Some(summaryListRow(
+                  WhenDidEventHappenSummary.row() shouldEqual Some(summaryListRow(
                     label = messagesForLanguage.cyaKey(reason),
                     value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                     actions = Some(Actions(
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
-                          href = controllers.routes.WhenDidEventHappenController.onPageLoad(reason, isAgent = false, mode = NormalMode).url,
+                          href = controllers.routes.WhenDidEventHappenController.onPageLoad(reason, isAgent = false, mode = CheckMode).url,
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden(reason))
                         ).withId("changeWhenDidEventHappen")
                       )
@@ -96,7 +96,7 @@ class WhenDidEventHappenSummarySpec extends AnyWordSpec with Matchers with Guice
                       .setAnswer(WhenDidEventHappenPage, LocalDate.of(2025, 1, 1))
                   )
 
-                  WhenDidEventHappenSummary.row(showActionLinks = false,mode = NormalMode) shouldBe Some(summaryListRow(
+                  WhenDidEventHappenSummary.row(showActionLinks = false) shouldBe Some(summaryListRow(
                     label = messagesForLanguage.cyaKey(reason),
                     value = Html(dateToString(LocalDate.of(2025, 1, 1))),
                     actions = None

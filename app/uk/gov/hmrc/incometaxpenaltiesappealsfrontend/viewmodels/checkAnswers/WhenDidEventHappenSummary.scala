@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRo
 
 object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter {
 
-  def row(showActionLinks: Boolean = true,mode:Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
+  def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       WhenDidEventHappenPage.value.map { whenDidEventHappen =>
         summaryListRow(
@@ -39,7 +39,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, mode).url,
+                href = controllers.routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, mode = CheckMode).url,
                 visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.change.hidden"))
               ).withId("changeWhenDidEventHappen")
             )
