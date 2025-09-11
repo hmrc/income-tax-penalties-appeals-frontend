@@ -21,6 +21,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ExtraEvidencePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{UpscanService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -38,17 +40,18 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
                                         override val controllerComponents: MessagesControllerComponents
                                        )(implicit ec: ExecutionContext, timeMachine: TimeMachine, appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(extraEvidence(
       form = fillForm(ExtraEvidenceForm.form(is2ndStageAppeal), ExtraEvidencePage),
       isLate = user.isAppealLate(),
       isAgent = user.isAgent,
       is2ndStageAppeal = is2ndStageAppeal,
-      isAppealingMultipleLPPs = user.isAppealingMultipleLPPs
+      isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
+      mode = mode
     ))
   }
 
-  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     ExtraEvidenceForm.form(is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(extraEvidence(
@@ -56,16 +59,17 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
           isLate = user.isAppealLate(),
           isAgent = user.isAgent,
           is2ndStageAppeal = is2ndStageAppeal,
-          isAppealingMultipleLPPs = user.isAppealingMultipleLPPs
+          isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
+          mode = mode
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(ExtraEvidencePage, value)
         userAnswersService.updateAnswers(updatedAnswers).flatMap { _ =>
           if (value) {
-            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)))
+            Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
-              if(user.isAppealLate()) {
+              if(mode == NormalMode && user.isAppealLate()) {
                 Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
               } else {
                 Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))

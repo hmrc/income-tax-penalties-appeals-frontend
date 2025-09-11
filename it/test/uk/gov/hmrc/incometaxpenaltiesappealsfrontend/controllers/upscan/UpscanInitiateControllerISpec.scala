@@ -26,6 +26,8 @@ import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ControllerISpecHelper
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.UpscanStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -61,144 +63,157 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
     super.beforeEach()
   }
 
-  Seq(
-    false,
-    true
-  ).foreach { isAgent =>
+  def url(isAgent: Boolean, mode: Mode): String = {
+    val urlPathStart = if (isAgent) "/upload-evidence/agent-upload-file" else "/upload-evidence/upload-file"
+    urlPathStart + {if(mode == CheckMode) "/check" else ""}
+  }
 
-    s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
+  List(NormalMode, CheckMode).foreach { mode =>
 
-      s"GET /upload-evidence/upload-file" when {
+    Seq(
+      false,
+      true
+    ).foreach { isAgent =>
 
-        "loading normal variant of the page (i.e. User is initiating the upload for the first time)" when {
+      s"when authenticating as an ${if (isAgent) "agent" else "individual"} in $mode" when {
 
-          "a success response is returned from the upscan-initiate call" should {
+        s"GET ${url(isAgent, mode)}" when {
 
-            "add a new entry to File Upload repo AND render the page with the file upload meta data" in {
-              stubAuthRequests(isAgent)
-              stubUpscanInitiate(status = OK, body = initiateResponse)
+          "loading normal variant of the page (i.e. User is initiating the upload for the first time)" when {
 
-              val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
-              val result = get(s"/upload-evidence/$uploadFileUrl", isAgent = isAgent)
-              result.status shouldBe OK
+            "a success response is returned from the upscan-initiate call" should {
 
-              val document = Jsoup.parse(result.body)
-              document.select("form").attr("action") shouldBe initiateResponse.uploadRequest.href
-              initiateResponse.uploadRequest.fields.map { case (key, value) =>
-                document.select(s"input[name=$key]").`val`() shouldBe value
+              "add a new entry to File Upload repo AND render the page with the file upload meta data" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+
+                val result = get(url(isAgent, mode), isAgent = isAgent)
+                result.status shouldBe OK
+
+                val document = Jsoup.parse(result.body)
+                document.select("form").attr("action") shouldBe initiateResponse.uploadRequest.href
+                initiateResponse.uploadRequest.fields.map { case (key, value) =>
+                  document.select(s"input[name=$key]").`val`() shouldBe value
+                }
+
+                fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue shouldBe
+                  Some(waitingFile.copy(lastUpdated = testDateTime))
               }
+            }
+          }
 
-              fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue shouldBe
-                Some(waitingFile.copy(lastUpdated = testDateTime))
+          "loading the error variant of the page (i.e. a synchronous failure has been returned when the User submitted the file to upscan)" when {
+
+            "a file upload journey exists within the File Upload repo" should {
+
+              "render a BadRequest, NOT call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+
+                fileUploadRepo.upsertFileUpload(testJourneyId, rejectedFile).futureValue
+
+                val result = get(s"${url(isAgent, mode)}?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
+                result.status shouldBe BAD_REQUEST
+
+                val document = Jsoup.parse(result.body)
+                document.select("form").attr("action") shouldBe rejectedFile.uploadFields.get.href
+                rejectedFile.uploadFields.get.fields.map { case (key, value) =>
+                  document.select(s"input[name=$key]").`val`() shouldBe value
+                }
+              }
+            }
+
+            "a file upload journey DOES NOT exist within the File Upload repo" should {
+
+              "render a BadRequest, call the initiate endpoint and should use the data from the initiate response for the hidden file meta data input" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+
+                val uploadFileUrl = if (isAgent) {
+                  "agent-upload-file"
+                } else {
+                  "upload-file"
+                }
+                val result = get(s"${url(isAgent, mode)}?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
+                result.status shouldBe BAD_REQUEST
+
+                val document = Jsoup.parse(result.body)
+                document.select("form").attr("action") shouldBe initiateResponse.uploadRequest.href
+                initiateResponse.uploadRequest.fields.map { case (key, value) =>
+                  document.select(s"input[name=$key]").`val`() shouldBe value
+                }
+
+                fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue shouldBe
+                  Some(waitingFile.copy(lastUpdated = testDateTime))
+              }
             }
           }
         }
 
-        "loading the error variant of the page (i.e. a synchronous failure has been returned when the User submitted the file to upscan)" when {
-
-          "a file upload journey exists within the File Upload repo" should {
-
-            "render a BadRequest, NOT call the initiate endpoint and should re-use the data from the File Upload repo for the hidden file meta data input" in {
-              stubAuthRequests(isAgent)
-              stubUpscanInitiate(status = OK, body = initiateResponse)
-
-              fileUploadRepo.upsertFileUpload(testJourneyId, rejectedFile).futureValue
-
-              val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
-              val result = get(s"/upload-evidence/$uploadFileUrl?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
-              result.status shouldBe BAD_REQUEST
-
-              val document = Jsoup.parse(result.body)
-              document.select("form").attr("action") shouldBe rejectedFile.uploadFields.get.href
-              rejectedFile.uploadFields.get.fields.map { case (key, value) =>
-                document.select(s"input[name=$key]").`val`() shouldBe value
-              }
-            }
-          }
-
-          "a file upload journey DOES NOT exist within the File Upload repo" should {
-
-            "render a BadRequest, call the initiate endpoint and should use the data from the initiate response for the hidden file meta data input" in {
-              stubAuthRequests(isAgent)
-              stubUpscanInitiate(status = OK, body = initiateResponse)
-
-              val uploadFileUrl = if(isAgent) {"agent-upload-file"} else {"upload-file"}
-              val result = get(s"/upload-evidence/$uploadFileUrl?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
-              result.status shouldBe BAD_REQUEST
-
-              val document = Jsoup.parse(result.body)
-              document.select("form").attr("action") shouldBe initiateResponse.uploadRequest.href
-              initiateResponse.uploadRequest.fields.map { case (key, value) =>
-                document.select(s"input[name=$key]").`val`() shouldBe value
-              }
-
-              fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue shouldBe
-                Some(waitingFile.copy(lastUpdated = testDateTime))
-            }
-          }
+        val successRedirectPath = {
+          val pathStart = if (isAgent) "/upload-evidence/agent-success-redirect" else "/upload-evidence/success-redirect"
+          if (mode == CheckMode) s"$pathStart/check" else pathStart
         }
-      }
 
-      val successRedirectPath = if(isAgent) "/upload-evidence/agent-success-redirect" else "/upload-evidence/success-redirect"
+        s"GET $successRedirectPath" when {
 
-      s"GET $successRedirectPath" when {
+          "the callback from upscan is received with a key (fileReference)" when {
 
-        "the callback from upscan is received with a key (fileReference)" when {
+            "an entry for that key exists in the File Upload repo" when {
 
-          "an entry for that key exists in the File Upload repo" when {
+              "the file status is 'READY'" should {
 
-            "the file status is 'READY'" should {
+                s"redirect to the File Upload Check Answers page after a configured artificial delay of ${appConfig.upscanCheckInterval.toMillis}ms" in {
 
-              s"redirect to the File Upload Check Answers page after a configured artificial delay of ${appConfig.upscanCheckInterval.toMillis}ms" in {
+                  stubAuthRequests(isAgent)
+                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-                stubAuthRequests(isAgent)
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+                  calculateRuntime {
+                    val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
+                    result.status shouldBe SEE_OTHER
+                    result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal, mode).url)
+                  }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
+                }
+              }
 
-                calculateRuntime {
-                  val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
-                  result.status shouldBe SEE_OTHER
-                  result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal).url)
-                }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
+              "the file status is still 'WAITING' after configured wait time" should {
+
+                //TODO: Update this test in future story to test the redirect to the "It's taking longer than expected" page
+                s"redirect to the 'Taking longer than expected' page after a configured total wait time of ${appConfig.upscanTimeout.toMillis}ms" in {
+                  stubAuthRequests(isAgent)
+                  fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
+
+                  calculateRuntime {
+                    val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
+                    result.status shouldBe NOT_IMPLEMENTED
+                  }.shouldTakeAtLeast(appConfig.upscanTimeout)
+                }
+              }
+
+              "the file status is 'FAILED'" should {
+
+                s"redirect to the file upload page with the failureReason as the errorCode after a configured artificial delay ${appConfig.upscanCheckInterval.toMillis}ms" in {
+                  stubAuthRequests(isAgent)
+                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelFailed).futureValue
+
+                  calculateRuntime {
+                    val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
+                    result.status shouldBe SEE_OTHER
+                    result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent, is2ndStageAppeal, mode).url)
+                  }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
+                }
               }
             }
 
-            "the file status is still 'WAITING' after configured wait time" should {
+            "an entry for that key exists DOES NOT exist in the File Upload repo" should {
 
-              //TODO: Update this test in future story to test the redirect to the "It's taking longer than expected" page
-              s"redirect to the 'Taking longer than expected' page after a configured total wait time of ${appConfig.upscanTimeout.toMillis}ms" in {
+              "redirect to the initiate upload page with the errorCode set to 'UnableToUpload'" in {
                 stubAuthRequests(isAgent)
-                fileUploadRepo.upsertFileUpload(testJourneyId, waitingFile).futureValue
 
-                calculateRuntime {
-                  val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
-                  result.status shouldBe NOT_IMPLEMENTED
-                }.shouldTakeAtLeast(appConfig.upscanTimeout)
+                val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
+                result.status shouldBe SEE_OTHER
+                result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode).url)
               }
-            }
-
-            "the file status is 'FAILED'" should {
-
-              s"redirect to the file upload page with the failureReason as the errorCode after a configured artificial delay ${appConfig.upscanCheckInterval.toMillis}ms" in {
-                stubAuthRequests(isAgent)
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelFailed).futureValue
-
-                calculateRuntime {
-                  val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
-                  result.status shouldBe SEE_OTHER
-                  result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), callbackModelFailed.failureDetails.map(_.failureReason.toString), isAgent, is2ndStageAppeal).url)
-                }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
-              }
-            }
-          }
-
-          "an entry for that key exists DOES NOT exist in the File Upload repo" should {
-
-            "redirect to the initiate upload page with the errorCode set to 'UnableToUpload'" in {
-              stubAuthRequests(isAgent)
-
-              val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
-              result.status shouldBe SEE_OTHER
-              result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(errorCode = Some("UnableToUpload"), isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
             }
           }
         }

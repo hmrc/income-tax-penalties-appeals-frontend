@@ -27,6 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsUploadCheckAnswersView
@@ -41,71 +42,75 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
 
   object Selectors extends BaseSelectors
 
-  Seq(NonJsUploadCheckAnswersMessages.English, NonJsUploadCheckAnswersMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(NormalMode, CheckMode).foreach { mode =>
+    Seq(NonJsUploadCheckAnswersMessages.English, NonJsUploadCheckAnswersMessages.Welsh).foreach { messagesForLanguage =>
 
-    implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
+      implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-    s"When rendering the File Upload Check Answers page in language '${messagesForLanguage.lang.name}'" when {
+      s"When rendering the File Upload Check Answers page in $mode with language '${messagesForLanguage.lang.name}'" when {
 
-      s"the number of files which has been added is < ${appConfig.upscanMaxNumberOfFiles}" when {
+        s"the number of files which has been added is < ${appConfig.upscanMaxNumberOfFiles}" when {
 
-        implicit val doc = asDocument(uploadCheckAnswers(
-          UploadDocumentForm.form,
-          UploadedFilesViewModel(Seq(callbackModel)),
-          controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal)
-        ))
+          implicit val doc = asDocument(uploadCheckAnswers(
+            UploadDocumentForm.form,
+            UploadedFilesViewModel(Seq(callbackModel)),
+            controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal, mode),
+            mode
+          ))
 
-        behave like pageWithExpectedElementsAndMessages(
-          Selectors.title -> messagesForLanguage.headingAndTitleSingular,
-          Selectors.h1 -> messagesForLanguage.headingAndTitleSingular,
-          Selectors.summaryRowKey(1) -> messagesForLanguage.summaryRowKey(1),
-          Selectors.summaryRowValue(1) -> callbackModel.uploadDetails.get.fileName,
-          Selectors.summaryRowAction(1, 1) -> (messagesForLanguage.remove + " " + messagesForLanguage.summaryRowKey(1)),
-          Selectors.legend -> messagesForLanguage.uploadAnotherFileLegend,
-          Selectors.radio(1) -> messagesForLanguage.yes,
-          Selectors.radio(2) -> messagesForLanguage.no,
-          Selectors.button -> messagesForLanguage.continue
-        )
-
-        "have a remove link that redirects to the Remove File controller" in {
-          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent, is2ndStageAppeal).url
-        }
-      }
-
-      s"the number of files which has been added is == ${appConfig.upscanMaxNumberOfFiles}" when {
-
-        val files = (1 to appConfig.upscanMaxNumberOfFiles).map { i =>
-          callbackModel.copy(uploadDetails = callbackModel.uploadDetails.map(_.copy(fileName = s"file$i.txt")))
-        }
-
-        implicit val doc = asDocument(uploadCheckAnswers(
-          UploadDocumentForm.form,
-          UploadedFilesViewModel(files),
-          controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal)
-        ))
-
-        behave like pageWithExpectedElementsAndMessages(
-          (1 to appConfig.upscanMaxNumberOfFiles).flatMap(i =>
-            Seq(
-              Selectors.summaryRowKey(i) -> messagesForLanguage.summaryRowKey(i),
-              Selectors.summaryRowValue(i) -> s"file$i.txt",
-              Selectors.summaryRowAction(i, 1) -> (messagesForLanguage.remove + " " + messagesForLanguage.summaryRowKey(i))
-            )
-          ) ++ Seq(
-            Selectors.title -> messagesForLanguage.headingAndTitlePlural(appConfig.upscanMaxNumberOfFiles),
-            Selectors.h1 -> messagesForLanguage.headingAndTitlePlural(appConfig.upscanMaxNumberOfFiles),
+          behave like pageWithExpectedElementsAndMessages(
+            Selectors.title -> messagesForLanguage.headingAndTitleSingular,
+            Selectors.h1 -> messagesForLanguage.headingAndTitleSingular,
+            Selectors.summaryRowKey(1) -> messagesForLanguage.summaryRowKey(1),
+            Selectors.summaryRowValue(1) -> callbackModel.uploadDetails.get.fileName,
+            Selectors.summaryRowAction(1, 1) -> (messagesForLanguage.remove + " " + messagesForLanguage.summaryRowKey(1)),
+            Selectors.legend -> messagesForLanguage.uploadAnotherFileLegend,
+            Selectors.radio(1) -> messagesForLanguage.yes,
+            Selectors.radio(2) -> messagesForLanguage.no,
             Selectors.button -> messagesForLanguage.continue
-          ): _*
-        )
+          )
 
-        behave like pageWithoutElementsRendered(
-          Selectors.legend,
-          Selectors.radio(1),
-          Selectors.radio(2)
-        )
+          "have a remove link that redirects to the Remove File controller" in {
+            doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent, is2ndStageAppeal, mode).url
+          }
+        }
 
-        "have a remove link that redirects to the Remove File controller" in {
-          doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent, is2ndStageAppeal).url
+        s"the number of files which has been added is == ${appConfig.upscanMaxNumberOfFiles}" when {
+
+          val files = (1 to appConfig.upscanMaxNumberOfFiles).map { i =>
+            callbackModel.copy(uploadDetails = callbackModel.uploadDetails.map(_.copy(fileName = s"file$i.txt")))
+          }
+
+          implicit val doc = asDocument(uploadCheckAnswers(
+            UploadDocumentForm.form,
+            UploadedFilesViewModel(files),
+            controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal, mode),
+            mode
+          ))
+
+          behave like pageWithExpectedElementsAndMessages(
+            (1 to appConfig.upscanMaxNumberOfFiles).flatMap(i =>
+              Seq(
+                Selectors.summaryRowKey(i) -> messagesForLanguage.summaryRowKey(i),
+                Selectors.summaryRowValue(i) -> s"file$i.txt",
+                Selectors.summaryRowAction(i, 1) -> (messagesForLanguage.remove + " " + messagesForLanguage.summaryRowKey(i))
+              )
+            ) ++ Seq(
+              Selectors.title -> messagesForLanguage.headingAndTitlePlural(appConfig.upscanMaxNumberOfFiles),
+              Selectors.h1 -> messagesForLanguage.headingAndTitlePlural(appConfig.upscanMaxNumberOfFiles),
+              Selectors.button -> messagesForLanguage.continue
+            ): _*
+          )
+
+          behave like pageWithoutElementsRendered(
+            Selectors.legend,
+            Selectors.radio(1),
+            Selectors.radio(2)
+          )
+
+          "have a remove link that redirects to the Remove File controller" in {
+            doc.select(Selectors.summaryRowAction(1, 1)).attr("href") shouldBe controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, 1, isAgent, is2ndStageAppeal, mode).url
+          }
         }
       }
     }

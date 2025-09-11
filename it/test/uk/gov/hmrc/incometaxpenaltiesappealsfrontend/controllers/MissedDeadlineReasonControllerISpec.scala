@@ -29,6 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -246,7 +247,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
               val result = post(getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal))(Map(MissedDeadlineReasonForm.key -> "Some reason"))
 
               result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal).url)
+              result.header("Location") shouldBe Some(routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
 
               userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(MissedDeadlineReasonPage)) shouldBe Some("Some reason")
             }

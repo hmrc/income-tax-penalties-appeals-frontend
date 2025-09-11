@@ -28,6 +28,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, ReasonableExcusePage}
@@ -87,7 +88,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                           items = Seq(
                             ActionItem(
                               content = Text(messagesForLanguage.change),
-                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal = false).url,
+                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal = false, CheckMode).url,
                               visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                             ).withId("changeExtraEvidence")
                           )
@@ -134,7 +135,7 @@ class ExtraEvidenceSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                           items = Seq(
                             ActionItem(
                               content = Text(messagesForLanguage.change),
-                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal = true).url,
+                              href = controllers.routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal = true, CheckMode).url,
                               visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                             ).withId("changeExtraEvidence")
                           )

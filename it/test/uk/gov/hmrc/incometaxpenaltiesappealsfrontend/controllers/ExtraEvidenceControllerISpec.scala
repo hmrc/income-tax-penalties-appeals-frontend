@@ -28,7 +28,8 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.{CheckMode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ExtraEvidencePage, JointAppealPage, ReasonableExcusePage}
@@ -127,44 +128,111 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
     }
   }
 
-  def url(is2ndStageAppeal: Boolean, isAgent: Boolean): String = {
-    if (is2ndStageAppeal) {
+  def url(is2ndStageAppeal: Boolean, isAgent: Boolean, mode: Mode): String = {
+    val urlPathStart = if (is2ndStageAppeal) {
       if (isAgent) "/agent-upload-evidence-for-the-review" else "/upload-evidence-for-the-review"
     } else if (isAgent) "/agent-upload-evidence-for-the-appeal" else "/upload-evidence-for-the-appeal"
+    urlPathStart + {if(mode == CheckMode) "/check" else ""}
   }
 
 
-  //  LPP penalty type (First stage appeal/Second stage appeal  -  Single appeal/Joint appeal)
-  Seq(true, false).foreach { isAgent =>
-    Seq(true, false).foreach { is2ndStageAppeal =>
-      Seq(true, false).foreach { isJointAppeal =>
+  List(NormalMode, CheckMode).foreach { mode =>
+    //  LPP penalty type (First stage appeal/Second stage appeal  -  Single appeal/Joint appeal)
+    Seq(true, false).foreach { isAgent =>
+      Seq(true, false).foreach { is2ndStageAppeal =>
+        Seq(true, false).foreach { isJointAppeal =>
 
 
-        s"GET LPP ${url(is2ndStageAppeal, isAgent)} with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" should {
+          s"GET LPP ${url(is2ndStageAppeal, isAgent, mode)} with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" should {
+
+            if (!isAgent) {
+              testNavBar(url = url(is2ndStageAppeal, isAgent, mode))(
+                userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, Other)).futureValue
+              )
+            }
+
+            "return an OK with a view" when {
+              s"the user is an authorised AND the page has already been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" in new Setup() {
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(ExtraEvidencePage, true)).futureValue
+
+                val result: WSResponse = get(url(is2ndStageAppeal, isAgent, mode))
+                result.status shouldBe OK
+
+                val document: nodes.Document = Jsoup.parse(result.body)
+                document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe true
+                document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
+              }
+              s"the user is an authorised AND the page has NOT been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" in new Setup() {
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)).futureValue
+
+                val result: WSResponse = get(url(is2ndStageAppeal, isAgent, mode))
+                result.status shouldBe OK
+
+                val document: nodes.Document = Jsoup.parse(result.body)
+                document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe false
+                document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
+              }
+            }
+
+            s"the journey is for with is2ndStageAppeal = $is2ndStageAppeal isAgent = $isAgent isJointAppeal = $isJointAppeal" when {
+              "the page has the correct elements" when {
+                "the user is an authorised" in new Setup() {
+                  stubAuthRequests(isAgent)
+                  userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(ExtraEvidencePage, true)).futureValue
+
+                  val result: WSResponse = get(url(is2ndStageAppeal, isAgent, mode))
+
+                  val document: nodes.Document = Jsoup.parse(result.body)
+                  val whichCaption: String = if (isJointAppeal) captionJointAppeal(true) else caption(true)
+
+                  document.getServiceName.text() shouldBe "Manage your Self Assessment"
+                  document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
+                  document.getElementById("captionSpan").text() shouldBe whichCaption
+
+                  document.getH1Elements.text() shouldBe ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)
+                  document.getElementById("extraEvidence-hint").text() shouldBe ExtraEvidenceMessages.English.hintText(is2ndStageAppeal, isJointAppeal)
+                  document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
+                  document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
+                  document.getSubmitButton.text() shouldBe "Continue"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //  LSP penalty type (First stage appeal/Second stage appeal)
+    Seq(true, false).foreach { isAgent =>
+      Seq(true, false).foreach { is2ndStageAppeal =>
+
+        s"GET LSP ${url(is2ndStageAppeal, isAgent, mode)} with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" should {
 
           if (!isAgent) {
-            testNavBar(url = url(is2ndStageAppeal, isAgent))(
+            testNavBar(url = url(is2ndStageAppeal, isAgent, mode))(
               userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, Other)).futureValue
             )
           }
 
           "return an OK with a view" when {
-            s"the user is an authorised AND the page has already been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" in new Setup() {
+            s"the user is an authorised AND the page has already been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" in new Setup() {
               stubAuthRequests(isAgent)
-              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(ExtraEvidencePage, true)).futureValue
+              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ExtraEvidencePage, true)).futureValue
 
-              val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
+              val result: WSResponse = get(url(is2ndStageAppeal, isAgent, mode))
               result.status shouldBe OK
 
               val document: nodes.Document = Jsoup.parse(result.body)
               document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe true
               document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
             }
-            s"the user is an authorised AND the page has NOT been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent, isJointAppeal = $isJointAppeal" in new Setup() {
+            s"the user is an authorised AND the page has NOT been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" in new Setup() {
               stubAuthRequests(isAgent)
-              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)).futureValue
+              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
 
-              val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
+              val result: WSResponse = get(url(is2ndStageAppeal, isAgent, mode))
               result.status shouldBe OK
 
               val document: nodes.Document = Jsoup.parse(result.body)
@@ -173,23 +241,23 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
             }
           }
 
-          s"the journey is for with is2ndStageAppeal = $is2ndStageAppeal isAgent = $isAgent isJointAppeal = $isJointAppeal" when {
+          s"the journey is for with is2ndStageAppeal = $is2ndStageAppeal isAgent = $isAgent" when {
             "the page has the correct elements" when {
               "the user is an authorised" in new Setup() {
                 stubAuthRequests(isAgent)
-                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(ExtraEvidencePage, true)).futureValue
+                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ExtraEvidencePage, true)).futureValue
 
-                val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
+                val result: WSResponse = get(url(is2ndStageAppeal, isAgent, mode))
 
                 val document: nodes.Document = Jsoup.parse(result.body)
-                val whichCaption: String = if(isJointAppeal) captionJointAppeal(true) else caption(true)
+
 
                 document.getServiceName.text() shouldBe "Manage your Self Assessment"
                 document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
-                document.getElementById("captionSpan").text() shouldBe whichCaption
+                document.getElementById("captionSpan").text() shouldBe caption(false)
 
                 document.getH1Elements.text() shouldBe ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)
-                document.getElementById("extraEvidence-hint").text() shouldBe ExtraEvidenceMessages.English.hintText(is2ndStageAppeal, isJointAppeal)
+                document.getElementById("extraEvidence-hint").text() shouldBe ExtraEvidenceMessages.English.hintText(is2ndStageAppeal)
                 document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
                 document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
                 document.getSubmitButton.text() shouldBe "Continue"
@@ -199,140 +267,90 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
         }
       }
     }
-  }
 
-  //  LSP penalty type (First stage appeal/Second stage appeal)
-  Seq(true, false).foreach { isAgent =>
-    Seq(true, false).foreach { is2ndStageAppeal =>
+    Seq(true, false).foreach { isAgent =>
 
-      s"GET LSP ${url(is2ndStageAppeal, isAgent)} with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" should {
+      s"POST ${url(is2ndStageAppeal = false, isAgent = isAgent, mode)}" when {
 
-        if (!isAgent) {
-          testNavBar(url = url(is2ndStageAppeal, isAgent))(
-            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLPP.setAnswer(ReasonableExcusePage, Other)).futureValue
-          )
+        "the radio option posted is valid" should {
+
+          "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
+
+            stubAuthRequests(isAgent)
+
+            val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> true))
+
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal = false, mode).url)
+
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
+          }
+
+          "save the value to UserAnswers AND redirect the answer is 'No'" when {
+
+            "appeal is Late" should {
+
+              if (mode == NormalMode) {
+                "redirect to the LateAppeal page" in new Setup(isLate = true) {
+
+                  stubAuthRequests(isAgent)
+
+                  val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> false))
+
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
+
+                  userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+                }
+              } else {
+                "redirect to the CYA page" in new Setup(isLate = true) {
+
+                  stubAuthRequests(isAgent)
+
+                  val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> false))
+
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+                  userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+                }
+              }
+            }
+
+            "appeal is NOT Late" should {
+
+              "redirect to the CheckAnswers page" in new Setup() {
+
+                stubAuthRequests(isAgent)
+
+                val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> false))
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
+              }
+            }
+          }
         }
 
-        "return an OK with a view" when {
-          s"the user is an authorised AND the page has already been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" in new Setup() {
-            stubAuthRequests(isAgent)
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ExtraEvidencePage, true)).futureValue
+        "the radio option is invalid" should {
 
-            val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
-            result.status shouldBe OK
+          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
+
+            stubAuthRequests(isAgent)
+
+            val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> ""))
+            result.status shouldBe BAD_REQUEST
 
             val document: nodes.Document = Jsoup.parse(result.body)
-            document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe true
-            document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
+            document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
+            document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
+
+            val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+            error1Link.text() shouldBe ExtraEvidenceMessages.English.errorRequired
+            error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
           }
-          s"the user is an authorised AND the page has NOT been answered with is2ndStageAppeal = $is2ndStageAppeal, isAgent = $isAgent" in new Setup() {
-            stubAuthRequests(isAgent)
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
-
-            val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
-            result.status shouldBe OK
-
-            val document: nodes.Document = Jsoup.parse(result.body)
-            document.select(s"#${ExtraEvidenceForm.key}").hasAttr("checked") shouldBe false
-            document.select(s"#${ExtraEvidenceForm.key}-2").hasAttr("checked") shouldBe false
-          }
-        }
-
-        s"the journey is for with is2ndStageAppeal = $is2ndStageAppeal isAgent = $isAgent" when {
-          "the page has the correct elements" when {
-            "the user is an authorised" in new Setup() {
-              stubAuthRequests(isAgent)
-              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ExtraEvidencePage, true)).futureValue
-
-              val result: WSResponse = get(url(is2ndStageAppeal, isAgent))
-
-              val document: nodes.Document = Jsoup.parse(result.body)
-
-
-              document.getServiceName.text() shouldBe "Manage your Self Assessment"
-              document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
-              document.getElementById("captionSpan").text() shouldBe caption(false)
-
-              document.getH1Elements.text() shouldBe ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)
-              document.getElementById("extraEvidence-hint").text() shouldBe ExtraEvidenceMessages.English.hintText(is2ndStageAppeal)
-              document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
-              document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no
-              document.getSubmitButton.text() shouldBe "Continue"
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  Seq(true, false).foreach { isAgent =>
-
-    s"POST ${url(is2ndStageAppeal = false, isAgent = isAgent)}" when {
-
-      "the radio option posted is valid" should {
-
-        "save the value to UserAnswers AND redirect to the UpscanCheckAnswers page if the answer is 'Yes'" in new Setup() {
-
-          stubAuthRequests(isAgent)
-
-          val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> true))
-
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
-
-          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(true)
-        }
-
-        "save the value to UserAnswers AND redirect the answer is 'No'" when {
-
-          "appeal is Late" should {
-
-            "redirect to the LateAppeal page" in new Setup(isLate = true) {
-
-              stubAuthRequests(isAgent)
-
-              val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> false))
-
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
-
-              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-            }
-          }
-
-          "appeal is NOT Late" should {
-
-            "redirect to the CheckAnswers page" in new Setup() {
-
-              stubAuthRequests(isAgent)
-
-              val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> false))
-
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
-
-              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-            }
-          }
-        }
-      }
-
-      "the radio option is invalid" should {
-
-        "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
-
-          stubAuthRequests(isAgent)
-
-          val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent))(Map(ExtraEvidenceForm.key -> ""))
-          result.status shouldBe BAD_REQUEST
-
-          val document: nodes.Document = Jsoup.parse(result.body)
-          document.title() should include(ExtraEvidenceMessages.English.errorPrefix)
-          document.select(".govuk-error-summary__title").text() shouldBe ExtraEvidenceMessages.English.thereIsAProblem
-
-          val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-          error1Link.text() shouldBe ExtraEvidenceMessages.English.errorRequired
-          error1Link.attr("href") shouldBe s"#${ExtraEvidenceForm.key}"
         }
       }
     }

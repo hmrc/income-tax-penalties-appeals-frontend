@@ -23,6 +23,8 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{ActionItem, Actio
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.CheckMode
 
 case class UploadedFilesViewModel(fileReference: String,
                                   index: Int,
@@ -45,7 +47,7 @@ object UploadedFilesViewModel extends SummaryListRowHelper {
   def apply(files: Seq[UploadJourney]): Seq[UploadedFilesViewModel] =
     files.zipWithIndex.flatMap { case (file, index) => apply(file, index) }
 
-  def toSummaryListRows(files: Seq[UploadedFilesViewModel], isAgent: Boolean, is2ndStageAppeal: Boolean)
+  def toSummaryListRows(files: Seq[UploadedFilesViewModel], isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode)
                        (implicit messages: Messages): Seq[SummaryListRow] =
     files.map { file =>
       summaryListRow(
@@ -54,7 +56,7 @@ object UploadedFilesViewModel extends SummaryListRowHelper {
         actions = Some(Actions(
           items = Seq(
             ActionItem(
-              href = upscanRoutes.UpscanRemoveFileController.onPageLoad(file.fileReference, file.index + 1, isAgent, is2ndStageAppeal).url,
+              href = upscanRoutes.UpscanRemoveFileController.onPageLoad(file.fileReference, file.index + 1, isAgent, is2ndStageAppeal, mode).url,
               content = Text(messages("common.remove")),
               visuallyHiddenText = Some(messages("uploadCheckAnswers.nonJs.summaryKey", file.index + 1))
             )

@@ -25,25 +25,28 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal.{routes => internalRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.{CheckMode, NormalMode}
 
 class UpscanInitiateRequestSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures {
 
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  "calling .apply(journeyID: String, appConfig: AppConfig)" should {
+  Seq(NormalMode, CheckMode).foreach { mode =>
+    s"calling .apply(journeyID: String, appConfig: AppConfig, mode = $mode)" should {
 
-    "construct a model with the correct values" in {
+      "construct a model with the correct values" in {
 
-      val actualModel = UpscanInitiateRequest(testJourneyId, appConfig, isAgent, is2ndStageAppeal)
-      val expectedModel = UpscanInitiateRequest(
-        callbackUrl     = "http://localhost:9188" + internalRoutes.UpscanCallbackController.callbackFromUpscan(testJourneyId).url,
-        successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent).url.replace("?key=", "")),
-        errorRedirect   = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url),
-        minimumFileSize = Some(1),
-        maximumFileSize = Some(10485760)
-      )
+        val actualModel = UpscanInitiateRequest(testJourneyId, appConfig, isAgent, is2ndStageAppeal, mode)
+        val expectedModel = UpscanInitiateRequest(
+          callbackUrl = "http://localhost:9188" + internalRoutes.UpscanCallbackController.callbackFromUpscan(testJourneyId).url,
+          successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent, mode).url.replace("?key=", "")),
+          errorRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode).url),
+          minimumFileSize = Some(1),
+          maximumFileSize = Some(10485760)
+        )
 
-      actualModel shouldBe expectedModel
+        actualModel shouldBe expectedModel
+      }
     }
   }
 }
