@@ -28,6 +28,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -80,7 +81,7 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
                       items = Seq(
                         ActionItem(
                           content = Text(messagesForLanguage.change),
-                          href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = false).url,
+                          href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = false, mode = CheckMode).url,
                           visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                         ).withId("changeJointAppeal")
                       )
@@ -121,7 +122,7 @@ class JointAppealSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppP
                     items = Seq(
                       ActionItem(
                         content = Text(messagesForLanguage.change),
-                        href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = true).url,
+                        href = controllers.routes.JointAppealController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = true, mode = CheckMode).url,
                         visuallyHiddenText = Some(messagesForLanguage.cyaHiddenReview)
                       ).withId("changeJointAppeal")
                     )

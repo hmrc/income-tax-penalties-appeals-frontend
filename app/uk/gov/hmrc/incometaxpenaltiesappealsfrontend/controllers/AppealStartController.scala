@@ -23,6 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{AppealStartView, ReviewAppealStartView}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -45,7 +46,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
   private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
     reviewAppealStartView(
       user.isAppealLate(),
-      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
+      if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = NormalMode)
       else if(user.isAgent && !user.isLPP && user.whoPlannedToSubmit.isEmpty) routes.WhoPlannedToSubmitController.onPageLoad()
       else routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
     )
@@ -54,7 +55,7 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
     val redirect =
       (user.isAgent, user.isLPP, user.hasMultipleLPPs) match {
         case (true, false, _) => routes.WhoPlannedToSubmitController.onPageLoad()
-        case (_, _, true) => routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
+        case (_, _, true) => routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = NormalMode)
         case _ => routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)
       }
 

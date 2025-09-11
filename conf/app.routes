@@ -22,18 +22,30 @@ GET        /review-start                    uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /agent-review-start              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
 
 # Joint appeal LPP
-GET        /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /multiple-penalties-for-this-period/check                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /multiple-penalties-for-this-period/check                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+
+GET        /agent-multiple-penalties-for-this-period/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-multiple-penalties-for-this-period/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Joint appeal LPP - Second Stage Appeal
-GET        /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-GET        /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /review-multiple-penalties-for-this-period/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /review-multiple-penalties-for-this-period/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET        /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET        /agent-review-multiple-penalties-for-this-period/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-review-multiple-penalties-for-this-period/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 # Reasonable excuse list
 GET        /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false)
