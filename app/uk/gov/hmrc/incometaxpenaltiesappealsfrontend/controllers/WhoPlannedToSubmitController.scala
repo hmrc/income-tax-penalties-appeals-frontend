@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhoPlannedToSubmitForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -37,22 +37,24 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
                                              override val controllerComponents: MessagesControllerComponents
                                             )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers() { implicit user =>
+  def onPageLoad(mode: Mode): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers() { implicit user =>
     Ok(whoPlannedToSubmit(
       fillForm(WhoPlannedToSubmitForm.form(), WhoPlannedToSubmitPage),
       user.isAppealLate(),
-      user.isAgent
+      user.isAgent,
+      mode
     ))
   }
 
 
-  def submit(): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers().async { implicit user =>
+  def submit(mode:Mode): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers().async { implicit user =>
     WhoPlannedToSubmitForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(whoPlannedToSubmit(
           formWithErrors,
           user.isAppealLate(),
-          user.isAgent
+          user.isAgent,
+          mode
         ))),
       whoPlannedToSubmit => {
         val answerChanged = user.userAnswers.getAnswer(WhoPlannedToSubmitPage).fold(false)(_ != whoPlannedToSubmit)
@@ -63,13 +65,16 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
           user.userAnswers.setAnswer(WhoPlannedToSubmitPage, whoPlannedToSubmit)
         }
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          whoPlannedToSubmit match {
-            case AgentClientEnum.agent =>
-              Redirect(routes.WhatCausedYouToMissDeadlineController.onPageLoad())
-            case AgentClientEnum.client =>
-              Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
-            case _ =>
-              Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+          mode match {
+            case CheckMode => Redirect(routes.CheckYourAnswersController.onPageLoad(user.isAgent))
+            case NormalMode => whoPlannedToSubmit match {
+              case AgentClientEnum.agent =>
+                Redirect(routes.WhatCausedYouToMissDeadlineController.onPageLoad())
+              case AgentClientEnum.client =>
+                Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+              case _ =>
+                Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+            }
           }
         }
       }

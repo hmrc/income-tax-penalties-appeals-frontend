@@ -63,6 +63,8 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
       }
     }
 
+
+
     "the page has the correct elements" when {
       "the user is an authorised agent" in {
         stubAuthRequests(true)
@@ -111,6 +113,88 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
         stubAuthRequests(true)
 
         val result = post("/who-planned-to-send-submission")(Map(WhoPlannedToSubmitForm.key -> ""))
+        result.status shouldBe BAD_REQUEST
+
+        val document = Jsoup.parse(result.body)
+
+        document.title() should include(WhoPlannedToSubmitMessages.English.errorPrefix)
+        document.select(".govuk-error-summary__title").text() shouldBe WhoPlannedToSubmitMessages.English.thereIsAProblem
+
+        val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+        error1Link.text() shouldBe WhoPlannedToSubmitMessages.English.errorRequired
+        error1Link.attr("href") shouldBe s"#${WhoPlannedToSubmitForm.key}"
+      }
+    }
+  }
+
+  s"GET /who-planned-to-send-submission/check" should {
+
+    "return an OK with a view pre-populated" when {
+      "the user is an authorised agent AND the page has already been answered" in {
+        stubAuthRequests(true)
+        userAnswersRepo.upsertUserAnswer(
+          emptyUserAnswersWithLSP.setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+        ).futureValue
+
+        val result = get("/who-planned-to-send-submission/check", isAgent = true)
+        result.status shouldBe OK
+
+        val document = Jsoup.parse(result.body)
+        document.select(s"#${WhoPlannedToSubmitForm.key}").hasAttr("checked") shouldBe true
+        document.select(s"#${WhoPlannedToSubmitForm.key}-2").hasAttr("checked") shouldBe false
+      }
+    }
+
+
+
+    "the page has the correct elements" when {
+      "the user is an authorised agent" in {
+        stubAuthRequests(true)
+
+        val result = get("/who-planned-to-send-submission", isAgent = true)
+        result.status shouldBe OK
+
+        val document = Jsoup.parse(result.body)
+
+        document.getServiceName.text() shouldBe WhoPlannedToSubmitMessages.English.serviceName
+        document.title() should include(WhoPlannedToSubmitMessages.English.titleAndHeading)
+        document.getElementById("captionSpan").text() shouldBe WhoPlannedToSubmitMessages.English.lspCaption(
+          dateToString(lateSubmissionAppealData.startDate),
+          dateToString(lateSubmissionAppealData.endDate)
+        )
+        document.getH1Elements.text() shouldBe WhoPlannedToSubmitMessages.English.titleAndHeading
+        document.getSubmitButton.text() shouldBe WhoPlannedToSubmitMessages.English.continue
+
+        document.select(s"#${WhoPlannedToSubmitForm.key}").hasAttr("checked") shouldBe false
+        document.select(s"#${WhoPlannedToSubmitForm.key}-2").hasAttr("checked") shouldBe false
+      }
+    }
+  }
+
+  "POST /who-planned-to-send-submission/check" when {
+
+    "a valid radio option has been selected" should {
+
+      "save the value to UserAnswers AND redirect to the ReasonableExcuse page" in {
+
+        stubAuthRequests(true)
+
+        val result = post("/who-planned-to-send-submission/check")(Map(WhoPlannedToSubmitForm.key -> AgentClientEnum.agent))
+
+        result.status shouldBe SEE_OTHER
+        result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent = true).url)
+
+        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhoPlannedToSubmitPage)) shouldBe Some(AgentClientEnum.agent)
+      }
+    }
+
+    "the text area content is invalid" should {
+
+      "render a bad request with the Form Error on the page with a link to the field in error" in {
+
+        stubAuthRequests(true)
+
+        val result = post("/who-planned-to-send-submission/check")(Map(WhoPlannedToSubmitForm.key -> ""))
         result.status shouldBe BAD_REQUEST
 
         val document = Jsoup.parse(result.body)
