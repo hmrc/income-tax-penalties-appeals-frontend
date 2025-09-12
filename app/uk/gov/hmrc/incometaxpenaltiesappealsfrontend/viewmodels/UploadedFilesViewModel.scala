@@ -24,7 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.CheckMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 
 case class UploadedFilesViewModel(fileReference: String,
                                   index: Int,

@@ -17,8 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForCrimeJourneyMultiple.isAgent
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForCrimeJourneyMultiple.is2ndStageAppeal
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForCrimeJourneyMultiple.{is2ndStageAppeal, isAgent}
 import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -27,7 +26,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.{CheckMode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsUploadCheckAnswersView

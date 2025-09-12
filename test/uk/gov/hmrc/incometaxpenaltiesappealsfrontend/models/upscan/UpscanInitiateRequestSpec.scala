@@ -17,15 +17,14 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan
 
 import fixtures.BaseFixtures
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.{is2ndStageAppeal, isAgent}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal.{routes => internalRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode.{CheckMode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 
 class UpscanInitiateRequestSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures {
 
