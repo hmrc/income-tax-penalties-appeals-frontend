@@ -29,7 +29,7 @@ import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Other, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
@@ -151,7 +151,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false).url)
+          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false,mode = NormalMode).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
         }
@@ -178,7 +178,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false).url)
+          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false, mode = NormalMode).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
         }
