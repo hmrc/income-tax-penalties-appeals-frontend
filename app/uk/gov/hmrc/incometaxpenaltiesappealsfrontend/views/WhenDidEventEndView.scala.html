@@ -20,6 +20,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+
 
 @import java.time.LocalDate
 
@@ -30,7 +32,7 @@
         dateInput: components.inputDate,
         caption: components.PenaltyCaption)
 
-@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse,  form: Form[LocalDate])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(isAgent: Boolean, reasonableExcuse: ReasonableExcuse,  form: Form[LocalDate], mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages(s"whenDidEventEnd.$reasonableExcuse.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
@@ -38,7 +40,7 @@
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventEndController.submit(reasonableExcuse, request.isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventEndController.submit(reasonableExcuse, request.isAgent,  mode)) {
 
         @caption()
 

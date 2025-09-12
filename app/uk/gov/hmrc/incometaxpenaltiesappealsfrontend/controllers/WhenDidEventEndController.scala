@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -38,33 +38,37 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
                                          )(implicit ec: ExecutionContext,
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       Future(Ok(whenDidEventEnd(
         form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
         isAgent = isAgent,
-        reasonableExcuse = reasonableExcuse
+        reasonableExcuse = reasonableExcuse,
+        mode = mode
       )))
     }
   }
 
 
-  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       WhenDidEventEndForm.form(reasonableExcuse, startDate).bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(whenDidEventEnd(
             isAgent,
             reasonableExcuse,
-            formWithErrors
+            formWithErrors,
+            mode = mode
           ))),
         dateOfEvent => {
           val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
           userAnswersService.updateAnswers(updatedAnswers).map { _ =>
             if (user.isAppealLate()) {
-              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+              Redirect(
+                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
             } else {
-              Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+              Redirect(
+                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
             }
           }
         })
