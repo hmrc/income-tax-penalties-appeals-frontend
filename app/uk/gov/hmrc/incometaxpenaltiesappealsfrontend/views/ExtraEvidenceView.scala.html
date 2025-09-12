@@ -38,7 +38,8 @@
         isLate: Boolean,
         isAgent: Boolean,
         is2ndStageAppeal: Boolean,
-        isAppealingMultipleLPPs: Boolean
+        isAppealingMultipleLPPs: Boolean,
+        mode: Mode
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(pageTitle = Some(titleBuilder(messages(s"extraEvidence.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, is2ndStageAppeal)}"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
@@ -47,7 +48,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode)) {
 
         @caption()
 

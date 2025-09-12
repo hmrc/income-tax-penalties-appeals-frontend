@@ -20,6 +20,7 @@ import play.api.libs.json.{Json, Writes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal.{routes => internalRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 case class UpscanInitiateRequest(callbackUrl: String,
                                  successRedirect: Option[String] = None,
@@ -31,10 +32,10 @@ object UpscanInitiateRequest {
 
   implicit val writes: Writes[UpscanInitiateRequest] = Json.writes[UpscanInitiateRequest]
 
-  def apply(journeyId: String, appConfig: AppConfig, isAgent: Boolean, is2ndStageAppeal: Boolean): UpscanInitiateRequest = UpscanInitiateRequest(
+  def apply(journeyId: String, appConfig: AppConfig, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): UpscanInitiateRequest = UpscanInitiateRequest(
     callbackUrl     = appConfig.upscanCallbackBaseUrl + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
-    successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent).url.replace("?key=", "")),
-    errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url),
+    successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent, mode = mode).url.replace("?key=", "")),
+    errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode).url),
     minimumFileSize = Some(appConfig.upscanMinFileSize),
     maximumFileSize = Some(appConfig.upscanMaxFileSize)
   )

@@ -26,6 +26,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFi
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{routes => appealsRouts}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsRemoveFileView
 
@@ -39,34 +41,34 @@ class UpscanRemoveFileController @Inject()(nonJsRemoveFile: NonJsRemoveFileView,
                                            override val controllerComponents: MessagesControllerComponents
                                           )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(fileReference: String, index: Int, isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    renderView(Ok, UploadRemoveFileForm.form(), fileReference, index)
+  def onPageLoad(fileReference: String, index: Int, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    renderView(Ok, UploadRemoveFileForm.form(), fileReference, index, mode)
   }
 
 
-  def onSubmit(fileReference: String, index: Int, isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onSubmit(fileReference: String, index: Int, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     UploadRemoveFileForm.form().bindFromRequest().fold(
-      renderView(BadRequest, _, fileReference, index), {
+      renderView(BadRequest, _, fileReference, index, mode), {
         case true =>
           for {
             _ <- upscanService.removeFile(user.journeyId, fileReference)
             count <- upscanService.countAllReadyFiles(user.journeyId)
           } yield Redirect(
-            if(count > 0) routes.UpscanCheckAnswersController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
-            else          appealsRouts.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
+            if(count > 0) routes.UpscanCheckAnswersController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode)
+            else          appealsRouts.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode)
           )
         case false =>
-          Future(Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)))
+          Future(Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode)))
       }
     )
   }
 
-  private def renderView(status: Status, form: Form[_], fileReference: String, index: Int)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
+  private def renderView(status: Status, form: Form[_], fileReference: String, index: Int, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
     upscanService.getFile(user.journeyId, fileReference).map(_.flatMap(UploadedFilesViewModel(_, index))).map {
       case Some(viewModel) =>
-        status(nonJsRemoveFile(form, viewModel, routes.UpscanRemoveFileController.onSubmit(fileReference, index, user.isAgent, user.is2ndStageAppeal)))
+        status(nonJsRemoveFile(form, viewModel, routes.UpscanRemoveFileController.onSubmit(fileReference, index, user.isAgent, user.is2ndStageAppeal, mode = mode)))
       case _ =>
         logger.info("[UpscanRemoveFileController][onPageLoad] User attempted to remove a file that does not exist, bouncing back to Upscan Check Answers page")
-        Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+        Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
     }
 }

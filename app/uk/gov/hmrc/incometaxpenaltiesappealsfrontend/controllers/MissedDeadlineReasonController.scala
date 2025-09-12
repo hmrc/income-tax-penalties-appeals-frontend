@@ -20,6 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.MissedDeadlineReasonPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.MissedDeadlineReasonView
@@ -58,7 +59,7 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          Redirect(routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal))
+          Redirect(routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, NormalMode))
         }
       }
     )
