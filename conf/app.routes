@@ -271,8 +271,12 @@ GET        /agent-review-details            uk.gov.hmrc.incometaxpenaltiesappeal
 
 
 # Who Planned to Submit - Agent only views
-GET        /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad()
-POST       /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit()
+GET        /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad(mode: Mode = NormalMode)
+POST       /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit(mode: Mode = NormalMode)
+
+# Who Planned to Submit - Agent only views Check
+GET        /who-planned-to-send-submission/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad(mode: Mode = CheckMode)
+POST       /who-planned-to-send-submission/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit(mode: Mode = CheckMode)
 
 
 # What caused you to miss the deadline - Agent only view
