@@ -22,7 +22,7 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -160,7 +160,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
 
             document.getSubmitButton.text() shouldBe "Continue"
-            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, mode = NormalMode).url
           }
         }
       }
@@ -189,7 +189,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
 
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = true).url
+            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = true, mode = NormalMode).url
           }
         }
 

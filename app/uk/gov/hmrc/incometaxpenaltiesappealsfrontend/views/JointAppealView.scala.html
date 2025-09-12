@@ -23,6 +23,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.YesNoRadioHelper
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 
 @this(
@@ -37,7 +38,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal, is2ndStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal, is2ndStageAppeal: Boolean, mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @individualOrAgent = {@if(isAgent) {agent} else {individual}}
 @appealStage = {@if(is2ndStageAppeal) {.review} else {}}
@@ -48,7 +49,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.JointAppealController.submit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode)) {
 
         @caption(isJointAppeal = true)
         @h1("jointAppeal.headingAndTitle")
