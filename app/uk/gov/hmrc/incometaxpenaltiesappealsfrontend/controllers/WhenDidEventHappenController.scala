@@ -63,7 +63,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
             case TechnicalIssues =>
               Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent,  mode = NormalMode))
             case Crime =>
-              Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent))
+              Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
             case UnexpectedHospital =>
               Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
             case Other =>

@@ -187,12 +187,15 @@ POST       /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenalti
 
 # Crime Reasonable Excuse
 
-GET        /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = false)
-POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = false)
+GET        /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
+GET        /has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = true)
-POST       /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = true)
-
+GET        /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)
 
 # Upload Extra Evidence
 
