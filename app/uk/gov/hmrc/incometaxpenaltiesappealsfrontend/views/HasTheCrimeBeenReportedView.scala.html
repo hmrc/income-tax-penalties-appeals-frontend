@@ -17,7 +17,7 @@
 @import uk.gov.hmrc.govukfrontend.views.Implicits._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.CrimeReportedForm
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CrimeReportedEnum
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, Mode}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
@@ -33,7 +33,8 @@
 @(
         form: Form[_],
         isLate: Boolean,
-        isAgent: Boolean
+        isAgent: Boolean,
+        mode: Mode
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("crime.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
@@ -42,7 +43,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CrimeReportedController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.CrimeReportedController.submit(isAgent = isAgent, mode)) {
 
         @caption()
 

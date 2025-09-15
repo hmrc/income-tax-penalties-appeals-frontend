@@ -20,7 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other, TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhenDidEventHappenPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
@@ -67,7 +67,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
                 if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
             case Crime =>
               Redirect(
-              if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent))
+              if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
             case UnexpectedHospital =>
               Redirect(
                 if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))

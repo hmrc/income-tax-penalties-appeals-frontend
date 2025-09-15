@@ -29,7 +29,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, CrimeReportedEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -85,7 +85,7 @@ class CrimeReportedSummarySpec extends AnyWordSpec with Matchers with GuiceOneAp
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.CrimeReportedController.onPageLoad(isAgent).url,
+                            href = controllers.routes.CrimeReportedController.onPageLoad(isAgent, CheckMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changeCrimeReported")
                         )
