@@ -69,7 +69,8 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
               Redirect(
               if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent))
             case UnexpectedHospital =>
-              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
+              Redirect(
+                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
             case Other =>
               Redirect(
                 if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))

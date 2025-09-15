@@ -187,11 +187,11 @@ POST       /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxp
 GET        /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = NormalMode)
 POST       /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = NormalMode)
 
-GET        /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = CheckMode)
-POST       /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = CheckMode)
+GET        /when-did-the-issue-cause-missed-deadline/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-issue-cause-missed-deadline/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = CheckMode)
-POST       /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = CheckMode)
+GET        /agent-when-did-the-issue-cause-missed-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-issue-cause-missed-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 ## WHEN DID EVENT END VIEWS ##
 
