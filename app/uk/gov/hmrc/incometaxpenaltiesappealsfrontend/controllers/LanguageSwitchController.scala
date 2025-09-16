@@ -19,7 +19,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import com.google.inject.Inject
 import play.api.i18n.Lang
 import play.api.mvc.ControllerComponents
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
 class LanguageSwitchController @Inject()(
