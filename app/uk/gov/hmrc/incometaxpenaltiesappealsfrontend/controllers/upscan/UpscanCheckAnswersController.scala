@@ -22,6 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.Au
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{BaseUserAnswersController, routes => appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -38,51 +39,53 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
                                              override val controllerComponents: MessagesControllerComponents
                                             )(implicit ec: ExecutionContext, appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    withNonEmptyReadyFiles { files =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    withNonEmptyReadyFiles(mode) { files =>
       Ok(nonJsCheckAnswers(
         UploadAnotherFileForm.form(),
         UploadedFilesViewModel(files),
-        routes.UpscanCheckAnswersController.onSubmit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
+        routes.UpscanCheckAnswersController.onSubmit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode),
+        mode
       ))
     }
   }
 
-  def onSubmit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    withNonEmptyReadyFiles { files =>
+  def onSubmit(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    withNonEmptyReadyFiles(mode) { files =>
       if (files.size < appConfig.upscanMaxNumberOfFiles) {
         UploadAnotherFileForm.form().bindFromRequest().fold(
           formWithErrors =>
             BadRequest(nonJsCheckAnswers(
               formWithErrors,
               UploadedFilesViewModel(files),
-              routes.UpscanCheckAnswersController.onSubmit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
+              routes.UpscanCheckAnswersController.onSubmit(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode),
+              mode
             )),
-          onwardRoute(_)
+          onwardRoute(_, mode)
         )
       } else {
-        onwardRoute(uploadFile = false)
+        onwardRoute(uploadFile = false, mode)
       }
     }
   }
 
-  private def onwardRoute(uploadFile: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): Result =
+  private def onwardRoute(uploadFile: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_]): Result =
     if(uploadFile) {
-      Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+      Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
     } else {
-      if (user.isAppealLate()) {
+      if (mode == NormalMode && user.isAppealLate()) {
         Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
       } else {
         Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
       }
     }
 
-  private def withNonEmptyReadyFiles(f: Seq[UploadJourney] => Result)
+  private def withNonEmptyReadyFiles(mode: Mode)(f: Seq[UploadJourney] => Result)
                                     (implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
     upscanService.getAllReadyFiles(user.journeyId).map {
       case files if files.nonEmpty =>
         f(files)
       case _ =>
-        Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+        Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
     }
 }

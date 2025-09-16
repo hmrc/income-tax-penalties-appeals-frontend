@@ -20,6 +20,7 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -35,13 +36,13 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
                               timeMachine: TimeMachine)
                              (implicit ec: ExecutionContext) extends ExceptionHandlingUtil {
 
-  def initiateNewFileUpload(journeyId: String, isAgent: Boolean, is2ndStageAppeal: Boolean)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
+  def initiateNewFileUpload(journeyId: String, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
     withExceptionHandling(
       methodName = "initiateNewFileUpload",
       identifiers = Map("journeyId" -> journeyId),
       pagerDutyTriggerKey = Some(FAILED_INITIATE_CALL_UPSCAN)
     ) {
-      upscanConnector.initiate(journeyId, UpscanInitiateRequest(journeyId, appConfig, isAgent, is2ndStageAppeal)).flatMap {
+      upscanConnector.initiate(journeyId, UpscanInitiateRequest(journeyId, appConfig, isAgent, is2ndStageAppeal, mode)).flatMap {
         case Right(response) =>
           uploadRepo.upsertFileUpload(journeyId, UploadJourney(
             reference = response.reference,
