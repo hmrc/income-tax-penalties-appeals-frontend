@@ -61,30 +61,28 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
       dateOfEvent => {
         val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          reasonableExcuse match {
-            case TechnicalIssues =>
-              Redirect(
-                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
-            case Crime =>
-              Redirect(
-              if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
-            case UnexpectedHospital =>
-              Redirect(
-                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
-            case Other =>
-              Redirect(
-                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))
-            case _ =>
-              if (user.isAppealLate()) {
-                Redirect(
-                  if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
-              } else {
-                Redirect(
-                  if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+          mode match {
+            case CheckMode =>
+              Redirect(routes.CheckYourAnswersController.onPageLoad(user.isAgent))
+            case NormalMode =>
+              reasonableExcuse match {
+                case TechnicalIssues =>
+                  Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
+                case Crime =>
+                  Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
+                case UnexpectedHospital =>
+                  Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
+                case Other =>
+                  Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))
+                case _ =>
+                  if (user.isAppealLate()) {
+                    Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+                  } else {
+                    Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+                  }
               }
           }
         }
       })
-
   }
 }
