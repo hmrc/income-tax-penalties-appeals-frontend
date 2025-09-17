@@ -4,8 +4,8 @@ error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
 
 phaseBanner.tag = Beta
-phaseBanner.message = This is a new service – your {0} will help us to improve it. (Welsh)
-phaseBanner.linkText = feedback (Welsh)
+phaseBanner.message = Mae hwn yn wasanaeth newydd – bydd eich {0} yn ein helpu i’w wella.
+phaseBanner.linkText = adborth
 
 service.lsp.caption = Pwynt cosb am gyflwyno’n hwyr: {0} to {1}
 service.lpp.caption = Cosb am dalu’n hwyr: {0} to {1}
@@ -69,9 +69,8 @@ reasonableExcuses.technicalIssue = Problemau technoleg neu broblemau meddalwedd
 reasonableExcuses.unexpectedHospital = Aros yn yr ysbyty yn annisgwyl
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 reasonableExcuses.other = Rheswm arall
-reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options. (Welsh)
 reasonableExcuse.error.message.lsp = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
-reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline (Welsh)
+reasonableExcuse.error.message.lpp = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer talu
 
 # Joint appeal LPP
 # ----------------------------------------------------------
@@ -211,11 +210,11 @@ whenDidEventHappen.technicalIssue.date.error.notInFuture = Mae’n rhaid i’r d
 # Health Messages LSP
 whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop you from meeting the submission deadline? (Welsh)
 whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop you making the payment? (Welsh)
-whenDidEventHappen.health.date.error.invalid = The date of the health issue must be a real date (Welsh)
-whenDidEventHappen.health.date.error.required.all = Enter the date that the health issue began (Welsh)
-whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a {0} and a {1} (Welsh)
-whenDidEventHappen.health.date.error.required = The date of the health issue must include a {0} (Welsh)
-whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past (Welsh)
+whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod yn ddyddiad go iawn
+whenDidEventHappen.health.date.error.required.all = Nodwch y dyddiad pan ddechreuodd y broblem iechyd
+whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0} a {1}
+whenDidEventHappen.health.date.error.required = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0}
+whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod heddiw neu yn y gorffennol
 
 # Health Messages LSP Agent
 client.whenDidEventHappen.health.lsp.headingAndTitle = Pryd y gwnaeth y broblem iechyd rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
@@ -338,13 +337,13 @@ missedDeadlineReason.lsp.error.review.required = Mae’n rhaid i chi roi gwyboda
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
-missedDeadlineReason.lpp.headingAndTitle = Why was the payment deadline missed? (Welsh)
+missedDeadlineReason.lpp.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 missedDeadlineReason.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
 missedDeadlineReason.lpp.error.required = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
 missedDeadlineReason.lpp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
 missedDeadlineReason.lpp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
-missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment deadline missed? (Welsh)
+missedDeadlineReason.lpp.headingAndTitle.multiple = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 missedDeadlineReason.lpp.hint.multiple = Dim ond y cosbau hyn y mae angen i ni wybod amdanynt. Dylech apelio yn erbyn unrhyw gosbau eraill ar wahân.
 missedDeadlineReason.lpp.error.required.multiple = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
 
@@ -451,14 +450,14 @@ checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = Pryd gwna
 checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days (Welsh)
 checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days (Welsh)
 
-checkYourAnswers.missedDeadlineReason.lpp.key =  Why was the payment deadline missed? (Welsh)
-checkYourAnswers.missedDeadlineReason.lpp.change.hidden =  why was the payment deadline missed (Welsh)
+checkYourAnswers.missedDeadlineReason.lpp.key =  Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
+checkYourAnswers.missedDeadlineReason.lpp.change.hidden =  beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 checkYourAnswers.missedDeadlineReason.lsp.key = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
-checkYourAnswers.missedDeadlineReason.lsp.change.hidden = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
+checkYourAnswers.missedDeadlineReason.lsp.change.hidden = beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.missedDeadlineReason.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
-checkYourAnswers.missedDeadlineReason.review.change.hidden = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
+checkYourAnswers.missedDeadlineReason.review.change.hidden = beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
 checkYourAnswers.missedDeadlineReason.joint.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
-checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
+checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
 
 checkYourAnswers.uploadedDocuments.key = Tystiolaeth i ategu’r apêl hon
 checkYourAnswers.uploadedDocuments.change.hidden = Tystiolaeth i ategu’r apêl hon
@@ -484,16 +483,16 @@ appealConfirmation.headingAndTitle = Apêl wedi dod i law
 appealConfirmation.typeAndPeriod = Blwyddyn dreth {0}: {1}
 appealConfirmation.p1 = Does dim angen cyfeirnod arnoch.
 appealConfirmation.p2.client = Mae’ch apêl wedi’i chofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
-appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal. (Welsh)
+appealConfirmation.p2.agent = Mae’ch apêl wedi’i chofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
 appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd)
 appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2.client = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
 appealConfirmation.whatHappensNext.p2.agent =  Unwaith i’r penderfyniad gael ei wneud, bydd eich cleient yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
 appealConfirmation.whatHappensNext.link1.client = Yn ôl i’ch cosbau Hunanasesiad
-appealConfirmation.whatHappensNext.link1.agent = Bwrw golwg dros eich cyfrif Hunanasesiad
+appealConfirmation.whatHappensNext.link1.agent = Yn ôl i gosbau Hunanasesiad eich cleient
 appealConfirmation.whatHappensNext.link2.client = Bwrw golwg dros eich cyfrif Hunanasesiad
-appealConfirmation.whatHappensNext.link2.agent = View your client’s Self Assessment account (Welsh)
+appealConfirmation.whatHappensNext.link2.agent = Bwrw golwg dros gyfrif Hunanasesiad eich cleient
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
 appealConfirmation.feedback.p = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.

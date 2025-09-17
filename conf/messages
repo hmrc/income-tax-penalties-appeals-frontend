@@ -69,7 +69,6 @@ reasonableExcuses.technicalIssue = Software or technology issues
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
-reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
 reasonableExcuse.error.message.lsp = Select the reason for missing the submission deadline
 reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline
 
@@ -484,7 +483,7 @@ appealConfirmation.headingAndTitle = Appeal received
 appealConfirmation.typeAndPeriod = {0}: {1} tax year
 appealConfirmation.p1 = You do not need a reference number.
 appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
-appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.agent = Your appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
