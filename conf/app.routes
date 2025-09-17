@@ -240,19 +240,31 @@ POST       /agent-has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpen
 
 # Upload Extra Evidence
 
-GET        /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /upload-evidence-for-the-appeal/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /upload-evidence-for-the-appeal/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+
+GET        /agent-upload-evidence-for-the-appeal/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-upload-evidence-for-the-appeal/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Upload Extra Evidence - Second Stage Appeal
 
-GET        /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-GET        /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /upload-evidence-for-the-review/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /upload-evidence-for-the-review/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET        /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET        /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
 # Why was the payment late? LPP
