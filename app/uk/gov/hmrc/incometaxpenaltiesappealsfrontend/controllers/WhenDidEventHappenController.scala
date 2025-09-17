@@ -61,26 +61,20 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
       dateOfEvent => {
         val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          mode match {
-            case CheckMode =>
-              Redirect(routes.CheckYourAnswersController.onPageLoad(user.isAgent))
-            case NormalMode =>
-              reasonableExcuse match {
-                case TechnicalIssues =>
-                  Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
-                case Crime =>
-                  Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
-                case UnexpectedHospital =>
-                  Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
-                case Other =>
-                  Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))
-                case _ =>
-                  if (user.isAppealLate()) {
-                    Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
-                  } else {
-                    Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
-                  }
-              }
+
+          (reasonableExcuse, mode) match {
+            case (TechnicalIssues, _) =>
+              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
+            case (Crime, NormalMode) =>
+              Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
+            case (UnexpectedHospital, _) =>
+              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
+            case (Other, NormalMode) =>
+              Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))
+            case (_, NormalMode) if user.isAppealLate() =>
+              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+            case (_, _) =>
+              Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
           }
         }
       })

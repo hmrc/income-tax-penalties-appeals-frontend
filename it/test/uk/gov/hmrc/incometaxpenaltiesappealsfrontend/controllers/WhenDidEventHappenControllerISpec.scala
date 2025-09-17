@@ -192,18 +192,20 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
                 s"the appeal isLate='$isLate'" should {
 
-                  val redirectLocation = if(mode == CheckMode) {
-                    routes.CheckYourAnswersController.onPageLoad(isAgent).url
-                  } else {
-                    reasonWithUrl._1 match {
-                      case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent).url
-                      case Crime => routes.CrimeReportedController.onPageLoad(isAgent, NormalMode).url
-                      case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
-                      case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false).url
-                      case _ =>
-                        if (isLate) routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
-                        else routes.CheckYourAnswersController.onPageLoad(isAgent).url
-                    }
+                  val redirectLocation =
+                  (reasonWithUrl._1, mode) match {
+                    case (TechnicalIssues, _) =>
+                      routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent).url
+                    case (Crime, NormalMode) =>
+                      routes.CrimeReportedController.onPageLoad(isAgent, NormalMode).url
+                    case (UnexpectedHospital, _) =>
+                      routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
+                    case (Other, NormalMode) =>
+                      routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false).url
+                    case (_, NormalMode) if isLate =>
+                      routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+                    case (_, _) =>
+                      routes.CheckYourAnswersController.onPageLoad(isAgent).url
                   }
 
                   s"save the value to UserAnswers AND redirect to $redirectLocation with ${reasonWithUrl._1}" in new Setup(reasonWithUrl._1, isLate) {
@@ -217,6 +219,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                       WhenDidEventHappenForm.key + ".year" -> "2024"))
 
                     result.status shouldBe SEE_OTHER
+
                     result.header("Location") shouldBe Some(redirectLocation)
 
                     userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventHappenPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
