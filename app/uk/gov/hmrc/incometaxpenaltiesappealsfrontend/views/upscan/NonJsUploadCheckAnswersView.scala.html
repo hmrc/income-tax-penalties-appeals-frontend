@@ -36,7 +36,7 @@
         govukSummaryList: GovukSummaryList
 )
 
-@(form: Form[_], uploadedFiles: Seq[UploadedFilesViewModel], postAction: Call)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], uploadedFiles: Seq[UploadedFilesViewModel], postAction: Call, mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @layout(pageTitle = Some(titleBuilder(messages(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), uploadedFiles.size), Some(form))), isAgent = request.isAgent) {
 
@@ -48,7 +48,7 @@
     @h1(pluralOrSingular("uploadCheckAnswers.nonJs.headingAndTitle", uploadedFiles), args = Seq(uploadedFiles.size))
 
     @govukSummaryList(SummaryList(
-        UploadedFilesViewModel.toSummaryListRows(uploadedFiles, request.isAgent, request.is2ndStageAppeal)
+        UploadedFilesViewModel.toSummaryListRows(uploadedFiles, request.isAgent, request.is2ndStageAppeal, mode)
     ))
 
     @formHelper(action = postAction) {

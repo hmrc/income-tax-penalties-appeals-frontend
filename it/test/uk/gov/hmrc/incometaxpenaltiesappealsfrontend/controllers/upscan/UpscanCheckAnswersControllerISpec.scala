@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan
 
 import fixtures.FileUploadFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
@@ -27,11 +28,10 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
@@ -79,95 +79,166 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
     userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
   }
 
-  Seq(
-    false,
-    true
-  ).foreach { case isAgent =>
+  def url(isAgent: Boolean, mode: Mode): String = {
+    val urlPathStart = if (isAgent) "/upload-evidence/agent-upload-another-file" else "/upload-evidence/upload-another-file"
+    urlPathStart + {if(mode == CheckMode) "/check" else ""}
+  }
 
-    val url = if(isAgent){"/upload-evidence/agent-upload-another-file"} else {"/upload-evidence/upload-another-file"}
-    s"when authenticating as an ${if (isAgent) "agent" else "individual"}" when {
+  List(NormalMode, CheckMode).foreach { mode =>
 
-      if(!isAgent) {
-        testNavBar("/upload-evidence/upload-another-file"){
-          fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
-        }
-      }
+    Seq(
+      false,
+      true
+    ).foreach { case isAgent =>
+      s"when authenticating as an ${if (isAgent) "agent" else "individual"} in $mode" when {
 
-      "GET /upload-evidence/upload-another-file" when {
-
-        s"the number of files uploaded is < ${appConfig.upscanMaxNumberOfFiles}" should {
-
-          "render the File Upload check answers page with a form action to add another file" in new Setup() {
-            stubAuthRequests(isAgent)
+        if (!isAgent) {
+          testNavBar(url(isAgent, mode)) {
             fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
-
-            val result = get(url, isAgent = isAgent)
-            result.status shouldBe OK
-
-            val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal).url
-            document.select(BaseSelectors.legend).text() shouldBe NonJsUploadCheckAnswersMessages.English.uploadAnotherFileLegend
-            document.select(BaseSelectors.radio(1)).text() shouldBe NonJsUploadCheckAnswersMessages.English.yes
-            document.select(BaseSelectors.radio(2)).text() shouldBe NonJsUploadCheckAnswersMessages.English.no
           }
         }
 
-        s"the number of files uploaded is == ${appConfig.upscanMaxNumberOfFiles}" should {
+        s"GET ${url(isAgent, mode)}" when {
 
-          "render the File Upload check answers page with a form action but without the 'Add another file' question" in new Setup() {
-            stubAuthRequests(isAgent)
+          s"the number of files uploaded is < ${appConfig.upscanMaxNumberOfFiles}" should {
 
-            (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-              fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
-            }
-
-            val result = get(url, isAgent = isAgent)
-            result.status shouldBe OK
-
-            val document = Jsoup.parse(result.body)
-            document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal).url
-            document.select(BaseSelectors.legend).isEmpty shouldBe true
-            document.select(BaseSelectors.radio(1)).isEmpty shouldBe true
-            document.select(BaseSelectors.radio(2)).isEmpty shouldBe true
-          }
-        }
-      }
-
-      "POST /upload-evidence/upload-another-file" when {
-
-        s"number of files which has been uploaded is < ${appConfig.upscanMaxNumberOfFiles}" when {
-
-          "the User selects 'Yes' to upload another file" should {
-
-            "redirect to the UpscanInitiate page" in new Setup() {
-
+            "render the File Upload check answers page with a form action to add another file" in new Setup() {
               stubAuthRequests(isAgent)
               fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-              val result = post(url, isAgent = isAgent)(
-                Map(UploadAnotherFileForm.key -> "true")
-              )
+              val result = get(url(isAgent, mode), isAgent = isAgent)
+              result.status shouldBe OK
 
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal).url)
+              val document = Jsoup.parse(result.body)
+              document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal, mode).url
+              document.select(BaseSelectors.legend).text() shouldBe NonJsUploadCheckAnswersMessages.English.uploadAnotherFileLegend
+              document.select(BaseSelectors.radio(1)).text() shouldBe NonJsUploadCheckAnswersMessages.English.yes
+              document.select(BaseSelectors.radio(2)).text() shouldBe NonJsUploadCheckAnswersMessages.English.no
             }
           }
 
-          "the User selects 'No' to NOT upload another file" when {
+          s"the number of files uploaded is == ${appConfig.upscanMaxNumberOfFiles}" should {
 
-            "the appeal is late" should {
+            "render the File Upload check answers page with a form action but without the 'Add another file' question" in new Setup() {
+              stubAuthRequests(isAgent)
 
-              "redirect to Late Appeal page" in new Setup(isLate = true) {
+              (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+              }
+
+              val result = get(url(isAgent, mode), isAgent = isAgent)
+              result.status shouldBe OK
+
+              val document = Jsoup.parse(result.body)
+              document.select("form").attr("action") shouldBe routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal, mode).url
+              document.select(BaseSelectors.legend).isEmpty shouldBe true
+              document.select(BaseSelectors.radio(1)).isEmpty shouldBe true
+              document.select(BaseSelectors.radio(2)).isEmpty shouldBe true
+            }
+          }
+        }
+
+        s"POST ${url(isAgent, mode)}" when {
+
+          s"number of files which has been uploaded is < ${appConfig.upscanMaxNumberOfFiles}" when {
+
+            "the User selects 'Yes' to upload another file" should {
+
+              "redirect to the UpscanInitiate page" in new Setup() {
 
                 stubAuthRequests(isAgent)
                 fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-                val result = post(url, isAgent = isAgent)(
-                  Map(UploadAnotherFileForm.key -> "false")
+                val result = post(url(isAgent, mode), isAgent = isAgent)(
+                  Map(UploadAnotherFileForm.key -> "true")
                 )
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                result.header("Location") shouldBe Some(routes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode).url)
+              }
+            }
+
+            "the User selects 'No' to NOT upload another file" when {
+
+              "the appeal is late" should {
+
+                if (mode == NormalMode) {
+                  "redirect to Late Appeal page" in new Setup(isLate = true) {
+
+                    stubAuthRequests(isAgent)
+                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+
+                    val result = post(url(isAgent, mode), isAgent = isAgent)(
+                      Map(UploadAnotherFileForm.key -> "false")
+                    )
+
+                    result.status shouldBe SEE_OTHER
+                    result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                  }
+                } else {
+                  "redirect to Check Answers page" in new Setup(isLate = true) {
+
+                    stubAuthRequests(isAgent)
+                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+
+                    val result = post(url(isAgent, mode), isAgent = isAgent)(
+                      Map(UploadAnotherFileForm.key -> "false")
+                    )
+
+                    result.status shouldBe SEE_OTHER
+                    result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
+                  }
+                }
+              }
+
+              "the appeal is NOT late" should {
+
+                "redirect to Check Answers page" in new Setup() {
+
+                  stubAuthRequests(isAgent)
+                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+
+                  val result = post(url(isAgent, mode), isAgent = isAgent)(
+                    Map(UploadAnotherFileForm.key -> "false")
+                  )
+
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
+                }
+              }
+            }
+          }
+
+          s"number of files which has been uploaded is == ${appConfig.upscanMaxNumberOfFiles}" when {
+
+            "the appeal is late" should {
+
+              if(mode == NormalMode) {
+                "redirect to Late Appeal page" in new Setup(isLate = true) {
+
+                  stubAuthRequests(isAgent)
+                  (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+                  }
+
+                  val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
+
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                }
+              } else {
+                "redirect to Check Answers page" in new Setup(isLate = true) {
+
+                  stubAuthRequests(isAgent)
+                  (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+                  }
+
+                  val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
+
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
+                }
               }
             }
 
@@ -176,50 +247,15 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               "redirect to Check Answers page" in new Setup() {
 
                 stubAuthRequests(isAgent)
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+                (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
+                }
 
-                val result = post(url, isAgent = isAgent)(
-                  Map(UploadAnotherFileForm.key -> "false")
-                )
+                val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
 
                 result.status shouldBe SEE_OTHER
                 result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
               }
-            }
-          }
-        }
-
-        s"number of files which has been uploaded is == ${appConfig.upscanMaxNumberOfFiles}" when {
-
-          "the appeal is late" should {
-
-            "redirect to Late Appeal page" in new Setup(isLate = true) {
-
-              stubAuthRequests(isAgent)
-              (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
-              }
-
-              val result = post(url, isAgent = isAgent)(Map.empty[String, String])
-
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
-            }
-          }
-
-          "the appeal is NOT late" should {
-
-            "redirect to Check Answers page" in new Setup() {
-
-              stubAuthRequests(isAgent)
-              (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
-              }
-
-              val result = post(url, isAgent = isAgent)(Map.empty[String, String])
-
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
             }
           }
         }

@@ -23,7 +23,7 @@ import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{affinityGroup, allEnrolments, nino}
 import uk.gov.hmrc.auth.core.retrieve.{EmptyRetrieval, Retrieval, ~}
 import uk.gov.hmrc.auth.core.{AffinityGroup, AuthConnector, BearerTokenExpired, Enrolment, EnrolmentIdentifier, Enrolments, InsufficientEnrolments, InternalError, MissingBearerToken, UnsupportedAffinityGroup}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.{agentDelegatedAuthRuleKey, incomeTaxEnrolmentKey, mtdItIdKey}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.incomeTaxEnrolmentKey
 
 import scala.concurrent.Future
 
