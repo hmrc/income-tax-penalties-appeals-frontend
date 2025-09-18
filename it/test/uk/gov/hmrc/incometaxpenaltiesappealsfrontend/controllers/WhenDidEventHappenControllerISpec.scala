@@ -186,7 +186,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               s"the appeal isLate='$isLate'" should {
 
                 val redirectLocation = reasonWithUrl._1 match {
-                  case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent).url
+                  case TechnicalIssues => routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent, mode = NormalMode).url
                   case Crime => routes.CrimeReportedController.onPageLoad(isAgent, NormalMode).url
                   case UnexpectedHospital => routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
                   case Other => routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false ).url

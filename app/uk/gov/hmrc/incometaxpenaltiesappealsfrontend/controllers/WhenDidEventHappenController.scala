@@ -61,7 +61,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           reasonableExcuse match {
             case TechnicalIssues =>
-              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
+              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent,  mode = NormalMode))
             case Crime =>
               Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
             case UnexpectedHospital =>
