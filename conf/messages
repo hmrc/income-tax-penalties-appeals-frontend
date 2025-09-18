@@ -69,10 +69,8 @@ reasonableExcuses.technicalIssue = Software or technology issues
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
-reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
 reasonableExcuse.error.message.lsp = Select the reason for missing the submission deadline
 reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline
-
 
 # Joint appeal LPP
 # ----------------------------------------------------------
@@ -133,7 +131,6 @@ clientSubmitted.honestyDeclaration.li.other.lsp = I was unable to send the submi
 clientSubmitted.honestyDeclaration.li.other.lpp = I was unable to make the payment due on {0}
 agentPlanned.honestyDeclaration.li.other.lpp = my client was unable to make the payment due on {0}
 
-
 clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were unable to send the submission due on {0}
@@ -160,7 +157,6 @@ agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because of a serio
 agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
-
 
 honestyDeclaration.li.lpp = no one else was available to make the payment for me
 agent.honestyDeclaration.li.lpp = no one else was available to make the payment for them
@@ -223,7 +219,6 @@ whenDidEventHappen.health.date.error.notInFuture = The date of the health issue 
 # Health Messages LSP Agent
 client.whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop your client from meeting the submission deadline?
 client.whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop your client making the payment?
-
 
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
@@ -363,7 +358,6 @@ missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel tha
 missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking us to review these decisions
 
 
-
 # Has the crime been reported page
 # ----------------------------------------------------------
 crime.headingAndTitle = Has this crime been reported to the police?
@@ -489,7 +483,7 @@ appealConfirmation.headingAndTitle = Appeal received
 appealConfirmation.typeAndPeriod = {0}: {1} tax year
 appealConfirmation.p1 = You do not need a reference number.
 appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
-appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.agent = Your appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
