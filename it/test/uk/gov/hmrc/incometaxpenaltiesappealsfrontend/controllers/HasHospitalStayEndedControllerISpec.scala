@@ -37,7 +37,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRep
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
-import scala.concurrent.Future
 
 class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
