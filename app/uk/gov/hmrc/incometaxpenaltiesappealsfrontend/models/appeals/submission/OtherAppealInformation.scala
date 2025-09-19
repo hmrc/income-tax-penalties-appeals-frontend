@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
 import play.api.libs.json.Json.JsValueWrapper
-import play.api.libs.json.{JsObject, Json, OFormat, OWrites, Writes}
+import play.api.libs.json._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney

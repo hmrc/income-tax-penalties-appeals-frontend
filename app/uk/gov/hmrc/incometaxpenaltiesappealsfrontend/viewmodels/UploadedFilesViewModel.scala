@@ -20,11 +20,10 @@ import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.Aliases.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{ActionItem, Actions, SummaryListRow}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.{routes => upscanRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 case class UploadedFilesViewModel(fileReference: String,
                                   index: Int,

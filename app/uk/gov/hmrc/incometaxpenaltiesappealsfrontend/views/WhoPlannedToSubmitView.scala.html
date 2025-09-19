@@ -22,6 +22,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 @this(
         layout: Layout,
@@ -32,7 +33,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], isLate: Boolean, isAgent: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isLate: Boolean, isAgent: Boolean,mode:Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("agents.whoPlannedToSubmit.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
@@ -40,7 +41,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhoPlannedToSubmitController.submit()) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhoPlannedToSubmitController.submit(mode = mode)) {
 
         @caption()
 

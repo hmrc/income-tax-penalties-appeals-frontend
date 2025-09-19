@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.WhatCausedYouToMissDeadlineMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.Document
@@ -26,12 +25,10 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.AuthStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, NavBarTesterHelper, ViewSpecHelper}
 
 class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
 
@@ -47,82 +44,101 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
     super.beforeEach()
   }
 
-  s"GET /what-caused-you-to-miss-the-deadline" should {
+  List(NormalMode, CheckMode).foreach { mode =>
+    val url = "/what-caused-you-to-miss-the-deadline" + {
+      if (mode == CheckMode) "/check" else ""
+    }
 
-    "return an OK with a view pre-populated" when {
-      "the user is an authorised agent AND the page has already been answered" in {
-        stubAuthRequests(true)
-        userAnswersRepo.upsertUserAnswer(
-          emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
-        ).futureValue
+    s"GET $url" should {
 
-        val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)
-        result.status shouldBe OK
+      "return an OK with a view pre-populated" when {
+        "the user is an authorised agent AND the page has already been answered" in {
+          stubAuthRequests(true)
+          userAnswersRepo.upsertUserAnswer(
+            emptyUserAnswersWithLSP.setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.agent)
+          ).futureValue
 
-        val document = Jsoup.parse(result.body)
-        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe true
-        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
+          val result = get(url, isAgent = true)
+          result.status shouldBe OK
+
+          val document = Jsoup.parse(result.body)
+          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe true
+          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
+        }
+      }
+
+      "the page has the correct elements" when {
+        "the user is an authorised agent" in {
+          stubAuthRequests(true)
+
+          val result = get(url, isAgent = true)
+          result.status shouldBe OK
+
+          val document = Jsoup.parse(result.body)
+
+          document.getServiceName.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.serviceName
+          document.title() should include(WhatCausedYouToMissDeadlineMessages.English.titleAndHeading)
+          document.getElementById("captionSpan").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.lspCaption(
+            dateToString(lateSubmissionAppealData.startDate),
+            dateToString(lateSubmissionAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.titleAndHeading
+          document.getSubmitButton.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.continue
+
+          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe false
+          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
+        }
       }
     }
 
-    "the page has the correct elements" when {
-      "the user is an authorised agent" in {
-        stubAuthRequests(true)
+    s"POST $url" when {
+      "a valid radio option has been selected" should {
 
-        val result = get("/what-caused-you-to-miss-the-deadline", isAgent = true)
-        result.status shouldBe OK
+        if (mode == NormalMode) {
+          "save the value to UserAnswers AND redirect to the ReasonableExcuse page" in {
 
-        val document = Jsoup.parse(result.body)
+            stubAuthRequests(true)
 
-        document.getServiceName.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.serviceName
-        document.title() should include(WhatCausedYouToMissDeadlineMessages.English.titleAndHeading)
-        document.getElementById("captionSpan").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.titleAndHeading
-        document.getSubmitButton.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.continue
+            val result = post(url)(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
 
-        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe false
-        document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true).url)
+
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhatCausedYouToMissDeadlinePage)) shouldBe Some(AgentClientEnum.agent)
+          }
+        } else {
+          "save the value to UserAnswers AND redirect to the CYA page" in {
+
+            stubAuthRequests(true)
+
+            val result = post(url)(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
+
+            result.status shouldBe SEE_OTHER
+            result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(true).url)
+
+            userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhatCausedYouToMissDeadlinePage)) shouldBe Some(AgentClientEnum.agent)
+          }
+        }
       }
-    }
-  }
 
-  "POST /what-caused-you-to-miss-the-deadline" when {
+      "the text area content is invalid" should {
 
-    "a valid radio option has been selected" should {
+        "render a bad request with the Form Error on the page with a link to the field in error" in {
 
-      "save the value to UserAnswers AND redirect to the ReasonableExcuse page" in {
+          stubAuthRequests(true)
 
-        stubAuthRequests(true)
+          val result = post(url)(Map(WhatCausedYouToMissDeadlineForm.key -> ""))
+          result.status shouldBe BAD_REQUEST
 
-        val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
+          val document = Jsoup.parse(result.body)
 
-        result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true).url)
+          document.title() should include(WhatCausedYouToMissDeadlineMessages.English.errorPrefix)
+          document.select(".govuk-error-summary__title").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.thereIsAProblem
 
-        userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhatCausedYouToMissDeadlinePage)) shouldBe Some(AgentClientEnum.agent)
-      }
-    }
-
-    "the text area content is invalid" should {
-
-      "render a bad request with the Form Error on the page with a link to the field in error" in {
-
-        stubAuthRequests(true)
-
-        val result = post("/what-caused-you-to-miss-the-deadline")(Map(WhatCausedYouToMissDeadlineForm.key -> ""))
-        result.status shouldBe BAD_REQUEST
-
-        val document = Jsoup.parse(result.body)
-
-        document.title() should include(WhatCausedYouToMissDeadlineMessages.English.errorPrefix)
-        document.select(".govuk-error-summary__title").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.thereIsAProblem
-
-        val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.errorRequired
-        error1Link.attr("href") shouldBe s"#${WhatCausedYouToMissDeadlineForm.key}"
+          val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+          error1Link.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.errorRequired
+          error1Link.attr("href") shouldBe s"#${WhatCausedYouToMissDeadlineForm.key}"
+        }
       }
     }
   }
