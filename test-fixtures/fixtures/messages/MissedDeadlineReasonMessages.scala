@@ -69,7 +69,7 @@ object MissedDeadlineReasonMessages {
     override def headingAndTitle(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
       else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-      else if(isLPP) "Why was the payment deadline missed? (Welsh)"
+      else if(isLPP) "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?"
       else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     }
 
@@ -102,13 +102,13 @@ object MissedDeadlineReasonMessages {
     override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
       else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-      else if(isLPP) "Why was the payment deadline missed? (Welsh)"
+      else if(isLPP) "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?"
       else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
 
     override def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
-      else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
-      else if(isLPP) "why was the payment deadline missed (Welsh)"
-      else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+      if(is2ndStageAppeal && isJointAppeal) "beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
+      else if(is2ndStageAppeal) "beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
+      else if(isLPP) "beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?"
+      else "beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
   }
 }

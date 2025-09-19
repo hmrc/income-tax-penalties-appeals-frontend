@@ -20,7 +20,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.WhenDidEventHappenHelper._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, ReasonableExcuse}
 
 @import java.time.LocalDate
 
@@ -32,7 +32,7 @@
         dateInput: components.inputDate,
         caption: components.PenaltyCaption)
 
-@(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @healthHeading = {
     @if(isLPP) {
@@ -61,7 +61,7 @@
         @govukErrorSummary(ErrorSummary().withFormErrorsAsText(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventHappenController.submit(reasonableExcuse, user.isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.WhenDidEventHappenController.submit(reasonableExcuse, user.isAgent, mode = mode)) {
 
         @caption()
 

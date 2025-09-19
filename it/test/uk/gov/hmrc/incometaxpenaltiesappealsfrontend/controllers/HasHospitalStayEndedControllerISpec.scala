@@ -37,7 +37,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRep
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
-import scala.concurrent.Future
 
 class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
@@ -151,7 +150,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
           val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
 
           result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false,mode = NormalMode).url)
+          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false, NormalMode ).url)
 
           userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
         }

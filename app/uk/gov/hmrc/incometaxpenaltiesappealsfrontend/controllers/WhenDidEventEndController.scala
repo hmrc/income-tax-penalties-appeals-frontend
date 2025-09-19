@@ -38,7 +38,7 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
                                          )(implicit ec: ExecutionContext,
                                            val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode:Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(WhenDidEventHappenPage) { startDate =>
       Future(Ok(whenDidEventEnd(
         form = fillForm(WhenDidEventEndForm.form(reasonableExcuse, startDate), WhenDidEventEndPage),
@@ -58,19 +58,20 @@ class WhenDidEventEndController @Inject()(whenDidEventEnd: WhenDidEventEndView,
             isAgent,
             reasonableExcuse,
             formWithErrors,
-            mode
+            mode = mode
           ))),
         dateOfEvent => {
           val updatedAnswers = user.userAnswers.setAnswer(WhenDidEventEndPage, dateOfEvent)
           userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-            (mode, user.isAppealLate()) match {
-              case (CheckMode,_) => Redirect(routes.CheckYourAnswersController.onPageLoad(user.isAgent))
-              case(_,true) => Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
-              case _ =>  Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+            if (user.isAppealLate()) {
+              Redirect(
+                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+            } else {
+              Redirect(
+                if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent) else routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
             }
           }
-        }
-      )
+        })
     }
   }
 }

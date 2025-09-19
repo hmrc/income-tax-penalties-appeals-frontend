@@ -43,7 +43,7 @@ object WhenDidEventEndSummary extends SummaryListRowHelper with DateFormatter {
               items = Seq(
                 ActionItem(
                   content = Text(messages("common.change")),
-                  href = controllers.routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent,mode = CheckMode).url,
+                  href = controllers.routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, CheckMode).url,
                   visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidTheEventEnd.$reasonableExcuse.change.hidden"))
                 ).withId("changeWhenDidEventEnd")
               )

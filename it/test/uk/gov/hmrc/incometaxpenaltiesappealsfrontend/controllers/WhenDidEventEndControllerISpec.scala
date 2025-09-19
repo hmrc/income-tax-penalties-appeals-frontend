@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventEndForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventEndPage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -75,338 +75,351 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
     userAnswersRepo.upsertUserAnswer(userAnswer).futureValue
   }
 
-  for (reason <- reasonsWithUrls) {
-    List(true, false).foreach { isAgent =>
-      val url = if(isAgent) reason._3 else reason._2
-      val userType = if(isAgent) "agent" else "individual"
+  List(NormalMode, CheckMode).foreach { mode =>
 
-    s"GET $url with ${reason._1}" should  {
-      if(!isAgent) {
-        testNavBar(url = reason._2)(
-          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP
-            .setAnswer(ReasonableExcusePage, reason._1)
-            .setAnswer(WhenDidEventHappenPage, testStartDate)
-          ).futureValue
-        )
-      }
+    for (reason <- reasonsWithUrls) {
 
-      "return an OK with a view" when {
+      val individualUrl = reason._2 + (if(mode == CheckMode) "/check" else "")
+      val agentUrl = reason._3 + (if(mode == CheckMode) "/check" else "")
 
-        s"the user is an authorised $userType AND the page has already been answered with ${reason._1}" in new Setup(reasonableExcuse = reason._1) {
-          stubAuthRequests(isAgent)
-          userAnswersRepo.upsertUserAnswer(userAnswer.setAnswer(WhenDidEventEndPage, LocalDate.of(2024, 4, 2))).futureValue
-          val result = get(url, isAgent = isAgent)
+      List(true, false).foreach { isAgent =>
+        val url = if (isAgent) agentUrl else individualUrl
+        val userType = if (isAgent) "agent" else "individual"
 
-          result.status shouldBe OK
-          val document = Jsoup.parse(result.body)
-          document.getElementById(s"${WhenDidEventEndForm.key + ".day"}").`val`() shouldBe "2"
-          document.getElementById(s"${WhenDidEventEndForm.key + ".month"}").`val`() shouldBe "4"
-          document.getElementById(s"${WhenDidEventEndForm.key + ".year"}").`val`() shouldBe "2024"
+        s"GET $url with ${reason._1}" should {
+          if (!isAgent) {
+            testNavBar(url = individualUrl)(
+              userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP
+                .setAnswer(ReasonableExcusePage, reason._1)
+                .setAnswer(WhenDidEventHappenPage, testStartDate)
+              ).futureValue
+            )
+          }
+
+          "return an OK with a view" when {
+
+            s"the user is an authorised $userType AND the page has already been answered with ${reason._1}" in new Setup(reasonableExcuse = reason._1) {
+              stubAuthRequests(isAgent)
+              userAnswersRepo.upsertUserAnswer(userAnswer.setAnswer(WhenDidEventEndPage, LocalDate.of(2024, 4, 2))).futureValue
+              val result = get(url, isAgent = isAgent)
+
+              result.status shouldBe OK
+              val document = Jsoup.parse(result.body)
+              document.getElementById(s"${WhenDidEventEndForm.key + ".day"}").`val`() shouldBe "2"
+              document.getElementById(s"${WhenDidEventEndForm.key + ".month"}").`val`() shouldBe "4"
+              document.getElementById(s"${WhenDidEventEndForm.key + ".year"}").`val`() shouldBe "2024"
+            }
+
+            s"the user is an authorised $userType AND page NOT already answered with ${reason._1}" in new Setup(reasonableExcuse = reason._1) {
+              stubAuthRequests(isAgent)
+              val result = get(url, isAgent = isAgent)
+
+              result.status shouldBe OK
+              val document = Jsoup.parse(result.body)
+              document.getElementById(s"${WhenDidEventEndForm.key + ".day"}").`val`() shouldBe ""
+              document.getElementById(s"${WhenDidEventEndForm.key + ".month"}").`val`() shouldBe ""
+              document.getElementById(s"${WhenDidEventEndForm.key + ".year"}").`val`() shouldBe ""
+            }
+          }
+
+          "the page has the correct elements" when {
+            s"the user is an authorised $userType" in new Setup(reasonableExcuse = reason._1) {
+              stubAuthRequests(isAgent)
+              val result = get(url, isAgent = isAgent)
+
+              val document = Jsoup.parse(result.body)
+
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason._1)} - Manage your Self Assessment - GOV.UK"
+              document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
+                dateToString(lateSubmissionAppealData.startDate),
+                dateToString(lateSubmissionAppealData.endDate)
+              )
+              document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason._1)
+              document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
+              document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
+              document.getElementsByAttributeValue("for", "date.month").text() shouldBe "Month"
+              document.getElementsByAttributeValue("for", "date.year").text() shouldBe "Year"
+              document.getSubmitButton.text() shouldBe "Continue"
+            }
+          }
         }
 
-        s"the user is an authorised $userType AND page NOT already answered with ${reason._1}" in new Setup(reasonableExcuse = reason._1) {
-          stubAuthRequests(isAgent)
-          val result = get(url, isAgent = isAgent)
+        s"POST $url $reason" when {
 
-          result.status shouldBe OK
-          val document = Jsoup.parse(result.body)
-          document.getElementById(s"${WhenDidEventEndForm.key + ".day"}").`val`() shouldBe ""
-          document.getElementById(s"${WhenDidEventEndForm.key + ".month"}").`val`() shouldBe ""
-          document.getElementById(s"${WhenDidEventEndForm.key + ".year"}").`val`() shouldBe ""
-        }
-      }
+          "the date is valid" should {
+            "save the value to UserAnswers AND redirect" when {
+              "the appeal is late" should {
+                "redirect to the LateAppeal page" in new Setup(isLate = true, reasonableExcuse = reason._1) {
+                  stubAuthRequests(isAgent)
 
-      "the page has the correct elements" when {
-        s"the user is an authorised $userType" in new Setup(reasonableExcuse = reason._1) {
-          stubAuthRequests(isAgent)
-          val result = get(url, isAgent = isAgent)
+                  val redirectUrl = if(mode == CheckMode) {
+                    routes.CheckYourAnswersController.onPageLoad(isAgent).url
+                  } else {
+                    routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+                  }
 
-          val document = Jsoup.parse(result.body)
+                  val result = post(url)(Map(
+                    WhenDidEventEndForm.key + ".day" -> "02",
+                    WhenDidEventEndForm.key + ".month" -> "04",
+                    WhenDidEventEndForm.key + ".year" -> "2024"))
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
-          document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason._1)} - Manage your Self Assessment - GOV.UK"
-          document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
-            dateToString(lateSubmissionAppealData.startDate),
-            dateToString(lateSubmissionAppealData.endDate)
-          )
-          document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason._1)
-          document.getElementById("date-hint").text() shouldBe "For example, 12 3 2018"
-          document.getElementsByAttributeValue("for", "date.day").text() shouldBe "Day"
-          document.getElementsByAttributeValue("for", "date.month").text() shouldBe "Month"
-          document.getElementsByAttributeValue("for", "date.year").text() shouldBe "Year"
-          document.getSubmitButton.text() shouldBe "Continue"
-        }
-      }
-    }
-      
-    s"POST $url $reason" when {
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(redirectUrl)
 
-        "the date is valid" should {
-          "save the value to UserAnswers AND redirect" when {
-            "the appeal is late" should {
-              "redirect to the LateAppeal page" in new Setup(isLate = true, reasonableExcuse = reason._1) {
-                stubAuthRequests(isAgent)
+                  userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+                }
+              }
 
-                val result = post(url)(Map(
-                  WhenDidEventEndForm.key + ".day" -> "02",
-                  WhenDidEventEndForm.key + ".month" -> "04",
-                  WhenDidEventEndForm.key + ".year" -> "2024"))
+              "the appeal is NOT late" should {
+                "redirect to the CheckAnswers page" in new Setup(reasonableExcuse = reason._1) {
+                  stubAuthRequests(isAgent)
 
-                result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
+                  val result = post(url)(Map(
+                    WhenDidEventEndForm.key + ".day" -> "02",
+                    WhenDidEventEndForm.key + ".month" -> "04",
+                    WhenDidEventEndForm.key + ".year" -> "2024"))
 
-                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+                  result.status shouldBe SEE_OTHER
+                  result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+                  userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+                }
               }
             }
+          }
 
-            "the appeal is NOT late" should {
-              "redirect to the CheckAnswers page" in new Setup(reasonableExcuse = reason._1) {
-                stubAuthRequests(isAgent)
+          "the date is not valid - day missing" should {
 
-                val result = post(url)(Map(
-                  WhenDidEventEndForm.key + ".day" -> "02",
-                  WhenDidEventEndForm.key + ".month" -> "04",
-                  WhenDidEventEndForm.key + ".year" -> "2024"))
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
-                result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+              stubAuthRequests(isAgent)
 
-                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe Some(LocalDate.of(2024, 4, 2))
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "",
+                WhenDidEventEndForm.key + ".month" -> "04",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "day")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }
+
+          "the date is not valid - month missing" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "01",
+                WhenDidEventEndForm.key + ".month" -> "",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "month")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
+            }
+          }
+
+          "the date is not valid - year missing" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "01",
+                WhenDidEventEndForm.key + ".month" -> "04",
+                WhenDidEventEndForm.key + ".year" -> ""))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "year")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".year"}"
+            }
+          }
+
+          "the date is not valid - two fields missing - day and month" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "",
+                WhenDidEventEndForm.key + ".month" -> "",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "day", "month")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }
+
+          "the date is not valid - two fields missing - day and year" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "",
+                WhenDidEventEndForm.key + ".month" -> "04",
+                WhenDidEventEndForm.key + ".year" -> ""))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "day", "year")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }
+
+          "the date is not valid - two fields missing - month and year" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "01",
+                WhenDidEventEndForm.key + ".month" -> "",
+                WhenDidEventEndForm.key + ".year" -> ""))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "month", "year")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
+            }
+          }
+
+          "the date is not valid - all fields missing" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "",
+                WhenDidEventEndForm.key + ".month" -> "",
+                WhenDidEventEndForm.key + ".year" -> ""))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.all", reason._1)
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }
+
+          "the date is not valid - date is in the future" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "02",
+                WhenDidEventEndForm.key + ".month" -> "04",
+                WhenDidEventEndForm.key + ".year" -> "2027"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("notInFuture", reason._1)
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }
+
+          "the date is not valid - end date is before start date" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "02",
+                WhenDidEventEndForm.key + ".month" -> "02",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              val month = testStartDate.getMonthValue match {
+                case 1 => "January"
+                case 2 => "February"
+                case 3 => "March"
+                case 4 => "April"
+                case 5 => "May"
+                case 6 => "June"
+                case 7 => "July"
+                case 8 => "August"
+                case 9 => "September"
+                case 10 => "October"
+                case 11 => "November"
+                case 12 => "December"
               }
+
+              val formattedDate: String = s"${testStartDate.getDayOfMonth} $month ${testStartDate.getYear}"
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("endDateLessThanStartDate", reason._1, formattedDate)
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
             }
-          }
-        }
-
-        "the date is not valid - day missing" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "",
-              WhenDidEventEndForm.key + ".month" -> "04",
-              WhenDidEventEndForm.key + ".year" -> "2024"))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "day")
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
-          }
-        }
-
-        "the date is not valid - month missing" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "01",
-              WhenDidEventEndForm.key + ".month" -> "",
-              WhenDidEventEndForm.key + ".year" -> "2024"))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "month")
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
-          }
-        }
-
-        "the date is not valid - year missing" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "01",
-              WhenDidEventEndForm.key + ".month" -> "04",
-              WhenDidEventEndForm.key + ".year" -> ""))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required", reason._1, "year")
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".year"}"
-          }
-        }
-
-        "the date is not valid - two fields missing - day and month" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "",
-              WhenDidEventEndForm.key + ".month" -> "",
-              WhenDidEventEndForm.key + ".year" -> "2024"))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "day", "month")
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
-          }
-        }
-
-        "the date is not valid - two fields missing - day and year" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "",
-              WhenDidEventEndForm.key + ".month" -> "04",
-              WhenDidEventEndForm.key + ".year" -> ""))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "day", "year")
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
-          }
-        }
-
-        "the date is not valid - two fields missing - month and year" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "01",
-              WhenDidEventEndForm.key + ".month" -> "",
-              WhenDidEventEndForm.key + ".year" -> ""))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.two", reason._1, "month", "year")
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
-          }
-        }
-
-        "the date is not valid - all fields missing" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "",
-              WhenDidEventEndForm.key + ".month" -> "",
-              WhenDidEventEndForm.key + ".year" -> ""))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("required.all", reason._1)
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
-          }
-        }
-
-        "the date is not valid - date is in the future" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "02",
-              WhenDidEventEndForm.key + ".month" -> "04",
-              WhenDidEventEndForm.key + ".year" -> "2027"))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("notInFuture", reason._1)
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
-          }
-        }
-
-        "the date is not valid - end date is before start date" should {
-
-          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
-
-            stubAuthRequests(isAgent)
-
-            val result = post(url)(Map(
-              WhenDidEventEndForm.key + ".day" -> "02",
-              WhenDidEventEndForm.key + ".month" -> "02",
-              WhenDidEventEndForm.key + ".year" -> "2024"))
-
-            result.status shouldBe BAD_REQUEST
-
-            val document = Jsoup.parse(result.body)
-
-            val month = testStartDate.getMonthValue match {
-              case 1 => "January"
-              case 2 => "February"
-              case 3 => "March"
-              case 4 => "April"
-              case 5 => "May"
-              case 6 => "June"
-              case 7 => "July"
-              case 8 => "August"
-              case 9 => "September"
-              case 10 => "October"
-              case 11 => "November"
-              case 12 => "December"
-            }
-
-            val formattedDate: String = s"${testStartDate.getDayOfMonth} $month ${testStartDate.getYear}"
-
-            document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
-            document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
-
-            val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-            error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("endDateLessThanStartDate", reason._1, formattedDate)
-            error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
           }
         }
       }
