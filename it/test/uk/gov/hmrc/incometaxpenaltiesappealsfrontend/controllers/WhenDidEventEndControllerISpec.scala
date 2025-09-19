@@ -51,6 +51,12 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
     (UnexpectedHospital, "/when-did-the-hospital-stay-end", "/agent-when-did-the-hospital-stay-end"),
   )
 
+  val reasonsWithCheckUrls: List[(ReasonableExcuse, String, String)] = List(
+    (TechnicalIssues, "/when-did-the-technology-issues-end/check", "/agent-when-did-the-technology-issues-end/check"),
+    (UnexpectedHospital, "/when-did-the-hospital-stay-end/check", "/agent-when-did-the-hospital-stay-end/check"),
+  )
+
+
   class Setup(isLate: Boolean = false, reasonableExcuse: ReasonableExcuse) {
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
@@ -419,4 +425,39 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
       }
     }
   }
+
+  for (reason <- reasonsWithCheckUrls) {
+    List(true, false).foreach { isAgent =>
+      val url = if (isAgent) reason._3 else reason._2
+      val userType = if (isAgent) "agent" else "individual"
+
+      s"GET $url with ${reason._1} in CheckMode" should {
+        "render the page successfully" in new Setup(reasonableExcuse = reason._1) {
+          stubAuthRequests(isAgent)
+          val result = get(url, isAgent = isAgent)
+
+          result.status shouldBe OK
+          val document = Jsoup.parse(result.body)
+          document.getH1Elements.text() shouldBe WhenDidEventEndMessages.English.headingAndTitle(reason._1)
+        }
+      }
+
+      s"POST $url with ${reason._1} in CheckMode" should {
+        "redirect to CheckYourAnswers regardless of late appeal" in new Setup(isLate = true, reasonableExcuse = reason._1) {
+          stubAuthRequests(isAgent)
+
+          val result = post(url)(Map(
+            WhenDidEventEndForm.key + ".day"   -> "02",
+            WhenDidEventEndForm.key + ".month" -> "04",
+            WhenDidEventEndForm.key + ".year"  -> "2024"
+          ))
+
+          result.status shouldBe SEE_OTHER
+          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+        }
+      }
+    }
+  }
+
+
 }
