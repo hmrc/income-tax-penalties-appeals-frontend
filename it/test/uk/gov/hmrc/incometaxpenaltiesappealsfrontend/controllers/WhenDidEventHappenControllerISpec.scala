@@ -203,7 +203,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                     case (Other, NormalMode) =>
                       routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false).url
                     case (_, NormalMode) if isLate =>
-                      routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+                      routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, NormalMode).url
                     case (_, _) =>
                       routes.CheckYourAnswersController.onPageLoad(isAgent).url
                   }

@@ -297,7 +297,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
                   val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> false))
 
                   result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url)
+                  result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, mode).url)
 
                   userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
                 }
