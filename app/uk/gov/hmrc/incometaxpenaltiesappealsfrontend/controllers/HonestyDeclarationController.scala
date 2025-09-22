@@ -50,7 +50,7 @@ class HonestyDeclarationController @Inject()(honestyDeclaration: HonestyDeclarat
     val updatedAnswers = user.userAnswers.setAnswer(HonestyDeclarationPage, true)
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
       Redirect(if(is2ndStageAppeal) {
-        routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, is2ndStageAppeal)
+        routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, is2ndStageAppeal, NormalMode)
       } else {
         val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
         routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, isAgent, NormalMode)

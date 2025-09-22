@@ -201,7 +201,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                     case (UnexpectedHospital, _) =>
                       routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
                     case (Other, NormalMode) =>
-                      routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false).url
+                      routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false, mode= NormalMode).url
                     case (_, NormalMode) if isLate =>
                       routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
                     case (_, _) =>
