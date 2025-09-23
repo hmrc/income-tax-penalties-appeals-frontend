@@ -292,32 +292,48 @@ POST       /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxp
 
 
 # Why was the payment late? LPP
-GET        /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /agent-why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Why was the payment late? LPP -  Why are you asking us for a review  - Second Stage Appeal
-GET        /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /why-are-you-asking-for-review-lpp/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /why-are-you-asking-for-review-lpp/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
-GET        /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-why-are-you-asking-for-review-lpp/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-why-are-you-asking-for-review-lpp/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 # Why was the submission deadline missed? LSP
-GET        /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /why-was-the-submission-late/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /why-was-the-submission-late/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /agent-why-was-the-submission-late/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-why-was-the-submission-late/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Why was the submission deadline missed? LSP - Why are you asking us for a review  - Second Stage Appeal
-GET        /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /why-are-you-asking-for-review-lsp/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /why-are-you-asking-for-review-lsp/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
-GET        /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-why-are-you-asking-for-review-lsp/check         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-why-are-you-asking-for-review-lsp/check         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
 # Check Your Answers page

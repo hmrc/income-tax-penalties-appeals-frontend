@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -87,8 +87,8 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
     } else userAnswersWithReasonLSP
   }
 
-  def getUrl(isLpp: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean): String = {
-    isLpp match {
+  def getUrl(isLpp: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): String = {
+    val url = isLpp match {
       case true if is2ndStageAppeal && isAgent => "/agent-why-are-you-asking-for-review-lpp"
       case true if is2ndStageAppeal && !isAgent => "/why-are-you-asking-for-review-lpp"
 
@@ -103,6 +103,10 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
       case _ => "url not found"
     }
+    mode match {
+      case NormalMode => url
+      case CheckMode => s"$url/check"
+    }
   }
 
   def caption(isLPP: Boolean): String = if (isLPP) {
@@ -116,6 +120,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
       dateToString(lateSubmissionAppealData.endDate)
     )
   }
+
   def captionJointAppeal(isLPP: Boolean): String = if (isLPP) {
     MissedDeadlineReasonMessages.English.lppCaptionMultiple(
       dateToString(latePaymentAppealData.startDate),
@@ -132,48 +137,49 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
   Seq(true, false).foreach { isAgent =>
     Seq(true, false).foreach { is2ndStageAppeal =>
       Seq(true, false).foreach { isJointAppeal =>
+        Seq(NormalMode, CheckMode).foreach { mode =>
+          val urlLPP = getUrl(isLpp = true, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode)
 
-        val urlLPP = getUrl(isLpp = true, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
-
-        s"GET $urlLPP - penalty type is LPP with isAgent = $isAgent is2ndStageAppeal = $is2ndStageAppeal isJointAppeal = $isJointAppeal" should {
-          if (!isAgent) {
-            testNavBar(url = urlLPP) {
-              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)).futureValue
+          s"GET $urlLPP - penalty type is LPP with isAgent = $isAgent is2ndStageAppeal = $is2ndStageAppeal isJointAppeal = $isJointAppeal" should {
+            if (!isAgent) {
+              testNavBar(url = urlLPP) {
+                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)).futureValue
+              }
             }
-          }
 
-          "return an OK with a view pre-populated" when {
-            s"the user is isAgent = $isAgent AND the page has already been answered is2ndStageAppeal = $is2ndStageAppeal isJointAppeal = $isJointAppeal" in {
-              stubAuthRequests(isAgent)
-              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(MissedDeadlineReasonPage, "Some reason")).futureValue
+            "return an OK with a view pre-populated" when {
+              s"the user is isAgent = $isAgent AND the page has already been answered is2ndStageAppeal = $is2ndStageAppeal isJointAppeal = $isJointAppeal" in {
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(MissedDeadlineReasonPage, "Some reason")).futureValue
 
-              val result = get(urlLPP)
-              result.status shouldBe OK
+                val result = get(urlLPP)
+                result.status shouldBe OK
 
-              val document = Jsoup.parse(result.body)
-              document.select(s"#${MissedDeadlineReasonForm.key}").text() shouldBe "Some reason"
+                val document = Jsoup.parse(result.body)
+                document.select(s"#${MissedDeadlineReasonForm.key}").text() shouldBe "Some reason"
+              }
             }
-          }
 
-          s"the page has the correct elements for is2ndStageAppeal = $is2ndStageAppeal, isJointAppeal = $isJointAppeal, url = $urlLPP" when {
-            s"the user isAgent = $isAgent" in {
-              stubAuthRequests(isAgent)
-              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)).futureValue
+            s"the page has the correct elements for is2ndStageAppeal = $is2ndStageAppeal, isJointAppeal = $isJointAppeal, url = $urlLPP" when {
+              s"the user isAgent = $isAgent" in {
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)).futureValue
 
-              val result = get(urlLPP)
+                val result = get(urlLPP)
 
-              val document = Jsoup.parse(result.body)
-              val whichCaption = if(isJointAppeal) captionJointAppeal(true) else caption(true)
+                val document = Jsoup.parse(result.body)
+                val whichCaption = if (isJointAppeal) captionJointAppeal(true) else caption(true)
 
-              document.getServiceName.text() shouldBe "Manage your Self Assessment"
-              document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)} - Manage your Self Assessment - GOV.UK"
+                document.getServiceName.text() shouldBe "Manage your Self Assessment"
+                document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)} - Manage your Self Assessment - GOV.UK"
 
-              document.getElementById("captionSpan").text() shouldBe whichCaption
+                document.getElementById("captionSpan").text() shouldBe whichCaption
 
-              document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
-              document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
-              document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
-              document.getSubmitButton.text() shouldBe "Continue"
+                document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
+                document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
+                document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+                document.getSubmitButton.text() shouldBe "Continue"
+              }
             }
           }
         }
@@ -184,47 +190,49 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
   //  LSP penalty type (First stage appeal/Second stage appeal)
   Seq(true, false).foreach { isAgent =>
     Seq(true, false).foreach { is2ndStageAppeal =>
+      Seq(NormalMode, CheckMode).foreach { mode =>
 
-      val urlLSP = getUrl(isLpp = false, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)
+        val urlLSP = getUrl(isLpp = false, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode)
 
-      s"GET $urlLSP - penalty type is LSP with isAgent = $isAgent is2ndStageAppeal = $is2ndStageAppeal" should {
-        if (!isAgent) {
-          testNavBar(url = urlLSP) {
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
+        s"GET $urlLSP - penalty type is LSP with isAgent = $isAgent is2ndStageAppeal = $is2ndStageAppeal mode = $mode" should {
+          if (!isAgent) {
+            testNavBar(url = urlLSP) {
+              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
+            }
           }
-        }
 
-        "return an OK with a view pre-populated" when {
-          s"the user is isAgent = $isAgent AND the page has already been answered is2ndStageAppeal = $is2ndStageAppeal" in {
-            stubAuthRequests(isAgent)
+          "return an OK with a view pre-populated" when {
+            s"the user is isAgent = $isAgent AND the page has already been answered is2ndStageAppeal = $is2ndStageAppeal" in {
+              stubAuthRequests(isAgent)
 
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(MissedDeadlineReasonPage, "Some reason")).futureValue
+              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(MissedDeadlineReasonPage, "Some reason")).futureValue
 
-            val result = get(urlLSP)
-            result.status shouldBe OK
+              val result = get(urlLSP)
+              result.status shouldBe OK
 
-            val document = Jsoup.parse(result.body)
-            document.select(s"#${MissedDeadlineReasonForm.key}").text() shouldBe "Some reason"
+              val document = Jsoup.parse(result.body)
+              document.select(s"#${MissedDeadlineReasonForm.key}").text() shouldBe "Some reason"
+            }
           }
-        }
 
-        s"the page has the correct elements for is2ndStageAppeal = $is2ndStageAppeal, url = $urlLSP" when {
-          s"the user isAgent = $isAgent" in {
-            stubAuthRequests(isAgent)
-            userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
+          s"the page has the correct elements for is2ndStageAppeal = $is2ndStageAppeal, url = $urlLSP" when {
+            s"the user isAgent = $isAgent" in {
+              stubAuthRequests(isAgent)
+              userAnswersRepo.upsertUserAnswer(userAnswers(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false)).futureValue
 
-            val result = get(urlLSP)
+              val result = get(urlLSP)
 
-            val document = Jsoup.parse(result.body)
+              val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
-            document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
-            document.getElementById("captionSpan").text() shouldBe caption(false)
+              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
+              document.getElementById("captionSpan").text() shouldBe caption(false)
 
-            document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)
-            document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)
-            document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
-            document.getSubmitButton.text() shouldBe "Continue"
+              document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)
+              document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)
+              document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
+              document.getSubmitButton.text() shouldBe "Continue"
+            }
           }
         }
       }
@@ -234,45 +242,51 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
   Seq(true, false).foreach { isLPP =>
     Seq(true, false).foreach { isAgent =>
       Seq(true, false).foreach { is2ndStageAppeal =>
+        Seq(NormalMode, CheckMode).foreach { mode =>
 
-        s"POST ${getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal)} with isLPP = $isLPP, isAgent = $isAgent, is2ndStageAppeal = $is2ndStageAppeal" when {
-          val userAnswersWithReason = userAnswers(isLPP = isLPP, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ReasonableExcusePage, Other)
-          "the text area content is valid" should {
 
-            "save the value to UserAnswers AND redirect to the Extra Evidence page" in {
+          s"POST ${getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode)} with isLPP = $isLPP, isAgent = $isAgent, is2ndStageAppeal = $is2ndStageAppeal  mode = $mode" when {
+            val userAnswersWithReason = userAnswers(isLPP = isLPP, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false).setAnswer(ReasonableExcusePage, Other)
+            "the text area content is valid" should {
 
-              stubAuthRequests(isAgent)
-              userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+              "save the value to UserAnswers AND redirect to the correct page" in {
 
-              val result = post(getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal))(Map(MissedDeadlineReasonForm.key -> "Some reason"))
-
-              result.status shouldBe SEE_OTHER
-              result.header("Location") shouldBe Some(routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
-
-              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(MissedDeadlineReasonPage)) shouldBe Some("Some reason")
-            }
-          }
-
-          "the text area content is invalid" should {
-
-            Seq(true, false).foreach { isJointAppeal =>
-              s"render a bad request in isLPP = $isLPP, is2ndStage = $is2ndStageAppeal, isJointAppeal = $isJointAppeal with the Form Error on the page with a link to the field in error" in {
-
-                val userAnswersWithReason = userAnswers(isLPP = isLPP, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(ReasonableExcusePage, Other)
                 stubAuthRequests(isAgent)
                 userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
 
-                val result = post(getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal))(Map(MissedDeadlineReasonForm.key -> ""))
-                result.status shouldBe BAD_REQUEST
+                val result = post(getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode))(Map(MissedDeadlineReasonForm.key -> "Some reason"))
 
-                val document = Jsoup.parse(result.body)
+                result.status shouldBe SEE_OTHER
+                if(mode == NormalMode){
+                  result.header("Location") shouldBe Some(routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
+                } else {
+                  result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+                }
+                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(MissedDeadlineReasonPage)) shouldBe Some("Some reason")
+              }
+            }
 
-                document.title() should include(MissedDeadlineReasonMessages.English.errorPrefix)
-                document.select(".govuk-error-summary__title").text() shouldBe MissedDeadlineReasonMessages.English.thereIsAProblem
+            "the text area content is invalid" should {
 
-                val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe MissedDeadlineReasonMessages.English.errorRequired(isLPP = isLPP, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
-                error1Link.attr("href") shouldBe s"#${MissedDeadlineReasonForm.key}"
+              Seq(true, false).foreach { isJointAppeal =>
+                s"render a bad request in isLPP = $isLPP, is2ndStage = $is2ndStageAppeal, isJointAppeal = $isJointAppeal  mode = $mode with the Form Error on the page with a link to the field in error" in {
+
+                  val userAnswersWithReason = userAnswers(isLPP = isLPP, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal).setAnswer(ReasonableExcusePage, Other)
+                  stubAuthRequests(isAgent)
+                  userAnswersRepo.upsertUserAnswer(userAnswersWithReason).futureValue
+
+                  val result = post(getUrl(isLpp = isLPP, isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode))(Map(MissedDeadlineReasonForm.key -> ""))
+                  result.status shouldBe BAD_REQUEST
+
+                  val document = Jsoup.parse(result.body)
+
+                  document.title() should include(MissedDeadlineReasonMessages.English.errorPrefix)
+                  document.select(".govuk-error-summary__title").text() shouldBe MissedDeadlineReasonMessages.English.thereIsAProblem
+
+                  val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+                  error1Link.text() shouldBe MissedDeadlineReasonMessages.English.errorRequired(isLPP = isLPP, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
+                  error1Link.attr("href") shouldBe s"#${MissedDeadlineReasonForm.key}"
+                }
               }
             }
           }

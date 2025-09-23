@@ -23,7 +23,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.MissedDeadlineReasonHelper.messageKeyPrefix
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 @this(layout: Layout,
         govukButton: GovukButton,
@@ -32,7 +32,7 @@
         govukErrorSummary: GovukErrorSummary,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLPP: Boolean, isSecondStageAppeal: Boolean, isMultipleAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLPP: Boolean, isSecondStageAppeal: Boolean, isMultipleAppeal: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @prefix = {@if(isSecondStageAppeal){.review}}
 @multipleAppeal = {@if(isMultipleAppeal){.multiple}}
@@ -44,7 +44,7 @@
     }
 
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit(isLPP, user.isAgent, user.is2ndStageAppeal)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.MissedDeadlineReasonController.submit(isLPP, user.isAgent, user.is2ndStageAppeal, mode)) {
 
         @caption()
 
