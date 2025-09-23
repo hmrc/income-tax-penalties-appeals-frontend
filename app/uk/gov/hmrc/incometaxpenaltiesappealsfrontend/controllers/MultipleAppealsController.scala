@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.MultipleAppealsView
 
 import javax.inject.Inject
@@ -36,6 +37,6 @@ class MultipleAppealsController @Inject()(multipleAppeals: MultipleAppealsView,
   }
 
   def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUser(isAgent) { implicit user  =>
-      Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+      Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, NormalMode))
   }
 }

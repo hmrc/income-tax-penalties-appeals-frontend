@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -50,7 +50,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
           mode = mode
         ))
       case _ =>
-        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, mode))
     }
   }
 
@@ -69,7 +69,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
               mode = mode
             )))
           case _ =>
-            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)))
+            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, NormalMode)))
         }
       },
       appealBothPenalties => {

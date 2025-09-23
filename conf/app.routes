@@ -47,11 +47,15 @@ GET        /agent-review-multiple-penalties-for-this-period/check       uk.gov.h
 POST       /agent-review-multiple-penalties-for-this-period/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 # Reasonable excuse list
-GET        /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false)
-POST       /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = false)
+GET        /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
+GET        /reason-for-missing-deadline/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /reason-for-missing-deadline/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = true)
-POST       /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = true)
+GET        /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-reason-for-missing-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-reason-for-missing-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)
 
 
 # Honesty declaration

@@ -22,6 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -36,7 +37,7 @@ object ReasonableExcuseSummary extends SummaryListRowHelper {
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent).url,
+              href = controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, CheckMode).url,
               visuallyHiddenText = Some(messages("checkYourAnswers.reasonableExcuse.change.hidden"))
             ).withId("changeReasonableExcuse")
           )

@@ -62,7 +62,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
           if(mode == CheckMode) {
             Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = true))
           } else {
-            Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+            Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, mode))
           }
         }
       }

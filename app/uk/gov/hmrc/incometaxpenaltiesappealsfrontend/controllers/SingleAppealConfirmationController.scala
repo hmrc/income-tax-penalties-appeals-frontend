@@ -20,6 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
 
 import javax.inject.Inject
@@ -41,12 +42,12 @@ class SingleAppealConfirmationController @Inject()(singleAppealConfirmationView:
           isSecondStageAppeal = user.is2ndStageAppeal
         ))
       case _ =>
-        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, NormalMode))
     }
   }
 
   def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { _ =>
-    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = isAgent))
+    Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = isAgent, NormalMode))
   }
 
 }
