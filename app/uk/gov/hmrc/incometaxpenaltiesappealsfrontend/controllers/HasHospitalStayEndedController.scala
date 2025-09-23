@@ -68,7 +68,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
             val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
             Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode))
           } else if(user.isAppealLate() && mode == NormalMode) {
-            Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+            Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, NormalMode))
           } else {
             Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
           }

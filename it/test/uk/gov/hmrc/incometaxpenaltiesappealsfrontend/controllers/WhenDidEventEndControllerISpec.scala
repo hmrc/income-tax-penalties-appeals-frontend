@@ -429,7 +429,6 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
   for (reason <- reasonsWithCheckUrls) {
     List(true, false).foreach { isAgent =>
       val url = if (isAgent) reason._3 else reason._2
-      val userType = if (isAgent) "agent" else "individual"
 
       s"GET $url with ${reason._1} in CheckMode" should {
         "render the page successfully" in new Setup(reasonableExcuse = reason._1) {

@@ -17,7 +17,6 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.HasHospitalStayEndedMessages
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
@@ -29,9 +28,9 @@ import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Other, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -152,7 +151,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
                 val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> false))
 
                 result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
 
                 userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
               }
