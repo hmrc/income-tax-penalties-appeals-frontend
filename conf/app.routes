@@ -224,18 +224,30 @@ POST       /agent-when-did-the-hospital-stay-end/check      uk.gov.hmrc.incometa
 
 
 # Late appeal page
-GET        /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /making-a-late-appeal/check                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /making-a-late-appeal/check                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+
+GET        /agent-making-a-late-appeal/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-making-a-late-appeal/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Late appeal page - Second Stage Appeal
-GET        /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-GET        /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /making-a-late-review-request/check            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /making-a-late-review-request/check            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET        /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET        /agent-making-a-late-review-request/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-making-a-late-review-request/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
 # Crime Reasonable Excuse

@@ -24,6 +24,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.LateAppealHelper.messageKeyPrefix
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 
 
@@ -36,7 +37,7 @@
         h1: components.H1,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLPP: Boolean, isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLPP: Boolean, isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 @isLPPText = {@if(isLPP) {.lpp} else {}}
 @layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}$isLPPText", user.lateAppealDays()), Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 
@@ -44,7 +45,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode)) {
 
         @caption()
 

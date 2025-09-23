@@ -23,6 +23,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryL
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -39,7 +40,7 @@ class LateAppealSummary @Inject()(implicit val appConfig: AppConfig) extends Sum
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
-              href = controllers.routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal).url,
+              href = controllers.routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = CheckMode).url,
               visuallyHiddenText = Some(messages("checkYourAnswers.lateAppeal.change.hidden", user.lateAppealDays()))
             ).withId("changeLateAppeal")
           )

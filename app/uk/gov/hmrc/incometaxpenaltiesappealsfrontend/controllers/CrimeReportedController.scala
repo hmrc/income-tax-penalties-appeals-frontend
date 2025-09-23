@@ -67,7 +67,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
 
   private def nextPage(mode: Mode)(implicit user: CurrentUserRequestWithAnswers[AnyContent]): Call =
     (user.isAppealLate(), mode) match {
-      case (true, NormalMode) => routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)
+      case (true, NormalMode) => routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode)
       case (false, NormalMode) => routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent)
       case (_, CheckMode) => routes.CheckYourAnswersController.onPageLoad(user.isAgent)
     }

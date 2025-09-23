@@ -156,7 +156,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
                   val redirectUrl = if(mode == CheckMode) {
                     routes.CheckYourAnswersController.onPageLoad(isAgent).url
                   } else {
-                    routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+                    routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, NormalMode).url
                   }
 
                   val result = post(url)(Map(

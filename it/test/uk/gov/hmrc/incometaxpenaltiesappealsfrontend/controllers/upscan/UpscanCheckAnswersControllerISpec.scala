@@ -173,7 +173,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                     )
 
                     result.status shouldBe SEE_OTHER
-                    result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                    result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, mode).url)
                   }
                 } else {
                   "redirect to Check Answers page" in new Setup(isLate = true) {
@@ -224,7 +224,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                   val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
 
                   result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+                  result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, mode).url)
                 }
               } else {
                 "redirect to Check Answers page" in new Setup(isLate = true) {

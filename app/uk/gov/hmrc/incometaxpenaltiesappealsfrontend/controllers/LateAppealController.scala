@@ -20,6 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.LateAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.LateAppealView
@@ -35,24 +36,26 @@ class LateAppealController @Inject()(lateAppeal: LateAppealView,
                                      override val controllerComponents: MessagesControllerComponents
                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(lateAppeal(
       form = fillForm(LateAppealForm.form(user.isAppealingMultipleLPPs, user.is2ndStageAppeal), LateAppealPage),
       isLPP = user.isLPP,
       isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
-      isSecondStageAppeal = is2ndStageAppeal
+      isSecondStageAppeal = is2ndStageAppeal,
+      mode = mode
 
     ))
   }
 
-  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     LateAppealForm.form(user.isAppealingMultipleLPPs, is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(lateAppeal(
           form = formWithErrors,
           isLPP = user.isLPP,
           isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
-          isSecondStageAppeal = is2ndStageAppeal))),
+          isSecondStageAppeal = is2ndStageAppeal,
+          mode = mode))),
       lateAppealReason => {
         val updatedAnswers = user.userAnswers.setAnswer(LateAppealPage, lateAppealReason)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
