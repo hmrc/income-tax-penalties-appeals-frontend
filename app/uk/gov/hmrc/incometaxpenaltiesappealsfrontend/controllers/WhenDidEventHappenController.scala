@@ -64,11 +64,11 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
 
           (reasonableExcuse, mode) match {
             case (TechnicalIssues, _) =>
-              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent, NormalMode))
+              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent, mode))
             case (Crime, NormalMode) =>
               Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
             case (UnexpectedHospital, _) =>
-              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
+              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent, mode))
             case (Other, NormalMode) =>
               Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal, NormalMode))
             case (_, NormalMode) if user.isAppealLate() =>

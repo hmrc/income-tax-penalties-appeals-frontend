@@ -20,8 +20,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{NormalMode, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -37,34 +37,40 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
                                                override val controllerComponents: MessagesControllerComponents
                                               )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hospitalStayEnded(
       form = fillForm(HasHospitalStayEndedForm.form(), HasHospitalStayEndedPage),
       isLate = user.isAppealLate(),
-      isAgent = user.isAgent
+      isAgent = user.isAgent,
+      mode = mode
     ))
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     HasHospitalStayEndedForm.form().bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(hospitalStayEnded(
           form = formWithErrors,
           isLate = user.isAppealLate(),
-          isAgent = user.isAgent
+          isAgent = user.isAgent,
+          mode = mode
         ))),
       value => {
         val updatedAnswers = user.userAnswers.setAnswer(HasHospitalStayEndedPage, value)
-        userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          if (value) {
+        val answersWithHospitalEndDateCleared = if(!value) {
+          // Clear the date if the user has indicated that their hospital stay has not ended
+          updatedAnswers.removeAnswer(WhenDidEventEndPage)
+        } else {
+          updatedAnswers
+        }
+        userAnswersService.updateAnswers(answersWithHospitalEndDateCleared).map { _ =>
+          if(value) {
             val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
-            Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, NormalMode))
+            Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode))
+          } else if(user.isAppealLate() && mode == NormalMode) {
+            Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, NormalMode))
           } else {
-            if (user.isAppealLate()) {
-              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = NormalMode))
-            } else {
-              Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
-            }
+            Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
           }
         }
       }

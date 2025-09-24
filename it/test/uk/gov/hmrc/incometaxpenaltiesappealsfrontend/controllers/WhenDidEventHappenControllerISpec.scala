@@ -195,13 +195,13 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                   val redirectLocation =
                   (reasonWithUrl._1, mode) match {
                     case (TechnicalIssues, _) =>
-                      routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent, NormalMode).url
+                      routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent, mode).url
                     case (Crime, NormalMode) =>
                       routes.CrimeReportedController.onPageLoad(isAgent, NormalMode).url
                     case (UnexpectedHospital, _) =>
-                      routes.HasHospitalStayEndedController.onPageLoad(isAgent).url
+                      routes.HasHospitalStayEndedController.onPageLoad(isAgent, mode).url
                     case (Other, NormalMode) =>
-                      routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false, mode= NormalMode).url
+                      routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false, NormalMode).url
                     case (_, NormalMode) if isLate =>
                       routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, NormalMode).url
                     case (_, _) =>

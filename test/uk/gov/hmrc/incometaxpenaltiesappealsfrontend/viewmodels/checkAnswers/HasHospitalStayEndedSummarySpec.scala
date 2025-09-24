@@ -29,7 +29,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.UnexpectedHospital
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -85,7 +85,7 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent).url,
+                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent, CheckMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changehasHospitalStayEnded")
                         )
@@ -111,7 +111,7 @@ class HasHospitalStayEndedSummarySpec extends AnyWordSpec with Matchers with Gui
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent).url,
+                            href = controllers.routes.HasHospitalStayEndedController.onPageLoad(isAgent, CheckMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                           ).withId("changehasHospitalStayEnded")
                         )

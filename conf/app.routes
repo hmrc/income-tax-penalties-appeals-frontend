@@ -416,8 +416,14 @@ POST       /agent-review-cover-for-both-penalties        uk.gov.hmrc.incometaxpe
 
 
 # Has hospital stay ended
-GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false)
-POST       /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = false)
+GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true)
-POST       /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true)
+GET        /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+
+GET        /has-hospital-stay-ended/check            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /has-hospital-stay-ended/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-has-hospital-stay-ended/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-has-hospital-stay-ended/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)

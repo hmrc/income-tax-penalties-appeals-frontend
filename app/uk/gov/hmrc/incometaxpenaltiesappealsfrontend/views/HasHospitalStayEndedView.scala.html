@@ -33,7 +33,8 @@
 @(
         form: Form[_],
         isLate: Boolean,
-        isAgent: Boolean
+        isAgent: Boolean,
+        mode: Mode
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("hasHospitalStayEnded.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
@@ -42,7 +43,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HasHospitalStayEndedController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.HasHospitalStayEndedController.submit(isAgent = isAgent, mode = mode)) {
 
         @caption()
 
