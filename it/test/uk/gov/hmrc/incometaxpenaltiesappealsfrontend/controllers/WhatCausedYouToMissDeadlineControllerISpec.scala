@@ -102,7 +102,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
             val result = post(url)(Map(WhatCausedYouToMissDeadlineForm.key -> AgentClientEnum.agent))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true).url)
+            result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true, NormalMode).url)
 
             userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhatCausedYouToMissDeadlinePage)) shouldBe Some(AgentClientEnum.agent)
           }

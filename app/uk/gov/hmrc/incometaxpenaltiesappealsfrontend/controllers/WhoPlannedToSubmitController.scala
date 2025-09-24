@@ -71,7 +71,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
             case _ if mode == CheckMode =>
               Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
             case _ =>
-              Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+              Redirect(routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, mode))
           }
         }
       }

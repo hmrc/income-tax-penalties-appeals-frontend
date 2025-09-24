@@ -96,7 +96,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getSubmitButton.text() shouldBe "Start an appeal"
             document.getSubmitButton.attr("href") shouldBe {
               if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad(mode = NormalMode).url
-              else routes.ReasonableExcuseController.onPageLoad(isAgent).url
+              else routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
             }
           }
         }
@@ -128,7 +128,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
             document.getSubmitButton.text() shouldBe "Continue"
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
           }
         }
 
@@ -216,7 +216,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
 
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
 
           }
         }
@@ -245,7 +245,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
             document.getSubmitButton.attr("href") shouldBe {
               if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad(mode = NormalMode).url
-              else routes.ReasonableExcuseController.onPageLoad(isAgent).url
+              else routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
             }
           }
         }
@@ -261,7 +261,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             val result = get("/agent-appeal-start", isAgent = true)
             val document = Jsoup.parse(result.body)
 
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent = true).url
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent = true, NormalMode).url
           }
         }
 

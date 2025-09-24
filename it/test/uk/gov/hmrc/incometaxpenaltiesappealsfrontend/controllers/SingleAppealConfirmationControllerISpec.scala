@@ -26,6 +26,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -120,7 +121,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
         val result = post(url)(Json.obj())
 
         result.status shouldBe SEE_OTHER
-        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent).url)
+        result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url)
       }
     }
   }

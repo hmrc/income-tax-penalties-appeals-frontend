@@ -22,6 +22,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 @import uk.gov.hmrc.govukfrontend.views.Implicits.RichRadios
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 @this(layout: Layout,
         govukRadios : GovukRadios,
@@ -30,7 +31,7 @@
         govukButton : GovukButton,
         caption: components.PenaltyCaption)
 
-@(isAgent: Boolean, form: Form[_])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(isAgent: Boolean, form: Form[_], mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @standardOrAgent = {@if(isAgent){agent} else {standard}}
 
@@ -48,7 +49,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form, errorLinkOverrides = Map("reasonableExcuse" -> "bereavement")))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.submit(isAgent = isAgent)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReasonableExcuseController.submit(isAgent = isAgent, mode = mode)) {
 
         @caption()
 

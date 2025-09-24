@@ -26,6 +26,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.ReviewAppealStartView
@@ -49,7 +50,7 @@ class ReviewAppealStartViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
       "appeal isLate == false" should {
 
-        implicit val doc: Document = asDocument(view(isLate = false, routes.ReasonableExcuseController.onPageLoad(isAgent)))
+        implicit val doc: Document = asDocument(view(isLate = false, routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode)))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -65,7 +66,7 @@ class ReviewAppealStartViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
       "appeal isLate == true" should {
 
-        implicit val doc: Document = asDocument(view(isLate = true, routes.ReasonableExcuseController.onPageLoad(isAgent)))
+        implicit val doc: Document = asDocument(view(isLate = true, routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode)))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,

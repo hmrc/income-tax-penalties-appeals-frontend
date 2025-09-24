@@ -118,7 +118,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
             val result = post(url)(Map(WhoPlannedToSubmitForm.key -> AgentClientEnum.client))
 
             result.status shouldBe SEE_OTHER
-            result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true).url)
+            result.header("Location") shouldBe Some(routes.ReasonableExcuseController.onPageLoad(true, NormalMode).url)
 
             userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhoPlannedToSubmitPage)) shouldBe Some(AgentClientEnum.client)
           }
