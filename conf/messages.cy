@@ -40,7 +40,7 @@ appeal.start.p4 = Mewn rhai achosion, bydd gennych yr opsiwn i uwchlwytho tystio
 appeal.start.p5 = Os na fydd gennych yr opsiwn i uwchlwytho tystiolaeth ychwanegol, mae hyn oherwydd, yn eich achos chi, nid oes angen unrhyw dystiolaeth arnom i wneud penderfyniad.
 appeal.start.p6 = Os byddwn yn penderfynu bod angen tystiolaeth ychwanegol arnom ar ôl adolygu’ch apêl, byddwn yn cysylltu â chi.
 appeal.start.button.lsp = Dechrau apêl
-appeal.start.button.lpp = Yn eich blaen
+appeal.start.button.lpp = Parhau
 
 # Review Appeal Start page
 # ----------------------------------------------------------
@@ -633,8 +633,8 @@ month.12 = Rhagfyr
 
 common.warning = Rhybudd
 common.dateHint = Er enghraifft, 12 3 2018
-common.continue = Yn eich blaen
-common.acceptAndContinue = Derbyn ac yn eich blaen
+common.continue = Parhau
+common.acceptAndContinue = Derbyn a pharhau
 common.or = neu
 common.yes = Iawn
 common.no = Na
