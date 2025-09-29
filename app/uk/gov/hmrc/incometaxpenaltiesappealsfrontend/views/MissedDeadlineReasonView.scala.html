@@ -15,20 +15,21 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.{CharacterCount, HmrcCharacterCount}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.MissedDeadlineReasonHelper.messageKeyPrefix
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+
 
 @this(layout: Layout,
         govukButton: GovukButton,
         formHelper: FormWithCSRF,
-        govukCharacterCount: GovukCharacterCount,
+        hmrcCharacterCount: HmrcCharacterCount,
         govukErrorSummary: GovukErrorSummary,
         caption: components.PenaltyCaption)
 
@@ -49,7 +50,7 @@
         @caption()
 
         @{
-            govukCharacterCount(CharacterCount(
+            hmrcCharacterCount(CharacterCount(
                 id = MissedDeadlineReasonForm.key,
                 name = MissedDeadlineReasonForm.key,
                 maxLength = Some(appConfig.numberOfCharsInTextArea),
