@@ -51,6 +51,6 @@ object NonJsFileUploadMessages {
     override val p2LPPReview = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu."
     override val p3: Int => String = n => s"Gallwch uwchlwytho hyd at $n ffeil."
     override val p4: Int => String = n => s"Mae’n rhaid i bob ffeil fod yn llai na ${n}MB."
-    override val label = "Select a file (Welsh)"
+    override val label = "Dewiswch ffeil"
   }
 }

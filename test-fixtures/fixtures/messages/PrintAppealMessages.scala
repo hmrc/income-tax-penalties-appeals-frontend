@@ -39,7 +39,7 @@ object PrintAppealMessages {
     override val nino = "Rhif Yswiriant Gwladol"
     override val penaltyAppealed = "Y gosb sydd wedi’i hapelio"
     override val appealDate = "Dyddiad yr apêl"
-    override val appealDateReview = "Review request sent (Welsh)"
+    override val appealDateReview = "Cais am adolygiad wedi’i anfon"
     override val warn1 = "Argraffwch neu lawrlwythwch y dudalen hon os hoffech ei chadw."
     override val warn2 = "Ni fyddwch yn gallu dychwelyd i’r manylion hyn o ran yr apêl yn nes ymlaen."
     override val warn2Review = "Ni fyddwch yn gallu dychwelyd i’r dudalen ar gyfer y manylion hyn yn nes ymlaen."

@@ -30,7 +30,7 @@ object UploadedDocumentsSummaryMessages {
   object Welsh extends Messages with Cy {
     override val cyaKey = "Tystiolaeth i ategu’r apêl hon"
     override val cyaHidden = "Tystiolaeth i ategu’r apêl hon"
-    override val cyaKeyReview = "Evidence to support this review (Welsh)"
-    override val cyaHiddenReview = "evidence to support this review (Welsh)"
+    override val cyaKeyReview = "Tystiolaeth i gefnogi’r adolygiad hwn"
+    override val cyaHiddenReview = "tystiolaeth i gefnogi’r adolygiad hwn"
   }
 }
