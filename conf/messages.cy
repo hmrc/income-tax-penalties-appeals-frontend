@@ -7,14 +7,14 @@ phaseBanner.tag = Beta
 phaseBanner.message = Mae hwn yn wasanaeth newydd – bydd eich {0} yn ein helpu i’w wella.
 phaseBanner.linkText = adborth
 
-service.lsp.caption = Pwynt cosb am gyflwyno’n hwyr: {0} to {1}
-service.lpp.caption = Cosb am dalu’n hwyr: {0} to {1}
+service.lsp.caption = Pwynt cosb am gyflwyno’n hwyr: {0} i {1}
+service.lpp.caption = Cosb am dalu’n hwyr: {0} i {1}
 
 service.lpp.caption.first = Cosb gyntaf am dalu’n hwyr: {0} i {1}
 service.lpp.caption.second = Ail gosb am dalu’n hwyr: {0} i {1}
 
-service.lsp.multiple.caption = Cosbau am gyflwyno’n hwyr: {0} to {1}
-service.lpp.multiple.caption = Cosbau am dalu’n hwyr: {0} to {1}
+service.lsp.multiple.caption = Cosbau am gyflwyno’n hwyr: {0} i {1}
+service.lpp.multiple.caption = Cosbau am dalu’n hwyr: {0} i {1}
 
 # Appeal Start page
 # ----------------------------------------------------------
