@@ -93,14 +93,14 @@ object WhenDidEventEndMessages {
     override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys $missing a $missingTwo"
     override def technicalIssueRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys $missing"
     override val technicalIssueNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod heddiw neu yn y gorffennol"
-    override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later (Welsh)"
+    override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y daeth y trafferthion technoleg i ben fod ar $startDate neu’n hwyrach"
 
     override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn"
     override val unexpectedHospitalRequiredAll = "Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben"
     override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing a $missingTwo"
     override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing"
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol"
-    override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"The date that the hospital stay ended must be $startDate or later (Welsh)"
+    override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y daeth yr arhosiad yn yr ysbyty i ben fod ar $startDate neu’n hwyrach"
 
     override val cyaKeyTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben?"
     override val cyaKeyHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?"

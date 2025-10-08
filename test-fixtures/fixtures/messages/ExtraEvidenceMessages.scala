@@ -65,17 +65,17 @@ object ExtraEvidenceMessages {
     
     override def headingAndTitle(is2ndStage: Boolean): String = {
       if(is2ndStage) {
-        "Do you want to upload evidence to support your appeal? (Welsh)"
+        "A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?"
       } else {
-        "Do you want to upload evidence to support this review? (Welsh)"
+        "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
       }
     }
     
     override def hintText(is2ndStage: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStage) {
-        "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence. (Welsh)"
+        "Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth."
       } else {
-        "We will still review your appeal if you do not upload evidence. (Welsh)"
+        "Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwytho tystiolaeth."
       }
     }
     
@@ -85,8 +85,8 @@ object ExtraEvidenceMessages {
     override val errorInvalidReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
 
     override val cyaKey = "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
-    override val cyaHidden = "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl"
-    override val cyaKeyReview = "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
-    override val cyaHiddenReview = "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
+    override val cyaHidden = "a ydych am uwchlwytho tystiolaeth i ategu’ch apêl"
+    override val cyaKeyReview = "A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?"
+    override val cyaHiddenReview = "a ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn"
   }
 }

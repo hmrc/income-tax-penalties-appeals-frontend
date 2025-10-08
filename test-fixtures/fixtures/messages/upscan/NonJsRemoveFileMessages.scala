@@ -31,7 +31,7 @@ object NonJsRemoveFileMessages {
 
   object Welsh extends Messages with Cy {
     override val headingAndTitle: Int => String = i => s"A ydych yn siŵr eich bod am dynnu ffeil $i?"
-    override val filenameHint: String => String = name => s"Filename: $name"
+    override val filenameHint: String => String = name => s"Enw’r ffeil: $name"
     override val errorRequired = "Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon"
     override val errorInvalid = "Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon"
   }

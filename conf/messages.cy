@@ -7,14 +7,14 @@ phaseBanner.tag = Beta
 phaseBanner.message = Mae hwn yn wasanaeth newydd – bydd eich {0} yn ein helpu i’w wella.
 phaseBanner.linkText = adborth
 
-service.lsp.caption = Pwynt cosb am gyflwyno’n hwyr: {0} to {1}
-service.lpp.caption = Cosb am dalu’n hwyr: {0} to {1}
+service.lsp.caption = Pwynt cosb am gyflwyno’n hwyr: {0} i {1}
+service.lpp.caption = Cosb am dalu’n hwyr: {0} i {1}
 
 service.lpp.caption.first = Cosb gyntaf am dalu’n hwyr: {0} i {1}
 service.lpp.caption.second = Ail gosb am dalu’n hwyr: {0} i {1}
 
-service.lsp.multiple.caption = Late submission penalties: {0} to {1} (Welsh)
-service.lpp.multiple.caption = Late payment penalties: {0} to {1} (Welsh)
+service.lsp.multiple.caption = Cosbau am gyflwyno’n hwyr: {0} i {1}
+service.lpp.multiple.caption = Cosbau am dalu’n hwyr: {0} i {1}
 
 # Appeal Start page
 # ----------------------------------------------------------
@@ -208,8 +208,8 @@ whenDidEventHappen.technicalIssue.date.error.required = Mae’n rhaid i’r dydd
 whenDidEventHappen.technicalIssue.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod heddiw neu yn y gorffennol
 
 # Health Messages LSP
-whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop you from meeting the submission deadline? (Welsh)
-whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop you making the payment? (Welsh)
+whenDidEventHappen.health.lsp.headingAndTitle = Pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
+whenDidEventHappen.health.lpp.headingAndTitle = Pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?
 whenDidEventHappen.health.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod yn ddyddiad go iawn
 whenDidEventHappen.health.date.error.required.all = Nodwch y dyddiad pan ddechreuodd y broblem iechyd
 whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0} a {1}
@@ -253,7 +253,7 @@ whenDidEventHappen.other.lpp.date.error.required = Mae’n rhaid i’r dyddiad p
 whenDidEventHappen.other.lpp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol
 
 # Agent - Other Messages - Client information issue
-agent.whenDidEventHappen.other.clientInformation.headingAndTitle = When did the issue first stop your client getting information to you? (Welsh)
+agent.whenDidEventHappen.other.clientInformation.headingAndTitle = Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag cael gwybodaeth atoch chi?
 agent.whenDidEventHappen.other.clientInformation.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod yn ddyddiad go iawn
 agent.whenDidEventHappen.other.clientInformation.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch
 agent.whenDidEventHappen.other.clientInformation.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys {0} a {1}
@@ -272,7 +272,7 @@ agent.whenDidEventHappen.other.lsp.date.error.notInFuture = Mae’n rhaid i’r 
 agent.whenDidEventHappen.other.lpp.headingAndTitle = Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?
 agent.whenDidEventHappen.other.lpp.date.error.invalid = Mae’n rhaid i’r pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn
 agent.whenDidEventHappen.other.lpp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu
-agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
+agent.whenDidEventHappen.other.lpp.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0} a {1}
 agent.whenDidEventHappen.other.lpp.date.error.required = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0}
 agent.whenDidEventHappen.other.lpp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol
 
@@ -286,7 +286,7 @@ whenDidEventEnd.technicalIssue.end.date.error.required.two = Mae’n rhaid i’r
 whenDidEventEnd.technicalIssue.end.date.error.required = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys {0}
 whenDidEventEnd.technicalIssue.end.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod yn ddyddiad go iawn
 whenDidEventEnd.technicalIssue.end.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod heddiw neu yn y gorffennol
-whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later (Welsh)
+whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y daeth y trafferthion technoleg i ben fod ar {0} neu’n hwyrach
 
 whenDidEventEnd.unexpectedHospital.headingAndTitle = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?
 whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben
@@ -294,7 +294,7 @@ whenDidEventEnd.unexpectedHospital.end.date.error.required.two = Mae’n rhaid i
 whenDidEventEnd.unexpectedHospital.end.date.error.required = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys {0}
 whenDidEventEnd.unexpectedHospital.end.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn
 whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol
-whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date that the hospital stay ended must be {0} or later (Welsh)
+whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y daeth yr arhosiad yn yr ysbyty i ben fod ar {0} neu’n hwyrach
 
 # Late appeal page
 # ----------------------------------------------------------
@@ -371,8 +371,8 @@ crime.error.invalid = Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y d
 # ----------------------------------------------------------
 extraEvidence.headingAndTitle = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
 extraEvidence.headingAndTitle.multiple = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
-extraEvidence.headingAndTitle.review = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
-extraEvidence.headingAndTitle.multiple.review = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
+extraEvidence.headingAndTitle.review = A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?
+extraEvidence.headingAndTitle.multiple.review = A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?
 extraEvidence.yes = Iawn
 extraEvidence.no = Na
 extraEvidence.hint = Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwytho tystiolaeth.
@@ -447,8 +447,8 @@ checkYourAnswers.whenDidTheEventEnd.technicalIssue.change.hidden = Pryd y gwnaet
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben
 
-checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days (Welsh)
-checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days (Welsh)
+checkYourAnswers.lateAppeal.key = Rheswm dros apelio ar ôl {0} o ddiwrnodau
+checkYourAnswers.lateAppeal.change.hidden = rheswm dros apelio ar ôl {0} o ddiwrnodau
 
 checkYourAnswers.missedDeadlineReason.lpp.key =  Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden =  beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
@@ -461,8 +461,8 @@ checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = beth yw’ch 
 
 checkYourAnswers.uploadedDocuments.key = Tystiolaeth i ategu’r apêl hon
 checkYourAnswers.uploadedDocuments.change.hidden = Tystiolaeth i ategu’r apêl hon
-checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review (Welsh)
-checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review (Welsh)
+checkYourAnswers.uploadedDocuments.key.review = Tystiolaeth i gefnogi’r adolygiad hwn
+checkYourAnswers.uploadedDocuments.change.hidden.review = tystiolaeth i gefnogi’r adolygiad hwn
 
 checkYourAnswers.declaration.h2 = Datganiad
 checkYourAnswers.declaration.text.1 = Wrth gyflwyno’r apêl hon, rydych yn gwneud datganiad cyfreithlon bod yr wybodaeth yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a’ch cred.
@@ -470,9 +470,9 @@ checkYourAnswers.declaration.text.1.review = Wrth gyflwyno’r cais hwn i gael a
 checkYourAnswers.declaration.text.2 = Gall datganiad ffug arwain at erlyniad.
 
 checkYourAnswers.extraEvidence.key = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
-checkYourAnswers.extraEvidence.change.hidden = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl
-checkYourAnswers.extraEvidence.key.review = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
-checkYourAnswers.extraEvidence.change.hidden.review = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
+checkYourAnswers.extraEvidence.change.hidden = a ydych am uwchlwytho tystiolaeth i ategu’ch apêl
+checkYourAnswers.extraEvidence.key.review = A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?
+checkYourAnswers.extraEvidence.change.hidden.review = a ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn
 
 checkYourAnswers.acceptAndSend = Derbyn ac anfon
 
@@ -515,7 +515,7 @@ viewAppealDetails.ni = Rhif Yswiriant Gwladol
 viewAppealDetails.penaltyAppealed = Y gosb sydd wedi’i hapelio
 viewAppealDetails.penaltyAppealed.multiple = Y cosbau a apeliwyd yn eu herbyn
 viewAppealDetails.appealDate = Dyddiad yr apêl
-viewAppealDetails.appealDate.review = Review request sent (Welsh)
+viewAppealDetails.appealDate.review = Cais am adolygiad wedi’i anfon
 viewAppealDetails.warn.1 = Argraffwch neu lawrlwythwch y dudalen hon os hoffech ei chadw.
 viewAppealDetails.warn.2 = Ni fyddwch yn gallu dychwelyd i’r manylion hyn o ran yr apêl yn nes ymlaen.
 viewAppealDetails.warn.2.review = Ni fyddwch yn gallu dychwelyd i’r dudalen ar gyfer y manylion hyn yn nes ymlaen.
@@ -558,7 +558,7 @@ uploadEvidence.nonJs.p2.lpp.review = Gall tystiolaeth gynnwys dogfennau neu lyth
 uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
 uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
-uploadEvidence.nonJs.label = Select a file (Welsh)
+uploadEvidence.nonJs.label = Dewiswch ffeil
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
@@ -595,7 +595,7 @@ uploadCheckAnswers.nonJs.addAnother.error.invalid = Rhowch wybod i ni a ydych ei
 # NonJs Confirm Remove File page
 # ----------------------------------------------------------
 uploadRemoveFile.nonJs.headingAndTitle = A ydych yn siŵr eich bod am dynnu ffeil {0}?
-uploadRemoveFile.nonJs.hint = Filename: {0} (Welsh)
+uploadRemoveFile.nonJs.hint = Enw’r ffeil: {0}
 uploadRemoveFile.nonJs.error.required = Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon
 uploadRemoveFile.nonJs.error.invalid = Dewiswch ‘Iawn’ os ydych am dynnu’r ffeil hon
 
@@ -644,6 +644,6 @@ common.change = Newid
 # Duplicate Appeal
 # ----------------------------------------------------------
 
-duplicateAppeal.headingAndTitle = Appeal already in progress (Welsh)
-duplicateAppeal.p1 = You can’t submit more than one appeal for the same penalty at the same time. (Welsh)
-duplicateAppeal.link.text = Back to Self Assessment penalties and appeals (Welsh)
+duplicateAppeal.headingAndTitle = Apêl eisoes ar y gweill
+duplicateAppeal.p1 = Ni allwch gyflwyno mwy nag un apêl ar gyfer yr un gosb ar yr un pryd.
+duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
