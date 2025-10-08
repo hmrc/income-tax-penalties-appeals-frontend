@@ -3,10 +3,6 @@ service.name = Rheoli’ch Hunanasesiad
 error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
 
-phaseBanner.tag = Beta
-phaseBanner.message = Mae hwn yn wasanaeth newydd – bydd eich {0} yn ein helpu i’w wella.
-phaseBanner.linkText = adborth
-
 service.lsp.caption = Pwynt cosb am gyflwyno’n hwyr: {0} i {1}
 service.lpp.caption = Cosb am dalu’n hwyr: {0} i {1}
 

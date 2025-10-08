@@ -16,6 +16,8 @@
 
 @import uk.gov.hmrc.govukfrontend.views.Aliases.{PhaseBanner, Tag, _}
 @import uk.gov.hmrc.govukfrontend.views.html.components.{GovukBackLink, GovukPhaseBanner}
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
+@import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 @import uk.gov.hmrc.hmrcfrontend.views.Aliases.{Cy, En}
 @import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcAccountMenu
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.{HmrcReportTechnicalIssueHelper, HmrcStandardPage, HmrcTimeoutDialogHelper}
@@ -39,9 +41,11 @@
   govukBackLink: GovukBackLink,
   twoThirdsMainContent: TwoThirdsMainContent,
   fullWidthPageLayout: fullWidthMainContentLayout,
+  standardBetaBanner: StandardBetaBanner,
   hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
   link: Link
-)
+)(implicit cfConfig: ContactFrontendConfig)
+
 @(
         pageTitle: Option[String] = None,
         backLinkEnabled: Boolean = true,
@@ -69,16 +73,7 @@
         case _ => Html("")
     }}
 
-    @govukPhaseBanner(PhaseBanner(
-        tag = Some(Tag(
-            content = Text(messages("phaseBanner.tag")),
-        )),
-        content =   HtmlContent(messages("phaseBanner.message",
-            link(link=appConfig.alphaBannerUrl,
-                messageKey="phaseBanner.linkText",
-                inParagraph = true)
-        ))
-    ))
+    @govukPhaseBanner(standardBetaBanner())
 
     @if(backLinkEnabled) {
         <div class="govuk-grid-row">

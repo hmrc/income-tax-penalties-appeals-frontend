@@ -3,10 +3,6 @@ service.name = Manage your Self Assessment
 error.title.prefix = Error:
 govuk.suffix = GOV.UK
 
-phaseBanner.tag = Beta
-phaseBanner.message = This is a new service – your {0} will help us to improve it.
-phaseBanner.linkText = feedback
-
 service.lsp.caption = Late submission penalty point: {0} to {1}
 service.lpp.caption = Late payment penalty: {0} to {1}
 
