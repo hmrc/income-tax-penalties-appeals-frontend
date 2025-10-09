@@ -29,7 +29,7 @@ object WhenDidEventHappenMessages {
       case FireOrFlood => "When did the fire or flood happen?"
       case TechnicalIssues => "When did the software or technology issues begin?"
       case Cessation => "TBC cessation"
-      case Health => "When did the health issue first stop you from meeting the submission deadline?"
+      case Health => if(isLPP) "When did the health issue first stop you making the payment?" else "When did the health issue first stop you from meeting the submission deadline?"
       case UnexpectedHospital => "When did the hospital stay begin?"
       case LossOfStaff => "TBC lossOfStaff"
       case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
@@ -38,7 +38,7 @@ object WhenDidEventHappenMessages {
     def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "When did the issue first stop your client getting information to you?"
-        case (true, _, true)  => "When did the issue first stop your client paying the tax bill by the due date?"
+        case (true, _, true)  => "When did the issue first stop your client making the payment?"
         case (true, _, false) => "When did the issue first stop your client from meeting the submission deadline?"
         case (false, _, true) => "When did the issue first stop you paying the tax bill by the due date?"
         case (_, _, _)        => "When did the issue first stop you from meeting the submission deadline?"
@@ -127,16 +127,16 @@ object WhenDidEventHappenMessages {
     val cyaKeyOther: String = "TBC other"
     val cyaKeyUnexpectedHospital: String = "When did the hospital stay begin?"
 
-    def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
+    def cyaKey(reasonableExcuse: ReasonableExcuse, isLPP: Boolean = false, isAgent: Boolean = false, wasClientInformationIssue: Boolean = false): String = reasonableExcuse match {
       case Bereavement => cyaKeyBereavement
       case Cessation => cyaKeyCessation
       case Crime => cyaKeyCrime
       case FireOrFlood => cyaKeyFireOrFlood
-      case Health => cyaKeyHealth
+      case Health => headingAndTitle(Health, isLPP, isAgent, wasClientInformationIssue)
       case TechnicalIssues => cyaKeyTechnical
       case UnexpectedHospital => cyaKeyUnexpectedHospital
       case LossOfStaff => cyaKeyLossOfStaff
-      case Other => cyaKeyOther
+      case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
 
     val cyaHiddenBereavement: String = "when did the person die"
@@ -258,7 +258,7 @@ object WhenDidEventHappenMessages {
       case FireOrFlood => "Pryd ddigwyddodd y tân neu lifogydd?"
       case TechnicalIssues => "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau?"
       case Cessation => "TBC cessation (Welsh)"
-      case Health => "When did the health issue first stop you from meeting the submission deadline? (Welsh)"
+      case Health => if(isLPP) "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?" else "Pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
       case UnexpectedHospital => "Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?"
       case LossOfStaff => "TBC lossOfStaff (Welsh)"
       case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
@@ -266,10 +266,10 @@ object WhenDidEventHappenMessages {
 
     override def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
-        case (true, true, _)  => "When did the issue first stop your client getting information to you? (Welsh)"
-        case (true, _, true)  => "When did the issue first stop your client paying the tax bill by the due date? (Welsh)"
-        case (true, _, false) => "When did the issue first stop your client from meeting the submission deadline? (Welsh)"
-        case (false, _, true) => "When did the issue first stop you paying the tax bill by the due date? (Welsh)"
+        case (true, true, _)  => "Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag cael gwybodaeth atoch chi?"
+        case (true, _, true)  => "Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?"
+        case (true, _, false) => "Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
+        case (false, _, true) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
         case (_, _, _)        => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
       }
 
