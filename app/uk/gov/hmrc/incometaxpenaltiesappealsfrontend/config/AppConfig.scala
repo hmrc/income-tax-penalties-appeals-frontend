@@ -87,6 +87,14 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
     s"$url${if(isAgent) "/agent" else ""}"
   }
 
+  lazy val cessationRedirectUrl: Boolean => String = isAgent => {
+    if (isAgent) {
+      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/agents/manage-your-businesses"
+    } else {
+      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/manage-your-businesses"
+    }
+  }
+
   lazy val mongoTTL: Duration = config.get[Duration]("mongodb.ttl")
 
   lazy val numberOfCharsInTextArea: Int = config.get[Int]("constants.numberOfCharsInTextArea")
