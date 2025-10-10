@@ -23,6 +23,24 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissD
 
 trait WhenDidEventHappenHelper {
 
+
+  def healthHeading(isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
+    if (isLPP) {
+      if (user.isAgent) "client.whenDidEventHappen.health.lpp.headingAndTitle" else "whenDidEventHappen.health.lpp.headingAndTitle"
+
+    } else {
+      if (user.isAgent)
+        if (user.whoPlannedToSubmit.getOrElse("").toString == "client")
+          "client.whenDidEventHappen.health.lsp.headingAndTitle"
+        else {
+          "whenDidEventHappen.health.lsp.headingAndTitle"
+        }
+      else {
+        "whenDidEventHappen.health.lsp.headingAndTitle"
+      }
+    }
+  }
+
   def messageKeyPrefix(reason: ReasonableExcuse, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String =
     if(reason != Other) s"whenDidEventHappen.$reason" else {
       if(user.isAgent && WhoPlannedToSubmitPage.value.contains(AgentClientEnum.agent) && WhatCausedYouToMissDeadlinePage.value.contains(AgentClientEnum.client)) {

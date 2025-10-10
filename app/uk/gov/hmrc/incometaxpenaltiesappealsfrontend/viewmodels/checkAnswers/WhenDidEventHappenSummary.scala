@@ -22,7 +22,9 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm.{healthHeading, messageKeyPrefix}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Health, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -33,7 +35,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       WhenDidEventHappenPage.value.map { whenDidEventHappen =>
         summaryListRow(
-          label = messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.key"),
+          label = if(reasonableExcuse == Health)messages(healthHeading(user.isLPP)) else if(reasonableExcuse == Other)messages(s"${messageKeyPrefix(reasonableExcuse, user.isLPP)}.headingAndTitle") else messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.key"),
           value = Html(dateToString(whenDidEventHappen)),
           actions = Option.when(showActionLinks)(Actions(
             items = Seq(
