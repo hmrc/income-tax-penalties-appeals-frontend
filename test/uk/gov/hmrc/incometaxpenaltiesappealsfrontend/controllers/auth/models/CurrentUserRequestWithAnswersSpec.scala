@@ -17,10 +17,9 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models
 
 import fixtures.BaseFixtures
-import org.mockito.Mockito.when
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar.mock
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
@@ -32,7 +31,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys
 
 import java.time.LocalDate
 
-class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures {
+class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures with MockFactory {
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit lazy val mockTimeMachine: TimeMachine = mock[TimeMachine]
@@ -40,7 +39,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
   "isAppealLate" should {
 
     class Setup(date: LocalDate) {
-      when(mockTimeMachine.getCurrentDate).thenReturn(date)
+      (mockTimeMachine.getCurrentDate _).expects().returning(date)
     }
 
     val fakeRequestForAppealingBothPenalties: (LocalDate, LocalDate) => CurrentUserRequestWithAnswers[AnyContent] = (lpp1Date: LocalDate, lpp2Date: LocalDate) => {

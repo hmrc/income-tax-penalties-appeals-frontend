@@ -16,21 +16,23 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks
 
-import org.mockito.ArgumentMatchers.{any, eq => eqTo}
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.ErrorResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UpscanInitiateRequest, UpscanInitiateResponse}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-trait MockUpscanInitiateConnector extends MockitoSugar {
+trait MockUpscanInitiateConnector extends MockFactory {
+  _: TestSuite =>
 
   val mockUpscanInitiateConnector: UpscanInitiateConnector = mock[UpscanInitiateConnector]
 
   def mockInitiate(journeyId: String, initiateRequest: UpscanInitiateRequest)(response: Future[Either[ErrorResponse, UpscanInitiateResponse]]): Unit =
-    when(mockUpscanInitiateConnector.initiate(eqTo(journeyId), eqTo(initiateRequest))(any(), any()))
-      .thenReturn(response)
-
+    (mockUpscanInitiateConnector.initiate(_: String, _: UpscanInitiateRequest)(_: HeaderCarrier, _: ExecutionContext))
+      .expects(journeyId, initiateRequest, *, *)
+      .returning(response)
 }
