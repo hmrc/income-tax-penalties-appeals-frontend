@@ -16,12 +16,11 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.{mock, when}
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.Configuration
+import play.api.{ConfigLoader, Configuration}
 import play.api.http.Status.BAD_REQUEST
 import play.api.mvc.{MessagesControllerComponents, Result}
 import play.api.test.FakeRequest
@@ -34,18 +33,18 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import scala.concurrent.{ExecutionContext, Future}
 
-class FeatureSwitchFrontendControllerISpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
+class FeatureSwitchFrontendControllerISpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with MockFactory {
 
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-  val mockConfig: Configuration = mock(classOf[Configuration])
-  val mockServicesConfig: ServicesConfig = mock(classOf[ServicesConfig])
+  val mockConfig: Configuration = mock[Configuration]
+  val mockServicesConfig: ServicesConfig = mock[ServicesConfig]
   val mcc: MessagesControllerComponents = stubMessagesControllerComponents()
 
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
 
   val controller = new FeatureSwitchFrontendController(
-    featureSwitchService = mock(classOf[uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.services.FeatureSwitchRetrievalService]),
-    featureSwitchView = mock(classOf[uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.views.html.feature_switch]),
+    featureSwitchService = mock[uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.services.FeatureSwitchRetrievalService],
+    featureSwitchView = mock[uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.views.html.feature_switch],
     mcc = mcc
 
   )(ec, appConfig)
@@ -71,8 +70,7 @@ class FeatureSwitchFrontendControllerISpec extends AnyWordSpec with Matchers wit
     }
 
     s"return $OK (OK) and the systems current date when no date is provided" in {
-      when(mockConfig.getOptional[String](any())(any()))
-        .thenReturn(None)
+      (mockConfig.getOptional[String](_:String)(_:ConfigLoader[String])).expects(*, *).returning(None)
       val result: Future[Result] = this.controller.setTimeMachineDate(None)(FakeRequest())
       status(result) shouldBe OK
       contentAsString(result) shouldBe s"Time machine set to: ${LocalDate.now().toString}"

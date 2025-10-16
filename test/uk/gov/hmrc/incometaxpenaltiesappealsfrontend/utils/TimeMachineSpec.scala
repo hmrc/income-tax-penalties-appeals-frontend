@@ -16,10 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.must.Matchers.convertToAnyMustWrapper
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.Configuration
 import play.api.inject.guice.GuiceApplicationBuilder
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -27,7 +27,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
 
-class TimeMachineSpec extends AnyWordSpec with Matchers {
+class TimeMachineSpec extends AnyWordSpec with Matchers with MockFactory {
 
 
   "TimeMachine -getCurrentDate" should {
@@ -70,6 +70,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
       "return None when timeMachineEnabled is false" in {
         val config = Configuration("timemachine.enabled" -> false)
         val servicesConfig = mock[ServicesConfig]
+        (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
         appConfig.optCurrentDate mustBe None
       }
@@ -80,6 +81,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
           "timemachine.date" -> "01-01-2024"
         )
         val servicesConfig = mock[ServicesConfig]
+        (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
         val dateStr = "31-12-2023"
         System.setProperty("TIME_MACHINE_NOW", dateStr)
@@ -96,6 +98,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
           "timemachine.date" -> "01-01-2024"
         )
         val servicesConfig = mock[ServicesConfig]
+        (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
         appConfig.optCurrentDate mustBe Some(LocalDate.parse("01-01-2024", appConfig.timeMachineDateFormatter))
       }
@@ -106,6 +109,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
           "timemachine.date" -> "invalid-date"
         )
         val servicesConfig = mock[ServicesConfig]
+        (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
         appConfig.optCurrentDate mustBe None
       }

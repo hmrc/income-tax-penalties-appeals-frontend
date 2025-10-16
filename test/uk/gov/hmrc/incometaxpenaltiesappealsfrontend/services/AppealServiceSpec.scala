@@ -17,12 +17,10 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import fixtures.FileUploadFixtures
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.{any, eq => eqTo}
-import org.mockito.Mockito._
+import org.scalamock.matchers.ArgCapture.CaptureOne
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import play.api.test.Helpers._
@@ -32,8 +30,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.PenaltiesConnect
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{InvalidJson, UnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AppealSubmissionAuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.{MockAuditService, MockUpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -42,9 +40,9 @@ import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 
 import java.time.{LocalDate, LocalDateTime}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with LogCapturing with GuiceOneAppPerSuite
+class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with LogCapturing with GuiceOneAppPerSuite
   with MockUpscanService
   with MockAuditService
   with FileUploadFixtures {
@@ -57,28 +55,20 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   class Setup {
-    reset(mockPenaltiesConnector)
-    reset(mockTimeMachine)
-    reset(mockUUIDGenerator)
-    reset(mockAuditService)
-
     val service: AppealService =
       new AppealService(
         mockPenaltiesConnector,
         mockUpscanService,
         mockUUIDGenerator,
-        mockAuditService
+        stubAuditService
       )(mockTimeMachine, appConfig)
-
-    when(mockTimeMachine.getCurrentDate).thenReturn(LocalDate.of(2020, 2, 1))
-    when(mockTimeMachine.getCurrentDateTime).thenReturn(LocalDateTime.of(2020, 2, 1, 12, 15, 45))
-    when(mockUUIDGenerator.generateUUID).thenReturn("uuid-1", "uuid-2")
   }
 
   "validatePenaltyIdForEnrolmentKey" should {
     "return None when the connector returns None" in new Setup {
-      when(mockPenaltiesConnector.getAppealsDataForPenalty(any(), any(), any(), any())(any(), any()))
-        .thenReturn(Future.successful(None))
+      (mockPenaltiesConnector.getAppealsDataForPenalty(_: String, _: String, _: Boolean, _: Boolean)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(*, *, *, *, *, *)
+        .returning(Future.successful(None))
 
       val result: Option[AppealData] = await(service.validatePenaltyIdForEnrolmentKey("1234", isLPP = false, isAdditional = false, testMtdItId)(implicitly, implicitly))
 
@@ -86,8 +76,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     }
 
     "return None when the connectors returns Json that cannot be parsed to a model" in new Setup {
-      when(mockPenaltiesConnector.getAppealsDataForPenalty(any(), any(), any(), any())(any(), any()))
-        .thenReturn(Future.successful(Some(Json.parse("{}"))))
+      (mockPenaltiesConnector.getAppealsDataForPenalty(_: String, _: String, _: Boolean, _: Boolean)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(*, *, *, *, *, *)
+        .returning(Future.successful(Some(Json.parse("{}"))))
 
       val result: Option[AppealData] = await(service.validatePenaltyIdForEnrolmentKey("1234", isLPP = false, isAdditional = false, testMtdItId)(implicitly, implicitly))
 
@@ -95,8 +86,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     }
 
     "return Some when the connector returns Json that is parsable to a model" in new Setup {
-      when(mockPenaltiesConnector.getAppealsDataForPenalty(any(), any(), any(), any())(any(), any()))
-        .thenReturn(Future.successful(Some(appealDataAsJson)))
+      (mockPenaltiesConnector.getAppealsDataForPenalty(_: String, _: String, _: Boolean, _: Boolean)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(*, *, *, *, *, *)
+        .returning(Future.successful(Some(appealDataAsJson)))
 
       val result: Option[AppealData] = await(service.validatePenaltyIdForEnrolmentKey("1234", isLPP = false, isAdditional = false, testMtdItId)(implicitly, implicitly))
 
@@ -105,8 +97,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
     "return Some when the connector returns Json that is parsable to a model for LPP" in new Setup {
 
-      when(mockPenaltiesConnector.getAppealsDataForPenalty(any(), any(), any(), any())(any(), any()))
-        .thenReturn(Future.successful(Some(appealDataAsJsonLPP)))
+      (mockPenaltiesConnector.getAppealsDataForPenalty(_: String, _: String, _: Boolean, _: Boolean)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(*, *, *, *, *, *)
+        .returning(Future.successful(Some(appealDataAsJsonLPP)))
 
       val result: Option[AppealData] = await(service.validatePenaltyIdForEnrolmentKey("1234", isLPP = true, isAdditional = false, testMtdItId)(implicitly, implicitly))
 
@@ -114,8 +107,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
     }
 
     "return Some when the connector returns Json that is parsable to a model for LPP - Additional penalty" in new Setup {
-      when(mockPenaltiesConnector.getAppealsDataForPenalty(any(), any(), any(), any())(any(), any()))
-        .thenReturn(Future.successful(Some(appealDataAsJsonLPPAdditional)))
+      (mockPenaltiesConnector.getAppealsDataForPenalty(_: String, _: String, _: Boolean, _: Boolean)(_: HeaderCarrier, _: ExecutionContext))
+        .expects(*, *, *, *, *, *)
+        .returning(Future.successful(Some(appealDataAsJsonLPPAdditional)))
 
       val result: Option[AppealData] = await(service.validatePenaltyIdForEnrolmentKey("1234", isLPP = true, isAdditional = true, testMtdItId)(implicitly, implicitly))
 
@@ -126,8 +120,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
   "validateMultiplePenaltyDataForEnrolmentKey" should {
     "return None" when {
       "the connector returns a left with an UnexpectedFailure" in new Setup {
-        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(eqTo("123"), eqTo(testMtdItId))(any(), any()))
-          .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, s"Unexpected response, status $INTERNAL_SERVER_ERROR returned"))))
+        (mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(
+          _: String,
+          _: String)(_: HeaderCarrier, _: ExecutionContext))
+          .expects("123", testMtdItId, *, *)
+          .returning(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, s"Unexpected response, status $INTERNAL_SERVER_ERROR returned"))))
 
         val result: Option[MultiplePenaltiesData] = await(service.validateMultiplePenaltyDataForEnrolmentKey("123", testMtdItId)(implicitly, implicitly))
 
@@ -135,8 +132,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       }
 
       "the connector returns returns InvalidJson that cannot be parsed to a model" in new Setup {
-        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(eqTo("123"), eqTo(testMtdItId))(any(), any()))
-          .thenReturn(Future.successful(Left(InvalidJson)))
+        (mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(
+          _: String,
+          _: String)(_: HeaderCarrier, _: ExecutionContext))
+          .expects("123", testMtdItId, *, *)
+          .returning(Future.successful(Left(InvalidJson)))
 
         val result: Option[MultiplePenaltiesData] = await(service.validateMultiplePenaltyDataForEnrolmentKey("123", testMtdItId)(implicitly, implicitly))
 
@@ -146,8 +146,11 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
     "return Some" when {
       "the connector returns Json that can be parsed to a model" in new Setup {
-        when(mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(eqTo("123"), eqTo(testMtdItId))(any(), any()))
-          .thenReturn(Future.successful(Right(multiplePenaltiesModel)))
+        (mockPenaltiesConnector.getMultiplePenaltiesForPrincipleCharge(
+          _: String,
+          _: String)(_: HeaderCarrier, _: ExecutionContext))
+          .expects("123", testMtdItId, *, *)
+          .returning(Future.successful(Right(multiplePenaltiesModel)))
 
         val result: Option[MultiplePenaltiesData] = await(service.validateMultiplePenaltyDataForEnrolmentKey("123", testMtdItId)(implicitly, implicitly))
 
@@ -161,20 +164,21 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
       "the journey is 'Other' and there are uploaded files that are ready" should {
         "the connector call is successful" in new Setup {
 
-          val submissionModelCapture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
+          (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+          (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+          (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
 
-          when(mockPenaltiesConnector.submitAppeal(submissionModelCapture.capture(), any(), any(), any(), any(), any())(any(), any()))
-            .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+          val submissionModelCapture: CaptureOne[AppealSubmission] = CaptureOne[AppealSubmission]()
+          (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _:String, _:Boolean, _:String, _:String,_:Boolean)(_:ExecutionContext, _:HeaderCarrier))
+            .expects(capture(submissionModelCapture), *, *, *, *, *, *, *)
+            .returning(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 
           mockGetAllReadyFiles(testJourneyId)(Future.successful(Seq(callbackModel, callbackModel2)))
 
+          stubAuditEvent()
+
           val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] =
             await(service.submitAppeal(Other)(fakeRequestForOtherJourney, implicitly, implicitly))
-
-          result shouldBe Right(SuccessfulAppeal(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
-
-          val submissionModel: AppealSubmission = submissionModelCapture.getValue
-          submissionModel.appealInformation.asInstanceOf[OtherAppealInformation].uploadedFiles shouldBe Some(Seq(callbackModel, callbackModel2))
 
           verifyAuditEvent(AppealSubmissionAuditModel(
             penaltyNumber = fakeRequestForOtherJourney.penaltyNumber,
@@ -182,20 +186,34 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
             caseId = Some("REV-1234"),
             error = None,
             correlationId = "uuid-1",
-            appealSubmission = submissionModelCapture.getValue
+            appealSubmission = submissionModelCapture.value.leftSideValue
           )(fakeRequestForOtherJourney))
+
+          result shouldBe Right(SuccessfulAppeal(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
+
+          val submissionModel: AppealSubmission = submissionModelCapture.value
+          submissionModel.appealInformation.asInstanceOf[OtherAppealInformation].uploadedFiles shouldBe Some(Seq(callbackModel, callbackModel2))
         }
       }
       "the connector call is successful for appealing multiple penalties" in new Setup {
 
-        val lpp1Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
-        val lpp2Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
+        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
 
-        when(mockPenaltiesConnector.submitAppeal(lpp1Capture.capture(), any(), any(), any(), eqTo("uuid-1"), any())(any(), any()))
-          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+        val lpp1Capture: CaptureOne[AppealSubmission] = CaptureOne[AppealSubmission]()
+        val lpp2Capture: CaptureOne[AppealSubmission] = CaptureOne[AppealSubmission]()
 
-        when(mockPenaltiesConnector.submitAppeal(lpp2Capture.capture(), any(), any(), any(), eqTo("uuid-2"), any())(any(), any()))
-          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-5678"), OK))))
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp1Capture),*,*,*,"uuid-1",*,*,*)
+          .returning(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp2Capture),*,*,*,"uuid-2",*,*,*)
+          .returning(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-5678"), OK))))
+
+        stubAuditEvent()
 
         val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] =
           await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
@@ -213,7 +231,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           caseId = Some("REV-1234"),
           error = None,
           correlationId = "uuid-1",
-          appealSubmission = lpp1Capture.getValue
+          appealSubmission = lpp1Capture.value.leftSideValue
         )(fakeRequestForCrimeJourneyMultiple))
 
         verifyAuditEvent(AppealSubmissionAuditModel(
@@ -222,7 +240,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           caseId = Some("REV-5678"),
           error = None,
           correlationId = "uuid-2",
-          appealSubmission = lpp2Capture.getValue
+          appealSubmission = lpp2Capture.value.leftSideValue
         )(fakeRequestForCrimeJourneyMultiple))
       }
     }
@@ -231,14 +249,21 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       "if one of 2 appeal submissions fail and log a PD (LPP1 fails)" in new Setup {
 
-        val lpp1Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
-        val lpp2Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
+        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce()
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
 
-        when(mockPenaltiesConnector.submitAppeal(lpp1Capture.capture(), any(), any(), eqTo("123456789"), any(), eqTo(true))(any(), any()))
-          .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
+        val lpp1Capture = CaptureOne[AppealSubmission]()
+        val lpp2Capture = CaptureOne[AppealSubmission]()
 
-        when(mockPenaltiesConnector.submitAppeal(lpp2Capture.capture(), any(), any(), eqTo("123456788"), any(), eqTo(true))(any(), any()))
-          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-5678"), OK))))
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp1Capture), *, *, "123456789", *, true, *, *)
+          .returning(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
+
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp2Capture), *, *, "123456788", *, true, *, *)
+          .returning(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-5678"), OK))))
 
         withCaptureOfLoggingFrom(logger) {
           logs => {
@@ -246,9 +271,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
             val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] =
               await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
 
-            result shouldBe Left(MultiAppealFailedLPP1(AppealSubmissionResponseModel(Some("REV-5678"), OK)))
+            stubAuditEvent()
 
-            verify(mockUUIDGenerator, times(2)).generateUUID
+            result shouldBe Left(MultiAppealFailedLPP1(AppealSubmissionResponseModel(Some("REV-5678"), OK)))
 
             verifyAuditEvent(AppealSubmissionAuditModel(
               penaltyNumber = fakeRequestForOtherJourney.penaltyNumber,
@@ -256,7 +281,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
               caseId = None,
               error = Some("Some issue with submission"),
               correlationId = "uuid-1",
-              appealSubmission = lpp1Capture.getValue
+              appealSubmission = lpp1Capture.value.leftSideValue
             )(fakeRequestForCrimeJourneyMultiple))
 
             verifyAuditEvent(AppealSubmissionAuditModel(
@@ -265,7 +290,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
               caseId = Some("REV-5678"),
               error = None,
               correlationId = "uuid-2",
-              appealSubmission = lpp2Capture.getValue
+              appealSubmission = lpp2Capture.value.leftSideValue
             )(fakeRequestForCrimeJourneyMultiple))
 
             logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
@@ -277,18 +302,28 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       "if one of 2 appeal submissions fail and log a PD (LPP2 fails)" in new Setup {
 
-        val lpp1Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
-        val lpp2Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
+        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
 
-        when(mockPenaltiesConnector.submitAppeal(lpp1Capture.capture(), any(), any(), eqTo("123456789"), any(), eqTo(true))(any(), any()))
-          .thenReturn(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
 
-        when(mockPenaltiesConnector.submitAppeal(lpp2Capture.capture(), any(), any(), eqTo("123456788"), any(), eqTo(true))(any(), any()))
-          .thenReturn(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
+        val lpp1Capture = CaptureOne[AppealSubmission]()
+        val lpp2Capture = CaptureOne[AppealSubmission]()
+
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp1Capture), *, *, "123456789", *, true, *, *)
+          .returning(Future.successful(Right(AppealSubmissionResponseModel(Some("REV-1234"), OK))))
+
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp2Capture), *, *, "123456788", *, true, *, *)
+          .returning(Future.successful(Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, "Some issue with submission"))))
 
         withCaptureOfLoggingFrom(logger) {
           logs => {
             val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
+
+            stubAuditEvent()
 
             result shouldBe Left(MultiAppealFailedLPP2(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
 
@@ -298,7 +333,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
               caseId = Some("REV-1234"),
               error = None,
               correlationId = "uuid-1",
-              appealSubmission = lpp1Capture.getValue
+              appealSubmission = lpp1Capture.value.leftSideValue
             )(fakeRequestForCrimeJourneyMultiple))
 
             verifyAuditEvent(AppealSubmissionAuditModel(
@@ -307,7 +342,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
               caseId = None,
               error = Some("Some issue with submission"),
               correlationId = "uuid-2",
-              appealSubmission = lpp2Capture.getValue
+              appealSubmission = lpp2Capture.value.leftSideValue
             )(fakeRequestForCrimeJourneyMultiple))
 
             logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
@@ -319,14 +354,26 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
 
       "if both of the appeal submissions fail" in new Setup {
 
-        val lpp1Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
-        val lpp2Capture: ArgumentCaptor[AppealSubmission] = ArgumentCaptor.forClass(classOf[AppealSubmission])
+        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
 
-        when(mockPenaltiesConnector.submitAppeal(lpp1Capture.capture(), any(), any(), eqTo("123456789"), any(), any())(any(), any()))
-          .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, "Error1"))))
 
-        when(mockPenaltiesConnector.submitAppeal(lpp2Capture.capture(), any(), any(), eqTo("123456788"), any(), any())(any(), any()))
-          .thenReturn(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, "Error2"))))
+        val lpp1Capture = CaptureOne[AppealSubmission]()
+        val lpp2Capture = CaptureOne[AppealSubmission]()
+
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp1Capture), *, *, "123456789", *, *, *, *)
+          .returning(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, "Error1"))))
+
+
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(capture(lpp2Capture), *, *, "123456788", *, *, *, *)
+          .returning(Future.successful(Left(UnexpectedFailure(BAD_GATEWAY, "Error2"))))
+
+
+        stubAuditEvent()
 
         val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourneyMultiple, implicitly, implicitly))
         result shouldBe Left(MultiAppealFailedBoth)
@@ -337,7 +384,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           caseId = None,
           error = Some("Error1"),
           correlationId = "uuid-1",
-          appealSubmission = lpp1Capture.getValue
+          appealSubmission = lpp1Capture.value
         )(fakeRequestForCrimeJourneyMultiple))
 
         verifyAuditEvent(AppealSubmissionAuditModel(
@@ -346,16 +393,21 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with
           caseId = None,
           error = Some("Error2"),
           correlationId = "uuid-2",
-          appealSubmission = lpp2Capture.getValue
+          appealSubmission = lpp2Capture.value
         )(fakeRequestForCrimeJourneyMultiple))
       }
 
       "the connector throws an exception" in new Setup {
 
+        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+
         val e = new Exception("I failed.")
 
-        when(mockPenaltiesConnector.submitAppeal(any(), any(), any(), any(), any(), any())(any(), any()))
-          .thenReturn(Future.failed(e))
+        (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _: String, _:Boolean, _:String, _: String, _:Boolean)(_: ExecutionContext, _: HeaderCarrier))
+          .expects(*, *, *, *, *, *, *, *)
+          .returning(Future.failed(e))
 
         val result: Either[SubmissionErrorResponse, SubmissionSuccessResponse] = await(service.submitAppeal(Crime)(fakeRequestForCrimeJourney, implicitly, implicitly))
 

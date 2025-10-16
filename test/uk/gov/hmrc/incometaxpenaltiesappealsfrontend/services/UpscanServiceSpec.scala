@@ -18,9 +18,9 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
 import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.{is2ndStageAppeal, isAgent}
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
@@ -38,20 +38,21 @@ import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 import java.time.LocalDateTime
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpscanServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with GuiceOneAppPerSuite
-  with MockFileUploadJourneyRepository
+class UpscanServiceSpec extends AnyWordSpec with MockFactory with Matchers with GuiceOneAppPerSuite
   with MockUpscanInitiateConnector
+  with MockFileUploadJourneyRepository
   with FileUploadFixtures
   with LogCapturing {
 
-  val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-  implicit val ec: ExecutionContext = ExecutionContext.global
+  lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  implicit val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
 
   lazy val testDateTime: LocalDateTime = LocalDateTime.now()
 
   lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
     override def getCurrentDateTime: LocalDateTime = testDateTime
   }
+
 
   val testService = new UpscanService(
     mockUpscanInitiateConnector,

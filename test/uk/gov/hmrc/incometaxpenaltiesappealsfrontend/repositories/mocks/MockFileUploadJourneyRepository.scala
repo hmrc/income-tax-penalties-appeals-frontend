@@ -18,44 +18,43 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.mocks
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.TestSuite
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.mongo.cache.CacheItem
 
 import scala.concurrent.Future
 
-trait MockFileUploadJourneyRepository extends MockFactory {
-  _: TestSuite =>
+trait MockFileUploadJourneyRepository {
+  this: MockFactory =>
 
   val mockFileUploadJourneyRepository: FileUploadJourneyRepository = mock[FileUploadJourneyRepository]
 
   def mockUpsertFileUpload(journeyId: String, uploadJourney: UploadJourney)
-                          (response: Future[CacheItem]): CallHandler[Future[CacheItem]] =
+                          (response: Future[CacheItem]): Unit =
     (mockFileUploadJourneyRepository.upsertFileUpload(_: String, _: UploadJourney))
       .expects(journeyId, uploadJourney)
       .returning(response)
 
   def mockGetFile(journeyId: String, fileReference: String)
-                 (response: Future[Option[UploadJourney]]): CallHandler[Future[Option[UploadJourney]]] =
+                 (response: Future[Option[UploadJourney]]): Unit =
     (mockFileUploadJourneyRepository.getFile(_: String, _: String))
       .expects(journeyId, fileReference)
       .returning(response)
 
   def mockGetAllFiles(journeyId: String)
-                     (response: Future[Seq[UploadJourney]]): CallHandler[Future[Seq[UploadJourney]]] =
+                     (response: Future[Seq[UploadJourney]]): Unit =
     (mockFileUploadJourneyRepository.getAllFiles(_: String))
       .expects(journeyId)
       .returning(response)
 
   def mockRemoveFile(journeyId: String, fileReference: String)
-                    (response: Future[Unit]): CallHandler[Future[Unit]] =
+                    (response: Future[Unit]): Unit =
     (mockFileUploadJourneyRepository.removeFile(_: String, _: String))
       .expects(journeyId, fileReference)
       .returning(response)
 
   def mockRemoveAllFiles(journeyId: String)
-                        (response: Future[Unit]): CallHandler[Future[Unit]] =
+                        (response: Future[Unit]): Unit =
     (mockFileUploadJourneyRepository.removeAllFiles(_: String))
       .expects(journeyId)
       .returning(response)

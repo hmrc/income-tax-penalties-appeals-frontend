@@ -16,10 +16,9 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
-import org.mockito.Mockito.when
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services.FeatureSwitchService
@@ -29,8 +28,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 import scala.concurrent.ExecutionContext
 
-class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSugar with GuiceOneAppPerSuite
-{
+class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactory with GuiceOneAppPerSuite {
 
   val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   val featureSwichRegistry: FeatureSwitchRegistry = mock[FeatureSwitchRegistry]
@@ -71,7 +69,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
   "calling getFeatureSwitches" when {
     "there is no feature switches" should {
       "return an empty sequence" in {
-        when(featureSwichRegistry.switches).thenReturn(Seq.empty[FeatureSwitch])
+        (featureSwichRegistry.switches _).expects().returning(Seq.empty[FeatureSwitch])
 
         testService.getFeatureSwitches() shouldBe Seq.empty[FeatureSwitchSetting]
       }
@@ -79,7 +77,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
 
     "there is only a checkboxSwitch" should {
       "return a sequence with checkbox feature switch settings" in {
-        when(featureSwichRegistry.switches).thenReturn(Seq(ReasonableExcusesEnabled))
+        (featureSwichRegistry.switches _).expects().returning(Seq(ReasonableExcusesEnabled))
 
         testService.getFeatureSwitches() shouldBe Seq(reasonableExcuseFSSettings)
       }
@@ -87,7 +85,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
 
     "there is only a UseStubForBackend" should {
       "return a sequence with UseStubForBackend feature switch settings" in {
-        when(featureSwichRegistry.switches).thenReturn(Seq(UseStubForBackend))
+        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend))
 
         testService.getFeatureSwitches() shouldBe Seq(useStubForBackendFSSettings)
       }
@@ -95,7 +93,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
 
     "all feature switches present" should {
       "return feature switch settings for all feature switches" in {
-        when(featureSwichRegistry.switches).thenReturn(Seq(UseStubForBackend, ReasonableExcusesEnabled))
+        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend, ReasonableExcusesEnabled))
 
         testService.getFeatureSwitches() shouldBe Seq(useStubForBackendFSSettings, reasonableExcuseFSSettings)
       }
@@ -106,8 +104,8 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
     "there is only a checkboxSwitch" should {
       "update and return a sequence with checkbox feature switch settings" in {
         val featureSwitchSettings = Seq(reasonableExcuseFSSettings)
-        when(featureSwichRegistry.get(ReasonableExcusesEnabled.configName)).thenReturn(Some(ReasonableExcusesEnabled))
-        when(featureSwichRegistry.switches).thenReturn(Seq(ReasonableExcusesEnabled))
+        (featureSwichRegistry.get(_: String)).expects(ReasonableExcusesEnabled.configName).returning(Some(ReasonableExcusesEnabled))
+        (featureSwichRegistry.switches _).expects().returning(Seq(ReasonableExcusesEnabled))
         testService.updateFeatureSwitches(featureSwitchSettings) shouldBe featureSwitchSettings
       }
     }
@@ -115,8 +113,8 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
     "there is only a UseStubForBackend" should {
       "return a sequence with UseStubForBackend feature switch settings" in {
         val featureSwitchSettings = Seq(useStubForBackendFSSettings)
-        when(featureSwichRegistry.get(UseStubForBackend.configName)).thenReturn(Some(UseStubForBackend))
-        when(featureSwichRegistry.switches).thenReturn(Seq(UseStubForBackend))
+        (featureSwichRegistry.get(_: String)).expects(UseStubForBackend.configName).returning(Some(UseStubForBackend))
+        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend))
         testService.updateFeatureSwitches(featureSwitchSettings) shouldBe featureSwitchSettings
       }
     }
@@ -124,10 +122,10 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockitoSug
     "all feature switches present" should {
       "return feature switch settings for all feature switches" in {
         val featureSwitchSettings = Seq(useStubForBackendFSSettings, reasonableExcuseFSSettings)
-        when(featureSwichRegistry.get(UseStubForBackend.configName)).thenReturn(Some(UseStubForBackend))
-        when(featureSwichRegistry.get(ReasonableExcusesEnabled.configName)).thenReturn(Some(ReasonableExcusesEnabled))
+        (featureSwichRegistry.get(_: String)).expects(UseStubForBackend.configName).returning(Some(UseStubForBackend))
+        (featureSwichRegistry.get(_: String)).expects(ReasonableExcusesEnabled.configName).returning(Some(ReasonableExcusesEnabled))
 
-        when(featureSwichRegistry.switches).thenReturn(Seq(UseStubForBackend, ReasonableExcusesEnabled))
+        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend, ReasonableExcusesEnabled))
 
         testService.updateFeatureSwitches(featureSwitchSettings) shouldBe featureSwitchSettings
       }

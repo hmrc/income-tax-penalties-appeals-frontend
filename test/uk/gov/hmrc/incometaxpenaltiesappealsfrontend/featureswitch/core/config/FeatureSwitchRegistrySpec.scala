@@ -16,16 +16,15 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config
 
-import org.mockito.Mockito.when
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Injecting
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.AuthMocks
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitch
 
-class FeatureSwitchRegistrySpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockitoSugar with Injecting {
+class FeatureSwitchRegistrySpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockFactory with Injecting {
 
 
   val testFeatureSwitch: FeatureSwitch = mock[FeatureSwitch]
@@ -35,24 +34,26 @@ class FeatureSwitchRegistrySpec extends AnyWordSpec with should.Matchers with Gu
 
   "FeatureSwitchRegistry" should {
 
-    when(testFeatureSwitch.configName) thenReturn "feature1"
-
     "return a switch from get if exists" in {
+      (testFeatureSwitch.configName _).expects().returning("feature1")
       val result = TestRegistry.get("feature1")
       result shouldBe Some(testFeatureSwitch)
     }
 
     "return None from get if switch doesnt exists" in {
+      (testFeatureSwitch.configName _).expects().returning("feature1")
       val result = TestRegistry.get("unknown.feature")
       result shouldBe None
     }
 
     "return a switch from apply if exists " in {
+      (testFeatureSwitch.configName _).expects().returning("feature1")
       val result = TestRegistry("feature1")
       result shouldBe testFeatureSwitch
     }
 
     "throw an exception if switch does not exist when using apply" in {
+      (testFeatureSwitch.configName _).expects().returning("feature1")
       val ex = intercept[IllegalArgumentException] {
         TestRegistry("invalid.feature")
       }

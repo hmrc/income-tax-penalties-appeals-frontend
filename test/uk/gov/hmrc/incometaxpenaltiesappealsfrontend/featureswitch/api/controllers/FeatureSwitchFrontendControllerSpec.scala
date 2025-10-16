@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Play.materializer
 import play.api.http.Status.OK

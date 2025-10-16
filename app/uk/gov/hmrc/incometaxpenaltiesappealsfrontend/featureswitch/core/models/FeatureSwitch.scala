@@ -17,6 +17,6 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models
 
 trait FeatureSwitch {
-  val configName: String
-  val displayName: String
+  def configName: String
+  def displayName: String
 }

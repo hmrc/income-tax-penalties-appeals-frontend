@@ -18,7 +18,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks
 
 
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.TestSuite
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.ErrorResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
@@ -26,8 +25,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UpscanInitia
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockUpscanInitiateConnector extends MockFactory {
-  _: TestSuite =>
+trait MockUpscanInitiateConnector {
+  this: MockFactory =>
 
   val mockUpscanInitiateConnector: UpscanInitiateConnector = mock[UpscanInitiateConnector]
 
