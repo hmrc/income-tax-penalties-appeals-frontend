@@ -27,7 +27,7 @@ import scala.concurrent.Future
 trait MockFileUploadJourneyRepository {
   this: MockFactory =>
 
-  val mockFileUploadJourneyRepository: FileUploadJourneyRepository = mock[FileUploadJourneyRepository]
+  lazy val mockFileUploadJourneyRepository: FileUploadJourneyRepository = mock[FileUploadJourneyRepository]
 
   def mockUpsertFileUpload(journeyId: String, uploadJourney: UploadJourney)
                           (response: Future[CacheItem]):CallHandler[Future[CacheItem]] =

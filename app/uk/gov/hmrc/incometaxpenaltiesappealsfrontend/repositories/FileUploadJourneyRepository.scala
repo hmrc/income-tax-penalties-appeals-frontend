@@ -25,32 +25,22 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class FileUploadJourneyRepository @Inject()(mongoComponent: MongoComponent,
-                                            timestampSupport: TimestampSupport,
-                                            appConfig: AppConfig)(implicit ec: ExecutionContext)
-  extends MongoCacheRepository[String](
-    mongoComponent = mongoComponent,
-    collectionName = "file-upload-journeys",
-    replaceIndexes = true,
-    ttl = appConfig.mongoTTL,
-    timestampSupport = timestampSupport,
-    cacheIdType = CacheIdType.SimpleCacheId
-  )(ec) {
+class FileUploadJourneyRepository @Inject()(val mongo: MongoFileUploadJourneyConnection)(implicit ec: ExecutionContext) {
 
   def upsertFileUpload(journeyId: String, uploadJourney: UploadJourney): Future[CacheItem] =
-    put(journeyId)(DataKey(uploadJourney.reference), uploadJourney)
+    mongo.put(journeyId)(DataKey(uploadJourney.reference), uploadJourney)
 
   def getAllFiles(journeyId: String): Future[Seq[UploadJourney]] =
-    findById(journeyId).map {
+    mongo.findById(journeyId).map {
       _.fold[Seq[UploadJourney]](Seq.empty)(_.data.values.map(_.as[UploadJourney]).toSeq)
     }
 
   def getFile(journeyId: String, fileReference: String): Future[Option[UploadJourney]] =
-    get[UploadJourney](journeyId)(DataKey(fileReference))
+    mongo.get[UploadJourney](journeyId)(DataKey(fileReference))
 
   def removeFile(journeyId: String, fileReference: String): Future[Unit] =
-    delete(journeyId)(DataKey(fileReference))
+    mongo.delete(journeyId)(DataKey(fileReference))
 
   def removeAllFiles(journeyId: String): Future[Unit] =
-    deleteEntity(journeyId)
+    mongo.deleteEntity(journeyId)
 }

@@ -27,8 +27,8 @@ import play.api.http.Status.OK
 import play.api.i18n.Messages
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc._
-import play.api.test.Helpers.{CONTENT_TYPE, contentAsString, defaultAwaitTimeout, status, stubMessages}
-import play.api.test.{FakeRequest, Injecting}
+import play.api.test.Helpers._
+import play.api.test.{DefaultAwaitTimeout, FakeRequest, Injecting}
 import play.twirl.api.Html
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -42,14 +42,17 @@ import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class FeatureSwitchFrontendControllerSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockFactory with Injecting {
+class FeatureSwitchFrontendControllerSpec extends AnyWordSpec
+  with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockFactory with Injecting with DefaultAwaitTimeout {
 
+  lazy val stubView: feature_switch = stub[feature_switch]
 
   override lazy val app: Application = {
     new GuiceApplicationBuilder()
       .overrides(
-        api.inject.bind[feature_switch].toInstance(mockFeatureSwitchView),
-        api.inject.bind[FeatureSwitchRetrievalService].toInstance(mockFeatureSwitchService)
+        api.inject.bind[feature_switch].toInstance(stubView),
+        api.inject.bind[FeatureSwitchRetrievalService].toInstance(mockFeatureSwitchService),
+        api.inject.bind[MessagesControllerComponents].toInstance(stubMessagesControllerComponents())
       )
       .build()
   }
@@ -61,11 +64,9 @@ class FeatureSwitchFrontendControllerSpec extends AnyWordSpec with should.Matche
   val mcc: MessagesControllerComponents = stubMessagesControllerComponents()
 
 
-  val mockFeatureSwitchService: FeatureSwitchRetrievalService = mock[FeatureSwitchRetrievalService]
+  lazy val mockFeatureSwitchService: FeatureSwitchRetrievalService = mock[FeatureSwitchRetrievalService]
   val mockProvider: FeatureSwitchProvider = mock[FeatureSwitchProvider]
-  val mockFeatureSwitchView: feature_switch = app.injector.instanceOf[feature_switch]
-
-  val testAction = new FeatureSwitchFrontendController(mockFeatureSwitchService, mockFeatureSwitchView, mcc)
+  val testAction = app.injector.instanceOf[FeatureSwitchFrontendController]
 
   val testFeatureSwitches: Seq[(FeatureSwitchProvider, Seq[FeatureSwitchSetting])] = Seq(
     (mockProvider, Seq(
@@ -80,10 +81,8 @@ class FeatureSwitchFrontendControllerSpec extends AnyWordSpec with should.Matche
       implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
 
       (mockFeatureSwitchService.retrieveFeatureSwitches()(_: HeaderCarrier)).expects(*).returns(Future.successful(testFeatureSwitches))
-
-
-      (mockFeatureSwitchView.apply(_: Seq[(FeatureSwitchProvider, Seq[FeatureSwitchSetting])], _: Call)(_: Request[_], _: Messages))
-        .expects(*, *, *, *)
+      (stubView.apply(_: Seq[(FeatureSwitchProvider, Seq[FeatureSwitchSetting])], _: Call)(_: Request[_], _: Messages))
+        .when(*, *, *, *)
         .returns(Html("Rendered feature switches"))
       val result = testAction.show()(request)
 
@@ -101,10 +100,6 @@ class FeatureSwitchFrontendControllerSpec extends AnyWordSpec with should.Matche
 
 
       (mockFeatureSwitchService.updateFeatureSwitches(_: Iterable[String])(_: HeaderCarrier)).expects(*, *).returns(Future.successful(testFeatureSwitches))
-
-      (mockFeatureSwitchView.apply(_: Seq[(FeatureSwitchProvider, Seq[FeatureSwitchSetting])], _: Call)(_: Request[_], _: Messages))
-        .expects(*, *, *, *)
-        .returns(Html("Rendered feature switches"))
 
       val result = testAction.submit()(request)
 

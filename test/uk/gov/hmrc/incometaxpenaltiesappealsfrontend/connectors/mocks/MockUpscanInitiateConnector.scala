@@ -29,7 +29,7 @@ import scala.concurrent.{ExecutionContext, Future}
 trait MockUpscanInitiateConnector {
   this: MockFactory =>
 
-  val mockUpscanInitiateConnector: UpscanInitiateConnector = mock[UpscanInitiateConnector]
+  lazy val mockUpscanInitiateConnector: UpscanInitiateConnector = mock[UpscanInitiateConnector]
 
   def mockInitiate(journeyId: String, initiateRequest: UpscanInitiateRequest)(response: Future[Either[ErrorResponse, UpscanInitiateResponse]]): Unit =
     (mockUpscanInitiateConnector.initiate(_: String, _: UpscanInitiateRequest)(_: HeaderCarrier, _: ExecutionContext))
