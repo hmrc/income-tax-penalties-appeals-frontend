@@ -27,8 +27,8 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.BadRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.MockUpscanInitiateConnector
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureReasonEnum, UploadStatus, UploadStatusEnum, UpscanInitiateRequest}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.mocks.MockFileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
@@ -38,9 +38,10 @@ import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 import java.time.LocalDateTime
 import scala.concurrent.{ExecutionContext, Future}
 
-class UpscanServiceSpec extends AnyWordSpec with MockFactory with Matchers with GuiceOneAppPerSuite
+class UpscanServiceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite
   with MockUpscanInitiateConnector
   with MockFileUploadJourneyRepository
+  with MockFactory
   with FileUploadFixtures
   with LogCapturing {
 
@@ -53,8 +54,7 @@ class UpscanServiceSpec extends AnyWordSpec with MockFactory with Matchers with 
     override def getCurrentDateTime: LocalDateTime = testDateTime
   }
 
-
-  val testService = new UpscanService(
+  lazy val testService = new UpscanService(
     mockUpscanInitiateConnector,
     mockFileUploadJourneyRepository,
     appConfig,
