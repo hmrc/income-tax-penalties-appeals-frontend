@@ -37,6 +37,7 @@ class CheckAnswersHelper @Inject()(lateAppealSummary: LateAppealSummary) {
       WhenDidEventEndSummary.row(showActionLinks),
       CrimeReportedSummary.row(showActionLinks),
       MissedDeadlineReasonSummary.row(showActionLinks),
+      ReviewMoreThan30DaysSummary.row(showActionLinks),
       lateAppealSummary.row(showActionLinks),
       ExtraEvidenceSummary.row(showActionLinks),
       UploadedDocumentsSummary.row(uploadedFiles, showActionLinks)

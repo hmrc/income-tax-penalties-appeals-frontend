@@ -96,8 +96,8 @@ object AppealSubmission {
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -109,8 +109,8 @@ object AppealSubmission {
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           reportedIssueToPolice = request.getMandatoryAnswer(CrimeReportedPage),
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -121,8 +121,8 @@ object AppealSubmission {
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -133,8 +133,8 @@ object AppealSubmission {
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -146,8 +146,8 @@ object AppealSubmission {
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
           endDateOfEvent = request.getMandatoryAnswer(WhenDidEventEndPage).atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS),
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -161,8 +161,8 @@ object AppealSubmission {
           endDateOfEvent = None,
           eventOngoing = false,
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -177,8 +177,8 @@ object AppealSubmission {
           endDateOfEvent = Option.when(!isOngoingHospitalStay)(request.userAnswers.getAnswer(WhenDidEventEndPage).map(_.atStartOfDay().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS))).flatten,
           eventOngoing = isOngoingHospitalStay,
           statement = None,
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
         ))
@@ -195,8 +195,8 @@ object AppealSubmission {
           ,
           statement = request.userAnswers.getAnswer(MissedDeadlineReasonPage),
           supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),
-          lateAppeal = request.isAppealLate(),
-          lateAppealReason = if (request.isAppealLate()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateFirstStage(),
+          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission,
           uploadedFiles = uploadedFiles

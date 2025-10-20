@@ -73,8 +73,8 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
     if(uploadFile) {
       Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
     } else {
-      if (mode == NormalMode && user.isAppealLate()) {
-        Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
+      if (mode == NormalMode) {
+        Redirect(appealsRoutes.ReviewMoreThan30DaysController.onPageLoad(isAgent = user.isAgent, mode = mode))
       } else {
         Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
       }

@@ -27,7 +27,7 @@
         list: components.List,
         link: components.Link
 )
-@(isLate: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("reviewAppeal.start.header"))), backLinkEnabled = false, isAgent = user.isAgent) {
 
@@ -39,16 +39,9 @@
 
     @h2("reviewAppeal.start.h2", elmId = "beforeYouStart")
 
-    @if(isLate) {
-        @p("reviewAppeal.start.p3.list")
-        @list(Seq(
-            "reviewAppeal.start.p3.bullet1",
-            "reviewAppeal.start.p3.bullet2",
-        ))
-    } else {
-        @p("reviewAppeal.start.p3")
-        @p("reviewAppeal.start.p4")
-    }
+    @p("reviewAppeal.start.p3")
+    @p("reviewAppeal.start.p4")
+    @p("reviewAppeal.start.p5")
 
     @link(link = action.url, messageKey = "common.continue", classes = Some("govuk-button"))
 

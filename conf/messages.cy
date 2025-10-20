@@ -47,9 +47,8 @@ reviewAppeal.start.p2 = Mae’r gwasanaeth hwn ar gyfer gofyn am adolygiad o ben
 reviewAppeal.start.h2 = Cyn i chi ddechrau
 reviewAppeal.start.p3 = Bydd angen i chi gasglu unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi.
 reviewAppeal.start.p4 = Bydd gofyn i chi uwchlwytho’r dystiolaeth hon fel rhan o’ch cais i gael adolygiad.
-reviewAppeal.start.p3.list = Bydd angen y canlynol arnoch:
-reviewAppeal.start.p3.bullet1 = unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi
-reviewAppeal.start.p3.bullet2 = rheswm dros beidio â gofyn am adolygiad yn gynt
+reviewAppeal.start.p5 = Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt.
+
 
 # Reasonable excuse
 # ----------------------------------------------------------
@@ -293,6 +292,16 @@ whenDidEventEnd.unexpectedHospital.end.date.error.invalid = Mae’n rhaid i’r 
 whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol
 whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y daeth yr arhosiad yn yr ysbyty i ben fod ar {0} neu’n hwyrach
 
+# Review decision more then 30 days page
+# ----------------------------------------------------------
+review.decision.30.days.headingAndTitle = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?
+review.decision.30.days.hint = Fel arfer, mae’n rhaid i chi ofyn am adolygiad cyn pen 30 diwrnod o ddyddiad y penderfyniad.
+review.decision.30.days.yes = Iawn
+review.decision.30.days.no = Na
+review.decision.30.days.unsure = Ddim yn gwybod
+review.decision.30.days.error.required = Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)
+review.decision.30.days.error.invalid = Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)
+
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = Cafodd y pwynt cosb ei anfon dros {0} diwrnod yn ôl
@@ -419,6 +428,9 @@ checkYourAnswers.crimeReported.change.hidden = A roddwyd gwybod i’r heddlu am 
 
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
+
+checkYourAnswers.ReviewMoreThan30Daysed.key = Has it been more than 30 days since the appeal decision was issued? (Welsh)
+checkYourAnswers.ReviewMoreThan30Daysed.change.hidden = has it been more than 30 days since the appeal decision was issued (Welsh)
 
 checkYourAnswers.whenDidEventHappen.bereavement.key =  Pryd y bu farw’r person?
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  Pryd y bu farw’r person
@@ -637,6 +649,7 @@ common.yes = Iawn
 common.no = Na
 common.remove = Tynnu
 common.change = Newid
+common.unsure = Nid wyf yn gwybod
 
 # Duplicate Appeal
 # ----------------------------------------------------------

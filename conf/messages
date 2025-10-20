@@ -48,9 +48,8 @@ reviewAppeal.start.p2 = This service is for requesting a review for appeal decis
 reviewAppeal.start.h2 = Before you start
 reviewAppeal.start.p3 = You’ll need to collect any evidence that you believe shows why the appeal decision was incorrect.
 reviewAppeal.start.p4 = You will be asked to upload this evidence as part of this request to review.
-reviewAppeal.start.p3.list = You’ll need:
-reviewAppeal.start.p3.bullet1 = any evidence that you believe shows why the appeal decision was incorrect
-reviewAppeal.start.p3.bullet2 = details of why you did not ask for a review sooner
+reviewAppeal.start.p5 = If it’s been more than 30 days since the review decision, you’ll need to explain why you did not ask for a review sooner.
+
 
 # Reasonable excuse
 # ----------------------------------------------------------
@@ -294,16 +293,26 @@ whenDidEventEnd.unexpectedHospital.end.date.error.invalid = The date that the ho
 whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = The date that the hospital stay ended must be today or in the past
 whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date that the hospital stay ended must be {0} or later
 
+# Review decision more then 30 days page
+# ----------------------------------------------------------
+review.decision.30.days.headingAndTitle = Has it been more than 30 days since the appeal decision was issued?
+review.decision.30.days.hint = You usually need to ask for a review within 30 days of the date of the decision.
+review.decision.30.days.yes = Yes
+review.decision.30.days.no = No
+review.decision.30.days.unsure = Don’t know
+review.decision.30.days.error.required = Tell us if it has been more than 30 days since the appeal decision was issued
+review.decision.30.days.error.invalid = Tell us if it has been more than 30 days since the appeal decision was issued
+
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago
 lateAppeal.headingAndTitle.lpp = This penalty was issued more than {0} days ago
 lateAppeal.headingAndTitle.multiple = The penalties were issued more than {0} days ago
-lateAppeal.headingAndTitle.review = The appeal decision was issued more than {0} days ago
-lateAppeal.headingAndTitle.multiple.review = The appeal decisions were issued more than {0} days ago
+lateAppeal.headingAndTitle.review = Tell us why you have not asked for a review within {0} days
+lateAppeal.headingAndTitle.multiple.review = Tell us why you have not asked for a review within {0} days
 lateAppeal.headingAndTitle.multiple.lpp = The penalties were issued more than {0} days ago
-lateAppeal.headingAndTitle.review.lpp = The appeal decision was issued more than {0} days ago
-lateAppeal.headingAndTitle.multiple.review.lpp = The appeal decisions were issued more than {0} days ago
+lateAppeal.headingAndTitle.review.lpp = Tell us why you have not asked for a review within {0} days
+lateAppeal.headingAndTitle.multiple.review.lpp = Tell us why you have not asked for a review within {0} days
 lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice.
 lateAppeal.p1.multiple = You usually need to appeal within {0} days of the date on the penalty notice.
 lateAppeal.p1.review = You usually need to ask for a review within {0} days of the date of the decision.
@@ -420,6 +429,9 @@ checkYourAnswers.crimeReported.change.hidden = has this crime been reported to t
 
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = Has the hospital stay ended?
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = has the hospital stay ended
+
+checkYourAnswers.ReviewMoreThan30Daysed.key = Has it been more than 30 days since the appeal decision was issued?
+checkYourAnswers.ReviewMoreThan30Daysed.change.hidden = has it been more than 30 days since the appeal decision was issued
 
 checkYourAnswers.whenDidEventHappen.bereavement.key =  When did the person die?
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  when did the person die
@@ -638,6 +650,7 @@ common.yes = Yes
 common.no = No
 common.remove = Remove
 common.change = Change
+common.unsure = Don’t know
 
 # Duplicate Appeal
 # ----------------------------------------------------------

@@ -1,0 +1,69 @@
+@*
+ * Copyright 2024 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.govukfrontend.views.Implicits._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{ReviewMoreThan30DaysEnum, Mode}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReviewMoreThan30DaysForm
+
+
+@this(layout: Layout,
+        govukButton : GovukButton,
+        govukErrorSummary: GovukErrorSummary,
+        formHelper: FormWithCSRF,
+        govukRadios : GovukRadios,
+        caption: components.PenaltyCaption)
+
+@(
+        form: Form[_],
+        isAgent: Boolean,
+        mode: Mode
+)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+
+@layout(Some(titleBuilder(messages("review.decision.30.days.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
+
+    @if(form.errors.nonEmpty) {
+        @govukErrorSummary(ErrorSummaryViewModel(form))
+    }
+
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ReviewMoreThan30DaysController.submit(isAgent, mode)) {
+
+        @caption()
+
+        @govukRadios(Radios(
+            fieldset = Some(Fieldset(
+                legend = Some(Legend(
+                    content = Text(messages("review.decision.30.days.headingAndTitle")),
+                    classes = "govuk-fieldset__legend--l",
+                    isPageHeading = true
+                ))
+            )),
+            hint = Some(Hint(content = Text(messages("review.decision.30.days.hint")))),
+            name = ReviewMoreThan30DaysForm.key,
+            items = ReviewMoreThan30DaysEnum.radioOptions(),
+        ).withFormField(form(ReviewMoreThan30DaysForm.key)))
+
+        <div class="govuk-form-group">
+        @govukButton(Button(
+            content = Text(messages("common.continue"))
+        ))
+        </div>
+    }
+}

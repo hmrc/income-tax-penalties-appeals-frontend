@@ -43,7 +43,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
   def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(extraEvidence(
       form = fillForm(ExtraEvidenceForm.form(is2ndStageAppeal), ExtraEvidencePage),
-      isLate = user.isAppealLate(),
+      isLate = user.isLateFirstStage(),
       isAgent = user.isAgent,
       is2ndStageAppeal = is2ndStageAppeal,
       isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
@@ -56,7 +56,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
       formWithErrors =>
         Future(BadRequest(extraEvidence(
           form = formWithErrors,
-          isLate = user.isAppealLate(),
+          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
           is2ndStageAppeal = is2ndStageAppeal,
           isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
@@ -69,11 +69,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
             Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
-              if(mode == NormalMode && user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = NormalMode))
-              } else {
-                Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
-              }
+              Redirect(routes.ReviewMoreThan30DaysController.onPageLoad(isAgent = user.isAgent, mode = mode))
             )
           }
         }

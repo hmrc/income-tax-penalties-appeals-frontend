@@ -41,7 +41,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
   def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hasTheCrimeBeenReported(
       form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
-      isLate = user.isAppealLate(),
+      isLate = user.isLateFirstStage(),
       isAgent = user.isAgent,
       mode
     ))
@@ -52,7 +52,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
       formWithErrors =>
         Future(BadRequest(hasTheCrimeBeenReported(
           form = formWithErrors,
-          isLate = user.isAppealLate(),
+          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
           mode
         ))),
@@ -66,7 +66,7 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
   }
 
   private def nextPage(mode: Mode)(implicit user: CurrentUserRequestWithAnswers[AnyContent]): Call =
-    (user.isAppealLate(), mode) match {
+    (user.isLateFirstStage(), mode) match {
       case (true, NormalMode) => routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode)
       case (false, NormalMode) => routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent)
       case (_, CheckMode) => routes.CheckYourAnswersController.onPageLoad(user.isAgent)

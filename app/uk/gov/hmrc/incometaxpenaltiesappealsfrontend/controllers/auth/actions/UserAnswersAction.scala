@@ -33,7 +33,7 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
                                   appConfig: AppConfig)
                                  (implicit val executionContext: ExecutionContext) extends ActionRefiner[CurrentUserRequest, CurrentUserRequestWithAnswers] {
 
-  override protected def refine[A](request: CurrentUserRequest[A]): Future[Either[Result, CurrentUserRequestWithAnswers[A]]] =
+  override protected def refine[A](request: CurrentUserRequest[A]): Future[Either[Result, CurrentUserRequestWithAnswers[A]]] = {
 
     request.session.get(IncomeTaxSessionKeys.journeyId).fold[Future[Either[Result, CurrentUserRequestWithAnswers[A]]]]({
       logger.warn(s"[DataRetrievalAction][refine] No journey ID was found in the session for MTDITID: ${request.mtdItId}")
@@ -59,4 +59,5 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
         }
       }
     )
+  }
 }

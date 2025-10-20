@@ -16,12 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, NormalMode, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReviewMoreThan30DaysForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, ReviewMoreThan30DaysEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{LateAppealPage, ReviewMoreThan30DaysPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -30,7 +31,7 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
-class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalStayEndedView,
+class ReviewMoreThan30DaysController @Inject()(ReviewMoreThan30Days: ReviewMoreThan30DaysView,
                                                val authActions: AuthActions,
                                                userAnswersService: UserAnswersService,
                                                override val errorHandler: ErrorHandler,
@@ -38,43 +39,40 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
                                               )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
-    Ok(hospitalStayEnded(
-      form = fillForm(HasHospitalStayEndedForm.form(), HasHospitalStayEndedPage),
-      isLate = user.isLateFirstStage(),
+    Ok(ReviewMoreThan30Days(
+      form = fillForm(ReviewMoreThan30DaysForm.form(), ReviewMoreThan30DaysPage),
       isAgent = user.isAgent,
-      mode = mode
+      mode
     ))
   }
 
   def submit(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    HasHospitalStayEndedForm.form().bindFromRequest().fold(
+    ReviewMoreThan30DaysForm.form().bindFromRequest().fold(
       formWithErrors =>
-        Future(BadRequest(hospitalStayEnded(
+        Future(BadRequest(ReviewMoreThan30Days(
           form = formWithErrors,
-          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
-          mode = mode
+          mode
         ))),
       value => {
-        val updatedAnswers = user.userAnswers.setAnswer(HasHospitalStayEndedPage, value)
-        val answersWithHospitalEndDateCleared = if(!value) {
-          // Clear the date if the user has indicated that their hospital stay has not ended
-          updatedAnswers.removeAnswer(WhenDidEventEndPage)
-        } else {
-          updatedAnswers
-        }
-        userAnswersService.updateAnswers(answersWithHospitalEndDateCleared).map { _ =>
-          if(value) {
-            val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
-            Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode))
-          } else if(user.isLateFirstStage() && mode == NormalMode) {
-            Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, NormalMode))
-          } else {
-            Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+        val updatedAnswers = user.userAnswers.setAnswer(ReviewMoreThan30DaysPage, value)
+        if (value != ReviewMoreThan30DaysEnum.yes && mode == CheckMode) {
+          // If user selects "No" in check mode, we need to remove LateAppealPage answer as it's no longer relevant
+          val answersWithLateAppealRemoved = updatedAnswers.removeAnswer(LateAppealPage)
+          userAnswersService.updateAnswers(answersWithLateAppealRemoved).map { _ =>
+            Redirect(nextPage(mode, value))
           }
-        }
+        } else
+          userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+            Redirect(nextPage(mode, value))
+          }
       }
     )
   }
 
+  private def nextPage(mode: Mode, value: ReviewMoreThan30DaysEnum.Value)(implicit user: CurrentUserRequestWithAnswers[AnyContent]): Call =
+    (value, mode) match {
+      case (ReviewMoreThan30DaysEnum.yes, _) => routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode)
+      case (_, _) => routes.CheckYourAnswersController.onPageLoad(user.isAgent)
+    }
 }

@@ -173,7 +173,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                     )
 
                     result.status shouldBe SEE_OTHER
-                    result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, mode).url)
+                    result.header("Location") shouldBe Some(appealsRoutes.ReviewMoreThan30DaysController.onPageLoad(isAgent, mode).url)
                   }
                 } else {
                   "redirect to Check Answers page" in new Setup(isLate = true) {
@@ -191,21 +191,6 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                 }
               }
 
-              "the appeal is NOT late" should {
-
-                "redirect to Check Answers page" in new Setup() {
-
-                  stubAuthRequests(isAgent)
-                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
-
-                  val result = post(url(isAgent, mode), isAgent = isAgent)(
-                    Map(UploadAnotherFileForm.key -> "false")
-                  )
-
-                  result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
-                }
-              }
             }
           }
 
@@ -224,7 +209,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
                   val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
 
                   result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(appealsRoutes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, mode).url)
+                  result.header("Location") shouldBe Some(appealsRoutes.ReviewMoreThan30DaysController.onPageLoad(isAgent, mode).url)
                 }
               } else {
                 "redirect to Check Answers page" in new Setup(isLate = true) {
@@ -242,21 +227,6 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               }
             }
 
-            "the appeal is NOT late" should {
-
-              "redirect to Check Answers page" in new Setup() {
-
-                stubAuthRequests(isAgent)
-                (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
-                }
-
-                val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
-
-                result.status shouldBe SEE_OTHER
-                result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
-              }
-            }
           }
         }
       }

@@ -45,7 +45,6 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
 
   private def renderReviewAppeal()(implicit user: CurrentUserRequestWithAnswers[_]): Html =
     reviewAppealStartView(
-      user.isAppealLate(),
       if(user.isLPP && user.hasMultipleLPPs) routes.JointAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = NormalMode)
       else if(user.isAgent && !user.isLPP && user.whoPlannedToSubmit.isEmpty) routes.WhoPlannedToSubmitController.onPageLoad(mode = NormalMode)
       else routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, NormalMode)
@@ -59,6 +58,6 @@ class AppealStartController @Inject()(appealStart: AppealStartView,
         case _ => routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, NormalMode)
       }
 
-    appealStart(user.isAppealLate(), user.isLPP, user.isAgent, redirect)
+    appealStart(user.isLateFirstStage(), user.isLPP, user.isAgent, redirect)
   }
 }
