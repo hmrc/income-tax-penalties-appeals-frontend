@@ -71,7 +71,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
         appealData = lateSubmissionAppealData.copy(
           dateCommunicationSent =
             if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
-            else        timeMachine.getCurrentDate.minusDays(1)
+            else timeMachine.getCurrentDate.minusDays(1)
         )
       ))
       .setAnswer(ReasonableExcusePage, Other)
@@ -81,7 +81,9 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
 
   def url(isAgent: Boolean, mode: Mode): String = {
     val urlPathStart = if (isAgent) "/upload-evidence/agent-upload-another-file" else "/upload-evidence/upload-another-file"
-    urlPathStart + {if(mode == CheckMode) "/check" else ""}
+    urlPathStart + {
+      if (mode == CheckMode) "/check" else ""
+    }
   }
 
   List(NormalMode, CheckMode).foreach { mode =>
@@ -160,35 +162,17 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
 
             "the User selects 'No' to NOT upload another file" when {
 
-              "the appeal is late" should {
+              "redirect to Check Answers page" in new Setup(isLate = true) {
 
-                if (mode == NormalMode) {
-                  "redirect to Late Appeal page" in new Setup(isLate = true) {
+                stubAuthRequests(isAgent)
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
 
-                    stubAuthRequests(isAgent)
-                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
+                val result = post(url(isAgent, mode), isAgent = isAgent)(
+                  Map(UploadAnotherFileForm.key -> "false")
+                )
 
-                    val result = post(url(isAgent, mode), isAgent = isAgent)(
-                      Map(UploadAnotherFileForm.key -> "false")
-                    )
-
-                    result.status shouldBe SEE_OTHER
-                    result.header("Location") shouldBe Some(appealsRoutes.ReviewMoreThan30DaysController.onPageLoad(isAgent, mode).url)
-                  }
-                } else {
-                  "redirect to Check Answers page" in new Setup(isLate = true) {
-
-                    stubAuthRequests(isAgent)
-                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel).futureValue
-
-                    val result = post(url(isAgent, mode), isAgent = isAgent)(
-                      Map(UploadAnotherFileForm.key -> "false")
-                    )
-
-                    result.status shouldBe SEE_OTHER
-                    result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
-                  }
-                }
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
               }
 
             }
@@ -196,37 +180,19 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
 
           s"number of files which has been uploaded is == ${appConfig.upscanMaxNumberOfFiles}" when {
 
-            "the appeal is late" should {
+            "redirect to Check Answers page" in new Setup(isLate = true) {
 
-              if(mode == NormalMode) {
-                "redirect to Late Appeal page" in new Setup(isLate = true) {
-
-                  stubAuthRequests(isAgent)
-                  (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
-                  }
-
-                  val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
-
-                  result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(appealsRoutes.ReviewMoreThan30DaysController.onPageLoad(isAgent, mode).url)
-                }
-              } else {
-                "redirect to Check Answers page" in new Setup(isLate = true) {
-
-                  stubAuthRequests(isAgent)
-                  (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
-                    fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
-                  }
-
-                  val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
-
-                  result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
-                }
+              stubAuthRequests(isAgent)
+              (1 to appConfig.upscanMaxNumberOfFiles).foreach { i =>
+                fileUploadRepo.upsertFileUpload(testJourneyId, callbackModel.copy(reference = s"ref$i")).futureValue
               }
-            }
 
+              val result = post(url(isAgent, mode), isAgent = isAgent)(Map.empty[String, String])
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
+            }
+            
           }
         }
       }
