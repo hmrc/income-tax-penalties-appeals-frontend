@@ -18,7 +18,7 @@ package fixtures.messages
 
 object WhatCausedYouToMissDeadlineMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages {
     val titleAndHeading = "What caused you to miss the deadline?"
     val agent: String = "Something else happened to delay me"
     val client: String = "My client did not get information to me on time"

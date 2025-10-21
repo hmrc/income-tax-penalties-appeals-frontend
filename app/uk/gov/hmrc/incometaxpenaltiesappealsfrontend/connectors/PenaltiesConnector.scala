@@ -32,7 +32,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.Pager
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
-
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
 class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
                                    appConfig: AppConfig) {
 

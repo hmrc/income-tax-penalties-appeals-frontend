@@ -20,7 +20,6 @@ import fixtures.messages.HasHospitalStayEndedMessages
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -28,13 +27,13 @@ import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Other, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 import java.time.LocalDate
 
@@ -43,26 +42,26 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
-
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   class Setup(isLate: Boolean = false, wasPreviouslyYes: Boolean = false) {
 
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
 
     val hospitalAnswers: UserAnswers = emptyUserAnswers
       .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
         appealData = lateSubmissionAppealData.copy(
           dateCommunicationSent =
             if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
-            else        timeMachine.getCurrentDate.minusDays(1)
+            else timeMachine.getCurrentDate.minusDays(1)
         )
       ))
       .setAnswer(ReasonableExcusePage, UnexpectedHospital)
 
-    if(wasPreviouslyYes) {
+    if (wasPreviouslyYes) {
       userAnswersRepo.upsertUserAnswer(hospitalAnswers.setAnswer(WhenDidEventEndPage, LocalDate.now())).futureValue
     } else {
       userAnswersRepo.upsertUserAnswer(hospitalAnswers).futureValue
@@ -85,7 +84,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
       val url = getUrl(isAgent = isAgent, mode)
 
       s"GET $url" should {
-        if(!isAgent) {
+        if (!isAgent) {
           testNavBar(url = url)(
             userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, UnexpectedHospital)).futureValue
           )
@@ -104,7 +103,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
             document.select(s"#${HasHospitalStayEndedForm.key}-2").hasAttr("checked") shouldBe false
           }
 
-        "the page has the correct elements" in new Setup() {
+          "the page has the correct elements" in new Setup() {
             stubAuthRequests(isAgent)
             val result: WSResponse = get(url)
 
@@ -175,7 +174,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
           "the appeal is NOT late" should {
 
-            if(mode == NormalMode) {
+            if (mode == NormalMode) {
               "save the value to UserAnswers AND redirect to the WhenDidEventEndController page when hasHospitalStayEnded is true" in new Setup() {
 
                 stubAuthRequests(isAgent)

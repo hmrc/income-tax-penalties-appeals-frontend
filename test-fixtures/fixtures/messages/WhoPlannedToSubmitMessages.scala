@@ -18,7 +18,7 @@ package fixtures.messages
 
 object WhoPlannedToSubmitMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages {
     val titleAndHeading = "Before the deadline, who planned to send the submission?"
     val agent: String = "I did"
     val client: String = "My client did"

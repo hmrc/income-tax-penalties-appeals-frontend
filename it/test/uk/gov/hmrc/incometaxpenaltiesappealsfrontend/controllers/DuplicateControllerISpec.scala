@@ -25,7 +25,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 
 class DuplicateControllerISpec extends ControllerISpecHelper {
-
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]

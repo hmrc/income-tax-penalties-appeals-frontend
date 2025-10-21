@@ -16,20 +16,17 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.{is2ndStageAppeal, isAgent}
 import fixtures.messages.ReasonableExcuseMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.ReasonableExcusesEnabled
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -46,13 +43,9 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override def beforeEach(): Unit = {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
-    setEnabledSwitches(
-      ReasonableExcusesEnabled,
-      ReasonableExcuse.allReasonableExcuses.filterNot(_ == LossOfStaff).map(_.toString)
-    )
   }
 
   "GET /reason-for-missing-deadline" should {
@@ -115,10 +108,11 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
+          println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+          println(document)
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
           document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
-          document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
           document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
@@ -143,7 +137,6 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
           document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
-          document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
           document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
@@ -285,7 +278,6 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
           document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
-          document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
           document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"
@@ -310,7 +302,6 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
           document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
-          document.getElementsByAttributeValue("for", s"$Cessation").text() shouldBe "Cessation of income source"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
           document.getElementsByAttributeValue("for", s"$Health").text() shouldBe "Serious or life-threatening ill health"

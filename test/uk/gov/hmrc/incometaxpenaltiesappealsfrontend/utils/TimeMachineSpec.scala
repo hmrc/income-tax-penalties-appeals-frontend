@@ -72,7 +72,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers with MockFactory {
         val servicesConfig = mock[ServicesConfig]
         (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
-        appConfig.optCurrentDate mustBe None
+        appConfig.optCurrentDate shouldBe None
       }
 
       "return Some(LocalDate) from system property when timeMachineEnabled is true and property is set" in {
@@ -86,7 +86,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers with MockFactory {
         val dateStr = "31-12-2023"
         System.setProperty("TIME_MACHINE_NOW", dateStr)
         try {
-          appConfig.optCurrentDate mustBe Some(LocalDate.parse(dateStr, appConfig.timeMachineDateFormatter))
+          appConfig.optCurrentDate shouldBe Some(LocalDate.parse(dateStr, appConfig.timeMachineDateFormatter))
         } finally {
           System.clearProperty("TIME_MACHINE_NOW")
         }
@@ -100,7 +100,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers with MockFactory {
         val servicesConfig = mock[ServicesConfig]
         (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
-        appConfig.optCurrentDate mustBe Some(LocalDate.parse("01-01-2024", appConfig.timeMachineDateFormatter))
+        appConfig.optCurrentDate shouldBe Some(LocalDate.parse("01-01-2024", appConfig.timeMachineDateFormatter))
       }
 
       "return None if date string is invalid" in {
@@ -111,7 +111,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers with MockFactory {
         val servicesConfig = mock[ServicesConfig]
         (servicesConfig.getString(_: String)).expects(*).returning("#").atLeastOnce()
         val appConfig = new AppConfig(config, servicesConfig)
-        appConfig.optCurrentDate mustBe None
+        appConfig.optCurrentDate shouldBe None
       }
     }
 

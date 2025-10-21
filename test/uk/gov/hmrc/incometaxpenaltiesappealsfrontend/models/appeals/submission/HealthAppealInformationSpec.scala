@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
-import org.scalatest.matchers.must.Matchers.convertToAnyMustWrapper
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -75,7 +74,7 @@ class HealthAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOn
         "isClientResponsibleForLateSubmission" -> false
       )
 
-      Json.toJson(healthAppealInformation)(HealthAppealInformation.healthAppealWrites) mustBe expectedJson
+      Json.toJson(healthAppealInformation)(HealthAppealInformation.healthAppealWrites) shouldBe expectedJson
     }
   }
 

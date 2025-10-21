@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import com.google.inject.Singleton
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.Results.{InternalServerError, Redirect}
 import play.api.mvc._
 import uk.gov.hmrc.auth.core._
@@ -39,11 +39,13 @@ class AuthoriseAndRetrieveMTDIndividual @Inject()(override val authConnector: Au
                                                   val appConfig: AppConfig,
                                                   val errorHandler: ErrorHandler,
                                                   mcc: MessagesControllerComponents)
-  extends AuthoriseHelper with ActionRefiner[Request, AuthorisedAndEnrolledIndividual] with AuthorisedFunctions with ActionBuilder[CurrentUserRequest, AnyContent]{
+  extends AuthoriseHelper
+    with ActionRefiner[Request, AuthorisedAndEnrolledIndividual]
+    with AuthorisedFunctions
+    with ActionBuilder[CurrentUserRequest, AnyContent]
+    with Logging {
 
   implicit val executionContext: ExecutionContext = mcc.executionContext
-
-  lazy val logger = Logger(getClass)
 
   override protected def refine[A](request: Request[A]): Future[Either[Result, AuthorisedAndEnrolledIndividual[A]]] = {
 
@@ -82,7 +84,9 @@ class AuthoriseAndRetrieveMTDIndividual @Inject()(override val authConnector: Au
             InternalServerError(html)
           ))
       }.recoverWith {
-        case authorisationException: AuthorisationException => handleAuthFailure(authorisationException, isAgent = false).map(Left(_))
+        case authorisationException: AuthorisationException =>
+          handleAuthFailure(authorisationException, isAgent = false)(implicitly, implicitly, logger)
+            .map(Left(_))
       }
   }
 

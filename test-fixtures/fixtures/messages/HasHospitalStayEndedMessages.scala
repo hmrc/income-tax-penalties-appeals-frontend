@@ -18,7 +18,7 @@ package fixtures.messages
 
 object HasHospitalStayEndedMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages {
     
     val headingAndTitle = "Has the hospital stay ended?"
     val errorRequired = "Tell us if the hospital stay has ended"

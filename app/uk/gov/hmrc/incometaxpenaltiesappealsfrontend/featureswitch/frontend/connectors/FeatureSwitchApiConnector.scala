@@ -26,6 +26,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.F
 import java.net.URL
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
 
 @Singleton
 class FeatureSwitchApiConnector @Inject()(httpClient: HttpClientV2)(implicit ec: ExecutionContext) {

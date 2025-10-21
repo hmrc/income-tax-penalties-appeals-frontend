@@ -23,11 +23,9 @@
 @this(
         layout: Layout,
         govukButton : GovukButton,
-        caption: PenaltyCaption,
         govukSummaryList: GovukSummaryList,
         inset: Inset,
-        h1: H1,
-        p: P
+        h1: H1
 )
 
 @(printRows: Seq[SummaryListRow])(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)

@@ -18,7 +18,7 @@ package fixtures.messages
 
 object JointAppealMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages {
     val errorRequired = "Tell us if you intend to appeal both penalties for the same reason"
     val errorInvalid = "Tell us if you intend to appeal both penalties for the same reason"
     val errorRequiredReview = "Tell us if you want both appeal decisions to be reviewed at the same time"

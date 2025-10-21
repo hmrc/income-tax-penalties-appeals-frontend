@@ -19,21 +19,18 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan
 import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
+import org.jsoup.nodes.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, NOT_IMPLEMENTED, OK, SEE_OTHER}
 import play.api.test.Helpers.LOCATION
-import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ControllerISpecHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.UpscanStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import utils.TimerUtil
 
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 class UpscanInitiateControllerISpec extends ControllerISpecHelper
   with UpscanStub
@@ -42,22 +39,12 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
-    override def getCurrentDateTime: LocalDateTime = testDateTime
-  }
-
-  override lazy val app: Application = appWithOverrides(
-    inject.bind[TimeMachine].toInstance(timeMachine)
-  )
-
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
-
-  val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
-
+  
   override def beforeEach(): Unit = {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    fileUploadRepo.mongo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
+    deleteAll(fileUploadRepo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }
@@ -95,8 +82,9 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                   document.select(s"input[name=$key]").`val`() shouldBe value
                 }
 
-                fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue shouldBe
-                  Some(waitingFile.copy(lastUpdated = testDateTime))
+                fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue
+                  .map(_.copy(lastUpdated = testDate.atStartOfDay())) shouldBe
+                  Some(waitingFile.copy(lastUpdated = testDate.atStartOfDay()))
               }
             }
           }
@@ -128,22 +116,19 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 stubAuthRequests(isAgent)
                 stubUpscanInitiate(status = OK, body = initiateResponse)
 
-                val uploadFileUrl = if (isAgent) {
-                  "agent-upload-file"
-                } else {
-                  "upload-file"
-                }
                 val result = get(s"${url(isAgent, mode)}?key=$fileRef1&errorCode=UnableToUpload", isAgent = isAgent)
                 result.status shouldBe BAD_REQUEST
 
-                val document = Jsoup.parse(result.body)
+                val document: Document = Jsoup.parse(result.body)
                 document.select("form").attr("action") shouldBe initiateResponse.uploadRequest.href
                 initiateResponse.uploadRequest.fields.map { case (key, value) =>
                   document.select(s"input[name=$key]").`val`() shouldBe value
                 }
 
-                fileUploadRepo.getFile(testJourneyId, initiateResponse.reference).futureValue shouldBe
-                  Some(waitingFile.copy(lastUpdated = testDateTime))
+                fileUploadRepo.getFile(testJourneyId, initiateResponse.reference)
+                  .futureValue
+                .map(_.copy(lastUpdated = testDate.atStartOfDay())) shouldBe
+                  Some(waitingFile.copy(lastUpdated = testDate.atStartOfDay()))
               }
             }
           }

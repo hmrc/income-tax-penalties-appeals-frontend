@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views
 import fixtures.BaseFixtures
 import fixtures.messages.PrintAppealMessages
 import fixtures.views.BaseSelectors
+import org.jsoup.nodes.Document
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.twirl.api.Html
@@ -49,7 +50,7 @@ class ViewAppealDetailsViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
         implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
 
-        implicit val doc = asDocument(view(Seq(
+        implicit val doc: Document = asDocument(view(Seq(
           summaryListRow(messagesForLanguage.nino, Html(testNino)),
           summaryListRow(messagesForLanguage.penaltyAppealed, Html(messagesForLanguage.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
@@ -79,7 +80,7 @@ class ViewAppealDetailsViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
         implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP2ndStage)
 
-        implicit val doc = asDocument(view(Seq(
+        implicit val doc: Document = asDocument(view(Seq(
           summaryListRow(messagesForLanguage.nino, Html(testNino)),
           summaryListRow(messagesForLanguage.penaltyAppealed, Html(messagesForLanguage.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),

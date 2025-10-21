@@ -20,12 +20,14 @@ import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForCrimeJourneyMultiple.{is2ndStageAppeal, isAgent}
 import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
+import org.jsoup.nodes.Document
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
@@ -50,7 +52,7 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
 
         s"the number of files which has been added is < ${appConfig.upscanMaxNumberOfFiles}" when {
 
-          implicit val doc = asDocument(uploadCheckAnswers(
+          implicit val doc: Document = asDocument(uploadCheckAnswers(
             UploadDocumentForm.form,
             UploadedFilesViewModel(Seq(callbackModel)),
             controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal, mode),
@@ -76,11 +78,11 @@ class NonJsUploadCheckAnswersViewSpec extends ViewBehaviours with GuiceOneAppPer
 
         s"the number of files which has been added is == ${appConfig.upscanMaxNumberOfFiles}" when {
 
-          val files = (1 to appConfig.upscanMaxNumberOfFiles).map { i =>
+          lazy val files: Seq[UploadJourney] = (1 to appConfig.upscanMaxNumberOfFiles).map { i =>
             callbackModel.copy(uploadDetails = callbackModel.uploadDetails.map(_.copy(fileName = s"file$i.txt")))
           }
 
-          implicit val doc = asDocument(uploadCheckAnswers(
+          implicit val doc: Document = asDocument(uploadCheckAnswers(
             UploadDocumentForm.form,
             UploadedFilesViewModel(files),
             controllers.upscan.routes.UpscanCheckAnswersController.onSubmit(isAgent, is2ndStageAppeal, mode),
