@@ -18,18 +18,16 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.MissedDeadlineReasonMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -43,7 +41,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
 
   override def beforeEach(): Unit = {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     super.beforeEach()
   }
 

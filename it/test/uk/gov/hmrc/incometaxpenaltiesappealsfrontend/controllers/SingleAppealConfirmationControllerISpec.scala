@@ -18,7 +18,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.SingleAppealConfirmationMessages
 import org.jsoup.{Jsoup, nodes}
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -33,13 +32,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToS
 class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   class Setup {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
   }
   

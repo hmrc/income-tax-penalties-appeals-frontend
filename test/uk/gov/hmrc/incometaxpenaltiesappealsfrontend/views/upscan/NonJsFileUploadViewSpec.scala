@@ -20,6 +20,7 @@ import fixtures.FileUploadFixtures
 import fixtures.messages.SupportedFileTypeMessages
 import fixtures.messages.upscan.NonJsFileUploadMessages
 import fixtures.views.BaseSelectors
+import org.jsoup.nodes.Document
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -52,7 +53,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -80,7 +81,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -108,7 +109,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -139,7 +140,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
@@ -167,7 +168,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
@@ -195,7 +196,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,

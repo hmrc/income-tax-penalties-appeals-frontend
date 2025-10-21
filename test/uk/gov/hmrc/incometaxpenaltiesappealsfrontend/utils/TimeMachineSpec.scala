@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-import org.scalatest.matchers.must.Matchers.convertToAnyMustWrapper
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar.mock
@@ -71,7 +70,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
         val config = Configuration("timemachine.enabled" -> false)
         val servicesConfig = mock[ServicesConfig]
         val appConfig = new AppConfig(config, servicesConfig)
-        appConfig.optCurrentDate mustBe None
+        appConfig.optCurrentDate shouldBe None
       }
 
       "return Some(LocalDate) from system property when timeMachineEnabled is true and property is set" in {
@@ -84,7 +83,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
         val dateStr = "31-12-2023"
         System.setProperty("TIME_MACHINE_NOW", dateStr)
         try {
-          appConfig.optCurrentDate mustBe Some(LocalDate.parse(dateStr, appConfig.timeMachineDateFormatter))
+          appConfig.optCurrentDate shouldBe Some(LocalDate.parse(dateStr, appConfig.timeMachineDateFormatter))
         } finally {
           System.clearProperty("TIME_MACHINE_NOW")
         }
@@ -97,7 +96,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
         )
         val servicesConfig = mock[ServicesConfig]
         val appConfig = new AppConfig(config, servicesConfig)
-        appConfig.optCurrentDate mustBe Some(LocalDate.parse("01-01-2024", appConfig.timeMachineDateFormatter))
+        appConfig.optCurrentDate shouldBe Some(LocalDate.parse("01-01-2024", appConfig.timeMachineDateFormatter))
       }
 
       "return None if date string is invalid" in {
@@ -107,7 +106,7 @@ class TimeMachineSpec extends AnyWordSpec with Matchers {
         )
         val servicesConfig = mock[ServicesConfig]
         val appConfig = new AppConfig(config, servicesConfig)
-        appConfig.optCurrentDate mustBe None
+        appConfig.optCurrentDate shouldBe None
       }
     }
 

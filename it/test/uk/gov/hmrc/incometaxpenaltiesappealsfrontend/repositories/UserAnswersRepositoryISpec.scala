@@ -16,8 +16,9 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories
 
+import org.mongodb.scala.gridfs.ObservableFuture
 import play.api.libs.json.Json
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.ComponentSpecHelper
 

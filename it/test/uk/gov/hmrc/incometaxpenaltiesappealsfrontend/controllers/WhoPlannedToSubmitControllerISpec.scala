@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import fixtures.BaseFixtures
 import fixtures.messages.WhoPlannedToSubmitMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
+import org.mongodb.scala.{Document, SingleObservableFuture}
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}

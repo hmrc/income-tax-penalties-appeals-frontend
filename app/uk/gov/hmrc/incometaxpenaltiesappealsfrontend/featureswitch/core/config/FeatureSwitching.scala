@@ -59,7 +59,7 @@ trait FeatureSwitching {
     sys.props += checkboxFeatureSwitch.configName -> values.mkString(",")
   }
 
-  val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")  
+  val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
   
   def setFeatureDate(dateToSet: Option[LocalDate]): Unit = {
     logger.debug(s"[FeatureSwitching][setFeatureDate] - Setting time machine date to: $dateToSet")

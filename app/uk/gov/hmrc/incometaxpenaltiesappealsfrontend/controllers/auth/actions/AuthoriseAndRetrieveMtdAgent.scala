@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import com.google.inject.Singleton
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.http.HeaderCarrier
@@ -34,9 +34,10 @@ class AuthoriseAndRetrieveMtdAgent @Inject()(override val authConnector: AuthCon
                                              val appConfig: AppConfig,
                                              val errorHandler: ErrorHandler,
                                              mcc: MessagesControllerComponents)
-  extends AuthoriseHelper with ActionRefiner[AuthorisedAndEnrolledAgent, AuthorisedAndEnrolledAgent] with AuthorisedFunctions {
-
-  lazy val logger: Logger = Logger(getClass)
+  extends AuthoriseHelper
+    with ActionRefiner[AuthorisedAndEnrolledAgent, AuthorisedAndEnrolledAgent]
+    with AuthorisedFunctions
+    with Logging {
 
   implicit val executionContext: ExecutionContext = mcc.executionContext
 
@@ -50,7 +51,9 @@ class AuthoriseAndRetrieveMtdAgent @Inject()(override val authConnector: AuthCon
      {
       Future.successful(Right(request))
     }.recoverWith {
-      case authorisationException: AuthorisationException => handleAuthFailure(authorisationException, isAgent = true).map(Left(_))
+      case authorisationException: AuthorisationException =>
+        handleAuthFailure(authorisationException, isAgent = true)(implicitly, implicitly, logger)
+        .map(Left(_))
     }
   }
 }

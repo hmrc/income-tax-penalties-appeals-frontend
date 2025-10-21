@@ -33,7 +33,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
-import play.api.http.Status.CONFLICT
+import play.api.http.Status
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -106,7 +106,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
         logger.info("[AppealService][singleAppeal] - Received OK from the appeal submission call")
         Right(SuccessfulAppeal(response))
 
-      case Left(error) if error.status == CONFLICT =>
+      case Left(error) if error.status == Status.CONFLICT =>
         logger.error(s"[AppealService][singleAppeal] - Appeal already in progress: ${error.status}")
           Left(DuplicateAppealInProgress)
 

@@ -25,7 +25,6 @@ import java.net.URLEncoder
 
 
 class ServiceControllerISpec extends ControllerISpecHelper {
-
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   "GET /appeal-penalty/self-assessment/sign-out" should {

@@ -19,37 +19,22 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{INTERNAL_SERVER_ERROR, SEE_OTHER}
 import play.api.libs.json.Json
-import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyTypeEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 
-import java.time.temporal.ChronoUnit
-import java.time.{LocalDate, LocalDateTime, ZoneOffset}
+import java.time.{LocalDate, ZoneOffset}
 
 class InitialisationControllerISpec extends ControllerISpecHelper
   with PenaltiesStub {
 
+  lazy val userAnswers: UserAnswersRepository = injector.instanceOf[UserAnswersRepository]
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  lazy val userAnswers: UserAnswersRepository = injector.instanceOf[UserAnswersRepository]
-
-  val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
-
-  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
-    override def getCurrentDateTime: LocalDateTime = testDateTime
-  }
-
-  override lazy val app: Application = appWithOverrides(
-    inject.bind[TimeMachine].toInstance(timeMachine)
-  )
-
   override def beforeEach(): Unit = {
-    disable(UseStubForBackend)
     super.beforeEach()
   }
 
@@ -69,7 +54,9 @@ class InitialisationControllerISpec extends ControllerISpecHelper
             result.header("Location") shouldBe Some(routes.AppealStartController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = false).url)
             SessionCookieCrumbler.getSessionMap(result).get(IncomeTaxSessionKeys.journeyId) shouldBe Some(testJourneyId)
 
-            userAnswers.getUserAnswer(testJourneyId).futureValue shouldBe Some(UserAnswers(
+            userAnswers.getUserAnswer(testJourneyId).futureValue
+              .map(_.copy(lastUpdated = testDate.atStartOfDay().toInstant(ZoneOffset.UTC))) shouldBe 
+              Some(UserAnswers(
               journeyId = testJourneyId,
               data = Json.obj(
                 IncomeTaxSessionKeys.penaltyData -> Json.obj(
@@ -84,7 +71,7 @@ class InitialisationControllerISpec extends ControllerISpecHelper
                   )
                 )
               ),
-              lastUpdated = testDateTime.toInstant(ZoneOffset.UTC)
+              lastUpdated = testDate.atStartOfDay().toInstant(ZoneOffset.UTC)
             ))
           }
         }

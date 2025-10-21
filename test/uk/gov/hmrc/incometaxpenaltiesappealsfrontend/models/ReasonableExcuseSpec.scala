@@ -31,7 +31,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with FeatureSwitching with BeforeAndAfterAll {
 
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  implicit override lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   override def afterAll(): Unit = {
     sys.props.remove(ReasonableExcusesEnabled.configName)
@@ -87,7 +87,7 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
           "return the expected RadioItem models" in {
             setEnabledSwitches(ReasonableExcusesEnabled, ReasonableExcuse.allReasonableExcuses.map(_.toString))
 
-            ReasonableExcuse.radioOptions() shouldBe Seq(
+            ReasonableExcuse.radioOptions()(implicitly, appConfig) shouldBe Seq(
               RadioItem(
                 Text(messagesForLang.bereavement),
                 value = Some(Bereavement.toString),
@@ -151,7 +151,7 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
               )
             )
 
-            ReasonableExcuse.radioOptions() shouldBe Seq(
+            ReasonableExcuse.radioOptions()(implicitly, appConfig) shouldBe Seq(
               RadioItem(
                 Text(messagesForLang.bereavement),
                 value = Some(Bereavement.toString),
@@ -188,7 +188,7 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
               )
             )
 
-            ReasonableExcuse.radioOptions() shouldBe Seq(
+            ReasonableExcuse.radioOptions()(implicitly, appConfig) shouldBe Seq(
               RadioItem(
                 Text(messagesForLang.bereavement),
                 value = Some(Bereavement.toString),

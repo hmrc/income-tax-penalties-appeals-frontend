@@ -21,57 +21,37 @@ import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJou
 import fixtures.messages.upscan.NonJsUploadCheckAnswersMessages
 import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
-import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.{Application, inject}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes => appealsRoutes}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes as appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
-
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 
 class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
   with FileUploadFixtures {
 
-  private lazy val configApp: Application =
-    new GuiceApplicationBuilder().build()
-
-  override lazy val appConfig: AppConfig = configApp.injector.instanceOf[AppConfig]
-
-  lazy val timeMachine: TimeMachine = new TimeMachine(appConfig) {
-    override def getCurrentDateTime: LocalDateTime = testDateTime
-  }
-
-  override lazy val app: Application = appWithOverrides(
-    inject.bind[TimeMachine].toInstance(timeMachine)
-  )
-
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
 
-  val testDateTime: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)
-
   class Setup(isLate: Boolean = false) {
 
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    fileUploadRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
+    deleteAll(fileUploadRepo)
 
     val userAnswers: UserAnswers = emptyUserAnswers
       .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(
         appealData = lateSubmissionAppealData.copy(
           dateCommunicationSent =
-            if (isLate) timeMachine.getCurrentDate.minusDays(appConfig.lateDays + 1)
-            else        timeMachine.getCurrentDate.minusDays(1)
+            if (isLate) testDate.minusDays(appConfig.lateDays + 1)
+            else        testDate.minusDays(1)
         )
       ))
       .setAnswer(ReasonableExcusePage, Other)

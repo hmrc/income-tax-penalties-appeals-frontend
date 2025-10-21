@@ -21,7 +21,7 @@ import fixtures.BaseFixtures
 
 object HonestyDeclarationMessages extends BaseFixtures {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages {
     val headingAndTitle: String = "Honesty declaration"
     val confirmParagraph:String = "I confirm that:"
     

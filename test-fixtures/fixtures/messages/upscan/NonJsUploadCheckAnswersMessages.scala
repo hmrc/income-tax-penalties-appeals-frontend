@@ -16,11 +16,11 @@
 
 package fixtures.messages.upscan
 
-import fixtures.messages.{Cy, En, i18n}
+import fixtures.messages.{Cy, En}
 
 object NonJsUploadCheckAnswersMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages {
     val headingAndTitlePlural: Int => String = i => s"You have uploaded $i files"
     val headingAndTitleSingular = "You have uploaded 1 file"
     val summaryRowKey: Int => String = i => s"File $i"

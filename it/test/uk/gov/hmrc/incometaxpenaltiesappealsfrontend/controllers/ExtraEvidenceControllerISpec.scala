@@ -19,7 +19,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import fixtures.messages.ExtraEvidenceMessages
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -39,16 +38,15 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys
 class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
   implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   class Setup(isLate: Boolean = false) {
 
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-
+    deleteAll(userAnswersRepo)
 
     val userAnswersWithReasonLSP: UserAnswers =
       emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Other)

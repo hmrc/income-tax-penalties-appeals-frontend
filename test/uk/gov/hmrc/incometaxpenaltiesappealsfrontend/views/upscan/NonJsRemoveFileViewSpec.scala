@@ -20,6 +20,7 @@ import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.{is2ndStageAppeal, isAgent}
 import fixtures.messages.upscan.NonJsRemoveFileMessages
 import fixtures.views.BaseSelectors
+import org.jsoup.nodes.Document
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -50,7 +51,7 @@ class NonJsRemoveFileViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
 
         val fileIndex = 1
 
-        implicit val doc = asDocument(uploadCheckAnswers(
+        implicit val doc: Document = asDocument(uploadCheckAnswers(
           UploadDocumentForm.form,
           UploadedFilesViewModel(callbackModel, fileIndex).get,
           controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, fileIndex, isAgent, is2ndStageAppeal, mode)
