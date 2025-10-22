@@ -192,7 +192,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
               result.status shouldBe SEE_OTHER
               result.header("Location") shouldBe Some(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent).url)
             }
-            
+
           }
         }
       }
