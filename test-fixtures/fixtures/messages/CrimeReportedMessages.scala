@@ -18,7 +18,7 @@ package fixtures.messages
 
 object CrimeReportedMessages {
 
-  sealed trait Messages {
+  sealed trait Messages { this: i18n =>
     val unkownOption = "I do not know"
     val errorRequired = "Tell us if the police have been told about the crime"
     val errorInvalid = "Tell us if the police have been told about the crime"

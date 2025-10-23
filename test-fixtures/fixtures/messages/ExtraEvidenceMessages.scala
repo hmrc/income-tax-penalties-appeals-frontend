@@ -18,7 +18,7 @@ package fixtures.messages
 
 object ExtraEvidenceMessages {
 
-  sealed trait Messages {
+  sealed trait Messages { this: i18n =>
 
     def headingAndTitle(is2ndStage: Boolean): String = {
       if (is2ndStage) {

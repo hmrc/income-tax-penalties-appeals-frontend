@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 
 object ReasonableExcuseMessages {
 
-  sealed trait Messages {
+  sealed trait Messages { this: i18n =>
     val titleAndHeading = "What was the reason for missing the submission deadline?"
     val bereavement: String = "Bereavement (someone died)"
     val cessation: String = "Cessation of income source"

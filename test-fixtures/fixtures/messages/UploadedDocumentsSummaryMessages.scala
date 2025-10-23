@@ -18,7 +18,7 @@ package fixtures.messages
 
 object UploadedDocumentsSummaryMessages {
 
-  sealed trait Messages {
+  sealed trait Messages { this: i18n =>
     val cyaKey = "Evidence to support this appeal"
     val cyaHidden = "evidence to support this appeal"
     val cyaKeyReview = "Evidence to support this review"

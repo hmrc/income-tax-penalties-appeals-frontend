@@ -18,7 +18,7 @@ package fixtures.messages
 
 object UpscanErrorMessages {
 
-  sealed trait Messages {
+  sealed trait Messages { this: i18n =>
     val errorFileTooSmall: String = "The selected file is empty. Choose another file."
     val errorFileTooLarge: Int => String = max => s"The selected file must be smaller than ${max}MB. Choose another file."
     val errorNoFileSelected: String = "Select a file."

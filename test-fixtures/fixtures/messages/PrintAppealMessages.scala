@@ -18,7 +18,7 @@ package fixtures.messages
 
 object PrintAppealMessages {
 
-  sealed trait Messages {
+  sealed trait Messages { this: i18n =>
     val headingAndTitle = "Appeal details"
     val headingAndTitleReview = "Review details"
     val nino = "National Insurance number"
