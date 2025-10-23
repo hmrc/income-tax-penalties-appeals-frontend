@@ -34,10 +34,13 @@
 @(
         form: Form[_],
         isAgent: Boolean,
+        isMultipleAppeal: Boolean,
         mode: Mode
 )(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@layout(Some(titleBuilder(messages("review.decision.30.days.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
+@multipleAppeal = {@if(isMultipleAppeal){.multiple}}
+
+@layout(Some(titleBuilder(messages(s"review.decision.30.days.headingAndTitle$multipleAppeal"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
     @if(form.errors.nonEmpty) {
         @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -50,7 +53,7 @@
         @govukRadios(Radios(
             fieldset = Some(Fieldset(
                 legend = Some(Legend(
-                    content = Text(messages("review.decision.30.days.headingAndTitle")),
+                    content = Text(messages(s"review.decision.30.days.headingAndTitle$multipleAppeal")),
                     classes = "govuk-fieldset__legend--l",
                     isPageHeading = true
                 ))

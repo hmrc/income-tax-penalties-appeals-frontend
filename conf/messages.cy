@@ -295,6 +295,7 @@ whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = Mae
 # Review decision more then 30 days page
 # ----------------------------------------------------------
 review.decision.30.days.headingAndTitle = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?
+review.decision.30.days.headingAndTitle.multiple = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniadau’r apêl?
 review.decision.30.days.hint = Fel arfer, mae’n rhaid i chi ofyn am adolygiad cyn pen 30 diwrnod o ddyddiad y penderfyniad.
 review.decision.30.days.yes = Iawn
 review.decision.30.days.no = Na

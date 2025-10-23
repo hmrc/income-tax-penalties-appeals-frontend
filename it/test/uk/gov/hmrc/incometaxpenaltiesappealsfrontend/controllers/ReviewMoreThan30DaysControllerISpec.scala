@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReviewMoreThan30DaysForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, PenaltyData, ReviewMoreThan30DaysEnum}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, ReviewMoreThan30DaysPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReasonableExcusePage, ReviewMoreThan30DaysPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
@@ -41,13 +41,18 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  class Setup() {
+  class Setup(jointAppeal: Boolean = false) {
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
 
-    val reviewAnswers: UserAnswers = emptyUserAnswersWithLSP2ndStage
-      .setAnswer(ReviewMoreThan30DaysPage, ReviewMoreThan30DaysEnum.yes)
-
+    val reviewAnswers: UserAnswers =
+    if(jointAppeal) {
+      emptyUserAnswersWithLPP2ndStage
+        .setAnswer(ReviewMoreThan30DaysPage, ReviewMoreThan30DaysEnum.yes).setAnswer(JointAppealPage, jointAppeal)
+    } else {
+      emptyUserAnswersWithLSP2ndStage
+        .setAnswer(ReviewMoreThan30DaysPage, ReviewMoreThan30DaysEnum.yes)
+    }
     userAnswersRepo.upsertUserAnswer(reviewAnswers).futureValue
 
   }
@@ -85,7 +90,7 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
         }
 
         "the page has the correct elements" when {
-          s"agent is $isAgent" in new Setup() {
+          s"agent is $isAgent and single appeal" in new Setup() {
             stubAuthRequests(isAgent)
 
             val result = get(url, isAgent = isAgent)
@@ -100,6 +105,29 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
               dateToString(lateSubmissionAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe ReviewMoreThan30DaysMessages.English.headingAndTitle
+            document.getHintText.text() shouldBe ReviewMoreThan30DaysMessages.English.hintText
+            document.getSubmitButton.text() shouldBe ReviewMoreThan30DaysMessages.English.continue
+
+            document.select(s"#${ReviewMoreThan30DaysForm.key}").hasAttr("checked") shouldBe true
+            document.select(s"#${ReviewMoreThan30DaysForm.key}-2").hasAttr("checked") shouldBe false
+            document.select(s"#${ReviewMoreThan30DaysForm.key}-3").hasAttr("checked") shouldBe false
+          }
+
+          s"agent is $isAgent and multiple appeal" in new Setup(jointAppeal = true) {
+            stubAuthRequests(isAgent)
+
+            val result = get(url, isAgent = isAgent)
+            result.status shouldBe OK
+
+            val document = Jsoup.parse(result.body)
+
+            document.getServiceName.text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
+            document.title() should include(ReviewMoreThan30DaysMessages.English.headingAndTitleMultiple)
+            document.getElementById("captionSpan").text() shouldBe ReviewMoreThan30DaysMessages.English.lppCaptionMultiple(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe ReviewMoreThan30DaysMessages.English.headingAndTitleMultiple
             document.getHintText.text() shouldBe ReviewMoreThan30DaysMessages.English.hintText
             document.getSubmitButton.text() shouldBe ReviewMoreThan30DaysMessages.English.continue
 

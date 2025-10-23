@@ -42,6 +42,7 @@ class ReviewMoreThan30DaysController @Inject()(ReviewMoreThan30Days: ReviewMoreT
     Ok(ReviewMoreThan30Days(
       form = fillForm(ReviewMoreThan30DaysForm.form(), ReviewMoreThan30DaysPage),
       isAgent = user.isAgent,
+      isMultipleAppeal = user.isAppealingMultipleLPPs,
       mode
     ))
   }
@@ -52,6 +53,7 @@ class ReviewMoreThan30DaysController @Inject()(ReviewMoreThan30Days: ReviewMoreT
         Future(BadRequest(ReviewMoreThan30Days(
           form = formWithErrors,
           isAgent = user.isAgent,
+          isMultipleAppeal = user.isAppealingMultipleLPPs,
           mode
         ))),
       value => {
