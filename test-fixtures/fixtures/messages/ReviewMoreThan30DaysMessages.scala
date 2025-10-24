@@ -41,7 +41,7 @@ object ReviewMoreThan30DaysMessages {
     override val errorRequired = "Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)"
     override val errorInvalid = "Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)"
 
-    override val cyaKey = "Has it been more than 30 days since the appeal decision was issued? (Welsh)"
-    override val cyaHidden = "has it been more than 30 days since the appeal decision was issued (Welsh)"
+    override val cyaKey = "Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?"
+    override val cyaHidden = "oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl"
   }
 }

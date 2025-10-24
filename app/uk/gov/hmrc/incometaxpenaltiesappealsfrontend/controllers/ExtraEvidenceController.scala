@@ -21,8 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ExtraEvidenceForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ExtraEvidencePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{UpscanService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -69,12 +68,16 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
             Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
-              if (mode == NormalMode && user.is2ndStageAppeal) {
-                Redirect(routes.ReviewMoreThan30DaysController.onPageLoad(isAgent = user.isAgent, mode = mode))
-              } else {
-                Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+              (mode, user.is2ndStageAppeal, user.isLateFirstStage) match {
+                case (CheckMode, _, _) =>
+                  Redirect(controllers.routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+                case (NormalMode, true, _) =>
+                  Redirect(routes.ReviewMoreThan30DaysController.onPageLoad(isAgent = user.isAgent, mode = mode))
+                case (NormalMode, false, true) =>
+                  Redirect(controllers.routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode))
+                case (NormalMode, false, false) =>
+                  Redirect(controllers.routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
               }
-
             )
           }
         }

@@ -319,7 +319,7 @@ lateAppeal.p1.review = Fel arfer, mae angen i chi ofyn am adolygiad cyn pen {0} 
 lateAppeal.p1.multiple.review = Fel arfer, mae angen i chi ofyn am adolygiad cyn pen {0} diwrnod o ddyddiad y penderfyniad.
 lateAppeal.charCount = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
 lateAppeal.charCount.multiple = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
-lateAppeal.charCount.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0}} diwrnod
+lateAppeal.charCount.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.charCount.multiple.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.error.required =  Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
 lateAppeal.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
@@ -430,8 +430,10 @@ checkYourAnswers.crimeReported.change.hidden = A roddwyd gwybod i’r heddlu am 
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
 
-checkYourAnswers.ReviewMoreThan30Daysed.key = Has it been more than 30 days since the appeal decision was issued? (Welsh)
-checkYourAnswers.ReviewMoreThan30Daysed.change.hidden = has it been more than 30 days since the appeal decision was issued (Welsh)
+checkYourAnswers.ReviewMoreThan30Days.key = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?
+checkYourAnswers.ReviewMoreThan30Days.change.hidden = oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
+checkYourAnswers.ReviewMoreThan30Days.key.multiple = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?
+checkYourAnswers.ReviewMoreThan30Days.change.hidden.multiple = oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
 
 checkYourAnswers.whenDidEventHappen.bereavement.key =  Pryd y bu farw’r person?
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  Pryd y bu farw’r person

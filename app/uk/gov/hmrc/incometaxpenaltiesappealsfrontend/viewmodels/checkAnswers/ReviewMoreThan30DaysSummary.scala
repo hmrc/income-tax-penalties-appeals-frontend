@@ -31,15 +31,18 @@ object ReviewMoreThan30DaysSummary extends SummaryListRowHelper with DateFormatt
 
   def row(showActionLinks: Boolean = true)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages): Option[SummaryListRow] =
     ReviewMoreThan30DaysPage.value.map { review30Days =>
+
+      val infix = if(user.isAppealingMultipleLPPs) ".multiple" else ""
+
       summaryListRow(
-        label = messages(s"checkYourAnswers.ReviewMoreThan30Daysed.key"),
+        label = messages(s"checkYourAnswers.ReviewMoreThan30Days.key$infix"),
         value = Html(messages(s"common.$review30Days")),
         actions = Option.when(showActionLinks)(Actions(
           items = Seq(
             ActionItem(
               content = Text(messages("common.change")),
               href = controllers.routes.ReviewMoreThan30DaysController.onPageLoad(isAgent = user.isAgent, CheckMode).url,
-              visuallyHiddenText = Some(messages(s"checkYourAnswers.ReviewMoreThan30Daysed.change.hidden"))
+              visuallyHiddenText = Some(messages(s"checkYourAnswers.ReviewMoreThan30Days.change.hidden$infix"))
             ).withId("ChangeReviewMoreThan30Days")
           )
         ))
