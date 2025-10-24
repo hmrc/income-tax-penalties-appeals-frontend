@@ -35,25 +35,25 @@ class FeatureSwitchRegistrySpec extends AnyWordSpec with should.Matchers with Gu
   "FeatureSwitchRegistry" should {
 
     "return a switch from get if exists" in {
-      (testFeatureSwitch.configName _).expects().returning("feature1")
+      (() => testFeatureSwitch.configName).expects().returning("feature1")
       val result = TestRegistry.get("feature1")
       result shouldBe Some(testFeatureSwitch)
     }
 
     "return None from get if switch doesnt exists" in {
-      (testFeatureSwitch.configName _).expects().returning("feature1")
+      (() => testFeatureSwitch.configName).expects().returning("feature1")
       val result = TestRegistry.get("unknown.feature")
       result shouldBe None
     }
 
     "return a switch from apply if exists " in {
-      (testFeatureSwitch.configName _).expects().returning("feature1")
+      (() => testFeatureSwitch.configName).expects().returning("feature1")
       val result = TestRegistry("feature1")
       result shouldBe testFeatureSwitch
     }
 
     "throw an exception if switch does not exist when using apply" in {
-      (testFeatureSwitch.configName _).expects().returning("feature1")
+      (() => testFeatureSwitch.configName).expects().returning("feature1")
       val ex = intercept[IllegalArgumentException] {
         TestRegistry("invalid.feature")
       }

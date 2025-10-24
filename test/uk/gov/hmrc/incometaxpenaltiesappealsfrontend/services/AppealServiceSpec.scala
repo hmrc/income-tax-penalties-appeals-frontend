@@ -164,9 +164,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
       "the journey is 'Other' and there are uploaded files that are ready" should {
         "the connector call is successful" in new Setup {
 
-          (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
-          (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
-          (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+          (() => mockTimeMachine.getCurrentDate).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+          (() => mockTimeMachine.getCurrentDateTime).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+          (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-1")
 
           val submissionModelCapture: CaptureOne[AppealSubmission] = CaptureOne[AppealSubmission]()
           (mockPenaltiesConnector.submitAppeal(_: AppealSubmission, _:String, _:Boolean, _:String, _:String,_:Boolean)(_:ExecutionContext, _:HeaderCarrier))
@@ -197,10 +197,10 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
       }
       "the connector call is successful for appealing multiple penalties" in new Setup {
 
-        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
-        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
+        (() => mockTimeMachine.getCurrentDateTime).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (() => mockTimeMachine.getCurrentDate).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-1")
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-2")
 
         val lpp1Capture: CaptureOne[AppealSubmission] = CaptureOne[AppealSubmission]()
         val lpp2Capture: CaptureOne[AppealSubmission] = CaptureOne[AppealSubmission]()
@@ -249,10 +249,10 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
 
       "if one of 2 appeal submissions fail and log a PD (LPP1 fails)" in new Setup {
 
-        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
-        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce()
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
+        (() => mockTimeMachine.getCurrentDateTime).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (() => mockTimeMachine.getCurrentDate).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce()
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-1")
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-2")
 
         val lpp1Capture = CaptureOne[AppealSubmission]()
         val lpp2Capture = CaptureOne[AppealSubmission]()
@@ -302,10 +302,10 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
 
       "if one of 2 appeal submissions fail and log a PD (LPP2 fails)" in new Setup {
 
-        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
-        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
+        (() => mockTimeMachine.getCurrentDateTime).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (() => mockTimeMachine.getCurrentDate).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-1")
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-2")
 
 
         val lpp1Capture = CaptureOne[AppealSubmission]()
@@ -354,10 +354,10 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
 
       "if both of the appeal submissions fail" in new Setup {
 
-        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
-        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-2")
+        (() => mockTimeMachine.getCurrentDateTime).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (() => mockTimeMachine.getCurrentDate).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-1")
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-2")
 
 
         val lpp1Capture = CaptureOne[AppealSubmission]()
@@ -399,9 +399,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
 
       "the connector throws an exception" in new Setup {
 
-        (mockTimeMachine.getCurrentDateTime _).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
-        (mockTimeMachine.getCurrentDate _).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
-        (mockUUIDGenerator.generateUUID _).expects().returning("uuid-1")
+        (() => mockTimeMachine.getCurrentDateTime).expects().returning(LocalDateTime.of(2020, 2, 1, 12, 15, 45)).atLeastOnce()
+        (() => mockTimeMachine.getCurrentDate).expects().returning(LocalDate.of(2020, 2, 1)).atLeastOnce().atLeastOnce()
+        (() => mockUUIDGenerator.generateUUID).expects().returning("uuid-1")
 
         val e = new Exception("I failed.")
 

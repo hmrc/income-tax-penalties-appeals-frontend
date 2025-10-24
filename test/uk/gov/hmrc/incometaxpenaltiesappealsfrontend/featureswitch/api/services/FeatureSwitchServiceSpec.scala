@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services
 
-import org.scalatest.BeforeAndAfterEach
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -51,12 +50,12 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with should.Matchers with Gui
 
     "getFeatureSwitches" in {
 
-      (testSwitch.configName _).expects().returning("testSwitch").atLeastOnce()
-      (testCheckboxSwitch.configName _).expects().returning("testCheckboxSwitch").atLeastOnce()
-      (testSwitch.displayName _).expects().returning("Test Switch").atLeastOnce()
-      (testCheckboxSwitch.displayName _).expects().returning("Test Checkbox Switch").atLeastOnce()
-      (mockFeatureSwitchRegistry.switches _).expects().returning(Seq(testSwitch, testCheckboxSwitch)).atLeastOnce()
-      (testCheckboxSwitch.checkboxValues _).expects().returning(Seq("option1", "option2")).atLeastOnce()
+      (() => testSwitch.configName).expects().returning("testSwitch").atLeastOnce()
+      (() => testCheckboxSwitch.configName).expects().returning("testCheckboxSwitch").atLeastOnce()
+      (() => testSwitch.displayName).expects().returning("Test Switch").atLeastOnce()
+      (() => testCheckboxSwitch.displayName).expects().returning("Test Checkbox Switch").atLeastOnce()
+      (() => mockFeatureSwitchRegistry.switches).expects().returning(Seq(testSwitch, testCheckboxSwitch)).atLeastOnce()
+      (() => testCheckboxSwitch.checkboxValues).expects().returning(Seq("option1", "option2")).atLeastOnce()
 
       val expected = List(
         FeatureSwitchSetting("testSwitch",
@@ -78,12 +77,12 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with should.Matchers with Gui
 
     "updateFeatureSwitches" in {
 
-      (testSwitch.configName _).expects().returning("testSwitch").atLeastOnce()
-      (testCheckboxSwitch.configName _).expects().returning("testCheckboxSwitch").atLeastOnce()
-      (testSwitch.displayName _).expects().returning("Test Switch").atLeastOnce()
-      (testCheckboxSwitch.displayName _).expects().returning("Test Checkbox Switch").atLeastOnce()
-      (testCheckboxSwitch.checkboxValues _).expects().returning(Seq("option1", "option2")).atLeastOnce()
-      (mockFeatureSwitchRegistry.switches _).expects().returning(Seq(testSwitch, testCheckboxSwitch)).atLeastOnce()
+      (() => testSwitch.configName).expects().returning("testSwitch").atLeastOnce()
+      (() => testCheckboxSwitch.configName).expects().returning("testCheckboxSwitch").atLeastOnce()
+      (() => testSwitch.displayName).expects().returning("Test Switch").atLeastOnce()
+      (() => testCheckboxSwitch.displayName).expects().returning("Test Checkbox Switch").atLeastOnce()
+      (() => testCheckboxSwitch.checkboxValues).expects().returning(Seq("option1", "option2")).atLeastOnce()
+      (() => mockFeatureSwitchRegistry.switches).expects().returning(Seq(testSwitch, testCheckboxSwitch)).atLeastOnce()
       (mockFeatureSwitchRegistry.get(_: String)).expects("testSwitch").returning(Some(testSwitch)).atLeastOnce()
       (mockFeatureSwitchRegistry.get(_: String)).expects("testCheckboxSwitch").returning(Some(testCheckboxSwitch)).atLeastOnce()
 

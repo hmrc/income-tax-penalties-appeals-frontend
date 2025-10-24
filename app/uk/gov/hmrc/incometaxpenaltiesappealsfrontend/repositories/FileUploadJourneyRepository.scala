@@ -16,10 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
-import uk.gov.hmrc.mongo.cache.{CacheIdType, CacheItem, DataKey, MongoCacheRepository}
-import uk.gov.hmrc.mongo.{MongoComponent, TimestampSupport}
+import uk.gov.hmrc.mongo.cache.{CacheItem, DataKey}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}

@@ -449,7 +449,7 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSui
 
       "handle the exception and include some useful logging with PagerDuty trigger, returning false" in {
         withCaptureOfLoggingFrom(logger) { logs =>
-          mockRemoveAllFiles(testJourneyId)(Future.failed(new RuntimeException("bang")))
+          mockRemoveFile(testJourneyId,fileRef1)(Future.failed(new RuntimeException("bang")))
 
           await(testService.removeFile(testJourneyId, fileRef1)) shouldBe false
 

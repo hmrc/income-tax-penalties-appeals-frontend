@@ -57,30 +57,6 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
     FeatureSwitchSetting("config2", "feature2", isEnabled = true)
   )
 
-//  def mockHttpGet(reqUrl: URL)(resStatus: Int, resJson: Option[JsValue]): Unit = {
-//    (mockHttpClient.get(_: URL)).expects(reqUrl).returning(mockRequestBuilder)
-//    (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
-//      .expects(*, *)
-//      .returning(Future.successful(mockResponse))
-//    (mockResponse.status _).expects().returning(resStatus)
-//    resJson.foreach(
-//      (mockResponse.json _).expects().returning _
-//    )
-//  }
-//
-//  def mockHttpPost(reqUrl: URL)(resStatus: Int, resJson: Option[JsValue]): Unit = {
-//    (mockHttpClient.post(_: URL)).expects(reqUrl).returning(mockRequestBuilder)
-//    (mockRequestBuilder.withBody(_: JsValue)).expects(*).returning(mockRequestBuilder)
-//    (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
-//      .expects(*, *)
-//      .returning(Future.successful(mockResponse))
-//    (mockResponse.status _).expects().returning(resStatus)
-//    resJson.foreach(
-//      (mockResponse.json _).expects().returning _
-//    )
-//  }
-
-
   "retrieveFeatureSwitches" should {
 
     "Retrieve Feature Switch Settings when OK and has a valid Json Body" in {
@@ -92,8 +68,8 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
         .expects(*, *)
         .returning(Future.successful(mockResponse))
-      (mockResponse.status _).expects().returning(OK)
-      (mockResponse.json _).expects().returning(jsonResponse)
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(jsonResponse)
 
       val result = await(testAction.retrieveFeatureSwitches(url.toString))
       result shouldEqual testFeatureSwitches
@@ -109,7 +85,7 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
         .expects(*, *)
         .returning(Future.successful(mockResponse))
 
-      (mockResponse.status _).expects().returning(INTERNAL_SERVER_ERROR)
+      (() => mockResponse.status).expects().returning(INTERNAL_SERVER_ERROR)
 
       val result = the[Exception] thrownBy await(testAction.retrieveFeatureSwitches(url.toString))
       result.getMessage should include("Could not retrieve feature switches")
@@ -126,8 +102,8 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
         .expects(*, *)
         .returning(Future.successful(mockResponse))
-      (mockResponse.status _).expects().returning(OK)
-      (mockResponse.json _).expects().returning(invalidJson)
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(invalidJson)
 
       val result = the[Exception] thrownBy await(testAction.retrieveFeatureSwitches(url.toString))
       result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
@@ -149,8 +125,8 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
         .expects(*, *)
         .returning(Future.successful(mockResponse))
-      (mockResponse.status _).expects().returning(OK)
-      (mockResponse.json _).expects().returning(jsonResponse)
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(jsonResponse)
 
       val result = await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
       result shouldEqual testUpdatedFeatureSwitches
@@ -166,7 +142,7 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
         .expects(*, *)
         .returning(Future.successful(mockResponse))
-      (mockResponse.status _).expects().returning(INTERNAL_SERVER_ERROR)
+      (() => mockResponse.status).expects().returning(INTERNAL_SERVER_ERROR)
 
       val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
       result.getMessage should include("Could not update feature switches")
@@ -183,8 +159,8 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
         .expects(*, *)
         .returning(Future.successful(mockResponse))
-      (mockResponse.status _).expects().returning(OK)
-      (mockResponse.json _).expects().returning(invalidJson)
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(invalidJson)
 
       val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
       result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),List())))")

@@ -39,7 +39,7 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
   "isAppealLate" should {
 
     class Setup(date: LocalDate) {
-      (mockTimeMachine.getCurrentDate _).expects().returning(date)
+      (() => mockTimeMachine.getCurrentDate).expects().returning(date)
     }
 
     val fakeRequestForAppealingBothPenalties: (LocalDate, LocalDate) => CurrentUserRequestWithAnswers[AnyContent] = (lpp1Date: LocalDate, lpp2Date: LocalDate) => {

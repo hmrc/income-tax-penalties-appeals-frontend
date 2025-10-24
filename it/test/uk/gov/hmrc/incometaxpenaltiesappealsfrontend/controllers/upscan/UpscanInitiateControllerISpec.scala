@@ -57,7 +57,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    fileUploadRepo.collection.deleteMany(Document()).toFuture().futureValue
+    fileUploadRepo.mongo.collection.deleteMany(Document()).toFuture().futureValue
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }

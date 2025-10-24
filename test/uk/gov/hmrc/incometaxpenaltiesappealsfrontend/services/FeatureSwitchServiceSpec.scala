@@ -69,7 +69,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
   "calling getFeatureSwitches" when {
     "there is no feature switches" should {
       "return an empty sequence" in {
-        (featureSwichRegistry.switches _).expects().returning(Seq.empty[FeatureSwitch])
+        (() => featureSwichRegistry.switches).expects().returning(Seq.empty[FeatureSwitch])
 
         testService.getFeatureSwitches() shouldBe Seq.empty[FeatureSwitchSetting]
       }
@@ -77,7 +77,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
 
     "there is only a checkboxSwitch" should {
       "return a sequence with checkbox feature switch settings" in {
-        (featureSwichRegistry.switches _).expects().returning(Seq(ReasonableExcusesEnabled))
+        (() => featureSwichRegistry.switches).expects().returning(Seq(ReasonableExcusesEnabled))
 
         testService.getFeatureSwitches() shouldBe Seq(reasonableExcuseFSSettings)
       }
@@ -85,7 +85,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
 
     "there is only a UseStubForBackend" should {
       "return a sequence with UseStubForBackend feature switch settings" in {
-        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend))
+        (() => featureSwichRegistry.switches).expects().returning(Seq(UseStubForBackend))
 
         testService.getFeatureSwitches() shouldBe Seq(useStubForBackendFSSettings)
       }
@@ -93,7 +93,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
 
     "all feature switches present" should {
       "return feature switch settings for all feature switches" in {
-        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend, ReasonableExcusesEnabled))
+        (() => featureSwichRegistry.switches).expects().returning(Seq(UseStubForBackend, ReasonableExcusesEnabled))
 
         testService.getFeatureSwitches() shouldBe Seq(useStubForBackendFSSettings, reasonableExcuseFSSettings)
       }
@@ -105,7 +105,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
       "update and return a sequence with checkbox feature switch settings" in {
         val featureSwitchSettings = Seq(reasonableExcuseFSSettings)
         (featureSwichRegistry.get(_: String)).expects(ReasonableExcusesEnabled.configName).returning(Some(ReasonableExcusesEnabled))
-        (featureSwichRegistry.switches _).expects().returning(Seq(ReasonableExcusesEnabled))
+        (() => featureSwichRegistry.switches).expects().returning(Seq(ReasonableExcusesEnabled))
         testService.updateFeatureSwitches(featureSwitchSettings) shouldBe featureSwitchSettings
       }
     }
@@ -114,7 +114,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
       "return a sequence with UseStubForBackend feature switch settings" in {
         val featureSwitchSettings = Seq(useStubForBackendFSSettings)
         (featureSwichRegistry.get(_: String)).expects(UseStubForBackend.configName).returning(Some(UseStubForBackend))
-        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend))
+        (() => featureSwichRegistry.switches).expects().returning(Seq(UseStubForBackend))
         testService.updateFeatureSwitches(featureSwitchSettings) shouldBe featureSwitchSettings
       }
     }
@@ -125,7 +125,7 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with Matchers with MockFactor
         (featureSwichRegistry.get(_: String)).expects(UseStubForBackend.configName).returning(Some(UseStubForBackend))
         (featureSwichRegistry.get(_: String)).expects(ReasonableExcusesEnabled.configName).returning(Some(ReasonableExcusesEnabled))
 
-        (featureSwichRegistry.switches _).expects().returning(Seq(UseStubForBackend, ReasonableExcusesEnabled))
+        (() => featureSwichRegistry.switches).expects().returning(Seq(UseStubForBackend, ReasonableExcusesEnabled))
 
         testService.updateFeatureSwitches(featureSwitchSettings) shouldBe featureSwitchSettings
       }

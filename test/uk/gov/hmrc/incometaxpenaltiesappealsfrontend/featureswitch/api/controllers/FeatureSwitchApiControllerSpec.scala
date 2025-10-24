@@ -56,7 +56,7 @@ class FeatureSwitchApiControllerSpec extends AnyWordSpec with should.Matchers wi
 
     "Get Feature Switches using getFeatureSwitches " in {
 
-      (mockFeatureSwitchService.getFeatureSwitches _).expects().returning(testFeatureSwitches)
+      (() => mockFeatureSwitchService.getFeatureSwitches()).expects().returning(testFeatureSwitches)
       val result = testAction.getFeatureSwitches(FakeRequest())
       status(result) shouldBe OK
     }
