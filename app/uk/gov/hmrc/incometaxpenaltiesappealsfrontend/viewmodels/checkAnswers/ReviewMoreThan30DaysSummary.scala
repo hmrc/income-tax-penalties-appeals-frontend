@@ -22,8 +22,8 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{ReviewMoreThan30DaysEnum, CheckMode}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReviewMoreThan30DaysPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReviewMoreThan30DaysPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
