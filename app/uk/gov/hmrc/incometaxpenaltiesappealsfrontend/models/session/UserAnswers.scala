@@ -45,7 +45,7 @@ case class UserAnswers(
     UserAnswers(journeyId, data - page.pageKey)
   
   def removeAppealReasonsData(): UserAnswers = {
-    val keysToRemove = data.keys.filter(_.startsWith("appealReasons."))
+    val keysToRemove = data.keys.filter(key => key.startsWith("appealReasons.") && key != "appealReasons.jointAppeal")
     val updData = keysToRemove.foldLeft(data)(_ - _)
     UserAnswers(journeyId, updData)
   }
@@ -66,3 +66,4 @@ object UserAnswers {
   implicit val format: OFormat[UserAnswers] = OFormat(reads, writes)
 
 }
+
