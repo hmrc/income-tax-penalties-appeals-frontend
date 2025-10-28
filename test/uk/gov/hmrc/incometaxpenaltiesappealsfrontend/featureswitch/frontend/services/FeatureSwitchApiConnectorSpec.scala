@@ -17,11 +17,9 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.services
 
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK}
 import play.api.libs.json.{JsValue, Json}
@@ -32,11 +30,13 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, HttpResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.AuthMocks
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitchSetting
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.connectors.FeatureSwitchApiConnector
+import izumi.reflect.Tag
+import play.api.libs.ws.BodyWritable
 
 import java.net.URL
 import scala.concurrent.{ExecutionContext, Future}
 
-class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockitoSugar with Injecting {
+class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockFactory with Injecting {
 
   implicit val ec: ExecutionContext = ExecutionContext.global
   implicit val hc: HeaderCarrier = HeaderCarrier()
@@ -48,13 +48,13 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
   val testAction = new FeatureSwitchApiConnector(mockHttpClient)
 
   val testFeatureSwitches: Seq[FeatureSwitchSetting] = Seq(
-    FeatureSwitchSetting("config1","feature1",isEnabled = true),
-    FeatureSwitchSetting("config2","feature2",isEnabled = false)
+    FeatureSwitchSetting("config1", "feature1", isEnabled = true),
+    FeatureSwitchSetting("config2", "feature2", isEnabled = false)
   )
 
   val testUpdatedFeatureSwitches: Seq[FeatureSwitchSetting] = Seq(
-    FeatureSwitchSetting("config1","feature1",isEnabled = false),
-    FeatureSwitchSetting("config2","feature2",isEnabled = true)
+    FeatureSwitchSetting("config1", "feature1", isEnabled = false),
+    FeatureSwitchSetting("config2", "feature2", isEnabled = true)
   )
 
   "retrieveFeatureSwitches" should {
@@ -64,14 +64,12 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       val url = new URL("http://localhost:9000/test")
       val jsonResponse = Json.toJson(testFeatureSwitches)
 
-      when(mockHttpClient.get(url)) thenReturn mockRequestBuilder
-
-      when(
-        mockRequestBuilder.execute[HttpResponse](any[HttpReads[HttpResponse]], any[ExecutionContext])
-      ) thenReturn Future.successful(mockResponse)
-
-      when(mockResponse.status) thenReturn OK
-      when(mockResponse.json) thenReturn jsonResponse
+      (mockHttpClient.get(_: URL)(_:HeaderCarrier)).expects(url, *).returning(mockRequestBuilder)
+      (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+        .expects(*, *)
+        .returning(Future.successful(mockResponse))
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(jsonResponse)
 
       val result = await(testAction.retrieveFeatureSwitches(url.toString))
       result shouldEqual testFeatureSwitches
@@ -82,16 +80,15 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
 
       val url = new URL("http://localhost:9000/test")
 
-      when(mockHttpClient.get(url)) thenReturn mockRequestBuilder
+      (mockHttpClient.get(_: URL)(_:HeaderCarrier)).expects(url, *).returning(mockRequestBuilder)
+      (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+        .expects(*, *)
+        .returning(Future.successful(mockResponse))
 
-      when(
-        mockRequestBuilder.execute[HttpResponse](any[HttpReads[HttpResponse]], any[ExecutionContext])
-      ) thenReturn Future.successful(mockResponse)
-
-      when(mockResponse.status) thenReturn INTERNAL_SERVER_ERROR
+      (() => mockResponse.status).expects().returning(INTERNAL_SERVER_ERROR)
 
       val result = the[Exception] thrownBy await(testAction.retrieveFeatureSwitches(url.toString))
-      result.getMessage should include ("Could not retrieve feature switches")
+      result.getMessage should include("Could not retrieve feature switches")
 
     }
 
@@ -100,17 +97,16 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       val url = new URL("http://localhost:9000/test")
       val invalidJson = Json.obj("return" -> "invalidData")
 
-      when(mockHttpClient.get(url)) thenReturn mockRequestBuilder
 
-      when(
-        mockRequestBuilder.execute[HttpResponse](any[HttpReads[HttpResponse]], any[ExecutionContext])
-      ) thenReturn Future.successful(mockResponse)
-
-      when(mockResponse.status) thenReturn OK
-      when(mockResponse.json) thenReturn invalidJson
+      (mockHttpClient.get(_: URL)(_:HeaderCarrier)).expects(url, *).returning(mockRequestBuilder)
+      (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+        .expects(*, *)
+        .returning(Future.successful(mockResponse))
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(invalidJson)
 
       val result = the[Exception] thrownBy await(testAction.retrieveFeatureSwitches(url.toString))
-      result.getMessage should include ("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
+      result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
 
     }
 
@@ -124,16 +120,13 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       val url = new URL("http://localhost:9000/test")
       val jsonResponse = Json.toJson(testUpdatedFeatureSwitches)
 
-      when(mockHttpClient.post(url)) thenReturn mockRequestBuilder
-
-      when(mockRequestBuilder.withBody(any[JsValue])(any, any, any)) thenReturn(mockRequestBuilder)
-
-      when(
-        mockRequestBuilder.execute[HttpResponse](any[HttpReads[HttpResponse]], any[ExecutionContext])
-      ) thenReturn Future.successful(mockResponse)
-
-      when(mockResponse.status) thenReturn OK
-      when(mockResponse.json) thenReturn jsonResponse
+      (mockHttpClient.post(_: URL)(_:HeaderCarrier)).expects(url, *).returning(mockRequestBuilder)
+      (mockRequestBuilder.withBody[JsValue](_: JsValue)(_: BodyWritable[JsValue], _: Tag[JsValue], _: ExecutionContext)).expects(*,*,*,*).returning(mockRequestBuilder)
+      (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+        .expects(*, *)
+        .returning(Future.successful(mockResponse))
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(jsonResponse)
 
       val result = await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
       result shouldEqual testUpdatedFeatureSwitches
@@ -144,18 +137,15 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
 
       val url = new URL("http://localhost:9000/test")
 
-      when(mockHttpClient.post(url)) thenReturn mockRequestBuilder
+      (mockHttpClient.post(_: URL)(_:HeaderCarrier)).expects(url, *).returning(mockRequestBuilder)
+      (mockRequestBuilder.withBody[JsValue](_: JsValue)(_: BodyWritable[JsValue], _: Tag[JsValue], _: ExecutionContext)).expects(*,*,*,*).returning(mockRequestBuilder)
+      (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+        .expects(*, *)
+        .returning(Future.successful(mockResponse))
+      (() => mockResponse.status).expects().returning(INTERNAL_SERVER_ERROR)
 
-      when(mockRequestBuilder.withBody(any[JsValue])(any, any, any)) thenReturn(mockRequestBuilder)
-
-      when(
-        mockRequestBuilder.execute[HttpResponse](any[HttpReads[HttpResponse]], any[ExecutionContext])
-      ) thenReturn Future.successful(mockResponse)
-
-      when(mockResponse.status) thenReturn INTERNAL_SERVER_ERROR
-
-      val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString,testFeatureSwitches))
-      result.getMessage should include ("Could not update feature switches")
+      val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
+      result.getMessage should include("Could not update feature switches")
 
     }
 
@@ -164,18 +154,16 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       val url = new URL("http://localhost:9000/test")
       val invalidJson = Json.obj("return" -> "invalidData")
 
-      when(mockHttpClient.post(url)) thenReturn mockRequestBuilder
-      when(mockRequestBuilder.withBody(any[JsValue])(any, any, any)) thenReturn(mockRequestBuilder)
+      (mockHttpClient.post(_: URL)(_:HeaderCarrier)).expects(url, *).returning(mockRequestBuilder)
+      (mockRequestBuilder.withBody[JsValue](_: JsValue)(_: BodyWritable[JsValue], _: Tag[JsValue], _: ExecutionContext)).expects(*,*,*,*).returning(mockRequestBuilder)
+      (mockRequestBuilder.execute[HttpResponse](_: HttpReads[HttpResponse], _: ExecutionContext))
+        .expects(*, *)
+        .returning(Future.successful(mockResponse))
+      (() => mockResponse.status).expects().returning(OK)
+      (() => mockResponse.json).expects().returning(invalidJson)
 
-      when(
-        mockRequestBuilder.execute[HttpResponse](any[HttpReads[HttpResponse]], any[ExecutionContext])
-      ) thenReturn Future.successful(mockResponse)
-
-      when(mockResponse.status) thenReturn OK
-      when(mockResponse.json) thenReturn invalidJson
-
-      val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString,testFeatureSwitches))
-      result.getMessage should include ("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
+      val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
+      result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
 
     }
 

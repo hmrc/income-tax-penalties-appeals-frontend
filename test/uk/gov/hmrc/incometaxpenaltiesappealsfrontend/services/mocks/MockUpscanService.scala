@@ -16,20 +16,21 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks
 
-import org.mockito.ArgumentMatchers.{eq => eqTo}
-import org.mockito.Mockito._
-import org.mockito.stubbing.OngoingStubbing
-import org.scalatestplus.mockito.MockitoSugar
+
+import org.scalamock.handlers.CallHandler
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 
 import scala.concurrent.Future
 
-trait MockUpscanService extends MockitoSugar {
+trait MockUpscanService extends MockFactory {
+  _: TestSuite =>
 
   val mockUpscanService: UpscanService = mock[UpscanService]
 
-  def mockGetAllReadyFiles(journeyId: String)(response: Future[Seq[UploadJourney]]): OngoingStubbing[Future[Seq[UploadJourney]]] =
-    when(mockUpscanService.getAllReadyFiles(eqTo(journeyId))).thenReturn(response)
+  def mockGetAllReadyFiles(journeyId: String)(response: Future[Seq[UploadJourney]]): CallHandler[Future[Seq[UploadJourney]]] =
+    (mockUpscanService.getAllReadyFiles(_: String)).expects(journeyId).returning(response)
 
 }

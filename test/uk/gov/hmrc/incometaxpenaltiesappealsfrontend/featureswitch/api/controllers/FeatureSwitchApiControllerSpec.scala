@@ -16,11 +16,9 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.controllers
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.when
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status.OK
 import play.api.mvc.ControllerComponents
@@ -31,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.AuthMocks
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services.FeatureSwitchService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.FeatureSwitchSetting
 
-class FeatureSwitchApiControllerSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockitoSugar with Injecting {
+class FeatureSwitchApiControllerSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockFactory with Injecting {
 
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   val cc: ControllerComponents = stubControllerComponents()
@@ -58,14 +56,14 @@ class FeatureSwitchApiControllerSpec extends AnyWordSpec with should.Matchers wi
 
     "Get Feature Switches using getFeatureSwitches " in {
 
-      when(mockFeatureSwitchService.getFeatureSwitches()) thenReturn testFeatureSwitches
+      (() => mockFeatureSwitchService.getFeatureSwitches()).expects().returning(testFeatureSwitches)
       val result = testAction.getFeatureSwitches(FakeRequest())
       status(result) shouldBe OK
     }
 
     "Post Feature Switches using updateFeatureSwitches " in {
 
-      when(mockFeatureSwitchService.updateFeatureSwitches(any())) thenReturn testUpdatedFeatureSwitches
+      (mockFeatureSwitchService.updateFeatureSwitches(_:Seq[FeatureSwitchSetting])).expects(*).returning(testUpdatedFeatureSwitches)
       val result = testAction.updateFeatureSwitches()(FakeRequest().withBody(testFeatureSwitches))
       status(result) shouldBe OK
     }

@@ -16,17 +16,21 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks
 
-import org.mockito.ArgumentMatchers.{any, eq => eqTo}
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.AuditService
 
-trait MockAuditService extends MockitoSugar {
+trait MockAuditService extends MockFactory { _: TestSuite =>
 
-  val mockAuditService: AuditService = mock[AuditService]
+  val stubAuditService: AuditService = stub[AuditService]
+
+
+  def stubAuditEvent(): Unit =
+    (stubAuditService.audit(_: AuditModel)(_: HeaderCarrier)).when(*, *).returns(())
+
 
   def verifyAuditEvent(model: AuditModel): Unit =
-    verify(mockAuditService, times(1)).audit(eqTo(model))(any())
-
+    (stubAuditService.audit(_: AuditModel)(_:HeaderCarrier)).verify(model, *).once()
 }

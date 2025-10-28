@@ -16,19 +16,24 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
+import play.api.i18n.Messages
 import play.twirl.api.Html
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.BtaNavBarService
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-trait MockBtaNavBarService extends MockitoSugar {
+trait MockBtaNavBarService extends MockFactory {
+  _: TestSuite =>
 
   val mockBtaNavBarService: BtaNavBarService = mock[BtaNavBarService]
 
   def mockRetrieveBtaLinksAndRenderNavBar()(response: Future[Option[Html]]): Unit =
-    when(mockBtaNavBarService.retrieveBtaLinksAndRenderNavBar()(any(), any(), any())).thenReturn(response)
+    (mockBtaNavBarService.retrieveBtaLinksAndRenderNavBar()(_: HeaderCarrier, _: ExecutionContext, _: Messages))
+      .expects(*, *, *)
+      .returning(response)
 
 }
