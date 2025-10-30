@@ -35,15 +35,16 @@ class ReviewMoreThan30DaysFormSpec extends AnyWordSpec with should.Matchers with
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-      
-        val form: Form[ReviewMoreThan30DaysEnum.Value] = ReviewMoreThan30DaysForm.form()
 
-        "bind" when {
+      for (multipleAppeals <- Seq(true, false)) {
+        val form: Form[ReviewMoreThan30DaysEnum.Value] = ReviewMoreThan30DaysForm.form(multipleAppeals)
+
+        s"bind when multiple appeals are $multipleAppeals" when {
 
           behave like mandatoryField(
             form = form,
             fieldName = ReviewMoreThan30DaysForm.key,
-            requiredError = FormError(ReviewMoreThan30DaysForm.key, messagesForLanguage.errorRequired)
+            requiredError = FormError(ReviewMoreThan30DaysForm.key, if(multipleAppeals)messagesForLanguage.errorRequiredMultiple else messagesForLanguage.errorRequired)
           )
 
           "bind valid values" in {
@@ -55,9 +56,10 @@ class ReviewMoreThan30DaysFormSpec extends AnyWordSpec with should.Matchers with
 
           "reject invalid values" in {
             val result = form.bind(Map(ReviewMoreThan30DaysForm.key -> "foo"))
-            result.errors.headOption shouldBe Some(FormError(ReviewMoreThan30DaysForm.key, messagesForLanguage.errorRequired))
+            result.errors.headOption shouldBe Some(FormError(ReviewMoreThan30DaysForm.key, if(multipleAppeals)messagesForLanguage.errorRequiredMultiple else messagesForLanguage.errorRequired))
           }
         }
+      }
     }
   }
 }

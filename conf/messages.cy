@@ -299,9 +299,11 @@ review.decision.30.days.headingAndTitle.multiple = Oes mwy na 30 diwrnod wedi my
 review.decision.30.days.hint = Fel arfer, mae’n rhaid i chi ofyn am adolygiad cyn pen 30 diwrnod o ddyddiad y penderfyniad.
 review.decision.30.days.yes = Iawn
 review.decision.30.days.no = Na
-review.decision.30.days.unsure = Ddim yn gwybod
+review.decision.30.days.unsure = I’m not sure (Welsh)
 review.decision.30.days.error.required = Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)
 review.decision.30.days.error.invalid = Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)
+review.decision.30.days.error.required.multiple = Tell us if it has been more than 30 days since the appeal decisions were issued (Welsh)
+review.decision.30.days.error.invalid.multiple = Tell us if it has been more than 30 days since the appeal decisions were issued (Welsh)
 
 # Late appeal page
 # ----------------------------------------------------------

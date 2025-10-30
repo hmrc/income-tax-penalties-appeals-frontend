@@ -28,11 +28,17 @@ object ReviewMoreThan30DaysForm extends Mappings {
 
   val key = "decisionReview"
 
-  def form()(implicit messages: Messages): Form[ReviewMoreThan30DaysEnum.Value] = Form[ReviewMoreThan30DaysEnum.Value](
-    single(
-      ReviewMoreThan30DaysForm.key -> text(messages("review.decision.30.days.error.required"))
-        .verifying(messages("review.decision.30.days.error.invalid"), value => Try(ReviewMoreThan30DaysEnum.withName(value)).isSuccess)
-        .transform[ReviewMoreThan30DaysEnum.Value](ReviewMoreThan30DaysEnum.withName, _.toString)
+
+  def form(isMultipleAppeal: Boolean)(implicit messages: Messages): Form[ReviewMoreThan30DaysEnum.Value] = {
+
+    val multipleAppeal = if(isMultipleAppeal){".multiple"}else{""}
+
+    Form[ReviewMoreThan30DaysEnum.Value](
+      single(
+        ReviewMoreThan30DaysForm.key -> text(messages(s"review.decision.30.days.error.required$multipleAppeal"))
+          .verifying(messages(s"review.decision.30.days.error.invalid$multipleAppeal"), value => Try(ReviewMoreThan30DaysEnum.withName(value)).isSuccess)
+          .transform[ReviewMoreThan30DaysEnum.Value](ReviewMoreThan30DaysEnum.withName, _.toString)
+      )
     )
-  )
+  }
 }

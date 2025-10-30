@@ -39,7 +39,7 @@ class ReviewMoreThan30DaysController @Inject()(ReviewMoreThan30Days: ReviewMoreT
 
   def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(ReviewMoreThan30Days(
-      form = fillForm(ReviewMoreThan30DaysForm.form(), ReviewMoreThan30DaysPage),
+      form = fillForm(ReviewMoreThan30DaysForm.form(user.isAppealingMultipleLPPs), ReviewMoreThan30DaysPage),
       isAgent = user.isAgent,
       isMultipleAppeal = user.isAppealingMultipleLPPs,
       mode
@@ -47,7 +47,7 @@ class ReviewMoreThan30DaysController @Inject()(ReviewMoreThan30Days: ReviewMoreT
   }
 
   def submit(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    ReviewMoreThan30DaysForm.form().bindFromRequest().fold(
+    ReviewMoreThan30DaysForm.form(user.isAppealingMultipleLPPs).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(ReviewMoreThan30Days(
           form = formWithErrors,
