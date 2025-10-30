@@ -645,12 +645,12 @@ duplicateAppeal.headingAndTitle = Apêl eisoes ar y gweill
 duplicateAppeal.p1 = Ni allwch gyflwyno mwy nag un apêl ar gyfer yr un gosb ar yr un pryd.
 duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad)
 
-# Page not found - bypass
+# Page not found
 # ----------------------------------------------------------
-bypass.headingAndTitle = Page not found (Welsh)
-bypass.p1 = If you typed the web address, check it is correct. (Welsh)
-bypass.p2 = If you pasted the web address, check you copied the entire address. (Welsh)
-bypass.link.text = Back to Self Assessment penalties and appeals (Welsh)
+page.not.found.headingAndTitle = Page not found (Welsh)
+page.not.found.p1 = If you typed the web address, check it is correct. (Welsh)
+page.not.found.p2 = If you pasted the web address, check you copied the entire address. (Welsh)
+page.not.found.link.text = Back to Self Assessment penalties and appeals (Welsh)
 
 
 

@@ -647,9 +647,9 @@ duplicateAppeal.p1 = You can’t submit more than one appeal for the same penalt
 duplicateAppeal.link.text = Back to Self Assessment penalties and appeals
 
 
-# Page not found - bypass
+# Page not found
 # ----------------------------------------------------------
-bypass.headingAndTitle = Page not found
-bypass.p1 = If you typed the web address, check it is correct.
-bypass.p2 = If you pasted the web address, check you copied the entire address.
-bypass.link.text = Back to Self Assessment penalties and appeals
+page.not.found.headingAndTitle = Page not found
+page.not.found.p1 = If you typed the web address, check it is correct.
+page.not.found.p2 = If you pasted the web address, check you copied the entire address.
+page.not.found.link.text = Back to Self Assessment penalties and appeals

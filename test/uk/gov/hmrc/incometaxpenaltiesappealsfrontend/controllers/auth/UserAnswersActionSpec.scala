@@ -66,7 +66,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
         val result = testAction.invokeBlock(userRequest, block)
 
         status(result) shouldBe SEE_OTHER
-        redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
+        redirectLocation(result) shouldBe Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController.onPageLoad(isAgent = userRequest.isAgent).url)
       }
     }
 
@@ -87,7 +87,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
           val result = testAction.invokeBlock(userRequest, block)
 
           status(result) shouldBe SEE_OTHER
-          redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
+          redirectLocation(result) shouldBe Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController.onPageLoad(isAgent = userRequest.isAgent).url)
         }
       }
 
@@ -131,7 +131,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
             val result = testAction.invokeBlock(userRequest, block)
 
             status(result) shouldBe SEE_OTHER
-            redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
+            redirectLocation(result) shouldBe Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController.onPageLoad(isAgent = userRequest.isAgent).url)
           }
         }
       }

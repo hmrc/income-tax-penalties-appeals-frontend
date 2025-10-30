@@ -30,13 +30,13 @@ link: components.Link
 
 @(isAgent: Boolean)(implicit user: CurrentUserRequest[_], messages: Messages, appConfig: AppConfig)
 
-@layout(Some(titleBuilder(messages("bypass.headingAndTitle"))), backLinkEnabled = false, isAgent = isAgent) {
+@layout(Some(titleBuilder(messages("page.not.found.headingAndTitle"))), backLinkEnabled = false, isAgent = isAgent) {
 
-@h1("bypass.headingAndTitle")
+@h1("page.not.found.headingAndTitle")
 
-@p("bypass.p1", elmId = Some("bypass-paragraph-1"))
-@p("bypass.p2", elmId = Some("bypass-paragraph-2"))
+@p("page.not.found.p1")
+@p("page.not.found.p2")
 
-@link(link = appConfig.penaltiesHomePage(isAgent), messageKey = "bypass.link.text", id = Some("bypass-start-link"))
+@link(link = appConfig.penaltiesHomePage(isAgent), messageKey = "page.not.found.link.text", id = Some("returnToSALink"))
 
 }
