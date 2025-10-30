@@ -26,7 +26,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{Bad
 import scala.concurrent.{ExecutionContext, Future}
 
 trait IncomeTaxSessionMocks extends BaseFixtures with MockFactory {
-  _: TestSuite =>
+  this: TestSuite =>
 
   lazy val mockSessionDataConnector: IncomeTaxSessionDataConnector = mock[IncomeTaxSessionDataConnector]
 

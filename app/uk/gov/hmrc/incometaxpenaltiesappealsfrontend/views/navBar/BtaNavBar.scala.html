@@ -28,8 +28,8 @@
             <li>
                 <a href="@nav.url" id="nav-bar-link-@nav.message.replace(' ','-')" class="hmrc-account-menu__link">
                     @nav.message
-                    @nav.alert.map(alert =>
-                        if(alert != "0") hmrcNotificationBadge(NotificationBadge(alert))
+                    @nav.optNoneZeroAlert.map(alert =>
+                    hmrcNotificationBadge(NotificationBadge(alert))
                     )
                 </a>
             </li>

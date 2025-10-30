@@ -27,7 +27,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRep
 class DuplicateControllerISpec extends ControllerISpecHelper {
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)

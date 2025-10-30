@@ -26,7 +26,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import scala.concurrent.Future
 
 trait MockUpscanService extends MockFactory {
-  _: TestSuite =>
+  this: TestSuite =>
 
   val mockUpscanService: UpscanService = mock[UpscanService]
 

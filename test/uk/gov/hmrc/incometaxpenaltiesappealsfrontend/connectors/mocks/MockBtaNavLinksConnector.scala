@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.NavContent
 import scala.concurrent.{ExecutionContext, Future}
 
 trait MockBtaNavLinksConnector extends MockFactory {
-  _: TestSuite =>
+  this: TestSuite =>
 
   val mockBtaNavLinksConnector: BtaNavLinksConnector = mock[BtaNavLinksConnector]
 

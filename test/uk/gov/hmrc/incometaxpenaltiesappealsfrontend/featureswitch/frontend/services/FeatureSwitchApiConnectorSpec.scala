@@ -106,7 +106,7 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (() => mockResponse.json).expects().returning(invalidJson)
 
       val result = the[Exception] thrownBy await(testAction.retrieveFeatureSwitches(url.toString))
-      result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
+      result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),ArraySeq())))")
 
     }
 
@@ -163,7 +163,7 @@ class FeatureSwitchApiConnectorSpec extends AnyWordSpec with should.Matchers wit
       (() => mockResponse.json).expects().returning(invalidJson)
 
       val result = the[Exception] thrownBy await(testAction.updateFeatureSwitches(url.toString, testFeatureSwitches))
-      result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),List())))")
+      result.getMessage should include("(,List(JsonValidationError(List(error.expected.jsarray),ArraySeq())))")
 
     }
 

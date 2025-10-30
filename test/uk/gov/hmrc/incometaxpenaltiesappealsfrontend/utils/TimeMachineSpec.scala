@@ -17,7 +17,6 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.matchers.must.Matchers.convertToAnyMustWrapper
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Configuration

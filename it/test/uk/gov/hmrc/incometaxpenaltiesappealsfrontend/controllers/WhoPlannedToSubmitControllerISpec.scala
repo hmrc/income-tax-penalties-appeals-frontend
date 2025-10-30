@@ -36,9 +36,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue

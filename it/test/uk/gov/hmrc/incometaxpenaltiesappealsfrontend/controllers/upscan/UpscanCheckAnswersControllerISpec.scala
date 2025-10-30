@@ -30,7 +30,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Oth
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 
 class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
@@ -38,13 +37,10 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
-
   class Setup(isLate: Boolean = false) {
 
     deleteAll(userAnswersRepo)
-    deleteAll(fileUploadRepo)
+    deleteAll(fileUploadRepo.mongo)
 
     val userAnswers: UserAnswers = emptyUserAnswers
       .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(

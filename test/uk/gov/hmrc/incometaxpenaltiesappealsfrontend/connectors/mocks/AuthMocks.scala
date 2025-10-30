@@ -29,10 +29,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.incomeT
 import scala.concurrent.{ExecutionContext, Future}
 
 trait AuthMocks extends MockFactory {
-  _: TestSuite =>
+  this: TestSuite =>
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
-
+  type RetrievalInitial = Retrieval[Option[AffinityGroup] ~ Enrolments ~ Option[String]]
+  type RetrievalAgent = Retrieval[Option[AffinityGroup] ~ Enrolments]
+  
   lazy val predicateInitial: Predicate = {
     val isAgent: Predicate = Enrolment("HMRC-AS-AGENT") and AffinityGroup.Agent
     val isNotAgent: Predicate = AffinityGroup.Individual or AffinityGroup.Organisation
@@ -45,8 +47,8 @@ trait AuthMocks extends MockFactory {
     AffinityGroup.Agent or predicate
   }
 
-  lazy val retrievalInitial: Retrieval[Option[AffinityGroup] ~ Enrolments ~ Option[String]] = affinityGroup and allEnrolments and nino
-  lazy val retrievalAgent: Retrieval[Option[AffinityGroup] ~ Enrolments] = affinityGroup and allEnrolments
+  lazy val retrievalInitial: RetrievalInitial = affinityGroup and allEnrolments and nino
+  lazy val retrievalAgent: RetrievalAgent = affinityGroup and allEnrolments
 
   lazy val agentEnrolment = Enrolments(
     Set(Enrolment(
@@ -88,19 +90,19 @@ trait AuthMocks extends MockFactory {
   }
 
   def mockAuthenticated(af: AffinityGroup, hasNino: Boolean = true, hasEnrolment: Boolean = true): Unit = {
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: RetrievalInitial)(_: HeaderCarrier, _: ExecutionContext))
       .expects(predicateInitial, retrievalInitial, *, *)
       .returning(Future.successful(getInitialAuthResponse(af, hasNino, hasEnrolment)))
   }
 
   def mockAuthenticatedAgent(hasEnrolment: Boolean = true, af: AffinityGroup = AffinityGroup.Agent): Unit = {
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: RetrievalAgent)(_: HeaderCarrier, _: ExecutionContext))
       .expects(predicateInitial, retrievalAgent, *, *)
       .returning(Future.successful(getAgentAuthResponse(hasEnrolment, af)))
   }
 
   def mockAuthenticatedMTDIndorOrg(af: AffinityGroup, hasNino: Boolean = true, hasEnrolment: Boolean = true): Unit = {
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: RetrievalInitial)(_: HeaderCarrier, _: ExecutionContext))
       .expects(predicateMTDIndOrOrg, retrievalInitial, *, *)
       .returning(Future.successful(getInitialAuthResponse(af, hasNino, hasEnrolment)))
   }
@@ -118,32 +120,32 @@ trait AuthMocks extends MockFactory {
   }
 
   def mockAuthenticatedWithNoAffinityGroup(): Unit =
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[Unit])(_: HeaderCarrier, _: ExecutionContext))
       .expects(*, *, *, *)
       .returning(Future.failed(UnsupportedAffinityGroup("No affinity group")))
 
   def mockAgentWithoutAgentEnrolment(): Unit =
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: RetrievalAgent)(_: HeaderCarrier, _: ExecutionContext))
       .expects(*, *, *, *)
       .returning(Future.failed(InsufficientEnrolments("No HMRC-AS-AGENT enrolment")))
 
   def mockAuthenticatedWithNoMTDEnrolment(): Unit =
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: RetrievalInitial)(_: HeaderCarrier, _: ExecutionContext))
       .expects(*, *, *, *)
       .returning(Future.failed(InsufficientEnrolments("No MTDIT enrolment")))
 
   def mockAuthenticatedNoActiveSession(): Unit =
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[Any])(_: HeaderCarrier, _: ExecutionContext))
       .expects(*, *, *, *)
       .returning(Future.failed(MissingBearerToken("No token")))
 
   def mockAuthenticatedBearerTokenExpired(): Unit =
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[Any])(_: HeaderCarrier, _: ExecutionContext))
       .expects(*, *, *, *)
       .returning(Future.failed(BearerTokenExpired("expired")))
 
   def mockAuthenticatedFailure(): Unit =
-    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[Any])(_: HeaderCarrier, _: ExecutionContext))
       .expects(*, *, *, *)
       .returning(Future.failed(InternalError("There has been an error")))
 

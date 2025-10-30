@@ -34,7 +34,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToS
 
 class JointAppealControllerISpec extends ControllerISpecHelper {
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]

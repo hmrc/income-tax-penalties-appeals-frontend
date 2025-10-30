@@ -31,7 +31,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.FireOrFlood
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -44,9 +43,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   val errorHandler: ErrorHandler = app.injector.instanceOf[ErrorHandler]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   object Selectors extends BaseSelectors {
     override val prefix: String = "main"
   }

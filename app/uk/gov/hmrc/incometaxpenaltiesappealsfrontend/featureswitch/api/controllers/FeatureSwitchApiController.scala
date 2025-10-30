@@ -30,7 +30,7 @@ class FeatureSwitchApiController @Inject()(featureSwitchService: FeatureSwitchSe
                                           val appConfig: AppConfig) extends InjectedController with FeatureSwitching {
 
   def getFeatureSwitches: Action[AnyContent] = Action {
-    Ok(Json.toJson(featureSwitchService.getFeatureSwitches))
+    Ok(Json.toJson(featureSwitchService.getFeatureSwitches()))
   }
 
   def updateFeatureSwitches(): Action[Seq[FeatureSwitchSetting]] = Action(parse.json[Seq[FeatureSwitchSetting]]) {

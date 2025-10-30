@@ -16,13 +16,11 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
-import play.api.http.Status.INTERNAL_SERVER_ERROR
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, StringContextOps}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.IncomeTaxSessionDataHttpParser
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.IncomeTaxSessionDataHttpParser.GetSessionDataResponse
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{IncomeTaxSessionDataHttpParser, UnexpectedFailure}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -37,11 +35,5 @@ class IncomeTaxSessionDataConnector @Inject()(httpClient: HttpClientV2,
     httpClient
       .get(url"${appConfig.incomeTaxSessionDataBaseUrl}/income-tax-session-data")
       .execute[GetSessionDataResponse]
-      .recover {
-        case e: Exception =>
-          val msg = s"[IncomeTaxSessionDataConnector][getSessionData] Unexpected Exception of type ${e.getClass.getSimpleName} occurred"
-          logger.error(msg)
-          Left(UnexpectedFailure(INTERNAL_SERVER_ERROR, msg))
-      }
   }
 }

@@ -27,19 +27,15 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{ControllerISpecHelper, routes as appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadRemoveFileForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 
 class UpscanRemoveFileControllerISpec extends ControllerISpecHelper
   with FileUploadFixtures {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
   
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
-    deleteAll(fileUploadRepo)
+    deleteAll(fileUploadRepo.mongo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }

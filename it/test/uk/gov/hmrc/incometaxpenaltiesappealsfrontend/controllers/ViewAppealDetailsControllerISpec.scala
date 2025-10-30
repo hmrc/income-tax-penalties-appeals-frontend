@@ -29,7 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
@@ -40,10 +40,7 @@ class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUp
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
-
+  
   class Setup(userAnswers: UserAnswers, isAgent: Boolean) {
     deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(userAnswers).futureValue

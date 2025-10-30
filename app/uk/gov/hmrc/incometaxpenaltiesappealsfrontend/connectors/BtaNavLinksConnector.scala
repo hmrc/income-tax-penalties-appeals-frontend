@@ -36,12 +36,6 @@ class BtaNavLinksConnector @Inject()(val http: HttpClientV2,
     http
       .get(url"${config.btaBaseUrl}/business-account/partial/nav-links")(hcwc)
       .execute[Option[NavContent]]
-      .recover {
-        case e: Exception =>
-          logger.error(s"[BtaNavLinksConnector][getBtaNavLinks] Unexpected Exception of type ${e.getClass.getSimpleName} occurred while retrieving NavLinks from BTA with" +
-            s", returning None to gracefully continue without a NavBar being rendered.")
-          None
-      }
   }
 
 }

@@ -186,7 +186,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
             caseId = Some("REV-1234"),
             error = None,
             correlationId = "uuid-1",
-            appealSubmission = submissionModelCapture.value.leftSideValue
+            appealSubmission = submissionModelCapture.value
           )(fakeRequestForOtherJourney))
 
           result shouldBe Right(SuccessfulAppeal(AppealSubmissionResponseModel(Some("REV-1234"), OK)))
@@ -231,7 +231,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
           caseId = Some("REV-1234"),
           error = None,
           correlationId = "uuid-1",
-          appealSubmission = lpp1Capture.value.leftSideValue
+          appealSubmission = lpp1Capture.value
         )(fakeRequestForCrimeJourneyMultiple))
 
         verifyAuditEvent(AppealSubmissionAuditModel(
@@ -240,7 +240,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
           caseId = Some("REV-5678"),
           error = None,
           correlationId = "uuid-2",
-          appealSubmission = lpp2Capture.value.leftSideValue
+          appealSubmission = lpp2Capture.value
         )(fakeRequestForCrimeJourneyMultiple))
       }
     }
@@ -281,7 +281,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
               caseId = None,
               error = Some("Some issue with submission"),
               correlationId = "uuid-1",
-              appealSubmission = lpp1Capture.value.leftSideValue
+              appealSubmission = lpp1Capture.value
             )(fakeRequestForCrimeJourneyMultiple))
 
             verifyAuditEvent(AppealSubmissionAuditModel(
@@ -290,7 +290,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
               caseId = Some("REV-5678"),
               error = None,
               correlationId = "uuid-2",
-              appealSubmission = lpp2Capture.value.leftSideValue
+              appealSubmission = lpp2Capture.value
             )(fakeRequestForCrimeJourneyMultiple))
 
             logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
@@ -333,7 +333,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
               caseId = Some("REV-1234"),
               error = None,
               correlationId = "uuid-1",
-              appealSubmission = lpp1Capture.value.leftSideValue
+              appealSubmission = lpp1Capture.value
             )(fakeRequestForCrimeJourneyMultiple))
 
             verifyAuditEvent(AppealSubmissionAuditModel(
@@ -342,7 +342,7 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
               caseId = None,
               error = Some("Some issue with submission"),
               correlationId = "uuid-2",
-              appealSubmission = lpp2Capture.value.leftSideValue
+              appealSubmission = lpp2Capture.value
             )(fakeRequestForCrimeJourneyMultiple))
 
             logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +

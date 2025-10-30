@@ -28,7 +28,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, LateAppealPage, ReasonableExcusePage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 class LateAppealControllerISpec extends ControllerISpecHelper {
@@ -36,9 +35,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   val reasonsList: List[(ReasonableExcuse, Int)] = List(
     (Bereavement, appConfig.bereavementLateDays),
     (Cessation, appConfig.lateDays),

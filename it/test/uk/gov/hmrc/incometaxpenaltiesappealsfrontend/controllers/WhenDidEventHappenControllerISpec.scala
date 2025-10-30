@@ -31,8 +31,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode, PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 import java.time.LocalDate
 
@@ -42,9 +42,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   val reasonsWithUrls: List[(ReasonableExcuse, String, String)] = List(
     (Bereavement, "/when-did-the-person-die",  "/agent-when-did-the-person-die"),
     (Cessation, "/cessation", "/agent-cessation"),

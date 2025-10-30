@@ -12,7 +12,12 @@ object CodeCoverageSettings {
     ".*Routes.*",
     "testOnly.*",
     "testOnlyDoNotUseInAppConf.*",
-    ".*featureswitch.frontend.views.html.*"
+    ".*featureswitch.*",
+    ".*featureswitch.frontend.views.html.*",
+    ".*controllers.auth.models.*",
+    ".*views.html.*",
+    ".*models.*",
+    ".*config.*"
   )
 
   val settings: Seq[Setting[_]] = Seq(

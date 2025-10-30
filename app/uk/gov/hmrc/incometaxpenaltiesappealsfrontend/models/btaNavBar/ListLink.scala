@@ -18,4 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar
 
 case class ListLink(message: String,
                     url: String,
-                    alert: Option[String] = None)
+                    alert: Option[String] = None){
+
+  val optNoneZeroAlert: Option[String] = alert.filterNot(_.isEmpty).filterNot(_ == "0")
+}

@@ -37,9 +37,6 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
-
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
     super.beforeEach()

@@ -40,7 +40,6 @@ import java.time.LocalDate
 
 class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 

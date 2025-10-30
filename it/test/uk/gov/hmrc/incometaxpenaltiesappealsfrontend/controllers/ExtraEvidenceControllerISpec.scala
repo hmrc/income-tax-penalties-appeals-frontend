@@ -37,7 +37,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys
 
 class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]

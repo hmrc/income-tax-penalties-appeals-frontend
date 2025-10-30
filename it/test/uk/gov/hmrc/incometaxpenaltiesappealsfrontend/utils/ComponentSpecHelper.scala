@@ -33,6 +33,7 @@ import play.api.test.Helpers.*
 import play.api.{Application, inject}
 import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, MongoFileUploadJourneyConnection, UserAnswersRepository}
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
 
@@ -91,6 +92,9 @@ trait ComponentSpecHelper
     "timemachine.date" -> testDate.format(timeMachineDateFormatter1),
     "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck"
   )
+  
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
 
   implicit val ws: WSClient = app.injector.instanceOf[WSClient]
 

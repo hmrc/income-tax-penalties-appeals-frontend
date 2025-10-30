@@ -26,7 +26,6 @@ import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ControllerISpecHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.UpscanStub
 import utils.TimerUtil
 
@@ -38,13 +37,10 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
   with TimerUtil {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
   
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
-    deleteAll(fileUploadRepo)
+    deleteAll(fileUploadRepo.mongo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }

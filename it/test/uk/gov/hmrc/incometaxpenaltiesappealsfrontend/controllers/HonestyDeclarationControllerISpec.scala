@@ -36,7 +36,6 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   val reasonsList: List[(ReasonableExcuse, String, String, String, String, String, String)]= List(
   (Bereavement, HonestyDeclarationMessages.English.bereavementMessageLSP, HonestyDeclarationMessages.English.bereavementMessageLPP, HonestyDeclarationMessages.English.agentBereavementMessageLPP, HonestyDeclarationMessages.English.clientPlannedBereavementMessageLSP, HonestyDeclarationMessages.English.agentPlannedClientAffectedBereavementMessageLSP, HonestyDeclarationMessages.English.agentPlannedAgentAffectedBereavementMessageLSP),

@@ -22,7 +22,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.AuditService
 
-trait MockAuditService extends MockFactory { _: TestSuite =>
+trait MockAuditService extends MockFactory { this: TestSuite =>
 
   val stubAuditService: AuditService = stub[AuditService]
 
