@@ -17,6 +17,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 
 @this(
         layout: Layout,
@@ -26,12 +27,13 @@
         h2: components.H2,
         link: components.Link,
         warning: components.WarningText,
+        appConfig: AppConfig
 )
 @(isLate: Boolean, isLPP: Boolean, isAgent: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @isLPPText = {@if(isLPP) {.lpp} else {.lsp}}
 @isAgentText = {@if(isAgent) {.agent} else {.individual}}
-@cessationLink = {@link(link = "#", messageKey = "appeal.start.cessation.link", id = Some("cessationLink"))}
+@cessationLink = {@link(link = appConfig.cessationRedirectUrl(isAgent), messageKey = s"appeal.start.cessation.link$isAgentText", id = Some("cessationLink"))}
 
 @layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false, isAgent = isAgent) {
 
@@ -66,5 +68,7 @@
     @warning {@messages("appeal.start.p6")}
 
     @link(link = action.url, messageKey = s"appeal.start.button$isLPPText", classes = Some("govuk-button"))
+
+
 
 }

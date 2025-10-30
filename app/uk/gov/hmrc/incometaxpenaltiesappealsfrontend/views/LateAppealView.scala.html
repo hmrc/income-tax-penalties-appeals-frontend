@@ -15,28 +15,28 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.Layout
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
+@import uk.gov.hmrc.hmrcfrontend.views.html.components.{CharacterCount, HmrcCharacterCount}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.LateAppealHelper.messageKeyPrefix
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 
 
 @this(layout: Layout,
         govukButton: GovukButton,
         formHelper: FormWithCSRF,
-        govukCharacterCount: GovukCharacterCount,
+        hmrcCharacterCount: HmrcCharacterCount,
         govukErrorSummary: GovukErrorSummary,
         p: components.P,
         h1: components.H1,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLPP: Boolean, isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLPP: Boolean, isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 @isLPPText = {@if(isLPP) {.lpp} else {}}
 @layout(Some(titleBuilder(messages(s"lateAppeal.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}$isLPPText", user.lateAppealDays()), Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 
@@ -44,7 +44,7 @@
         @govukErrorSummary(ErrorSummaryViewModel(form))
     }
 
-    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)) {
+    @formHelper(action = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.LateAppealController.submit(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode)) {
 
         @caption()
 
@@ -52,7 +52,7 @@
         @p(s"lateAppeal.p1${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}", elmId = Some("infoDaysParagraph"), args = Seq(user.lateAppealDays()))
 
         @{
-            govukCharacterCount(CharacterCount(
+            hmrcCharacterCount(CharacterCount(
                 id = LateAppealForm.key,
                 name = LateAppealForm.key,
                 maxLength = Some(appConfig.numberOfCharsInTextArea),

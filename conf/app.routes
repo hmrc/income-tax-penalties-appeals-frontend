@@ -20,25 +20,42 @@ GET        /review-start                    uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /agent-review-start              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.AppealStartController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
 
 # Joint appeal LPP
-GET        /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /multiple-penalties-for-this-period                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-multiple-penalties-for-this-period              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+
+GET        /multiple-penalties-for-this-period/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /multiple-penalties-for-this-period/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-multiple-penalties-for-this-period/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-multiple-penalties-for-this-period/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
 
 # Joint appeal LPP - Second Stage Appeal
-GET        /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /review-multiple-penalties-for-this-period             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-GET        /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-review-multiple-penalties-for-this-period       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET        /review-multiple-penalties-for-this-period/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /review-multiple-penalties-for-this-period/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET        /agent-review-multiple-penalties-for-this-period/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-review-multiple-penalties-for-this-period/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.JointAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 # Reasonable excuse list
-GET        /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false)
-POST       /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = false)
+GET        /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /reason-for-missing-deadline           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
+GET        /reason-for-missing-deadline/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /reason-for-missing-deadline/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = true)
-POST       /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = true)
+GET        /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-reason-for-missing-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-reason-for-missing-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-reason-for-missing-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReasonableExcuseController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)
 
 
 # Honesty declaration
@@ -58,160 +75,269 @@ POST       /agent-review-honesty-declaration      uk.gov.hmrc.incometaxpenalties
 ## WHEN DID EVENT HAPPEN VIEWS ##
 
 # When did the person die
-GET        /when-did-the-person-die                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = false)
-POST       /when-did-the-person-die                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = false)
+GET        /when-did-the-person-die                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-person-die                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-person-die               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true)
-POST       /agent-when-did-the-person-die               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true)
+GET        /agent-when-did-the-person-die               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-person-die               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-person-die/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-person-die/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-person-die/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-person-die/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 # TBC cessation
-GET        /cessation                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false)
-POST       /cessation                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false)
+GET        /cessation                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /cessation                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-cessation                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true)
-POST       /agent-cessation                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true)
+GET        /agent-cessation                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-cessation                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /cessation/check                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /cessation/check                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-cessation/check                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-cessation/check                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 # When did the crime happen
-GET        /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false)
-POST       /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false)
+GET        /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true)
-POST       /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true)
+GET        /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-crime-happen             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-crime-happen/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-crime-happen/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-crime-happen/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-crime-happen/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # When did the fire or flood happen
-GET        /when-did-the-fire-or-flood-happen           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false)
-POST       /when-did-the-fire-or-flood-happen           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false)
+GET        /when-did-the-fire-or-flood-happen           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-fire-or-flood-happen           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-fire-or-flood-happen      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = true)
-POST       /agent-when-did-the-fire-or-flood-happen      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = true)
+GET        /agent-when-did-the-fire-or-flood-happen      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-fire-or-flood-happen      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-fire-or-flood-happen/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-fire-or-flood-happen/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-fire-or-flood-happen/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-fire-or-flood-happen/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = FireOrFlood, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # When did the health issue begin
-GET        /when-did-the-health-issue-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = false)
-POST       /when-did-the-health-issue-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = false)
+GET        /when-did-the-health-issue-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-health-issue-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-health-issue-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = true)
-POST       /agent-when-did-the-health-issue-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = true)
+GET        /agent-when-did-the-health-issue-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-health-issue-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-health-issue-begin/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-health-issue-begin/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-health-issue-begin/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-health-issue-begin/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Health, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # When did the technology issue begin
-GET        /when-did-the-technology-issues-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false)
-POST       /when-did-the-technology-issues-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false)
+GET        /when-did-the-technology-issues-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-technology-issues-begin        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-technology-issues-begin   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true)
-POST       /agent-when-did-the-technology-issues-begin   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true)
+GET        /agent-when-did-the-technology-issues-begin   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-technology-issues-begin   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-technology-issues-begin/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-technology-issues-begin/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-technology-issues-begin/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-technology-issues-begin/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # When did the hospital stay begin
-GET        /when-did-the-hospital-stay-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false)
-POST       /when-did-the-hospital-stay-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false)
+GET        /when-did-the-hospital-stay-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-hospital-stay-begin             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-hospital-stay-begin       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true)
-POST       /agent-when-did-the-hospital-stay-begin       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true)
+GET        /agent-when-did-the-hospital-stay-begin       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-hospital-stay-begin       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-hospital-stay-begin/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-hospital-stay-begin/check             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-hospital-stay-begin/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-hospital-stay-begin/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # TBC LossOfStaff
-GET        /lossOfStaff                                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = false)
-POST       /lossOfStaff                                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = false)
+GET        /lossOfStaff                                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /lossOfStaff                                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-lossOfStaff                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = true)
-POST       /agent-lossOfStaff                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = true)
+GET        /agent-lossOfStaff                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-lossOfStaff                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /lossOfStaff/check                                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /lossOfStaff/check                                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-lossOfStaff/check                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-lossOfStaff/check                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = LossOfStaff, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # When did the Other reason stop you
-GET        /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false)
-POST       /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false)
+GET        /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-issue-cause-missed-deadline      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true)
-POST       /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true)
+GET        /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-issue-cause-missed-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-issue-cause-missed-deadline/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-issue-cause-missed-deadline/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-issue-cause-missed-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-issue-cause-missed-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Other, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 ## WHEN DID EVENT END VIEWS ##
 
 # When did the technology issues end
-GET        /when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false)
-POST       /when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false)
+GET        /when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true)
-POST       /agent-when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true)
+GET        /agent-when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-technology-issues-end   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-technology-issues-end/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-technology-issues-end/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-technology-issues-end/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-technology-issues-end/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = TechnicalIssues, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # When did the hospital stay end
-GET        /when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false)
-POST       /when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false)
+GET        /when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = NormalMode)
+POST       /when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true)
-POST       /agent-when-did-the-hospital-stay-end      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true)
+GET        /agent-when-did-the-hospital-stay-end       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = NormalMode)
+POST       /agent-when-did-the-hospital-stay-end      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = NormalMode)
+
+GET        /when-did-the-hospital-stay-end/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = CheckMode)
+POST       /when-did-the-hospital-stay-end/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-when-did-the-hospital-stay-end/check       uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.onPageLoad(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = CheckMode)
+POST       /agent-when-did-the-hospital-stay-end/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventEndController.submit(reasonableExcuse: ReasonableExcuse = UnexpectedHospital, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 
 # Late appeal page
-GET        /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /making-a-late-appeal                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /making-a-late-appeal/check                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /making-a-late-appeal/check                    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-making-a-late-appeal              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+
+GET        /agent-making-a-late-appeal/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-making-a-late-appeal/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Late appeal page - Second Stage Appeal
-GET        /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /making-a-late-review-request            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-GET        /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /making-a-late-review-request/check            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /making-a-late-review-request/check            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET        /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-making-a-late-review-request      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET        /agent-making-a-late-review-request/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-making-a-late-review-request/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.LateAppealController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
 # Crime Reasonable Excuse
 
-GET        /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = false)
-POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = false)
+GET        /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
+GET        /has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = true)
-POST       /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = true)
-
+GET        /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-has-this-crime-been-reported    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-has-this-crime-been-reported/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.CrimeReportedController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)
 
 # Upload Extra Evidence
 
-GET        /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /upload-evidence-for-the-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /upload-evidence-for-the-appeal/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /upload-evidence-for-the-appeal/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-upload-evidence-for-the-appeal    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+
+GET        /agent-upload-evidence-for-the-appeal/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-upload-evidence-for-the-appeal/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Upload Extra Evidence - Second Stage Appeal
 
-GET        /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /upload-evidence-for-the-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-GET        /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /upload-evidence-for-the-review/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /upload-evidence-for-the-review/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET        /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-upload-evidence-for-the-review    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET        /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
 # Why was the payment late? LPP
-GET        /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-why-was-the-payment-late                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /agent-why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-why-was-the-payment-late/check                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Why was the payment late? LPP -  Why are you asking us for a review  - Second Stage Appeal
-GET        /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /why-are-you-asking-for-review-lpp              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /why-are-you-asking-for-review-lpp/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /why-are-you-asking-for-review-lpp/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
-GET        /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-why-are-you-asking-for-review-lpp        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-why-are-you-asking-for-review-lpp/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-why-are-you-asking-for-review-lpp/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 # Why was the submission deadline missed? LSP
-GET        /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
-POST       /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false)
+GET        /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /why-was-the-submission-late                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /why-was-the-submission-late/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /why-was-the-submission-late/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
-GET        /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
-POST       /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false)
+GET        /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST       /agent-why-was-the-submission-late               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET        /agent-why-was-the-submission-late/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST       /agent-why-was-the-submission-late/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
 
 # Why was the submission deadline missed? LSP - Why are you asking us for a review  - Second Stage Appeal
-GET        /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
-POST       /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true)
+GET        /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /why-are-you-asking-for-review-lsp               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /why-are-you-asking-for-review-lsp/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /why-are-you-asking-for-review-lsp/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
-GET        /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
-POST       /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true)
+GET        /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-why-are-you-asking-for-review-lsp         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+GET        /agent-why-are-you-asking-for-review-lsp/check         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-why-are-you-asking-for-review-lsp/check         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = false, isAgent:Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
 # Check Your Answers page
@@ -248,13 +374,19 @@ GET        /agent-review-details            uk.gov.hmrc.incometaxpenaltiesappeal
 
 
 # Who Planned to Submit - Agent only views
-GET        /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad()
-POST       /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit()
+GET        /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad(mode: Mode = NormalMode)
+POST       /who-planned-to-send-submission           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit(mode: Mode = NormalMode)
+
+GET        /who-planned-to-send-submission/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.onPageLoad(mode: Mode = CheckMode)
+POST       /who-planned-to-send-submission/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhoPlannedToSubmitController.submit(mode: Mode = CheckMode)
 
 
 # What caused you to miss the deadline - Agent only view
-GET        /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.onPageLoad()
-POST       /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.submit()
+GET        /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.onPageLoad(mode: Mode = NormalMode)
+POST       /what-caused-you-to-miss-the-deadline     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.submit(mode: Mode = NormalMode)
+
+GET        /what-caused-you-to-miss-the-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.onPageLoad(mode: Mode = CheckMode)
+POST       /what-caused-you-to-miss-the-deadline/check     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhatCausedYouToMissDeadlineController.submit(mode: Mode = CheckMode)
 
 
 # Single Appeal Confirmation
@@ -288,8 +420,14 @@ POST       /agent-review-cover-for-both-penalties        uk.gov.hmrc.incometaxpe
 
 
 # Has hospital stay ended
-GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false)
-POST       /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = false)
+GET        /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /has-hospital-stay-ended            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
 
-GET        /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true)
-POST       /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true)
+GET        /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-has-hospital-stay-ended      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+
+GET        /has-hospital-stay-ended/check            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /has-hospital-stay-ended/check           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-has-hospital-stay-ended/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-has-hospital-stay-ended/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)

@@ -23,7 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReasonableExcusesForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
@@ -40,28 +40,29 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
                                            override val errorHandler: ErrorHandler
                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean) = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    if(user.penaltyData.is2ndStageAppeal) {
+  def onPageLoad(isAgent: Boolean, mode: Mode) = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+    if (user.penaltyData.is2ndStageAppeal) {
       //TODO: This is the current working assumption, that 2nd Stage Appeals will be set to 'Other' by default.
       //      However, an API change may be needed for this to make the Reasonable Excuse optional in the appeal submission
-      updateUserAnswersAndRedirect(Other)
+      updateUserAnswersAndRedirect(Other, mode)
     } else {
-      renderView(Ok, fillForm(ReasonableExcusesForm.form(user.isLPP), ReasonableExcusePage))
+      renderView(Ok, fillForm(ReasonableExcusesForm.form(user.isLPP), ReasonableExcusePage), mode)
     }
   }
 
-  def submit(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     ReasonableExcusesForm.form(user.isLPP).bindFromRequest().fold(
-      renderView(BadRequest, _),
-      updateUserAnswersAndRedirect
+      renderView(BadRequest, _, mode),
+      updateUserAnswersAndRedirect(_, mode)
     )
   }
 
-  private def renderView(status: Status, form: Form[_])(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
-    Future(status(reasonableExcuse(user.isAgent, form)))
+  private def renderView(status: Status, form: Form[_], mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
+    Future(status(reasonableExcuse(user.isAgent, form, mode)))
 
-  private def updateUserAnswersAndRedirect(newAnswer: ReasonableExcuse)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] = {
-    val updatedAnswers = user.userAnswers.getAnswer(ReasonableExcusePage) match {
+  private def updateUserAnswersAndRedirect(newAnswer: ReasonableExcuse, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] = {
+    val maybeExistingAnswer = user.userAnswers.getAnswer(ReasonableExcusePage)
+    val updatedAnswers = maybeExistingAnswer match {
       case Some(existingAnswer) if existingAnswer != newAnswer =>
         user.userAnswers
           .removeAppealReasonsData()
@@ -71,7 +72,10 @@ class ReasonableExcuseController @Inject()(reasonableExcuse: ReasonableExcuseVie
     }
 
     userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-      Redirect(routes.HonestyDeclarationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+      (maybeExistingAnswer.contains(newAnswer), mode) match {
+        case (true, CheckMode) => Redirect(routes.CheckYourAnswersController.onPageLoad(user.isAgent))
+        case _ => Redirect(routes.HonestyDeclarationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+      }
     }
   }
 }

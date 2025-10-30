@@ -20,8 +20,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhenDidEventHappenForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Crime, Other, TechnicalIssues, UnexpectedHospital}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, NormalMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhenDidEventHappenPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -40,40 +40,41 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
                                             )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
 
 
-  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     Future(Ok(whenDidEventHappen(
       form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
       reasonableExcuse = reasonableExcuse,
-      isLPP = user.isLPP
+      isLPP = user.isLPP,
+      mode = mode
     )))
   }
 
-  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
       formWithErrors =>
         Future.successful(BadRequest(whenDidEventHappen(
           reasonableExcuse,
           formWithErrors,
-          isLPP = user.isLPP
+          isLPP = user.isLPP,
+          mode = mode
         ))),
       dateOfEvent => {
         val updatedAnswers = user.userAnswers.setAnswer[LocalDate](WhenDidEventHappenPage, dateOfEvent)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          reasonableExcuse match {
-            case TechnicalIssues =>
-              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent))
-            case Crime =>
-              Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent))
-            case UnexpectedHospital =>
-              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent))
-            case Other =>
-              Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal))
-            case _ =>
-              if (user.isAppealLate()) {
-                Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
-              } else {
-                Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
-              }
+
+          (reasonableExcuse, mode) match {
+            case (TechnicalIssues, _) =>
+              Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, isAgent, mode))
+            case (Crime, NormalMode) =>
+              Redirect(routes.CrimeReportedController.onPageLoad(isAgent = user.isAgent, NormalMode))
+            case (UnexpectedHospital, _) =>
+              Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent, mode))
+            case (Other, NormalMode) =>
+              Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal, NormalMode))
+            case (_, NormalMode) if user.isAppealLate() =>
+              Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
+            case (_, _) =>
+              Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
           }
         }
       })

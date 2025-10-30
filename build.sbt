@@ -9,8 +9,14 @@ lazy val microservice = Project("income-tax-penalties-appeals-frontend", file(".
   .settings(RoutesKeys.routesImport ++= Seq(
     "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse",
     "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode",
+    "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode",
     "uk.gov.hmrc.play.bootstrap.binders.RedirectUrl"
-  ))
+  ),
+    TwirlKeys.templateImports ++= Seq(
+      "uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode"
+    ))
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
     // https://www.scala-lang.org/2021/01/12/configuring-and-suppressing-warnings.html

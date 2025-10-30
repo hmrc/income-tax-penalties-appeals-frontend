@@ -17,8 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.{is2ndStageAppeal, isAgent}
 import fixtures.messages.upscan.NonJsRemoveFileMessages
 import fixtures.views.BaseSelectors
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -27,6 +26,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.UploadedFilesViewModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsRemoveFileView
@@ -41,28 +41,30 @@ class NonJsRemoveFileViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
 
   object Selectors extends BaseSelectors
 
-  Seq(NonJsRemoveFileMessages.English, NonJsRemoveFileMessages.Welsh).foreach { messagesForLanguage =>
+  Seq(NormalMode, CheckMode).foreach { mode =>
+    Seq(NonJsRemoveFileMessages.English, NonJsRemoveFileMessages.Welsh).foreach { messagesForLanguage =>
 
-    implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
+      implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
-    s"When rendering the Remove File page in language '${messagesForLanguage.lang.name}'" should {
+      s"When rendering the Remove File page in $mode with language '${messagesForLanguage.lang.name}'" should {
 
-      val fileIndex = 1
+        val fileIndex = 1
 
-      implicit val doc = asDocument(uploadCheckAnswers(
-        UploadDocumentForm.form,
-        UploadedFilesViewModel(callbackModel, fileIndex).get,
-        controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, fileIndex, isAgent, is2ndStageAppeal)
-      ))
+        implicit val doc = asDocument(uploadCheckAnswers(
+          UploadDocumentForm.form,
+          UploadedFilesViewModel(callbackModel, fileIndex).get,
+          controllers.upscan.routes.UpscanRemoveFileController.onSubmit(callbackModel.reference, fileIndex, isAgent, is2ndStageAppeal, mode)
+        ))
 
-      behave like pageWithExpectedElementsAndMessages(
-        Selectors.title -> messagesForLanguage.headingAndTitle(fileIndex),
-        Selectors.legend -> messagesForLanguage.headingAndTitle(fileIndex),
-        Selectors.hint -> messagesForLanguage.filenameHint(callbackModel.uploadDetails.get.fileName),
-        Selectors.radio(1) -> messagesForLanguage.yes,
-        Selectors.radio(2) -> messagesForLanguage.no,
-        Selectors.button -> messagesForLanguage.continue
-      )
+        behave like pageWithExpectedElementsAndMessages(
+          Selectors.title -> messagesForLanguage.headingAndTitle(fileIndex),
+          Selectors.legend -> messagesForLanguage.headingAndTitle(fileIndex),
+          Selectors.hint -> messagesForLanguage.filenameHint(callbackModel.uploadDetails.get.fileName),
+          Selectors.radio(1) -> messagesForLanguage.yes,
+          Selectors.radio(2) -> messagesForLanguage.no,
+          Selectors.button -> messagesForLanguage.continue
+        )
+      }
     }
   }
 }

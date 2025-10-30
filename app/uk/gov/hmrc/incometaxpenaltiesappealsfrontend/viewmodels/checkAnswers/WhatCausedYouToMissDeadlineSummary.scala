@@ -22,6 +22,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{Actions, SummaryListRow}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -38,7 +39,7 @@ object WhatCausedYouToMissDeadlineSummary extends SummaryListRowHelper with Date
             items = Seq(
               ActionItem(
                 content = Text(messages("common.change")),
-                href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad().url,
+                href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad(CheckMode).url,
                 visuallyHiddenText = Some(messages(s"agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden"))
               ).withId("changeWhatCausedYouToMissDeadline")
             )

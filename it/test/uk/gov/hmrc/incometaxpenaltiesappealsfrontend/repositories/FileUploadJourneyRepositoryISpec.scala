@@ -25,7 +25,7 @@ class FileUploadJourneyRepositoryISpec extends ComponentSpecHelper with FileUplo
   lazy val repository: FileUploadJourneyRepository = injector.instanceOf[FileUploadJourneyRepository]
 
   override def beforeEach(): Unit = {
-    deleteAll(repository)
+    deleteAll(repository.mongo)
     super.beforeEach()
   }
 
@@ -76,9 +76,9 @@ class FileUploadJourneyRepositoryISpec extends ComponentSpecHelper with FileUplo
       await(repository.upsertFileUpload(testJourneyId, callbackModel))
       await(repository.upsertFileUpload(testJourneyId, callbackModel2))
       await(repository.upsertFileUpload("12345", callbackModel))
-      await(repository.collection.countDocuments().toFuture()) shouldBe 2
+      await(repository.mongo.collection.countDocuments().toFuture()) shouldBe 2
       await(repository.removeAllFiles(testJourneyId))
-      await(repository.collection.countDocuments().toFuture()) shouldBe 1
+      await(repository.mongo.collection.countDocuments().toFuture()) shouldBe 1
     }
   }
 }

@@ -17,8 +17,6 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import fixtures.messages.MissedDeadlineReasonMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -30,6 +28,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.CheckMode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
@@ -85,7 +84,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
                             items = Seq(
                               ActionItem(
                                 content = Text(messagesForLanguage.change),
-                                href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isLPP = true, isAgent = false, is2ndStageAppeal = is2ndStageAppeal).url,
+                                href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isLPP = true, isAgent = false, is2ndStageAppeal = is2ndStageAppeal, mode = CheckMode).url,
                                 visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal))
                               ).withId("changeMissedDeadlineReason")
                             )
@@ -128,7 +127,7 @@ class MissedDeadlineReasonSummarySpec extends AnyWordSpec with Matchers with Gui
                         items = Seq(
                           ActionItem(
                             content = Text(messagesForLanguage.change),
-                            href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isLPP = false, isAgent = false, is2ndStageAppeal = is2ndStageAppeal).url,
+                            href = controllers.routes.MissedDeadlineReasonController.onPageLoad(isLPP = false, isAgent = false, is2ndStageAppeal = is2ndStageAppeal, mode = CheckMode).url,
                             visuallyHiddenText = Some(messagesForLanguage.cyaHidden(isLPP = false, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = false))
                           ).withId("changeMissedDeadlineReason")
                         )

@@ -16,22 +16,21 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks
 
-import org.mockito.ArgumentMatchers.{eq => eqTo}
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 
 import scala.concurrent.Future
 
-trait MockSessionService extends MockitoSugar {
+trait MockSessionService extends MockFactory { _: TestSuite =>
 
   val mockSessionService: UserAnswersService = mock[UserAnswersService]
 
   def mockGetUserAnswers(journeyId: String)(response: Future[Option[UserAnswers]]): Unit =
-    when(mockSessionService.getUserAnswers(eqTo(journeyId))).thenReturn(response)
+    (mockSessionService.getUserAnswers(_: String)).expects(journeyId).returning(response)
 
   def mockGetUserAnswersMongoFailure(journeyId: String): Unit =
-    when(mockSessionService.getUserAnswers(eqTo(journeyId))).thenReturn(Future.failed(new Exception("error")))
+    (mockSessionService.getUserAnswers(_:String)).expects(journeyId).returning(Future.failed(new Exception("error")))
 
 }

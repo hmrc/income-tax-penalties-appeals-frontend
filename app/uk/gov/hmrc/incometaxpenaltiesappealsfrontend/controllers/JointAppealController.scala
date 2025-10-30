@@ -21,6 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -36,7 +37,7 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
                                       override val controllerComponents: MessagesControllerComponents
                                      )(implicit ec: ExecutionContext) extends BaseUserAnswersController {
 
-  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
 
     user.penaltyData.multiplePenaltiesData match {
       case Some(multiplePenaltiesData) =>
@@ -45,14 +46,15 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
           isAgent = user.isAgent,
           firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
           secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount,
-          is2ndStageAppeal = user.is2ndStageAppeal
+          is2ndStageAppeal = user.is2ndStageAppeal,
+          mode = mode
         ))
       case _ =>
-        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent))
+        Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, mode))
     }
   }
 
-  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
 
     JointAppealForm.form(user.is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors => {
@@ -63,17 +65,19 @@ class JointAppealController @Inject()(jointAppeal: JointAppealView,
               isAgent = user.isAgent,
               firstPenaltyAmount = multiplePenaltiesData.firstPenaltyAmount,
               secondPenaltyAmount = multiplePenaltiesData.secondPenaltyAmount,
-              is2ndStageAppeal = user.is2ndStageAppeal
+              is2ndStageAppeal = user.is2ndStageAppeal,
+              mode = mode
             )))
           case _ =>
-            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent)))
+            Future.successful(Redirect(controllers.routes.ReasonableExcuseController.onPageLoad(isAgent = user.isAgent, NormalMode)))
         }
       },
       appealBothPenalties => {
         val updatedAnswers = user.userAnswers.setAnswer(JointAppealPage, appealBothPenalties)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
           Redirect(
-            if(appealBothPenalties) routes.MultipleAppealsController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
+            if(mode == CheckMode) routes.CheckYourAnswersController.onPageLoad(user.isAgent)
+            else if(appealBothPenalties) routes.MultipleAppealsController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
             else routes.SingleAppealConfirmationController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
           )
         }

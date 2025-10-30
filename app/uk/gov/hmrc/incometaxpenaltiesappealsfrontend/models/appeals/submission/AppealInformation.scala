@@ -29,10 +29,10 @@ trait AppealInformation {
 
 object AppealInformation {
   val auditWrites: Writes[AppealInformation] = Writes { model =>
-    Json.obj(
+    val default = Json.obj(
       "reasonForAppeal" -> model.reasonableExcuse,
-      "honestyDeclaration" -> model.honestyDeclaration,
-      "statementToExplainAppealReason" -> model.statement
+      "honestyDeclaration" -> model.honestyDeclaration
     )
+    model.statement.fold(default)(statement => default ++ Json.obj("statementToExplainAppealReason" -> statement))
   }
 }

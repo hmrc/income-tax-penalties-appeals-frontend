@@ -20,6 +20,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.MissedDeadlineReasonForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.MissedDeadlineReasonPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.MissedDeadlineReasonView
@@ -33,19 +34,20 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
                                                userAnswersService: UserAnswersService,
                                                override val errorHandler: ErrorHandler,
                                                override val controllerComponents: MessagesControllerComponents
-                                    )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                              )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
 
-  def onPageLoad(isLPP: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
+  def onPageLoad(isLPP: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(missedDeadlineReason(
       form = fillForm(MissedDeadlineReasonForm.form(isLPP, is2ndStageAppeal, user.isAppealingMultipleLPPs), MissedDeadlineReasonPage),
       isLPP = isLPP,
       isSecondStageAppeal = is2ndStageAppeal,
-      isMultipleAppeal = user.isAppealingMultipleLPPs
+      isMultipleAppeal = user.isAppealingMultipleLPPs,
+      mode = mode
     ))
   }
 
-  def submit(isLPP: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
+  def submit(isLPP: Boolean, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     MissedDeadlineReasonForm.form(isLPP, is2ndStageAppeal, user.isAppealingMultipleLPPs).bindFromRequest().fold(
 
       formWithErrors =>
@@ -53,12 +55,19 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
           form = formWithErrors,
           isLPP = isLPP,
           isSecondStageAppeal = is2ndStageAppeal,
-          isMultipleAppeal = user.isAppealingMultipleLPPs
+          isMultipleAppeal = user.isAppealingMultipleLPPs,
+          mode
         ))),
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)
         userAnswersService.updateAnswers(updatedAnswers).map { _ =>
-          Redirect(routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal))
+          Redirect(
+            mode match {
+              case NormalMode =>
+                routes.ExtraEvidenceController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, NormalMode)
+              case CheckMode => routes.CheckYourAnswersController.onPageLoad(isAgent)
+            }
+          )
         }
       }
     )

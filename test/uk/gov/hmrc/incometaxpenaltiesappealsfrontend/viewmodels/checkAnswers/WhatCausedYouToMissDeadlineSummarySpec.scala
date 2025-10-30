@@ -27,7 +27,7 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CheckMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
@@ -76,7 +76,7 @@ class WhatCausedYouToMissDeadlineSummarySpec extends AnyWordSpec with Matchers w
                   items = Seq(
                     ActionItem(
                       content = Text(messagesForLanguage.change),
-                      href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad().url,
+                      href = controllers.routes.WhatCausedYouToMissDeadlineController.onPageLoad(CheckMode).url,
                       visuallyHiddenText = Some(messagesForLanguage.cyaHidden)
                     ).withId("changeWhatCausedYouToMissDeadline")
                   )

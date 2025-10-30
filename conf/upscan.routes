@@ -1,34 +1,67 @@
 #File Upload routes with Upscan
 
-GET       /upload-file                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-GET       /upload-file-for-review               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-    
-GET       /agent-upload-file                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-GET       /agent-upload-file-for-review         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
-    
-GET       /success-redirect                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onSubmitSuccessRedirect(key: String, isAgent: Boolean = false)
-GET       /agent-success-redirect                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onSubmitSuccessRedirect(key: String, isAgent: Boolean = true)
-    
-GET       /upload-another-file                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-GET       /upload-another-file-for-review        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-    
-POST      /upload-another-file                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST      /upload-another-file-for-review        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-    
-GET       /agent-upload-another-file              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-GET       /agent-upload-another-file-for-review   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET       /upload-file                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET       /upload-file-for-review               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-POST      /agent-upload-another-file              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST      /agent-upload-another-file-for-review   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET       /upload-file/check                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+GET       /upload-file-for-review/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
-GET       /remove-file                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-GET       /remove-file-for-review                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-            
-POST      /remove-file                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false)
-POST      /remove-file-for-review                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true)
-            
-GET       /agent-remove-file                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-GET       /agent-remove-file-for-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET       /agent-upload-file                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET       /agent-upload-file-for-review         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
 
-POST      /agent-remove-file                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false)
-POST      /agent-remove-file-for-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true)
+GET       /agent-upload-file/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+GET       /agent-upload-file-for-review/check         uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onPageLoad(key: Option[String] ?= None, errorCode: Option[String] ?= None, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET       /success-redirect                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onSubmitSuccessRedirect(key: String, isAgent: Boolean = false, mode: Mode = NormalMode)
+GET       /agent-success-redirect                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onSubmitSuccessRedirect(key: String, isAgent: Boolean = true, mode: Mode = NormalMode)
+
+GET       /success-redirect/check                     uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onSubmitSuccessRedirect(key: String, isAgent: Boolean = false, mode: Mode = CheckMode)
+GET       /agent-success-redirect/check                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanInitiateController.onSubmitSuccessRedirect(key: String, isAgent: Boolean = true, mode: Mode = CheckMode)
+
+GET       /upload-another-file                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET       /upload-another-file-for-review        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET       /upload-another-file/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+GET       /upload-another-file-for-review/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+POST      /upload-another-file                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST      /upload-another-file-for-review        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+POST      /upload-another-file/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST      /upload-another-file-for-review/check        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET       /agent-upload-another-file              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET       /agent-upload-another-file-for-review   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET       /agent-upload-another-file/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+GET       /agent-upload-another-file-for-review/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onPageLoad(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+POST      /agent-upload-another-file              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST      /agent-upload-another-file-for-review   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+POST      /agent-upload-another-file/check              uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST      /agent-upload-another-file-for-review/check   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanCheckAnswersController.onSubmit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET       /remove-file                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET       /remove-file-for-review                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET       /remove-file/check                           uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+GET       /remove-file-for-review/check                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+POST      /remove-file                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST      /remove-file-for-review                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+POST      /remove-file/check                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST      /remove-file-for-review/check                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = false, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+GET       /agent-remove-file                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+GET       /agent-remove-file-for-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+GET       /agent-remove-file/check                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+GET       /agent-remove-file-for-review/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onPageLoad(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
+
+POST      /agent-remove-file                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
+POST      /agent-remove-file-for-review          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = NormalMode)
+
+POST      /agent-remove-file/check                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = false, mode: Mode = CheckMode)
+POST      /agent-remove-file-for-review/check          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.UpscanRemoveFileController.onSubmit(fileReference: String, index: Int, isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)

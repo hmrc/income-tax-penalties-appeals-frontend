@@ -3,10 +3,6 @@ service.name = Manage your Self Assessment
 error.title.prefix = Error:
 govuk.suffix = GOV.UK
 
-phaseBanner.tag = Beta
-phaseBanner.message = This is a new service – your {0} will help us to improve it.
-phaseBanner.linkText = feedback
-
 service.lsp.caption = Late submission penalty point: {0} to {1}
 service.lpp.caption = Late payment penalty: {0} to {1}
 
@@ -27,11 +23,13 @@ appeal.start.p3 = You’ll need:
 appeal.start.li1.lsp = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.li1.lpp = a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.cessation.h2 = Income sources that have ceased
-appeal.start.cessation.p1.individual = If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed. To do this, you will need to confirm the dates that a particular income source was ceased to HMRC.
-appeal.start.cessation.p2.individual = If you have received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active.
-appeal.start.cessation.p1.agent = If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed. To do this, they will need to confirm the dates that a particular income source was ceased to HMRC.
-appeal.start.cessation.p2.agent = If your client has received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active.
-appeal.start.cessation.link = Cease an income source
+appeal.start.cessation.h2.agent = Sending evidence with an appeal
+appeal.start.cessation.p1.individual = If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed.
+appeal.start.cessation.p2.individual = To do this, you will need to confirm the date that a particular income source was ceased to HMRC.
+appeal.start.cessation.p1.agent = If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed.
+appeal.start.cessation.p2.agent = To do this, they will need to confirm the dates that a particular income source was ceased to HMRC.
+appeal.start.cessation.link.individual = Select an income source to cease on the your business page.
+appeal.start.cessation.link.agent = Cease an income source on the Self Assessment your business page
 appeal.start.evidence.h2 = Sending evidence with an appeal
 appeal.start.li2 = the dates related to this reasonable excuse
 appeal.start.li3 = details of why you did not appeal sooner
@@ -69,10 +67,8 @@ reasonableExcuses.technicalIssue = Software or technology issues
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay
 reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
-reasonableExcuses.other.hint = You should only choose this if the reason is not covered by any of the other options.
 reasonableExcuse.error.message.lsp = Select the reason for missing the submission deadline
 reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline
-
 
 # Joint appeal LPP
 # ----------------------------------------------------------
@@ -133,7 +129,6 @@ clientSubmitted.honestyDeclaration.li.other.lsp = I was unable to send the submi
 clientSubmitted.honestyDeclaration.li.other.lpp = I was unable to make the payment due on {0}
 agentPlanned.honestyDeclaration.li.other.lpp = my client was unable to make the payment due on {0}
 
-
 clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were unable to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were unable to send the submission due on {0}
@@ -160,7 +155,6 @@ agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because of a serio
 agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
-
 
 honestyDeclaration.li.lpp = no one else was available to make the payment for me
 agent.honestyDeclaration.li.lpp = no one else was available to make the payment for them
@@ -223,7 +217,6 @@ whenDidEventHappen.health.date.error.notInFuture = The date of the health issue 
 # Health Messages LSP Agent
 client.whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop your client from meeting the submission deadline?
 client.whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop your client making the payment?
-
 
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
@@ -363,7 +356,6 @@ missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel tha
 missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking us to review these decisions
 
 
-
 # Has the crime been reported page
 # ----------------------------------------------------------
 crime.headingAndTitle = Has this crime been reported to the police?
@@ -489,7 +481,7 @@ appealConfirmation.headingAndTitle = Appeal received
 appealConfirmation.typeAndPeriod = {0}: {1} tax year
 appealConfirmation.p1 = You do not need a reference number.
 appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
-appealConfirmation.p2.agent = This appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
+appealConfirmation.p2.agent = Your appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
@@ -653,6 +645,7 @@ common.change = Change
 duplicateAppeal.headingAndTitle = Appeal already in progress
 duplicateAppeal.p1 = You can’t submit more than one appeal for the same penalty at the same time.
 duplicateAppeal.link.text = Back to Self Assessment penalties and appeals
+
 
 # Page not found - bypass
 # ----------------------------------------------------------

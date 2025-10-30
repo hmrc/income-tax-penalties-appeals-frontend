@@ -16,18 +16,20 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks
 
-import org.mockito.ArgumentMatchers.{any, eq => ameq}
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import uk.gov.hmrc.auth.core.authorise.Predicate
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.{affinityGroup, allEnrolments, nino}
 import uk.gov.hmrc.auth.core.retrieve.{EmptyRetrieval, Retrieval, ~}
 import uk.gov.hmrc.auth.core.{AffinityGroup, AuthConnector, BearerTokenExpired, Enrolment, EnrolmentIdentifier, Enrolments, InsufficientEnrolments, InternalError, MissingBearerToken, UnsupportedAffinityGroup}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.{agentDelegatedAuthRuleKey, incomeTaxEnrolmentKey, mtdItIdKey}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.incomeTaxEnrolmentKey
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-trait AuthMocks extends MockitoSugar {
+trait AuthMocks extends MockFactory {
+  _: TestSuite =>
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
 
@@ -63,9 +65,9 @@ trait AuthMocks extends MockitoSugar {
   )
 
   def getEnrolments(af: AffinityGroup, hasEnrolment: Boolean): Enrolments = {
-    if(hasEnrolment && af == AffinityGroup.Agent) {
+    if (hasEnrolment && af == AffinityGroup.Agent) {
       agentEnrolment
-    } else if(hasEnrolment) {
+    } else if (hasEnrolment) {
       mtdIndorOrgEnrolment
     } else {
       Enrolments(Set.empty[Enrolment])
@@ -75,83 +77,74 @@ trait AuthMocks extends MockitoSugar {
   def getInitialAuthResponse(af: AffinityGroup,
                              hasNino: Boolean,
                              hasEnrolment: Boolean): Option[AffinityGroup] ~ Enrolments ~ Option[String] = {
-    val nino = if(hasNino) Some("AA123456A") else None
+    val nino = if (hasNino) Some("AA123456A") else None
     val enrolments = getEnrolments(af, hasEnrolment)
-    new ~(new ~(Some(af), enrolments), nino)
+    new~(new~(Some(af), enrolments), nino)
   }
 
   def getAgentAuthResponse(hasEnrolment: Boolean = true, af: AffinityGroup = AffinityGroup.Agent) = {
     val enrolments = getEnrolments(af, hasEnrolment)
-    new ~(Some(af), enrolments)
+    new~(Some(af), enrolments)
   }
 
   def mockAuthenticated(af: AffinityGroup, hasNino: Boolean = true, hasEnrolment: Boolean = true): Unit = {
-    when(mockAuthConnector.authorise(ameq(predicateInitial), ameq(retrievalInitial))(
-        any(), any())
-    ).thenReturn(
-      Future.successful(getInitialAuthResponse(af, hasNino, hasEnrolment))
-    )
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(predicateInitial, retrievalInitial, *, *)
+      .returning(Future.successful(getInitialAuthResponse(af, hasNino, hasEnrolment)))
   }
 
   def mockAuthenticatedAgent(hasEnrolment: Boolean = true, af: AffinityGroup = AffinityGroup.Agent): Unit = {
-    when(mockAuthConnector.authorise(ameq(predicateInitial), ameq(retrievalAgent))(
-      any(), any())
-    ).thenReturn(
-      Future.successful(getAgentAuthResponse(hasEnrolment, af))
-    )
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(predicateInitial, retrievalAgent, *, *)
+      .returning(Future.successful(getAgentAuthResponse(hasEnrolment, af)))
   }
 
   def mockAuthenticatedMTDIndorOrg(af: AffinityGroup, hasNino: Boolean = true, hasEnrolment: Boolean = true): Unit = {
-    when(mockAuthConnector.authorise(ameq(predicateMTDIndOrOrg), ameq(retrievalInitial))(
-      any(), any())
-    ).thenReturn(
-      Future.successful(getInitialAuthResponse(af, hasNino, hasEnrolment))
-    )
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(predicateMTDIndOrOrg, retrievalInitial, *, *)
+      .returning(Future.successful(getInitialAuthResponse(af, hasNino, hasEnrolment)))
   }
 
   def mockAuthEnrolledAgent(): Unit = {
-    when(mockAuthConnector.authorise(
-      any(), ameq(EmptyRetrieval))(any(), any())).thenReturn(
-      Future.successful(EmptyRetrieval)
-    )
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[Unit])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, EmptyRetrieval, *, *)
+      .returning(Future.successful(EmptyRetrieval))
   }
 
   def mockAgentWithoutDelegatedEnrolment(): Unit = {
-    when(mockAuthConnector.authorise(
-      any(), ameq(EmptyRetrieval))(any(), any())).thenReturn(
-      Future.failed(InsufficientEnrolments("No MTDIT enrolment"))
-    )
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[Unit])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, EmptyRetrieval, *, *)
+      .returning(Future.failed(InsufficientEnrolments("No MTDIT enrolment")))
   }
 
   def mockAuthenticatedWithNoAffinityGroup(): Unit =
-    when(mockAuthConnector.authorise(any(), any())(
-      any(), any())
-    ).thenReturn(Future.failed(UnsupportedAffinityGroup("No affinity group")))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *, *, *)
+      .returning(Future.failed(UnsupportedAffinityGroup("No affinity group")))
 
   def mockAgentWithoutAgentEnrolment(): Unit =
-    when(mockAuthConnector.authorise(any(), any())(
-      any(), any())
-    ).thenReturn(Future.failed(InsufficientEnrolments("No HMRC-AS-AGENT enrolment")))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *, *, *)
+      .returning(Future.failed(InsufficientEnrolments("No HMRC-AS-AGENT enrolment")))
 
   def mockAuthenticatedWithNoMTDEnrolment(): Unit =
-    when(mockAuthConnector.authorise(any(), any())(
-      any(), any())
-    ).thenReturn(Future.failed(InsufficientEnrolments("No MTDIT enrolment")))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *, *, *)
+      .returning(Future.failed(InsufficientEnrolments("No MTDIT enrolment")))
 
   def mockAuthenticatedNoActiveSession(): Unit =
-    when(mockAuthConnector.authorise(any(), any())(
-      any(), any())
-    ).thenReturn(Future.failed(MissingBearerToken("No token")))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *, *, *)
+      .returning(Future.failed(MissingBearerToken("No token")))
 
   def mockAuthenticatedBearerTokenExpired(): Unit =
-    when(mockAuthConnector.authorise(any(), any())(
-      any(), any())
-    ).thenReturn(Future.failed(BearerTokenExpired("expired")))
-
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *, *, *)
+      .returning(Future.failed(BearerTokenExpired("expired")))
 
   def mockAuthenticatedFailure(): Unit =
-    when(mockAuthConnector.authorise(any(), any())(
-      any(), any())
-    ).thenReturn(Future.failed(InternalError("There has been an error")))
+    (mockAuthConnector.authorise(_: Predicate, _: Retrieval[_])(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *, *, *)
+      .returning(Future.failed(InternalError("There has been an error")))
 
 }

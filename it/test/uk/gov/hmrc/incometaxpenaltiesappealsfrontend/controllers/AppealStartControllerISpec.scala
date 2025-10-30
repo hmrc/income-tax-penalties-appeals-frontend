@@ -22,6 +22,8 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CheckMode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -72,20 +74,23 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
 
             if(isAgent){
-              document.getParagraphs.get(4).text() shouldBe "If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed. To do this, they will need to confirm the dates that a particular income source was ceased to HMRC."
+              document.getParagraphs.get(4).text() shouldBe "If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed."
 
             } else {
-              document.getParagraphs.get(4).text() shouldBe "If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed. To do this, you will need to confirm the dates that a particular income source was ceased to HMRC."
+              document.getParagraphs.get(4).text() shouldBe "If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed."
             }
 
             if(isAgent){
-              document.getParagraphs.get(5).text() shouldBe "If your client has received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active."
+              document.getParagraphs.get(5).text() shouldBe "To do this, they will need to confirm the dates that a particular income source was ceased to HMRC."
 
             } else {
-              document.getParagraphs.get(5).text() shouldBe "If you have received a penalty for more than one missing or late income source in the same update period, but only one of them was ceased before the update period started, that penalty point will not be removed and will remain active."
+              document.getParagraphs.get(5).text() shouldBe "To do this, you will need to confirm the date that a particular income source was ceased to HMRC."
             }
 
-            if(!isAgent){document.getLink("cessationLink").text() shouldBe "Cease an income source"}
+            if(isAgent){document.getLink("cessationLink").text() shouldBe "Cease an income source on the Self Assessment your business page"} else {
+              document.getLink("cessationLink").text() shouldBe "Select an income source to cease on the your business page."
+            }
+
             document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
             document.getParagraphs.get(7).text() shouldBe "In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(8).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
@@ -93,8 +98,8 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             document.getSubmitButton.text() shouldBe "Start an appeal"
             document.getSubmitButton.attr("href") shouldBe {
-              if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad().url
-              else routes.ReasonableExcuseController.onPageLoad(isAgent).url
+              if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad(mode = NormalMode).url
+              else routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
             }
           }
         }
@@ -126,7 +131,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(5).text() shouldBe "If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
             document.getSubmitButton.text() shouldBe "Continue"
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
           }
         }
 
@@ -158,7 +163,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
 
             document.getSubmitButton.text() shouldBe "Continue"
-            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = false).url
+            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, mode = NormalMode).url
           }
         }
       }
@@ -187,7 +192,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
 
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = true).url
+            document.getSubmitButton.attr("href") shouldBe routes.JointAppealController.onPageLoad(isAgent, is2ndStageAppeal = true, mode = NormalMode).url
           }
         }
 
@@ -214,7 +219,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
 
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
-            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent).url
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
 
           }
         }
@@ -242,11 +247,27 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
             document.getSubmitButton.text() shouldBe ReviewAppealStartMessages.English.continue
             document.getSubmitButton.attr("href") shouldBe {
-              if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad().url
-              else routes.ReasonableExcuseController.onPageLoad(isAgent).url
+              if (isAgent) routes.WhoPlannedToSubmitController.onPageLoad(mode = NormalMode).url
+              else routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
             }
           }
         }
+
+
+        "When isClientResponsibleForSubmission is not empty" should {
+          "link to Reasonable Excuse bypassing the Who planned to submit page" in {
+            stubAuthRequests(isAgent = true)
+
+            val answer = emptyUserAnswersWithLSP2ndStage.copy().setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
+            userAnswersRepo.upsertUserAnswer(answer).futureValue
+
+            val result = get("/agent-appeal-start", isAgent = true)
+            val document = Jsoup.parse(result.body)
+
+            document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent = true, NormalMode).url
+          }
+        }
+
       }
     }
   }

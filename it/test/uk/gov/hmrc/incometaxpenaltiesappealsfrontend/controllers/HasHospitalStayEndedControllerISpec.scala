@@ -17,7 +17,6 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.HasHospitalStayEndedMessages
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
@@ -29,15 +28,16 @@ import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.HasHospitalStayEndedForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{PenaltyData, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Other, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
-import scala.concurrent.Future
+import java.time.LocalDate
+
 
 class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
@@ -48,7 +48,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  class Setup(isLate: Boolean = false) {
+  class Setup(isLate: Boolean = false, wasPreviouslyYes: Boolean = false) {
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
 
@@ -62,157 +62,165 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
       ))
       .setAnswer(ReasonableExcusePage, UnexpectedHospital)
 
-    userAnswersRepo.upsertUserAnswer(hospitalAnswers).futureValue
+    if(wasPreviouslyYes) {
+      userAnswersRepo.upsertUserAnswer(hospitalAnswers.setAnswer(WhenDidEventEndPage, LocalDate.now())).futureValue
+    } else {
+      userAnswersRepo.upsertUserAnswer(hospitalAnswers).futureValue
+    }
 
     val reasonableExcuse: Option[ReasonableExcuse] = userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ReasonableExcusePage))
   }
 
-  "GET /has-hospital-stay-ended" should {
-
-    testNavBar(url = "/has-hospital-stay-ended")(
-      userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, UnexpectedHospital)).futureValue
-    )
-
-    "return an OK with a view" when {
-      "the user is an authorised individual AND the page has already been answered" in new Setup() {
-        stubAuthRequests(false)
-        userAnswersRepo.upsertUserAnswer(hospitalAnswers.setAnswer(HasHospitalStayEndedPage, true)).futureValue
-
-        val result: WSResponse = get("/has-hospital-stay-ended")
-        result.status shouldBe OK
-
-        val document: nodes.Document = Jsoup.parse(result.body)
-        document.select(s"#${HasHospitalStayEndedForm.key}").hasAttr("checked") shouldBe true
-        document.select(s"#${HasHospitalStayEndedForm.key}-2").hasAttr("checked") shouldBe false
-      }
-
-      "the user is an authorised agent AND page NOT already answered" in new Setup() {
-        stubAuthRequests(true)
-
-        val result: WSResponse = get("/agent-has-hospital-stay-ended", isAgent = true)
-        result.status shouldBe OK
-
-        val document: nodes.Document = Jsoup.parse(result.body)
-        document.select(s"#${HasHospitalStayEndedForm.key}").hasAttr("checked") shouldBe false
-        document.select(s"#${HasHospitalStayEndedForm.key}-2").hasAttr("checked") shouldBe false
-      }
-    }
-
-    "the page has the correct elements" when {
-      "the user is an authorised individual" in new Setup() {
-        stubAuthRequests(false)
-        val result: WSResponse = get("/has-hospital-stay-ended")
-
-        val document: nodes.Document = Jsoup.parse(result.body)
-
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
-        document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe HasHospitalStayEndedMessages.English.headingAndTitle
-        document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}").text() shouldBe HasHospitalStayEndedMessages.English.yes
-        document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}-2").text() shouldBe HasHospitalStayEndedMessages.English.no
-        document.getSubmitButton.text() shouldBe "Continue"
-      }
-
-      "the user is an authorised agent" in new Setup() {
-        stubAuthRequests(true)
-        val result: WSResponse = get("/agent-has-hospital-stay-ended", isAgent = true)
-
-        val document: nodes.Document = Jsoup.parse(result.body)
-
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
-        document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
-        document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
-          dateToString(lateSubmissionAppealData.startDate),
-          dateToString(lateSubmissionAppealData.endDate)
-        )
-        document.getH1Elements.text() shouldBe HasHospitalStayEndedMessages.English.headingAndTitle
-        document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}").text() shouldBe HasHospitalStayEndedMessages.English.yes
-        document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}-2").text() shouldBe HasHospitalStayEndedMessages.English.no
-        document.getSubmitButton.text() shouldBe "Continue"
-
-      }
+  def getUrl(isAgent: Boolean, mode: Mode): String = {
+    val pathStart = if (isAgent) "/agent-" else "/"
+    val pathMiddle = "has-hospital-stay-ended"
+    mode match {
+      case CheckMode => s"${pathStart}${pathMiddle}/check"
+      case NormalMode => s"${pathStart}${pathMiddle}"
     }
   }
 
-  "POST /has-hospital-stay-ended" when {
+  Seq(NormalMode, CheckMode).foreach { mode =>
+    Seq(true, false).foreach { isAgent =>
+      val url = getUrl(isAgent = isAgent, mode)
 
-    "the radio option posted is valid" when {
-
-      "the appeal is late" should {
-
-        "save the value to UserAnswers AND redirect to the WhenDidEventEnd page when hasHospitalStayEnded is true" in new Setup(isLate = true) {
-
-          stubAuthRequests(false)
-
-          val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
-
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false).url)
-
-          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
+      s"GET $url" should {
+        if(!isAgent) {
+          testNavBar(url = url)(
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, UnexpectedHospital)).futureValue
+          )
         }
 
-        "save the value to UserAnswers AND redirect to the LateAppeal page when hasHospitalStayEnded is false" in new Setup(isLate = true) {
+        "return an OK with a view" when {
+          "the page has already been answered" in new Setup() {
+            stubAuthRequests(isAgent)
+            userAnswersRepo.upsertUserAnswer(hospitalAnswers.setAnswer(HasHospitalStayEndedPage, true)).futureValue
 
-          stubAuthRequests(false)
+            val result: WSResponse = get(url)
+            result.status shouldBe OK
 
-          val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
+            val document: nodes.Document = Jsoup.parse(result.body)
+            document.select(s"#${HasHospitalStayEndedForm.key}").hasAttr("checked") shouldBe true
+            document.select(s"#${HasHospitalStayEndedForm.key}-2").hasAttr("checked") shouldBe false
+          }
 
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal).url)
+        "the page has the correct elements" in new Setup() {
+            stubAuthRequests(isAgent)
+            val result: WSResponse = get(url)
 
-          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
-        }
-      }
+            val document: nodes.Document = Jsoup.parse(result.body)
 
-      "the appeal is NOT late" should {
-
-        "save the value to UserAnswers AND redirect to the Check Answers page when hasHospitalStayEnded is true" in new Setup() {
-
-          stubAuthRequests(false)
-
-          val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> true))
-
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = false).url)
-
-          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
-        }
-
-        "save the value to UserAnswers AND redirect to the Check Answers page when hasHospitalStayEnded is false" in new Setup() {
-
-          stubAuthRequests(false)
-
-          val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> false))
-
-          result.status shouldBe SEE_OTHER
-          result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
-
-          userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
+            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
+            document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
+              dateToString(lateSubmissionAppealData.startDate),
+              dateToString(lateSubmissionAppealData.endDate)
+            )
+            document.getH1Elements.text() shouldBe HasHospitalStayEndedMessages.English.headingAndTitle
+            document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}").text() shouldBe HasHospitalStayEndedMessages.English.yes
+            document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}-2").text() shouldBe HasHospitalStayEndedMessages.English.no
+            document.getSubmitButton.text() shouldBe "Continue"
+          }
         }
       }
-    }
 
-    "the radio option is invalid" should {
+      s"POST $url" when {
 
-      "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
+        "the radio option posted is valid" when {
 
-        stubAuthRequests(false)
+          "the appeal is late" should {
 
-        val result: WSResponse = post("/has-hospital-stay-ended")(Map(HasHospitalStayEndedForm.key -> ""))
-        result.status shouldBe BAD_REQUEST
+            "save the value to UserAnswers AND redirect to the WhenDidEventEnd page when hasHospitalStayEnded is true" in new Setup(isLate = true) {
 
-        val document: nodes.Document = Jsoup.parse(result.body)
-        document.title() should include(HasHospitalStayEndedMessages.English.errorPrefix)
-        document.select(".govuk-error-summary__title").text() shouldBe HasHospitalStayEndedMessages.English.thereIsAProblem
+              stubAuthRequests(isAgent)
 
-        val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe HasHospitalStayEndedMessages.English.errorRequired
-        error1Link.attr("href") shouldBe s"#${HasHospitalStayEndedForm.key}"
+              val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> true))
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = isAgent, mode).url)
+
+              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
+            }
+
+            if (mode == NormalMode) {
+
+              "save the value to UserAnswers AND redirect to the LateAppeal page when hasHospitalStayEnded is false" in new Setup(isLate = true) {
+
+                stubAuthRequests(isAgent)
+
+                val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> false))
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal, NormalMode).url)
+
+                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
+              }
+            } else {
+
+              "save the value and remove whenEventEnded from UserAnswers AND redirect to the CYA page when hasHospitalStayEnded is false" in new Setup(isLate = true) {
+
+                userAnswersRepo.upsertUserAnswer(hospitalAnswers).futureValue
+                stubAuthRequests(isAgent)
+
+                val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> false))
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
+                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(WhenDidEventEndPage)) shouldBe None
+              }
+            }
+          }
+
+          "the appeal is NOT late" should {
+
+            if(mode == NormalMode) {
+              "save the value to UserAnswers AND redirect to the WhenDidEventEndController page when hasHospitalStayEnded is true" in new Setup() {
+
+                stubAuthRequests(isAgent)
+
+                val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> true))
+
+                result.status shouldBe SEE_OTHER
+                result.header("Location") shouldBe Some(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse.getOrElse(Other), isAgent = isAgent, mode = mode).url)
+
+                userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(true)
+              }
+            }
+
+            "save the value to UserAnswers AND redirect to the Check Answers page when hasHospitalStayEnded is false" in new Setup() {
+
+              stubAuthRequests(isAgent)
+
+              val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> false))
+
+              result.status shouldBe SEE_OTHER
+              result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
+
+              userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(HasHospitalStayEndedPage)) shouldBe Some(false)
+            }
+          }
+        }
+
+        "the radio option is invalid" should {
+
+          "render a bad request with the Form Error on the page with a link to the field in error" in new Setup() {
+
+            stubAuthRequests(isAgent)
+
+            val result: WSResponse = post(url)(Map(HasHospitalStayEndedForm.key -> ""))
+            result.status shouldBe BAD_REQUEST
+
+            val document: nodes.Document = Jsoup.parse(result.body)
+            document.title() should include(HasHospitalStayEndedMessages.English.errorPrefix)
+            document.select(".govuk-error-summary__title").text() shouldBe HasHospitalStayEndedMessages.English.thereIsAProblem
+
+            val error1Link: Elements = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+            error1Link.text() shouldBe HasHospitalStayEndedMessages.English.errorRequired
+            error1Link.attr("href") shouldBe s"#${HasHospitalStayEndedForm.key}"
+          }
+        }
       }
     }
   }
