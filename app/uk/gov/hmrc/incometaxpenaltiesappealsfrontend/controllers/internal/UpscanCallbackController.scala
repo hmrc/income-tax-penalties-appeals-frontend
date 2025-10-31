@@ -16,13 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal
 
+import play.api.Logging
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.INVALID_FILENAME
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.FAILED
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
@@ -31,12 +31,15 @@ import scala.util.matching.Regex
 
 class UpscanCallbackController @Inject()(service: UpscanService,
                                          override val controllerComponents: MessagesControllerComponents)
-                                        (implicit ec: ExecutionContext) extends FrontendBaseController {
+                                        (implicit ec: ExecutionContext) extends FrontendBaseController with Logging {
 
   def callbackFromUpscan(journeyId: String): Action[JsValue] = Action.async(parse.json) { implicit request =>
     withJsonBody[UploadJourney] { callbackModel =>
       service.getFile(journeyId, callbackModel.reference).flatMap {
         case Some(file) =>
+          file.failureDetails.map{details =>
+            logger.warn(s"[UpscanCallbackController][callbackFromUpscan] Callback from Upscan received with failure details: ${details.failureReason} - ${details.message}")
+          }
           val validatedCallbackModel = validateFilename(callbackModel.copy(uploadFields = file.uploadFields))
           service.upsertFileUpload(journeyId, validatedCallbackModel).map { _ =>
             NoContent
