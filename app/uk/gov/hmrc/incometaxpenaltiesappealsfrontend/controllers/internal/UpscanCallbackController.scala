@@ -37,6 +37,9 @@ class UpscanCallbackController @Inject()(service: UpscanService,
     withJsonBody[UploadJourney] { callbackModel =>
       service.getFile(journeyId, callbackModel.reference).flatMap {
         case Some(file) =>
+          file.failureDetails.map{details =>
+            logger.warn(s"[UpscanCallbackController][callbackFromUpscan] Callback from Upscan received with failure details: ${details.failureReason} - ${details.message}")
+          }
           val validatedCallbackModel = validateFilename(callbackModel.copy(uploadFields = file.uploadFields))
           service.upsertFileUpload(journeyId, validatedCallbackModel).map { _ =>
             NoContent

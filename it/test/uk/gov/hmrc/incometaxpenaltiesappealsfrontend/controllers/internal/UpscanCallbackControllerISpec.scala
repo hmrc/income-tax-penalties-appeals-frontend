@@ -85,6 +85,7 @@ class UpscanCallbackControllerISpec extends ComponentSpecHelper with FileUploadF
 
         "Returning a GONE response to Upscan and log a warning message" in {
 
+          await(fileUploadRepository.removeAllFiles(testJourneyId))
           withCaptureOfLoggingFrom(logger) { logs =>
             val result = post(s"/internal/upscan-callback/$testJourneyId")(callbackModel)
             result.status shouldBe GONE
