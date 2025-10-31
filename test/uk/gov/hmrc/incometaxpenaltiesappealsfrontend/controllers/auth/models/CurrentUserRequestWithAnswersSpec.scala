@@ -94,33 +94,26 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
 
     "return true" when {
       "communication date of penalty > 30 days ago" in new Setup(LocalDate.of(2022, 1, 1)) {
-        fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 1)).isAppealLate() shouldBe true
+        fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 1)).isLateFirstStage() shouldBe true
       }
 
       "appealing both penalties and LPP1 is late" in new Setup(LocalDate.of(2022, 1, 1)) {
-        fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 1), LocalDate.of(2022, 1, 1)).isAppealLate() shouldBe true
+        fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 1), LocalDate.of(2022, 1, 1)).isLateFirstStage() shouldBe true
       }
 
       "appealing both penalties and both are late" in new Setup(LocalDate.of(2022, 4, 1)) {
-        fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 1), LocalDate.of(2022, 1, 1)).isAppealLate() shouldBe true
+        fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 1), LocalDate.of(2022, 1, 1)).isLateFirstStage() shouldBe true
       }
     }
 
     "return false" when {
 
-      "this is a 2nd Stage Appeal, so lateness does not matter as that was only relevant to 1st Stage Appeal" in new Setup(LocalDate.of(2022, 1, 1)) {
-        fakeRequestForAppealingSinglePenalty(
-          LocalDate.of(2021, 12, 1),
-          is2ndStageAppeal = true
-        ).isAppealLate() shouldBe false
-      }
-
       "communication date of penalty < 30 days ago" in new Setup(LocalDate.of(2022, 1, 1)) {
-        fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 31)).isAppealLate() shouldBe false
+        fakeRequestForAppealingSinglePenalty(LocalDate.of(2021, 12, 31)).isLateFirstStage() shouldBe false
       }
 
       "appealing both penalties and LPP1 and LPP2 are not late" in new Setup(LocalDate.of(2022, 1, 1)) {
-        fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 31), LocalDate.of(2021, 12, 31)).isAppealLate() shouldBe false
+        fakeRequestForAppealingBothPenalties(LocalDate.of(2021, 12, 31), LocalDate.of(2021, 12, 31)).isLateFirstStage() shouldBe false
       }
     }
   }

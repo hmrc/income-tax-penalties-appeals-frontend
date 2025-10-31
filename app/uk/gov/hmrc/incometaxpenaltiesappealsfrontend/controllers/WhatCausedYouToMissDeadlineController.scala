@@ -40,7 +40,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
   def onPageLoad(mode: Mode): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers() { implicit user =>
     Ok(whatCausedYouToMissTheDeadline(
       fillForm(WhatCausedYouToMissDeadlineForm.form(), WhatCausedYouToMissDeadlinePage),
-      user.isAppealLate(),
+      user.isLateFirstStage(),
       user.isAgent,
       mode
     ))
@@ -52,7 +52,7 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
       formWithErrors =>
         Future(BadRequest(whatCausedYouToMissTheDeadline(
           formWithErrors,
-          user.isAppealLate(),
+          user.isLateFirstStage(),
           user.isAgent,
           mode
         ))),

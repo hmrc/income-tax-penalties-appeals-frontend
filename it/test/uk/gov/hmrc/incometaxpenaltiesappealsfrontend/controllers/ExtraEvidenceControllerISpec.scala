@@ -287,35 +287,6 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
           "save the value to UserAnswers AND redirect the answer is 'No'" when {
 
-            "appeal is Late" should {
-
-              if (mode == NormalMode) {
-                "redirect to the LateAppeal page" in new Setup(isLate = true) {
-
-                  stubAuthRequests(isAgent)
-
-                  val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> false))
-
-                  result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, mode).url)
-
-                  userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-                }
-              } else {
-                "redirect to the CYA page" in new Setup(isLate = true) {
-
-                  stubAuthRequests(isAgent)
-
-                  val result: WSResponse = post(url(is2ndStageAppeal = false, isAgent = isAgent, mode))(Map(ExtraEvidenceForm.key -> false))
-
-                  result.status shouldBe SEE_OTHER
-                  result.header("Location") shouldBe Some(routes.CheckYourAnswersController.onPageLoad(isAgent).url)
-
-                  userAnswersRepo.getUserAnswer(testJourneyId).futureValue.flatMap(_.getAnswer(ExtraEvidencePage)) shouldBe Some(false)
-                }
-              }
-            }
-
             "appeal is NOT Late" should {
 
               "redirect to the CheckAnswers page" in new Setup() {

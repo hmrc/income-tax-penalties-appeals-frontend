@@ -50,7 +50,7 @@ class ReviewAppealStartViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
 
       "appeal isLate == false" should {
 
-        implicit val doc: Document = asDocument(view(isLate = false, routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode)))
+        implicit val doc: Document = asDocument(view(routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode)))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -60,26 +60,11 @@ class ReviewAppealStartViewSpec extends ViewBehaviours with GuiceOneAppPerSuite 
           Selectors.h2(1) -> messagesForLanguage.h2,
           Selectors.p(3) -> messagesForLanguage.p3,
           Selectors.p(4) -> messagesForLanguage.p4,
+          Selectors.p(5) -> messagesForLanguage.p5,
           Selectors.link(1) -> messagesForLanguage.continue
         )
       }
 
-      "appeal isLate == true" should {
-
-        implicit val doc: Document = asDocument(view(isLate = true, routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode)))
-
-        behave like pageWithExpectedElementsAndMessages(
-          Selectors.title -> messagesForLanguage.headingAndTitle,
-          Selectors.h1 -> messagesForLanguage.headingAndTitle,
-          Selectors.p(1) -> messagesForLanguage.p1,
-          Selectors.p(2) -> messagesForLanguage.p2,
-          Selectors.h2(1) -> messagesForLanguage.h2,
-          Selectors.p(3) -> messagesForLanguage.p3List,
-          Selectors.bullet(1) -> messagesForLanguage.bullet1,
-          Selectors.bullet(2) -> messagesForLanguage.bullet2,
-          Selectors.link(1) -> messagesForLanguage.continue
-        )
-      }
     }
   }
 }

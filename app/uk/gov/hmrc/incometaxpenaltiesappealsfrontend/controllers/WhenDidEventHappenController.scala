@@ -71,7 +71,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
               Redirect(routes.HasHospitalStayEndedController.onPageLoad(isAgent = user.isAgent, mode))
             case (Other, NormalMode) =>
               Redirect(routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, isAgent, user.is2ndStageAppeal, NormalMode))
-            case (_, NormalMode) if user.isAppealLate() =>
+            case (_, NormalMode) if user.isLateFirstStage() =>
               Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
             case (_, _) =>
               Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))

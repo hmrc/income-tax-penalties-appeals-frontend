@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.Au
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{BaseUserAnswersController, routes => appealsRoutes}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadAnotherFileForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
@@ -73,10 +73,15 @@ class UpscanCheckAnswersController @Inject()(nonJsCheckAnswers: NonJsUploadCheck
     if(uploadFile) {
       Redirect(routes.UpscanInitiateController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
     } else {
-      if (mode == NormalMode && user.isAppealLate()) {
-        Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode = mode))
-      } else {
-        Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+      (mode, user.is2ndStageAppeal, user.isLateFirstStage()) match {
+        case (CheckMode, _, _) =>
+          Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
+        case (NormalMode, true, _) =>
+          Redirect(appealsRoutes.ReviewMoreThan30DaysController.onPageLoad(isAgent = user.isAgent, mode = mode))
+        case (NormalMode, false, true) =>
+          Redirect(appealsRoutes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode))
+        case (NormalMode, false, false) =>
+          Redirect(appealsRoutes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
       }
     }
 

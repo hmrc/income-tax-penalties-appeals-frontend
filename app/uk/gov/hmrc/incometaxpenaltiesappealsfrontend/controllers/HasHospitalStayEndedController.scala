@@ -40,7 +40,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
   def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hospitalStayEnded(
       form = fillForm(HasHospitalStayEndedForm.form(), HasHospitalStayEndedPage),
-      isLate = user.isAppealLate(),
+      isLate = user.isLateFirstStage(),
       isAgent = user.isAgent,
       mode = mode
     ))
@@ -51,7 +51,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
       formWithErrors =>
         Future(BadRequest(hospitalStayEnded(
           form = formWithErrors,
-          isLate = user.isAppealLate(),
+          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
           mode = mode
         ))),
@@ -67,7 +67,7 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
           if(value) {
             val reasonableExcuse: ReasonableExcuse = user.userAnswers.getAnswer(ReasonableExcusePage).getOrElse(ReasonableExcuse.Other)
             Redirect(routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, mode))
-          } else if(user.isAppealLate() && mode == NormalMode) {
+          } else if(user.isLateFirstStage() && mode == NormalMode) {
             Redirect(routes.LateAppealController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, NormalMode))
           } else {
             Redirect(routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))

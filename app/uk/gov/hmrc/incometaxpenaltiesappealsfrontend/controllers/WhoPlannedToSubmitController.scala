@@ -40,7 +40,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
   def onPageLoad(mode: Mode): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers() { implicit user =>
     Ok(whoPlannedToSubmit(
       fillForm(WhoPlannedToSubmitForm.form(), WhoPlannedToSubmitPage),
-      user.isAppealLate(),
+      user.isLateFirstStage(),
       user.isAgent,
       mode
     ))
@@ -52,7 +52,7 @@ class WhoPlannedToSubmitController @Inject()(whoPlannedToSubmit: WhoPlannedToSub
       formWithErrors =>
         Future(BadRequest(whoPlannedToSubmit(
           formWithErrors,
-          user.isAppealLate(),
+          user.isLateFirstStage(),
           user.isAgent,
           mode
         ))),
