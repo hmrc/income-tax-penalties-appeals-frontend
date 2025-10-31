@@ -64,7 +64,7 @@ class UpscanCheckAnswersControllerISpec extends ControllerISpecHelper
   class Setup(isLate: Boolean = false) {
 
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-    fileUploadRepo.collection.deleteMany(Document()).toFuture().futureValue
+    fileUploadRepo.mongo.collection.deleteMany(Document()).toFuture().futureValue
 
     val userAnswers: UserAnswers = emptyUserAnswers
       .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP.copy(

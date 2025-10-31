@@ -16,19 +16,22 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks
 
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito._
-import org.scalatestplus.mockito.MockitoSugar
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.BtaNavLinksConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.NavContent
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-trait MockBtaNavLinksConnector extends MockitoSugar {
+trait MockBtaNavLinksConnector extends MockFactory {
+  _: TestSuite =>
 
   val mockBtaNavLinksConnector: BtaNavLinksConnector = mock[BtaNavLinksConnector]
 
   def mockGetBtaNavLinks()(response: Future[Option[NavContent]]): Unit =
-    when(mockBtaNavLinksConnector.getBtaNavLinks()(any(), any())).thenReturn(response)
+    (mockBtaNavLinksConnector.getBtaNavLinks()(_: HeaderCarrier, _: ExecutionContext))
+      .expects(*, *)
+      .returning(response)
 
 }

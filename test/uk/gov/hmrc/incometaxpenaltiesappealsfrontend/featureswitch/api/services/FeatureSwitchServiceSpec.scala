@@ -16,10 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.api.services
 
-import org.mockito.Mockito.when
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -29,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.AuthMocks
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitchRegistry
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.{CheckboxFeatureSwitch, CheckboxFeatureSwitchSetting, FeatureSwitch, FeatureSwitchSetting}
 
-class FeatureSwitchServiceSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with MockitoSugar with Injecting {
+class FeatureSwitchServiceSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with Injecting {
 
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   private val mockFeatureSwitchRegistry = mock[FeatureSwitchRegistry]
@@ -48,18 +46,16 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with should.Matchers with Gui
       .build()
   }
 
-  "FeatureSwitchService " should{
+  "FeatureSwitchService " should {
 
     "getFeatureSwitches" in {
 
-      when(testSwitch.configName) thenReturn "testSwitch"
-      when(testCheckboxSwitch.configName) thenReturn "testCheckboxSwitch"
-
-      when(testSwitch.displayName) thenReturn "Test Switch"
-      when(testCheckboxSwitch.displayName) thenReturn "Test Checkbox Switch"
-
-      when(testCheckboxSwitch.checkboxValues) thenReturn Seq("option1", "option2")
-      when(mockFeatureSwitchRegistry.switches) thenReturn Seq(testSwitch, testCheckboxSwitch)
+      (() => testSwitch.configName).expects().returning("testSwitch").atLeastOnce()
+      (() => testCheckboxSwitch.configName).expects().returning("testCheckboxSwitch").atLeastOnce()
+      (() => testSwitch.displayName).expects().returning("Test Switch").atLeastOnce()
+      (() => testCheckboxSwitch.displayName).expects().returning("Test Checkbox Switch").atLeastOnce()
+      (() => mockFeatureSwitchRegistry.switches).expects().returning(Seq(testSwitch, testCheckboxSwitch)).atLeastOnce()
+      (() => testCheckboxSwitch.checkboxValues).expects().returning(Seq("option1", "option2")).atLeastOnce()
 
       val expected = List(
         FeatureSwitchSetting("testSwitch",
@@ -81,8 +77,14 @@ class FeatureSwitchServiceSpec extends AnyWordSpec with should.Matchers with Gui
 
     "updateFeatureSwitches" in {
 
-      when(mockFeatureSwitchRegistry.get("testSwitch")) thenReturn Some(testSwitch)
-      when(mockFeatureSwitchRegistry.get("testCheckboxSwitch")) thenReturn Some(testCheckboxSwitch)
+      (() => testSwitch.configName).expects().returning("testSwitch").atLeastOnce()
+      (() => testCheckboxSwitch.configName).expects().returning("testCheckboxSwitch").atLeastOnce()
+      (() => testSwitch.displayName).expects().returning("Test Switch").atLeastOnce()
+      (() => testCheckboxSwitch.displayName).expects().returning("Test Checkbox Switch").atLeastOnce()
+      (() => testCheckboxSwitch.checkboxValues).expects().returning(Seq("option1", "option2")).atLeastOnce()
+      (() => mockFeatureSwitchRegistry.switches).expects().returning(Seq(testSwitch, testCheckboxSwitch)).atLeastOnce()
+      (mockFeatureSwitchRegistry.get(_: String)).expects("testSwitch").returning(Some(testSwitch)).atLeastOnce()
+      (mockFeatureSwitchRegistry.get(_: String)).expects("testCheckboxSwitch").returning(Some(testCheckboxSwitch)).atLeastOnce()
 
       val updateSwitch = List(
         FeatureSwitchSetting("testSwitch",

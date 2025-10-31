@@ -17,5 +17,5 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models
 
 trait CheckboxFeatureSwitch extends FeatureSwitch {
-  val checkboxValues: Seq[String]
+  def checkboxValues: Seq[String]
 }
