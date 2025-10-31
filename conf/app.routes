@@ -351,7 +351,7 @@ POST       /agent-check-your-answers        uk.gov.hmrc.incometaxpenaltiesappeal
 GET        /duplicate-appeal                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.DuplicateAppealController.onPageLoad(isAgent: Boolean = false)
 GET        /agent-duplicate-appeal          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.DuplicateAppealController.onPageLoad(isAgent: Boolean = true)
 
-# Bookmark / bypass error page
+# Page not found page
 GET        /page-not-found                  uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.PageNotFoundController.onPageLoad(isAgent: Boolean = false)
 GET        /agent-page-not-found            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.PageNotFoundController.onPageLoad(isAgent: Boolean = true)
 
