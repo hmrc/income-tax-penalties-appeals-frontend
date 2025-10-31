@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
-import fixtures.messages.{CrimeReportedMessages, ReviewMoreThan30DaysMessages}
+import fixtures.messages.ReviewMoreThan30DaysMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite

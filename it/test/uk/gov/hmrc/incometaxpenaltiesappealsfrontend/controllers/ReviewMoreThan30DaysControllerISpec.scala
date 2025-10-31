@@ -18,23 +18,21 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.ReviewMoreThan30DaysMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReviewMoreThan30DaysForm
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode, PenaltyData, ReviewMoreThan30DaysEnum}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReasonableExcusePage, ReviewMoreThan30DaysPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReviewMoreThan30DaysPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, TimeMachine}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
@@ -42,9 +40,9 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   class Setup(jointAppeal: Boolean = false) {
-
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
-
+    
+    deleteAll(userAnswersRepo)
+    
     val reviewAnswers: UserAnswers =
     if(jointAppeal) {
       emptyUserAnswersWithLPP2ndStage

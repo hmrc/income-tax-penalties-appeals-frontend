@@ -17,8 +17,8 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.checkAnswers
 
 import fixtures.BaseFixtures
-import fixtures.messages.{CrimeReportedMessages, ReviewMoreThan30DaysMessages}
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
+import fixtures.messages.ReviewMoreThan30DaysMessages
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -28,9 +28,8 @@ import uk.gov.hmrc.govukfrontend.views.Aliases.{ActionItem, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Actions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, CrimeReportedEnum, ReasonableExcuse, ReviewMoreThan30DaysEnum}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{CrimeReportedPage, ReasonableExcusePage, ReviewMoreThan30DaysPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, ReviewMoreThan30DaysEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReviewMoreThan30DaysPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 
 class ReviewMoreThan30DaysSummarySpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite with BaseFixtures with SummaryListRowHelper {
