@@ -33,7 +33,7 @@ class ConfirmationController @Inject()(confirmation: ConfirmationView,
 
   def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit currentUser =>
     Ok(confirmation(
-        currentUser.isAppealLate(),
+        currentUser.isLateFirstStage(),
         currentUser.isAgent,
         currentUser.is2ndStageAppeal))
   }

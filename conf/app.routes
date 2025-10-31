@@ -295,6 +295,18 @@ GET        /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxp
 POST       /agent-upload-evidence-for-the-review/check    uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ExtraEvidenceController.submit(isAgent: Boolean = true, is2ndStageAppeal: Boolean = true, mode: Mode = CheckMode)
 
 
+GET        /review-more-than-30-days                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.onPageLoad(isAgent: Boolean = false, mode: Mode = NormalMode)
+POST       /review-more-than-30-days                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.submit(isAgent: Boolean = false, mode: Mode = NormalMode)
+
+GET        /review-more-than-30-days/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.onPageLoad(isAgent: Boolean = false, mode: Mode = CheckMode)
+POST       /review-more-than-30-days/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.submit(isAgent: Boolean = false, mode: Mode = CheckMode)
+
+GET        /agent-review-more-than-30-days                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.onPageLoad(isAgent: Boolean = true, mode: Mode = NormalMode)
+POST       /agent-review-more-than-30-days                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.submit(isAgent: Boolean = true, mode: Mode = NormalMode)
+
+GET        /agent-review-more-than-30-days/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
+POST       /agent-review-more-than-30-days/check                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ReviewMoreThan30DaysController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)
+
 # Why was the payment late? LPP
 GET        /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.onPageLoad(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)
 POST       /why-was-the-payment-late                        uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.MissedDeadlineReasonController.submit(isLPP: Boolean = true, isAgent:Boolean = false, is2ndStageAppeal: Boolean = false, mode: Mode = NormalMode)

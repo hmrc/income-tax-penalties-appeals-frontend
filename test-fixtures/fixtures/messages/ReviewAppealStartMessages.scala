@@ -25,9 +25,7 @@ object ReviewAppealStartMessages {
     val h2 = "Before you start"
     val p3 = "You’ll need to collect any evidence that you believe shows why the appeal decision was incorrect."
     val p4 = "You will be asked to upload this evidence as part of this request to review."
-    val p3List = "You’ll need:"
-    val bullet1 = "any evidence that you believe shows why the appeal decision was incorrect"
-    val bullet2 = "details of why you did not ask for a review sooner"
+    val p5 = "If it’s been more than 30 days since the review decision, you’ll need to explain why you did not ask for a review sooner."
   }
 
   object English extends Messages with En
@@ -39,8 +37,6 @@ object ReviewAppealStartMessages {
     override val h2 = "Cyn i chi ddechrau"
     override val p3 = "Bydd angen i chi gasglu unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi."
     override val p4 = "Bydd gofyn i chi uwchlwytho’r dystiolaeth hon fel rhan o’ch cais i gael adolygiad."
-    override val p3List = "Bydd angen y canlynol arnoch:"
-    override val bullet1 = "unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi"
-    override val bullet2 = "rheswm dros beidio â gofyn am adolygiad yn gynt"
+    override val p5 = "Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt."
   }
 }
