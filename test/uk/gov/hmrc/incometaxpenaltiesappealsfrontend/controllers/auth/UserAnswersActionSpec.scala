@@ -59,7 +59,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       implicit lazy val request: Request[AnyContent] = FakeRequest()
 
-      "redirect to the Income Tax penalties home page" in {
+      "redirect to Page Not Found page" in {
 
         val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
 
@@ -78,7 +78,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       "no UserAnswers are returned from the UserAnswers service" should {
 
-        "redirect to the Income Tax penalties home page" in {
+        "redirect to Page Not Found page" in {
 
           mockGetUserAnswers(testJourneyId)(Future.successful(None))
 
