@@ -68,7 +68,7 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
             Future(Redirect(controllers.upscan.routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode)))
           } else {
             upscanService.removeAllFiles(user.journeyId).map(_ =>
-              (mode, user.is2ndStageAppeal, user.isLateFirstStage) match {
+              (mode, user.is2ndStageAppeal, user.isLateFirstStage()) match {
                 case (CheckMode, _, _) =>
                   Redirect(controllers.routes.CheckYourAnswersController.onPageLoad(isAgent = user.isAgent))
                 case (NormalMode, true, _) =>

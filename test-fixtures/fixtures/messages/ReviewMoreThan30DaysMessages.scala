@@ -18,7 +18,7 @@ package fixtures.messages
 
 object ReviewMoreThan30DaysMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
 
     val headingAndTitle = "Has it been more than 30 days since the appeal decision was issued?"
     val headingAndTitleMultiple = "Has it been more than 30 days since the appeal decisions were issued?"
