@@ -654,7 +654,7 @@ common.yes = Iawn
 common.no = Na
 common.remove = Tynnu
 common.change = Newid
-common.unsure = Nid wyf yn gwybod
+common.unsure = I’m not sure (Welsh)
 
 # Duplicate Appeal
 # ----------------------------------------------------------

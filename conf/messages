@@ -654,7 +654,7 @@ common.yes = Yes
 common.no = No
 common.remove = Remove
 common.change = Change
-common.unsure = Don’t know
+common.unsure = I’m not sure
 
 # Duplicate Appeal
 # ----------------------------------------------------------
