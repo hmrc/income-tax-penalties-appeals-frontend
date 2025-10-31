@@ -18,7 +18,7 @@ package fixtures.messages
 
 object MissedDeadlineReasonMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     def headingAndTitle(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
       else if(is2ndStageAppeal) "Why are you asking us to review this decision?"

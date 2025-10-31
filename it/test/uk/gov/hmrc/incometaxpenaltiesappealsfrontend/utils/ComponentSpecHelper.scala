@@ -17,8 +17,8 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
 import fixtures.BaseFixtures
-import org.mongodb.scala.Document
 import org.mongodb.scala.result.DeleteResult
+import org.mongodb.scala.{Document, SingleObservableFuture}
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -27,14 +27,18 @@ import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.inject.Injector
 import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}
 import play.api.libs.json.Writes
-import play.api.libs.ws.{DefaultWSCookie, WSClient, WSCookie, WSRequest, WSResponse}
+import play.api.libs.ws.{DefaultBodyWritables, DefaultWSCookie, WSClient, WSCookie, WSRequest, WSResponse}
 import play.api.mvc.{Cookie, Session, SessionCookieBaker}
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import play.api.{Application, inject}
 import uk.gov.hmrc.crypto.PlainText
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, MongoFileUploadJourneyConnection, UserAnswersRepository}
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
 import uk.gov.hmrc.play.bootstrap.frontend.filters.crypto.SessionCookieCrypto
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 trait ComponentSpecHelper
   extends AnyWordSpec
@@ -44,7 +48,8 @@ trait ComponentSpecHelper
     with BeforeAndAfterAll
     with BeforeAndAfterEach
     with GuiceOneServerPerSuite
-    with BaseFixtures {
+    with BaseFixtures
+    with DefaultBodyWritables {
 
   lazy val injector: Injector = app.injector
 
@@ -59,14 +64,14 @@ trait ComponentSpecHelper
     .configure("play.http.router" -> "testOnlyDoNotUseInAppConf.Routes")
     .overrides(inject.bind[UUIDGenerator].toInstance(mockUUIDGenerator))
 
-  def appWithOverrides(overrideModules: GuiceableModule*): Application =
-    baseApp.overrides(overrideModules: _*).build()
-
   override lazy val app: Application = baseApp.build()
 
   val mockHost: String = WiremockHelper.wiremockHost
   val mockPort: String = WiremockHelper.wiremockPort.toString
   val mockUrl: String = s"http://$mockHost:$mockPort"
+
+  val timeMachineDateFormatter1: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+  lazy val testDate: LocalDate = LocalDate.now()
 
   def config: Map[String, String] = Map(
     "microservice.services.penalties.host" -> mockHost,
@@ -84,8 +89,12 @@ trait ComponentSpecHelper
     "microservice.services.upscan-initiate.host" -> mockHost,
     "microservice.services.upscan-initiate.port" -> mockPort,
     "auditing.enabled" -> "true",
+    "timemachine.date" -> testDate.format(timeMachineDateFormatter1),
     "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck"
   )
+  
+  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
 
   implicit val ws: WSClient = app.injector.instanceOf[WSClient]
 

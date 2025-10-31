@@ -21,7 +21,7 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration.{Duration, FiniteDuration, MILLISECONDS}
 
-trait TimerUtil { _: Matchers =>
+trait TimerUtil extends Matchers {
 
   def calculateRuntime(f: => Unit): FiniteDuration = {
     val start = System.currentTimeMillis()

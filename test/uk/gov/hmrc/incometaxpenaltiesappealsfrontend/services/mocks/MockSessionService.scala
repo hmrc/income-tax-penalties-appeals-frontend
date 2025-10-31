@@ -23,7 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 
 import scala.concurrent.Future
 
-trait MockSessionService extends MockFactory { _: TestSuite =>
+trait MockSessionService extends MockFactory { this: TestSuite =>
 
   val mockSessionService: UserAnswersService = mock[UserAnswersService]
 

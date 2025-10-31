@@ -20,7 +20,7 @@ import fixtures.messages.{Cy, En, i18n}
 
 object NonJsRemoveFileMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val headingAndTitle: Int => String = i => s"Are you sure you want to remove file $i?"
     val filenameHint: String => String = name => s"Filename: $name"
     val errorRequired = "Select yes if you want to remove this file"

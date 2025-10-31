@@ -18,14 +18,14 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
 import play.api.http.Status
 import play.api.libs.json.{JsValue, Json}
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.CrimeAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.{AppealSubmission, MultiplePenaltiesData}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, PenaltyTypeEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.ComponentSpecHelper
 
@@ -199,83 +199,6 @@ class PenaltiesConnectorISpec extends ComponentSpecHelper with PenaltiesStub wit
         failedGetMultiplePenalties("1234", testNino, Status.INTERNAL_SERVER_ERROR)
         val result = await(penaltiesConnector.getMultiplePenaltiesForPrincipleCharge("1234", testNino))
         result.isLeft shouldBe true
-      }
-    }
-  }
-
-  "getListOfReasonableExcuses" should {
-    s"return $Some and the $JsValue returned by the call" when {
-      "the call to the backend is successful" in {
-        successfulFetchReasonableExcuseResponse(testNino)
-        val sampleJsonToPassBack: JsValue = Json.obj(
-          "excuses" -> Json.arr(
-            Json.obj(
-              "type" -> "type1",
-              "descriptionKey" -> "key1"
-            ),
-            Json.obj(
-              "type" -> "type2",
-              "descriptionKey" -> "key2"
-            ),
-            Json.obj(
-              "type" -> "other",
-              "descriptionKey" -> "key3"
-            )
-          )
-        )
-        val result = await(penaltiesConnector.getListOfReasonableExcuses(testNino))
-        result.isDefined shouldBe true
-        result.get shouldBe sampleJsonToPassBack
-      }
-      "the call to the stub is successful" in {
-        enable(UseStubForBackend)
-        successfulFetchReasonableExcuseResponse(testNino, isStubbed = true)
-        val sampleJsonToPassBack: JsValue = Json.obj(
-          "excuses" -> Json.arr(
-            Json.obj(
-              "type" -> "type1",
-              "descriptionKey" -> "key1"
-            ),
-            Json.obj(
-              "type" -> "type2",
-              "descriptionKey" -> "key2"
-            ),
-            Json.obj(
-              "type" -> "other",
-              "descriptionKey" -> "key3"
-            )
-          )
-        )
-        val result = await(penaltiesConnector.getListOfReasonableExcuses(testNino))
-        result.isDefined shouldBe true
-        result.get shouldBe sampleJsonToPassBack
-      }
-    }
-
-    s"return $None" when {
-      "the call returns 404" in {
-        failedFetchReasonableExcuseListResponse(testNino, Status.NOT_FOUND)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses(testNino))
-        result.isDefined shouldBe false
-      }
-
-      "the call returns 500" in {
-        failedFetchReasonableExcuseListResponse(testNino, Status.INTERNAL_SERVER_ERROR)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses(testNino))
-        result.isDefined shouldBe false
-      }
-
-
-      "the call returns some unknown response" in {
-        failedFetchReasonableExcuseListResponse(testNino, Status.IM_A_TEAPOT)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses(testNino))
-        result.isDefined shouldBe false
-      }
-
-      "the call fails completely with no response" in {
-        failedCallForFetchingReasonableExcuse(testNino)
-        val result = await(penaltiesConnector.getListOfReasonableExcuses(testNino))
-        result.isDefined shouldBe false
       }
     }
   }

@@ -70,9 +70,6 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   def multiplePenaltyDataUrl(penaltyId: String, nino: String): String =
     s"$penaltiesServiceBaseUrl/ITSA/appeals-data/multiple-penalties/NINO/$nino?penaltyId=$penaltyId"
 
-  def reasonableExcuseFetchUrl(nino: String): String =
-    s"$penaltiesServiceBaseUrl/ITSA/appeals-data/reasonable-excuses/NINO/$nino"
-
   def submitAppealUrl(nino: String, isLPP: Boolean, penaltyNumber: String, correlationId: String, isMultiAppeal: Boolean): String =
     s"$penaltiesServiceBaseUrl/ITSA/appeals/submit-appeal/NINO/$nino?isLPP=$isLPP&penaltyNumber=$penaltyNumber&correlationId=$correlationId&isMultiAppeal=$isMultiAppeal"
 

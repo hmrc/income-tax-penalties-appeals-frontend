@@ -18,19 +18,19 @@ package fixtures.messages
 
 object ExtraEvidenceMessages {
 
-  sealed trait Messages { _: i18n =>
-    
-     def headingAndTitle(is2ndStage: Boolean): String = {
-       if(is2ndStage) {
-         "Do you want to upload evidence to support this review?"
-       } else {
-         "Do you want to upload evidence to support your appeal?"
-       }
-     }
+  sealed trait Messages { this: i18n =>
+
+    def headingAndTitle(is2ndStage: Boolean): String = {
+      if (is2ndStage) {
+        "Do you want to upload evidence to support this review?"
+      } else {
+        "Do you want to upload evidence to support your appeal?"
+      }
+    }
     
     def hintText(is2ndStage: Boolean, isJointAppeal: Boolean = false): String = {
-      if(is2ndStage) {
-        if(isJointAppeal) {
+      if (is2ndStage) {
+        if (isJointAppeal) {
           "Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence."
         } else {
           "Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence."
@@ -39,14 +39,14 @@ object ExtraEvidenceMessages {
         "We will still review your appeal if you do not upload evidence."
       }
     }
-    
+
     val errorRequired = "Tell us if you want to upload evidence to support your appeal"
     val errorInvalid = "Tell us if you want to upload evidence to support your appeal"
     val errorRequiredReview = "Tell us if you want to upload evidence to support this review"
     val errorInvalidReview = "Tell us if you want to upload evidence to support this review"
-    
+
     def errorMessage(is2ndStage: Boolean): String = {
-      if(is2ndStage) {
+      if (is2ndStage) {
         "Tell us if you want to upload evidence to support this review"
       } else {
         "Tell us if you want to upload evidence to support your appeal"
@@ -62,23 +62,23 @@ object ExtraEvidenceMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    
+
     override def headingAndTitle(is2ndStage: Boolean): String = {
-      if(is2ndStage) {
+      if (is2ndStage) {
         "A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?"
       } else {
         "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
       }
     }
-    
+
     override def hintText(is2ndStage: Boolean, isJointAppeal: Boolean = false): String = {
-      if(is2ndStage) {
+      if (is2ndStage) {
         "Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth."
       } else {
         "Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwytho tystiolaeth."
       }
     }
-    
+
     override val errorRequired = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl"
     override val errorInvalid = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl"
     override val errorRequiredReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"

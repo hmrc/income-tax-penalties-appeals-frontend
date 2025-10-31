@@ -18,7 +18,7 @@ package fixtures.messages
 
 object ReviewAppealStartMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val headingAndTitle = "Review an appeal decision"
     val p1 = "If you disagree with the decision of your penalty appeal, you can ask for your case to be reviewed again."
     val p2 = "This service is for requesting a review for appeal decisions given for individual submissions."

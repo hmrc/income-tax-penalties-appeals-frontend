@@ -18,7 +18,7 @@ package fixtures.messages
 
 object CheckYourAnswersMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val headingAndTitle = "Check your answers"
     val declarationH2 = "Declaration"
     val declarationP1 = "By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge."

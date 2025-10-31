@@ -18,7 +18,7 @@ package fixtures.messages
 
 object MonthMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val january   = "January"
     val february  = "February"
     val march     = "March"

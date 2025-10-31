@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
 
 object WhenDidEventHappenMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
 
     def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
       case Bereavement => "When did the person die?"

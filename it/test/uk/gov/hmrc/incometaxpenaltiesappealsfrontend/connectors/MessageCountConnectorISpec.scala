@@ -34,8 +34,8 @@ import scala.concurrent.ExecutionContext
 class MessageCountConnectorISpec extends ComponentSpecHelper with LogCapturing with WiremockMethods with FeatureSwitching {
 
   val connector: MessageCountConnector = app.injector.instanceOf[MessageCountConnector]
-  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
 

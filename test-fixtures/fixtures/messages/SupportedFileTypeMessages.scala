@@ -18,7 +18,7 @@ package fixtures.messages
 
 object SupportedFileTypeMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val summaryHeading = "Types of file you can upload"
     val p1 = "These file types are allowed:"
     val bullet1 = "image (.jpg, .jpeg, .png or .tiff)"

@@ -19,7 +19,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import fixtures.messages.JointAppealMessages
 import org.jsoup.select.Elements
 import org.jsoup.{Jsoup, nodes}
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -30,19 +29,18 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils._
 
 class JointAppealControllerISpec extends ControllerISpecHelper {
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   class Setup {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs).futureValue
   }
 

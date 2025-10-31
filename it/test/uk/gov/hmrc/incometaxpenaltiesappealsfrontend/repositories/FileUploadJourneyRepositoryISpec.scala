@@ -17,7 +17,8 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories
 
 import fixtures.FileUploadFixtures
-import play.api.test.Helpers._
+import org.mongodb.scala.SingleObservableFuture
+import play.api.test.Helpers.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.ComponentSpecHelper
 
 class FileUploadJourneyRepositoryISpec extends ComponentSpecHelper with FileUploadFixtures {

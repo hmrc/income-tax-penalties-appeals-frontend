@@ -17,9 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.English
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import org.jsoup.{Jsoup, nodes}
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -40,12 +38,10 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
+  
+  class Setup {
 
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
-  class Setup(isLate: Boolean = false) {
-
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
 
     val otherAnswers: UserAnswers = emptyUserAnswersWithMultipleLPPs
       .setAnswer(ReasonableExcusePage, Other)
@@ -64,7 +60,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
       }
 
       "return an OK with a view" when {
-        "the user is an authorised" in new Setup() {
+        "the user is an authorised" in new Setup {
           stubAuthRequests(isAgent)
           val result: WSResponse = get(url)
 
@@ -74,7 +70,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
       "the journey is for a 1st Stage Appeal" when {
         "the page has the correct elements" when {
-          "the user is an authorised" in new Setup() {
+          "the user is an authorised" in new Setup {
             stubAuthRequests(isAgent)
             val result: WSResponse = get(url)
 
@@ -95,7 +91,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
       "the journey is for a 2nd Stage Appeal" when {
         "the page has the correct elements" when {
-          "the user is an authorised" in new Setup() {
+          "the user is an authorised" in new Setup {
             stubAuthRequests(isAgent)
             userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage).futureValue
 

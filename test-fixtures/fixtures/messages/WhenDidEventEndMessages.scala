@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Te
 
 object WhenDidEventEndMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
 
     def errorMessageConstructor(suffix: String, reason: ReasonableExcuse, args: String*): String = {
       reason match {

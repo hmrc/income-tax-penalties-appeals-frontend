@@ -27,6 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
 
 class UpscanInitiateConnector @Inject()(http: HttpClientV2,
                                         appConfig: AppConfig) extends ExceptionHandlingUtil with UpscanInitiateHttpParser {

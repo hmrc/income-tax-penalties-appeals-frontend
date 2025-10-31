@@ -16,8 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.{is2ndStageAppeal, isAgent}
 import fixtures.messages.{English, ReasonableExcuseMessages}
 import fixtures.views.BaseSelectors
 import org.jsoup.Jsoup
@@ -25,14 +24,13 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.json.Json
+import play.api.libs.ws.DefaultBodyReadables.readableAsString
 import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.FireOrFlood
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
@@ -44,17 +42,14 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
-  val errorHandler = app.injector.instanceOf[ErrorHandler]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  val errorHandler: ErrorHandler = app.injector.instanceOf[ErrorHandler]
+  
   object Selectors extends BaseSelectors {
     override val prefix: String = "main"
   }
 
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
-    disable(UseStubForBackend)
     super.beforeEach()
   }
 

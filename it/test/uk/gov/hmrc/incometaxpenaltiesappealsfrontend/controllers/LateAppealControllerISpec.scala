@@ -19,7 +19,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
 import fixtures.messages.LateAppealMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -27,19 +26,16 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.LateAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, LateAppealPage, ReasonableExcusePage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 class LateAppealControllerISpec extends ControllerISpecHelper {
 
-  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  
   val reasonsList: List[(ReasonableExcuse, Int)] = List(
     (Bereavement, appConfig.bereavementLateDays),
     (Cessation, appConfig.lateDays),
@@ -52,7 +48,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
   )
 
   override def beforeEach(): Unit = {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     super.beforeEach()
   }
 

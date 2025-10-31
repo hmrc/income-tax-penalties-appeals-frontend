@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import fixtures.BaseFixtures
 import fixtures.messages.WhoPlannedToSubmitMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
+import org.mongodb.scala.{Document, SingleObservableFuture}
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -36,9 +36,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   override def beforeEach(): Unit = {
     userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue

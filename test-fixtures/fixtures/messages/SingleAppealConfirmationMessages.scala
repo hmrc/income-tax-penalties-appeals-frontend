@@ -20,7 +20,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.CurrencyFormatter
 
 object SingleAppealConfirmationMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val headingAndTitle = "The appeal will cover a single penalty"
     def p1_LPP1(amount: BigDecimal): String = s"You have chosen to appeal the £${CurrencyFormatter.uiFormat(amount)} first penalty for late payment."
     def p1_LPP2(amount: BigDecimal): String = s"You have chosen to appeal the £${CurrencyFormatter.uiFormat(amount)} second penalty for late payment."

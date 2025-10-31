@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Mess
 import scala.concurrent.{ExecutionContext, Future}
 
 trait MockMessageCountConnector extends MockFactory {
-  _: TestSuite =>
+  this: TestSuite =>
 
   val mockMessageCountConnector: MessageCountConnector = mock[MessageCountConnector]
 

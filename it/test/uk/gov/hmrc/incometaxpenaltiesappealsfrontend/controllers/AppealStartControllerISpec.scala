@@ -22,19 +22,17 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CheckMode, NormalMode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 
 class AppealStartControllerISpec extends ControllerISpecHelper {
 
-  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   Map("/appeal-start" -> false, "/agent-appeal-start" -> true).foreach { case (path, isAgent) =>
 

@@ -22,14 +22,10 @@ import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 
 class ConfirmationControllerISpec extends ControllerISpecHelper {
-
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)).futureValue

@@ -19,10 +19,12 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views
 import fixtures.BaseFixtures
 import fixtures.messages.CheckYourAnswersMessages
 import fixtures.views.BaseSelectors
+import org.jsoup.nodes.Document
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.SummaryListRowHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.CheckYourAnswersView
@@ -45,7 +47,7 @@ class CheckYourAnswersViewSpec extends ViewBehaviours with GuiceOneAppPerSuite w
         implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswers)
 
         implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-        implicit val doc = asDocument(view(Seq()))
+        implicit val doc: Document = asDocument(view(Seq.empty[UploadJourney]))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -62,7 +64,7 @@ class CheckYourAnswersViewSpec extends ViewBehaviours with GuiceOneAppPerSuite w
         )
 
         implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-        implicit val doc = asDocument(view(Seq()))
+        implicit val doc: Document = asDocument(view(Seq.empty[UploadJourney]))
 
         behave like pageWithExpectedElementsAndMessages(
           Selectors.title -> messagesForLanguage.headingAndTitle,

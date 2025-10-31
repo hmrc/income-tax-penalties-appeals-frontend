@@ -18,7 +18,6 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.messages.WhatCausedYouToMissDeadlineMessages
 import org.jsoup.Jsoup
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
@@ -35,11 +34,9 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-
+  
   override def beforeEach(): Unit = {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
     super.beforeEach()
   }

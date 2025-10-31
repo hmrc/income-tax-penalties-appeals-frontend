@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.BtaNavBarService
 import scala.concurrent.{ExecutionContext, Future}
 
 trait MockBtaNavBarService extends MockFactory {
-  _: TestSuite =>
+  this: TestSuite =>
 
   val mockBtaNavBarService: BtaNavBarService = mock[BtaNavBarService]
 

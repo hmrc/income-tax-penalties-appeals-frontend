@@ -20,7 +20,7 @@ import fixtures.messages.{Cy, En, i18n}
 
 object NonJsFileUploadMessages {
 
-  sealed trait Messages { _: i18n =>
+  sealed trait Messages { this: i18n =>
     val headingAndTitle = "Evidence to support this appeal"
     val headingAndTitleReview = "Upload evidence"
     val p1 = "Use this page to upload any evidence to help us review this penalty."

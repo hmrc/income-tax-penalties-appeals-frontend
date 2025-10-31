@@ -24,7 +24,7 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.{AuthStub, BtaNavLinksStub, IncomeTaxSessionDataStub, MessagesStub}
 
 
-trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesStub with BtaNavContentFixture { _: ComponentSpecHelper with AuthStub with IncomeTaxSessionDataStub =>
+trait NavBarTesterHelper extends AnyWordSpec with BtaNavLinksStub with MessagesStub with BtaNavContentFixture { this: ComponentSpecHelper with AuthStub with IncomeTaxSessionDataStub =>
 
   def testNavBar(url: String, queryParams: Map[String, String] = Map.empty)(runStubsAndUserAnswersSetup: => Unit = ()): Unit = {
     "Checking the Navigation Bar" when {

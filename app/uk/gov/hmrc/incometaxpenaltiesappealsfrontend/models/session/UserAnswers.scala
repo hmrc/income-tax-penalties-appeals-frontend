@@ -22,7 +22,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
 import uk.gov.hmrc.mongo.play.json.formats.MongoJavatimeFormats
 
 import java.time.Instant
-
 case class UserAnswers(
                         journeyId: String,
                         data: JsObject = Json.obj(),
@@ -53,17 +52,21 @@ case class UserAnswers(
 }
 
 object UserAnswers {
+
+  def unapply(userAnswers: UserAnswers): Option[(String, JsObject, Instant)] =
+    Some((userAnswers.journeyId, userAnswers.data, userAnswers.lastUpdated))
+
   val reads: Reads[UserAnswers] = {
     (__ \ "journeyId").read[String].and((__ \ "data").read[JsObject]).and(
       (__ \ "lastUpdated").read(MongoJavatimeFormats.instantFormat))(UserAnswers.apply _)
   }
 
-  val writes: OWrites[UserAnswers] = {
+  val writes: Writes[UserAnswers] = {
     (__ \ "journeyId").write[String].and((__ \ "data").write[JsObject]).and(
       (__ \ "lastUpdated").write(MongoJavatimeFormats.instantFormat))(unlift(UserAnswers.unapply))
   }
 
-  implicit val format: OFormat[UserAnswers] = OFormat(reads, writes)
+  implicit val format: Format[UserAnswers] = Format(reads, writes)
 
 }
 

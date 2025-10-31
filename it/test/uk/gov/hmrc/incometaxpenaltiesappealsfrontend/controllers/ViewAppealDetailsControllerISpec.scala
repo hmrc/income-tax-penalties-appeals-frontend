@@ -17,20 +17,19 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
 import fixtures.FileUploadFixtures
-import fixtures.messages._
+import fixtures.messages.*
 import fixtures.views.BaseSelectors
 import org.jsoup.{Jsoup, nodes}
-import org.mongodb.scala.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.ws.WSResponse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.{FileUploadJourneyRepository, UserAnswersRepository}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
@@ -38,15 +37,12 @@ import java.time.LocalDate
 
 class ViewAppealDetailsControllerISpec extends ControllerISpecHelper with FileUploadFixtures {
 
-  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
-
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
-  lazy val fileUploadRepo: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
-
+  override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  
   class Setup(userAnswers: UserAnswers, isAgent: Boolean) {
-    userAnswersRepo.collection.deleteMany(Document()).toFuture().futureValue
+    deleteAll(userAnswersRepo)
     userAnswersRepo.upsertUserAnswer(userAnswers).futureValue
     stubAuthRequests(isAgent)
   }

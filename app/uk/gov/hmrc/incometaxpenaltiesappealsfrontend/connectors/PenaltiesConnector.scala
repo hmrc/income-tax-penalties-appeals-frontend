@@ -16,11 +16,12 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
-import uk.gov.hmrc.http.HttpReads.Implicits._
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
+import uk.gov.hmrc.http.HttpReads.Implicits.*
 import uk.gov.hmrc.http.client.HttpClientV2
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, InternalServerException, NotFoundException, StringContextOps}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.AppealSubmissionHTTPParser.{AppealSubmissionReads, AppealSubmissionResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MultiplePenaltiesHttpParser.{MultiplePenaltiesResponse, MultiplePenaltiesResponseReads}
@@ -28,11 +29,10 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Unex
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmission
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys.*
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
-
 class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
                                    appConfig: AppConfig) {
 
@@ -76,27 +76,6 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
     httpClient
       .get(url"${appConfig.multiplePenaltyDataUrl(penaltyId, nino)}")
       .execute[MultiplePenaltiesResponse](MultiplePenaltiesResponseReads, ec)
-  }
-
-  def getListOfReasonableExcuses(nino: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[JsValue]] = {
-    val startOfLogMsg: String = "[PenaltiesConnector][getListOfReasonableExcuses] -"
-    httpClient
-      .get(url"${appConfig.reasonableExcuseFetchUrl(nino)}")
-      .execute[HttpResponse].map(
-        response => Some(response.json)
-      ).recover {
-        case notFoundException: NotFoundException =>
-          logger.error(s"$startOfLogMsg Returned 404 from penalties. With message: ${notFoundException.getMessage}")
-          None
-        case internalServerException: InternalServerException =>
-          PagerDutyHelper.log("PenaltiesConnector", "getListOfReasonableExcuses", RECEIVED_5XX_FROM_PENALTIES)
-          logger.error(s"$startOfLogMsg Returned 500 from penalties. With message: ${internalServerException.getMessage}")
-          None
-        case e =>
-          PagerDutyHelper.log("PenaltiesConnector", "getListOfReasonableExcuses", UNKNOWN_EXCEPTION_CALLING_PENALTIES)
-          logger.error(s"$startOfLogMsg Returned an exception with message: ${e.getMessage}")
-          None
-      }
   }
 
   def submitAppeal(appealSubmission: AppealSubmission, nino: String, isLPP: Boolean,

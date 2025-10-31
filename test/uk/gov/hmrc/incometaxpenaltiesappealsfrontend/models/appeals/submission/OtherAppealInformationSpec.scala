@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission
 
-import org.scalatest.matchers.must.Matchers.convertToAnyMustWrapper
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
@@ -67,7 +66,7 @@ class OtherAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOne
         )
       )
 
-      Json.toJson(otherAppealInformation)(OtherAppealInformation.otherAppealInformationWrites) mustBe expectedJson
+      Json.toJson(otherAppealInformation)(OtherAppealInformation.otherAppealInformationWrites) shouldBe expectedJson
     }
   }
 }
