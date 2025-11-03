@@ -59,14 +59,14 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       implicit lazy val request: Request[AnyContent] = FakeRequest()
 
-      "redirect to the Income Tax penalties home page" in {
+      "redirect to Page Not Found page" in {
 
         val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
 
         val result = testAction.invokeBlock(userRequest, block)
 
         status(result) shouldBe SEE_OTHER
-        redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
+        redirectLocation(result) shouldBe Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController.onPageLoad(isAgent = userRequest.isAgent).url)
       }
     }
 
@@ -78,7 +78,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       "no UserAnswers are returned from the UserAnswers service" should {
 
-        "redirect to the Income Tax penalties home page" in {
+        "redirect to Page Not Found page" in {
 
           mockGetUserAnswers(testJourneyId)(Future.successful(None))
 
@@ -87,7 +87,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
           val result = testAction.invokeBlock(userRequest, block)
 
           status(result) shouldBe SEE_OTHER
-          redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
+          redirectLocation(result) shouldBe Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController.onPageLoad(isAgent = userRequest.isAgent).url)
         }
       }
 
@@ -131,7 +131,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
             val result = testAction.invokeBlock(userRequest, block)
 
             status(result) shouldBe SEE_OTHER
-            redirectLocation(result) shouldBe Some(appConfig.penaltiesHomePage(false))
+            redirectLocation(result) shouldBe Some(uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController.onPageLoad(isAgent = userRequest.isAgent).url)
           }
         }
       }

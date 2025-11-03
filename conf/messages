@@ -662,3 +662,10 @@ common.unsure = I’m not sure
 duplicateAppeal.headingAndTitle = Appeal already in progress
 duplicateAppeal.p1 = You can’t submit more than one appeal for the same penalty at the same time.
 duplicateAppeal.link.text = Back to Self Assessment penalties and appeals
+
+# Page not found
+# ----------------------------------------------------------
+page.not.found.headingAndTitle = Page not found
+page.not.found.p1 = If you typed the web address, check it is correct.
+page.not.found.p2 = If you pasted the web address, check you copied the entire address.
+page.not.found.link.text = Back to Self Assessment penalties and appeals
