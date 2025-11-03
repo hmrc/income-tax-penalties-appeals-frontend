@@ -596,6 +596,7 @@ uploadEvidence.error.unableToUpload = The selected file could not be uploaded. C
 uploadEvidence.error.QUARANTINE = The selected file contains a virus. Choose another file
 uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file
 uploadEvidence.error.INVALID_FILENAME = Filenames can only contain upper and lower case letters, digits from 0-9, hyphens, underscores and full stops
+error.fileUpload.password-protected=The selected file is password protected
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------
