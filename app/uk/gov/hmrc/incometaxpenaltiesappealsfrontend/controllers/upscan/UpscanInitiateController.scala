@@ -101,6 +101,11 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
             if(status == WAITING) {
               logger.warn(s"[UpscanInitiateController][waitForUpscanResponse] Upscan file was still $status after ${appConfig.upscanTimeout.toMillis}ms for journeyId: $journeyId, fileReference: $fileReference")
             } else {
+              if(status == FAILED) {
+                logger.warn("[UpscanInitiateController][waitForUpscanResponse] Upscan file upload failed with reason: " +
+                  s"${uploadJourney.failureDetails.map(fd => s"${fd.failureReason} - ${fd.message}").getOrElse("No failure details provided")}" +
+                  s" for journeyId: $journeyId, fileReference: $fileReference")
+              }
               logger.info(s"[UpscanInitiateController][waitForUpscanResponse] Upscan file status is $status after ${System.currentTimeMillis() - startTime}ms for journeyId: $journeyId, fileReference: $fileReference")
             }
             f(uploadJourney)
