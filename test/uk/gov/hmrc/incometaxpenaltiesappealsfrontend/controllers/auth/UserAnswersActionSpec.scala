@@ -24,7 +24,7 @@ import play.api.libs.json.Json
 import play.api.mvc.Results.Ok
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.UserAnswersAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledIndividual, CurrentUserRequestWithAnswers}
@@ -50,8 +50,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
   val testAction: UserAnswersAction = new UserAnswersAction(
     sessionService = mockSessionService,
-    errorHandler,
-    appConfig
+    errorHandler
   )
 
   ".refine()" when {

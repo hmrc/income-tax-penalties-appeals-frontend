@@ -16,29 +16,28 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
+import play.api.mvc.*
 import play.api.mvc.Results.{InternalServerError, Redirect}
-import play.api.mvc._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class UserAnswersAction @Inject()(sessionService: UserAnswersService,
-                                  errorHandler: ErrorHandler,
-                                  appConfig: AppConfig)
+                                  errorHandler: ErrorHandler)
                                  (implicit val executionContext: ExecutionContext) extends ActionRefiner[CurrentUserRequest, CurrentUserRequestWithAnswers] {
 
   override protected def refine[A](request: CurrentUserRequest[A]): Future[Either[Result, CurrentUserRequestWithAnswers[A]]] = {
     request.session.get(IncomeTaxSessionKeys.journeyId).fold[Future[Either[Result, CurrentUserRequestWithAnswers[A]]]](
       {
         logger.warn(s"[DataRetrievalAction][refine] No journey ID was found in the session for MTDITID: ${request.mtdItId}")
-       Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
+        Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
       }
 
     )(
