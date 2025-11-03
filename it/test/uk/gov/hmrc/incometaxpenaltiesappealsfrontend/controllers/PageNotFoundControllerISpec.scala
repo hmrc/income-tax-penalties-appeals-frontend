@@ -34,7 +34,7 @@ class PageNotFoundControllerISpec extends ControllerISpecHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
-  lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
+  override lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]
 
   Map("/page-not-found" -> false, "/agent-page-not-found" -> true).foreach { case (path, isAgent) =>
 
