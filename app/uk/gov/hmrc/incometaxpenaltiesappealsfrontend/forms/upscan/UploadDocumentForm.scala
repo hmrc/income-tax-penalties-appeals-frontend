@@ -33,6 +33,7 @@ object UploadDocumentForm {
     case "QUARANTINE" => messages(s"uploadEvidence.error.QUARANTINE")
     case "REJECTED" => messages(s"uploadEvidence.error.REJECTED")
     case "INVALID_FILENAME" => messages(s"uploadEvidence.error.INVALID_FILENAME")
+    case "PASSWORD_PROTECTED" => messages(s"uploadEvidence.error.PASSWORD_PROTECTED")
     case _ => messages("uploadEvidence.error.unableToUpload")
   }
 }
