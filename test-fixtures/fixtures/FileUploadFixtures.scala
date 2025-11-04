@@ -27,6 +27,7 @@ trait FileUploadFixtures extends BaseFixtures {
   val fileRef1 = "ref1"
   val fileRef2 = "ref2"
   val testVirusMessage = "File has a virus"
+  val testPasswordProtectedMessage = "Heuristics.Encrypted.PDF"
   val uploadFields: UploadFormFields = UploadFormFields(
     href = "/upload/to/upscan/url",
     fields = Map(
@@ -96,6 +97,18 @@ trait FileUploadFixtures extends BaseFixtures {
       FailureDetails(
         failureReason = FailureReasonEnum.QUARANTINE,
         message = testVirusMessage
+      )
+    )
+  )
+
+  val callbackModelFailedPwdProtected: UploadJourney = callbackModel.copy(
+    fileStatus = UploadStatusEnum.FAILED,
+    downloadUrl = None,
+    uploadDetails = None,
+    failureDetails = Some(
+      FailureDetails(
+        failureReason = FailureReasonEnum.QUARANTINE,
+        message = testPasswordProtectedMessage
       )
     )
   )
