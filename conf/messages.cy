@@ -586,16 +586,16 @@ uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF)
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------
-uploadEvidence.error.fileTooSmall = Mae’r ffeil dan sylw yn wag. Dewiswch ffeil arall.
-uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na {0}MB. Dewiswch ffeil arall.
-uploadEvidence.error.noFileSpecified = Dewiswch ffeil.
-uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall.
+uploadEvidence.error.fileTooSmall = Mae’r ffeil dan sylw yn wag. Dewiswch ffeil arall
+uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na {0}MB. Dewiswch ffeil arall
+uploadEvidence.error.noFileSpecified = Dewiswch ffeil
+uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall
 
 # Asynchronous Upscan Error
 # ----------------------------------------------------------
-uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall.
+uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall
 uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
-uploadEvidence.error.INVALID_FILENAME = Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifan 0-9, cysylltnodau, tanlinellau ac atalnodau llawn.
+uploadEvidence.error.INVALID_FILENAME = Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifan 0-9, cysylltnodau, tanlinellau ac atalnodau llawn
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------

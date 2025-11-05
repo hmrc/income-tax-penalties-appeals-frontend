@@ -47,7 +47,7 @@ object WhenDidEventHappenForm extends Mappings with WhenDidEventHappenHelper {
 
   val key = "date"
 
-  def form(reason: ReasonableExcuse, isLPP: Boolean = false)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] =
+  def form(reason: ReasonableExcuse, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig, timeMachine: TimeMachine): Form[LocalDate] =
     Form(
       key -> localDate(
         invalidKey = s"${messageKeyPrefix(reason, isLPP)}.date.error.invalid",
