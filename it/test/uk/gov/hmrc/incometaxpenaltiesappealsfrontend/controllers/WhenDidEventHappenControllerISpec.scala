@@ -246,7 +246,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required", args = Seq("day"), isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required", isLPP, args = Seq("day"), isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }
@@ -271,7 +271,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required", args = Seq("month"), isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required", isLPP, args = Seq("month"), isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
               }
             }
@@ -296,7 +296,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required", args = Seq("year"), isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required", isLPP, args = Seq("year"), isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
               }
             }
@@ -321,7 +321,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.two", args = Seq("day", "month"), isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.two", isLPP, args = Seq("day", "month"), isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }
@@ -346,7 +346,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.two", args = Seq("day", "year"), isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.two", isLPP, args = Seq("day", "year"), isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }
@@ -371,7 +371,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.two", args = Seq("month", "year"), isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.two", isLPP, args = Seq("month", "year"), isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
               }
             }
@@ -396,7 +396,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.all", isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "required.all", isLPP, isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }
@@ -421,7 +421,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }
@@ -446,7 +446,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
               }
             }
@@ -471,7 +471,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
               }
             }
@@ -496,7 +496,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
 
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "notInFuture", isAgent = isAgent)
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "notInFuture", isLPP, isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }

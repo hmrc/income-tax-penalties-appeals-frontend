@@ -42,7 +42,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
 
   def onPageLoad(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     Future(Ok(whenDidEventHappen(
-      form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse), WhenDidEventHappenPage),
+      form = fillForm(WhenDidEventHappenForm.form(reasonableExcuse, user.isLPP), WhenDidEventHappenPage),
       reasonableExcuse = reasonableExcuse,
       isLPP = user.isLPP,
       mode = mode
@@ -50,7 +50,7 @@ class WhenDidEventHappenController @Inject()(whenDidEventHappen: WhenDidEventHap
   }
 
   def submit(reasonableExcuse: ReasonableExcuse, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    WhenDidEventHappenForm.form(reasonableExcuse).bindFromRequest().fold(
+    WhenDidEventHappenForm.form(reasonableExcuse, user.isLPP).bindFromRequest().fold(
       formWithErrors =>
         Future.successful(BadRequest(whenDidEventHappen(
           reasonableExcuse,

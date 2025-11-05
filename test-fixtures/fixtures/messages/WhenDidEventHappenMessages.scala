@@ -46,7 +46,7 @@ object WhenDidEventHappenMessages {
 
     def errorMessageConstructor(reasonableExcuse: ReasonableExcuse,
                                 suffix: String,
-                                isLPP: Boolean = false,
+                                isLPP: Boolean,
                                 isAgent: Boolean = false,
                                 wasClientInformationIssue: Boolean = false,
                                 args: Seq[String] = Seq()): String = {
