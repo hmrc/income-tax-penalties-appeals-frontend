@@ -299,11 +299,11 @@ review.decision.30.days.headingAndTitle.multiple = Oes mwy na 30 diwrnod wedi my
 review.decision.30.days.hint = Fel arfer, mae’n rhaid i chi ofyn am adolygiad cyn pen 30 diwrnod o ddyddiad y penderfyniad.
 review.decision.30.days.yes = Iawn
 review.decision.30.days.no = Na
-review.decision.30.days.unsure = I’m not sure (Welsh)
-review.decision.30.days.error.required = Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)
-review.decision.30.days.error.invalid = Tell us if it has been more than 30 days since the appeal decision was issued (Welsh)
-review.decision.30.days.error.required.multiple = Tell us if it has been more than 30 days since the appeal decisions were issued (Welsh)
-review.decision.30.days.error.invalid.multiple = Tell us if it has been more than 30 days since the appeal decisions were issued (Welsh)
+review.decision.30.days.unsure = Dydw i ddim yn siŵr
+review.decision.30.days.error.required = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
+review.decision.30.days.error.invalid = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
+review.decision.30.days.error.required.multiple = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers i’r penderfyniadau apêl gael eu cyhoeddi
+review.decision.30.days.error.invalid.multiple = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers i’r penderfyniadau apêl gael eu cyhoeddi
 
 # Late appeal page
 # ----------------------------------------------------------
@@ -654,7 +654,7 @@ common.yes = Iawn
 common.no = Na
 common.remove = Tynnu
 common.change = Newid
-common.unsure = I’m not sure (Welsh)
+common.unsure = Dydw i ddim yn siŵr
 
 # Duplicate Appeal
 # ----------------------------------------------------------
