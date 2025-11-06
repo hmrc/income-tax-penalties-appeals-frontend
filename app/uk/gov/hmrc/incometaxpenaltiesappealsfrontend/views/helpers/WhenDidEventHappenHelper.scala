@@ -43,8 +43,12 @@ trait WhenDidEventHappenHelper {
 
   def messageKeyPrefix(reason: ReasonableExcuse, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String =
     if(reason != Other) s"whenDidEventHappen.$reason" else {
-      if(user.isAgent && WhoPlannedToSubmitPage.value.contains(AgentClientEnum.agent) && WhatCausedYouToMissDeadlinePage.value.contains(AgentClientEnum.client)) {
-        "agent.whenDidEventHappen.other.clientInformation"
+      if(user.isAgent && WhoPlannedToSubmitPage.value.contains(AgentClientEnum.agent)) {
+        if (WhatCausedYouToMissDeadlinePage.value.contains(AgentClientEnum.client)) {
+          "agent.whenDidEventHappen.other.clientInformation"
+        } else {
+          "whenDidEventHappen.other.lsp"
+        }
       } else {
         s"${if(user.isAgent) "agent." else ""}whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
       }
