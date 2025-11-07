@@ -16,16 +16,12 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 
-import fixtures.messages.{English, ReviewAppealStartMessages}
 import org.jsoup.Jsoup
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, NormalMode}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 
 class PageNotFoundControllerISpec extends ControllerISpecHelper {

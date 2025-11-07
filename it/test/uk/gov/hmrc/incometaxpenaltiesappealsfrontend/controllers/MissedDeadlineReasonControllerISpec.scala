@@ -28,7 +28,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, MissedDeadlineReasonPage, ReasonableExcusePage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {

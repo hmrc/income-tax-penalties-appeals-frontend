@@ -26,7 +26,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDeadlineForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {

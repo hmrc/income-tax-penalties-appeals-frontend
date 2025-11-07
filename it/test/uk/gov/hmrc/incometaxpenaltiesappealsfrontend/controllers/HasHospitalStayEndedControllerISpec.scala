@@ -31,7 +31,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Other, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HasHospitalStayEndedPage, ReasonableExcusePage, WhenDidEventEndPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 

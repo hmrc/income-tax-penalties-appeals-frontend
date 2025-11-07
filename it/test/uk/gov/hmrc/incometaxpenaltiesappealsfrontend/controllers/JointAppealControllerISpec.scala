@@ -28,7 +28,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.JointAppealForm
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
