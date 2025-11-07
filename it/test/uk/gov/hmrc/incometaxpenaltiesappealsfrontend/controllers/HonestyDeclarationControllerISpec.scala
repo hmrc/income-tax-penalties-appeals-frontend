@@ -27,7 +27,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, NormalMode, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 class HonestyDeclarationControllerISpec extends ControllerISpecHelper {

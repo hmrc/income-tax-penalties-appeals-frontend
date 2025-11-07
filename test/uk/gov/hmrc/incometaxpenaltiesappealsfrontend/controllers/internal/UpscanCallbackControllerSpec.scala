@@ -57,7 +57,7 @@ class UpscanCallbackControllerSpec extends AnyWordSpec with should.Matchers with
 
           "return the callback model unchanged" in {
             val file = callbackModel.withFilename(validFilenameExample)
-            controller.validateFilename(file) shouldBe file
+            controller.validateFilenameAndIfPasswordProtected(file) shouldBe file
           }
         }
       }
@@ -74,7 +74,7 @@ class UpscanCallbackControllerSpec extends AnyWordSpec with should.Matchers with
 
           "return the callback model unchanged" in {
             val file = callbackModel.withFilename(invalidFilenameExample)
-            controller.validateFilename(file) shouldBe file.copy(
+            controller.validateFilenameAndIfPasswordProtected(file) shouldBe file.copy(
               fileStatus = FAILED,
               failureDetails = Some(FailureDetails(
                 failureReason = INVALID_FILENAME,

@@ -18,8 +18,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal
 
 import play.api.libs.json.JsValue
 import play.api.mvc.{Action, MessagesControllerComponents}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.INVALID_FILENAME
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, UploadJourney}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.{INVALID_FILENAME, QUARANTINE}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, FailureReasonEnum, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.FAILED
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -37,7 +37,7 @@ class UpscanCallbackController @Inject()(service: UpscanService,
     withJsonBody[UploadJourney] { callbackModel =>
       service.getFile(journeyId, callbackModel.reference).flatMap {
         case Some(file) =>
-          val validatedCallbackModel = validateFilename(callbackModel.copy(uploadFields = file.uploadFields))
+          val validatedCallbackModel = validateFilenameAndIfPasswordProtected(callbackModel.copy(uploadFields = file.uploadFields))
           service.upsertFileUpload(journeyId, validatedCallbackModel).map { _ =>
             NoContent
           }
@@ -46,6 +46,11 @@ class UpscanCallbackController @Inject()(service: UpscanService,
           Future.successful(Gone)
       }
     }
+  }
+
+  private[internal] def validateFilenameAndIfPasswordProtected(callbackModel: UploadJourney): UploadJourney = {
+    val validatedFilename = validateFilename(callbackModel)
+    checkIfPasswordProtected(validatedFilename)
   }
 
   private val validFilenameRegex: Regex = "^[a-zA-Z0-9-_.]+$".r
@@ -66,4 +71,19 @@ class UpscanCallbackController @Inject()(service: UpscanService,
           )
       }
     }
+
+  private[internal] def checkIfPasswordProtected(callbackModel: UploadJourney): UploadJourney = {
+    callbackModel.failureDetails.fold(callbackModel) { failureDetails =>
+      if (failureDetails.failureReason == QUARANTINE && failureDetails.message.contains("Encrypted")) {
+        logger.info(s"[UpscanCallbackController][checkIfPasswordProtected] Callback from Upscan received for password protected file")
+        callbackModel.copy(
+          failureDetails = Some(failureDetails.copy(
+            failureReason = FailureReasonEnum.PASSWORD_PROTECTED
+          ))
+        )
+      } else {
+        callbackModel
+      }
+    }
+  }
 }

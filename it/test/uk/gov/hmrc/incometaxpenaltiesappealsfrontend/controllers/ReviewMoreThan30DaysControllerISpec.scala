@@ -27,7 +27,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.ReviewMoreThan30DaysF
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{JointAppealPage, ReviewMoreThan30DaysPage}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.UserAnswersRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 

@@ -17,8 +17,8 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal
 
 import fixtures.FileUploadFixtures
-import play.api.test.Helpers._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureDetails
+import play.api.test.Helpers.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, FailureReasonEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.INVALID_FILENAME
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.FAILED
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
@@ -69,7 +69,7 @@ class UpscanCallbackControllerISpec extends ComponentSpecHelper with FileUploadF
 
         "the filename is valid" should {
 
-          "update the File Upload Journey, persisting the values of the UploadFields. Returning a NO_CONTENT" in {
+          "update the File Upload Journey so FailureReason is PASSWORD_PROTECTED, persisting the values of the UploadFields. Returning a NO_CONTENT" in {
 
             await(fileUploadRepository.upsertFileUpload(testJourneyId, waitingFile))
 
@@ -79,12 +79,32 @@ class UpscanCallbackControllerISpec extends ComponentSpecHelper with FileUploadF
             await(fileUploadRepository.getFile(testJourneyId, callbackModel.reference)) shouldBe Some(callbackModel.copy(uploadFields = Some(uploadFields)))
           }
         }
+
+        "the filename is valid but the fileStatus is FAILED, and the failureDetails are QUARENTINE with message containing Encryption" should {
+
+          "update the File Upload Journey, persisting the values of the UploadFields. Returning a NO_CONTENT" in {
+
+            await(fileUploadRepository.upsertFileUpload(testJourneyId, waitingFile))
+
+            val result = post(s"/internal/upscan-callback/$testJourneyId")(callbackModelFailedPwdProtected)
+
+            result.status shouldBe NO_CONTENT
+            await(fileUploadRepository.getFile(testJourneyId, callbackModel.reference)) shouldBe Some(callbackModelFailedPwdProtected.copy(
+              failureDetails = Some(FailureDetails(
+                failureReason = FailureReasonEnum.PASSWORD_PROTECTED,
+                message = testPasswordProtectedMessage
+              )),
+              uploadFields = waitingFile.uploadFields
+            ))
+          }
+        }
       }
 
       "a file for that callback reference does NOT exist within the File Upload journey" should {
 
         "Returning a GONE response to Upscan and log a warning message" in {
 
+          await(fileUploadRepository.removeAllFiles(testJourneyId))
           withCaptureOfLoggingFrom(logger) { logs =>
             val result = post(s"/internal/upscan-callback/$testJourneyId")(callbackModel)
             result.status shouldBe GONE

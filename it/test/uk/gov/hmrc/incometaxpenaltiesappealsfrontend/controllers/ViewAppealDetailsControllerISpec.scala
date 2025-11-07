@@ -29,7 +29,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.AgentClientEnum
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
