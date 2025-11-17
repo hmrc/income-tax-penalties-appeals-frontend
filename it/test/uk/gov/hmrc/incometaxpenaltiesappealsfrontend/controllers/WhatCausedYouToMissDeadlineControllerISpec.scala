@@ -58,8 +58,8 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
           result.status shouldBe OK
 
           val document = Jsoup.parse(result.body)
-          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe true
-          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe false
+          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}").hasAttr("checked") shouldBe false
+          document.select(s"#${WhatCausedYouToMissDeadlineForm.key}-2").hasAttr("checked") shouldBe true
         }
       }
 
