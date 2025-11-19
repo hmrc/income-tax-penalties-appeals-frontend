@@ -23,8 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.WhatCausedYouToMissDe
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, Mode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhatCausedYouToMissDeadlinePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.*
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,12 +34,11 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
                                                       userAnswersService: UserAnswersService,
                                                       override val errorHandler: ErrorHandler,
                                                       override val controllerComponents: MessagesControllerComponents
-                                                     )(implicit ec: ExecutionContext, timeMachine: TimeMachine, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                                     )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
 
   def onPageLoad(mode: Mode): Action[AnyContent] = authActions.asMTDAgentWithUserAnswers() { implicit user =>
     Ok(whatCausedYouToMissTheDeadline(
       fillForm(WhatCausedYouToMissDeadlineForm.form(), WhatCausedYouToMissDeadlinePage),
-      user.isLateFirstStage(),
       user.isAgent,
       mode
     ))
@@ -52,7 +50,6 @@ class WhatCausedYouToMissDeadlineController @Inject()(whatCausedYouToMissTheDead
       formWithErrors =>
         Future(BadRequest(whatCausedYouToMissTheDeadline(
           formWithErrors,
-          user.isLateFirstStage(),
           user.isAgent,
           mode
         ))),

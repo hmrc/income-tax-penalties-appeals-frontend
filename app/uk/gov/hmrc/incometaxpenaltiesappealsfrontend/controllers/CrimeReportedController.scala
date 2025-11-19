@@ -41,7 +41,6 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
   def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hasTheCrimeBeenReported(
       form = fillForm(CrimeReportedForm.form(), CrimeReportedPage),
-      isLate = user.isLateFirstStage(),
       isAgent = user.isAgent,
       mode
     ))
@@ -52,7 +51,6 @@ class CrimeReportedController @Inject()(hasTheCrimeBeenReported: HasTheCrimeBeen
       formWithErrors =>
         Future(BadRequest(hasTheCrimeBeenReported(
           form = formWithErrors,
-          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
           mode
         ))),

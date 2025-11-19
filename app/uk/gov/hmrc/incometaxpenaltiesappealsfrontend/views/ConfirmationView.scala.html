@@ -28,7 +28,7 @@
         caption: components.PenaltyCaption,
         link: Link)
 
-@(isLate: Boolean, isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
+@(isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
 
 @clientOrAgent = {@if(isAgent){agent} else {client}}
 @reviewOrAppeal = {@if(isSecondStageAppeal){.review}}

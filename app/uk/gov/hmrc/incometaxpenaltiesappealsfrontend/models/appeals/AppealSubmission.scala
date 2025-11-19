@@ -195,8 +195,8 @@ object AppealSubmission {
           ,
           statement = request.userAnswers.getAnswer(MissedDeadlineReasonPage),
           supportingEvidence = uploadedFiles.fold[Option[Evidence]](None)(files => if (files.isEmpty) None else Some(Evidence(files.size))),
-          lateAppeal = request.isLateFirstStage(),
-          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
+          lateAppeal = request.isLateAppeal(),
+          lateAppealReason = request.lateAppealReason(),
           isClientResponsibleForSubmission = isClientResponsibleForSubmission,
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission,
           uploadedFiles = uploadedFiles

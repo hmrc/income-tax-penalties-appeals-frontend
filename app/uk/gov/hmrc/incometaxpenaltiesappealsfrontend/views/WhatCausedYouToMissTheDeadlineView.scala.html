@@ -31,7 +31,7 @@
         govukRadios : GovukRadios,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLate: Boolean, isAgent: Boolean, mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
+@(form: Form[_], isAgent: Boolean, mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @layout(Some(titleBuilder(messages("agents.whatCausedYouToMissTheDeadline.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
 
