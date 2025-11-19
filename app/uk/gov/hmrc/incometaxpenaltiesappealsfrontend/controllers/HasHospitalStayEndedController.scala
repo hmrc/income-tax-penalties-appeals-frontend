@@ -40,7 +40,6 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
   def onPageLoad(isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(hospitalStayEnded(
       form = fillForm(HasHospitalStayEndedForm.form(), HasHospitalStayEndedPage),
-      isLate = user.isLateFirstStage(),
       isAgent = user.isAgent,
       mode = mode
     ))
@@ -51,7 +50,6 @@ class HasHospitalStayEndedController @Inject()(hospitalStayEnded: HasHospitalSta
       formWithErrors =>
         Future(BadRequest(hospitalStayEnded(
           form = formWithErrors,
-          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
           mode = mode
         ))),

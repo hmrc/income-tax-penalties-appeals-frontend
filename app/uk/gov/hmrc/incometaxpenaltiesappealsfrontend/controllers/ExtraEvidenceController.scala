@@ -42,7 +42,6 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
   def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(extraEvidence(
       form = fillForm(ExtraEvidenceForm.form(is2ndStageAppeal), ExtraEvidencePage),
-      isLate = user.isLateFirstStage(),
       isAgent = user.isAgent,
       is2ndStageAppeal = is2ndStageAppeal,
       isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
@@ -55,7 +54,6 @@ class ExtraEvidenceController @Inject()(extraEvidence: ExtraEvidenceView,
       formWithErrors =>
         Future(BadRequest(extraEvidence(
           form = formWithErrors,
-          isLate = user.isLateFirstStage(),
           isAgent = user.isAgent,
           is2ndStageAppeal = is2ndStageAppeal,
           isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,

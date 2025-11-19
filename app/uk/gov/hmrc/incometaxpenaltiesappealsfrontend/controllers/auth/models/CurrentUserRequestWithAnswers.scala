@@ -22,8 +22,8 @@ import play.twirl.api.Html
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, PenaltyData, RequestWithNavBar}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, PenaltyData, RequestWithNavBar, ReviewMoreThan30DaysEnum}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
@@ -74,11 +74,28 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
   def isLateFirstStage()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Boolean = {
     val dateWhereLateAppealIsApplicable: LocalDate = timeMachine.getCurrentDate.minusDays(lateAppealDays())
 
-    if (userAnswers.getAnswer(JointAppealPage).contains(true)) {
+    lazy val isLate = if (userAnswers.getAnswer(JointAppealPage).contains(true)) {
       firstPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable)) ||
         secondPenaltyCommunicationDate.exists(_.isBefore(dateWhereLateAppealIsApplicable))
     } else {
       communicationSent.isBefore(dateWhereLateAppealIsApplicable)
+    }
+    !is2ndStageAppeal && isLate
+  }
+  
+  def isLateSecondStage(): Boolean = {
+    is2ndStageAppeal && userAnswers.getAnswer(ReviewMoreThan30DaysPage).fold(false)(_ == ReviewMoreThan30DaysEnum.yes)
+  }
+  
+  def isLateAppeal()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Boolean = {
+    isLateFirstStage() || isLateSecondStage()
+  }
+  
+  def lateAppealReason()(implicit timeMachine: TimeMachine, appConfig: AppConfig): Option[String] = {
+    if(isLateAppeal()) {
+      userAnswers.getAnswer(LateAppealPage)
+    } else {
+      None
     }
   }
 
