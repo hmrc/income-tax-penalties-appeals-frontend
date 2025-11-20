@@ -37,8 +37,7 @@ object AgentClientEnum extends Enumeration {
   }
 
   def radioOptions(page: String, reverse: Boolean = false)(implicit messages: Messages): Seq[RadioItem] = {
-    var values = AgentClientEnum.values.toSeq
-    if (reverse) values = values.reverse
+    val values = if (reverse) AgentClientEnum.values.toSeq.reverse else AgentClientEnum.values.toSeq
     values.map { value =>
       RadioItem(
         content = Text(messages(s"agents.$page.${value.toString}")),
