@@ -23,7 +23,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.DuplicateApp
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.*
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,11 +36,14 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            upscanService: UpscanService,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
-                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig) extends BaseUserAnswersController {
+                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig, tm: TimeMachine) extends BaseUserAnswersController {
 
   def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
-      Ok(checkYourAnswers(uploadedFiles))
+      JourneyValidator.validateJourney(user) match
+        case JourneyValidator.Complete => Ok(checkYourAnswers(uploadedFiles))
+        case JourneyValidator.Incomplete(redirect) => Redirect(redirect)
+
     }
   }
 
