@@ -35,10 +35,59 @@ case class QuestionPage[A](page: Page[A], redirect: Call)(implicit val reads: Re
 case object End extends JourneyStep
 
 
-trait RequiredPagesJourney {
+abstract class RequiredPagesJourney(user: CurrentUserRequestWithAnswers[_]) {
   def startPage: JourneyStep
 
   def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: ReasonableExcuse): JourneyStep
+  
+  protected def whenDidEventHappen(reasonableExcuse: ReasonableExcuse): QuestionPage[LocalDate] = QuestionPage(
+    WhenDidEventHappenPage,
+    routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, NormalMode)
+  )(implicitly[Reads[LocalDate]])
+
+  protected def whenDidEventEnd(reasonableExcuse: ReasonableExcuse): QuestionPage[LocalDate] = QuestionPage(
+    WhenDidEventEndPage,
+    routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, NormalMode)
+  )(implicitly[Reads[LocalDate]])
+
+  protected val reasonForLateAppeal: QuestionPage[String] = QuestionPage(
+    LateAppealPage,
+    routes.LateAppealController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode)
+  )(implicitly[Reads[String]])
+
+  protected val honestyDeclaration: QuestionPage[Boolean] = QuestionPage(
+    HonestyDeclarationPage,
+    routes.HonestyDeclarationController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
+  )(implicitly[Reads[Boolean]])
+
+  protected val hasCrimeBeenReported: QuestionPage[CrimeReportedEnum.Value] = QuestionPage(
+    CrimeReportedPage,
+    routes.CrimeReportedController.onPageLoad(user.isAgent, NormalMode)
+  )(implicitly[Reads[CrimeReportedEnum.Value]])
+
+  protected val hasHospitalStayEnded: QuestionPage[Boolean] = QuestionPage(
+    HasHospitalStayEndedPage,
+    routes.HasHospitalStayEndedController.onPageLoad(user.isAgent, NormalMode)
+  )(implicitly[Reads[Boolean]])
+
+  protected val uploadEvidence: QuestionPage[Boolean] = QuestionPage(
+    ExtraEvidencePage, routes.ExtraEvidenceController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode)
+  )(implicitly[Reads[Boolean]])
+
+  protected val uploadEvidenceCYA: QuestionPage[Boolean] = QuestionPage(
+    ExtraEvidencePage, // TODO - create another page for this, save to session - appealReasons.uploadAnotherFile
+    upscan.routes.UpscanCheckAnswersController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode)
+  )(implicitly[Reads[Boolean]])
+
+  protected val reasonForMissedDeadline: QuestionPage[String] = QuestionPage(
+    MissedDeadlineReasonPage,
+    routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, user.isAgent, user.is2ndStageAppeal, NormalMode)
+  )(implicitly[Reads[String]])
+
+  protected val reasonableExcuse: QuestionPage[ReasonableExcuse] = QuestionPage(
+    ReasonableExcusePage,
+    routes.ReasonableExcuseController.onPageLoad(user.isAgent, NormalMode)
+  )(implicitly[Reads[ReasonableExcuse]])
 }
 
 
@@ -66,61 +115,11 @@ object JourneyValidator {
           case _ => Incomplete(routes.ReasonableExcuseController.onPageLoad(user.isAgent, NormalMode))
     }
 
-    parseJourney(journey.startPage)
+    if (user.is2ndStageAppeal) Complete else parseJourney(journey.startPage)
   }
 }
 
-
-case class Journey(user: CurrentUserRequestWithAnswers[_])(implicit val tm: TimeMachine, val appConfig: AppConfig) extends RequiredPagesJourney {
-
-  private def whenDidEventHappen(reasonableExcuse: ReasonableExcuse) = QuestionPage(
-    WhenDidEventHappenPage,
-    routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, NormalMode)
-  )(implicitly[Reads[LocalDate]])
-
-  private def whenDidEventEnd(reasonableExcuse: ReasonableExcuse) = QuestionPage(
-    WhenDidEventEndPage,
-    routes.WhenDidEventEndController.onPageLoad(reasonableExcuse, user.isAgent, NormalMode)
-  )(implicitly[Reads[LocalDate]])
-
-  private val reasonForLateAppeal = QuestionPage(
-    LateAppealPage,
-    routes.LateAppealController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode)
-  )(implicitly[Reads[String]])
-
-  private val honestyDeclaration = QuestionPage(
-    HonestyDeclarationPage,
-    routes.HonestyDeclarationController.onPageLoad(user.isAgent, user.is2ndStageAppeal)
-  )(implicitly[Reads[Boolean]])
-
-  private val hasCrimeBeenReported = QuestionPage(
-    CrimeReportedPage,
-    routes.CrimeReportedController.onPageLoad(user.isAgent, NormalMode)
-  )(implicitly[Reads[CrimeReportedEnum.Value]])
-
-  private val hasHospitalStayEnded = QuestionPage(
-    HasHospitalStayEndedPage,
-    routes.HasHospitalStayEndedController.onPageLoad(user.isAgent, NormalMode)
-  )(implicitly[Reads[Boolean]])
-
-  private val uploadEvidence = QuestionPage(
-    ExtraEvidencePage, routes.ExtraEvidenceController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode)
-  )(implicitly[Reads[Boolean]])
-
-  private val uploadEvidenceCYA = QuestionPage(
-    ExtraEvidencePage, // TODO - create another page for this, save to session - appealReasons.uploadAnotherFile
-    upscan.routes.UpscanCheckAnswersController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode)
-  )(implicitly[Reads[Boolean]])
-
-  private val reasonForMissedDeadline = QuestionPage(
-    MissedDeadlineReasonPage,
-    routes.MissedDeadlineReasonController.onPageLoad(user.isLPP, user.isAgent, user.is2ndStageAppeal, NormalMode)
-  )(implicitly[Reads[String]])
-
-  private val reasonableExcuse = QuestionPage(
-    ReasonableExcusePage,
-    routes.ReasonableExcuseController.onPageLoad(user.isAgent, NormalMode)
-  )(implicitly[Reads[ReasonableExcuse]])
+case class Journey(user: CurrentUserRequestWithAnswers[_])(implicit val tm: TimeMachine, val appConfig: AppConfig) extends RequiredPagesJourney(user) {
 
   override def startPage: JourneyStep = reasonableExcuse
 
@@ -146,3 +145,4 @@ case class Journey(user: CurrentUserRequestWithAnswers[_])(implicit val tm: Time
       case _ => End
   }
 }
+
