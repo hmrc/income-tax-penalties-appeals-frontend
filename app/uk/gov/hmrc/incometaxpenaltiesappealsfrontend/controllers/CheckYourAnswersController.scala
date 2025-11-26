@@ -43,7 +43,6 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
       JourneyValidator.validateJourney(user) match
         case JourneyValidator.Complete => Ok(checkYourAnswers(uploadedFiles))
         case JourneyValidator.Incomplete(redirect) => Redirect(redirect)
-
     }
   }
 
