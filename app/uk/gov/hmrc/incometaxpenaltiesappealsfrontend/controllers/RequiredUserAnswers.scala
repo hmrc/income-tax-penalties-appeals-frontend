@@ -26,21 +26,24 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
+import javax.inject.Inject
 
 
-sealed trait JourneyStep
+sealed trait CYAJourneyStep
 
-case class QuestionPage[A](page: Page[A], redirect: Call)(implicit val reads: Reads[A]) extends JourneyStep
+case class QuestionPage[A](page: Page[A], redirect: Call)(implicit val reads: Reads[A]) extends CYAJourneyStep
 
-case object End extends JourneyStep
+case object End extends CYAJourneyStep
 
-case object ReasonableExcuseRequired extends JourneyStep
+case object NoReasonableExcuse extends CYAJourneyStep
+
+case object NoFileUploads extends CYAJourneyStep
 
 
-abstract class RequiredPagesJourney(user: CurrentUserRequestWithAnswers[_]) {
-  def startPage: JourneyStep
+abstract class RequiredAnswersJourney(user: CurrentUserRequestWithAnswers[_]) {
+  def startPage: CYAJourneyStep
 
-  def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: Option[ReasonableExcuse]): JourneyStep
+  def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: Option[ReasonableExcuse]): CYAJourneyStep
 
   protected def whenDidEventHappen(reasonableExcuse: ReasonableExcuse): QuestionPage[LocalDate] = QuestionPage(
     WhenDidEventHappenPage,
@@ -98,7 +101,7 @@ abstract class RequiredPagesJourney(user: CurrentUserRequestWithAnswers[_]) {
 }
 
 
-object JourneyValidator {
+class RequiredAnswersJourneyValidator@Inject()(implicit tm: TimeMachine, appConfig: AppConfig) {
 
   sealed trait ValidationResult
 
@@ -106,10 +109,11 @@ object JourneyValidator {
 
   case class Incomplete(redirect: Call) extends ValidationResult
 
-  def validateJourney(user: CurrentUserRequestWithAnswers[_])(implicit tm: TimeMachine, appConfig: AppConfig): ValidationResult = {
-    val journey = if (user.is2ndStageAppeal) SecondStageAppealJourney(user) else FirstStageAppealJourney(user)
+  def validateJourney(user: CurrentUserRequestWithAnswers[_], uploadedFileCount: Int): ValidationResult = {
+    val journey = if (user.is2ndStageAppeal) SecondStageAppealJourney(user, uploadedFileCount) else FirstStageAppealJourney(user, uploadedFileCount)
+
     @scala.annotation.tailrec
-    def parseJourney(currentStep: JourneyStep): ValidationResult = currentStep match {
+    def parseJourney(currentStep: CYAJourneyStep): ValidationResult = currentStep match {
       case End => Complete
       case q: QuestionPage[_] =>
         val reason = user.userAnswers.getAnswer(ReasonableExcusePage)
@@ -118,22 +122,27 @@ object JourneyValidator {
             parseJourney(journey.next(q, answer, reason))
           case None =>
             Incomplete(q.redirect)
-      case ReasonableExcuseRequired => Incomplete(routes.JointAppealController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode))
+      case NoReasonableExcuse => Incomplete(routes.JointAppealController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode))
+      case NoFileUploads => Incomplete(routes.ExtraEvidenceController.onPageLoad(user.isAgent, user.is2ndStageAppeal, NormalMode))
     }
 
     parseJourney(journey.startPage)
   }
 }
 
-case class SecondStageAppealJourney(user: CurrentUserRequestWithAnswers[_])(implicit  val tm: TimeMachine, val appConfig: AppConfig) extends RequiredPagesJourney(user){
-  override def startPage: JourneyStep = jointAppeal
+case class SecondStageAppealJourney(user: CurrentUserRequestWithAnswers[_], fileUploadCount: Int)(implicit val tm: TimeMachine, val appConfig: AppConfig) extends RequiredAnswersJourney(user) {
+  override def startPage: CYAJourneyStep = jointAppeal
 
-  override def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: Option[ReasonableExcuse] = None): JourneyStep = {
+  override def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: Option[ReasonableExcuse] = None): CYAJourneyStep = {
     currentStep.page match
       case JointAppealPage => honestyDeclaration
       case HonestyDeclarationPage => reasonForMissedDeadline
       case MissedDeadlineReasonPage => uploadEvidence
-      case ExtraEvidencePage => reviewMoreThan30Days
+      case ExtraEvidencePage =>
+        if (answer.asInstanceOf[Boolean] && fileUploadCount < 1)
+          NoFileUploads
+        else
+          reviewMoreThan30Days
       case ReviewMoreThan30DaysPage =>
         if (answer.asInstanceOf[ReviewMoreThan30DaysEnum.Value] == ReviewMoreThan30DaysEnum.yes) reasonForLateAppeal else End
       case LateAppealPage => End
@@ -141,15 +150,15 @@ case class SecondStageAppealJourney(user: CurrentUserRequestWithAnswers[_])(impl
   }
 }
 
-case class FirstStageAppealJourney(user: CurrentUserRequestWithAnswers[_])(implicit val tm: TimeMachine, val appConfig: AppConfig) extends RequiredPagesJourney(user) {
+case class FirstStageAppealJourney(user: CurrentUserRequestWithAnswers[_], fileUploadCount: Int)(implicit val tm: TimeMachine, val appConfig: AppConfig) extends RequiredAnswersJourney(user) {
 
-  override def startPage: JourneyStep = reasonableExcuse
+  override def startPage: CYAJourneyStep = reasonableExcuse
 
-  override def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: Option[ReasonableExcuse]): JourneyStep = {
-    currentStep.page match
+  override def next[A](currentStep: QuestionPage[A], answer: A, reasonableExcuse: Option[ReasonableExcuse]): CYAJourneyStep = {
+    currentStep.page match {
       case ReasonableExcusePage => honestyDeclaration
       case HonestyDeclarationPage =>
-        reasonableExcuse.map(whenDidEventHappen).getOrElse(ReasonableExcuseRequired)
+        reasonableExcuse.map(whenDidEventHappen).getOrElse(NoReasonableExcuse)
       case WhenDidEventHappenPage =>
         reasonableExcuse match {
           case Some(Crime) => hasCrimeBeenReported
@@ -157,14 +166,32 @@ case class FirstStageAppealJourney(user: CurrentUserRequestWithAnswers[_])(impli
           case Some(UnexpectedHospital) => hasHospitalStayEnded
           case Some(Other) => reasonForMissedDeadline
           case Some(_) => if (user.isLateFirstStage()) reasonForLateAppeal else End
-          case None => ReasonableExcuseRequired
+          case None => NoReasonableExcuse
+        }
+      case CrimeReportedPage =>
+        if (user.isLateFirstStage()) reasonForLateAppeal else End
+
+      case HasHospitalStayEndedPage =>
+        if (answer.asInstanceOf[Boolean]) {
+          reasonForMissedDeadline
+        } else if (user.isLateFirstStage()) {
+          reasonForLateAppeal
+        } else {
+          End
         }
 
-      case CrimeReportedPage => if (user.isLateFirstStage()) reasonForLateAppeal else End
-      case HasHospitalStayEndedPage => if (user.isLateFirstStage()) reasonForLateAppeal else End
       case MissedDeadlineReasonPage => uploadEvidence
-      case ExtraEvidencePage => if (user.isLateFirstStage()) reasonForLateAppeal else End
+
+      case ExtraEvidencePage =>
+        if (answer.asInstanceOf[Boolean] && fileUploadCount < 1)
+          NoFileUploads
+        else if (user.isLateFirstStage())
+          reasonForLateAppeal
+        else
+          End
+
       case _ => End
+    }
   }
 }
 

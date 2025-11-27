@@ -34,15 +34,16 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            val authActions: AuthActions,
                                            appealService: AppealService,
                                            upscanService: UpscanService,
+                                           requiredAnswersValidator: RequiredAnswersJourneyValidator,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
-                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig, tm: TimeMachine) extends BaseUserAnswersController {
+                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig, val tm: TimeMachine) extends BaseUserAnswersController {
 
   def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
-      JourneyValidator.validateJourney(user) match
-        case JourneyValidator.Complete => Ok(checkYourAnswers(uploadedFiles))
-        case JourneyValidator.Incomplete(redirect) => Redirect(redirect)
+      requiredAnswersValidator.validateJourney(user, uploadedFiles.size) match
+        case requiredAnswersValidator.Complete => Ok(checkYourAnswers(uploadedFiles))
+        case requiredAnswersValidator.Incomplete(redirect) => Redirect(redirect)
     }
   }
 
