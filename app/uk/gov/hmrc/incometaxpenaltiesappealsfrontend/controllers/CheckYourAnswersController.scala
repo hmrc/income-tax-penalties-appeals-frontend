@@ -24,6 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.requiredanswers.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.*
 
 import javax.inject.Inject
