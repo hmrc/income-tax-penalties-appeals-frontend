@@ -53,7 +53,8 @@ class CheckYourAnswersViewSpec extends ViewBehaviours with GuiceOneAppPerSuite w
           Selectors.title -> messagesForLanguage.headingAndTitle,
           Selectors.h1 -> messagesForLanguage.headingAndTitle,
           Selectors.h2(2) -> messagesForLanguage.declarationH2,
-          Selectors.warning -> concat(messagesForLanguage.declarationP1, messagesForLanguage.declarationP2)
+          Selectors.p(1) -> messagesForLanguage.declarationP1,
+          Selectors.p(2) -> messagesForLanguage.declarationP2
         )
       }
 
@@ -70,7 +71,8 @@ class CheckYourAnswersViewSpec extends ViewBehaviours with GuiceOneAppPerSuite w
           Selectors.title -> messagesForLanguage.headingAndTitle,
           Selectors.h1 -> messagesForLanguage.headingAndTitle,
           Selectors.h2(2) -> messagesForLanguage.declarationH2,
-          Selectors.warning -> concat(messagesForLanguage.declarationP1Review, messagesForLanguage.declarationP2)
+          Selectors.p(1) -> messagesForLanguage.declarationP1Review,
+          Selectors.p(2) -> messagesForLanguage.declarationP2
         )
       }
     }

@@ -29,7 +29,7 @@
         formHelper: FormWithCSRF,
         helper: CheckAnswersHelper,
         caption: components.PenaltyCaption,
-        warning: components.WarningText,
+        p: components.P,
         h1: components.H1,
         h2: components.H2
 )
@@ -51,11 +51,10 @@
 
             @h2("checkYourAnswers.declaration.h2", elmId = "declaration")
 
-            @warning {
-                @messages(s"checkYourAnswers.declaration.text.1$appealStage")
-                <br>
-                @messages("checkYourAnswers.declaration.text.2")
-            }
+
+            @p(s"checkYourAnswers.declaration.text.1$appealStage")
+            @p("checkYourAnswers.declaration.text.2")
+
 
             <div class="govuk-form-group">
             @govukButton(Button(

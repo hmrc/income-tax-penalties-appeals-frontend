@@ -30,7 +30,6 @@ trait BaseSelectors {
   def button: String = s"$prefix button.govuk-button"
   def legend: String = s"$prefix fieldset legend"
   def hint: String = s"$prefix div.govuk-hint"
-  def warning: String = s"$prefix div.govuk-warning-text strong"
   def radio: Int => String = i => s"$prefix div.govuk-radios__item:nth-of-type($i) label"
   def summaryRowKey: Int => String = i => s"$prefix dl > div:nth-of-type($i) > dt"
   def summaryRowValue: Int => String = i => s"$prefix dl > div:nth-of-type($i) > dd:nth-of-type(1)"
