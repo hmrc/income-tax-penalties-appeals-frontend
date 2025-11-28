@@ -104,7 +104,8 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
           document.select(Selectors.summaryRowValue(1)).text() shouldBe ReasonableExcuseMessages.English.cyaValue(reason)
           document.select(Selectors.summaryRowAction(1,1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
           document.select(Selectors.h2(2)).text() shouldBe "Declaration"
-          document.select(Selectors.warning).text() shouldBe "Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
+          document.select(Selectors.p(1)).text() shouldBe "By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge."
+          document.select(Selectors.p(2)).text() shouldBe "A false declaration can result in prosecution."
           document.getSubmitButton.text() shouldBe "Accept and send"
         }
 
@@ -128,7 +129,8 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
           document.select(Selectors.summaryRowValue(1)).text() shouldBe ReasonableExcuseMessages.English.cyaValue(reason)
           document.select(Selectors.summaryRowAction(1,1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
           document.select(Selectors.h2(2)).text() shouldBe "Declaration"
-          document.select(Selectors.warning).text() shouldBe "Warning By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge. A false declaration can result in prosecution."
+          document.select(Selectors.p(1)).text() shouldBe "By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge."
+          document.select(Selectors.p(2)).text() shouldBe "A false declaration can result in prosecution."
           document.getSubmitButton.text() shouldBe "Accept and send"
         }
       }
