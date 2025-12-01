@@ -1,5 +1,8 @@
 service.name = Rheoli’ch Hunanasesiad
 
+session.expired.h1 = Er eich diogelwch, mae’r gwasanaeth hwn wedi’i ailosod
+session.expired.p = Mae’r manylion a roddwyd gennych wedi’u dileu gan nad ydych wedi mynd yn eich blaen â’r gwasanaeth ers 15 munud.
+
 error.title.prefix = Gwall:
 govuk.suffix = GOV.UK
 
