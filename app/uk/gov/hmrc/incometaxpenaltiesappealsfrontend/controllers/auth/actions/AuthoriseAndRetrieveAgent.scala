@@ -70,7 +70,7 @@ class AuthoriseAndRetrieveAgent @Inject()(override val authConnector: AuthConnec
               Left(Redirect(appConfig.ITSAPenaltiesAppealsHomeUrl(false))))
         }.recoverWith {
           case authorisationException: AuthorisationException =>
-            handleAuthFailure(authorisationException, isAgent = false)(implicitly, implicitly, logger)
+            handleAuthFailure(authorisationException, isAgent = true)(implicitly, implicitly, logger)
               .map(Left(_))
         }
     }
