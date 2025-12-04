@@ -21,14 +21,21 @@ import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import play.api.http.Status.OK
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, LateAppealPage, ReasonableExcusePage, WhenDidEventHappenPage}
+
+import java.time.LocalDate
 
 class ConfirmationControllerISpec extends ControllerISpecHelper {
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
-    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, Bereavement)).futureValue
+    userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP
+      .setAnswer(ReasonableExcusePage, Bereavement)
+      .setAnswer(HonestyDeclarationPage, true)
+      .setAnswer(WhenDidEventHappenPage, LocalDate.of(2023, 1, 1))
+      .setAnswer(LateAppealPage, "reason for late appeal")
+    ).futureValue
     super.beforeEach()
   }
 
