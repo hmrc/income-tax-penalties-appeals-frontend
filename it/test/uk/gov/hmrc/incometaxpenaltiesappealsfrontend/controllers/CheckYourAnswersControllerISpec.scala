@@ -28,22 +28,24 @@ import play.api.libs.ws.DefaultBodyReadables.readableAsString
 import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.FireOrFlood
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
 
 import java.time.LocalDate
 
-class CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub {
+class
+CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub {
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(En.code)))
 
   val errorHandler: ErrorHandler = app.injector.instanceOf[ErrorHandler]
-  
+
   object Selectors extends BaseSelectors {
     override val prefix: String = "main"
   }
@@ -53,9 +55,32 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
     super.beforeEach()
   }
 
+  def setFullAnswers(reason: ReasonableExcuse, baseAnswers: UserAnswers): UserAnswers = {
+    val commonAnswers = baseAnswers
+      .setAnswer(ReasonableExcusePage, reason)
+      .setAnswer(HonestyDeclarationPage, true)
+      .setAnswer(WhenDidEventHappenPage, LocalDate.of(2023, 1, 1))
+      .setAnswer(LateAppealPage, "reason for late appeal")
+      .setAnswer(MissedDeadlineReasonPage, "reason for missed deadline")
+    reason match {
+      case Crime =>
+        commonAnswers.setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
+      case TechnicalIssues =>
+        commonAnswers.setAnswer(WhenDidEventEndPage, LocalDate.of(2023, 1, 2))
+      case UnexpectedHospital =>
+        commonAnswers.setAnswer(HasHospitalStayEndedPage, false)
+      case Other =>
+        commonAnswers
+          .setAnswer(MissedDeadlineReasonPage, "missed deadline reason")
+          .setAnswer(ExtraEvidencePage, false)
+      case _ =>
+        commonAnswers
+    }
+  }
+
   for (reason <- ReasonableExcuse.allReasonableExcuses) {
 
-    val userAnswersWithReason = emptyUserAnswersWithLSP.setAnswer(ReasonableExcusePage, reason)
+    val userAnswersWithReason = setFullAnswers(reason, emptyUserAnswersWithLSP)
 
     s"GET /check-your-answers with reasonableExcuse='$reason'" should {
 
@@ -102,7 +127,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
           document.select(Selectors.h2(1)).text() shouldBe "Appeal details"
           document.select(Selectors.summaryRowKey(1)).text() shouldBe ReasonableExcuseMessages.English.cyaKey
           document.select(Selectors.summaryRowValue(1)).text() shouldBe ReasonableExcuseMessages.English.cyaValue(reason)
-          document.select(Selectors.summaryRowAction(1,1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
+          document.select(Selectors.summaryRowAction(1, 1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
           document.select(Selectors.h2(2)).text() shouldBe "Declaration"
           document.select(Selectors.p(1)).text() shouldBe "By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge."
           document.select(Selectors.p(2)).text() shouldBe "A false declaration can result in prosecution."
@@ -127,7 +152,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
           document.select(Selectors.h2(1)).text() shouldBe "Appeal details"
           document.select(Selectors.summaryRowKey(1)).text() shouldBe ReasonableExcuseMessages.English.cyaKey
           document.select(Selectors.summaryRowValue(1)).text() shouldBe ReasonableExcuseMessages.English.cyaValue(reason)
-          document.select(Selectors.summaryRowAction(1,1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
+          document.select(Selectors.summaryRowAction(1, 1)).text() shouldBe ReasonableExcuseMessages.English.change + " " + ReasonableExcuseMessages.English.cyaHidden
           document.select(Selectors.h2(2)).text() shouldBe "Declaration"
           document.select(Selectors.p(1)).text() shouldBe "By submitting this appeal, you are making a legal declaration that the information is correct and complete to the best of your knowledge."
           document.select(Selectors.p(2)).text() shouldBe "A false declaration can result in prosecution."
