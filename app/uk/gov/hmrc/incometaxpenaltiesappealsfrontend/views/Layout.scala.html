@@ -92,9 +92,6 @@
     @hmrcReportTechnicalIssueHelper()
 }
 
-@additionalScripts = {
-  <script @CSPNonce.attr src='@routes.Assets.versioned("../assets/javascripts/print.js")'></script>
-}
 
 @hmrcStandardPage(
   HmrcStandardPageParams(
@@ -107,7 +104,6 @@
     templateOverrides = TemplateOverrides(
         additionalHeadBlock = Some(headBlock),
         beforeContentBlock = Some(beforeContent),
-        additionalScriptsBlock = Some(additionalScripts),
         mainContentLayout = if(isPageFullWidth) Some(fullWidthPageLayout(_)) else Some(twoThirdsMainContent(_))
     )
   )
