@@ -22,9 +22,9 @@
 
 @this(
         layout: Layout,
-        govukButton : GovukButton,
         govukSummaryList: GovukSummaryList,
         inset: Inset,
+        link: Link,
         h1: H1
 )
 
@@ -32,27 +32,20 @@
 
 @defining(if(request.is2ndStageAppeal) ".review" else "") { msgSuffix =>
 
-@layout(Some(titleBuilder(messages(s"viewAppealDetails.headingAndTitle$msgSuffix"))), backLinkEnabled = false, isPageFullWidth = true, isAgent = request.isAgent) {
+    @layout(Some(titleBuilder(messages(s"viewAppealDetails.headingAndTitle$msgSuffix"))), backLinkEnabled = false, isPageFullWidth = true, isAgent = request.isAgent) {
 
-    @h1(s"viewAppealDetails.headingAndTitle$msgSuffix")
+        @h1(s"viewAppealDetails.headingAndTitle$msgSuffix")
 
-    @govukSummaryList(SummaryList(printRows))
+        @govukSummaryList(SummaryList(printRows))
 
-    @inset(classes = "govuk-!-display-none-print", id= Some("printWarn")) {
-        <p>
-            @messages("viewAppealDetails.warn.1")
-            <br>
-            @messages(s"viewAppealDetails.warn.2$msgSuffix")
-        </p>
+        @inset(classes = "govuk-!-display-none-print", id= Some("printWarn")) {
+            <p class="govuk-body">
+                @messages("viewAppealDetails.warn.1")
+                <br>
+                @messages(s"viewAppealDetails.warn.2$msgSuffix")
+            </p>
+        }
+
+        @link(link = "#", messageKey = "viewAppealDetails.printThisPage", classes = Some("govuk-button govuk-button--secondary"), id = Some("print-button"), attrs = Map("data-module" -> "hmrc-print-link"))
     }
-
-    <div class="govuk-form-group">
-        @govukButton(Button(
-            classes = "govuk-button--secondary",
-            content = Text(messages("viewAppealDetails.printThisPage")),
-            attributes = Map("id" -> "print-button")
-        ))
-    </div>
-
-}
 }
