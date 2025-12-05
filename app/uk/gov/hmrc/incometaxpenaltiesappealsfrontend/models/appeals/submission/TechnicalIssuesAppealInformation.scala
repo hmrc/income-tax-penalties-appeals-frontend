@@ -42,8 +42,8 @@ object TechnicalIssuesAppealInformation {
     Json.obj(Seq[Option[(String, JsValueWrapper)]](
       Some("reasonableExcuse" -> model.reasonableExcuse),
       Some("honestyDeclaration" -> model.honestyDeclaration),
-      Some("startDateOfEvent" -> model.startDateOfEvent),
-      Some("endDateOfEvent" -> model.endDateOfEvent),
+      Some("startDateOfEvent" -> model.startDateOfEvent.toLocalDate),
+      Some("endDateOfEvent" -> model.endDateOfEvent.toLocalDate),
       Some("lateAppeal" -> model.lateAppeal),
       model.statement.map("statement" -> _),
       model.lateAppealReason.map("lateAppealReason" -> _),
@@ -55,8 +55,8 @@ object TechnicalIssuesAppealInformation {
   val auditWrites: Writes[TechnicalIssuesAppealInformation] = Writes { model =>
     Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
       Seq[Option[(String, JsValueWrapper)]](
-        Some("startDateOfEvent" -> model.startDateOfEvent),
-        Some("endDateOfEvent" -> model.endDateOfEvent),
+        Some("startDateOfEvent" -> model.startDateOfEvent.toLocalDate),
+        Some("endDateOfEvent" -> model.endDateOfEvent.toLocalDate),
         Some("submittedAppealLate" -> model.lateAppeal),
         model.lateAppealReason.map("lateAppealReason" -> _)
       ).flatten:_*

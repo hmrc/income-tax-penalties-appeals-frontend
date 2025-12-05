@@ -80,7 +80,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "bereavement",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Bereavement statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Bereavement late appeal reason"
             )
@@ -133,7 +133,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "bereavement",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Bereavement statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -194,7 +194,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "bereavement",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Bereavement statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -251,7 +251,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "honestyDeclaration" -> true,
               "wasCrimeReported" -> true,
               "statementToExplainAppealReason" -> "Crime statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Crime late appeal reason"
             )
@@ -306,7 +306,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "honestyDeclaration" -> true,
               "wasCrimeReported" -> true,
               "statementToExplainAppealReason" -> "Crime statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -369,7 +369,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "honestyDeclaration" -> true,
               "wasCrimeReported" -> false,
               "statementToExplainAppealReason" -> "Crime statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -424,7 +424,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "fireandflood",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Fire statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Fire late appeal reason"
             )
@@ -477,7 +477,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "fireandflood",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Fire statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -538,7 +538,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "fireandflood",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Fire statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -593,7 +593,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "lossOfEssentialStaff",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Staff statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Staff late appeal reason"
             )
@@ -646,7 +646,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "lossOfEssentialStaff",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Staff statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -707,7 +707,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "lossOfEssentialStaff",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Staff statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -763,8 +763,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "technicalIssue",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Technical statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
+              "endDateOfEvent" -> "2023-01-04",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Technical late appeal reason"
             )
@@ -818,8 +818,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "technicalIssue",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Technical statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
+              "endDateOfEvent" -> "2023-01-04",
               "submittedAppealLate" -> false
             )
           )
@@ -881,8 +881,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "technicalIssue",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Technical statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
+              "endDateOfEvent" -> "2023-01-04",
               "submittedAppealLate" -> false
             )
           )
@@ -940,7 +940,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "health",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Health statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "hospitalStayInvolved" -> false,
               "eventIsOngoing" -> false,
               "submittedAppealLate" -> true,
@@ -1123,8 +1123,8 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "unexpectedHospital",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "UnexpectedHospital statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
+              "endDateOfEvent" -> "2023-01-04",
               "hospitalStayInvolved" -> true,
               "eventIsOngoing" -> false,
               "submittedAppealLate" -> true,
@@ -1247,7 +1247,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "unexpectedHospital",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "UnexpectedHospital statement",
-              "endDateOfEvent" -> "2023-01-04T00:00:00",
+              "endDateOfEvent" -> "2023-01-04",
               "submittedAppealLate" -> false,
               "hospitalStayInvolved" -> true,
               "eventIsOngoing" -> false,
@@ -1307,7 +1307,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
               "reasonForAppeal" -> "other",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Other statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Other late appeal reason",
               "numberOfUploadedFiles" -> 2,
@@ -1380,7 +1380,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
             "appealInformation" -> Json.obj(
               "reasonForAppeal" -> "other",
               "honestyDeclaration" -> true,
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "statementToExplainAppealReason" -> "Other statement",
               "submittedAppealLate" -> false,
               "numberOfUploadedFiles" -> 2,
@@ -1462,7 +1462,7 @@ class AppealSubmissionAuditModelSpec extends AnyWordSpec with Matchers with File
             "appealInformation" -> Json.obj(
               "reasonForAppeal" -> "other",
               "honestyDeclaration" -> true,
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "statementToExplainAppealReason" -> "Other statement",
               "submittedAppealLate" -> false,
               "numberOfUploadedFiles" -> 2,
