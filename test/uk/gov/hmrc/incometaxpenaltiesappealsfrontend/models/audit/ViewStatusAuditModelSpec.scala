@@ -72,13 +72,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
             "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Submission Penalty",
-            "appealDate" -> "2023-01-05T00:00:00",
+            "appealDateTime" -> "2023-01-05T00:00:00",
             "isMultipleAppeal" -> false,
             "appealInformation" -> Json.obj(
               "reasonForAppeal" -> "bereavement",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Bereavement statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> true,
               "lateAppealReason" -> "Bereavement late appeal reason"
             )
@@ -123,13 +123,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
             "taxIdentifier" -> "AA123456A",
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 1",
-            "appealDate" -> "2023-01-05T00:00:00",
+            "appealDateTime" -> "2023-01-05T00:00:00",
             "isMultipleAppeal" -> false,
             "appealInformation" -> Json.obj(
               "reasonForAppeal" -> "bereavement",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Bereavement statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -182,13 +182,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
             ),
             "penaltyNumber" -> "pen1234",
             "penaltyType" -> "Late Payment Penalty 2",
-            "appealDate" -> "2023-01-05T00:00:00",
+            "appealDateTime" -> "2023-01-05T00:00:00",
             "isMultipleAppeal" -> false,
             "appealInformation" -> Json.obj(
               "reasonForAppeal" -> "bereavement",
               "honestyDeclaration" -> true,
               "statementToExplainAppealReason" -> "Bereavement statement",
-              "startDateOfEvent" -> "2023-01-01T00:00:00",
+              "startDateOfEvent" -> "2023-01-01",
               "submittedAppealLate" -> false
             )
           )
@@ -236,14 +236,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
               "taxIdentifier" -> "AA123456A",
               "penaltyNumber" -> "pen1234",
               "penaltyType" -> "Late Submission Penalty",
-              "appealDate" -> "2023-01-05T00:00:00",
+              "appealDateTime" -> "2023-01-05T00:00:00",
               "isMultipleAppeal" -> false,
               "appealInformation" -> Json.obj(
                 "reasonForAppeal" -> "crime",
                 "honestyDeclaration" -> true,
                 "wasCrimeReported" -> true,
                 "statementToExplainAppealReason" -> "Crime statement",
-                "startDateOfEvent" -> "2023-01-01T00:00:00",
+                "startDateOfEvent" -> "2023-01-01",
                 "submittedAppealLate" -> true,
                 "lateAppealReason" -> "Crime late appeal reason"
               )
@@ -289,14 +289,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
               "taxIdentifier" -> "AA123456A",
               "penaltyNumber" -> "pen1234",
               "penaltyType" -> "Late Payment Penalty 1",
-              "appealDate" -> "2023-01-05T00:00:00",
+              "appealDateTime" -> "2023-01-05T00:00:00",
               "isMultipleAppeal" -> false,
               "appealInformation" -> Json.obj(
                 "reasonForAppeal" -> "crime",
                 "honestyDeclaration" -> true,
                 "wasCrimeReported" -> true,
                 "statementToExplainAppealReason" -> "Crime statement",
-                "startDateOfEvent" -> "2023-01-01T00:00:00",
+                "startDateOfEvent" -> "2023-01-01",
                 "submittedAppealLate" -> false
               )
             )
@@ -350,14 +350,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
               ),
               "penaltyNumber" -> "pen1234",
               "penaltyType" -> "Late Payment Penalty 2",
-              "appealDate" -> "2023-01-05T00:00:00",
+              "appealDateTime" -> "2023-01-05T00:00:00",
               "isMultipleAppeal" -> false,
               "appealInformation" -> Json.obj(
                 "reasonForAppeal" -> "crime",
                 "honestyDeclaration" -> true,
                 "wasCrimeReported" -> false,
                 "statementToExplainAppealReason" -> "Crime statement",
-                "startDateOfEvent" -> "2023-01-01T00:00:00",
+                "startDateOfEvent" -> "2023-01-01",
                 "submittedAppealLate" -> false
               )
             )
@@ -404,13 +404,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "fireandflood",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Fire statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> true,
                   "lateAppealReason" -> "Fire late appeal reason"
                 )
@@ -456,13 +456,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "fireandflood",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Fire statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> false
                 )
               )
@@ -515,13 +515,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 ),
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 2",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "fireandflood",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Fire statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> false
                 )
               )
@@ -568,13 +568,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "lossOfEssentialStaff",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Staff statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> true,
                   "lateAppealReason" -> "Staff late appeal reason"
                 )
@@ -619,13 +619,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "lossOfEssentialStaff",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Staff statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> false
                 )
               )
@@ -678,13 +678,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 ),
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 2",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "lossOfEssentialStaff",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Staff statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> false
                 )
               )
@@ -732,14 +732,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "technicalIssue",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Technical statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
-                  "endDateOfEvent" -> "2023-01-04T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
+                  "endDateOfEvent" -> "2023-01-04",
                   "submittedAppealLate" -> true,
                   "lateAppealReason" -> "Technical late appeal reason"
                 )
@@ -785,14 +785,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "technicalIssue",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Technical statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
-                  "endDateOfEvent" -> "2023-01-04T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
+                  "endDateOfEvent" -> "2023-01-04",
                   "submittedAppealLate" -> false
                 )
               )
@@ -846,14 +846,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 ),
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 2",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "technicalIssue",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Technical statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
-                  "endDateOfEvent" -> "2023-01-04T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
+                  "endDateOfEvent" -> "2023-01-04",
                   "submittedAppealLate" -> false
                 )
               )
@@ -903,13 +903,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "health",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Health statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "hospitalStayInvolved" -> false,
                   "eventIsOngoing" -> false,
                   "submittedAppealLate" -> true,
@@ -959,7 +959,7 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "health",
@@ -1022,7 +1022,7 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 ),
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 2",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "health",
@@ -1080,14 +1080,14 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "unexpectedHospital",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "UnexpectedHospital statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
-                  "endDateOfEvent" -> "2023-01-04T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
+                  "endDateOfEvent" -> "2023-01-04",
                   "hospitalStayInvolved" -> true,
                   "eventIsOngoing" -> false,
                   "submittedAppealLate" -> true,
@@ -1137,7 +1137,7 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "unexpectedHospital",
@@ -1200,13 +1200,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 ),
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 2",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "unexpectedHospital",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "UnexpectedHospital statement",
-                  "endDateOfEvent" -> "2023-01-04T00:00:00",
+                  "endDateOfEvent" -> "2023-01-04",
                   "submittedAppealLate" -> false,
                   "hospitalStayInvolved" -> true,
                   "eventIsOngoing" -> false,
@@ -1258,13 +1258,13 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Submission Penalty",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "other",
                   "honestyDeclaration" -> true,
                   "statementToExplainAppealReason" -> "Other statement",
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "submittedAppealLate" -> true,
                   "lateAppealReason" -> "Other late appeal reason",
                   "numberOfUploadedFiles" -> 2,
@@ -1330,12 +1330,12 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 "taxIdentifier" -> "AA123456A",
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 1",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "other",
                   "honestyDeclaration" -> true,
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "statementToExplainAppealReason" -> "Other statement",
                   "submittedAppealLate" -> false,
                   "numberOfUploadedFiles" -> 2,
@@ -1410,12 +1410,12 @@ class ViewStatusAuditModelSpec extends AnyWordSpec with Matchers with FileUpload
                 ),
                 "penaltyNumber" -> "pen1234",
                 "penaltyType" -> "Late Payment Penalty 2",
-                "appealDate" -> "2023-01-05T00:00:00",
+                "appealDateTime" -> "2023-01-05T00:00:00",
                 "isMultipleAppeal" -> false,
                 "appealInformation" -> Json.obj(
                   "reasonForAppeal" -> "other",
                   "honestyDeclaration" -> true,
-                  "startDateOfEvent" -> "2023-01-01T00:00:00",
+                  "startDateOfEvent" -> "2023-01-01",
                   "statementToExplainAppealReason" -> "Other statement",
                   "submittedAppealLate" -> false,
                   "numberOfUploadedFiles" -> 2,

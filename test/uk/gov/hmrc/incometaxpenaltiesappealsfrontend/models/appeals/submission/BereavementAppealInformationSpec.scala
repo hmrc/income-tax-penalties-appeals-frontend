@@ -22,7 +22,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
-import java.time.LocalDateTime
+import java.time.{LocalDate, LocalDateTime}
 
 class BereavementAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
 
@@ -44,7 +44,7 @@ class BereavementAppealInformationSpec extends AnyWordSpec with Matchers with Gu
       val expectedJson = Json.obj(
         "reasonableExcuse" -> "bereavement",
         "honestyDeclaration" -> true,
-        "startDateOfEvent" -> LocalDateTime.of(2025,4,6,1,1,1),
+        "startDateOfEvent" -> LocalDate.of(2025,4,6),
         "lateAppeal" -> true,
         "statement" -> "A Bereavement",
         "lateAppealReason" -> "Was not aware of the penalty",

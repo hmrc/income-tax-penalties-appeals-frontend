@@ -22,8 +22,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
-
-import java.time.LocalDateTime
+import java.time.{LocalDate, LocalDateTime}
 
 class TechnicalIssuesAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
 
@@ -46,8 +45,8 @@ class TechnicalIssuesAppealInformationSpec extends AnyWordSpec with Matchers wit
       val expectedJson = Json.obj(
         "reasonableExcuse" -> "technicalIssue",
         "honestyDeclaration" -> true,
-        "startDateOfEvent" -> LocalDateTime.of(2025,4,6,1,1,1),
-        "endDateOfEvent" -> LocalDateTime.of(2025,4,7,1,1,1),
+        "startDateOfEvent" -> LocalDate.of(2025,4,6),
+        "endDateOfEvent" -> LocalDate.of(2025,4,7),
         "lateAppeal" -> true,
         "statement" -> "A fire destroyed the records",
         "lateAppealReason" -> "Was not aware of the penalty",

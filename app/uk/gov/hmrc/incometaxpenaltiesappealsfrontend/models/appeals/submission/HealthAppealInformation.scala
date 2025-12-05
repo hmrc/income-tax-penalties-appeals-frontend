@@ -49,8 +49,8 @@ object HealthAppealInformation {
       Some("lateAppeal" -> model.lateAppeal),
       model.statement.map("statement" -> _),
       model.lateAppealReason.map("lateAppealReason" -> _),
-      model.startDateOfEvent.map("startDateOfEvent" -> _),
-      model.endDateOfEvent.map("endDateOfEvent" -> _),
+      model.startDateOfEvent.map("startDateOfEvent" -> _.toLocalDate),
+      model.endDateOfEvent.map("endDateOfEvent" -> _.toLocalDate),
       model.isClientResponsibleForSubmission.map("isClientResponsibleForSubmission" -> _),
       model.isClientResponsibleForLateSubmission.map("isClientResponsibleForLateSubmission" -> _)
     ).flatten: _*)
@@ -59,8 +59,8 @@ object HealthAppealInformation {
   val auditWrites: Writes[HealthAppealInformation] = Writes { model =>
     Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
       Seq[Option[(String, JsValueWrapper)]](
-        model.startDateOfEvent.map("startDateOfEvent" -> _),
-        model.endDateOfEvent.map("endDateOfEvent" -> _),
+        model.startDateOfEvent.map("startDateOfEvent" -> _.toLocalDate),
+        model.endDateOfEvent.map("endDateOfEvent" -> _.toLocalDate),
         Some("hospitalStayInvolved" -> model.hospitalStayInvolved),
         Some("eventIsOngoing" -> model.eventOngoing),
         Some("submittedAppealLate" -> model.lateAppeal),

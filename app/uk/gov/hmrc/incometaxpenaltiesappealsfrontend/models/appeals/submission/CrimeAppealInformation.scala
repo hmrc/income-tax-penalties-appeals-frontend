@@ -42,7 +42,7 @@ object CrimeAppealInformation {
     Json.obj(Seq[Option[(String, JsValueWrapper)]](
       Some("reasonableExcuse" -> model.reasonableExcuse),
       Some("honestyDeclaration" -> model.honestyDeclaration),
-      Some("startDateOfEvent" -> model.startDateOfEvent),
+      Some("startDateOfEvent" -> model.startDateOfEvent.toLocalDate),
       Some("reportedIssueToPolice" -> model.reportedIssueToPolice),
       Some("lateAppeal" -> model.lateAppeal),
       model.statement.map("statement" -> _),
@@ -55,7 +55,7 @@ object CrimeAppealInformation {
   val auditWrites: Writes[CrimeAppealInformation] = Writes { model =>
     Json.toJson(model.asInstanceOf[AppealInformation])(AppealInformation.auditWrites).as[JsObject] ++ Json.obj(
       Seq[Option[(String, JsValueWrapper)]](
-        Some("startDateOfEvent" -> model.startDateOfEvent),
+        Some("startDateOfEvent" -> model.startDateOfEvent.toLocalDate),
         Some("wasCrimeReported" -> (if(model.reportedIssueToPolice == CrimeReportedEnum.yes) true else false)),
         Some("submittedAppealLate" -> model.lateAppeal),
         model.lateAppealReason.map("lateAppealReason" -> _)

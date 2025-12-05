@@ -32,7 +32,7 @@ case class ViewStatusAuditModel(penaltyNumber: String,
     Seq[Option[(String, JsValueWrapper)]](
       Some("penaltyNumber" -> penaltyNumber),
       Some("penaltyType" -> Json.toJson(penaltyType)(PenaltyTypeEnum.auditWrites)),
-      Some("appealDate" -> appealSubmission.dateOfAppeal),
+      Some("appealDateTime" -> appealSubmission.dateOfAppeal),
       Some("isMultipleAppeal" -> penaltyData.multiplePenaltiesData.isDefined),
       Some("appealInformation" -> Json.toJson(appealSubmission)(AppealSubmission.auditWrites))
     ).flatten:_*
