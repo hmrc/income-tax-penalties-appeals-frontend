@@ -56,13 +56,13 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
 
     val request: CurrentUserRequestWithAnswers[?] = if (isAgent) agentUserRequestWithAnswers(userAnswers) else userRequestWithAnswers(userAnswers)
 
-    val toTest = FirstStageAppealJourney(request, fileUploadCount)
+    val testJourney: FirstStageAppealJourney = FirstStageAppealJourney(request, fileUploadCount)
   }
 
   Seq(true, false).foreach { isAgent =>
     Seq(true, false).foreach { isLPP =>
       ".next" when {
-        s"given the reasonable excuse question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'reasonable excuse' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return the 'honesty declaration' question page" in new Setup(isAgent, isLPP) {
             private val qPage: QuestionPage[ReasonableExcuse] = QuestionPages.reasonableExcuse(isAgent)
             private val testJourney = FirstStageAppealJourney(request, 1)
@@ -70,29 +70,26 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
           }
         }
 
-        s"given the honesty declaration question page, isAgent=$isAgent, isLPP=$isLPP" when {
+        s"given the 'honesty declaration' question page, isAgent=$isAgent, isLPP=$isLPP" when {
           "the reasonable excuse has been answered" should {
-            "return the when did event happen question page" in new Setup(isAgent, isLPP) {
+            "return the 'when did event happen' question page" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.honestyDeclaration(isAgent)
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, true, Some(reasonableExcuse)) shouldBe QuestionPages.whenDidEventHappen(reasonableExcuse, isAgent)
             }
           }
           "the reasonable excuse has NOT been answered" should {
             "return 'NoReasonableExcuse'" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.honestyDeclaration(isAgent)
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, true, None) shouldBe NoReasonableExcuse
             }
           }
         }
 
-        s"given the when did event happen question page, isAgent=$isAgent, isLPP=$isLPP" when {
+        s"given the 'when did event happen' question page, isAgent=$isAgent, isLPP=$isLPP" when {
           "the reasonable excuse is 'Crime'" should {
             "return the 'has crime been reported' question page" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.whenDidEventHappen(ReasonableExcuse.Crime, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, Some(ReasonableExcuse.Crime)) shouldBe QuestionPages.hasCrimeBeenReported(isAgent)
             }
           }
@@ -100,7 +97,6 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
             "return the 'when did event end' question page" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.whenDidEventHappen(ReasonableExcuse.TechnicalIssues, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, Some(ReasonableExcuse.TechnicalIssues)) shouldBe QuestionPages.whenDidEventEnd(ReasonableExcuse.TechnicalIssues, isAgent)
             }
           }
@@ -108,7 +104,6 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
             "return the 'has hospital stay ended' question page" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.whenDidEventHappen(ReasonableExcuse.UnexpectedHospital, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, Some(ReasonableExcuse.UnexpectedHospital)) shouldBe QuestionPages.hasHospitalStayEnded(isAgent)
             }
           }
@@ -116,7 +111,6 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
             "return the 'reason for missed deadline' question page" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.whenDidEventHappen(ReasonableExcuse.Other, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, Some(ReasonableExcuse.Other)) shouldBe QuestionPages.reasonForMissedDeadline(isLPP, isAgent)
             }
           }
@@ -124,13 +118,11 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
             "return the 'reason for late appeal' question page" in new Setup(isAgent, isLPP, isLate = true) {
               val qPage = QuestionPages.whenDidEventHappen(ReasonableExcuse.Bereavement, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, Some(ReasonableExcuse.Bereavement)) shouldBe QuestionPages.reasonForLateAppeal(isAgent)
             }
             "return End" in new Setup(isAgent, isLPP, isLate = false) {
               val qPage = QuestionPages.whenDidEventHappen(ReasonableExcuse.Bereavement, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, Some(ReasonableExcuse.Bereavement)) shouldBe End
             }
           }
@@ -138,39 +130,33 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
             "return 'NoReasonableExcuse'" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.whenDidEventHappen(reasonableExcuse, isAgent)
               val answer = LocalDate.now()
-              val testJourney = FirstStageAppealJourney(request, 1)
               testJourney.next(qPage, answer, None) shouldBe NoReasonableExcuse
             }
           }
         }
 
-        s"given the has crime been reported question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'has the crime been reported' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return the 'reason for late appeal' question page" in new Setup(isAgent, isLPP, isLate = true) {
             val qPage = QuestionPages.hasCrimeBeenReported(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, CrimeReportedEnum.yes, Some(ReasonableExcuse.Crime)) shouldBe QuestionPages.reasonForLateAppeal(isAgent)
           }
           "return End" in new Setup(isAgent, isLPP, isLate = false) {
             val qPage = QuestionPages.hasCrimeBeenReported(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, CrimeReportedEnum.yes, Some(ReasonableExcuse.Crime)) shouldBe End
           }
         }
 
-        s"given the has hospital stay ended question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'has hospital stay ended' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return the 'when did event end' question page" in new Setup(isAgent, isLPP) {
             val qPage = QuestionPages.hasHospitalStayEnded(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, true, Some(ReasonableExcuse.UnexpectedHospital)) shouldBe QuestionPages.whenDidEventEnd(ReasonableExcuse.UnexpectedHospital, isAgent)
           }
           "return the 'reason for late appeal' question page" in new Setup(isAgent, isLPP, isLate = true) {
             val qPage = QuestionPages.hasHospitalStayEnded(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, false, Some(ReasonableExcuse.UnexpectedHospital)) shouldBe QuestionPages.reasonForLateAppeal(isAgent)
           }
           "return End" in new Setup(isAgent, isLPP, isLate = false) {
             val qPage = QuestionPages.hasHospitalStayEnded(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, false, Some(ReasonableExcuse.UnexpectedHospital)) shouldBe End
           }
         }
@@ -179,52 +165,45 @@ class FirstStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFac
           "return the 'reason for late appeal' question page" in new Setup(isAgent, isLPP, isLate = true) {
             val qPage = QuestionPages.whenDidEventEnd(ReasonableExcuse.UnexpectedHospital, isAgent)
             val answer = LocalDate.now()
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, answer, Some(ReasonableExcuse.UnexpectedHospital)) shouldBe QuestionPages.reasonForLateAppeal(isAgent)
           }
           "return 'End' " in new Setup(isAgent, isLPP, isLate = false){
             val qPage = QuestionPages.whenDidEventEnd(ReasonableExcuse.UnexpectedHospital, isAgent)
             val answer = LocalDate.now()
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, answer, Some(ReasonableExcuse.UnexpectedHospital)) shouldBe End
           }
           "return 'NoReasonableExcuse' " in new Setup(isAgent, isLPP){
             val qPage = QuestionPages.whenDidEventEnd(ReasonableExcuse.UnexpectedHospital, isAgent)
             val answer = LocalDate.now()
-            toTest.next(qPage, answer, None) shouldBe NoReasonableExcuse
+            testJourney.next(qPage, answer, None) shouldBe NoReasonableExcuse
           }
         }
 
-        s"given the reason for missed deadline question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'reason for missed deadline' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return the 'upload evidence' question page" in new Setup(isAgent, isLPP, isLate = true) {
             val qPage = QuestionPages.reasonForMissedDeadline(isLPP, isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, "example reason", Some(ReasonableExcuse.Other)) shouldBe QuestionPages.uploadEvidence(isAgent)
           }
         }
 
-        s"given the upload extra evidence question page, isAgent= $isAgent, isLPP=$isLPP" should {
-          "return NoFileUploads" in new Setup(isAgent, isLPP, isLate = true) {
+        s"given the 'upload extra evidence' question page, isAgent= $isAgent, isLPP=$isLPP" should {
+          "return NoFileUploads" in new Setup(isAgent, isLPP, isLate = true, fileUploadCount = 0) {
             val qPage = QuestionPages.uploadEvidence(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 0)
             testJourney.next(qPage, true, Some(ReasonableExcuse.Other)) shouldBe NoFileUploads
           }
           "return the 'reason for late appeal' question page" in new Setup(isAgent, isLPP, isLate = true) {
             val qPage = QuestionPages.uploadEvidence(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, true, Some(ReasonableExcuse.Other)) shouldBe QuestionPages.reasonForLateAppeal(isAgent)
           }
           "return End" in new Setup(isAgent, isLPP, isLate = false) {
             val qPage = QuestionPages.uploadEvidence(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, true, Some(ReasonableExcuse.Other)) shouldBe End
           }
         }
 
-        s"given the reason for late appeal question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'reason for late appeal' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return End" in new Setup(isAgent, isLPP, isLate = false) {
             val qPage = QuestionPages.reasonForLateAppeal(isAgent)
-            val testJourney = FirstStageAppealJourney(request, 1)
             testJourney.next(qPage, "example reason", Some(ReasonableExcuse.Other)) shouldBe End
           }
         }

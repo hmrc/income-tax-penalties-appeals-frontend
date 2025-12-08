@@ -39,7 +39,7 @@ class SecondStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFa
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
 
-  class Setup(isAgent: Boolean, isLPP: Boolean, isLate: Boolean = false)(implicit val tm: TimeMachine, appConfig: AppConfig) {
+  class Setup(isAgent: Boolean, isLPP: Boolean, isLate: Boolean = false, fileUploadCount: Int = 1)(implicit val tm: TimeMachine, appConfig: AppConfig) {
 
     val penaltyData: PenaltyData = if(isLPP) penaltyDataLPP.copy(is2ndStageAppeal = true) else penaltyDataLSP.copy(is2ndStageAppeal = true)
     val appealData: AppealData = if(isLPP) latePaymentAppealData else lateSubmissionAppealData
@@ -54,59 +54,53 @@ class SecondStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFa
       .setAnswer(ReasonableExcusePage, ReasonableExcuse.Other)
 
     val request: CurrentUserRequestWithAnswers[?] = if(isAgent) agentUserRequestWithAnswers(userAnswers) else userRequestWithAnswers(userAnswers)
+    val testJourney: SecondStageAppealJourney = SecondStageAppealJourney(request, fileUploadCount)
   }
 
   Seq(true, false).foreach { isAgent =>
     Seq(true, false).foreach { isLPP =>
       ".next" when {
-        s"given the joint appeal page question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'joint appeal' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return the 'honesty declaration' question page" in new Setup(isAgent, isLPP) {
             private val qPage = QuestionPages.jointAppeal(isAgent)
-            private val testJourney = SecondStageAppealJourney(request, 1)
             testJourney.next(qPage, true, None) shouldBe QuestionPages.honestyDeclaration(isAgent)
           }
         }
 
-        s"given the honesty declaration question page, isAgent=$isAgent, isLPP=$isLPP" when {
+        s"given the 'honesty declaration' question page, isAgent=$isAgent, isLPP=$isLPP" when {
           "the reasonable excuse has been answered" should {
-            "return the reason for missed deadline question page" in new Setup(isAgent, isLPP) {
+            "return the 'reason for missed deadline' question page" in new Setup(isAgent, isLPP) {
               val qPage = QuestionPages.honestyDeclaration(isAgent)
-              val testJourney = SecondStageAppealJourney(request, 1)
               testJourney.next(qPage, true, None) shouldBe QuestionPages.reasonForMissedDeadline(isLPP, isAgent)
             }
           }
         }
 
-        s"given the reason for missed deadline question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'reason for missed deadline' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return the 'upload evidence' question page" in new Setup(isAgent, isLPP) {
             val qPage = QuestionPages.reasonForMissedDeadline(isLPP, isAgent)
-            val testJourney = SecondStageAppealJourney(request, 1)
             testJourney.next(qPage, "example reason", None) shouldBe QuestionPages.uploadEvidence(isAgent)
           }
         }
 
-        s"given the upload extra evidence question page, isAgent= $isAgent, isLPP=$isLPP" should {
-          "return NoFileUploads" in new Setup(isAgent, isLPP) {
+        s"given the 'upload extra evidence' question page, isAgent= $isAgent, isLPP=$isLPP" should {
+          "return NoFileUploads" in new Setup(isAgent, isLPP, fileUploadCount = 0) {
             val qPage = QuestionPages.uploadEvidence(isAgent)
-            val testJourney = SecondStageAppealJourney(request, 0)
             testJourney.next(qPage, true, None) shouldBe NoFileUploads
           }
           "return the 'review more than 30 days' question page" in new Setup(isAgent, isLPP) {
             val qPage = QuestionPages.uploadEvidence(isAgent)
-            val testJourney = SecondStageAppealJourney(request, 1)
             testJourney.next(qPage, true, None) shouldBe QuestionPages.reviewMoreThan30Days(isAgent)
           }
         }
-        s"given the review more than 30 days question page, isAgent= $isAgent, isLPP=$isLPP" should {
+        s"given the 'review more than 30 days' question page, isAgent= $isAgent, isLPP=$isLPP" should {
           "return 'reason for late appeal' question page" in new Setup(isAgent, isLPP) {
             val qPage = QuestionPages.reviewMoreThan30Days(isAgent)
-            val testJourney = SecondStageAppealJourney(request, 1)
             testJourney.next(qPage, ReviewMoreThan30DaysEnum.yes, None) shouldBe QuestionPages.reasonForLateAppeal(isAgent)
           }
 
           "return End" in new Setup(isAgent, isLPP) {
             val qPage = QuestionPages.reviewMoreThan30Days(isAgent)
-            val testJourney = SecondStageAppealJourney(request, 1)
             testJourney.next(qPage, ReviewMoreThan30DaysEnum.no, None) shouldBe End
           }
         }
