@@ -85,9 +85,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               document.getParagraphs.get(5).text() shouldBe "To do this, you will need to confirm the date that a particular income source was ceased to HMRC."
             }
 
-            if(isAgent){document.getLink("cessationLink").text() shouldBe "Cease an income source on the Self Assessment your business page"} else {
-              document.getLink("cessationLink").text() shouldBe "Select an income source to cease on the your business page."
-            }
+            document.getLink("cessationLink").text() shouldBe "Add, manage or cease a business or income source"
 
             document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
             document.getParagraphs.get(7).text() shouldBe "In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."

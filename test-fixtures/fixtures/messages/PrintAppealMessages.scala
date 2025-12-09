@@ -35,7 +35,7 @@ object PrintAppealMessages {
 
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Manylion yr apêl"
-    override val headingAndTitleReview = "Gwirio’r manylion"
+    override val headingAndTitleReview = "Manylion yr adolygiad"
     override val nino = "Rhif Yswiriant Gwladol"
     override val penaltyAppealed = "Y gosb sydd wedi’i hapelio"
     override val appealDate = "Dyddiad yr apêl"

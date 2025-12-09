@@ -27,13 +27,13 @@ appeal.start.cessation.p1.individual = Os cawsoch gosb am gyfnod diweddaru a dde
 appeal.start.cessation.p2.individual = Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiad pan ddaeth ffynhonnell incwm benodol i ben.
 appeal.start.cessation.p1.agent = Os yw’ch cleient wedi cael cosb ar gyfer cyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.agent = Er mwyn gwneud hyn, bydd angen i’ch cleient gadarnhau gyda CThEF y dyddiadau pan ddaeth ffynhonnell incwm benodol i ben.
-appeal.start.cessation.link.individual = Ar y dudalen ar gyfer eich busnes, dewiswch pa ffynhonnell incwm sydd wedi dod i ben.
-appeal.start.cessation.link.agent = Nodwch fod ffynhonnell incwm wedi dod i ben ar y dudalen ar gyfer eich busnes
+appeal.start.cessation.link.individual = Add, manage or cease a business or income source (Welsh)
+appeal.start.cessation.link.agent = Add, manage or cease a business or income source (Welsh)
 appeal.start.evidence.h2 = Anfon tystiolaeth gydag apêl
 appeal.start.li2 = y dyddiadau sy’n berthnasol i’r esgus rhesymol hwn
 appeal.start.li3 = rheswm dros beidio ag apelio’n gynt
 appeal.start.guidanceLink = Darllenwch yr arweiniad ynghylch esgusodion rhesymol (yn agor tab newydd).
-appeal.start.p4 = Mewn rhai achosion, bydd gennych yr opsiwn i uwchlwytho tystiolaeth er mwyn ategu’ch apêl Dylech fynd ati i gasglu’r dystiolaeth hon cyn parhau, gan na fydd modd i chi gadw’r apêl a dod yn ôl ato yn nes ymlaen.
+appeal.start.p4 = Mewn rhai achosion, bydd gennych yr opsiwn i uwchlwytho tystiolaeth er mwyn ategu’ch apêl. Dylech fynd ati i gasglu’r dystiolaeth hon cyn parhau, gan na fydd modd i chi gadw’r apêl a dod yn ôl ato yn nes ymlaen.
 appeal.start.p5 = Os na fydd gennych yr opsiwn i uwchlwytho tystiolaeth ychwanegol, mae hyn oherwydd, yn eich achos chi, nid oes angen unrhyw dystiolaeth arnom i wneud penderfyniad.
 appeal.start.p6 = Os byddwn yn penderfynu bod angen tystiolaeth ychwanegol arnom ar ôl adolygu’ch apêl, byddwn yn cysylltu â chi.
 appeal.start.button.lsp = Dechrau apêl
@@ -136,7 +136,7 @@ clientPlanned.honestyDeclaration.li.technicalIssue.lsp = oherwydd problemau tech
 clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd bod fy nghleient wedi aros yn yr ysbyty yn annisgwyl, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.other.lsp = nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
-agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
+agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
 agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd bod fy nghleient wedi dioddef tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
@@ -159,7 +159,7 @@ agent.honestyDeclaration.li.lpp = nid oedd neb arall ar gael i dalu ar ei ran
 honestyDeclaration.li.hospital = roedd yr arhosiad hwn yn yr ysbyty yn un annisgwyl
 honestyDeclaration.li.health = roedd y salwch hwn yn annisgwyl
 honestyDeclaration.li.2 = byddaf yn rhoi gwybodaeth onest a chywir yn yr apêl hon
-honestyDeclaration.li.review = Rwy’n cadarnhau’r canlynol byddaf yn rhoi gwybodaeth onest a chywir yn y cais hwn i gael adolygiad.
+honestyDeclaration.li.review = Rwy’n cadarnhau y byddaf yn rhoi gwybodaeth onest a chywir yn y cais hwn i gael adolygiad.
 
 # When did the event happen page
 # ----------------------------------------------------------
@@ -249,7 +249,7 @@ whenDidEventHappen.other.lpp.date.error.required = Mae’n rhaid i’r dyddiad p
 whenDidEventHappen.other.lpp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol
 
 # Agent - Other Messages - Client information issue
-agent.whenDidEventHappen.other.clientInformation.headingAndTitle = Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag cael gwybodaeth atoch chi?
+agent.whenDidEventHappen.other.clientInformation.headingAndTitle = Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag anfon gwybodaeth atoch chi?
 agent.whenDidEventHappen.other.clientInformation.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod yn ddyddiad go iawn
 agent.whenDidEventHappen.other.clientInformation.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch
 agent.whenDidEventHappen.other.clientInformation.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys {0} a {1}
@@ -266,7 +266,7 @@ agent.whenDidEventHappen.other.lsp.date.error.notInFuture = Mae’n rhaid i’r 
 
 # Agent - Other Messages - LPP
 agent.whenDidEventHappen.other.lpp.headingAndTitle = Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?
-agent.whenDidEventHappen.other.lpp.date.error.invalid = Mae’n rhaid i’r pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn
+agent.whenDidEventHappen.other.lpp.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn
 agent.whenDidEventHappen.other.lpp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu
 agent.whenDidEventHappen.other.lpp.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0} a {1}
 agent.whenDidEventHappen.other.lpp.date.error.required = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0}
@@ -308,11 +308,11 @@ review.decision.30.days.error.invalid.multiple = Rhowch wybod i ni os yw mwy na 
 # Late appeal page
 # ----------------------------------------------------------
 lateAppeal.headingAndTitle = Cafodd y pwynt cosb ei anfon dros {0} diwrnod yn ôl
-lateAppeal.headingAndTitle.lpp = Cafodd y gosb ei anfon dros {0} diwrnod yn ôl
-lateAppeal.headingAndTitle.multiple = Cafodd y gosb ei anfon dros {0} diwrnod yn ôl
+lateAppeal.headingAndTitle.lpp = Cafodd y gosb ei hanfon dros {0} diwrnod yn ôl
+lateAppeal.headingAndTitle.multiple = Cafodd y gosb ei hanfon dros {0} diwrnod yn ôl
 lateAppeal.headingAndTitle.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.multiple.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
-lateAppeal.headingAndTitle.multiple.lpp = Cafodd y gosb ei anfon dros {0} diwrnod yn ôl
+lateAppeal.headingAndTitle.multiple.lpp = Cafodd y gosb ei hanfon dros {0} diwrnod yn ôl
 lateAppeal.headingAndTitle.review.lpp = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.multiple.review.lpp = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.p1 = Fel arfer, mae angen i chi apelio cyn pen {0} diwrnod o ddyddiad yr hysbysiad o gosb.
@@ -515,16 +515,16 @@ appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
 appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd)
 
 appealConfirmation.review.headingAndTitle = Cais am adolygiad wedi dod i law
-appealConfirmation.p2.client.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
-appealConfirmation.p2.agent.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
+appealConfirmation.p2.client.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
+appealConfirmation.p2.agent.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
 appealConfirmation.whatHappensNext.p1.review = Rydym yn bwriadu i wneud penderfyniad ynghylch adolygiadau cyn pen 45 diwrnod.
-appealConfirmation.whatHappensNext.p2.client.review = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
+appealConfirmation.whatHappensNext.p2.client.review = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr adolygiad hwn a’r rhesymau dros ein penderfyniad.
 appealConfirmation.whatHappensNext.p2.agent.review =  Unwaith i’r penderfyniad gael ei wneud, bydd eich cleient yn cael gwybod am ganlyniad yr adolygiad hwn a’r rhesymau dros ein penderfyniad.
 
 # View appeal details page
 # -----------------------------------------------------------
 viewAppealDetails.headingAndTitle = Manylion yr apêl
-viewAppealDetails.headingAndTitle.review = Gwirio’r manylion
+viewAppealDetails.headingAndTitle.review = Manylion yr adolygiad
 viewAppealDetails.ni = Rhif Yswiriant Gwladol
 viewAppealDetails.penaltyAppealed = Y gosb sydd wedi’i hapelio
 viewAppealDetails.penaltyAppealed.multiple = Y cosbau a apeliwyd yn eu herbyn
@@ -563,7 +563,7 @@ uploadEvidence.nonJs.headingAndTitle = Tystiolaeth i ategu’r apêl hon
 uploadEvidence.nonJs.headingAndTitle.review = Uwchlwytho tystiolaeth
 uploadEvidence.nonJs.p1 = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb.
 uploadEvidence.nonJs.p1.joint = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn.
-uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r gosb.
+uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
 uploadEvidence.nonJs.p1.joint.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
 uploadEvidence.nonJs.p2.lsp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer cyflwyno ei fethu.
 uploadEvidence.nonJs.p2.lsp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y cyflwyniad ei anfon yn hwyr.
@@ -596,6 +596,7 @@ uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan syl
 uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall
 uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
 uploadEvidence.error.INVALID_FILENAME = Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifan 0-9, cysylltnodau, tanlinellau ac atalnodau llawn
+uploadEvidence.error.PASSWORD_PROTECTED = The selected file is password protected (Welsh)
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------
