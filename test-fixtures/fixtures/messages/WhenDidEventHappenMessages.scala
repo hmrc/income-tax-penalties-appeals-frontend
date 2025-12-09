@@ -266,7 +266,7 @@ object WhenDidEventHappenMessages {
 
     override def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
-        case (true, true, _)  => "Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag cael gwybodaeth atoch chi?"
+        case (true, true, _)  => "Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag anfon gwybodaeth atoch chi?"
         case (true, _, true)  => "Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?"
         case (true, _, false) => "Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
         case (false, _, true) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
