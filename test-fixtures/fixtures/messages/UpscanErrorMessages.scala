@@ -37,6 +37,6 @@ object UpscanErrorMessages {
     override val errorUploadFailed: String = "Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall"
     override val errorQuarantine: String = "Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall"
     override val errorRejected: String = "Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)"
-    override val errorFilename: String = "Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifan 0-9, cysylltnodau, tanlinellau ac atalnodau llawn"
+    override val errorFilename: String = "Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifau 0-9, cysylltnodau, tanlinellau ac atalnodau llawn"
   }
 }
