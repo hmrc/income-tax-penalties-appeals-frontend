@@ -42,7 +42,7 @@ object CrimeAppealInformation {
     Json.obj(Seq[Option[(String, JsValueWrapper)]](
       Some("reasonableExcuse" -> model.reasonableExcuse),
       Some("honestyDeclaration" -> model.honestyDeclaration),
-      Some("startDateOfEvent" -> model.startDateOfEvent.toLocalDate),
+      Some("startDateOfEvent" -> model.startDateOfEvent),
       Some("reportedIssueToPolice" -> model.reportedIssueToPolice),
       Some("lateAppeal" -> model.lateAppeal),
       model.statement.map("statement" -> _),

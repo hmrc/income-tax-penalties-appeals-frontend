@@ -90,7 +90,8 @@ trait ComponentSpecHelper
     "microservice.services.upscan-initiate.port" -> mockPort,
     "auditing.enabled" -> "true",
     "timemachine.date" -> testDate.format(timeMachineDateFormatter1),
-    "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck"
+    "play.filters.csrf.header.bypassHeaders.Csrf-Token" -> "nocheck",
+    "features.useStubForBackend" -> "false"
   )
   
   lazy val userAnswersRepo: UserAnswersRepository = app.injector.instanceOf[UserAnswersRepository]

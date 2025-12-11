@@ -24,7 +24,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.Evidence
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadJourney, UploadStatusEnum}
 
-import java.time.{LocalDate, LocalDateTime}
+import java.time.LocalDateTime
 
 class OtherAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
 
@@ -48,7 +48,7 @@ class OtherAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOne
       val expectedJson = Json.obj(
         "reasonableExcuse" -> "fireandflood",
         "honestyDeclaration" -> true,
-        "startDateOfEvent" -> LocalDate.of(2025,4,6),
+        "startDateOfEvent" -> LocalDateTime.of(2025,4,6,1,1,1),
         "lateAppeal" -> true,
         "statement" -> "A fire destroyed the records",
         "lateAppealReason" -> "Was not aware of the penalty",
