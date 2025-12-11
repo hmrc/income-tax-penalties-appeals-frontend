@@ -83,7 +83,7 @@ class PenaltiesConnector @Inject()(httpClient: HttpClientV2,
                   (implicit ec: ExecutionContext, hc: HeaderCarrier): Future[AppealSubmissionResponse] = {
 
     val url = url"${appConfig.submitAppealUrl(nino, isLPP, penaltyNumber, correlationId, isMultiAppeal)}"
-    logger.debug(s"[PenaltiesConnector][submitAppeal] POST $url\nSubmitting appeal model send to backend:\n${Json.toJson(appealSubmission)}")
+    logger.info(s"[PenaltiesConnector][submitAppeal] POST $url\nSubmitting appeal model send to backend:\n${Json.toJson(appealSubmission)}")
     httpClient
       .post(url)
       .withBody(Json.toJson(appealSubmission))

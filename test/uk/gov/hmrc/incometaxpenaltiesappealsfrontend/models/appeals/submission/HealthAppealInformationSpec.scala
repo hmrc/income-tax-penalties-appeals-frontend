@@ -22,7 +22,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
-import java.time.{LocalDate, LocalDateTime}
+import java.time.LocalDateTime
 
 class HealthAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
 
@@ -64,8 +64,8 @@ class HealthAppealInformationSpec extends AnyWordSpec with Matchers with GuiceOn
         "reasonableExcuse" -> "health",
         "honestyDeclaration" -> true,
         "hospitalStayInvolved" -> true,
-        "startDateOfEvent" -> LocalDate.of(2025,4,6),
-        "endDateOfEvent" -> LocalDate.of(2025,4,7),
+        "startDateOfEvent" -> LocalDateTime.of(2025,4,6,1,1,1),
+        "endDateOfEvent" -> LocalDateTime.of(2025,4,7,1,1,1),
         "eventOngoing" -> true,
         "lateAppeal" -> true,
         "statement" -> "Health",

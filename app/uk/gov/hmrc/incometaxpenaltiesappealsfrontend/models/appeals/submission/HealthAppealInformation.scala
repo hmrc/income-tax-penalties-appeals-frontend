@@ -49,8 +49,8 @@ object HealthAppealInformation {
       Some("lateAppeal" -> model.lateAppeal),
       model.statement.map("statement" -> _),
       model.lateAppealReason.map("lateAppealReason" -> _),
-      model.startDateOfEvent.map("startDateOfEvent" -> _.toLocalDate),
-      model.endDateOfEvent.map("endDateOfEvent" -> _.toLocalDate),
+      model.startDateOfEvent.map("startDateOfEvent" -> _),
+      model.endDateOfEvent.map("endDateOfEvent" -> _),
       model.isClientResponsibleForSubmission.map("isClientResponsibleForSubmission" -> _),
       model.isClientResponsibleForLateSubmission.map("isClientResponsibleForLateSubmission" -> _)
     ).flatten: _*)

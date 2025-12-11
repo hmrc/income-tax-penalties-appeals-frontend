@@ -105,8 +105,6 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
-          println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-          println(document)
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
           document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
