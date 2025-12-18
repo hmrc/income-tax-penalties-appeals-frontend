@@ -120,11 +120,11 @@ class AuthoriseAndRetrieveAgentSpec extends AnyWordSpec with should.Matchers wit
 
 
     "the user has an expired Session" should {
-      "do something" in {
+      "redirect to timed out page" in {
         mockAuthenticatedBearerTokenExpired()
 
         val result = testAction.invokeBlock(FakeRequest(), block)
-        status(result) shouldBe INTERNAL_SERVER_ERROR
+        redirectLocation(result).get should include("/agent-timed-out")
       }
     }
 

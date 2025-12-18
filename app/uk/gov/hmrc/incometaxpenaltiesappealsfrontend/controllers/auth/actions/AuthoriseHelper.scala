@@ -22,7 +22,7 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.agentEnrolmentKey
-
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
 import scala.concurrent.{ExecutionContext, Future}
 
 trait AuthoriseHelper {
@@ -38,10 +38,7 @@ trait AuthoriseHelper {
     authorisationException match {
       case _: BearerTokenExpired =>
         logger.warn("Bearer Token Timed Out.")
-        //ToDo need create a timeout page
-        errorHandler.internalServerErrorTemplate.map(html =>
-          InternalServerError(html)
-        )
+        Future.successful(Redirect(routes.SessionExpiredController.onPageLoad(isAgent)))
       case insufficientEnrolments: InsufficientEnrolments if insufficientEnrolments.msg.contains(agentEnrolmentKey) =>
         logger.warn(s"Agent enrolment missing")
         //ToDo need create not an agent page
