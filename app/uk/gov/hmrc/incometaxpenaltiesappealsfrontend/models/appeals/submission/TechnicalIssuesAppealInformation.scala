@@ -42,8 +42,8 @@ object TechnicalIssuesAppealInformation {
     Json.obj(Seq[Option[(String, JsValueWrapper)]](
       Some("reasonableExcuse" -> model.reasonableExcuse),
       Some("honestyDeclaration" -> model.honestyDeclaration),
-      Some("startDateOfEvent" -> model.startDateOfEvent.toLocalDate),
-      Some("endDateOfEvent" -> model.endDateOfEvent.toLocalDate),
+      Some("startDateOfEvent" -> model.startDateOfEvent),
+      Some("endDateOfEvent" -> model.endDateOfEvent),
       Some("lateAppeal" -> model.lateAppeal),
       model.statement.map("statement" -> _),
       model.lateAppealReason.map("lateAppealReason" -> _),
