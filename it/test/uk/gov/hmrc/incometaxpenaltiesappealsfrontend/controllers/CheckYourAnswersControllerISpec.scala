@@ -28,6 +28,7 @@ import play.api.libs.ws.DefaultBodyReadables.readableAsString
 import play.api.test.Helpers.LOCATION
 import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.UseStubForBackend
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.FireOrFlood
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{HonestyDeclarationPage, ReasonableExcusePage, WhenDidEventHappenPage}
@@ -51,6 +52,7 @@ class CheckYourAnswersControllerISpec extends ControllerISpecHelper with Penalti
   override def beforeEach(): Unit = {
     deleteAll(userAnswersRepo)
     super.beforeEach()
+    disable(UseStubForBackend)
   }
 
   for (reason <- ReasonableExcuse.allReasonableExcuses) {

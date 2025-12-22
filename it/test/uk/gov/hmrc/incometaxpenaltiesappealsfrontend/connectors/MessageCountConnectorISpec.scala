@@ -18,11 +18,11 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
 import play.api.http.Status.{BAD_REQUEST, INTERNAL_SERVER_ERROR}
 import play.api.libs.json.Json
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MessageCountHttpParser.{GetMessageCountResponse, MessagesCountResponseBadRequest, MessagesCountResponseMalformed, MessagesCountUnexpectedFailure}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend, UseStubForMessageFrontend}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.messageCount.MessageCount
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
@@ -41,7 +41,7 @@ class MessageCountConnectorISpec extends ComponentSpecHelper with LogCapturing w
 
   override def beforeEach(): Unit = {
     super.beforeEach()
-    disable(UseStubForBackend)
+    disable(UseStubForMessageFrontend)
   }
 
   "getMessageCount" should {

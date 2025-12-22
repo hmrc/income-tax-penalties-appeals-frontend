@@ -120,7 +120,7 @@ trait PenaltiesStub {
     )
   }
 
-  def successfulAppealSubmission(nino: String, isLPP: Boolean, penaltyNumber: String,isStubbed: Boolean = false): StubMapping = {
+  def successfulAppealSubmission(nino: String, isLPP: Boolean, penaltyNumber: String, isStubbed: Boolean = false): StubMapping = {
     val responseBody =
       """
         |{
