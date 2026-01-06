@@ -48,16 +48,23 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
           case Some(storedAnswers) =>
             storedAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
               case Some(penaltyData) =>
-                if(storedAnswers.getAnswerForKey[Boolean]("appealReasons.hasAppealBeenSubmitted").contains(true)) {
+                val confirmationPageRoutes: Seq[String] =
+                  for {
+                    isAgent <- Seq(true, false)
+                    is2ndStageAppeal <- Seq(true, false)
+                  } yield ConfirmationController.onPageLoad(isAgent, is2ndStageAppeal).url
+                val isConfirmationPage: Boolean = confirmationPageRoutes.contains(request.path)
+
+                if (storedAnswers.getAnswerForKey[Boolean]("appealReasons.hasAppealBeenSubmitted").contains(true) && !isConfirmationPage) {
                   Future.successful(Left(Redirect(ConfirmationController.onPageLoad(isAgent = request.isAgent, is2ndStageAppeal = request.isAgent))))
-                  
-                  //Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
+
+                  //                  Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
                 } else {
                   Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
                 }
               case None =>
                 logger.warn(s"[DataRetrievalActionImpl][refine] No Penalty Appeal Data found in User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
-               Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
+                Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
 
             }
           case None =>
@@ -69,6 +76,7 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
             errorHandler.internalServerErrorTemplate(request).map(page => Left(InternalServerError(page)))
         }
       }
+
     )
   }
 }
