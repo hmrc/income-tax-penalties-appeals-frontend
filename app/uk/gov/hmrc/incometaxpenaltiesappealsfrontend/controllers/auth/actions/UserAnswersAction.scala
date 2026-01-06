@@ -20,6 +20,7 @@ import play.api.mvc.*
 import play.api.mvc.Results.{InternalServerError, Redirect}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ConfirmationController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
@@ -48,17 +49,18 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
           case Some(storedAnswers) =>
             storedAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
               case Some(penaltyData) =>
-                val confirmationPageRoutes: Seq[String] =
+                def buildRoutes(controller: (Boolean, Boolean) => Call): Seq[String] =
                   for {
                     isAgent <- Seq(true, false)
                     is2ndStageAppeal <- Seq(true, false)
-                  } yield ConfirmationController.onPageLoad(isAgent, is2ndStageAppeal).url
-                val isConfirmationPage: Boolean = confirmationPageRoutes.contains(request.path)
+                  } yield controller(isAgent, is2ndStageAppeal).url
 
-                if (storedAnswers.getAnswerForKey[Boolean]("appealReasons.hasAppealBeenSubmitted").contains(true) && !isConfirmationPage) {
-                  Future.successful(Left(Redirect(ConfirmationController.onPageLoad(isAgent = request.isAgent, is2ndStageAppeal = request.isAgent))))
+                val isConfirmationPage = buildRoutes(ConfirmationController.onPageLoad).contains(request.path)
 
-                  //                  Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
+                val isAppealDetailsPage = buildRoutes(ViewAppealDetailsController.onPageLoad).contains(request.path)
+
+                if (storedAnswers.getAnswerForKey[Boolean]("appealReasons.hasAppealBeenSubmitted").contains(true) && !isConfirmationPage && !isAppealDetailsPage) {
+                  Future.successful(Left(Redirect(ConfirmationController.onPageLoad(isAgent = request.isAgent, is2ndStageAppeal = penaltyData.is2ndStageAppeal))))
                 } else {
                   Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
                 }
