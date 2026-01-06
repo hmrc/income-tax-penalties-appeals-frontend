@@ -19,9 +19,11 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 import play.api.mvc.*
 import play.api.mvc.Results.{InternalServerError, Redirect}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ConfirmationController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
@@ -46,7 +48,13 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
           case Some(storedAnswers) =>
             storedAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
               case Some(penaltyData) =>
-                Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
+                if(storedAnswers.getAnswerForKey[Boolean]("appealReasons.hasAppealBeenSubmitted").contains(true)) {
+                  Future.successful(Left(Redirect(ConfirmationController.onPageLoad(isAgent = request.isAgent, is2ndStageAppeal = request.isAgent))))
+                  
+                  //Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
+                } else {
+                  Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
+                }
               case None =>
                 logger.warn(s"[DataRetrievalActionImpl][refine] No Penalty Appeal Data found in User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
                Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
