@@ -33,7 +33,7 @@
 @clientOrAgent = {@if(isAgent){agent} else {client}}
 @reviewOrAppeal = {@if(isSecondStageAppeal){.review}}
 
-@layout(Some(titleBuilder(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle"))), backLinkEnabled = true, isAgent = isAgent) {
+@layout(Some(titleBuilder(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle"))), backLinkEnabled = false, isAgent = isAgent) {
 
     @govukPanel(Panel(
         title = Text(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle")),

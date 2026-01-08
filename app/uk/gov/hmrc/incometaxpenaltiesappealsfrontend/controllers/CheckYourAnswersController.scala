@@ -20,8 +20,8 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.DuplicateAppealError
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{AppealConfirmationPage, ReasonableExcusePage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService, UserAnswersService}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.requiredAnswers.*
@@ -36,6 +36,7 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            appealService: AppealService,
                                            upscanService: UpscanService,
                                            requiredAnswersValidator: RequiredAnswersJourneyValidator,
+                                           userAnswersService: UserAnswersService,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig, val tm: TimeMachine) extends BaseUserAnswersController {
@@ -64,7 +65,10 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
             }
           },
           _ => {
-            Future.successful(Redirect(routes.ConfirmationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal)))
+            val updatedAnswers = user.userAnswers.setAnswer(AppealConfirmationPage, true)
+            userAnswersService.updateAnswers(updatedAnswers).map { _ =>
+              Redirect(routes.ConfirmationController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal))
+            }
           }
         ))
       }
