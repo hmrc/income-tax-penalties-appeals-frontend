@@ -19,10 +19,8 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 import play.api.mvc.*
 import play.api.mvc.Results.{InternalServerError, Redirect}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ConfirmationController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.{ConfirmationController, ViewAppealDetailsController, PageNotFoundController}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{CurrentUserRequest, CurrentUserRequestWithAnswers}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.PageNotFoundController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
