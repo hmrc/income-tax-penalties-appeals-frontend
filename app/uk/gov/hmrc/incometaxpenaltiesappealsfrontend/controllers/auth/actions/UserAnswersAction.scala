@@ -49,15 +49,8 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
           case Some(storedAnswers) =>
             storedAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData) match {
               case Some(penaltyData) =>
-                def buildRoutes(controller: (Boolean, Boolean) => Call): Seq[String] =
-                  for {
-                    isAgent <- Seq(true, false)
-                    is2ndStageAppeal <- Seq(true, false)
-                  } yield controller(isAgent, is2ndStageAppeal).url
-
-                val isConfirmationPage = buildRoutes(ConfirmationController.onPageLoad).contains(request.path)
-
-                val isAppealDetailsPage = buildRoutes(ViewAppealDetailsController.onPageLoad).contains(request.path)
+                val isConfirmationPage = ConfirmationController.onPageLoad(request.isAgent, penaltyData.is2ndStageAppeal).url.contains(request.path)
+                val isAppealDetailsPage = ViewAppealDetailsController.onPageLoad(request.isAgent, penaltyData.is2ndStageAppeal).url.contains(request.path)
 
                 if (storedAnswers.getAnswerForKey[Boolean]("appealReasons.hasAppealBeenSubmitted").contains(true) && !isConfirmationPage && !isAppealDetailsPage) {
                   Future.successful(Left(Redirect(ConfirmationController.onPageLoad(isAgent = request.isAgent, is2ndStageAppeal = penaltyData.is2ndStageAppeal))))
