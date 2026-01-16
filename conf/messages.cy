@@ -30,8 +30,8 @@ appeal.start.cessation.p1.individual = Os cawsoch gosb am gyfnod diweddaru a dde
 appeal.start.cessation.p2.individual = Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiad pan ddaeth ffynhonnell incwm benodol i ben.
 appeal.start.cessation.p1.agent = Os yw’ch cleient wedi cael cosb ar gyfer cyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.agent = Er mwyn gwneud hyn, bydd angen i’ch cleient gadarnhau gyda CThEF y dyddiadau pan ddaeth ffynhonnell incwm benodol i ben.
-appeal.start.cessation.link.individual = Add, manage or cease a business or income source (Welsh)
-appeal.start.cessation.link.agent = Add, manage or cease a business or income source (Welsh)
+appeal.start.cessation.link.individual = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben
+appeal.start.cessation.link.agent = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben
 appeal.start.evidence.h2 = Anfon tystiolaeth gydag apêl
 appeal.start.li2 = y dyddiadau sy’n berthnasol i’r esgus rhesymol hwn
 appeal.start.li3 = rheswm dros beidio ag apelio’n gynt
@@ -599,7 +599,7 @@ uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan syl
 uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall
 uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
 uploadEvidence.error.INVALID_FILENAME = Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifau 0-9, cysylltnodau, tanlinellau ac atalnodau llawn
-uploadEvidence.error.PASSWORD_PROTECTED = The selected file is password protected (Welsh)
+uploadEvidence.error.PASSWORD_PROTECTED = Mae’r ffeil dan sylw wedi’i diogelu gan gyfrinair
 
 # NonJs Upscan Check Answers (Add Another file) page
 # ----------------------------------------------------------
@@ -669,7 +669,7 @@ duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanase
 
 # Page not found
 # ----------------------------------------------------------
-page.not.found.headingAndTitle = Page not found (Welsh)
-page.not.found.p1 = If you typed the web address, check it is correct. (Welsh)
-page.not.found.p2 = If you pasted the web address, check you copied the entire address. (Welsh)
-page.not.found.link.text = Back to Self Assessment penalties and appeals (Welsh)
+page.not.found.headingAndTitle = Heb ddod o hyd i’r dudalen
+page.not.found.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.
+page.not.found.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi copïo’r cyfeiriad yn llawn.
+page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
