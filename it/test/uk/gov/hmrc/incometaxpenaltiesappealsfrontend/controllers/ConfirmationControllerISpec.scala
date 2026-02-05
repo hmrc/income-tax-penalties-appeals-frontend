@@ -68,7 +68,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late submission penalty point: 1 January 2024 to 31 January 2024"
@@ -93,7 +93,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "Late submission penalty point: 1 January 2024 to 31 January 2024"
@@ -120,7 +120,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -145,7 +145,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -172,7 +172,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -197,7 +197,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Appeal received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Appeal received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -224,7 +224,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -249,7 +249,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -276,7 +276,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"
@@ -301,7 +301,7 @@ class ConfirmationControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Review request received - Manage your Self Assessment - GOV.UK"
         document.getH1Elements.text() shouldBe "Review request received"
         document.getElementsByClass("govuk-panel__body").text() shouldBe "First late payment penalty: 1 January 2024 to 31 January 2024"

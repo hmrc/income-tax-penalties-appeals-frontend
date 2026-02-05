@@ -75,7 +75,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
             val document: nodes.Document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
@@ -98,7 +98,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
             val document: nodes.Document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),

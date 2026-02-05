@@ -73,7 +73,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe WhoPlannedToSubmitMessages.English.serviceName
+          document.getServiceName.get(0).text() shouldBe WhoPlannedToSubmitMessages.English.serviceName
           document.title() should include(WhoPlannedToSubmitMessages.English.titleAndHeading)
           document.getElementById("captionSpan").text() shouldBe WhoPlannedToSubmitMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
