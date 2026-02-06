@@ -54,7 +54,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "Appeal a Self Assessment penalty - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -108,7 +108,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             val result = get(path, isAgent = isAgent)
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "Appeal a Self Assessment penalty - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
               dateToString(latePaymentAppealData.startDate),
@@ -139,7 +139,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             val result = get(path, isAgent = isAgent)
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "Appeal a Self Assessment penalty - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
               dateToString(latePaymentAppealData.startDate),
@@ -174,7 +174,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe ReviewAppealStartMessages.English.serviceName
             document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
               dateToString(latePaymentAppealData.startDate),
@@ -201,7 +201,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe ReviewAppealStartMessages.English.serviceName
             document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lppCaptionAppealStart(
               dateToString(latePaymentAppealData.startDate),
@@ -229,7 +229,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe ReviewAppealStartMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe ReviewAppealStartMessages.English.serviceName
             document.title() shouldBe ReviewAppealStartMessages.English.titleWithSuffix(ReviewAppealStartMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),

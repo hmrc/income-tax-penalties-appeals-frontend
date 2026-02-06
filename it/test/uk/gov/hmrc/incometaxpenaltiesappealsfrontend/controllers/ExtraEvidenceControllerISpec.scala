@@ -182,7 +182,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
                   val document: nodes.Document = Jsoup.parse(result.body)
                   val whichCaption: String = if (isJointAppeal) captionJointAppeal(true) else caption(true)
 
-                  document.getServiceName.text() shouldBe "Manage your Self Assessment"
+                  document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
                   document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
                   document.getElementById("captionSpan").text() shouldBe whichCaption
 
@@ -247,7 +247,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
                 val document: nodes.Document = Jsoup.parse(result.body)
 
 
-                document.getServiceName.text() shouldBe "Manage your Self Assessment"
+                document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
                 document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
                 document.getElementById("captionSpan").text() shouldBe caption(false)
 

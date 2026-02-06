@@ -117,7 +117,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -140,7 +140,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -162,7 +162,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -184,7 +184,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -208,7 +208,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
@@ -232,7 +232,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
@@ -258,7 +258,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -277,7 +277,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe HonestyDeclarationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),

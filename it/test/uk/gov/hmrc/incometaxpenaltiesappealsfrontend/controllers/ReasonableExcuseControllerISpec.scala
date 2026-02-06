@@ -99,7 +99,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
@@ -123,7 +123,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
@@ -264,7 +264,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
@@ -288,7 +288,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),

@@ -125,7 +125,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
               document.title() shouldBe s"${WhenDidEventEndMessages.English.headingAndTitle(reason._1)} - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe WhenDidEventEndMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),

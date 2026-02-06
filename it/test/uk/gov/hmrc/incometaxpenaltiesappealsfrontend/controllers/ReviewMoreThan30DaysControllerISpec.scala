@@ -95,7 +95,7 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
             document.title() should include(ReviewMoreThan30DaysMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe ReviewMoreThan30DaysMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -118,7 +118,7 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
             document.title() should include(ReviewMoreThan30DaysMessages.English.headingAndTitleMultiple)
             document.getElementById("captionSpan").text() shouldBe ReviewMoreThan30DaysMessages.English.lppCaptionMultiple(
               dateToString(lateSubmissionAppealData.startDate),
