@@ -11,7 +11,7 @@
     .govuk-footer__inline-list,
     .hmrc-report-technical-issue,
     .hmrc-language-select,
-    .hmrc-account-menu__link,
+    .hmrc-account-menu,
     .govuk-phase-banner,
     .print-hidden {
         display: none !important;
