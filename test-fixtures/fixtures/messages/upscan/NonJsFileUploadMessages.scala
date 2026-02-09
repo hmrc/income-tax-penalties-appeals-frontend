@@ -23,10 +23,6 @@ object NonJsFileUploadMessages {
   sealed trait Messages { this: i18n =>
     val headingAndTitle = "Evidence to support this appeal"
     val headingAndTitleReview = "Upload evidence"
-    val p1 = "Use this page to upload any evidence to help us review this penalty."
-    val p1Joint = "Use this page to upload any evidence to help us review these penalties."
-    val p1Review = "Use this page to upload any evidence to help us review the appeal decision."
-    val p1JointReview = "Use this page to upload any evidence to help us review the appeal decisions."
     val p2LSP = "Evidence might include any documents or letters that show why the submission deadline was missed."
     val p2LSPReview = "Evidence might include any documents or letters that show why the submission was sent late."
     val p2LPP = "Evidence might include any documents or letters that show why the payment deadline was missed."
@@ -41,10 +37,6 @@ object NonJsFileUploadMessages {
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Tystiolaeth i ategu’r apêl hon"
     override val headingAndTitleReview = "Uwchlwytho tystiolaeth"
-    override val p1 = "Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb."
-    override val p1Joint = "Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn."
-    override val p1Review = "Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl."
-    override val p1JointReview = "Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl."
     override val p2LSP = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer cyflwyno ei fethu."
     override val p2LSPReview = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y cyflwyniad ei anfon yn hwyr."
     override val p2LPP = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu."
