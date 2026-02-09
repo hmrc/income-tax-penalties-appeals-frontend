@@ -27,7 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.controllers.FeatureSwitchFrontendController
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.views.html.feature_switch
 
-import java.time.LocalDate
+import java.time.{LocalDate, LocalDateTime}
 import java.time.format.DateTimeFormatter
 import scala.concurrent.Future
 
@@ -53,11 +53,11 @@ class FeatureSwitchFrontendControllerISpec extends AnyWordSpec with Matchers wit
     s"return $OK (OK) when the date provided is valid" in {
       val timeMachineDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
-      val result: Future[Result] = this.controller.setTimeMachineDate(Some("01-01-2022"))(FakeRequest())
+      val result: Future[Result] = this.controller.setTimeMachineDate(Some("2007-12-03T10:15:30"))(FakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) shouldBe s"Time machine set to: ${LocalDate.parse("01-01-2022" , timeMachineDateFormatter)}"
+      contentAsString(result) shouldBe s"Time machine set to: ${LocalDateTime.parse("2007-12-03T10:15:30")}"
 
-      sys.props.get("TIME_MACHINE_NOW").map(dateString => LocalDate.parse(dateString, timeMachineDateFormatter)) shouldBe Some(LocalDate.of(2022, 1, 1))
+      sys.props.get("TIME_MACHINE_NOW").map(dateString => LocalDate.parse(dateString, timeMachineDateFormatter)) shouldBe Some(LocalDate.parse("2007-12-03"))
     }
 
     s"return $OK (OK) and the systems current date when no date is provided" in {

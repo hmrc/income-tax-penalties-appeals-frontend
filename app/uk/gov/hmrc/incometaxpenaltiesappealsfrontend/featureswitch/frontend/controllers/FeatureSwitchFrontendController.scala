@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.view
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
-import java.time.LocalDate
+import java.time.{LocalDate, LocalDateTime}
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 import scala.util.Try
@@ -62,13 +62,13 @@ class FeatureSwitchFrontendController @Inject()(featureSwitchService: FeatureSwi
     })(
       dateAsString => {
         val timeMachineStringDate = dateAsString.replace("/", "-")
-        Try(LocalDate.parse(timeMachineStringDate, timeMachineDateFormatter)).fold(
+        Try(LocalDateTime.parse(timeMachineStringDate)).fold(
           err => {
             logger.error(s"[FeatureSwitchController][setFeatureDate] - Exception was thrown when setting time machine date: ${err.getMessage}")
             BadRequest("The date provided is in an invalid format")
           },
           date => {
-            setFeatureDate(Some(date))
+            setFeatureDate(Some(date.toLocalDate))
             logger.info(s"[FeatureSwitchController][setFeatureDate] - Time machine set to $date")
             Ok(s"Time machine set to: $date")
           }
