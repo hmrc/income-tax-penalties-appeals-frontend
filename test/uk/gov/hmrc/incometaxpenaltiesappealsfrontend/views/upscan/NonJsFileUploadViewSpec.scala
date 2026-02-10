@@ -54,15 +54,14 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
           implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
-
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
             Selectors.p(1) -> messagesForLanguage.p2LSP,
-            Selectors.p(2) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(3) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
             concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
             concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
             concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
@@ -138,15 +137,15 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
           implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
-
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
             Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
             Selectors.p(1) -> messagesForLanguage.p2LSPReview,
-            Selectors.p(2) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(3) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+
+            Selectors.p(4) -> fileTypeMessages.p1New,
             concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
             concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
             concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,

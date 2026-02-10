@@ -562,30 +562,34 @@ date.year = Blwyddyn
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
-uploadEvidence.nonJs.headingAndTitle = Tystiolaeth i ategu’r apêl hon
+uploadEvidence.nonJs.headingAndTitle = Upload evidence to support this appeal💕
 uploadEvidence.nonJs.headingAndTitle.review = Uwchlwytho tystiolaeth
+uploadEvidence.nonJs.heading3 = Files you can upload💕
 uploadEvidence.nonJs.p1 = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb.
 uploadEvidence.nonJs.p1.joint = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn.
 uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
 uploadEvidence.nonJs.p1.joint.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
-uploadEvidence.nonJs.p2.lsp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer cyflwyno ei fethu.
+uploadEvidence.nonJs.p2.lsp = Upload evidence that explains why your client missed the submission deadline, such as a letter or email.💕
 uploadEvidence.nonJs.p2.lsp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y cyflwyniad ei anfon yn hwyr.
 uploadEvidence.nonJs.p2.lpp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
 uploadEvidence.nonJs.p2.lpp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
 uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
 uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
-uploadEvidence.nonJs.label = Dewiswch ffeil
+uploadEvidence.nonJs.label = Upload a file💕
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.typesOfFile.heading = Y mathau o ffeiliau y gallwch eu huwchlwytho
+uploadEvidence.typesOfFile.li.title = Your files can be:💕
 uploadEvidence.typesOfFile.p1 = Dyma’r ffeiliau y gallwch eu huwchlwytho:
 uploadEvidence.typesOfFile.li.1 = delwedd (.jpg, .jpeg, .png or .tiff)
 uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
 uploadEvidence.typesOfFile.li.3 = e-bost (.txt neu .msg)
-uploadEvidence.typesOfFile.li.4 = Microsoft (Word, Excel neu PowerPoint)
-uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF)
+uploadEvidence.typesOfFile.li.4 = Microsoft Word, Excel, or PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, or .pptx)💕
+uploadEvidence.typesOfFile.li.5 = Open Document Format files (.odt, .ods or .odp)💕
+
+uploadEvidence.fileName.p2 = File names can only include letters a to z, numbers 0 to 9, hyphens (-), underscores (_), and full stops (.). Filenames must not include spaces.💕
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------

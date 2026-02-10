@@ -31,14 +31,13 @@
         p: components.P,
         h1: components.H1,
         bullets: components.Bullets,
-        details: components.Details,
         caption: components.PenaltyCaption
 )
 
 @(form: Form[_], upscanFormFields: UploadFormFields)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @supportedFileTypes = {
-    @p(messages("uploadEvidence.typesOfFile.p1"))
+    @p(messages("uploadEvidence.typesOfFile.li.title"))
     @bullets(
         Seq(
             Html(messages("uploadEvidence.typesOfFile.li.1")),
@@ -64,11 +63,12 @@
                 @h1(s"uploadEvidence.nonJs.headingAndTitle$review")
 
                 <p class="govuk-body">@messages(s"uploadEvidence.nonJs.p2$penaltyType$review")</p>
-                <p class="govuk-body">@messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles)</p>
-                <p class="govuk-body">@messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)</p>
-                <p class="govuk-body">@messages("uploadEvidence.nonJs.p5")</p>
-
-                @details("uploadEvidence.typesOfFile.heading", supportedFileTypes)
+                <p class="govuk-heading-s">@messages("uploadEvidence.nonJs.heading3")</p>
+                <p class="govuk-body">
+                    @{messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles) + " " + messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)}
+                </p>
+                @p(supportedFileTypes.toString)
+                @p("uploadEvidence.fileName.p2")
 
                 <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data">
                     @for((key, value) <- upscanFormFields.fields) {
@@ -80,8 +80,9 @@
                         name = UploadDocumentForm.key,
                         label = Label(
                             content = Text(messages(s"uploadEvidence.nonJs.label")),
-                            classes = "govuk-label--m"
+
                         ),
+                        javascript = Some(true),
                         errorMessage = form.errors(UploadDocumentForm.key) match {
                             case Nil => None
                             case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
@@ -93,10 +94,16 @@
                         )
                     ))
 
+
                     <div class="govuk-form-group">
-                    @govukButton(Button(
-                        content = Text(messages("common.continue"))
-                    ))
+                        @govukButton(Button(
+                            content = Text(messages("common.continue"))
+                        ))
+                        @govukButton(Button(
+                             classes = "govuk-button--secondary",
+                             content = Text("Skip file upload"),
+                        ))
+
                     </div>
                 </form>
             }

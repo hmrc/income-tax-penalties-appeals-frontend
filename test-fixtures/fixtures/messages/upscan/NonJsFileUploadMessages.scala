@@ -21,9 +21,10 @@ import fixtures.messages.{Cy, En, i18n}
 object NonJsFileUploadMessages {
 
   sealed trait Messages { this: i18n =>
-    val headingAndTitle = "Evidence to support this appeal"
+    val headingAndTitle = "Upload evidence to support this appeal"
     val headingAndTitleReview = "Upload evidence"
-    val p2LSP = "Evidence might include any documents or letters that show why the submission deadline was missed."
+    val p2LSP = "Upload evidence that explains why your client missed the submission deadline, such as a letter or email."
+    val heading3 = "Files you can upload"
     val p2LSPReview = "Evidence might include any documents or letters that show why the submission was sent late."
     val p2LPP = "Evidence might include any documents or letters that show why the payment deadline was missed."
     val p2LPPReview = "Evidence might include any documents or letters that show why the payment deadline was missed."
@@ -37,7 +38,6 @@ object NonJsFileUploadMessages {
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Tystiolaeth i ategu’r apêl hon"
     override val headingAndTitleReview = "Uwchlwytho tystiolaeth"
-    override val p2LSP = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer cyflwyno ei fethu."
     override val p2LSPReview = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y cyflwyniad ei anfon yn hwyr."
     override val p2LPP = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu."
     override val p2LPPReview = "Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu."

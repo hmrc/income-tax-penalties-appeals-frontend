@@ -21,6 +21,7 @@ object SupportedFileTypeMessages {
   sealed trait Messages { this: i18n =>
     val summaryHeading = "Types of file you can upload"
     val p1 = "These file types are allowed:"
+    val p1New = "Your files can be:"
     val bullet1 = "image (.jpg, .jpeg, .png or .tiff)"
     val bullet2 = "PDF (.pdf)"
     val bullet3 = "email (.txt or .msg)"
@@ -33,6 +34,7 @@ object SupportedFileTypeMessages {
   object Welsh extends Messages with Cy {
     override val summaryHeading = "Y mathau o ffeiliau y gallwch eu huwchlwytho"
     override val p1 = "Dyma’r ffeiliau y gallwch eu huwchlwytho:"
+    override val p1New = "Your files can be:💕"
     override val bullet1 = "delwedd (.jpg, .jpeg, .png or .tiff)"
     override val bullet2 = "PDF (.pdf)"
     override val bullet3 = "e-bost (.txt neu .msg)"
