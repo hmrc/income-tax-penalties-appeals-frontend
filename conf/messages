@@ -20,7 +20,6 @@ service.lpp.multiple.caption = Late payment penalties: {0} to {1}
 appeal.start.header = Appeal a Self Assessment penalty
 appeal.start.p1.lsp = To appeal a late submission penalty for Self Assessment, you will need to ask HMRC to look at your case again.
 appeal.start.p1.lpp = To appeal a late payment penalty for Self Assessment, you will need to ask HMRC to look at your case again.
-appeal.start.p2 = This service is for appealing penalties given for individual submissions.
 appeal.start.h2 = Before you start
 appeal.start.p3 = You will need:
 appeal.start.li1.lsp = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)

@@ -20,7 +20,6 @@ service.lpp.multiple.caption = Cosbau am dalu’n hwyr: {0} i {1}
 appeal.start.header = Apelio yn erbyn cosb Hunanasesiad
 appeal.start.p1.lsp = Er mwyn apelio yn erbyn cosb am gyflwyno Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros eich achos eto.
 appeal.start.p1.lpp = Er mwyn apelio yn erbyn cosb am dalu Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros eich achos eto.
-appeal.start.p2 = Mae’r gwasanaeth hwn ar gyfer apelio yn erbyn cosbau sy’n gysylltiedig â chyflwyniadau a wnaed gan unigolyn.
 appeal.start.h2 = Cyn i chi ddechrau
 appeal.start.p3 = Bydd angen y canlynol arnoch:
 appeal.start.li1.lsp = rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno’r diweddariad chwarterol neu’r Ffurflen Dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
