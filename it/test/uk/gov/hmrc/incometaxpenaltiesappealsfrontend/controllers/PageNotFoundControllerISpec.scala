@@ -49,7 +49,7 @@ class PageNotFoundControllerISpec extends ControllerISpecHelper {
         document.getH1Elements.text() shouldBe "Page not found"
         document.getParagraphs.get(0).text() shouldBe "If you typed the web address, check it is correct."
         document.getParagraphs.get(1).text() shouldBe "If you pasted the web address, check you copied the entire address."
-        document.getLink("returnToSALink").text() shouldBe "Back to Self Assessment penalties and appeals"
+        document.getLink("returnToSALink").text() shouldBe "Back to Self Assessment penalties and appeals."
 
       }
     }
