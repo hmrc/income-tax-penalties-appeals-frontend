@@ -30,24 +30,12 @@
         govukButton: GovukButton,
         p: components.P,
         h1: components.H1,
-        bullets: components.Bullets,
         caption: components.PenaltyCaption
 )
 
 @(form: Form[_], upscanFormFields: UploadFormFields)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@supportedFileTypes = {
-    @p(messages("uploadEvidence.typesOfFile.li.title"))
-    @bullets(
-        Seq(
-            Html(messages("uploadEvidence.typesOfFile.li.1")),
-            Html(messages("uploadEvidence.typesOfFile.li.2")),
-            Html(messages("uploadEvidence.typesOfFile.li.3")),
-            Html(messages("uploadEvidence.typesOfFile.li.4")),
-            Html(messages("uploadEvidence.typesOfFile.li.5"))
-        )
-    )
-}
+
 
 @defining(if(user.is2ndStageAppeal) ".review" else "") { review =>
     @defining(if(user.isJointAppeal) ".joint" else "") { joint =>
@@ -67,7 +55,14 @@
                 <p class="govuk-body">
                     @{messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles) + " " + messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)}
                 </p>
-                @p(supportedFileTypes.toString)
+                @p(messages("uploadEvidence.typesOfFile.li.title"))
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>@messages("uploadEvidence.typesOfFile.li.1")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.2")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.3")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.4")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.5")</li>
+                </ul>
                 @p("uploadEvidence.fileName.p2")
 
                 <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data">
