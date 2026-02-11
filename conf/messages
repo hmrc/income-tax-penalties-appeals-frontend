@@ -18,26 +18,25 @@ service.lpp.multiple.caption = Late payment penalties: {0} to {1}
 # Appeal Start page
 # ----------------------------------------------------------
 appeal.start.header = Appeal a Self Assessment penalty
-appeal.start.p1.lsp = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at your case again.
-appeal.start.p1.lpp = To appeal a late payment penalty for Self Assessment, you’ll need to ask HMRC to look at your case again.
-appeal.start.p2 = This service is for appealing penalties given for individual submissions.
+appeal.start.p1.lsp = To appeal a late submission penalty for Self Assessment, you will need to ask HMRC to look at your case again.
+appeal.start.p1.lpp = To appeal a late payment penalty for Self Assessment, you will need to ask HMRC to look at your case again.
 appeal.start.h2 = Before you start
-appeal.start.p3 = You’ll need:
+appeal.start.p3 = You will need:
 appeal.start.li1.lsp = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.li1.lpp = a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.cessation.h2 = Income sources that have ceased
-appeal.start.cessation.p1.individual = If you have received a penalty for an update period that started after the income source ceased, you may be able to get that point removed.
+appeal.start.cessation.p1.individual = If you have received a penalty for an update period that started after the income source had stopped permanently (ceased), you may be able to get that point removed.
 appeal.start.cessation.p2.individual = To do this, you will need to confirm the date that a particular income source was ceased to HMRC.
-appeal.start.cessation.p1.agent = If your client has received a penalty for an update period that started after the income source ceased, they may be able to get that point removed.
+appeal.start.cessation.p1.agent = If your client has received a penalty for an update period that started after the income source had stopped permanently (ceased), they may be able to get that point removed.
 appeal.start.cessation.p2.agent = To do this, they will need to confirm the dates that a particular income source was ceased to HMRC.
-appeal.start.cessation.link.individual = Add, manage or cease a business or income source
-appeal.start.cessation.link.agent = Add, manage or cease a business or income source
+appeal.start.cessation.link.individual = Add, manage or cease a business or income source.
+appeal.start.cessation.link.agent = Add, manage or cease a business or income source.
 appeal.start.evidence.h2 = Sending evidence with an appeal
 appeal.start.li2 = the dates related to this reasonable excuse
 appeal.start.li3 = details of why you did not appeal sooner
-appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in new tab)
-appeal.start.p4 = In some cases, you’ll be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
-appeal.start.p5 = If you are not asked for extra evidence, this is because we don’t need any to make a decision in your particular case.
+appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in new tab).
+appeal.start.p4 = In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
+appeal.start.p5 = If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case.
 appeal.start.p6 = If we decide we need extra evidence after reviewing your appeal, we will contact you.
 appeal.start.button.lsp = Start an appeal
 appeal.start.button.lpp = Continue
@@ -501,27 +500,27 @@ appealConfirmation.typeAndPeriod = {0}: {1} tax year
 appealConfirmation.p1 = You do not need a reference number.
 appealConfirmation.p2.client = Your appeal has been logged against your National Insurance number. Please quote this number if you call HMRC about this appeal.
 appealConfirmation.p2.agent = Your appeal has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this appeal.
-appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab)
+appealConfirmation.viewOrPrint = View or print your appeal details (opens in new tab).
 appealConfirmation.whatHappensNext.h2 = What happens next
 appealConfirmation.whatHappensNext.p1 = We aim to make decisions about appeals within 45 days.
-appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you’ll be notified about the outcome of this appeal and the reasons for our decision.
+appealConfirmation.whatHappensNext.p2.client = When a decision has been made, you will be notified about the outcome of this appeal and the reasons for our decision.
 appealConfirmation.whatHappensNext.p2.agent =  When a decision has been made, your client will be notified about the outcome of this appeal and the reasons for our decision.
-appealConfirmation.whatHappensNext.link1.client = Return to your Self Assessment penalties
-appealConfirmation.whatHappensNext.link1.agent = Return to your client’s Self Assessment penalties
-appealConfirmation.whatHappensNext.link2.client = View your Self Assessment account
-appealConfirmation.whatHappensNext.link2.agent = View your client’s Self Assessment account
+appealConfirmation.whatHappensNext.link1.client = Return to your Self Assessment penalties.
+appealConfirmation.whatHappensNext.link1.agent = Return to your client’s Self Assessment penalties.
+appealConfirmation.whatHappensNext.link2.client = View your Self Assessment account.
+appealConfirmation.whatHappensNext.link2.agent = View your client’s Self Assessment account.
 
 appealConfirmation.feedback.h2 = Before you go
 appealConfirmation.feedback.p = Your feedback helps us make our service better.
 appealConfirmation.feedback.link = Take a short survey
 appealConfirmation.feedback.link.text = to share your feedback on this service.
-appealConfirmation.viewOrPrint.review = View or print details of this review (opens in new tab)
+appealConfirmation.viewOrPrint.review = View or print details of this review (opens in new tab).
 
 appealConfirmation.review.headingAndTitle = Review request received
 appealConfirmation.p2.client.review = This request for a review has been logged against your National Insurance number. Please quote this number if you call HMRC about this review.
 appealConfirmation.p2.agent.review = This request for a review has been logged against your client’s National Insurance number. Please quote this number if you call HMRC about this review.
 appealConfirmation.whatHappensNext.p1.review = We aim to complete reviews within 45 days.
-appealConfirmation.whatHappensNext.p2.client.review = When a decision has been made, you’ll be notified about the outcome of the review and the reasons for our decision.
+appealConfirmation.whatHappensNext.p2.client.review = When a decision has been made, you will be notified about the outcome of the review and the reasons for our decision.
 appealConfirmation.whatHappensNext.p2.agent.review =  When a decision has been made, your client will be notified about the outcome of the review and the reasons for our decision.
 
 # View appeal details page
@@ -665,11 +664,11 @@ common.unsure = I’m not sure
 
 duplicateAppeal.headingAndTitle = Appeal already in progress
 duplicateAppeal.p1 = You can’t submit more than one appeal for the same penalty at the same time.
-duplicateAppeal.link.text = Back to Self Assessment penalties and appeals
+duplicateAppeal.link.text = Back to Self Assessment penalties and appeals.
 
 # Page not found
 # ----------------------------------------------------------
 page.not.found.headingAndTitle = Page not found
 page.not.found.p1 = If you typed the web address, check it is correct.
 page.not.found.p2 = If you pasted the web address, check you copied the entire address.
-page.not.found.link.text = Back to Self Assessment penalties and appeals
+page.not.found.link.text = Back to Self Assessment penalties and appeals.
