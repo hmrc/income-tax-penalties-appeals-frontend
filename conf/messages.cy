@@ -56,7 +56,7 @@ reviewAppeal.start.p5 = Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyni
 # ----------------------------------------------------------
 reasonableExcuses.headingAndTitleSubmissions = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
 reasonableExcuses.headingAndTitlePayments = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
-reasonableExcuses.hintText.standard = Os oes mwy nag un rheswm, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar eich gallu i fodloni’r dyddiad cau.
+reasonableExcuses.hintText.standard = Dewiswch un rheswm. Os oes mwy nag un rheswm yn berthnasol, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar eich gallu i fodloni’r dyddiad cau.
 reasonableExcuses.hintText.agent = Dewiswch un rheswm. Os oes mwy nag un rheswm yn berthnasol, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar allu’ch cleient i fodloni’r dyddiad cau.
 reasonableExcuses.bereavement = Profedigaeth (roedd rhywun wedi marw)
 reasonableExcuses.cessation = Cessation of income source (Welsh)
