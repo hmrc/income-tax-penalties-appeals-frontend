@@ -20,7 +20,6 @@ service.lpp.multiple.caption = Cosbau am dalu’n hwyr: {0} i {1}
 appeal.start.header = Apelio yn erbyn cosb Hunanasesiad
 appeal.start.p1.lsp = Er mwyn apelio yn erbyn cosb am gyflwyno Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros eich achos eto.
 appeal.start.p1.lpp = Er mwyn apelio yn erbyn cosb am dalu Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros eich achos eto.
-appeal.start.p2 = Mae’r gwasanaeth hwn ar gyfer apelio yn erbyn cosbau sy’n gysylltiedig â chyflwyniadau a wnaed gan unigolyn.
 appeal.start.h2 = Cyn i chi ddechrau
 appeal.start.p3 = Bydd angen y canlynol arnoch:
 appeal.start.li1.lsp = rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno’r diweddariad chwarterol neu’r Ffurflen Dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
@@ -30,8 +29,8 @@ appeal.start.cessation.p1.individual = Os cawsoch gosb am gyfnod diweddaru a dde
 appeal.start.cessation.p2.individual = Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiad pan ddaeth ffynhonnell incwm benodol i ben.
 appeal.start.cessation.p1.agent = Os yw’ch cleient wedi cael cosb ar gyfer cyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.agent = Er mwyn gwneud hyn, bydd angen i’ch cleient gadarnhau gyda CThEF y dyddiadau pan ddaeth ffynhonnell incwm benodol i ben.
-appeal.start.cessation.link.individual = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben
-appeal.start.cessation.link.agent = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben
+appeal.start.cessation.link.individual = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben.
+appeal.start.cessation.link.agent = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben.
 appeal.start.evidence.h2 = Anfon tystiolaeth gydag apêl
 appeal.start.li2 = y dyddiadau sy’n berthnasol i’r esgus rhesymol hwn
 appeal.start.li3 = rheswm dros beidio ag apelio’n gynt
@@ -57,8 +56,8 @@ reviewAppeal.start.p5 = Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyni
 # ----------------------------------------------------------
 reasonableExcuses.headingAndTitleSubmissions = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
 reasonableExcuses.headingAndTitlePayments = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
-reasonableExcuses.hintText.standard = Os oes mwy nag un rheswm, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar eich gallu i fodloni’r dyddiad cau.
-reasonableExcuses.hintText.agent = Os oes mwy nag un rheswm, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar allu eich cleient i fodloni’r dyddiad cau.
+reasonableExcuses.hintText.standard = Dewiswch un rheswm. Os oes mwy nag un rheswm yn berthnasol, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar eich gallu i fodloni’r dyddiad cau.
+reasonableExcuses.hintText.agent = Dewiswch un rheswm. Os oes mwy nag un rheswm yn berthnasol, dewiswch yr un a gafodd yr effaith fwyaf uniongyrchol ar allu’ch cleient i fodloni’r dyddiad cau.
 reasonableExcuses.bereavement = Profedigaeth (roedd rhywun wedi marw)
 reasonableExcuses.cessation = Cessation of income source (Welsh)
 reasonableExcuses.crime = Trosedd
@@ -506,16 +505,16 @@ appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2.client = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
 appealConfirmation.whatHappensNext.p2.agent =  Unwaith i’r penderfyniad gael ei wneud, bydd eich cleient yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.link1.client = Yn ôl i’ch cosbau Hunanasesiad
-appealConfirmation.whatHappensNext.link1.agent = Yn ôl i gosbau Hunanasesiad eich cleient
-appealConfirmation.whatHappensNext.link2.client = Bwrw golwg dros eich cyfrif Hunanasesiad
-appealConfirmation.whatHappensNext.link2.agent = Bwrw golwg dros gyfrif Hunanasesiad eich cleient
+appealConfirmation.whatHappensNext.link1.client = Yn ôl i’ch cosbau Hunanasesiad.
+appealConfirmation.whatHappensNext.link1.agent = Yn ôl i gosbau Hunanasesiad eich cleient.
+appealConfirmation.whatHappensNext.link2.client = Bwrw golwg dros eich cyfrif Hunanasesiad.
+appealConfirmation.whatHappensNext.link2.agent = Bwrw golwg dros gyfrif Hunanasesiad eich cleient.
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
 appealConfirmation.feedback.p = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
-appealConfirmation.feedback.link = Llenwch arolwg byr
+appealConfirmation.feedback.link = Llenwch arolwg byr.
 appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
-appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd)
+appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd).
 
 appealConfirmation.review.headingAndTitle = Cais am adolygiad wedi dod i law
 appealConfirmation.p2.client.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
@@ -669,11 +668,11 @@ common.unsure = Dydw i ddim yn siŵr
 
 duplicateAppeal.headingAndTitle = Apêl eisoes ar y gweill
 duplicateAppeal.p1 = Ni allwch gyflwyno mwy nag un apêl ar gyfer yr un gosb ar yr un pryd.
-duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
+duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad.
 
 # Page not found
 # ----------------------------------------------------------
 page.not.found.headingAndTitle = Heb ddod o hyd i’r dudalen
 page.not.found.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.
 page.not.found.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi copïo’r cyfeiriad yn llawn.
-page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
+page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad.
