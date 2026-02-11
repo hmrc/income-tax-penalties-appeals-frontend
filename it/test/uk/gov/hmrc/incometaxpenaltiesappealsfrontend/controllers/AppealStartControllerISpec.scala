@@ -67,7 +67,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(0).text() shouldBe "a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)"
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
-            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)."
             document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
 
             if(isAgent){
@@ -84,7 +84,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the date that a particular income source was ceased to HMRC."
             }
 
-            document.getLink("cessationLink").text() shouldBe "Add, manage or cease a business or income source"
+            document.getLink("cessationLink").text() shouldBe "Add, manage or cease a business or income source."
 
             document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
             document.getParagraphs.get(6).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
@@ -120,7 +120,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(0).text() shouldBe "a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)"
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
-            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)."
             document.getParagraphs.get(3).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(4).text() shouldBe "If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
@@ -150,7 +150,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(0).text() shouldBe "a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)"
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
-            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)."
             document.getParagraphs.get(3).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(4).text() shouldBe "If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
