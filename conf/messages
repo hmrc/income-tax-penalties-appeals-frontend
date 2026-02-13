@@ -562,20 +562,25 @@ date.year = Year
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.nonJs.headingAndTitle = Upload evidence to support this appeal
-uploadEvidence.nonJs.headingAndTitle.review = Upload evidence
+uploadEvidence.nonJs.headingAndTitle.review = Upload evidence to support this review
 uploadEvidence.nonJs.heading3 = Files you can upload
 uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review this penalty.
 uploadEvidence.nonJs.p1.joint = Use this page to upload any evidence to help us review these penalties.
 uploadEvidence.nonJs.p1.review = Use this page to upload any evidence to help us review the appeal decision.
 uploadEvidence.nonJs.p1.joint.review = Use this page to upload any evidence to help us review the appeal decisions.
-uploadEvidence.nonJs.p2.lsp = Upload evidence that explains why your client missed the submission deadline, such as a letter or email.
-uploadEvidence.nonJs.p2.lsp.review = Evidence might include any documents or letters that show why the submission was sent late.
-uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters that show why the payment deadline was missed.
-uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the payment deadline was missed.
+uploadEvidence.nonJs.p2.lsp = Upload evidence that explains why you missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lsp.agent = Upload evidence that explains why your client missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lsp.review = Upload evidence that explains why you missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lsp.review.agent = Upload evidence that explains why your client missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp = Upload evidence that explains why you missed the payment deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp.agent = Upload evidence that explains why your client missed the payment deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp.review = Upload evidence that explains why you missed the payment deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp.review.agent = Upload evidence that explains why your client missed the payment deadline, such as a letter or email.
 uploadEvidence.nonJs.p3 = You can upload up to {0} files.
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
 uploadEvidence.nonJs.p5 = Filenames cannot contain spaces.
 uploadEvidence.nonJs.label = Upload a file
+uploadEvidence.nodeJs.skipFileUploadButton= Skip file upload
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
