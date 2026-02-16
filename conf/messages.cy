@@ -73,7 +73,7 @@ reasonableExcuse.error.message.lpp = Dewiswch y rheswm dros fethu’r dyddiad ca
 # Joint appeal LPP
 # ----------------------------------------------------------
 jointAppeal.headingAndTitle = Mae 2 gosb yn gysylltiedig â’r tâl treth hwyr hwn
-jointAppeal.radioHeading =  A ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm?
+jointAppeal.radioHeading =  Do you want to appeal both penalties for the same reason? (Welsh)
 jointAppeal.radioHeading.review =  A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 jointAppeal.p1 = Mae’r cosbau hyn fel y ganlyn:
 jointAppeal.l1 = £{0} y gosb gyntaf am dalu’n hwyr
@@ -82,7 +82,7 @@ individual.jointAppeal.p2 = Gallwch apelio yn erbyn y cosbau hyn ar yr un pryd o
 individual.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw’ch tystiolaeth yn berthnasol i’r ddwy apêl wreiddiol.
 agent.jointAppeal.p2 = Gallwch apelio’r cosbau hyn ar yr un pryd os yw rheswm eich cleient dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth am y ddwy gosb.
 agent.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw tystiolaeth eich cleient yn berthnasol i’r ddwy apêl wreiddiol.
-jointAppeal.error.required = Rhowch wybod i ni a ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm
+jointAppeal.error.required = Tell us if you want to appeal both penalties for the same reason  (Welsh)
 jointAppeal.error.required.review = Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd
 
 # Multiple Appeals LPP
@@ -111,7 +111,7 @@ agentPlanned.honestyDeclaration.li.crime.lpp = oherwydd bod trosedd wedi cael ef
 
 clientSubmitted.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientSubmitted.honestyDeclaration.li.fireandflood.lpp = oherwydd tân neu lifogydd, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
-agentPlanned.honestyDeclaration.li.fireandflood.lpp = oherwydd bod fy nghleient wedi dioddef tân neu lifogydd, nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
+agentPlanned.honestyDeclaration.li.fireandflood.lpp = oherwydd bod tân neu lifogydd wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
 
 clientSubmitted.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientSubmitted.honestyDeclaration.li.health.lpp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
@@ -133,7 +133,7 @@ clientPlanned.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rh
 clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were unable to send the submission due on {0} (Welsh)
 clientPlanned.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
-clientPlanned.honestyDeclaration.li.health.lsp = oherwydd bod gan fy nghleient salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau {0}
+clientPlanned.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau {0}
 clientPlanned.honestyDeclaration.li.technicalIssue.lsp = oherwydd problemau technegol neu broblemau meddalwedd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd bod fy nghleient wedi aros yn yr ysbyty yn annisgwyl, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.other.lsp = nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
@@ -141,11 +141,11 @@ clientPlanned.honestyDeclaration.li.other.lsp = nid oedd modd i fy nghleient anf
 agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
 agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd bod fy nghleient wedi dioddef tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
+agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd bod tân neu lifogydd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = oherwydd bod gan fy nghleient salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.clientAffected.honestyDeclaration.li.technicalIssue.lsp = oherwydd bod fy nghleient wedi cael problemau technegol neu broblemau meddalwedd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
+agentPlanned.clientAffected.honestyDeclaration.li.technicalIssue.lsp = oherwydd bod problemau technegol neu broblemau meddalwedd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd bod fy nghleient wedi aros yn yr ysbyty yn annisgwyl, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = oherwydd bod fy nghleient wedi wynebu problemau, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
+agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = oherwydd bod fy nghleient wedi wynebu problem, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
 agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
@@ -411,8 +411,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Rheswm arall
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = Nid oedd fy nghleient wedi rhoi’r wybodaeth i mi mewn pryd
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = Beth oedd wedi’ch achosi i fethu’r dyddiad cau
 
-checkYourAnswers.jointAppeal.key = A ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm?
-checkYourAnswers.jointAppeal.change.hidden = A ydych yn bwriadu apelio yn erbyn y ddwy gosb am yr un rheswm?
+checkYourAnswers.jointAppeal.key =  Do you want to appeal both penalties for the same reason? (Welsh)
+checkYourAnswers.jointAppeal.change.hidden = do you want to appeal both penalties for the same reason (Welsh)
 checkYourAnswers.jointAppeal.key.review = A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 checkYourAnswers.jointAppeal.change.hidden.review = A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 
