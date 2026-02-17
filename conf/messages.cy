@@ -82,7 +82,7 @@ individual.jointAppeal.p2 = Gallwch apelio yn erbyn y cosbau hyn ar yr un pryd o
 individual.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw’ch tystiolaeth yn berthnasol i’r ddwy apêl wreiddiol.
 agent.jointAppeal.p2 = Gallwch apelio’r cosbau hyn ar yr un pryd os yw rheswm eich cleient dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth am y ddwy gosb.
 agent.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw tystiolaeth eich cleient yn berthnasol i’r ddwy apêl wreiddiol.
-jointAppeal.error.required = Tell us if you want to appeal both penalties for the same reason  (Welsh)
+jointAppeal.error.required = Tell us if you want to appeal both penalties for the same reason (Welsh)
 jointAppeal.error.required.review = Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd
 
 # Multiple Appeals LPP
@@ -309,22 +309,14 @@ review.decision.30.days.error.invalid.multiple = Rhowch wybod i ni os yw mwy na 
 
 # Late appeal page
 # ----------------------------------------------------------
-lateAppeal.headingAndTitle = Cafodd y pwynt cosb ei anfon dros {0} diwrnod yn ôl
-lateAppeal.headingAndTitle.lpp = Cafodd y gosb ei hanfon dros {0} diwrnod yn ôl
-lateAppeal.headingAndTitle.multiple = Cafodd y gosb ei hanfon dros {0} diwrnod yn ôl
+lateAppeal.headingAndTitle = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
+lateAppeal.headingAndTitle.lpp = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
+lateAppeal.headingAndTitle.multiple = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.multiple.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
-lateAppeal.headingAndTitle.multiple.lpp = Cafodd y gosb ei hanfon dros {0} diwrnod yn ôl
+lateAppeal.headingAndTitle.multiple.lpp = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.review.lpp = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.multiple.review.lpp = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
-lateAppeal.p1 = Fel arfer, mae angen i chi apelio cyn pen {0} diwrnod o ddyddiad yr hysbysiad o gosb.
-lateAppeal.p1.multiple = Fel arfer, mae angen i chi apelio cyn pen {0} diwrnod o ddyddiad yr hysbysiad o gosb.
-lateAppeal.p1.review = Fel arfer, mae angen i chi ofyn am adolygiad cyn pen {0} diwrnod o ddyddiad y penderfyniad.
-lateAppeal.p1.multiple.review = Fel arfer, mae angen i chi ofyn am adolygiad cyn pen {0} diwrnod o ddyddiad y penderfyniad.
-lateAppeal.charCount = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
-lateAppeal.charCount.multiple = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
-lateAppeal.charCount.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
-lateAppeal.charCount.multiple.review = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.error.required =  Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
 lateAppeal.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
 lateAppeal.error.required.review = Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt
@@ -349,23 +341,27 @@ missedDeadlineReason.lsp.error.review.required = Mae’n rhaid i chi roi gwyboda
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
-missedDeadlineReason.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
+missedDeadlineReason.individual.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
+missedDeadlineReason.agent.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
 missedDeadlineReason.lpp.error.required = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
 missedDeadlineReason.lpp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
 missedDeadlineReason.lpp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
 
 missedDeadlineReason.lpp.headingAndTitle.multiple = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
-missedDeadlineReason.lpp.hint.multiple = Dim ond y cosbau hyn y mae angen i ni wybod amdanynt. Dylech apelio yn erbyn unrhyw gosbau eraill ar wahân.
+missedDeadlineReason.individual.lpp.hint.multiple = Rhowch wybod i ni pam gwnaethoch fethu’r dyddiadau cau  ar gyfer talu ar gyfer y ddwy gosb.
+missedDeadlineReason.agent.lpp.hint.multiple = Rhowch wybod i ni pam gwnaeth eich cleient fethu’r dyddiadau cau ar gyfer talu ar gyfer y ddwy gosb.
 missedDeadlineReason.lpp.error.required.multiple = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
-missedDeadlineReason.lpp.review.hint = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir.
+missedDeadlineReason.individual.lpp.review.hint = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir.
+missedDeadlineReason.agent.lpp.review.hint = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir.
 missedDeadlineReason.lpp.error.review.required = Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
-missedDeadlineReason.lpp.review.hint.multiple = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir.
+missedDeadlineReason.individual.lpp.review.hint.multiple = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir.
+missedDeadlineReason.agent.lpp.review.hint.multiple = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir.
 missedDeadlineReason.lpp.error.review.required.multiple = Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn
 
 
