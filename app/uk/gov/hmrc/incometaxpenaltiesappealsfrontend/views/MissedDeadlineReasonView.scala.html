@@ -22,7 +22,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.MissedDeadlineReasonHelper.messageKeyPrefix
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.MissedDeadlineReasonHelper._
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
 
 
@@ -33,7 +33,7 @@
         govukErrorSummary: GovukErrorSummary,
         caption: components.PenaltyCaption)
 
-@(form: Form[_], isLPP: Boolean, isSecondStageAppeal: Boolean, isMultipleAppeal: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], isLPP: Boolean, isSecondStageAppeal: Boolean, isMultipleAppeal: Boolean, mode: Mode, isAgent: Boolean)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @prefix = {@if(isSecondStageAppeal){.review}}
 @multipleAppeal = {@if(isMultipleAppeal){.multiple}}
@@ -60,7 +60,7 @@
                     classes = "govuk-label govuk-label--l"
                 ),
                 hint = Some(Hint(
-                    content = Text(messages(s"${messageKeyPrefix(isLPP)}$prefix.hint$multipleAppeal"))
+                    content = Text(messages(s"${messageKeyPrefixHint(isLPP, isAgent)}$prefix.hint$multipleAppeal"))
                 )),
                 errorMessage = form.errors(MissedDeadlineReasonForm.key) match {
                     case Nil => None
