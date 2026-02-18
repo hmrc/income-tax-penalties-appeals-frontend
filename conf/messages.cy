@@ -25,7 +25,7 @@ appeal.start.p3 = Bydd angen y canlynol arnoch:
 appeal.start.li1.lsp = rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno’r diweddariad chwarterol neu’r Ffurflen Dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.li1.lpp = rheswm dros fethu’r dyddiad cau ar gyfer talu’r dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.cessation.h2 = Ffynonellau incwm sydd wedi dod i ben
-appeal.start.cessation.p1.individual = If you have received a penalty for an update period that started after the income source had stopped permanently (ceased), you may be able to get that point removed.(WELSH)
+appeal.start.cessation.p1.individual = Os cawsoch gosb am gyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben yn barhaol, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.individual = Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiad pan ddaeth ffynhonnell incwm benodol i ben.
 appeal.start.cessation.p1.agent = Os yw’ch cleient wedi cael cosb ar gyfer cyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben yn barhaol, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.agent = Er mwyn gwneud hyn, bydd angen i’ch cleient gadarnhau gyda CThEF y dyddiadau pan ddaeth ffynhonnell incwm benodol i ben.
@@ -563,24 +563,24 @@ date.year = Blwyddyn
 # ----------------------------------------------------------
 uploadEvidence.nonJs.headingAndTitle = Uwchlwythwch dystiolaeth i gefnogi’r apêl hon
 uploadEvidence.nonJs.headingAndTitle.review = Uwchlwythwch dystiolaeth i gefnogi’r adolygiad hwn
-uploadEvidence.nonJs.heading3 = Files you can upload(WELSH)
+uploadEvidence.nonJs.heading3 = Ffeiliau y mae modd i chi eu huwchlwytho
 uploadEvidence.nonJs.p1 = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb.
 uploadEvidence.nonJs.p1.joint = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn.
 uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
 uploadEvidence.nonJs.p1.joint.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
-uploadEvidence.nonJs.p2.lsp = Upload evidence that explains why you missed the submission deadline, such as a letter or email.(WELSH)
+uploadEvidence.nonJs.p2.lsp = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
 uploadEvidence.nonJs.p2.lsp.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, yn egluro pam y gwnaeth eich cleient methu’r dyddiad cau.
-uploadEvidence.nonJs.p2.lsp.review = Upload evidence that explains why you missed the submission deadline, such as a letter or email.(WELSH)
+uploadEvidence.nonJs.p2.lsp.review = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
 uploadEvidence.nonJs.p2.lsp.review.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, yn egluro pam y gwnaeth eich cleient methu’r dyddiad cau.
 uploadEvidence.nonJs.p2.lpp = Uwchlwythwch dystiolaeth sy’n egluro pam y gwnaethoch fethu’r dyddiad cau ar gyfer talu, fel llythyr neu e-bost.
-uploadEvidence.nonJs.p2.lpp.agent = Upload evidence that explains why your client missed the payment deadline, such as a letter or email.(WELSH)
+uploadEvidence.nonJs.p2.lpp.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu.
 uploadEvidence.nonJs.p2.lpp.review = Uwchlwythwch dystiolaeth sy’n egluro pam y gwnaethoch fethu’r dyddiad cau ar gyfer talu, fel llythyr neu e-bost.
-uploadEvidence.nonJs.p2.lpp.review.agent = Upload evidence that explains why your client missed the payment deadline, such as a letter or email.(WELSH)
+uploadEvidence.nonJs.p2.lpp.review.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu.
 uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
 uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
 uploadEvidence.nonJs.label = Uwchlwytho ffeil
-uploadEvidence.nodeJs.skipFileUploadButton= Skip file upload(WELSH)
+uploadEvidence.nodeJs.skipFileUploadButton= Ewch yn syth heibio i’r cam uwchlwytho ffeiliau
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
