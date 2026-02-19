@@ -73,7 +73,7 @@ object ExtraEvidenceMessages {
 
     override def hintText(is2ndStage: Boolean, isJointAppeal: Boolean = false): String = {
       if (is2ndStage) {
-        "Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth."
+        "Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r penderfyniad ynghylch yr apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth."
       } else {
         "Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwytho tystiolaeth."
       }
