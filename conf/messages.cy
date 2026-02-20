@@ -73,7 +73,7 @@ reasonableExcuse.error.message.lpp = Dewiswch y rheswm dros fethu’r dyddiad ca
 # Joint appeal LPP
 # ----------------------------------------------------------
 jointAppeal.headingAndTitle = Mae 2 gosb yn gysylltiedig â’r tâl treth hwyr hwn
-jointAppeal.radioHeading =  Do you want to appeal both penalties for the same reason? (Welsh)
+jointAppeal.radioHeading =  A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm?
 jointAppeal.radioHeading.review =  A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 jointAppeal.p1 = Mae’r cosbau hyn fel y ganlyn:
 jointAppeal.l1 = £{0} y gosb gyntaf am dalu’n hwyr
@@ -82,7 +82,7 @@ individual.jointAppeal.p2 = Gallwch apelio yn erbyn y cosbau hyn ar yr un pryd o
 individual.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw’ch tystiolaeth yn berthnasol i’r ddwy apêl wreiddiol.
 agent.jointAppeal.p2 = Gallwch apelio’r cosbau hyn ar yr un pryd os yw rheswm eich cleient dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth am y ddwy gosb.
 agent.jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw tystiolaeth eich cleient yn berthnasol i’r ddwy apêl wreiddiol.
-jointAppeal.error.required = Tell us if you want to appeal both penalties for the same reason (Welsh)
+jointAppeal.error.required = Rhowch wybod i ni a ydych am apelio yn erbyn y ddwy gosb am yr un rheswm
 jointAppeal.error.required.review = Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd
 
 # Multiple Appeals LPP
@@ -407,8 +407,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Rheswm arall
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = Nid oedd fy nghleient wedi rhoi’r wybodaeth i mi mewn pryd
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = Beth oedd wedi’ch achosi i fethu’r dyddiad cau
 
-checkYourAnswers.jointAppeal.key =  Do you want to appeal both penalties for the same reason? (Welsh)
-checkYourAnswers.jointAppeal.change.hidden = do you want to appeal both penalties for the same reason (Welsh)
+checkYourAnswers.jointAppeal.key = A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm?
+checkYourAnswers.jointAppeal.change.hidden = A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm
 checkYourAnswers.jointAppeal.key.review = A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 checkYourAnswers.jointAppeal.change.hidden.review = A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 
