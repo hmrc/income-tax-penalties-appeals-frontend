@@ -446,3 +446,5 @@ POST       /has-hospital-stay-ended/check           uk.gov.hmrc.incometaxpenalti
 
 GET        /agent-has-hospital-stay-ended/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.onPageLoad(isAgent: Boolean = true, mode: Mode = CheckMode)
 POST       /agent-has-hospital-stay-ended/check      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.HasHospitalStayEndedController.submit(isAgent: Boolean = true, mode: Mode = CheckMode)
+
+GET        /unauthorised                            uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.UnauthorisedErrorController.onPageLoad(isAgent: Boolean = false)

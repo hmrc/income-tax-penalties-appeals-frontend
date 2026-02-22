@@ -673,3 +673,7 @@ page.not.found.headingAndTitle = Page not found
 page.not.found.p1 = If you typed the web address, check it is correct.
 page.not.found.p2 = If you pasted the web address, check you copied the entire address.
 page.not.found.link.text = Back to Self Assessment penalties and appeals
+
+# Unauthorised Error View
+unauthorised.page.h1 = You do not have access to this service
+unauthorised.page.p = You do not have the correct permissions to access this service. Please contact HMRC if you think this is a mistake.

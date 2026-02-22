@@ -18,13 +18,17 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import com.google.inject.Singleton
 import play.api.Logging
-import play.api.mvc._
-import uk.gov.hmrc.auth.core._
+import play.api.mvc.*
+import uk.gov.hmrc.auth.core.*
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.AuthorisedAndEnrolledAgent
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.agentDelegatedAuthorityRule
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.{agentDelegatedAuthorityRule, secondaryAgentDelegatedAuthorityRule}
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
+import play.api.mvc.Results.Redirect
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.SecondaryAgentAccessDeniedAuditModel
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.AuditService
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -33,6 +37,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AuthoriseAndRetrieveMtdAgent @Inject()(override val authConnector: AuthConnector,
                                              val appConfig: AppConfig,
                                              val errorHandler: ErrorHandler,
+                                             auditService: AuditService,
                                              mcc: MessagesControllerComponents)
   extends AuthoriseHelper
     with ActionRefiner[AuthorisedAndEnrolledAgent, AuthorisedAndEnrolledAgent]
@@ -51,9 +56,15 @@ class AuthoriseAndRetrieveMtdAgent @Inject()(override val authConnector: AuthCon
      {
       Future.successful(Right(request))
     }.recoverWith {
-      case authorisationException: AuthorisationException =>
-        handleAuthFailure(authorisationException, isAgent = true)(implicitly, implicitly, logger)
-        .map(Left(_))
+        case _ =>
+          authorised(secondaryAgentDelegatedAuthorityRule(request.mtdItId))
+          {
+            auditService.audit(SecondaryAgentAccessDeniedAuditModel(request))
+            Future.successful(Left(Redirect(routes.UnauthorisedErrorController.onPageLoad())))
+          }.recoverWith {
+            case authorisationException: AuthorisationException =>
+              handleAuthFailure(authorisationException, isAgent = true)(implicitly, implicitly, logger).map(Left(_))
+          }
     }
   }
 }
