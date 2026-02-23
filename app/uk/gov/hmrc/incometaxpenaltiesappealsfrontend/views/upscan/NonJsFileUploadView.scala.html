@@ -91,14 +91,14 @@
                     ))
 
 
-                    <div class="govuk-form-group">
+                    <div class="govuk-button-group">
                         @govukButton(Button(
-                            content = Text(messages("common.continue"))
+                            content = Text(messages("common.continue")),
+                            classes = "govuk-button",
                         ))
-                        @govukButton(Button(
-                             classes = "govuk-button--secondary",
-                             content = Text(messages("uploadEvidence.nodeJs.skipFileUploadButton"))
-                        ))
+                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>
+
+
 
                     </div>
                 </form>
