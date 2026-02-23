@@ -22,11 +22,11 @@ object EnrolmentUtil {
 
   val agentEnrolmentKey = "HMRC-AS-AGENT"
   val incomeTaxEnrolmentKey = "HMRC-MTD-IT"
-  val secondaryIncomeTaxEnrolmentKey = "HMRC-MTD-IT"
+  val secondaryIncomeTaxEnrolmentKey = "HMRC-MTD-IT-SUPP"
   val arnKey = "AgentReferenceNumber"
   val mtdItIdKey = "MTDITID"
   val agentDelegatedAuthRuleKey = "mtd-it-auth"
-  val secondaryAgentDelegatedAuthRuleKey = "mtd-it-auth"
+  val secondaryAgentDelegatedAuthRuleKey = "mtd-it-auth-supp"
 
   val agentDelegatedAuthorityRule: String => Enrolment =
     mtdItId =>
@@ -39,7 +39,7 @@ object EnrolmentUtil {
       Enrolment(secondaryIncomeTaxEnrolmentKey)
         .withIdentifier(mtdItIdKey, mtdItId)
         .withDelegatedAuthRule(secondaryAgentDelegatedAuthRuleKey)
-      
+
 
   implicit class AuthReferenceExtractor(enrolments: Enrolments) {
 
