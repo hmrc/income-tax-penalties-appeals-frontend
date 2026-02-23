@@ -580,7 +580,7 @@ uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
 uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
 uploadEvidence.nonJs.label = Uwchlwytho ffeil
-uploadEvidence.nodeJs.skipFileUploadButton= Ewch yn syth heibio i’r cam uwchlwytho ffeiliau
+uploadEvidence.nodeJs.cancel = Canslo
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
