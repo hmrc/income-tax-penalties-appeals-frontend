@@ -101,9 +101,9 @@ clientSubmitted.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth 
 clientSubmitted.honestyDeclaration.li.bereavement.lpp = oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
 agentPlanned.honestyDeclaration.li.bereavement.lpp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
 
-clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
+clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0} (Welsh)
 clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
-agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - they were unable to make the payment due on {0} (Welsh)
+agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - they were not able to make the payment due on {0} (Welsh)
 
 clientSubmitted.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientSubmitted.honestyDeclaration.li.crime.lpp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
@@ -130,7 +130,7 @@ clientSubmitted.honestyDeclaration.li.other.lpp = nid oedd modd i mi dalu erbyn 
 agentPlanned.honestyDeclaration.li.other.lpp = nid oedd modd i fy nghleient dalu erbyn y dyddiad cau, {0}
 
 clientPlanned.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
-clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were unable to send the submission due on {0} (Welsh)
+clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were not able to send the submission due on {0} (Welsh)
 clientPlanned.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau {0}
@@ -139,7 +139,7 @@ clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd bod fy ngh
 clientPlanned.honestyDeclaration.li.other.lsp = nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
 agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
+agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0} (Welsh)
 agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd bod tân neu lifogydd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = oherwydd bod gan fy nghleient salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
@@ -148,7 +148,7 @@ agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = oherw
 agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = oherwydd bod fy nghleient wedi wynebu problem, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
 agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0} (Welsh)
+agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0} (Welsh)
 agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau,  {0}
 agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
