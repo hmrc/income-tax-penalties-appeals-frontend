@@ -68,7 +68,8 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.bullet(4) -> fileTypeMessages.bullet4,
             Selectors.bullet(5) -> fileTypeMessages.bullet5,
             Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
         }
 
@@ -94,7 +95,8 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.bullet(4) -> fileTypeMessages.bullet4,
             Selectors.bullet(5) -> fileTypeMessages.bullet5,
             Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
         }
 
@@ -121,7 +123,8 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.bullet(4) -> fileTypeMessages.bullet4,
             Selectors.bullet(5) -> fileTypeMessages.bullet5,
             Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
         }
       }
@@ -151,7 +154,8 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.bullet(4) -> fileTypeMessages.bullet4,
             Selectors.bullet(5) -> fileTypeMessages.bullet5,
             Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
         }
 
@@ -179,7 +183,8 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.bullet(4) -> fileTypeMessages.bullet4,
             Selectors.bullet(5) -> fileTypeMessages.bullet5,
             Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
         }
 
@@ -207,7 +212,8 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.bullet(4) -> fileTypeMessages.bullet4,
             Selectors.bullet(5) -> fileTypeMessages.bullet5,
             Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
         }
       }
