@@ -38,6 +38,7 @@ object NonJsFileUploadMessages {
     val p4: Int => String = n => s"Each file must be smaller than ${n}MB."
     val label = "Select a file"
     val newLabel = "Upload a file"
+    val cancelLink = "Cancel"
   }
 
   object English extends Messages with En
@@ -60,5 +61,6 @@ object NonJsFileUploadMessages {
     override val p4: Int => String = n => s"Mae’n rhaid i bob ffeil fod yn llai na ${n}MB."
     override val label = "Dewiswch ffeil"
     override val newLabel: String = "Uwchlwytho ffeil"
+    override val cancelLink: String = "Canslo"
   }
 }

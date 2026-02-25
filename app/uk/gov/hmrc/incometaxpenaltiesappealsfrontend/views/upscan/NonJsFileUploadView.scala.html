@@ -96,9 +96,16 @@
                             content = Text(messages("common.continue")),
                             classes = "govuk-button",
                         ))
-                        @if(user.isAgent) {<a class="govuk-link" href= "/appeal-penalty/self-assessment/agent-upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>
+
+                        @if(user.isAgent && !user.is2ndStageAppeal) {
+                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/agent-upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>
+                        } else if(user.isAgent && user.is2ndStageAppeal){
+                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/agent-upload-evidence-for-the-review">@messages("uploadEvidence.nodeJs.cancel")</a>
+                        }else if(!user.isAgent && user.is2ndStageAppeal) {
+                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/upload-evidence-for-the-review">@messages("uploadEvidence.nodeJs.cancel")</a>
                         } else {
-                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>}
+                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>
+                        }
 
 
                     </div>
