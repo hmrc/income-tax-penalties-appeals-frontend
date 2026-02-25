@@ -27,6 +27,7 @@ object SupportedFileTypeMessages {
     val bullet3 = "email (.txt or .msg)"
     val bullet4 = "Microsoft Word, Excel, or PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, or .pptx)"
     val bullet5 = "Open Document Format files (.odt, .ods or .odp)"
+    val cancelLink: String = "Cancel"
   }
 
   object English extends Messages with En
@@ -40,5 +41,6 @@ object SupportedFileTypeMessages {
     override val bullet3 = "e-byst (.txt or .msg)"
     override val bullet4 = "Microsoft Word, Excel, neu PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, neu .pptx)"
     override val bullet5 = "Ffeiliau Fformat Dogfen Agored (.odt, .ods neu .odp)"
+    override val cancelLink: String = "Canslo"
   }
 }
