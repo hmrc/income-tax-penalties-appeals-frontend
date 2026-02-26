@@ -108,6 +108,5 @@
     }
 }
 @CancelLink(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode) = {
-<a class="govuk-link" href= "@routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url
-">@messages("uploadEvidence.nodeJs.cancel")</a>
+<a class="govuk-link" id="cancelLink" href= "@routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url">@messages("uploadEvidence.nodeJs.cancel")</a>
 }
