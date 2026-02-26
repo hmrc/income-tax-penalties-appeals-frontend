@@ -72,7 +72,11 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LSP should redirect to Do you want to upload evidence to support your appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
+
 
         "the penalty type is LPP (single penalty)" when {
 
@@ -99,6 +103,9 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP should redirect to Do you want to upload evidence to support your appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
 
         "the penalty type is LPP (multiple penalty - joint appeal)" when {
@@ -127,6 +134,9 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP (multiple penalty - joint appeal) should redirect to Do you want to upload evidence to support your appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
       }
 
@@ -158,6 +168,9 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LSP 2nd Stage Appeal should redirect to Do you want to upload evidence to support this review" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-review"
+          }
         }
 
         "the penalty type is LPP (single penalty)" when {
@@ -187,6 +200,9 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP 2nd Stage Appeal should redirect to Do you want to upload evidence to support this review" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-review"
+          }
         }
 
         "the penalty type is LPP (multiple penalties - joint appeal)" when {
@@ -216,6 +232,9 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP 2nd Stage Appeal (multiple penalties - joint appeal) should redirect to Do you want to upload evidence to support this review" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-review"
+          }
         }
       }
     }
