@@ -47,9 +47,9 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
     withFileUploadFormFields(mode, key) { formFields =>
       errorCode match {
         case Some(code) =>
-          Future(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields)))
+          Future(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields, mode)))
         case _ =>
-          Future(Ok(nonJsFileUpload(form, formFields)))
+          Future(Ok(nonJsFileUpload(form, formFields, mode)))
       }
     }
   }
