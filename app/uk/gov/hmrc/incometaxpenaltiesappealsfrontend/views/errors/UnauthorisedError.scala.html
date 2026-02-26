@@ -29,5 +29,28 @@
 @layout(pageTitle = Some(messages("unauthorised.page.h1")), isAgent = isAgent) {
 
     @h1("unauthorised.page.h1")
+
     @p("unauthorised.page.p")
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>
+           @messages("unauthorised.page.bullet1")
+        </li>
+        <li>
+           @messages("unauthorised.page.bullet2")
+        </li>
+        <li>
+           @messages("unauthorised.page.bullet3")
+        </li>
+        <li>
+           @messages("unauthorised.page.bullet4")
+        </li>
+    </ul>
+
+    <p class="govuk-body govuk-!-margin-bottom-8">@messages("unauthorised.page.read.more")
+        @* Todo: add link URL *@
+        <a href="#" class="govuk-link" id="supportingAgentLink">
+            @messages("unauthorised.page.link.text")
+        </a>
+    </p>
 }

@@ -675,5 +675,11 @@ page.not.found.p2 = If you pasted the web address, check you copied the entire a
 page.not.found.link.text = Back to Self Assessment penalties and appeals
 
 # Unauthorised Error View
-unauthorised.page.h1 = You do not have access to this service
-unauthorised.page.p = You do not have the correct permissions to access this service. Please contact HMRC if you think this is a mistake.
+unauthorised.page.h1 = You are not authorised to access this page
+unauthorised.page.p = You are a supporting agent for this client. Only their main agent can access records that show:
+unauthorised.page.bullet1 = payments, credits and refunds
+unauthorised.page.bullet2 = returns
+unauthorised.page.bullet3 = next charges due
+unauthorised.page.bullet4 = penalties and appeals
+unauthorised.page.read.more = Read more about the difference between main and supporting agents on
+unauthorised.page.link.text = GOV.UK
