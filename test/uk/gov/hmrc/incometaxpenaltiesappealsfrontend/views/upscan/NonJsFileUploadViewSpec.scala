@@ -29,6 +29,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocument
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 
 class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite with FileUploadFixtures {
 
@@ -53,7 +54,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -80,7 +81,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -107,7 +108,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
@@ -138,7 +139,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
@@ -166,7 +167,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
@@ -195,7 +196,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
