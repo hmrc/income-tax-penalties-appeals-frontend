@@ -22,6 +22,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 @this(
         layout: Layout,
@@ -33,7 +35,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], upscanFormFields: UploadFormFields)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], upscanFormFields: UploadFormFields, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 
 
@@ -97,21 +99,15 @@
                             classes = "govuk-button",
                         ))
 
-                        @if(user.isAgent && !user.is2ndStageAppeal) {
-                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/agent-upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>
-                        } else if(user.isAgent && user.is2ndStageAppeal){
-                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/agent-upload-evidence-for-the-review">@messages("uploadEvidence.nodeJs.cancel")</a>
-                        }else if(!user.isAgent && user.is2ndStageAppeal) {
-                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/upload-evidence-for-the-review">@messages("uploadEvidence.nodeJs.cancel")</a>
-                        } else {
-                        <a class="govuk-link" href= "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal">@messages("uploadEvidence.nodeJs.cancel")</a>
-                        }
-
-
+                        @CancelLink(user.isAgent, user.is2ndStageAppeal, mode)
                     </div>
                 </form>
             }
             }
         }
     }
+}
+@CancelLink(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode) = {
+<a class="govuk-link" href= "@routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url
+">@messages("uploadEvidence.nodeJs.cancel")</a>
 }
