@@ -43,7 +43,8 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
       isLPP = isLPP,
       isSecondStageAppeal = is2ndStageAppeal,
       isMultipleAppeal = user.isAppealingMultipleLPPs,
-      mode = mode
+      mode = mode,
+      isAgent = isAgent
     ))
   }
 
@@ -56,7 +57,8 @@ class MissedDeadlineReasonController @Inject()(missedDeadlineReason: MissedDeadl
           isLPP = isLPP,
           isSecondStageAppeal = is2ndStageAppeal,
           isMultipleAppeal = user.isAppealingMultipleLPPs,
-          mode
+          mode,
+          isAgent = isAgent
         ))),
       missedDeadline => {
         val updatedAnswers = user.userAnswers.setAnswer(MissedDeadlineReasonPage, missedDeadline)

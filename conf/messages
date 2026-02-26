@@ -73,7 +73,7 @@ reasonableExcuse.error.message.lpp = Select the reason for missing the payment d
 # Joint appeal LPP
 # ----------------------------------------------------------
 jointAppeal.headingAndTitle = There are 2 penalties for this overdue tax charge
-jointAppeal.radioHeading =  Do you intend to appeal both penalties for the same reason?
+jointAppeal.radioHeading =  Do you want to appeal both penalties for the same reason?
 jointAppeal.radioHeading.review =  Do you want both appeal decisions to be reviewed at the same time?
 jointAppeal.p1 = These are:
 jointAppeal.l1 = £{0} first late payment penalty
@@ -82,7 +82,7 @@ individual.jointAppeal.p2 = You can appeal both penalties at the same time if th
 individual.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your evidence applies to both of the original appeals.
 agent.jointAppeal.p2 = You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty.
 agent.jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your client’s evidence applies to both of the original appeals.
-jointAppeal.error.required = Tell us if you intend to appeal both penalties for the same reason
+jointAppeal.error.required = Tell us if you want to appeal both penalties for the same reason
 jointAppeal.error.required.review = Tell us if you want both appeal decisions to be reviewed at the same time
 
 # Multiple Appeals LPP
@@ -97,64 +97,64 @@ multipleAppeals.p1.review = This allows you to upload evidence once for both rev
 honestyDeclaration.headingAndTitle = Honesty declaration
 honestyDeclaration.p1 = I confirm that:
 
-clientSubmitted.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.bereavement.lpp = because I was affected by someone’s death, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.bereavement.lpp = because my client was affected by someone’s death, they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.bereavement.lpp = because I was affected by someone’s death, I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.bereavement.lpp = because my client was affected by someone’s death, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.crime.lpp = because I was affected by a crime, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.crime.lpp = because my client was affected by a crime, they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.crime.lpp = because I was affected by a crime, I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.crime.lpp = because my client was affected by a crime, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.fireandflood.lpp = because of a fire or flood, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.fireandflood.lpp = because my client was affected by a fire or flood, they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.fireandflood.lpp = because of a fire or flood, I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.fireandflood.lpp = because my client was affected by a fire or flood, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.health.lpp = because of a serious or life-threatening health issue, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.health.lpp = because my client had a serious or life-threatening health issue, they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.health.lpp = because of a serious or life-threatening health issue, I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.health.lpp = because my client had a serious or life-threatening health issue, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.technicalIssue.lpp = because of software or technology issues, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.technicalIssue.lpp = because my client was affected by software or technology issues, they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.technicalIssue.lpp = because of software or technology issues, I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.technicalIssue.lpp = because my client was affected by software or technology issues, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.unexpectedHospital.lpp = because of a stay in hospital, I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected stay in hospital, they were unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.unexpectedHospital.lpp = because of a stay in hospital, I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.unexpectedHospital.lpp = because my client had an unexpected stay in hospital, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.other.lpp = I was unable to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.other.lpp = my client was unable to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.other.lsp = I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.other.lpp = I was not able to make the payment due on {0}
+agentPlanned.honestyDeclaration.li.other.lpp = my client was not able to make the payment due on {0}
 
-clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, my client was unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, they were unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, my client was unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = because my client had an unexpected hospital stay, they were unable to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.other.lsp = my client was unable to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, my client was not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, they were not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, my client was not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = because my client had an unexpected hospital stay, they were not able to send the submission due on {0}
+clientPlanned.honestyDeclaration.li.other.lsp = my client was not able to send the submission due on {0}
 
-agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = because my client was affected by a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.technicalIssue.lsp = because my client was affected by software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = because my client had an unexpected hospital stay, I was unable to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = because of an issue affecting my client, I was unable to send the submission due on  {0}
+agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = because my client was affected by a fire or flood, I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.technicalIssue.lsp = because my client was affected by software or technology issues, I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = because my client had an unexpected hospital stay, I was not able to send the submission due on {0}
+agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = because of an issue affecting my client, I was not able to send the submission due on  {0}
 
-agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was unable to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = I was unable to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was not able to send the submission due on {0}
+agentPlanned.agentAffected.honestyDeclaration.li.other.lsp = I was not able to send the submission due on {0}
 
 honestyDeclaration.li.lpp = no one else was available to make the payment for me
 agent.honestyDeclaration.li.lpp = no one else was available to make the payment for them
@@ -309,22 +309,14 @@ review.decision.30.days.error.invalid.multiple = Tell us if it has been more tha
 
 # Late appeal page
 # ----------------------------------------------------------
-lateAppeal.headingAndTitle = This penalty point was issued more than {0} days ago
-lateAppeal.headingAndTitle.lpp = This penalty was issued more than {0} days ago
-lateAppeal.headingAndTitle.multiple = The penalties were issued more than {0} days ago
+lateAppeal.headingAndTitle = Tell us why you could not appeal within {0} days
+lateAppeal.headingAndTitle.lpp = Tell us why you could not appeal within {0} days
+lateAppeal.headingAndTitle.multiple = Tell us why you could not appeal within {0} days
 lateAppeal.headingAndTitle.review = Tell us why you have not asked for a review within {0} days
 lateAppeal.headingAndTitle.multiple.review = Tell us why you have not asked for a review within {0} days
-lateAppeal.headingAndTitle.multiple.lpp = The penalties were issued more than {0} days ago
+lateAppeal.headingAndTitle.multiple.lpp = Tell us why you could not appeal within {0} days
 lateAppeal.headingAndTitle.review.lpp = Tell us why you have not asked for a review within {0} days
 lateAppeal.headingAndTitle.multiple.review.lpp = Tell us why you have not asked for a review within {0} days
-lateAppeal.p1 = You usually need to appeal within {0} days of the date on the penalty notice.
-lateAppeal.p1.multiple = You usually need to appeal within {0} days of the date on the penalty notice.
-lateAppeal.p1.review = You usually need to ask for a review within {0} days of the date of the decision.
-lateAppeal.p1.multiple.review = You usually need to ask for a review within {0} days of the date of the decision.
-lateAppeal.charCount = Tell us why you could not appeal within {0} days
-lateAppeal.charCount.multiple = Tell us why you could not appeal within {0} days
-lateAppeal.charCount.review = Tell us why you have not asked for a review within {0} days
-lateAppeal.charCount.multiple.review = Tell us why you have not asked for a review within {0} days
 lateAppeal.error.required = You must provide some information about why you did not appeal sooner
 lateAppeal.error.required.multiple = You must provide some information about why you did not appeal sooner
 lateAppeal.error.required.review = You must provide some information about why you did not ask for a review sooner
@@ -349,23 +341,27 @@ missedDeadlineReason.lsp.error.review.required = You must provide some informati
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment deadline missed?
-missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately.
+missedDeadlineReason.individual.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately.
+missedDeadlineReason.agent.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately.
 missedDeadlineReason.lpp.error.required = Explain why the payment deadline was missed
 missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer
 missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters
 
 missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment deadline missed?
-missedDeadlineReason.lpp.hint.multiple = We only need to know about these penalties. Any other penalties should be appealed separately.
+missedDeadlineReason.individual.lpp.hint.multiple = Tell us why you missed the payment deadline for both penalties.
+missedDeadlineReason.agent.lpp.hint.multiple = Tell us why your client missed the payment deadline for both penalties.
 missedDeadlineReason.lpp.error.required.multiple = Explain why the payment deadline was missed
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision?
-missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
+missedDeadlineReason.individual.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
+missedDeadlineReason.agent.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
 missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking us to review this decision
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Why are you asking us to review these appeal decisions?
-missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect.
+missedDeadlineReason.individual.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect.
+missedDeadlineReason.agent.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect.
 missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking us to review these decisions
 
 
@@ -411,8 +407,8 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else 
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline
 
-checkYourAnswers.jointAppeal.key = Do you intend to appeal both penalties for the same reason?
-checkYourAnswers.jointAppeal.change.hidden = do you intend to appeal both penalties for the same reason
+checkYourAnswers.jointAppeal.key = Do you want to appeal both penalties for the same reason?
+checkYourAnswers.jointAppeal.change.hidden = do you want to appeal both penalties for the same reason
 checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time?
 checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time
 

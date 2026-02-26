@@ -124,14 +124,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               val document = Jsoup.parse(result.body)
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
               )
-              document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
-              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+              document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
               document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
               document.getSubmitButton.text() shouldBe "Continue"
             }
@@ -145,14 +143,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               val document = Jsoup.parse(result.body)
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
               )
-              document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
-              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+              document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
               document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
               document.getSubmitButton.text() shouldBe "Continue"
             }
@@ -169,14 +165,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             val document = Jsoup.parse(result.body)
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-            document.title() shouldBe s"This penalty was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe s"This penalty was issued more than ${reason._2} days ago"
-            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+            document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
             document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
             document.getSubmitButton.text() shouldBe "Continue"
 
@@ -193,14 +187,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             val document = Jsoup.parse(result.body)
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-            document.title() shouldBe s"The penalties were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe s"The penalties were issued more than ${reason._2} days ago"
-            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+            document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
             document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
             document.getSubmitButton.text() shouldBe "Continue"
 
@@ -343,14 +335,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               val document = Jsoup.parse(result.body)
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
               )
-              document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
-              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+              document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
               document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
               document.getSubmitButton.text() shouldBe "Continue"
             }
@@ -364,14 +354,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
               val document = Jsoup.parse(result.body)
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-              document.title() shouldBe s"This penalty point was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+              document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
               )
-              document.getH1Elements.text() shouldBe s"This penalty point was issued more than ${reason._2} days ago"
-              document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-              document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+              document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
               document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
               document.getSubmitButton.text() shouldBe "Continue"
             }
@@ -388,14 +376,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             val document = Jsoup.parse(result.body)
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-            document.title() shouldBe s"This penalty was issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe s"This penalty was issued more than ${reason._2} days ago"
-            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+            document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
             document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
             document.getSubmitButton.text() shouldBe "Continue"
 
@@ -412,14 +398,12 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
             val document = Jsoup.parse(result.body)
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
-            document.title() shouldBe s"The penalties were issued more than ${reason._2} days ago - Manage your Self Assessment - GOV.UK"
+            document.title() shouldBe s"Tell us why you could not appeal within ${reason._2} days - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
             )
-            document.getH1Elements.text() shouldBe s"The penalties were issued more than ${reason._2} days ago"
-            document.getElementById("infoDaysParagraph").text() shouldBe s"You usually need to appeal within ${reason._2} days of the date on the penalty notice."
-            document.getElementsByAttributeValue("for", s"${LateAppealForm.key}").text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
+            document.getH1Elements.text() shouldBe s"Tell us why you could not appeal within ${reason._2} days"
             document.getElementById(s"${LateAppealForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
             document.getSubmitButton.text() shouldBe "Continue"
 

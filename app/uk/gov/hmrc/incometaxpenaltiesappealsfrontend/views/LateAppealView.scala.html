@@ -32,7 +32,6 @@
         formHelper: FormWithCSRF,
         hmrcCharacterCount: HmrcCharacterCount,
         govukErrorSummary: GovukErrorSummary,
-        p: components.P,
         h1: components.H1,
         caption: components.PenaltyCaption)
 
@@ -51,16 +50,13 @@
 
         @if(isSecondStageAppeal) {
 
+            @h1(s"lateAppeal.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}$isLPPText", args = Seq(user.lateAppealDays()))
+
             @{
                 hmrcCharacterCount(CharacterCount(
                     id = LateAppealForm.key,
                     name = LateAppealForm.key,
                     maxLength = Some(appConfig.numberOfCharsInTextArea),
-                    label = Label(
-                        content = Text(messages(s"lateAppeal.charCount${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}", user.lateAppealDays())),
-                        isPageHeading = true,
-                        classes = "govuk-label--l"
-                    ),
                     errorMessage = form.errors(LateAppealForm.key) match {
                         case Nil => None
                         case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
@@ -73,17 +69,11 @@
 
             @h1(s"lateAppeal.headingAndTitle${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}$isLPPText", args = Seq(user.lateAppealDays()))
 
-            @p(s"lateAppeal.p1${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}", elmId = Some("infoDaysParagraph"), args = Seq(user.lateAppealDays()))
-
             @{
                 hmrcCharacterCount(CharacterCount(
                     id = LateAppealForm.key,
                     name = LateAppealForm.key,
                     maxLength = Some(appConfig.numberOfCharsInTextArea),
-                    label = Label(
-                        content = Text(messages(s"lateAppeal.charCount${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}", user.lateAppealDays())),
-                        classes = "govuk-label--m"
-                    ),
                     errorMessage = form.errors(LateAppealForm.key) match {
                         case Nil => None
                         case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
