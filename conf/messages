@@ -557,30 +557,39 @@ date.year = Year
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
-uploadEvidence.nonJs.headingAndTitle = Evidence to support this appeal
-uploadEvidence.nonJs.headingAndTitle.review = Upload evidence
+uploadEvidence.nonJs.headingAndTitle = Upload evidence to support this appeal
+uploadEvidence.nonJs.headingAndTitle.review = Upload evidence to support this review
+uploadEvidence.nonJs.heading3 = Files you can upload
 uploadEvidence.nonJs.p1 = Use this page to upload any evidence to help us review this penalty.
 uploadEvidence.nonJs.p1.joint = Use this page to upload any evidence to help us review these penalties.
 uploadEvidence.nonJs.p1.review = Use this page to upload any evidence to help us review the appeal decision.
 uploadEvidence.nonJs.p1.joint.review = Use this page to upload any evidence to help us review the appeal decisions.
-uploadEvidence.nonJs.p2.lsp = Evidence might include any documents or letters that show why the submission deadline was missed.
-uploadEvidence.nonJs.p2.lsp.review = Evidence might include any documents or letters that show why the submission was sent late.
-uploadEvidence.nonJs.p2.lpp = Evidence might include any documents or letters that show why the payment deadline was missed.
-uploadEvidence.nonJs.p2.lpp.review = Evidence might include any documents or letters that show why the payment deadline was missed.
+uploadEvidence.nonJs.p2.lsp = Upload evidence that explains why you missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lsp.agent = Upload evidence that explains why you missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lsp.review = Upload evidence that explains why you missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lsp.review.agent = Upload evidence that explains why you missed the submission deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp = Upload evidence that explains why you missed the payment deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp.agent = Upload evidence that explains why your client missed the payment deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp.review = Upload evidence that explains why you missed the payment deadline, such as a letter or email.
+uploadEvidence.nonJs.p2.lpp.review.agent = Upload evidence that explains why your client missed the payment deadline, such as a letter or email.
 uploadEvidence.nonJs.p3 = You can upload up to {0} files.
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
 uploadEvidence.nonJs.p5 = Filenames cannot contain spaces.
-uploadEvidence.nonJs.label = Select a file
+uploadEvidence.nonJs.label = Upload a file
+uploadEvidence.nodeJs.cancel= Cancel
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.typesOfFile.heading = Types of file you can upload
+uploadEvidence.typesOfFile.li.title = Your files can be:
 uploadEvidence.typesOfFile.p1 = These file types are allowed:
 uploadEvidence.typesOfFile.li.1 = image (.jpg, .jpeg, .png or .tiff)
 uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
 uploadEvidence.typesOfFile.li.3 = email (.txt or .msg)
-uploadEvidence.typesOfFile.li.4 = Microsoft (Word, Excel or PowerPoint)
-uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF)
+uploadEvidence.typesOfFile.li.4 = Microsoft Word, Excel, or PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, or .pptx)
+uploadEvidence.typesOfFile.li.5 = Open Document Format files (.odt, .ods or .odp)
+
+uploadEvidence.fileName.p2 = File names can only include letters a to z, numbers 0 to 9, hyphens (-), underscores (_), and full stops (.). Filenames must not include spaces.
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------

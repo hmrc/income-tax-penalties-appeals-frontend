@@ -22,6 +22,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 
 @this(
         layout: Layout,
@@ -30,25 +32,12 @@
         govukButton: GovukButton,
         p: components.P,
         h1: components.H1,
-        bullets: components.Bullets,
-        details: components.Details,
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], upscanFormFields: UploadFormFields)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], upscanFormFields: UploadFormFields, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@supportedFileTypes = {
-    @p(messages("uploadEvidence.typesOfFile.p1"))
-    @bullets(
-        Seq(
-            Html(messages("uploadEvidence.typesOfFile.li.1")),
-            Html(messages("uploadEvidence.typesOfFile.li.2")),
-            Html(messages("uploadEvidence.typesOfFile.li.3")),
-            Html(messages("uploadEvidence.typesOfFile.li.4")),
-            Html(messages("uploadEvidence.typesOfFile.li.5"))
-        )
-    )
-}
+
 
 @defining(if(user.is2ndStageAppeal) ".review" else "") { review =>
     @defining(if(user.isJointAppeal) ".joint" else "") { joint =>
@@ -63,13 +52,20 @@
                 @caption()
                 @h1(s"uploadEvidence.nonJs.headingAndTitle$review")
 
-                <p class="govuk-body">@messages(s"uploadEvidence.nonJs.p1$joint$review")</p>
                 <p class="govuk-body">@messages(s"uploadEvidence.nonJs.p2$penaltyType$review")</p>
-                <p class="govuk-body">@messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles)</p>
-                <p class="govuk-body">@messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)</p>
-                <p class="govuk-body">@messages("uploadEvidence.nonJs.p5")</p>
-
-                @details("uploadEvidence.typesOfFile.heading", supportedFileTypes)
+                <p class="govuk-heading-s">@messages("uploadEvidence.nonJs.heading3")</p>
+                <p class="govuk-body">
+                    @{messages("uploadEvidence.nonJs.p3", appConfig.upscanMaxNumberOfFiles) + " " + messages("uploadEvidence.nonJs.p4", appConfig.upscanMaxFileSizeMB)}
+                </p>
+                @p(messages("uploadEvidence.typesOfFile.li.title"))
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>@messages("uploadEvidence.typesOfFile.li.1")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.2")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.3")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.4")</li>
+                    <li>@messages("uploadEvidence.typesOfFile.li.5")</li>
+                </ul>
+                @p("uploadEvidence.fileName.p2")
 
                 <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data">
                     @for((key, value) <- upscanFormFields.fields) {
@@ -81,8 +77,9 @@
                         name = UploadDocumentForm.key,
                         label = Label(
                             content = Text(messages(s"uploadEvidence.nonJs.label")),
-                            classes = "govuk-label--m"
+
                         ),
+                        javascript = Some(true),
                         errorMessage = form.errors(UploadDocumentForm.key) match {
                             case Nil => None
                             case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
@@ -94,13 +91,21 @@
                         )
                     ))
 
-                    <div class="govuk-form-group">
-                    @govukButton(Button(
-                        content = Text(messages("common.continue"))
-                    ))
+
+                    <div class="govuk-button-group">
+                        @govukButton(Button(
+                            content = Text(messages("common.continue")),
+                            classes = "govuk-button",
+                        ))
+
+                        @CancelLink(user.isAgent, user.is2ndStageAppeal, mode)
                     </div>
                 </form>
             }
+
         }
     }
+}
+@CancelLink(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode) = {
+<a class="govuk-link" id="cancelLink" href= "@routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url">@messages("uploadEvidence.nodeJs.cancel")</a>
 }

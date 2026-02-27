@@ -25,9 +25,9 @@ appeal.start.p3 = Bydd angen y canlynol arnoch:
 appeal.start.li1.lsp = rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno’r diweddariad chwarterol neu’r Ffurflen Dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.li1.lpp = rheswm dros fethu’r dyddiad cau ar gyfer talu’r dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.cessation.h2 = Ffynonellau incwm sydd wedi dod i ben
-appeal.start.cessation.p1.individual = Os cawsoch gosb am gyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
+appeal.start.cessation.p1.individual = Os cawsoch gosb am gyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben yn barhaol, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.individual = Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiad pan ddaeth ffynhonnell incwm benodol i ben.
-appeal.start.cessation.p1.agent = Os yw’ch cleient wedi cael cosb ar gyfer cyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
+appeal.start.cessation.p1.agent = Os yw’ch cleient wedi cael cosb ar gyfer cyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben yn barhaol, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
 appeal.start.cessation.p2.agent = Er mwyn gwneud hyn, bydd angen i’ch cleient gadarnhau gyda CThEF y dyddiadau pan ddaeth ffynhonnell incwm benodol i ben.
 appeal.start.cessation.link.individual = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben.
 appeal.start.cessation.link.agent = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben.
@@ -496,7 +496,7 @@ appealConfirmation.typeAndPeriod = Blwyddyn dreth {0}: {1}
 appealConfirmation.p1 = Does dim angen cyfeirnod arnoch.
 appealConfirmation.p2.client = Mae’ch apêl wedi’i chofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
 appealConfirmation.p2.agent = Mae’ch apêl wedi’i chofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
-appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd)
+appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd).
 appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2.client = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
@@ -557,30 +557,39 @@ date.year = Blwyddyn
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
-uploadEvidence.nonJs.headingAndTitle = Tystiolaeth i ategu’r apêl hon
-uploadEvidence.nonJs.headingAndTitle.review = Uwchlwytho tystiolaeth
+uploadEvidence.nonJs.headingAndTitle = Uwchlwythwch dystiolaeth i gefnogi’r apêl hon
+uploadEvidence.nonJs.headingAndTitle.review = Uwchlwythwch dystiolaeth i gefnogi’r adolygiad hwn
+uploadEvidence.nonJs.heading3 = Ffeiliau y mae modd i chi eu huwchlwytho
 uploadEvidence.nonJs.p1 = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb.
 uploadEvidence.nonJs.p1.joint = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn.
 uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
 uploadEvidence.nonJs.p1.joint.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
-uploadEvidence.nonJs.p2.lsp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer cyflwyno ei fethu.
-uploadEvidence.nonJs.p2.lsp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y cyflwyniad ei anfon yn hwyr.
-uploadEvidence.nonJs.p2.lpp = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
-uploadEvidence.nonJs.p2.lpp.review = Gall tystiolaeth gynnwys dogfennau neu lythyrau sy’n dangos pam y cafodd y dyddiad cau ar gyfer talu ei fethu.
+uploadEvidence.nonJs.p2.lsp = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
+uploadEvidence.nonJs.p2.lsp.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
+uploadEvidence.nonJs.p2.lsp.review = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
+uploadEvidence.nonJs.p2.lsp.review.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
+uploadEvidence.nonJs.p2.lpp = Uwchlwythwch dystiolaeth sy’n egluro pam y gwnaethoch fethu’r dyddiad cau ar gyfer talu, fel llythyr neu e-bost.
+uploadEvidence.nonJs.p2.lpp.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu.
+uploadEvidence.nonJs.p2.lpp.review = Uwchlwythwch dystiolaeth sy’n egluro pam y gwnaethoch fethu’r dyddiad cau ar gyfer talu, fel llythyr neu e-bost.
+uploadEvidence.nonJs.p2.lpp.review.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu.
 uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
 uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
 uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
-uploadEvidence.nonJs.label = Dewiswch ffeil
+uploadEvidence.nonJs.label = Uwchlwytho ffeil
+uploadEvidence.nodeJs.cancel = Canslo
 
 # NonJS File Upload Page
 # ----------------------------------------------------------
 uploadEvidence.typesOfFile.heading = Y mathau o ffeiliau y gallwch eu huwchlwytho
+uploadEvidence.typesOfFile.li.title = Gall eich ffeiliau fod yn un o’r canlynol:
 uploadEvidence.typesOfFile.p1 = Dyma’r ffeiliau y gallwch eu huwchlwytho:
-uploadEvidence.typesOfFile.li.1 = delwedd (.jpg, .jpeg, .png or .tiff)
+uploadEvidence.typesOfFile.li.1 = delweddau (.jpg, .jpeg, .png neu .tiff)
 uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
-uploadEvidence.typesOfFile.li.3 = e-bost (.txt neu .msg)
-uploadEvidence.typesOfFile.li.4 = Microsoft (Word, Excel neu PowerPoint)
-uploadEvidence.typesOfFile.li.5 = Open Document Format (ODF)
+uploadEvidence.typesOfFile.li.3 = e-byst (.txt or .msg)
+uploadEvidence.typesOfFile.li.4 = Microsoft Word, Excel, neu PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, neu .pptx)
+uploadEvidence.typesOfFile.li.5 = Ffeiliau Fformat Dogfen Agored (.odt, .ods neu .odp)
+
+uploadEvidence.fileName.p2 = Dim ond llythrennau a i z, rhifau 0 i 9, cysylltnodau (-), tanlinellau (_), ac atalnodau llawn (.) y gall enwau ffeiliau eu cynnwys. Ni ddylai enwau ffeiliau gynnwys bylchau.
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------
