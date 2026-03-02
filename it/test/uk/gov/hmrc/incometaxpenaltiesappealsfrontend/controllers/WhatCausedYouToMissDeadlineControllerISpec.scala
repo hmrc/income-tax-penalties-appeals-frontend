@@ -72,7 +72,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe WhatCausedYouToMissDeadlineMessages.English.serviceName
+          document.getServiceName.get(0).text() shouldBe WhatCausedYouToMissDeadlineMessages.English.serviceName
           document.title() should include(WhatCausedYouToMissDeadlineMessages.English.titleAndHeading)
           document.getElementById("captionSpan").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),

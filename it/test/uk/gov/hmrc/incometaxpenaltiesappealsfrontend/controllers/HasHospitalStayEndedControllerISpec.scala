@@ -107,7 +107,7 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
             val document: nodes.Document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe "Manage your Self Assessment"
+            document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
             document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),

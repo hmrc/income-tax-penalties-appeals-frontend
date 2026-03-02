@@ -14,23 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
+package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages
 
-trait MissedDeadlineReasonHelper {
-
-  def messageKeyPrefix(isLPP: Boolean): String = {
-    s"missedDeadlineReason${if(isLPP) ".lpp" else ".lsp"}"
-  }
-
-  def messageKeyPrefixHint(isLPP: Boolean, isAgent: Boolean): String = {
-    s"missedDeadlineReason${
-      if (isLPP) {
-        if (isAgent) ".agent.lpp" else ".individual.lpp"
-      } else ".lsp"}"
-  }
+object AppealConfirmationPage extends Page[Boolean] {
+  val key = "hasAppealBeenSubmitted"
 }
-
-object MissedDeadlineReasonHelper extends MissedDeadlineReasonHelper
-
-
-

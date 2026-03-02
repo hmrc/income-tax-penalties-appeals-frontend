@@ -97,7 +97,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
@@ -115,7 +115,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
@@ -225,7 +225,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
@@ -243,7 +243,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         val document = Jsoup.parse(result.body)
 
-        document.getServiceName.text() shouldBe "Manage your Self Assessment"
+        document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),

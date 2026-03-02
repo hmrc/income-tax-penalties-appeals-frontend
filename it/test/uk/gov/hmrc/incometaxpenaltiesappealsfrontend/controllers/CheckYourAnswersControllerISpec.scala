@@ -117,7 +117,7 @@ CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "Check your answers - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
@@ -142,7 +142,7 @@ CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "Check your answers - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),

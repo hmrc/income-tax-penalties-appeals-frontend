@@ -99,14 +99,14 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
@@ -123,14 +123,14 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your client’s ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
@@ -264,14 +264,14 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
@@ -288,14 +288,14 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           val document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "If more than one reason applies, choose the one that had the most direct impact on your client’s ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your client’s ability to meet the deadline."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"

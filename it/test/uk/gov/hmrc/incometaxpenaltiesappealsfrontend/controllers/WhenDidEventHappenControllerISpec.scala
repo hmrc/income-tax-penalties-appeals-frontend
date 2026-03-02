@@ -134,7 +134,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe WhenDidEventHappenMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe WhenDidEventHappenMessages.English.serviceName
             document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reasonWithUrl._1, isLPP = false, isAgent = false, wasClientInformationIssue = false))
             document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -156,7 +156,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
             val document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe WhenDidEventHappenMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe WhenDidEventHappenMessages.English.serviceName
             document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reasonWithUrl._1, isLPP = false, isAgent = true, wasClientInformationIssue = false))
             document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),

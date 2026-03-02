@@ -70,7 +70,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
             val document: nodes.Document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe SingleAppealConfirmationMessages.English.serviceName
             document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
             document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
               dateToString(lateSubmissionAppealData.startDate),
@@ -94,7 +94,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
             val document: nodes.Document = Jsoup.parse(result.body)
 
-            document.getServiceName.text() shouldBe SingleAppealConfirmationMessages.English.serviceName
+            document.getServiceName.get(0).text() shouldBe SingleAppealConfirmationMessages.English.serviceName
             document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
             document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
               dateToString(lateSubmissionAppealData.startDate),

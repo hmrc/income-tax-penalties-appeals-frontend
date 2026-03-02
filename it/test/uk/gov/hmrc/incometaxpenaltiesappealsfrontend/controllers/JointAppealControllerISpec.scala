@@ -82,7 +82,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
@@ -93,7 +93,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
           document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
           document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
-          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you intend to appeal both penalties for the same reason?"
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want to appeal both penalties for the same reason?"
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"
@@ -105,7 +105,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
@@ -116,7 +116,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
           document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
           document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty."
-          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you intend to appeal both penalties for the same reason?"
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want to appeal both penalties for the same reason?"
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"
@@ -134,7 +134,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
@@ -159,7 +159,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
@@ -193,7 +193,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
@@ -204,7 +204,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
           document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
           document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
-          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you intend to appeal both penalties for the same reason?"
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want to appeal both penalties for the same reason?"
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"
@@ -216,7 +216,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
-          document.getServiceName.text() shouldBe "Manage your Self Assessment"
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
@@ -227,7 +227,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
           document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
           document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why your client did not make the tax payment is the same for each penalty."
-          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you intend to appeal both penalties for the same reason?"
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want to appeal both penalties for the same reason?"
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"

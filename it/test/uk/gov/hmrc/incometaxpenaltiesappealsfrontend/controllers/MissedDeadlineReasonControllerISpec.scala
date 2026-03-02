@@ -164,13 +164,13 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
                 val document = Jsoup.parse(result.body)
                 val whichCaption = if (isJointAppeal) captionJointAppeal(true) else caption(true)
 
-                document.getServiceName.text() shouldBe "Manage your Self Assessment"
+                document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
                 document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)} - Manage your Self Assessment - GOV.UK"
 
                 document.getElementById("captionSpan").text() shouldBe whichCaption
 
                 document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
-                document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
+                document.getElementById("missedDeadlineReason-hint").text() shouldBe MissedDeadlineReasonMessages.English.hintText(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal, isAgent = isAgent)
                 document.getElementById(s"${MissedDeadlineReasonForm.key}-info").text() shouldBe "You can enter up to 5000 characters"
                 document.getSubmitButton.text() shouldBe "Continue"
               }
@@ -218,7 +218,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
               val document = Jsoup.parse(result.body)
 
-              document.getServiceName.text() shouldBe "Manage your Self Assessment"
+              document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
               document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
               document.getElementById("captionSpan").text() shouldBe caption(false)
 
