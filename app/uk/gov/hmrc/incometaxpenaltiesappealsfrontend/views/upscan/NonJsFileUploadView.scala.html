@@ -22,8 +22,8 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.routes
 
 @this(
         layout: Layout,
@@ -35,7 +35,7 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], upscanFormFields: UploadFormFields, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[_], upscanFormFields: UploadFormFields, cancelRedirectUrl: String, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 
 
@@ -97,15 +97,11 @@
                             content = Text(messages("common.continue")),
                             classes = "govuk-button",
                         ))
-
-                        @CancelLink(user.isAgent, user.is2ndStageAppeal, mode)
+                        <a class="govuk-link" id="cancelLink" href= "@cancelRedirectUrl">@messages("uploadEvidence.nodeJs.cancel")</a>
                     </div>
                 </form>
             }
 
         }
     }
-}
-@CancelLink(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode) = {
-<a class="govuk-link" id="cancelLink" href= "@routes.ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url">@messages("uploadEvidence.nodeJs.cancel")</a>
 }
