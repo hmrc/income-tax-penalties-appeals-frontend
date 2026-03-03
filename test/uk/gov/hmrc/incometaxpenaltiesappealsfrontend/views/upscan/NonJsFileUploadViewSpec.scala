@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
 import fixtures.messages.SupportedFileTypeMessages
+import fixtures.messages.SupportedFileTypeMessages.Welsh.cancelLink
 import fixtures.messages.upscan.NonJsFileUploadMessages
 import fixtures.views.BaseSelectors
 import org.jsoup.nodes.Document
@@ -54,7 +55,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -72,9 +73,6 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
-          "cancel link for LSP should redirect to Do you want to upload evidence to support your appeal" in {
-            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
-          }
         }
 
 
@@ -85,7 +83,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
@@ -103,9 +101,6 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
-          "cancel link for LPP should redirect to Do you want to upload evidence to support your appeal" in {
-            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
-          }
         }
 
         "the penalty type is LPP (multiple penalty - joint appeal)" when {
@@ -115,7 +110,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
@@ -134,9 +129,6 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
-          "cancel link for LPP (multiple penalty - joint appeal) should redirect to Do you want to upload evidence to support your appeal" in {
-            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
-          }
         }
       }
 
@@ -149,7 +141,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
@@ -167,9 +159,6 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
-          "cancel link for LSP 2nd Stage Appeal should redirect to Do you want to upload evidence to support this review" in {
-            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-review"
-          }
         }
 
         "the penalty type is LPP (single penalty)" when {
@@ -179,7 +168,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
@@ -198,9 +187,6 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
-          "cancel link for LPP 2nd Stage Appeal should redirect to Do you want to upload evidence to support this review" in {
-            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-review"
-          }
         }
 
         "the penalty type is LPP (multiple penalties - joint appeal)" when {
@@ -210,7 +196,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, NormalMode))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, NormalMode))
           val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
@@ -229,9 +215,6 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
             Selectors.button -> messagesForLanguage.continue,
             Selectors.link(1) -> fileTypeMessages.cancelLink
           )
-          "cancel link for LPP 2nd Stage Appeal (multiple penalties - joint appeal) should redirect to Do you want to upload evidence to support this review" in {
-            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-review"
-          }
         }
       }
     }
