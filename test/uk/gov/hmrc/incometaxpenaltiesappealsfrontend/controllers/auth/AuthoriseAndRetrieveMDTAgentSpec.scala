@@ -28,10 +28,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.{AuthMocks, IncomeTaxSessionMocks}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthoriseAndRetrieveMtdAgent
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.AuthorisedAndEnrolledAgent
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.SecondaryAgentAccessDeniedAuditModel
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockAuditService
 
 import scala.concurrent.Future
 
-class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with IncomeTaxSessionMocks {
+class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with AuthMocks with IncomeTaxSessionMocks with MockAuditService {
 
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val errorHandler = app.injector.instanceOf[ErrorHandler]
@@ -49,6 +51,7 @@ class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers 
     authConnector = mockAuthConnector,
     appConfig = appConfig,
     errorHandler,
+    mockAuditService,
     mcc = stubMessagesControllerComponents()
   )
 
@@ -70,8 +73,21 @@ class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers 
         }
       }
 
+      "the user is a secondary agent" should {
+        "redirect to unauthorised access page" in {
+          mockAgentWithoutDelegatedEnrolment()
+          mockAuthEnrolledAgent()
+          mockAudit(SecondaryAgentAccessDeniedAuditModel(authorisedAndEnrolledAgent))
+
+          val result = testAction.invokeBlock(authorisedAndEnrolledAgent, block)
+          status(result) shouldBe SEE_OTHER
+          redirectLocation(result).get should include("/unauthorised")
+        }
+      }
+
       "does not have delegated MTDIT enrolment" should {
         "return an error" in {
+          mockAgentWithoutDelegatedEnrolment()
           mockAgentWithoutDelegatedEnrolment()
           val result = testAction.invokeBlock(authorisedAndEnrolledAgent, block)
           status(result) shouldBe INTERNAL_SERVER_ERROR
@@ -81,6 +97,7 @@ class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers 
 
     "the user has No Active Session" should {
       "do something" in {
+        mockAuthenticatedNoActiveSession()
         mockAuthenticatedNoActiveSession()
 
         val result = testAction.invokeBlock(authorisedAndEnrolledAgent, block)
@@ -92,6 +109,7 @@ class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers 
     "the user has an expired Session" should {
       "redirect to timed out page" in {
         mockAuthenticatedBearerTokenExpired()
+        mockAuthenticatedBearerTokenExpired()
 
         val result = testAction.invokeBlock(authorisedAndEnrolledAgent, block)
         redirectLocation(result).get should include("/agent-timed-out")
@@ -101,6 +119,7 @@ class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers 
 
     "the user is Not Authenticated" should {
       "do something" in {
+        mockAuthenticatedFailure()
         mockAuthenticatedFailure()
 
         val result = testAction.invokeBlock(authorisedAndEnrolledAgent, block)

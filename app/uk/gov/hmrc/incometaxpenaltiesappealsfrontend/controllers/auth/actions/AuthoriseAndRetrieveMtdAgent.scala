@@ -52,13 +52,11 @@ class AuthoriseAndRetrieveMtdAgent @Inject()(override val authConnector: AuthCon
       .fromRequestAndSession(request, request.session)
     implicit val req: AuthorisedAndEnrolledAgent[A] = request
 
-    authorised(agentDelegatedAuthorityRule(request.mtdItId))
-     {
+    authorised(agentDelegatedAuthorityRule(request.mtdItId)) {
       Future.successful(Right(request))
     }.recoverWith {
         case _ =>
-          authorised(secondaryAgentDelegatedAuthorityRule(request.mtdItId))
-          {
+          authorised(secondaryAgentDelegatedAuthorityRule(request.mtdItId)) {
             auditService.audit(SecondaryAgentAccessDeniedAuditModel(request))
             Future.successful(Left(Redirect(routes.UnauthorisedErrorController.onPageLoad())))
           }.recoverWith {
