@@ -22,7 +22,7 @@
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.viewmodels.ErrorSummaryViewModel
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewUtils.titleBuilder
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.{Layout, components}
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{Mode, AgentClientEnum}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan.routes
 
 @this(
@@ -35,16 +35,15 @@
         caption: components.PenaltyCaption
 )
 
-@(form: Form[_], upscanFormFields: UploadFormFields, cancelRedirectUrl: String, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
-
-
+@(form: Form[_], upscanFormFields: UploadFormFields, cancelRedirectUrl: String, whoPlannedToSubmit: Option[AgentClientEnum.Value], mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
 @defining(if(user.is2ndStageAppeal) ".review" else "") { review =>
     @defining(if(user.isJointAppeal) ".joint" else "") { joint =>
         @defining(if(user.isLPP) ".lpp" else ".lsp") { penaltyType =>
-            @defining(if(user.isAgent) ".agent" else "") { isAgentText =>
+            @defining({if(whoPlannedToSubmit == Option(AgentClientEnum.client)) ".clientPlanned" else if(whoPlannedToSubmit == Option(AgentClientEnum.agent)) ".agentPlanned" else if (user.isAgent) ".agent" else ""}) { isAgentText =>
 
-            @layout(pageTitle = Some(titleBuilder(messages(s"uploadEvidence.nonJs.headingAndTitle$review"), Some(form))), isAgent = user.isAgent) {
+
+@layout(pageTitle = Some(titleBuilder(messages(s"uploadEvidence.nonJs.headingAndTitle$review"), Some(form))), isAgent = user.isAgent) {
 
                 @if(form.errors.nonEmpty) {
                     @govukErrorSummary(ErrorSummaryViewModel(form))
