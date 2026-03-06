@@ -17,8 +17,6 @@
 package fixtures.messages.upscan
 
 import fixtures.messages.{Cy, En, i18n}
-import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.isAgent
-
 
 object NonJsFileUploadMessages {
 
@@ -32,6 +30,10 @@ object NonJsFileUploadMessages {
     val p2LSP = "Upload evidence that explains why you missed the submission deadline, such as a letter or email."
     val p2LSPReview = "Upload evidence that explains why you missed the submission deadline, such as a letter or email."
     val p2LSPAgent = "Upload evidence that explains why you missed the submission deadline, such as a letter or email."
+    val p2LSPAgentPlanned = "Upload evidence that explains why you missed the submission deadline, such as a letter or email."
+    val p2LSPClientPlanned = "Upload evidence that explains why your client missed the submission deadline, such as a letter or email."
+    val p2LSPReviewAgentPlanned = "Upload evidence that explains why you missed the submission deadline, such as a letter or email."
+    val p2LSPReviewClientPlanned = "Upload evidence that explains why you missed the submission deadline, such as a letter or email."
     val heading3 = "Files you can upload"
     val p2LPP = "Upload evidence that explains why you missed the payment deadline, such as a letter or email."
     val p2LPPReview = "Upload evidence that explains why you missed the payment deadline, such as a letter or email."
@@ -40,8 +42,6 @@ object NonJsFileUploadMessages {
     val p4: Int => String = n => s"Each file must be smaller than ${n}MB."
     val label = "Select a file"
     val newLabel = "Upload a file"
-    val p2LSPOrp2LSPAgent = if (isAgent) p2LSPAgent else p2LSP
-    val p2LPPOrp2LPPAgent = if(isAgent) p2LPPAgent else p2LPP
 
   }
 
@@ -55,6 +55,10 @@ object NonJsFileUploadMessages {
     override val p1Review = "Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl."
     override val p1JointReview = "Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl."
     override val p2LSP = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno."
+    override val p2LSPAgentPlanned = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno."
+    override val p2LSPClientPlanned = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, yn egluro pam y gwnaeth eich cleient methu’r dyddiad cau."
+    override val p2LSPReviewAgentPlanned = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno."
+    override val p2LSPReviewClientPlanned = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno."
     override val p2LSPReview = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno."
     override val p2LSPAgent = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno."
     override val heading3 = "Ffeiliau y mae modd i chi eu huwchlwytho"
@@ -65,7 +69,5 @@ object NonJsFileUploadMessages {
     override val p4: Int => String = n => s"Mae’n rhaid i bob ffeil fod yn llai na ${n}MB."
     override val label = "Dewiswch ffeil"
     override val newLabel: String = "Uwchlwytho ffeil"
-    override val  p2LSPOrp2LSPAgent = if (isAgent) p2LSPAgent else p2LSP
-    override val p2LPPOrp2LPPAgent = if(isAgent) p2LPPAgent else p2LPP
   }
 }

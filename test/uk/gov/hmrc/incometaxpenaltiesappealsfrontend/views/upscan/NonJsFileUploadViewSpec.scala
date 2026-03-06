@@ -61,7 +61,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
-            Selectors.p(1) -> messagesForLanguage.p2LSPOrp2LSPAgent,
+            Selectors.p(1) -> messagesForLanguage.p2LSP,
             Selectors.p(2) -> messagesForLanguage.heading3,
             Selectors.p(3) -> combinedText3And4,
             Selectors.p(4) -> fileTypeMessages.p1New,
@@ -92,7 +92,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
-            Selectors.p(1) -> messagesForLanguage.p2LPPOrp2LPPAgent,
+            Selectors.p(1) -> messagesForLanguage.p2LPP,
             Selectors.p(2) -> messagesForLanguage.heading3,
             Selectors.p(3) -> combinedText3And4,
             Selectors.p(4) -> fileTypeMessages.p1New,
@@ -123,7 +123,7 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
-            Selectors.p(1) -> messagesForLanguage.p2LPPOrp2LPPAgent,
+            Selectors.p(1) -> messagesForLanguage.p2LPP,
             Selectors.p(2) -> messagesForLanguage.heading3,
             Selectors.p(3) -> combinedText3And4,
             Selectors.p(4) -> fileTypeMessages.p1New,
