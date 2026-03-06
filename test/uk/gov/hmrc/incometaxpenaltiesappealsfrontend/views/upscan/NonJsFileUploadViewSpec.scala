@@ -17,6 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.upscan
 
 import fixtures.FileUploadFixtures
+import fixtures.messages.HonestyDeclarationMessages.fakeRequestForOtherJourney.whoPlannedToSubmit
 import fixtures.messages.SupportedFileTypeMessages
 import fixtures.messages.upscan.NonJsFileUploadMessages
 import fixtures.views.BaseSelectors
@@ -29,13 +30,15 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocument
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.ViewBehaviours
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.NormalMode
 
 class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite with FileUploadFixtures {
 
   lazy val uploadFilePage: NonJsFileUploadView = app.injector.instanceOf[NonJsFileUploadView]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-
+  val cancelLink = "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+
 
   object Selectors extends BaseSelectors
 
@@ -53,26 +56,29 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           implicit lazy val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
-
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, whoPlannedToSubmit, NormalMode))
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
-            Selectors.p(1) -> messagesForLanguage.p1,
-            Selectors.p(2) -> messagesForLanguage.p2LSP,
-            Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
-            concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
-            concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
-            concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
-            concat(Selectors.details, Selectors.bullet(4)) -> fileTypeMessages.bullet4,
-            concat(Selectors.details, Selectors.bullet(5)) -> fileTypeMessages.bullet5,
-            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.label,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.p(1) -> messagesForLanguage.p2LSP,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
+            Selectors.bullet(1) -> fileTypeMessages.bullet1,
+            Selectors.bullet(2) -> fileTypeMessages.bullet2,
+            Selectors.bullet(3) -> fileTypeMessages.bullet3,
+            Selectors.bullet(4) -> fileTypeMessages.bullet4,
+            Selectors.bullet(5) -> fileTypeMessages.bullet5,
+            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LSP should redirect to Do you want to upload evidence to support your appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
+
 
         "the penalty type is LPP (single penalty)" when {
 
@@ -81,25 +87,27 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
-
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, whoPlannedToSubmit, NormalMode))
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
-            Selectors.p(1) -> messagesForLanguage.p1,
-            Selectors.p(2) -> messagesForLanguage.p2LPP,
-            Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
-            concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
-            concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
-            concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
-            concat(Selectors.details, Selectors.bullet(4)) -> fileTypeMessages.bullet4,
-            concat(Selectors.details, Selectors.bullet(5)) -> fileTypeMessages.bullet5,
-            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.label,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.p(1) -> messagesForLanguage.p2LPP,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
+            Selectors.bullet(1) -> fileTypeMessages.bullet1,
+            Selectors.bullet(2) -> fileTypeMessages.bullet2,
+            Selectors.bullet(3) -> fileTypeMessages.bullet3,
+            Selectors.bullet(4) -> fileTypeMessages.bullet4,
+            Selectors.bullet(5) -> fileTypeMessages.bullet5,
+            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP should redirect to Do you want to upload evidence to support your appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
 
         "the penalty type is LPP (multiple penalty - joint appeal)" when {
@@ -109,25 +117,28 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, whoPlannedToSubmit, NormalMode))
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitle,
             Selectors.h1 -> messagesForLanguage.headingAndTitle,
-            Selectors.p(1) -> messagesForLanguage.p1Joint,
-            Selectors.p(2) -> messagesForLanguage.p2LPP,
-            Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
-            concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
-            concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
-            concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
-            concat(Selectors.details, Selectors.bullet(4)) -> fileTypeMessages.bullet4,
-            concat(Selectors.details, Selectors.bullet(5)) -> fileTypeMessages.bullet5,
-            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.label,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.p(1) -> messagesForLanguage.p2LPP,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
+            Selectors.bullet(1) -> fileTypeMessages.bullet1,
+            Selectors.bullet(2) -> fileTypeMessages.bullet2,
+            Selectors.bullet(3) -> fileTypeMessages.bullet3,
+            Selectors.bullet(4) -> fileTypeMessages.bullet4,
+            Selectors.bullet(5) -> fileTypeMessages.bullet5,
+            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP (multiple penalty - joint appeal) should redirect to Do you want to upload evidence to support your appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
       }
 
@@ -140,25 +151,27 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
-
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, whoPlannedToSubmit, NormalMode))
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
             Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
-            Selectors.p(1) -> messagesForLanguage.p1Review,
-            Selectors.p(2) -> messagesForLanguage.p2LSPReview,
-            Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
-            concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
-            concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
-            concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
-            concat(Selectors.details, Selectors.bullet(4)) -> fileTypeMessages.bullet4,
-            concat(Selectors.details, Selectors.bullet(5)) -> fileTypeMessages.bullet5,
-            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.label,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.p(1) -> messagesForLanguage.p2LSPReview,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
+            Selectors.bullet(1) -> fileTypeMessages.bullet1,
+            Selectors.bullet(2) -> fileTypeMessages.bullet2,
+            Selectors.bullet(3) -> fileTypeMessages.bullet3,
+            Selectors.bullet(4) -> fileTypeMessages.bullet4,
+            Selectors.bullet(5) -> fileTypeMessages.bullet5,
+            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LSP 2nd Stage Appeal should redirect to Do you want to upload evidence to support this appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
 
         "the penalty type is LPP (single penalty)" when {
@@ -168,25 +181,28 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, whoPlannedToSubmit, NormalMode))
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
             Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
-            Selectors.p(1) -> messagesForLanguage.p1Review,
-            Selectors.p(2) -> messagesForLanguage.p2LPPReview,
-            Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
-            concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
-            concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
-            concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
-            concat(Selectors.details, Selectors.bullet(4)) -> fileTypeMessages.bullet4,
-            concat(Selectors.details, Selectors.bullet(5)) -> fileTypeMessages.bullet5,
-            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.label,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.p(1) -> messagesForLanguage.p2LPPReview,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
+            Selectors.bullet(1) -> fileTypeMessages.bullet1,
+            Selectors.bullet(2) -> fileTypeMessages.bullet2,
+            Selectors.bullet(3) -> fileTypeMessages.bullet3,
+            Selectors.bullet(4) -> fileTypeMessages.bullet4,
+            Selectors.bullet(5) -> fileTypeMessages.bullet5,
+            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP 2nd Stage Appeal should redirect to Do you want to upload evidence to support this appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
 
         "the penalty type is LPP (multiple penalties - joint appeal)" when {
@@ -196,25 +212,28 @@ class NonJsFileUploadViewSpec extends ViewBehaviours with GuiceOneAppPerSuite wi
           )
 
           implicit val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
-          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields))
+          implicit val doc: Document = asDocument(uploadFilePage(UploadDocumentForm.form, uploadFields, cancelLink, whoPlannedToSubmit, NormalMode))
+          val combinedText3And4 = messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles) + " " + messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB)
 
           behave like pageWithExpectedElementsAndMessages(
             Selectors.title -> messagesForLanguage.headingAndTitleReview,
             Selectors.h1 -> messagesForLanguage.headingAndTitleReview,
-            Selectors.p(1) -> messagesForLanguage.p1JointReview,
-            Selectors.p(2) -> messagesForLanguage.p2LPPReview,
-            Selectors.p(3) -> messagesForLanguage.p3(appConfig.upscanMaxNumberOfFiles),
-            Selectors.p(4) -> messagesForLanguage.p4(appConfig.upscanMaxFileSizeMB),
-            Selectors.detailsSummary -> fileTypeMessages.summaryHeading,
-            concat(Selectors.details, Selectors.p(1)) -> fileTypeMessages.p1,
-            concat(Selectors.details, Selectors.bullet(1)) -> fileTypeMessages.bullet1,
-            concat(Selectors.details, Selectors.bullet(2)) -> fileTypeMessages.bullet2,
-            concat(Selectors.details, Selectors.bullet(3)) -> fileTypeMessages.bullet3,
-            concat(Selectors.details, Selectors.bullet(4)) -> fileTypeMessages.bullet4,
-            concat(Selectors.details, Selectors.bullet(5)) -> fileTypeMessages.bullet5,
-            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.label,
-            Selectors.button -> messagesForLanguage.continue
+            Selectors.p(1) -> messagesForLanguage.p2LPPReview,
+            Selectors.p(2) -> messagesForLanguage.heading3,
+            Selectors.p(3) -> combinedText3And4,
+            Selectors.p(4) -> fileTypeMessages.p1New,
+            Selectors.bullet(1) -> fileTypeMessages.bullet1,
+            Selectors.bullet(2) -> fileTypeMessages.bullet2,
+            Selectors.bullet(3) -> fileTypeMessages.bullet3,
+            Selectors.bullet(4) -> fileTypeMessages.bullet4,
+            Selectors.bullet(5) -> fileTypeMessages.bullet5,
+            Selectors.label(UploadDocumentForm.key) -> messagesForLanguage.newLabel,
+            Selectors.button -> messagesForLanguage.continue,
+            Selectors.link(1) -> fileTypeMessages.cancelLink
           )
+          "cancel link for LPP 2nd Stage Appeal (multiple penalties - joint appeal) should redirect to Do you want to upload evidence to support this appeal" in {
+            doc.select("#cancelLink").attr("href") shouldBe "/appeal-penalty/self-assessment/upload-evidence-for-the-appeal"
+          }
         }
       }
     }

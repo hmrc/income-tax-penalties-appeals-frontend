@@ -20,16 +20,18 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.pattern.after
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.BaseUserAnswersController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{BaseUserAnswersController, routes as appealsRouts}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, Mode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.{FAILED, READY, WAITING}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -44,16 +46,20 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
 
   def onPageLoad(key: Option[String], errorCode: Option[String], isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     val form = UploadDocumentForm.form
-    withFileUploadFormFields(mode, key) { formFields =>
-      errorCode match {
-        case Some(code) =>
-          Future(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields)))
-        case _ =>
-          Future(Ok(nonJsFileUpload(form, formFields)))
+    val whoPlannedToSubmit: Option[AgentClientEnum.Value] = user.userAnswers.getAnswer(WhoPlannedToSubmitPage)
+    upscanService.getAllReadyFiles(user.journeyId).flatMap { uploadedFiles =>
+      val cancelLink = getCancelRedirectUrl(uploadedFiles.size, isAgent, is2ndStageAppeal, mode)
+      withFileUploadFormFields(mode, key) { formFields =>
+        errorCode match {
+          case Some(code) =>
+            Future.successful(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields, cancelLink, whoPlannedToSubmit, mode)))
+          case _ =>
+            Future.successful(Ok(nonJsFileUpload(form, formFields, cancelLink, whoPlannedToSubmit, mode)))
+        }
       }
     }
-  }
 
+  }
   private def withFileUploadFormFields(mode: Mode, key: Option[String])(f: UploadFormFields => Future[Result])
                                       (implicit user: CurrentUserRequestWithAnswers[_]): Future[Result] =
     key.fold(initiateNewUpload(mode)(f)) { fileReference =>
@@ -87,6 +93,12 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
     }
   }
 
+   def getCancelRedirectUrl(fileCount: Int, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): String = {
+    if (fileCount > 0) routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal, mode).url
+    else
+      ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url
+  }
+  
   private def waitForUpscanResponse(isAgent: Boolean, is2ndStageAppeal: Boolean, journeyId: String, fileReference: String, startTime: Long = System.currentTimeMillis(), mode: Mode)
                                    (f: UploadJourney => Future[Result]): Future[Result] =
     after(appConfig.upscanCheckInterval, actor.scheduler) {
