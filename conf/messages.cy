@@ -668,3 +668,13 @@ page.not.found.headingAndTitle = Heb ddod o hyd i’r dudalen
 page.not.found.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.
 page.not.found.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi copïo’r cyfeiriad yn llawn.
 page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad.
+
+# Unauthorised Error View
+unauthorised.page.h1 = Nid ydych wedi'ch awdurdodi i gael mynediad at y dudalen hon
+unauthorised.page.p = Rydych yn asiant ategol ar gyfer y cleient hyn. Y prif asiant yn unig sy'n gallu cael mynediad at gofnodion sy'n dangos:
+unauthorised.page.bullet1 = taliadau, credydau ac ad-daliadau
+unauthorised.page.bullet2 = Ffurflenni Treth
+unauthorised.page.bullet3 = y ffioedd sy'n ddyledus nesaf
+unauthorised.page.bullet4 = cosbau ac apeliadau
+unauthorised.page.read.more = Darllenwch ragor am y gwahaniaeth rhwng prif asiantau ac asiantau ategol ar
+unauthorised.page.link.text = GOV.UK
