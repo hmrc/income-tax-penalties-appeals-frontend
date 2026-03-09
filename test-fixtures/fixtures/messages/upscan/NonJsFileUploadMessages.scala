@@ -40,8 +40,7 @@ object NonJsFileUploadMessages {
     val p2LPPAgent = "Upload evidence that explains why your client missed the payment deadline, such as a letter or email"
     val p3: Int => String = n => s"You can upload up to $n files."
     val p4: Int => String = n => s"Each file must be smaller than ${n}MB."
-    val label = "Select a file"
-    val newLabel = "Upload a file"
+    val label = "Upload a file"
 
   }
 
@@ -67,7 +66,6 @@ object NonJsFileUploadMessages {
     override val p2LPPAgent = "Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu."
     override val p3: Int => String = n => s"Gallwch uwchlwytho hyd at $n ffeil."
     override val p4: Int => String = n => s"Mae’n rhaid i bob ffeil fod yn llai na ${n}MB."
-    override val label = "Dewiswch ffeil"
-    override val newLabel: String = "Uwchlwytho ffeil"
+    override val label: String = "Uwchlwytho ffeil"
   }
 }
