@@ -25,6 +25,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.AuditService
 trait MockAuditService extends MockFactory { this: TestSuite =>
 
   val stubAuditService: AuditService = stub[AuditService]
+  
+  val mockAuditService: AuditService = mock[AuditService]
 
 
   def stubAuditEvent(): Unit =
@@ -33,4 +35,7 @@ trait MockAuditService extends MockFactory { this: TestSuite =>
 
   def verifyAuditEvent(model: AuditModel): Unit =
     (stubAuditService.audit(_: AuditModel)(_:HeaderCarrier)).verify(model, *).once()
+
+  def mockAudit(auditModel: AuditModel): Unit =
+    (mockAuditService.audit(_: AuditModel)(_: HeaderCarrier)).expects(*,*).returning(())
 }
