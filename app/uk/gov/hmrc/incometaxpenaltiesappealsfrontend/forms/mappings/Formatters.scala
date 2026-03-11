@@ -40,7 +40,7 @@ trait Formatters {
   private[mappings] def intFormatter(requiredKey: String, nonNumericKey: String, args: Seq[String] = Seq.empty): Formatter[Int] =
     new Formatter[Int] {
 
-      val formattingCharacters = "[\\s,\\-\\(\\)\\/\\.\\\\]"
+      val formattingCharacters = "[\\s,\\(\\)\\/\\.\\\\]"
 
       private val baseFormatter = stringFormatter(requiredKey)
 
