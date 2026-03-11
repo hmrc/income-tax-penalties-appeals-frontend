@@ -29,7 +29,8 @@ class FeatureSwitchingModule extends Module with FeatureSwitchRegistry {
   val switches: Seq[FeatureSwitch] = Seq(
     UseStubForBackend,
     UseStubForMessageFrontend,
-    ReasonableExcusesEnabled
+    ReasonableExcusesEnabled,
+    EnableTimeMachineBanner
   )
 
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
@@ -53,4 +54,9 @@ case object ReasonableExcusesEnabled extends CheckboxFeatureSwitch {
   override val configName: String = "features.reasonableExcusesEnabled"
   override val displayName: String = "Enable/Disable Reasonable Excuses"
   override val checkboxValues: Seq[String] = ReasonableExcuse.allReasonableExcuses.map(_.toString)
+}
+
+case object EnableTimeMachineBanner extends FeatureSwitch {
+  override val configName: String = "timeMachineBanner.enabled"
+  override val displayName: String = "Enable Time Machine Banner"
 }
