@@ -26,7 +26,7 @@ class FeatureSwitchProviderConfig @Inject()(appConfig: AppConfig) {
 
   lazy val selfFeatureSwitchUrl = s"${appConfig.selfUrl}/appeal-penalty/self-assessment/test-only/api/feature-switches"
 
-  lazy val incomeTaxPenaltiesFrontendFeatureSwitchUrl = s"${appConfig.incomeTaxPenaltiesFrontendBaseUrl}/penalties/income-tax/test-only/api/feature-switches"
+  lazy val incomeTaxPenaltiesFrontendFeatureSwitchUrl = s"${appConfig.incomeTaxPenaltiesFrontendBaseUrl}/view-penalty/self-assessment/test-only/api/feature-switches"
 
   lazy val selfFeatureSwitchProvider: FeatureSwitchProvider = FeatureSwitchProvider(
     id = "income-tax-penalties-appeals-frontend",
