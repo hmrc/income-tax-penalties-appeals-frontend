@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
 
 import play.api.Configuration
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForBackend, UseStubForMessageFrontend}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{EnableTimeMachineBanner, FeatureSwitching, UseStubForBackend, UseStubForMessageFrontend}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
@@ -127,8 +127,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val timeMachineDate: String =
     config.get[String]("timemachine.date")
     
-  lazy val timeMachineBannerEnabled: Boolean =
-    config.get[Boolean]("timeMachineBanner.enabled")
+  lazy val isTimeMachineBannerEnabled: Boolean = isEnabled(EnableTimeMachineBanner)
 
   def optCurrentDate: Option[LocalDate] = {
     if(timeMachineEnabled) {
