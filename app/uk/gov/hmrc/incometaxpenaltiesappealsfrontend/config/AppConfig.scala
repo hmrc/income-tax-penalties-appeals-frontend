@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
 
 import play.api.Configuration
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{EnableTimeMachineBanner, FeatureSwitching, UseStubForBackend, UseStubForMessageFrontend}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
@@ -33,7 +34,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
 
   lazy val ITSAPenaltiesAppealsHomeUrl: Boolean => String = isAgent => {
-    s"/appeal-penalty/self-assessment${if(isAgent) "/agent-appeal-start" else "/appeal-start"}"
+    s"/appeal-penalty/self-assessment${if (isAgent) "/agent-appeal-start" else "/appeal-start"}"
   }
   val alphaBannerUrl: String = servicesConfig.getString("alpha-banner-url")
 
@@ -126,8 +127,16 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val timeMachineDate: String =
     config.get[String]("timemachine.date")
-    
-  lazy val isTimeMachineBannerEnabled: Boolean = isEnabled(EnableTimeMachineBanner)
+
+  def isTimeMachineBannerEnabled: Boolean = {
+    if (isEnabled(EnableTimeMachineBanner)) {
+      logger.info(s"Time machine banner is enabled - current time machine date is ${optCurrentDate.getOrElse(LocalDate.now())}")
+      true
+    } else {
+      logger.info(s"Time machine banner is disabled - current time machine date is ${optCurrentDate.getOrElse(LocalDate.now())}")
+      false
+    }
+  }
 
   def optCurrentDate: Option[LocalDate] = {
     if(timeMachineEnabled) {

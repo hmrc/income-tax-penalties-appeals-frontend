@@ -29,8 +29,8 @@ class FeatureSwitchingModule extends Module with FeatureSwitchRegistry {
   val switches: Seq[FeatureSwitch] = Seq(
     UseStubForBackend,
     UseStubForMessageFrontend,
-    ReasonableExcusesEnabled,
-    EnableTimeMachineBanner
+    EnableTimeMachineBanner,
+    ReasonableExcusesEnabled
   )
 
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
