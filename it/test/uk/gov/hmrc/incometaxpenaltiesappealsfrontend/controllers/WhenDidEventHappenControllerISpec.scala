@@ -190,20 +190,20 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 s"the appeal isLate='$isLate'" should {
 
                   val redirectLocation =
-                  (reasonWithUrl._1, mode) match {
-                    case (TechnicalIssues, _) =>
-                      routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent, mode).url
-                    case (Crime, NormalMode) =>
-                      routes.CrimeReportedController.onPageLoad(isAgent, NormalMode).url
-                    case (UnexpectedHospital, _) =>
-                      routes.HasHospitalStayEndedController.onPageLoad(isAgent, mode).url
-                    case (Other, NormalMode) =>
-                      routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false, NormalMode).url
-                    case (_, NormalMode) if isLate =>
-                      routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, NormalMode).url
-                    case (_, _) =>
-                      routes.CheckYourAnswersController.onPageLoad(isAgent).url
-                  }
+                    (reasonWithUrl._1, mode) match {
+                      case (TechnicalIssues, _) =>
+                        routes.WhenDidEventEndController.onPageLoad(reasonWithUrl._1, isAgent, mode).url
+                      case (Crime, NormalMode) =>
+                        routes.CrimeReportedController.onPageLoad(isAgent, NormalMode).url
+                      case (UnexpectedHospital, _) =>
+                        routes.HasHospitalStayEndedController.onPageLoad(isAgent, mode).url
+                      case (Other, NormalMode) =>
+                        routes.MissedDeadlineReasonController.onPageLoad(isLPP, isAgent, is2ndStageAppeal = false, NormalMode).url
+                      case (_, NormalMode) if isLate =>
+                        routes.LateAppealController.onPageLoad(isAgent, is2ndStageAppeal = false, NormalMode).url
+                      case (_, _) =>
+                        routes.CheckYourAnswersController.onPageLoad(isAgent).url
+                    }
 
                   s"save the value to UserAnswers AND redirect to $redirectLocation with ${reasonWithUrl._1}" in new Setup(reasonWithUrl._1, isLate) {
 
@@ -472,6 +472,30 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
                 error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
+              }
+            }
+            "the date is not valid - date contains negative numbers" should {
+
+              "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonWithUrl._1) {
+
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(if (isLPP) userAnswersLPP else userAnswersLSP).futureValue
+
+                val result = post(postUrl)(Map(
+                  WhenDidEventHappenForm.key + ".day" -> "-5",
+                  WhenDidEventHappenForm.key + ".month" -> "-3",
+                  WhenDidEventHappenForm.key + ".year" -> "-2024"))
+
+                result.status shouldBe BAD_REQUEST
+
+                val document = Jsoup.parse(result.body)
+
+                document.title() should include(WhenDidEventHappenMessages.English.errorPrefix)
+                document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
+
+                val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
+                error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".day"}"
               }
             }
 
