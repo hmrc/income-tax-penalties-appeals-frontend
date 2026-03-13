@@ -580,6 +580,9 @@ uploadEvidence.nonJs.p3 = You can upload up to {0} files.
 uploadEvidence.nonJs.p4 = Each file must be smaller than {0}MB.
 uploadEvidence.nonJs.p5 = Filenames cannot contain spaces.
 uploadEvidence.nonJs.label = Upload a file
+uploadEvidence.nonJs.noFileChosen = No file chosen
+uploadEvidence.nonJs.chooseFile = Choose file
+uploadEvidence.nonJs.dropFile = or drop file
 uploadEvidence.nodeJs.cancel= Cancel
 
 # NonJS File Upload Page
