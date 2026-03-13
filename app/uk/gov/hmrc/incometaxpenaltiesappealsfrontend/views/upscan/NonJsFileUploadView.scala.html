@@ -75,6 +75,9 @@
                     @govukFileUpload(FileUpload(
                         id = UploadDocumentForm.key,
                         name = UploadDocumentForm.key,
+                        noFileChosenText = Some(messages("uploadEvidence.nonJs.noFileChosen")),
+                        chooseFilesButtonText = Some(messages("uploadEvidence.nonJs.chooseFile")),
+                        dropInstructionText =Some(messages("uploadEvidence.nonJs.dropFile")),
                         label = Label(
                             content = Text(messages(s"uploadEvidence.nonJs.label")),
 
