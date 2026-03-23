@@ -474,7 +474,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
                 error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
               }
             }
-            "the date is not valid - date contains negative numbers" should {
+            "the date is not valid - date contains special characters" should {
 
               "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonWithUrl._1) {
 

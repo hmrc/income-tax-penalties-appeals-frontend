@@ -110,7 +110,7 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
         messages(error.message, error.args:_*) shouldBe errorMessageValue("invalid", Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
       }
 
-      "the date contains negative numbers" in {
+      "the date contains special characters" in {
         val result = form.bind(
           Map(
             s"$fieldName.day" -> "-5",

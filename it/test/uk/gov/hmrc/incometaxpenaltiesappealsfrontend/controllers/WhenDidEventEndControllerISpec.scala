@@ -353,7 +353,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
             }
           }
 
-          "the date is not valid - date contains negative numbers" should {
+          "the date is not valid - date contains special characters" should {
 
             "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
