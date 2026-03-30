@@ -353,7 +353,7 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
             }
           }
 
-          "the date is not valid - date contains special characters" should {
+          "the date is not valid - date contains negative numbers" should {
 
             "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
 
@@ -376,6 +376,104 @@ class WhenDidEventEndControllerISpec extends ControllerISpecHelper {
               error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
             }
           }
+
+          "the date is not valid - date day field contains special characters" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "(5",
+                WhenDidEventEndForm.key + ".month" -> "3",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("invalid", reason._1, "day")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }
+
+
+
+          /*"the date is not valid - date contains special characters" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "(5",
+                WhenDidEventEndForm.key + ".month" -> "3",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("invalid", reason._1, "day")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".day"}"
+            }
+          }*/
+
+          /*"the date is not valid - month contains special characters" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "5",
+                WhenDidEventEndForm.key + ".month" -> "/3",
+                WhenDidEventEndForm.key + ".year" -> "2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("invalid", reason._1, "month")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".month"}"
+            }
+          }
+
+          "the date is not valid - year contains special characters" should {
+
+            "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonableExcuse = reason._1) {
+
+              stubAuthRequests(isAgent)
+
+              val result = post(url)(Map(
+                WhenDidEventEndForm.key + ".day" -> "5",
+                WhenDidEventEndForm.key + ".month" -> "3",
+                WhenDidEventEndForm.key + ".year" -> "+2024"))
+
+              result.status shouldBe BAD_REQUEST
+
+              val document = Jsoup.parse(result.body)
+
+              document.title() should include(WhenDidEventEndMessages.English.errorPrefix)
+              document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventEndMessages.English.thereIsAProblem
+
+              val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+              error1Link.text() shouldBe WhenDidEventEndMessages.English.errorMessageConstructor("invalid", reason._1, "year")
+              error1Link.attr("href") shouldBe s"#${WhenDidEventEndForm.key + ".year"}"
+            }
+          } */
 
 
           "the date is not valid - date is in the future" should {
