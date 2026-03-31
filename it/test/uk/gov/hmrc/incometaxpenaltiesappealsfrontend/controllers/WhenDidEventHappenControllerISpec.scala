@@ -524,6 +524,56 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
               }
             }
 
+            "the date is not valid - date month field contains special characters " should {
+
+              "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonWithUrl._1) {
+
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(if (isLPP) userAnswersLPP else userAnswersLSP).futureValue
+
+                val result = post(postUrl)(Map(
+                  WhenDidEventHappenForm.key + ".day" -> "5",
+                  WhenDidEventHappenForm.key + ".month" -> "=3",
+                  WhenDidEventHappenForm.key + ".year" -> "2024"))
+
+                result.status shouldBe BAD_REQUEST
+
+                val document = Jsoup.parse(result.body)
+
+                document.title() should include(WhenDidEventHappenMessages.English.errorPrefix)
+                document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
+
+                val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
+                error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".month"}"
+              }
+            }
+
+            "the date is not valid - date year field contains special characters " should {
+
+              "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonWithUrl._1) {
+
+                stubAuthRequests(isAgent)
+                userAnswersRepo.upsertUserAnswer(if (isLPP) userAnswersLPP else userAnswersLSP).futureValue
+
+                val result = post(postUrl)(Map(
+                  WhenDidEventHappenForm.key + ".day" -> "5",
+                  WhenDidEventHappenForm.key + ".month" -> "3",
+                  WhenDidEventHappenForm.key + ".year" -> "/2024"))
+
+                result.status shouldBe BAD_REQUEST
+
+                val document = Jsoup.parse(result.body)
+
+                document.title() should include(WhenDidEventHappenMessages.English.errorPrefix)
+                document.select(".govuk-error-summary__title").text() shouldBe WhenDidEventHappenMessages.English.thereIsAProblem
+
+                val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
+                error1Link.text() shouldBe WhenDidEventHappenMessages.English.errorMessageConstructor(reasonWithUrl._1, "invalid", isLPP, isAgent = isAgent)
+                error1Link.attr("href") shouldBe s"#${WhenDidEventHappenForm.key + ".year"}"
+              }
+            }
+
             "the date is not valid - date is in the future" should {
 
               "render a bad request with the Form Error on the page with a link to the field in error" in new Setup(reasonWithUrl._1) {
