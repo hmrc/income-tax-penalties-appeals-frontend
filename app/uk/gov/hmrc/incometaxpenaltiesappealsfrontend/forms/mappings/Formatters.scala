@@ -47,12 +47,15 @@ trait Formatters {
       override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Int] =
         baseFormatter
           .bind(key, data)
-          .map(_.replaceAll(formattingCharacters, ""))
           .flatMap {
             s =>
-              nonFatalCatch
-                .either(s.toInt)
-                .left.map(_ => Seq(FormError(key, nonNumericKey, args)))
+              if (s.matches(".*[\\s,()/.\\\\+\\-].*")) {
+                Left(Seq(FormError(key, nonNumericKey, args)))
+              } else {
+                nonFatalCatch
+                  .either(s.toInt)
+                  .left.map(_ => Seq(FormError(key, nonNumericKey, args)))
+              }
           }
 
       override def unbind(key: String, value: Int): Map[String, String] =

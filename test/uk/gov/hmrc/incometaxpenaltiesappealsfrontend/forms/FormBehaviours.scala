@@ -120,8 +120,50 @@ trait FormBehaviours extends AnyWordSpec with Matchers {
         )
         result.errors.size shouldBe 1
         val error = result.errors.head
-        error shouldBe FormError(s"$fieldName.day", errorMessageKey("invalid"), Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("invalid"), Seq(messagesForLanguage.day, messagesForLanguage.month,messagesForLanguage.year))
         messages(error.message, error.args: _*) shouldBe errorMessageValue("invalid", Seq(messagesForLanguage.day, messagesForLanguage.month, messagesForLanguage.year))
+      }
+
+      "the date day field contains special characters" in {
+        val result = form.bind(
+          Map(
+            s"$fieldName.day" -> "(5",
+            s"$fieldName.month" -> "3",
+            s"$fieldName.year" -> "2024"
+          )
+        )
+        result.errors.size shouldBe 1
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.day", errorMessageKey("invalid"), Seq())
+        messages(error.message, error.args: _*) shouldBe errorMessageValue("invalid", Seq())
+      }
+
+      "the date month field contains special characters" in {
+        val result = form.bind(
+          Map(
+            s"$fieldName.day" -> "5",
+            s"$fieldName.month" -> "=3",
+            s"$fieldName.year" -> "2024"
+          )
+        )
+        result.errors.size shouldBe 1
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.month", errorMessageKey("invalid"), Seq())
+        messages(error.message, error.args: _*) shouldBe errorMessageValue("invalid", Seq())
+      }
+
+      "the date year field contains special characters" in {
+        val result = form.bind(
+          Map(
+            s"$fieldName.day" -> "5",
+            s"$fieldName.month" -> "3",
+            s"$fieldName.year" -> "/2024"
+          )
+        )
+        result.errors.size shouldBe 1
+        val error = result.errors.head
+        error shouldBe FormError(s"$fieldName.year", errorMessageKey("invalid"), Seq())
+        messages(error.message, error.args: _*) shouldBe errorMessageValue("invalid", Seq())
       }
 
       "the date has no day" in {
