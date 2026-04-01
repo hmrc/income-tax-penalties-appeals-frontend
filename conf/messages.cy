@@ -214,10 +214,6 @@ whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i’r dyddiad 
 whenDidEventHappen.health.date.error.required = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0}
 whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod heddiw neu yn y gorffennol
 
-# Health Messages LSP Agent
-client.whenDidEventHappen.health.lsp.headingAndTitle = Pryd y gwnaeth y broblem iechyd rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
-client.whenDidEventHappen.health.lpp.headingAndTitle = Pryd gwnaeth y broblem iechyd rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?
-
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?
 whenDidEventHappen.unexpectedHospital.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod yn ddyddiad go iawn
