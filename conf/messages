@@ -254,21 +254,8 @@ agent.whenDidEventHappen.other.clientInformation.date.error.required.two = The d
 agent.whenDidEventHappen.other.clientInformation.date.error.required = The date when the issue first stopped your client getting information to you must include a {0}
 agent.whenDidEventHappen.other.clientInformation.date.error.notInFuture = The date when the issue first stopped your client getting information to you must be today or in the past
 
-# Agent - Other Messages - LSP
-agent.whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop your client from meeting the submission deadline?
-agent.whenDidEventHappen.other.lsp.date.error.invalid = The date when the issue first stopped your client from meeting the submission deadline must be a real date
-agent.whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped your client from meeting the submission deadline?
-agent.whenDidEventHappen.other.lsp.date.error.required.two = The date when the issue first stopped your client from meeting the submission deadline must include a {0} and a {1}
-agent.whenDidEventHappen.other.lsp.date.error.required = The date when the issue first stopped your client from meeting the submission deadline must include a {0}
-agent.whenDidEventHappen.other.lsp.date.error.notInFuture = The date when the issue first stopped your client from meeting the submission deadline must be today or in the past
-
 # Agent - Other Messages - LPP
-agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client making the payment?
 agent.whenDidEventHappen.other.lpp.date.error.invalid = The date when the issue first stopped your client paying the tax bill by the due date must be a real date
-agent.whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped your client paying the tax bill by the due date
-agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
-agent.whenDidEventHappen.other.lpp.date.error.required = The date when the issue first stopped your client paying the tax bill by the due date must include a {0}
-agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past
 
 
 # When did the event end page

@@ -41,7 +41,7 @@ trait WhenDidEventHappenHelper {
           "whenDidEventHappen.other.lsp"
         }
       } else {
-        s"${if(user.isAgent) "agent." else ""}whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
+        s"whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
       }
     }
 }
