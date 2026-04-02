@@ -214,10 +214,6 @@ whenDidEventHappen.health.date.error.required.two = Mae’n rhaid i’r dyddiad 
 whenDidEventHappen.health.date.error.required = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys {0}
 whenDidEventHappen.health.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod heddiw neu yn y gorffennol
 
-# Health Messages LSP Agent
-client.whenDidEventHappen.health.lsp.headingAndTitle = Pryd y gwnaeth y broblem iechyd rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
-client.whenDidEventHappen.health.lpp.headingAndTitle = Pryd gwnaeth y broblem iechyd rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?
-
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?
 whenDidEventHappen.unexpectedHospital.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod yn ddyddiad go iawn
@@ -258,21 +254,8 @@ agent.whenDidEventHappen.other.clientInformation.date.error.required.two = Mae�
 agent.whenDidEventHappen.other.clientInformation.date.error.required = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys
 agent.whenDidEventHappen.other.clientInformation.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod heddiw neu yn y gorffennol
 
-# Agent - Other Messages - LSP
-agent.whenDidEventHappen.other.lsp.headingAndTitle = Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?
-agent.whenDidEventHappen.other.lsp.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod yn ddyddiad go iawn
-agent.whenDidEventHappen.other.lsp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno
-agent.whenDidEventHappen.other.lsp.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys {0} a {1}
-agent.whenDidEventHappen.other.lsp.date.error.required = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys {0}
-agent.whenDidEventHappen.other.lsp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol
-
 # Agent - Other Messages - LPP
-agent.whenDidEventHappen.other.lpp.headingAndTitle = Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?
 agent.whenDidEventHappen.other.lpp.date.error.invalid = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn
-agent.whenDidEventHappen.other.lpp.date.error.required.all = Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu
-agent.whenDidEventHappen.other.lpp.date.error.required.two = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0} a {1}
-agent.whenDidEventHappen.other.lpp.date.error.required = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys {0}
-agent.whenDidEventHappen.other.lpp.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol
 
 
 # When did the event end page

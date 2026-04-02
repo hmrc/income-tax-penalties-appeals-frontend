@@ -35,18 +35,9 @@
 
 @healthHeading = {
     @if(isLPP) {
-        @if(user.isAgent){@messages("client.whenDidEventHappen.health.lpp.headingAndTitle")} else {@messages("whenDidEventHappen.health.lpp.headingAndTitle")}
-
+        @messages("whenDidEventHappen.health.lpp.headingAndTitle")
     } else {
-        @if(user.isAgent) {
-            @if(user.whoPlannedToSubmit.getOrElse("").toString == "client") {
-                @messages("client.whenDidEventHappen.health.lsp.headingAndTitle")
-            } else {
-                @messages("whenDidEventHappen.health.lsp.headingAndTitle")
-            }
-        } else {
-            @messages("whenDidEventHappen.health.lsp.headingAndTitle")
-        }
+        @messages("whenDidEventHappen.health.lsp.headingAndTitle")
     }
 }
 

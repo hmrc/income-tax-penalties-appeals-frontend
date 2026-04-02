@@ -26,18 +26,9 @@ trait WhenDidEventHappenHelper {
 
   def healthHeading(isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
     if (isLPP) {
-      if (user.isAgent) "client.whenDidEventHappen.health.lpp.headingAndTitle" else "whenDidEventHappen.health.lpp.headingAndTitle"
-
+      "whenDidEventHappen.health.lpp.headingAndTitle"
     } else {
-      if (user.isAgent)
-        if (user.whoPlannedToSubmit.getOrElse("").toString == "client")
-          "client.whenDidEventHappen.health.lsp.headingAndTitle"
-        else {
-          "whenDidEventHappen.health.lsp.headingAndTitle"
-        }
-      else {
-        "whenDidEventHappen.health.lsp.headingAndTitle"
-      }
+      "whenDidEventHappen.health.lsp.headingAndTitle"
     }
   }
 
@@ -50,7 +41,7 @@ trait WhenDidEventHappenHelper {
           "whenDidEventHappen.other.lsp"
         }
       } else {
-        s"${if(user.isAgent) "agent." else ""}whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
+        s"whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
       }
     }
 }
