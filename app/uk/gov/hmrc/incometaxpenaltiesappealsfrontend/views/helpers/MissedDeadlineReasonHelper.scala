@@ -22,11 +22,11 @@ trait MissedDeadlineReasonHelper {
     s"missedDeadlineReason${if(isLPP) ".lpp" else ".lsp"}"
   }
 
-  def messageKeyPrefixHint(isLPP: Boolean, isAgent: Boolean): String = {
+  def messageKeyPrefixHint(isLPP: Boolean): String = {
     s"missedDeadlineReason${
-      if (isLPP) {
-        if (isAgent) ".agent.lpp" else ".individual.lpp"
-      } else ".lsp"}"
+      if (isLPP)
+        ".lpp"
+       else ".lsp"}"
   }
 }
 
