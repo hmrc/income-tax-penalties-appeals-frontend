@@ -29,7 +29,6 @@ object MissedDeadlineReasonMessages {
     def hintText(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false, isAgent: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "Briefly explain why you feel that the original appeal decisions were incorrect."
       else if(is2ndStageAppeal) "Briefly explain why you feel that the original appeal decision was incorrect."
-      else if(isLPP && isJointAppeal && isAgent) "Tell us why your client missed the payment deadline for both penalties."
       else if(isLPP && isJointAppeal) "Tell us why you missed the payment deadline for both penalties."
       else if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately."
       else "We only need to know about this penalty. Other penalties should be appealed separately."
@@ -77,7 +76,6 @@ object MissedDeadlineReasonMessages {
     override def hintText(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false, isAgent: Boolean = false): String = {
       if(is2ndStageAppeal && isJointAppeal) "Briefly explain why you feel that the original appeal decisions were incorrect. (Welsh)"
       else if(is2ndStageAppeal) "Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)"
-      else if(isLPP && isJointAppeal && isAgent) "Tell us why your client missed the payment deadline for both penalties. (Welsh)"
       else if(isLPP && isJointAppeal) "Tell us why you missed the payment deadline for both penalties. (Welsh)"
       else if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
       else "We only need to know about this penalty. Other penalties should be appealed separately. (Welsh)"
