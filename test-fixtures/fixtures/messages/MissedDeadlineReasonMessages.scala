@@ -74,16 +74,16 @@ object MissedDeadlineReasonMessages {
     }
 
     override def hintText(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false, isAgent: Boolean = false): String = {
-      if(is2ndStageAppeal && isJointAppeal) "Briefly explain why you feel that the original appeal decisions were incorrect. (Welsh)"
-      else if(is2ndStageAppeal) "Briefly explain why you feel that the original appeal decision was incorrect. (Welsh)"
-      else if(isLPP && isJointAppeal) "Tell us why you missed the payment deadline for both penalties. (Welsh)"
-      else if(isLPP) "We only need to know about this penalty. Any other penalty related to this update period should be appealed separately. (Welsh)"
-      else "We only need to know about this penalty. Other penalties should be appealed separately. (Welsh)"
+      if(is2ndStageAppeal && isJointAppeal) "Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir."
+      else if(is2ndStageAppeal) "Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir."
+      else if(isLPP && isJointAppeal) "Rhowch wybod i ni pam gwnaethoch fethu’r dyddiadau cau  ar gyfer talu ar gyfer y ddwy gosb."
+      else if(isLPP) "Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân."
+      else "Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn cosbau eraill ar wahân."
     }
 
     override def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
-      if(is2ndStageAppeal && isJointAppeal) "You must provide some information about why you are asking us to review these decisions (Welsh)"
-      else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision (Welsh)"
+      if(is2ndStageAppeal && isJointAppeal) "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn"
+      else if(is2ndStageAppeal) "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn"
       else if(isLPP) "Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu"
       else "Rhowch reswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
     }
