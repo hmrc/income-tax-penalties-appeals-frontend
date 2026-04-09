@@ -60,7 +60,7 @@
                     classes = "govuk-label govuk-label--l"
                 ),
                 hint = Some(Hint(
-                    content = Text(messages(s"${messageKeyPrefixHint(isLPP, isAgent)}$prefix.hint$multipleAppeal"))
+                    content = Text(messages(s"${messageKeyPrefixHint(isLPP)}$prefix.hint$multipleAppeal"))
                 )),
                 errorMessage = form.errors(MissedDeadlineReasonForm.key) match {
                     case Nil => None

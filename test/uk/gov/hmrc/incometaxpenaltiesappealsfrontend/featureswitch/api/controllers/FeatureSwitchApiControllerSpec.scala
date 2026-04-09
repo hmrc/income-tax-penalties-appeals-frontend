@@ -37,9 +37,9 @@ class FeatureSwitchApiControllerSpec extends AnyWordSpec with should.Matchers wi
 
   val testAction: FeatureSwitchApiController = new FeatureSwitchApiController(
     mockFeatureSwitchService,
-    appConfig
+    appConfig,
+    cc
   ){
-  override protected def controllerComponents: ControllerComponents = cc
 }
 
   val testFeatureSwitches: Seq[FeatureSwitchSetting] = Seq(

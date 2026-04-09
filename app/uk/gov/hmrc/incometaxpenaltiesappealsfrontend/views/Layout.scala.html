@@ -41,7 +41,8 @@
   twoThirdsMainContent: TwoThirdsMainContent,
   fullWidthPageLayout: fullWidthMainContentLayout,
   standardBetaBanner: StandardBetaBanner,
-  hmrcLanguageSelectHelper: HmrcLanguageSelectHelper
+  hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
+  dateBannerHelper: dateBannerHelper
 )(implicit cfConfig: ContactFrontendConfig)
 
 @(
@@ -66,8 +67,14 @@
     <link @CSPNonce.attr rel="stylesheet" href='@routes.Assets.versioned("../assets/stylesheets/print.css")' type="text/css">
 }
 
-@beforeContent = {
+@dateBanner = {
+    @if(appConfig.isTimeMachineBannerEnabled) {
+        @Some(dateBannerHelper())
+    }
+}
 
+@beforeContent = {
+    @dateBanner
     @{ request match {
         case req: RequestWithNavBar => req.navBar.getOrElse(Html(""))
         case _ => Html("")
