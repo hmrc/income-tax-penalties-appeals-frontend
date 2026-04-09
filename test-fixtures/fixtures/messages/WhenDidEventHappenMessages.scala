@@ -23,7 +23,7 @@ object WhenDidEventHappenMessages {
 
   sealed trait Messages { this: i18n =>
 
-    def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
+    def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
       case Bereavement => "When did the person die?"
       case Crime => "When did the crime happen?"
       case FireOrFlood => "When did the fire or flood happen?"
@@ -32,19 +32,22 @@ object WhenDidEventHappenMessages {
       case Health => if(isLPP) "When did the health issue first stop you making the payment?" else "When did the health issue first stop you from meeting the submission deadline?"
       case UnexpectedHospital => "When did the hospital stay begin?"
       case LossOfStaff => "TBC lossOfStaff"
-      case Other => otherHeadingAndTitle(isLPP, wasClientInformationIssue)
+      case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
 
-    def otherHeadingAndTitle(isLPP: Boolean = false, wasClientInformationIssue: Boolean): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _)  => "When did the issue first stop your client getting information to you?"
-        case (_, true) => "When did the issue first stop you paying the tax bill by the due date?"
-        case (_, _)        => "When did the issue first stop you from meeting the submission deadline?"
+    def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => "When did the issue first stop your client getting information to you?"
+        case (true, _, true)  => "When did the issue first stop you paying the tax bill by the due date?"
+        case (true, _, false) => "When did the issue first stop you from meeting the submission deadline?"
+        case (false, _, true) => "When did the issue first stop you paying the tax bill by the due date?"
+        case (_, _, _)        => "When did the issue first stop you from meeting the submission deadline?"
       }
 
     def errorMessageConstructor(reasonableExcuse: ReasonableExcuse,
                                 suffix: String,
                                 isLPP: Boolean,
+                                isAgent: Boolean = false,
                                 wasClientInformationIssue: Boolean = false,
                                 args: Seq[String] = Seq()): String = {
       reasonableExcuse match {
@@ -105,11 +108,11 @@ object WhenDidEventHappenMessages {
           case "notInFuture" => lossOfStaffNotInFuture
         }
         case Other => suffix match {
-          case "invalid" => otherInvalid(isLPP, wasClientInformationIssue)
-          case "required.all" => otherRequiredAll(isLPP, wasClientInformationIssue)
-          case "required.two" => otherRequiredTwo(isLPP, wasClientInformationIssue, args.head, args(1))
-          case "required" => otherRequired(isLPP, wasClientInformationIssue, args.head)
-          case "notInFuture" => otherNotInFuture(isLPP, wasClientInformationIssue)
+          case "invalid" => otherInvalid(isLPP, isAgent, wasClientInformationIssue)
+          case "required.all" => otherRequiredAll(isLPP, isAgent, wasClientInformationIssue)
+          case "required.two" => otherRequiredTwo(isLPP, isAgent, wasClientInformationIssue, args.head, args(1))
+          case "required" => otherRequired(isLPP, isAgent, wasClientInformationIssue, args.head)
+          case "notInFuture" => otherNotInFuture(isLPP, isAgent, wasClientInformationIssue)
         }
       }
     }
@@ -124,16 +127,16 @@ object WhenDidEventHappenMessages {
     val cyaKeyOther: String = "TBC other"
     val cyaKeyUnexpectedHospital: String = "When did the hospital stay begin?"
 
-    def cyaKey(reasonableExcuse: ReasonableExcuse, isLPP: Boolean = false, wasClientInformationIssue: Boolean = false): String = reasonableExcuse match {
+    def cyaKey(reasonableExcuse: ReasonableExcuse, isLPP: Boolean = false, isAgent: Boolean = false, wasClientInformationIssue: Boolean = false): String = reasonableExcuse match {
       case Bereavement => cyaKeyBereavement
       case Cessation => cyaKeyCessation
       case Crime => cyaKeyCrime
       case FireOrFlood => cyaKeyFireOrFlood
-      case Health => headingAndTitle(Health, isLPP, wasClientInformationIssue)
+      case Health => headingAndTitle(Health, isLPP, isAgent, wasClientInformationIssue)
       case TechnicalIssues => cyaKeyTechnical
       case UnexpectedHospital => cyaKeyUnexpectedHospital
       case LossOfStaff => cyaKeyLossOfStaff
-      case Other => otherHeadingAndTitle(isLPP, wasClientInformationIssue)
+      case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
 
     val cyaHiddenBereavement: String = "when did the person die"
@@ -166,11 +169,12 @@ object WhenDidEventHappenMessages {
     val healthInvalid = "The date of the health issue must be a real date"
     val unexpectedHospitalInvalid = "The date that the hospital stay began must be a real date"
     val lossOfStaffInvalid = "TBC"
-    def otherInvalid(isLPP: Boolean = false, wasClientInformationIssue: Boolean): String = {
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => "The date when the issue first stopped your client getting information to you must be a real date"
-        case (_, true) => "The date the issue first stopped you paying the tax bill by the due date must be a real date"
-        case (_, _)    => "The date the issue first stopped you meeting the submission deadline must be a real date"
+    def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => "The date when the issue first stopped your client getting information to you must be a real date"
+        case (true, _, true)  => "The date the issue first stopped you paying the tax bill by the due date must be a real date"
+        case (false, _, true) => "The date the issue first stopped you paying the tax bill by the due date must be a real date"
+        case (_, _, _)        => "The date the issue first stopped you meeting the submission deadline must be a real date"
       }
     }
 
@@ -182,11 +186,13 @@ object WhenDidEventHappenMessages {
     val healthRequiredAll = "Enter the date that the health issue began"
     val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay began"
     val lossOfStaffRequiredAll = "TBC"
-    def otherRequiredAll(isLPP: Boolean = false, wasClientInformationIssue: Boolean): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _)  => "Tell us when the issue first stopped your client getting information to you"
-        case (_, false) => "Tell us when the issue first stopped you meeting the submission deadline"
-        case (_, true) => "Tell us when the issue first stopped you paying the tax bill by the due date"
+    def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => "Tell us when the issue first stopped your client getting information to you"
+        case (true, _, true)  => "Tell us when the issue first stopped you paying the tax bill by the due date"
+        case (true, _, false) => "Tell us when the issue first stopped you meeting the submission deadline"
+        case (false, _, true) => "Tell us when the issue first stopped you paying the tax bill by the due date"
+        case (_, _, _)        => "Tell us when the issue first stopped you meeting the submission deadline"
       }
 
     def crimeRequiredTwo(missing: String, missingTwo: String) = s"The date of the crime must include a $missing and a $missingTwo"
@@ -197,11 +203,13 @@ object WhenDidEventHappenMessages {
     def healthRequiredTwo(missing: String, missingTwo: String) = s"The date of the health issue must include a $missing and a $missingTwo"
     def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay began must include a $missing and a $missingTwo"
     def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC"
-    def otherRequiredTwo(isLPP: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => s"The date when the issue first stopped your client getting information to you must include a $missing and a $missingTwo"
-        case (_, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing and a $missingTwo"
-        case (_, _)    => s"The date the issue first stopped you meeting the submission deadline must include a $missing and a $missingTwo"
+    def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing and a $missingTwo"
+        case (true, _, true)  => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing and a $missingTwo"
+        case (true, _, false) => s"The date the issue first stopped you meeting the submission deadline must include a $missing and a $missingTwo"
+        case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing and a $missingTwo"
+        case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing and a $missingTwo"
       }
 
     def crimeRequired(missing: String) = s"The date of the crime must include a $missing"
@@ -212,11 +220,13 @@ object WhenDidEventHappenMessages {
     def healthRequired(missing: String) = s"The date of the health issue must include a $missing"
     def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay began must include a $missing"
     def lossOfStaffRequired(missing: String) = "TBC"
-    def otherRequired(isLPP: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing"
-        case (_, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing"
-        case (_, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing"
+    def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing"
+        case (true, _, true)  => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing"
+        case (true, _, false) => s"The date the issue first stopped you meeting the submission deadline must include a $missing"
+        case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing"
+        case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing"
       }
 
     val crimeNotInFuture = "The date of the crime must be today or in the past"
@@ -227,11 +237,13 @@ object WhenDidEventHappenMessages {
     val healthNotInFuture = "The date of the health issue must be today or in the past"
     val unexpectedHospitalNotInFuture = "The date that the hospital stay began must be today or in the past"
     val lossOfStaffNotInFuture = "TBC"
-    def otherNotInFuture(isLPP: Boolean, wasClientInformationIssue: Boolean): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _)  => s"The date when the issue first stopped your client getting information to you must be today or in the past"
-        case (_, true) => s"The date the issue first stopped you paying the tax bill by the due date must be today or in the past"
-        case (_, _)        => s"The date the issue first stopped you meeting the submission deadline must be today or in the past"
+    def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must be today or in the past"
+        case (true, _, true)  => s"The date the issue first stopped you paying the tax bill by the due date must be today or in the past"
+        case (true, _, false) => s"The date the issue first stopped you meeting the submission deadline must be today or in the past"
+        case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must be today or in the past"
+        case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must be today or in the past"
       }
   }
 
@@ -239,7 +251,7 @@ object WhenDidEventHappenMessages {
 
   object Welsh extends Messages with Cy {
 
-    override def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
+    override def headingAndTitle(reasonableExcuse: ReasonableExcuse, isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String = reasonableExcuse match {
       case Bereavement => "Pryd y bu farw’r person?"
       case Crime => "Pryd ddigwyddodd y drosedd?"
       case FireOrFlood => "Pryd ddigwyddodd y tân neu lifogydd?"
@@ -248,14 +260,16 @@ object WhenDidEventHappenMessages {
       case Health => if(isLPP) "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?" else "Pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
       case UnexpectedHospital => "Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?"
       case LossOfStaff => "TBC lossOfStaff (Welsh)"
-      case Other => otherHeadingAndTitle(isLPP, wasClientInformationIssue)
+      case Other => otherHeadingAndTitle(isLPP, isAgent, wasClientInformationIssue)
     }
 
-    override def otherHeadingAndTitle(isLPP: Boolean = false, wasClientInformationIssue: Boolean): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => "Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag anfon gwybodaeth atoch chi?"
-        case (_, true) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
-        case (_, _)    => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
+    override def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => "Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag anfon gwybodaeth atoch chi?"
+        case (true, _, true)  => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
+        case (true, _, false) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
+        case (false, _, true) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
+        case (_, _, _)        => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
       }
 
     override val crimeInvalid = "Mae’n rhaid i ddyddiad y drosedd fod yn ddyddiad go iawn"
@@ -266,11 +280,12 @@ object WhenDidEventHappenMessages {
     override val healthInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod yn ddyddiad go iawn"
     override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod yn ddyddiad go iawn"
     override val lossOfStaffInvalid = "TBC (Welsh)"
-    override def otherInvalid(isLPP: Boolean = false, wasClientInformationIssue: Boolean): String = {
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod yn ddyddiad go iawn"
-        case (_, true)       => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn"
-        case (_, _)       => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod yn ddyddiad go iawn"
+    override def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod yn ddyddiad go iawn"
+        case (true, _, true)  => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn"
+        case (false, _, true) => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn"
+        case (_, _, _)        => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod yn ddyddiad go iawn"
       }
     }
 
@@ -282,11 +297,13 @@ object WhenDidEventHappenMessages {
     override val healthRequiredAll = "Nodwch y dyddiad pan ddechreuodd y broblem iechyd"
     override val unexpectedHospitalRequiredAll = "Nodwch y dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty"
     override val lossOfStaffRequiredAll = "TBC (Welsh)"
-    override def otherRequiredAll(isLPP: Boolean = false, wasClientInformationIssue: Boolean): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => "Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch"
-        case (_, true) => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu"
-        case (_, _)    => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
+    override def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => "Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch"
+        case (true, _, true)  => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu"
+        case (true, _, false) => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
+        case (false, _, true) => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu"
+        case (_, _, _)        => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
       }
 
     override def crimeRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing a $missingTwo"
@@ -297,11 +314,13 @@ object WhenDidEventHappenMessages {
     override def healthRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys $missing a $missingTwo"
     override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys $missing a $missingTwo"
     override def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
-    override def otherRequiredTwo(isLPP: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys $missing a $missingTwo"
-        case (_, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing a $missingTwo"
-        case (_, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing a $missingTwo"
+    override def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys $missing a $missingTwo"
+        case (true, _, true)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing a $missingTwo"
+        case (true, _, false) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing a $missingTwo"
+        case (false, _, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing a $missingTwo"
+        case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing a $missingTwo"
       }
 
     override def crimeRequired(missing: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing"
@@ -312,11 +331,13 @@ object WhenDidEventHappenMessages {
     override def healthRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd gynnwys $missing"
     override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys $missing"
     override def lossOfStaffRequired(missing: String) = "TBC (Welsh)"
-    override def otherRequired(isLPP: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys"
-        case (_, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing"
-        case (_, _)    => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing"
+    override def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys"
+        case (true, _, true)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing"
+        case (true, _, false) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing"
+        case (false, _, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing"
+        case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing"
       }
 
     override val crimeNotInFuture = "Mae’n rhaid i ddyddiad y drosedd fod heddiw neu yn y gorffennol"
@@ -327,11 +348,13 @@ object WhenDidEventHappenMessages {
     override val healthNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd y broblem iechyd fod heddiw neu yn y gorffennol"
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod heddiw neu yn y gorffennol"
     override val lossOfStaffNotInFuture = "TBC (Welsh)"
-    override def otherNotInFuture(isLPP: Boolean, wasClientInformationIssue: Boolean): String =
-      (wasClientInformationIssue, isLPP) match {
-        case (true, _) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod heddiw neu yn y gorffennol"
-        case (_, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol"
-        case (_, _)    => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
+    override def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
+      (isAgent, wasClientInformationIssue, isLPP) match {
+        case (true, true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod heddiw neu yn y gorffennol"
+        case (true, _, true)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol"
+        case (true, _, false) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
+        case (false, _, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol"
+        case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
       }
 
     override val cyaKeyBereavement: String = "Pryd y bu farw’r person?"
