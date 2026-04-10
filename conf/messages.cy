@@ -491,17 +491,14 @@ checkYourAnswers.acceptAndSend = Derbyn ac anfon
 appealConfirmation.headingAndTitle = Apêl wedi dod i law
 appealConfirmation.typeAndPeriod = Blwyddyn dreth {0}: {1}
 appealConfirmation.p1 = Does dim angen cyfeirnod arnoch.
-appealConfirmation.p2.client = Mae’ch apêl wedi’i chofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
-appealConfirmation.p2.agent = Mae’ch apêl wedi’i chofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
+appealConfirmation.p2 = Mae’ch apêl wedi’i chofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
+appealConfirmation.p2.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
 appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd).
 appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
-appealConfirmation.whatHappensNext.p2.client = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.p2.agent =  Unwaith i’r penderfyniad gael ei wneud, bydd eich cleient yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.link1.client = Yn ôl i’ch cosbau Hunanasesiad.
-appealConfirmation.whatHappensNext.link1.agent = Yn ôl i gosbau Hunanasesiad eich cleient.
-appealConfirmation.whatHappensNext.link2.client = Bwrw golwg dros eich cyfrif Hunanasesiad.
-appealConfirmation.whatHappensNext.link2.agent = Bwrw golwg dros gyfrif Hunanasesiad eich cleient.
+appealConfirmation.whatHappensNext.p2 = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
+appealConfirmation.whatHappensNext.link1 = Yn ôl i’ch cosbau Hunanasesiad.
+appealConfirmation.whatHappensNext.link2 = Bwrw golwg dros eich cyfrif Hunanasesiad.
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
 appealConfirmation.feedback.p = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
@@ -510,11 +507,8 @@ appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
 appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd).
 
 appealConfirmation.review.headingAndTitle = Cais am adolygiad wedi dod i law
-appealConfirmation.p2.client.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
-appealConfirmation.p2.agent.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn rhif Yswiriant Gwladol eich cleient. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
 appealConfirmation.whatHappensNext.p1.review = Rydym yn bwriadu i wneud penderfyniad ynghylch adolygiadau cyn pen 45 diwrnod.
-appealConfirmation.whatHappensNext.p2.client.review = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr adolygiad hwn a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.p2.agent.review =  Unwaith i’r penderfyniad gael ei wneud, bydd eich cleient yn cael gwybod am ganlyniad yr adolygiad hwn a’r rhesymau dros ein penderfyniad.
+appealConfirmation.whatHappensNext.p2.review = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr adolygiad hwn a’r rhesymau dros ein penderfyniad.
 
 # View appeal details page
 # -----------------------------------------------------------

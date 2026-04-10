@@ -30,7 +30,7 @@
 
 @(isAgent: Boolean, isSecondStageAppeal: Boolean)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages,appConfig: AppConfig)
 
-@clientOrAgent = {@if(isAgent){agent} else {client}}
+
 @reviewOrAppeal = {@if(isSecondStageAppeal){.review}}
 
 @layout(Some(titleBuilder(messages(s"appealConfirmation$reviewOrAppeal.headingAndTitle"))), backLinkEnabled = false, isAgent = isAgent) {
@@ -41,17 +41,17 @@
     ))
 
     @p("appealConfirmation.p1", elmId = Some("confirmationFistParagraph"))
-    @p(s"appealConfirmation.p2.$clientOrAgent$reviewOrAppeal", elmId = Some(s"confirmationSecondParagraph"))
+    @p(s"appealConfirmation.p2$reviewOrAppeal", elmId = Some(s"confirmationSecondParagraph"))
 
     @link(link = uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ViewAppealDetailsController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = isSecondStageAppeal).url, messageKey = s"appealConfirmation.viewOrPrint$reviewOrAppeal", id = Some("viewOrPrint-link"), attrTarget = true)
 
     @h2("appealConfirmation.whatHappensNext.h2", elmId = "whatHappensNext")
     @p(s"appealConfirmation.whatHappensNext.p1$reviewOrAppeal", elmId = Some("confirmationThirdParagraph"))
-    @p(s"appealConfirmation.whatHappensNext.p2.$clientOrAgent$reviewOrAppeal", elmId = Some("confirmationFourthParagraph"))
+    @p(s"appealConfirmation.whatHappensNext.p2$reviewOrAppeal", elmId = Some("confirmationFourthParagraph"))
 
-    @link(link = appConfig.penaltiesHomePage(isAgent), messageKey = s"appealConfirmation.whatHappensNext.link1.$clientOrAgent", id = Some("returnToSA-link"))
+    @link(link = appConfig.penaltiesHomePage(isAgent), messageKey = s"appealConfirmation.whatHappensNext.link1", id = Some("returnToSA-link"))
 
-    @link(link = appConfig.viewAndChangeSAHomepageUrl(isAgent), messageKey = s"appealConfirmation.whatHappensNext.link2.$clientOrAgent", id = Some("viewSA-link"))
+    @link(link = appConfig.viewAndChangeSAHomepageUrl(isAgent), messageKey = s"appealConfirmation.whatHappensNext.link2", id = Some("viewSA-link"))
 
     @h2("appealConfirmation.feedback.h2", elmId = "beforeYouGo")
 
