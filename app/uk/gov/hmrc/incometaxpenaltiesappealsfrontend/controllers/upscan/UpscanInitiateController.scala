@@ -24,14 +24,13 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.{BaseUserAnswer
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.AuthActions
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.upscan.UploadDocumentForm
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, Mode}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.{FAILED, READY, WAITING}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.WhoPlannedToSubmitPage
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -46,15 +45,14 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
 
   def onPageLoad(key: Option[String], errorCode: Option[String], isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     val form = UploadDocumentForm.form
-    val whoPlannedToSubmit: Option[AgentClientEnum.Value] = user.userAnswers.getAnswer(WhoPlannedToSubmitPage)
     upscanService.getAllReadyFiles(user.journeyId).flatMap { uploadedFiles =>
       val cancelLink = getCancelRedirectUrl(uploadedFiles.size, isAgent, is2ndStageAppeal, mode)
       withFileUploadFormFields(mode, key) { formFields =>
         errorCode match {
           case Some(code) =>
-            Future.successful(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields, cancelLink, whoPlannedToSubmit, mode)))
+            Future.successful(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields, cancelLink, mode)))
           case _ =>
-            Future.successful(Ok(nonJsFileUpload(form, formFields, cancelLink, whoPlannedToSubmit, mode)))
+            Future.successful(Ok(nonJsFileUpload(form, formFields, cancelLink, mode)))
         }
       }
     }
