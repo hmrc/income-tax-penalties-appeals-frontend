@@ -551,43 +551,22 @@ date.year = Blwyddyn
 uploadEvidence.nonJs.headingAndTitle = Uwchlwythwch dystiolaeth i gefnogi’r apêl hon
 uploadEvidence.nonJs.headingAndTitle.review = Uwchlwythwch dystiolaeth i gefnogi’r adolygiad hwn
 uploadEvidence.nonJs.heading3 = Ffeiliau y mae modd i chi eu huwchlwytho
-uploadEvidence.nonJs.p1 = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r gosb.
-uploadEvidence.nonJs.p1.joint = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu ni i adolygu’r cosbau hyn.
-uploadEvidence.nonJs.p1.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
-uploadEvidence.nonJs.p1.joint.review = Defnyddiwch y dudalen hon i uwchlwytho unrhyw dystiolaeth i’n helpu i adolygu’r penderfyniad ynghylch apêl.
-uploadEvidence.nonJs.p2.lsp = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
-uploadEvidence.nonJs.p2.lsp.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, yn egluro pam y gwnaeth eich cleient methu’r dyddiad cau.
-uploadEvidence.nonJs.p2.lsp.agentPlanned = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
-uploadEvidence.nonJs.p2.lsp.clientPlanned = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, yn egluro pam y gwnaeth eich cleient methu’r dyddiad cau.
-uploadEvidence.nonJs.p2.lsp.review = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
-uploadEvidence.nonJs.p2.lsp.review.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
-uploadEvidence.nonJs.p2.lsp.review.agentPlanned = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaethoch fethu’r dyddiad cau ar gyfer cyflwyno.
-uploadEvidence.nonJs.p2.lsp.review.clientPlanned = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, yn egluro pam y gwnaeth eich cleient methu’r dyddiad cau.
-uploadEvidence.nonJs.p2.lpp = Uwchlwythwch dystiolaeth sy’n egluro pam y gwnaethoch fethu’r dyddiad cau ar gyfer talu, fel llythyr neu e-bost.
-uploadEvidence.nonJs.p2.lpp.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu.
-uploadEvidence.nonJs.p2.lpp.review = Uwchlwythwch dystiolaeth sy’n egluro pam y gwnaethoch fethu’r dyddiad cau ar gyfer talu, fel llythyr neu e-bost.
-uploadEvidence.nonJs.p2.lpp.review.agent = Uwchlwythwch dystiolaeth, fel llythyr neu e-bost, sy’n egluro pam gwnaeth eich cleient fethu’r dyddiad cau ar gyfer talu.
-uploadEvidence.nonJs.p3 = Gallwch uwchlwytho hyd at {0} ffeil.
-uploadEvidence.nonJs.p4 = Mae’n rhaid i bob ffeil fod yn llai na {0}MB.
-uploadEvidence.nonJs.p5 = Ni all enw’r ffeil gynnwys bylchau.
+uploadEvidence.nonJs.p1.lsp = Upload evidence that explains why the submission deadline was missed. Evidence could be a letter or email. (Welsh)
+uploadEvidence.nonJs.p1.lpp = Upload evidence that explains why the payment deadline was missed. Evidence could be a letter or email. (Welsh)
+uploadEvidence.nonJs.p2 = Gallwch uwchlwytho hyd at {0} ffeil. Mae’n rhaid i bob ffeil fod yn llai na {1}MB.
 uploadEvidence.nonJs.label = Uwchlwytho ffeil
 uploadEvidence.nonJs.noFileChosen = Heb ddewis ffeil
 uploadEvidence.nonJs.chooseFile = Dewis ffeil
 uploadEvidence.nonJs.dropFile = neu ollwng ffeil
 uploadEvidence.nodeJs.cancel = Canslo
-
-# NonJS File Upload Page
-# ----------------------------------------------------------
-uploadEvidence.typesOfFile.heading = Y mathau o ffeiliau y gallwch eu huwchlwytho
 uploadEvidence.typesOfFile.li.title = Gall eich ffeiliau fod yn un o’r canlynol:
-uploadEvidence.typesOfFile.p1 = Dyma’r ffeiliau y gallwch eu huwchlwytho:
 uploadEvidence.typesOfFile.li.1 = delweddau (.jpg, .jpeg, .png neu .tiff)
 uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
 uploadEvidence.typesOfFile.li.3 = e-byst (.txt or .msg)
 uploadEvidence.typesOfFile.li.4 = Microsoft Word, Excel, neu PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, neu .pptx)
 uploadEvidence.typesOfFile.li.5 = Ffeiliau Fformat Dogfen Agored (.odt, .ods neu .odp)
 
-uploadEvidence.fileName.p2 = Dim ond llythrennau a i z, rhifau 0 i 9, cysylltnodau (-), tanlinellau (_), ac atalnodau llawn (.) y gall enwau ffeiliau eu cynnwys. Ni ddylai enwau ffeiliau gynnwys bylchau.
+uploadEvidence.fileName.p1 = Dim ond llythrennau a i z, rhifau 0 i 9, cysylltnodau (-), tanlinellau (_), ac atalnodau llawn (.) y gall enwau ffeiliau eu cynnwys. Ni ddylai enwau ffeiliau gynnwys bylchau.
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------
