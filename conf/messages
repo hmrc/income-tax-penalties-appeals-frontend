@@ -562,7 +562,7 @@ uploadEvidence.nodeJs.cancel= Cancel
 uploadEvidence.typesOfFile.li.title = Your files can be:
 uploadEvidence.typesOfFile.li.1 = image (.jpg, .jpeg, .png or .tiff)
 uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
-uploadEvidence.typesOfFile.li.3 = email (.txt or .msg)
+uploadEvidence.typesOfFile.li.3 = text (.txt)
 uploadEvidence.typesOfFile.li.4 = Microsoft Word, Excel, or PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, or .pptx)
 uploadEvidence.typesOfFile.li.5 = Open Document Format files (.odt, .ods or .odp)
 
@@ -578,7 +578,7 @@ uploadEvidence.error.unableToUpload = The selected file could not be uploaded. C
 # Asynchronous Upscan Failure
 # ----------------------------------------------------------
 uploadEvidence.error.QUARANTINE = The selected file contains a virus. Choose another file
-uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file
+uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file
 uploadEvidence.error.INVALID_FILENAME = Filenames can only contain upper and lower case letters, digits from 0-9, hyphens, underscores and full stops
 uploadEvidence.error.PASSWORD_PROTECTED = The selected file is password protected
 
