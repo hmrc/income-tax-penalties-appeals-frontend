@@ -38,8 +38,8 @@ object WhenDidEventHappenMessages {
     def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "When did the issue first stop your client getting information to you?"
-        case (true, _, true)  => "When did the issue first stop you paying the tax bill by the due date?"
-        case (true, _, false) => "When did the issue first stop you from meeting the submission deadline?"
+        case (true, _, true)  => "When did the issue first stop your client making the payment?"
+        case (true, _, false) => "When did the issue first stop your client from meeting the submission deadline?"
         case (false, _, true) => "When did the issue first stop you paying the tax bill by the due date?"
         case (_, _, _)        => "When did the issue first stop you from meeting the submission deadline?"
       }
@@ -172,7 +172,8 @@ object WhenDidEventHappenMessages {
     def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "The date when the issue first stopped your client getting information to you must be a real date"
-        case (true, _, true)  => "The date the issue first stopped you paying the tax bill by the due date must be a real date"
+        case (true, _, true)  => "The date when the issue first stopped your client paying the tax bill by the due date must be a real date"
+        case (true, _, false) => "The date when the issue first stopped your client from meeting the submission deadline must be a real date"
         case (false, _, true) => "The date the issue first stopped you paying the tax bill by the due date must be a real date"
         case (_, _, _)        => "The date the issue first stopped you meeting the submission deadline must be a real date"
       }
@@ -189,8 +190,8 @@ object WhenDidEventHappenMessages {
     def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "Tell us when the issue first stopped your client getting information to you"
-        case (true, _, true)  => "Tell us when the issue first stopped you paying the tax bill by the due date"
-        case (true, _, false) => "Tell us when the issue first stopped you meeting the submission deadline"
+        case (true, _, true)  => "Tell us when the issue first stopped your client paying the tax bill by the due date"
+        case (true, _, false) => "Tell us when the issue first stopped your client from meeting the submission deadline?"
         case (false, _, true) => "Tell us when the issue first stopped you paying the tax bill by the due date"
         case (_, _, _)        => "Tell us when the issue first stopped you meeting the submission deadline"
       }
@@ -206,8 +207,8 @@ object WhenDidEventHappenMessages {
     def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing and a $missingTwo"
-        case (true, _, true)  => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing and a $missingTwo"
-        case (true, _, false) => s"The date the issue first stopped you meeting the submission deadline must include a $missing and a $missingTwo"
+        case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must include a $missing and a $missingTwo"
+        case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must include a $missing and a $missingTwo"
         case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing and a $missingTwo"
         case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing and a $missingTwo"
       }
@@ -223,8 +224,8 @@ object WhenDidEventHappenMessages {
     def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must include a $missing"
-        case (true, _, true)  => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing"
-        case (true, _, false) => s"The date the issue first stopped you meeting the submission deadline must include a $missing"
+        case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must include a $missing"
+        case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must include a $missing"
         case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must include a $missing"
         case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must include a $missing"
       }
@@ -240,8 +241,8 @@ object WhenDidEventHappenMessages {
     def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"The date when the issue first stopped your client getting information to you must be today or in the past"
-        case (true, _, true)  => s"The date the issue first stopped you paying the tax bill by the due date must be today or in the past"
-        case (true, _, false) => s"The date the issue first stopped you meeting the submission deadline must be today or in the past"
+        case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past"
+        case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must be today or in the past"
         case (false, _, true) => s"The date the issue first stopped you paying the tax bill by the due date must be today or in the past"
         case (_, _, _)        => s"The date the issue first stopped you meeting the submission deadline must be today or in the past"
       }
@@ -266,8 +267,8 @@ object WhenDidEventHappenMessages {
     override def otherHeadingAndTitle(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "Pryd y gwnaeth y broblem atal eich cleient am y tro cyntaf rhag anfon gwybodaeth atoch chi?"
-        case (true, _, true)  => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
-        case (true, _, false) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
+        case (true, _, true)  => "Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag gwneud y taliad?"
+        case (true, _, false) => "Pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
         case (false, _, true) => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
         case (_, _, _)        => "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno?"
       }
@@ -283,7 +284,8 @@ object WhenDidEventHappenMessages {
     override def otherInvalid(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String = {
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod yn ddyddiad go iawn"
-        case (true, _, true)  => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn"
+        case (true, _, true)  => "The date when the issue first stopped your client paying the tax bill by the due date must be a real date (Welsh)"
+        case (true, _, false) => "The date when the issue first stopped your client from meeting the submission deadline must be a real date (Welsh)"
         case (false, _, true) => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod yn ddyddiad go iawn"
         case (_, _, _)        => "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod yn ddyddiad go iawn"
       }
@@ -300,8 +302,8 @@ object WhenDidEventHappenMessages {
     override def otherRequiredAll(isLPP: Boolean = false, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => "Rhowch wybod i ni pryd y gwnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch"
-        case (true, _, true)  => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu"
-        case (true, _, false) => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
+        case (true, _, true)  => "Tell us when the issue first stopped your client paying the tax bill by the due date (Welsh)"
+        case (true, _, false) => "Tell us when the issue first stopped your client from meeting the submission deadline? (Welsh)"
         case (false, _, true) => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu"
         case (_, _, _)        => "Rhowch wybod i ni pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
       }
@@ -317,8 +319,8 @@ object WhenDidEventHappenMessages {
     override def otherRequiredTwo(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String, missingTwo: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys $missing a $missingTwo"
-        case (true, _, true)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing a $missingTwo"
-        case (true, _, false) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing a $missingTwo"
+        case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must include a $missing and a $missingTwo (Welsh)"
+        case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must include a $missing and a $missingTwo (Welsh)"
         case (false, _, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing a $missingTwo"
         case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing a $missingTwo"
       }
@@ -334,8 +336,8 @@ object WhenDidEventHappenMessages {
     override def otherRequired(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean, missing: String): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch gynnwys"
-        case (true, _, true)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing"
-        case (true, _, false) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing"
+        case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must include a $missing (Welsh)"
+        case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must include a $missing (Welsh)"
         case (false, _, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu gynnwys $missing"
         case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno gynnwys $missing"
       }
@@ -351,8 +353,8 @@ object WhenDidEventHappenMessages {
     override def otherNotInFuture(isLPP: Boolean, isAgent: Boolean, wasClientInformationIssue: Boolean): String =
       (isAgent, wasClientInformationIssue, isLPP) match {
         case (true, true, _)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem rwystro’ch cleient am y tro cyntaf rhag anfon gwybodaeth atoch fod heddiw neu yn y gorffennol"
-        case (true, _, true)  => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol"
-        case (true, _, false) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
+        case (true, _, true)  => s"The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past (Welsh)"
+        case (true, _, false) => s"The date when the issue first stopped your client from meeting the submission deadline must be today or in the past (Welsh)"
         case (false, _, true) => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol"
         case (_, _, _)        => s"Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
       }
