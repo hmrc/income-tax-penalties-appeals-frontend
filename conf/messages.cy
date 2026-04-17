@@ -562,7 +562,7 @@ uploadEvidence.nodeJs.cancel = Canslo
 uploadEvidence.typesOfFile.li.title = Gall eich ffeiliau fod yn un o’r canlynol:
 uploadEvidence.typesOfFile.li.1 = delweddau (.jpg, .jpeg, .png neu .tiff)
 uploadEvidence.typesOfFile.li.2 = PDF (.pdf)
-uploadEvidence.typesOfFile.li.3 = e-byst (.txt or .msg)
+uploadEvidence.typesOfFile.li.3 = text (.txt) (Welsh)
 uploadEvidence.typesOfFile.li.4 = Microsoft Word, Excel, neu PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, neu .pptx)
 uploadEvidence.typesOfFile.li.5 = Ffeiliau Fformat Dogfen Agored (.odt, .ods neu .odp)
 
@@ -578,7 +578,7 @@ uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan syl
 # Asynchronous Upscan Error
 # ----------------------------------------------------------
 uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall
-uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, MSG, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
+uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
 uploadEvidence.error.INVALID_FILENAME = Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifau 0-9, cysylltnodau, tanlinellau ac atalnodau llawn
 uploadEvidence.error.PASSWORD_PROTECTED = Mae’r ffeil dan sylw wedi’i diogelu gan gyfrinair
 
