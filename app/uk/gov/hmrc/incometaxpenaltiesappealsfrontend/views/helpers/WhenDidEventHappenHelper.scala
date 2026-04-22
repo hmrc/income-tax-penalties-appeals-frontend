@@ -18,40 +18,21 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 
 trait WhenDidEventHappenHelper {
-
-
+  
   def healthHeading(isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
     if (isLPP) {
-      if (user.isAgent) "client.whenDidEventHappen.health.lpp.headingAndTitle" else "whenDidEventHappen.health.lpp.headingAndTitle"
-
+       "whenDidEventHappen.health.lpp.headingAndTitle"
     } else {
-      if (user.isAgent)
-        if (user.whoPlannedToSubmit.getOrElse("").toString == "client")
-          "client.whenDidEventHappen.health.lsp.headingAndTitle"
-        else {
-          "whenDidEventHappen.health.lsp.headingAndTitle"
-        }
-      else {
-        "whenDidEventHappen.health.lsp.headingAndTitle"
-      }
+      "whenDidEventHappen.health.lsp.headingAndTitle"
     }
   }
 
   def messageKeyPrefix(reason: ReasonableExcuse, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String =
     if(reason != Other) s"whenDidEventHappen.$reason" else {
-      if(user.isAgent && WhoPlannedToSubmitPage.value.contains(AgentClientEnum.agent)) {
-        if (WhatCausedYouToMissDeadlinePage.value.contains(AgentClientEnum.client)) {
-          "agent.whenDidEventHappen.other.clientInformation"
-        } else {
-          "whenDidEventHappen.other.lsp"
-        }
-      } else {
-        s"${if(user.isAgent) "agent." else ""}whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
-      }
+        s"whenDidEventHappen.other${if(isLPP) ".lpp" else ".lsp"}"
     }
 }
 
