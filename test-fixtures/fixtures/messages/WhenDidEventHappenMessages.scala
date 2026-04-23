@@ -140,10 +140,10 @@ object WhenDidEventHappenMessages {
     val cyaHiddenFireOrFlood: String = "when did the fire or flood happen"
     val cyaHiddenTechnical: String = "when did the software or technology issues begin"
     val cyaHiddenCessation: String = "TBC cessation"
-    val cyaHiddenHealth: String = "when did the health issue first stop you making the payment"
+    val cyaHiddenHealth: String = "when did the health issue first stop you from meeting the submission deadline"
     val cyaHiddenUnexpectedHospital: String = "when did the hospital stay begin"
     val cyaHiddenLossOfStaff: String = "TBC lossOfStaff"
-    val cyaHiddenOther: String = "TBC other"
+    val cyaHiddenOther: String = "when did the issue first stop you from meeting the submission deadline"
 
     def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case Bereavement => cyaHiddenBereavement
@@ -330,16 +330,16 @@ object WhenDidEventHappenMessages {
     override val cyaKeyHealth: String = "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
     override val cyaKeyUnexpectedHospital: String = "Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?"
     override val cyaKeyLossOfStaff: String = "TBC lossOfStaff (Welsh)"
-    override val cyaKeyOther: String = "TBC other (Welsh)"
+    override val cyaKeyOther: String = "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
 
     override val cyaHiddenBereavement: String = "Pryd y bu farw’r person"
     override val cyaHiddenCrime: String = "Pryd ddigwyddodd y drosedd"
     override val cyaHiddenFireOrFlood: String = "Pryd ddigwyddodd y tân neu lifogydd"
     override val cyaHiddenTechnical: String = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau"
     override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
-    override val cyaHiddenHealth: String = "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad"
+    override val cyaHiddenHealth: String = "pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
     override val cyaHiddenUnexpectedHospital: String = "Pryd y dechreuodd yr arhosiad yn yr ysbyty?"
     override val cyaHiddenLossOfStaff: String = "TBC lossOfStaff (Welsh)"
-    override val cyaHiddenOther: String = "TBC other (Welsh)"
+    override val cyaHiddenOther: String = "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
   }
 }
