@@ -450,7 +450,7 @@ checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = Pryd y de
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff (Welsh)
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff (Welsh)
 checkYourAnswers.whenDidEventHappen.other.key = TBC other (Welsh)
-checkYourAnswers.whenDidEventHappen.other.headingAndTitle.change.hidden = TBC other (Welsh)
+checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other (Welsh)
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.whenDidEventHappen.other.lpp.headingAndTitle.change.hidden = Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad
 

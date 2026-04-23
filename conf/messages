@@ -450,7 +450,7 @@ checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = when did 
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff
 checkYourAnswers.whenDidEventHappen.other.key = TBC other
-checkYourAnswers.whenDidEventHappen.other.headingAndTitle.change.hidden = TBC other
+checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = when did the issue first stop you from meeting the submission deadline
 checkYourAnswers.whenDidEventHappen.other.lpp.headingAndTitle.change.hidden = when did the issue first stop you making the payment
 
