@@ -25,8 +25,7 @@ import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, ReasonableExcuse}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{WhatCausedYouToMissDeadlinePage, WhoPlannedToSubmitPage}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours with BaseFixtures {
@@ -50,49 +49,21 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
             s"WhenDidEventHappenForm with $reason and isLPP='$isLPP' and isAgent='$isAgent'" should {
 
               if(reason == Other) {
+                implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
-                if(isAgent) {
+                val infix = if (isLPP) ".lpp" else ".lsp"
 
-                  "testing content for scenario where Client didn't get information to the agent in time" should {
-
-                    val userAnswers = emptyUserAnswersWithLSP
-                      .setAnswer(WhoPlannedToSubmitPage, AgentClientEnum.agent)
-                      .setAnswer(WhatCausedYouToMissDeadlinePage, AgentClientEnum.client)
-
-                    implicit val agent: CurrentUserRequestWithAnswers[_] = agentUserRequestWithAnswers(userAnswers)
-
-                    behave like dateForm(
-                      form = WhenDidEventHappenForm.form(reason, isLPP),
-                      fieldName = "date",
-                      errorMessageKey = errorType => s"agent.whenDidEventHappen.$reason.clientInformation.date.error.$errorType",
-                      errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(
-                        reasonableExcuse = reason,
-                        suffix = errorType,
-                        isLPP = isLPP,
-                        isAgent = true,
-                        wasClientInformationIssue = true,
-                        args = args
-                      )
-                    )
-                  }
-                } else { //Reason is 'other' BUT User is NOT an Agent
-
-                  implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
-
-                  val infix = if(isLPP) ".lpp" else ".lsp"
-
-                  behave like dateForm(
-                    form = WhenDidEventHappenForm.form(reason, isLPP),
-                    fieldName = "date",
-                    errorMessageKey = errorType => s"whenDidEventHappen.$reason$infix.date.error.$errorType",
-                    errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(
-                      reasonableExcuse = reason,
-                      suffix = errorType,
-                      isLPP = isLPP,
-                      args = args
-                    )
+                behave like dateForm(
+                  form = WhenDidEventHappenForm.form(reason, isLPP),
+                  fieldName = "date",
+                  errorMessageKey = errorType => s"whenDidEventHappen.$reason$infix.date.error.$errorType",
+                  errorMessageValue = (errorType, args) => messagesForLanguage.errorMessageConstructor(
+                    reasonableExcuse = reason,
+                    suffix = errorType,
+                    isLPP = isLPP,
+                    args = args
                   )
-                }
+                )
               } else { //Reason is NOT 'other'
 
                 implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)

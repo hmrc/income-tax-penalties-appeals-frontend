@@ -42,7 +42,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
               ActionItem(
                 content = Text(messages("common.change")),
                 href = controllers.routes.WhenDidEventHappenController.onPageLoad(reasonableExcuse, user.isAgent, CheckMode).url,
-                visuallyHiddenText = Some(messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.change.hidden"))
+                visuallyHiddenText = Some(if(reasonableExcuse == Health)messages("checkYourAnswers." + healthHeading(user.isLPP) + ".change.hidden") else if(reasonableExcuse == Other)messages("checkYourAnswers." + {messageKeyPrefix(reasonableExcuse, user.isLPP)} + ".headingAndTitle.change.hidden") else messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.change.hidden"))
               ).withId("changeWhenDidEventHappen")
             )
           ))
