@@ -44,7 +44,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
         )
       }
 
-      s"the journey is for a 1st Stage Appeal with isAgent = $isAgent and path = $path" when {
+      s"the journey is for a 1st Stage Appeal and path = $path" when {
         "the penalty type is Late Submission Penalty (LSP)" should {
           "render the page has the correct elements" in {
             stubAuthRequests(isAgent)
@@ -69,23 +69,9 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)."
             document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
-
-            if(isAgent){
-              document.getParagraphs.get(3).text() shouldBe "If your client has received a penalty for an update period that started after the income source had stopped permanently (ceased), they may be able to get that point removed."
-
-            } else {
-              document.getParagraphs.get(3).text() shouldBe "If you have received a penalty for an update period that started after the income source had stopped permanently (ceased), you may be able to get that point removed."
-            }
-
-            if(isAgent){
-              document.getParagraphs.get(4).text() shouldBe "To do this, they will need to confirm the dates that a particular income source was ceased to HMRC."
-
-            } else {
-              document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the date that a particular income source was ceased to HMRC."
-            }
-
+            document.getParagraphs.get(3).text() shouldBe "If you have received a penalty for an update period that started after the income source had stopped permanently (ceased), you may be able to get that point removed."
+            document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the date that a particular income source was ceased to HMRC."
             document.getLink("cessationLink").text() shouldBe "Add, manage or cease a business or income source."
-
             document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
             document.getParagraphs.get(6).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(7).text() shouldBe "If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case."
