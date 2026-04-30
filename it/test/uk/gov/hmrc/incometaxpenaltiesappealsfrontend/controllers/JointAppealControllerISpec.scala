@@ -98,6 +98,29 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
           document.getSubmitButton.text() shouldBe "Continue"
         }
+
+        "the user is an authorised agent" in new Setup() {
+          stubAuthRequests(true)
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
+            dateToString(latePaymentAppealData.startDate),
+            dateToString(latePaymentAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
+          document.getElementById("paragraph1").text() shouldBe "These are:"
+          document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+          document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
+          document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want to appeal both penalties for the same reason?"
+          document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
       }
     }
 
@@ -108,6 +131,31 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
           userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
 
           val result: WSResponse = get("/multiple-penalties-for-this-period")
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
+            dateToString(latePaymentAppealData.startDate),
+            dateToString(latePaymentAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
+          document.getElementById("paragraph1").text() shouldBe "These are:"
+          document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+          document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
+          document.getElementById("paragraph2").text() shouldBe "You can ask for these appeal decisions to be reviewed at the same time if your evidence applies to both of the original appeals."
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want both appeal decisions to be reviewed at the same time?"
+          document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised agent" in new Setup() {
+          stubAuthRequests(true)
+          userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithMultipleLPPs2ndStage)
+
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
@@ -142,6 +190,29 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
         "the user is an authorised individual" in new Setup() {
           stubAuthRequests(false)
           val result: WSResponse = get("/multiple-penalties-for-this-period/check")
+
+          val document: nodes.Document = Jsoup.parse(result.body)
+
+          document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
+          document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
+            dateToString(latePaymentAppealData.startDate),
+            dateToString(latePaymentAppealData.endDate)
+          )
+          document.getH1Elements.text() shouldBe "There are 2 penalties for this overdue tax charge"
+          document.getElementById("paragraph1").text() shouldBe "These are:"
+          document.select("#penaltiesList > li:nth-child(1)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.firstPenaltyAmount)} first late payment penalty"
+          document.select("#penaltiesList > li:nth-child(2)").text() shouldBe s"£${CurrencyFormatter.uiFormat(multiplePenaltiesModel.secondPenaltyAmount)} second late payment penalty"
+          document.getElementById("paragraph2").text() shouldBe "You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty."
+          document.getElementsByClass("govuk-fieldset__legend").text() shouldBe "Do you want to appeal both penalties for the same reason?"
+          document.getElementsByAttributeValue("for", s"${JointAppealForm.key}").text() shouldBe JointAppealMessages.English.yes
+          document.getElementsByAttributeValue("for", s"${JointAppealForm.key}-2").text() shouldBe JointAppealMessages.English.no
+          document.getSubmitButton.text() shouldBe "Continue"
+        }
+
+        "the user is an authorised agent" in new Setup() {
+          stubAuthRequests(true)
+          val result: WSResponse = get("/agent-multiple-penalties-for-this-period/check", isAgent = true)
 
           val document: nodes.Document = Jsoup.parse(result.body)
 
