@@ -40,7 +40,6 @@
 
 @(form: Form[_], isAgent: Boolean, firstPenaltyAmount: BigDecimal, secondPenaltyAmount: BigDecimal, is2ndStageAppeal: Boolean, mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages)
 
-@individualOrAgent = {@if(isAgent) {agent} else {individual}}
 @appealStage = {@if(is2ndStageAppeal) {.review} else {}}
 
 @layout(pageTitle = Some(titleBuilder(messages("jointAppeal.headingAndTitle"), Some(form))), backLinkEnabled = true, isAgent = isAgent) {
@@ -60,7 +59,7 @@
             ), elmId = Some("penaltiesList")
         )
 
-      @p(s"$individualOrAgent.jointAppeal.p2$appealStage", elmId = Some("paragraph2"))
+      @p(s"jointAppeal.p2$appealStage", elmId = Some("paragraph2"))
 
         @govukRadios(Radios(
             fieldset = Some(Fieldset(

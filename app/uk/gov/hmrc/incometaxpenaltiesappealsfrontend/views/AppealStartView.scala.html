@@ -32,8 +32,7 @@
 @(isLate: Boolean, isLPP: Boolean, isAgent: Boolean, action: Call)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @isLPPText = {@if(isLPP) {.lpp} else {.lsp}}
-@isAgentText = {@if(isAgent) {.agent} else {.individual}}
-@cessationLink = {@link(link = appConfig.cessationRedirectUrl(isAgent), messageKey = s"appeal.start.cessation.link$isAgentText", id = Some("cessationLink"))}
+@cessationLink = {@link(link = appConfig.cessationRedirectUrl(isAgent), messageKey = "appeal.start.cessation.link", id = Some("cessationLink"))}
 
 @layout(Some(titleBuilder(messages("appeal.start.header"))), backLinkEnabled = false, isAgent = isAgent) {
 
@@ -55,8 +54,8 @@
 
     @if(!isLPP){
         @h2("appeal.start.cessation.h2", elmId = "cessationH2")
-        @p(s"appeal.start.cessation.p1$isAgentText")
-        @p(s"appeal.start.cessation.p2$isAgentText")
+        @p("appeal.start.cessation.p1")
+        @p("appeal.start.cessation.p2")
         @cessationLink
     }
     @h2("appeal.start.evidence.h2", elmId = "evidenceH2")

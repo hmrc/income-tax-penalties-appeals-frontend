@@ -33,8 +33,6 @@
 
 @(isAgent: Boolean, form: Form[_], mode: Mode)(implicit request: CurrentUserRequestWithAnswers[_], messages: Messages, appConfig: AppConfig)
 
-@standardOrAgent = {@if(isAgent){agent} else {standard}}
-
 
 @headingKey = @{
     if(request.isLPP) "reasonableExcuses.headingAndTitlePayments"
@@ -62,7 +60,7 @@
                 ))
             )),
             hint = Some(Hint(
-                content = Text(messages(s"reasonableExcuses.hintText.$standardOrAgent"))
+                content = Text(messages(s"reasonableExcuses.hintText"))
             )),
             name = "reasonableExcuse",
             errorMessage = form("reasonableExcuse").error.map(err => ErrorMessage(content = Text(messages(err.message)))),
