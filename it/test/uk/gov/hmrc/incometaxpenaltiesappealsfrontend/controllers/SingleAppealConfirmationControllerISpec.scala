@@ -72,6 +72,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe SingleAppealConfirmationMessages.English.serviceName
             document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -96,6 +97,7 @@ class SingleAppealConfirmationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe SingleAppealConfirmationMessages.English.serviceName
             document.title() shouldBe SingleAppealConfirmationMessages.English.titleWithSuffix(SingleAppealConfirmationMessages.English.headingAndTitleReview)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe SingleAppealConfirmationMessages.English.lppCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)

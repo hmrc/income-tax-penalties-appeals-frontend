@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models
 import play.api.mvc.{Request, WrappedRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.auth.core.AffinityGroup
+import uk.gov.hmrc.govukfrontend.views.Aliases.ServiceNavigation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.RequestWithNavBar
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.SessionData
 
@@ -27,16 +28,18 @@ abstract class CurrentUserRequest[A](request: Request[A]) extends WrappedRequest
   val nino: String
   val navBar: Option[Html]
   val arn: Option[String]
-
+  val serviceNavigationPartial: Option[ServiceNavigation]
   val isAgent: Boolean
 }
 
 case class AuthorisedAndEnrolledIndividual[A](mtdItId: String,
                                               nino: String,
+                                              serviceNavigationPartial: Option[ServiceNavigation] = None,
                                               navBar: Option[Html])(implicit request: Request[A]) extends CurrentUserRequest[A](request) {
   override val isAgent: Boolean = false
   override val arn: Option[String] = None
   def addNavBar(content: Html): CurrentUserRequest[A] = copy(navBar = Some(content))
+  def addServiceNavigation(partial: ServiceNavigation): AuthorisedAndEnrolledIndividual[A] = copy(serviceNavigationPartial = Some(partial))
 }
 
 case class AuthorisedAndEnrolledAgent[A](sessionData: SessionData,
@@ -46,6 +49,7 @@ case class AuthorisedAndEnrolledAgent[A](sessionData: SessionData,
   override val nino: String = sessionData.nino
   override val isAgent: Boolean = true
   override val navBar: Option[Html] = None
+  override val serviceNavigationPartial: Option[ServiceNavigation] = None
 }
 
 case class AuthorisedUserRequest[A](affinityGroup: AffinityGroup,

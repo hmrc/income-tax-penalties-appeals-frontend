@@ -65,7 +65,8 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
           .setAnswer(ReasonableExcusePage, Crime)
           .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-        penaltyData = penaltyData
+        penaltyData = penaltyData,
+        serviceNavigationPartial = None
       )(FakeRequest())
     }
 
@@ -88,7 +89,8 @@ class CurrentUserRequestWithAnswersSpec extends AnyWordSpec with Matchers with G
           .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
           .setAnswer(ReasonableExcusePage, Crime)
           .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-        penaltyData = penaltyData
+        penaltyData = penaltyData,
+        serviceNavigationPartial = None
       )(FakeRequest())
     }
 

@@ -136,6 +136,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe WhenDidEventHappenMessages.English.serviceName
             document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reasonWithUrl._1, isLPP = false, wasClientInformationIssue = false))
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -158,6 +159,7 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe WhenDidEventHappenMessages.English.serviceName
             document.title() shouldBe WhenDidEventHappenMessages.English.titleWithSuffix(WhenDidEventHappenMessages.English.headingAndTitle(reasonWithUrl._1, isLPP = false, wasClientInformationIssue = false))
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe WhenDidEventHappenMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)

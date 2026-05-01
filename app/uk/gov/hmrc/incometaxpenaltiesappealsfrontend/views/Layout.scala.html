@@ -14,22 +14,19 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.Aliases.{PhaseBanner, Tag, _}
-@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukBackLink, GovukPhaseBanner}
-@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
+@import uk.gov.hmrc.govukfrontend.views.Aliases.{PhaseBanner, Tag, *}
+@import uk.gov.hmrc.govukfrontend.views.Implicits.RichServiceNavigation
+@import uk.gov.hmrc.govukfrontend.views.html.components.{GovukBackLink, GovukPhaseBanner, TwoThirdsMainContent}
 @import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 @import uk.gov.hmrc.hmrcfrontend.views.Aliases.{Cy, En}
-@import uk.gov.hmrc.hmrcfrontend.views.html.components.HmrcAccountMenu
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.{HmrcReportTechnicalIssueHelper, HmrcStandardPage, HmrcTimeoutDialogHelper}
-@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.accountmenu.{AccountMenu, AccountMessages, SignOut}
-@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.{HmrcStandardPageParams, _}
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage.{HmrcStandardPageParams, *}
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components._
-@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.fullWidthMainContentLayout
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.HmrcLanguageSelectHelper
-@import uk.gov.hmrc.govukfrontend.views.html.components.TwoThirdsMainContent
-@import views.html.helper.CSPNonce
 @import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.RequestWithNavBar
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.components.*
+@import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.fullWidthMainContentLayout
+@import views.html.helper.CSPNonce
 
 @this(
   appConfig: AppConfig,
@@ -41,7 +38,6 @@
   twoThirdsMainContent: TwoThirdsMainContent,
   fullWidthPageLayout: fullWidthMainContentLayout,
   standardBetaBanner: StandardBetaBanner,
-  hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
   dateBannerHelper: dateBannerHelper
 )(implicit cfConfig: ContactFrontendConfig)
 
@@ -50,7 +46,8 @@
         backLinkEnabled: Boolean = true,
         isPageFullWidth: Boolean = false,
         disableSessionExpired: Boolean = false,
-        isAgent: Boolean
+        isAgent: Boolean,
+        useServiceNavigation: Boolean = true
 )(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
 
 
@@ -81,18 +78,31 @@
     }}
 
     @govukPhaseBanner(standardBetaBanner())
-
     @if(backLinkEnabled) {
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-            @govukBackLink(BackLink.mimicsBrowserBackButtonViaJavaScript)
-            </div>
-            <div class="govuk-grid-column-one-half">
-            @hmrcLanguageSelectHelper()
-            </div>
-        </div>
+       @govukBackLink(BackLink.mimicsBrowserBackButtonViaJavaScript)
+    }
+}
+
+@defaultServiceNavigation(serviceName: Option[String], serviceUrl: String) = @{
+    ServiceNavigation(serviceName = serviceName, serviceUrl = Some(serviceUrl)).withLanguageToggle()
+}
+
+@serviceNav = @{
+    if (useServiceNavigation) {
+
+        val serviceNavigationFromRequest = request match {
+            case req: RequestWithNavBar => req.serviceNavigationPartial
+            case _ => None
+        }
+
+        val navBar = serviceNavigationFromRequest match {
+            case Some(nav) => nav.copy(serviceName = Some(messages("service.name")), serviceUrl = Some(appConfig.ITSAPenaltiesAppealsHomeUrl(isAgent))).withLanguageToggle()
+            case None => defaultServiceNavigation(Some(messages("service.name")), serviceUrl = appConfig.ITSAPenaltiesAppealsHomeUrl(isAgent))
+        }
+
+        Some(navBar.withLanguageToggle())
     } else {
-        @hmrcLanguageSelectHelper()
+        None
     }
 }
 
@@ -114,7 +124,8 @@
         additionalHeadBlock = Some(headBlock),
         beforeContentBlock = Some(beforeContent),
         mainContentLayout = if(isPageFullWidth) Some(fullWidthPageLayout(_)) else Some(twoThirdsMainContent(_))
-    )
+    ),
+    serviceNavigation = serviceNav
   )
 )(content)
 

@@ -75,6 +75,7 @@ class WhoPlannedToSubmitControllerISpec extends ControllerISpecHelper with BaseF
 
           document.getServiceName.get(0).text() shouldBe WhoPlannedToSubmitMessages.English.serviceName
           document.title() should include(WhoPlannedToSubmitMessages.English.titleAndHeading)
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe WhoPlannedToSubmitMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

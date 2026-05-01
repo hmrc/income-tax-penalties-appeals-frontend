@@ -17,7 +17,9 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models
 
 import play.twirl.api.Html
+import uk.gov.hmrc.govukfrontend.views.Aliases.ServiceNavigation
 
 trait RequestWithNavBar {
   val navBar: Option[Html]
+  val serviceNavigationPartial: Option[ServiceNavigation]
 }

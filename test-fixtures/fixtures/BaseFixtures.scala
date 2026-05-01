@@ -99,7 +99,8 @@ trait BaseFixtures {
         .setAnswer(ReasonableExcusePage, Bereavement)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
 
   val fakeRequestForCrimeJourney: CurrentUserRequestWithAnswers[AnyContent] =
@@ -112,7 +113,8 @@ trait BaseFixtures {
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
 
   val fakeRequestForCrimeJourneyMultiple: CurrentUserRequestWithAnswers[AnyContent] = {
@@ -134,7 +136,8 @@ trait BaseFixtures {
         .setAnswer(CrimeReportedPage, CrimeReportedEnum.yes)
         .setAnswer(ReasonableExcusePage, Crime)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyData
+      penaltyData = penaltyData,
+      serviceNavigationPartial = None
     )(FakeRequest())
   }
 
@@ -147,7 +150,8 @@ trait BaseFixtures {
         .setAnswer(ReasonableExcusePage, FireOrFlood)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
 
   val fakeRequestForLossOfStaffJourney: CurrentUserRequestWithAnswers[AnyContent] =
@@ -159,7 +163,8 @@ trait BaseFixtures {
         .setAnswer(ReasonableExcusePage, LossOfStaff)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
 
   val fakeRequestForTechnicalIssuesJourney: CurrentUserRequestWithAnswers[AnyContent] =
@@ -172,7 +177,8 @@ trait BaseFixtures {
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
         .setAnswer(WhenDidEventEndPage, LocalDate.of(2022, 1, 4)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
 
   val fakeRequestForHealthIssuesJourney: CurrentUserRequestWithAnswers[AnyContent] =
@@ -184,7 +190,8 @@ trait BaseFixtures {
         .setAnswer(ReasonableExcusePage, Health)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
   
   val fakeRequestForHospitalStayJourney: CurrentUserRequestWithAnswers[AnyContent] =
@@ -198,7 +205,8 @@ trait BaseFixtures {
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
         .setAnswer(HasHospitalStayEndedPage, true)
         .setAnswer(WhenDidEventEndPage, LocalDate.of(2022, 1, 4)),
-      penaltyData = penaltyDataLSP
+      penaltyData = penaltyDataLSP,
+      serviceNavigationPartial = None
     )(FakeRequest())
 
   val fakeRequestForOtherJourney: CurrentUserRequestWithAnswers[AnyContent] = {
@@ -221,7 +229,8 @@ trait BaseFixtures {
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
         .setAnswer(ExtraEvidencePage, true)
         .setAnswer(MissedDeadlineReasonPage, "This is a reason."),
-      penaltyData = penaltyData
+      penaltyData = penaltyData,
+      serviceNavigationPartial = None
     )(FakeRequest())
   }
 
@@ -245,7 +254,8 @@ trait BaseFixtures {
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1))
         .setAnswer(ExtraEvidencePage, false)
         .setAnswer(MissedDeadlineReasonPage, "This is a reason."),
-      penaltyData = penaltyData
+      penaltyData = penaltyData,
+      serviceNavigationPartial = None
     )(FakeRequest())
   }
 
@@ -286,7 +296,7 @@ trait BaseFixtures {
     val penaltyData = userAnswers.getAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData).getOrElse(penaltyDataLSP)
     val enrolledRequest = optArn match {
       case Some(_) => AuthorisedAndEnrolledAgent(sessionData, optArn)(FakeRequest())
-      case _ => AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)(FakeRequest())
+      case _ => AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)(FakeRequest())
     }
     CurrentUserRequestWithAnswers(userAnswers, penaltyData)(enrolledRequest)
   }
