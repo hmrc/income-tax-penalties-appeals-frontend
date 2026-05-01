@@ -109,11 +109,13 @@ class HasHospitalStayEndedControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe s"${HasHospitalStayEndedMessages.English.headingAndTitle} - Manage your Self Assessment - GOV.UK"
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe HasHospitalStayEndedMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe HasHospitalStayEndedMessages.English.headingAndTitle
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}").text() shouldBe HasHospitalStayEndedMessages.English.yes
             document.getElementsByAttributeValue("for", s"${HasHospitalStayEndedForm.key}-2").text() shouldBe HasHospitalStayEndedMessages.English.no
             document.getSubmitButton.text() shouldBe "Continue"

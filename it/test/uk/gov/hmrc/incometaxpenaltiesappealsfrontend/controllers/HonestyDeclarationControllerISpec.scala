@@ -119,6 +119,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -142,6 +143,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -164,6 +166,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -186,6 +189,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -210,6 +214,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -234,6 +239,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -260,6 +266,7 @@ class HonestyDeclarationControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe HonestyDeclarationMessages.English.serviceName
             document.title() shouldBe HonestyDeclarationMessages.English.titleWithSuffix(HonestyDeclarationMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)

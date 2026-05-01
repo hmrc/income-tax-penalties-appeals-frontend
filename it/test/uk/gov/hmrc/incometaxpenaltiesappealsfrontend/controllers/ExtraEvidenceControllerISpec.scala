@@ -184,6 +184,7 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
                   document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
                   document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
+                  document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
                   document.getElementById("captionSpan").text() shouldBe whichCaption
 
                   document.getH1Elements.text() shouldBe ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)
@@ -249,9 +250,11 @@ class ExtraEvidenceControllerISpec extends ControllerISpecHelper {
 
                 document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
                 document.title() shouldBe s"${ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
+                document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
                 document.getElementById("captionSpan").text() shouldBe caption(false)
 
                 document.getH1Elements.text() shouldBe ExtraEvidenceMessages.English.headingAndTitle(is2ndStageAppeal)
+                document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
                 document.getElementById("extraEvidence-hint").text() shouldBe ExtraEvidenceMessages.English.hintText(is2ndStageAppeal)
                 document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}").text() shouldBe ExtraEvidenceMessages.English.yes
                 document.getElementsByAttributeValue("for", s"${ExtraEvidenceForm.key}-2").text() shouldBe ExtraEvidenceMessages.English.no

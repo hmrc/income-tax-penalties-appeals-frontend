@@ -77,6 +77,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "The appeal will cover both penalties - Manage your Self Assessment - GOV.UK"
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -100,6 +101,7 @@ class MultipleAppealsControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe "This review will cover both appeal decisions - Manage your Self Assessment - GOV.UK"
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)

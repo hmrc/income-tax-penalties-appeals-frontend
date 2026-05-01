@@ -266,6 +266,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)
@@ -290,6 +291,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "What was the reason for missing the submission deadline? - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe ReasonableExcuseMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

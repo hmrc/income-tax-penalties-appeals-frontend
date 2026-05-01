@@ -146,20 +146,20 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
       None
     }
   }
-  
-  // Service Navigation Links
-  lazy val ptaFrontendBase: String = servicesConfig.baseUrl("pta-frontend")
-  lazy val btaFrontendBase: String = servicesConfig.baseUrl("business-tax-account")
-  lazy val helpAndContactBase: String = servicesConfig.baseUrl("help-and-contact-frontend")
-  lazy val trackingBase: String = servicesConfig.baseUrl("tracking-frontend")
 
-  lazy val businessTaxAccountManageAccountUrl: String = s"$btaFrontendBase/business-account/manage-account"
-  lazy val businessTaxAccountMessagesUrl: String = s"$btaFrontendBase/business-account/messages"
+  // Service Navigation Links
+  lazy val ptaFrontendBase: String = servicesConfig.getString("urls.personalTaxAccountBaseUrl")
+  lazy val btaFrontendBase: String = servicesConfig.getString("urls.businessTaxAccountBaseUrl")
+  lazy val helpAndContactBase: String = servicesConfig.getString("urls.helpAndContactFrontendBaseUrl")
+  lazy val trackingBase: String = servicesConfig.getString("urls.trackingFrontendBaseUrl")
+
+  lazy val businessTaxAccountManageAccountUrl: String = s"$btaFrontendBase/manage-account"
+  lazy val businessTaxAccountMessagesUrl: String = s"$btaFrontendBase/messages"
   lazy val businessTaxAccountHelpUrl: String = s"$helpAndContactBase/business-account/help"
 
-  lazy val personalTaxAccountMessagesUrl: String = s"$ptaFrontendBase/personal-account/messages"
+  lazy val personalTaxAccountMessagesUrl: String = s"$ptaFrontendBase/messages"
   lazy val personalTaxAccountCheckProgressUrl: String = s"$trackingBase/track"
-  lazy val personalTaxAccountProfileUrl: String = s"$ptaFrontendBase/personal-account/your-profile"
-  lazy val personalTaxAccountBtaUrl: String = s"$btaFrontendBase/business-account"
+  lazy val personalTaxAccountProfileUrl: String = s"$ptaFrontendBase/profile-and-settings"
+  lazy val personalTaxAccountBtaUrl: String = s"$btaFrontendBase"
 
 }

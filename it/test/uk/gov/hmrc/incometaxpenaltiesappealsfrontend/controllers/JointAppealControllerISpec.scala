@@ -84,6 +84,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -107,6 +108,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -136,6 +138,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -161,6 +164,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -195,6 +199,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
@@ -218,6 +223,7 @@ class JointAppealControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
           document.title() shouldBe "There are 2 penalties for this overdue tax charge - Manage your Self Assessment - GOV.UK"
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe JointAppealMessages.English.lppCaptionMultiple(
             dateToString(latePaymentAppealData.startDate),
             dateToString(latePaymentAppealData.endDate)
