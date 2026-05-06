@@ -494,7 +494,7 @@ appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu har
 appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2 = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.link1 = Yn ôl i’ch cosbau Hunanasesiad.
+appealConfirmation.whatHappensNext.link1 = Bwrw golwg dros gosbau ac apeliadau.
 appealConfirmation.whatHappensNext.link2 = Bwrw golwg dros eich cyfrif Hunanasesiad.
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
