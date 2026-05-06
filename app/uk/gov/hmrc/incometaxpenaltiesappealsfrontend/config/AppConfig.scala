@@ -146,4 +146,20 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
       None
     }
   }
+
+  // Service Navigation Links
+  lazy val ptaFrontendBase: String = servicesConfig.getString("urls.personalTaxAccountBaseUrl")
+  lazy val btaFrontendBase: String = servicesConfig.getString("urls.businessTaxAccountBaseUrl")
+  lazy val helpAndContactBase: String = servicesConfig.getString("urls.helpAndContactFrontendBaseUrl")
+  lazy val trackingBase: String = servicesConfig.getString("urls.trackingFrontendBaseUrl")
+
+  lazy val businessTaxAccountManageAccountUrl: String = s"$btaFrontendBase/manage-account"
+  lazy val businessTaxAccountMessagesUrl: String = s"$btaFrontendBase/messages"
+  lazy val businessTaxAccountHelpUrl: String = s"$helpAndContactBase/business-account/help"
+
+  lazy val personalTaxAccountMessagesUrl: String = s"$ptaFrontendBase/messages"
+  lazy val personalTaxAccountCheckProgressUrl: String = s"$trackingBase/track"
+  lazy val personalTaxAccountProfileUrl: String = s"$ptaFrontendBase/profile-and-settings"
+  lazy val personalTaxAccountBtaUrl: String = s"$btaFrontendBase"
+
 }

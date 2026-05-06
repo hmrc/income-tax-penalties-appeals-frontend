@@ -20,47 +20,77 @@ import fixtures.BaseFixtures
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.i18n.MessagesApi
-import play.api.mvc.Results.Ok
-import play.api.mvc.{AnyContent, Result}
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.mvc.{AnyContentAsEmpty, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.*
-import play.twirl.api.Html
+import uk.gov.hmrc.govukfrontend.views.Aliases.{ServiceNavigation, ServiceNavigationItem, Text}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MessageCountHttpParser.MessagesCountResponseMalformed
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.MockMessageCountConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.NavBarRetrievalAction
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledAgent, AuthorisedAndEnrolledIndividual, CurrentUserRequest}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.messageCount.MessageCount
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.MockBtaNavBarService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.navBar.PtaNavBar
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class NavBarRetrievalActionSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite
-  with MockBtaNavBarService
   with MockMessageCountConnector
   with BaseFixtures {
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  lazy val ptaNavBar: PtaNavBar = app.injector.instanceOf[PtaNavBar]
-
-  val block: CurrentUserRequest[AnyContent] => Result = { _ => Ok("ALL GOOD") }
-
   val testAction = new NavBarRetrievalAction(
-    messageCountConnector = mockMessageCountConnector,
-    btaNavBarService = mockBtaNavBarService,
-    ptaNavBar = ptaNavBar
+    messageCountConnector = mockMessageCountConnector
   )(appConfig, ExecutionContext.global, messagesApi)
 
-  ".refine()" when {
-    "being called by an Agent user" should {
-      "return the CurrentUserRequest without the NavBar being added" in {
+  def expectedPtaServiceNavigation(implicit messages: Messages): ServiceNavigation = {
+    ServiceNavigation(
+      navigation = Seq(
+        ServiceNavigationItem(
+          content = Text(messages("pta.navigation.messages")),
+          href = appConfig.personalTaxAccountMessagesUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("pta.navigation.checkProgress")),
+          href = appConfig.personalTaxAccountCheckProgressUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("pta.navigation.profileAndSettings")),
+          href = appConfig.personalTaxAccountProfileUrl
+        )
+      ),
+      navigationId = "pta-service-navigation"
+    )
+  }
 
-        implicit val request =  FakeRequest()
+  def expectedBtaServiceNavigation(implicit messages: Messages): ServiceNavigation = {
+    ServiceNavigation(
+      navigation = Seq(
+        ServiceNavigationItem(
+          content = Text(messages("bta.navigation.manageAccount")),
+          href = appConfig.businessTaxAccountManageAccountUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("bta.navigation.messages")),
+          href = appConfig.businessTaxAccountMessagesUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("bta.navigation.helpAndContact")),
+          href = appConfig.businessTaxAccountHelpUrl
+        )
+      ),
+      navigationId = "bta-service-navigation"
+    )
+  }
+
+  ".refine()" when {
+
+    "being called by an Agent user" should {
+      "return the CurrentUserRequest without service navigation being added" in {
+
+        implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
         val agentRequest = AuthorisedAndEnrolledAgent(sessionData, Some("ARN1234"))
 
         val result = testAction.refine(agentRequest)
@@ -69,63 +99,123 @@ class NavBarRetrievalActionSpec extends AnyWordSpec with should.Matchers with Gu
     }
 
     "being called by an Individual user" when {
+
       "the origin is PTA" when {
-        "a successful response is returned from the connector" should {
-          "return the CurrentUserRequest with the NavBar being added" in {
 
-            implicit lazy val request: FakeRequest[_] = FakeRequest().withSession(IncomeTaxSessionKeys.origin -> "PTA")
-            implicit lazy val messages = messagesApi.preferred(request)
-            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+        "return the CurrentUserRequest with PTA service navigation added" in {
+          implicit lazy val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession((IncomeTaxSessionKeys.origin, "PTA"))
+          implicit val messages: Messages = messagesApi.preferred(request)
+          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
-            mockGetMessageCount()(Future.successful(Right(MessageCount(1))))
+          mockGetMessageCount()(Future.successful(Right(MessageCount(0))))
 
-            val result = testAction.refine(userRequest)
-            await(result) shouldBe Right(userRequest.copy(navBar = Some(ptaNavBar(1))))
-          }
-        }
+          val result = testAction.refine(userRequest)
+          val refinedRequest = await(result)
 
-        "an error response is returned from the connector" should {
-          "return the CurrentUserRequest with the NavBar being added, but the messages count defaulted to 0" in {
-
-            implicit lazy val request: FakeRequest[_] = FakeRequest().withSession(IncomeTaxSessionKeys.origin -> "PTA")
-            implicit lazy val messages = messagesApi.preferred(request)
-            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
-
-            mockGetMessageCount()(Future.successful(Left(MessagesCountResponseMalformed)))
-
-            val result = testAction.refine(userRequest)
-            await(result) shouldBe Right(userRequest.copy(navBar = Some(ptaNavBar(0))))
-          }
+          refinedRequest.isRight shouldBe true
+          val enrichedRequest = refinedRequest.toOption.get.asInstanceOf[AuthorisedAndEnrolledIndividual[?]]
+          enrichedRequest.serviceNavigationPartial shouldBe Some(expectedPtaServiceNavigation)
         }
       }
 
-      "the origin is BTA" when {
-        "a successful response is returned from the BtaNavBarService" should {
-          "return the CurrentUserRequest with the NavBar being added" in {
+      "the origin is BTA" should {
+        "return the CurrentUserRequest with BTA service navigation added" in {
 
-            implicit lazy val request: FakeRequest[_] = FakeRequest().withSession(IncomeTaxSessionKeys.origin -> "BTA")
-            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+          implicit lazy val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession((IncomeTaxSessionKeys.origin, "BTA"))
+          implicit val messages: Messages = messagesApi.preferred(request)
+          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
-            mockRetrieveBtaLinksAndRenderNavBar()(Future.successful(Some(Html("BTA Nav Bar"))))
+          val result = testAction.refine(userRequest)
+          val refinedRequest = await(result)
 
-            val result = testAction.refine(userRequest)
-            await(result) shouldBe Right(userRequest.copy(navBar = Some(Html("BTA Nav Bar"))))
-          }
+          refinedRequest.isRight shouldBe true
+          val enrichedRequest = refinedRequest.toOption.get.asInstanceOf[AuthorisedAndEnrolledIndividual[?]]
+          enrichedRequest.serviceNavigationPartial shouldBe Some(expectedBtaServiceNavigation)
         }
+      }
 
-        "a None is returned from BtaNavBarService" should {
-          "return the CurrentUserRequest without a NavBar" in {
+      "there is no origin in session" should {
+        "return the CurrentUserRequest without service navigation being added" in {
 
-            implicit lazy val request: FakeRequest[_] = FakeRequest().withSession(IncomeTaxSessionKeys.origin -> "BTA")
-            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+          implicit lazy val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest()
+          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
-            mockRetrieveBtaLinksAndRenderNavBar()(Future.successful(None))
+          val result = testAction.refine(userRequest)
+          val refinedRequest = await(result)
 
-            val result = testAction.refine(userRequest)
-            await(result) shouldBe Right(userRequest.copy(navBar = None))
-          }
+          refinedRequest.isRight shouldBe true
+          val enrichedRequest = refinedRequest.toOption.get.asInstanceOf[AuthorisedAndEnrolledIndividual[?]]
+          enrichedRequest.serviceNavigationPartial shouldBe None
+        }
+      }
+
+      "the origin is an unrecognised value" should {
+        "return the CurrentUserRequest without service navigation being added" in {
+
+          implicit lazy val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession((IncomeTaxSessionKeys.origin, "UNKNOWN"))
+          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
+
+          val result = testAction.refine(userRequest)
+          val refinedRequest = await(result)
+
+          refinedRequest.isRight shouldBe true
+          val enrichedRequest = refinedRequest.toOption.get.asInstanceOf[AuthorisedAndEnrolledIndividual[?]]
+          enrichedRequest.serviceNavigationPartial shouldBe None
         }
       }
     }
+
+    "the PTA service navigation" should {
+      "contain the correct navigation items with correct links and text" in {
+
+        implicit lazy val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession((IncomeTaxSessionKeys.origin, "PTA"))
+        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
+
+        mockGetMessageCount()(Future.successful(Right(MessageCount(0))))
+
+        val result = testAction.refine(userRequest)
+        val refinedRequest = await(result)
+        val enrichedRequest = refinedRequest.toOption.get.asInstanceOf[AuthorisedAndEnrolledIndividual[?]]
+        val serviceNav = enrichedRequest.serviceNavigationPartial.get
+
+        serviceNav.navigationId shouldBe "pta-service-navigation"
+        serviceNav.navigation.length shouldBe 3
+
+        serviceNav.navigation.head.content shouldBe Text("Messages")
+        serviceNav.navigation.head.href shouldBe appConfig.personalTaxAccountMessagesUrl
+
+        serviceNav.navigation(1).content shouldBe Text("Check progress")
+        serviceNav.navigation(1).href shouldBe appConfig.personalTaxAccountCheckProgressUrl
+
+        serviceNav.navigation(2).content shouldBe Text("Profile and settings")
+        serviceNav.navigation(2).href shouldBe appConfig.personalTaxAccountProfileUrl
+
+      }
+    }
+
+    "the BTA service navigation" should {
+      "contain the correct navigation items with correct links and text" in {
+
+        implicit lazy val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession((IncomeTaxSessionKeys.origin, "BTA"))
+        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
+
+        val result = testAction.refine(userRequest)
+        val refinedRequest = await(result)
+        val enrichedRequest = refinedRequest.toOption.get.asInstanceOf[AuthorisedAndEnrolledIndividual[?]]
+        val serviceNav = enrichedRequest.serviceNavigationPartial.get
+
+        serviceNav.navigationId shouldBe "bta-service-navigation"
+        serviceNav.navigation.length shouldBe 3
+
+        serviceNav.navigation.head.content shouldBe Text("Manage account")
+        serviceNav.navigation.head.href shouldBe appConfig.businessTaxAccountManageAccountUrl
+
+        serviceNav.navigation(1).content shouldBe Text("Messages")
+        serviceNav.navigation(1).href shouldBe appConfig.businessTaxAccountMessagesUrl
+
+        serviceNav.navigation(2).content shouldBe Text("Help and contact")
+        serviceNav.navigation(2).href shouldBe appConfig.businessTaxAccountHelpUrl
+      }
+    }
   }
-  }
+}

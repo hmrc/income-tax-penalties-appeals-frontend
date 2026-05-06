@@ -662,3 +662,12 @@ unauthorised.page.bullet4 = penalties and appeals
 unauthorised.page.read.more = Read more about the difference between main and supporting agents on
 unauthorised.page.link.text = GOV.UK
 
+## Rebrand Service Navigation
+pta.navigation.messages = Messages
+pta.navigation.checkProgress = Check progress
+pta.navigation.profileAndSettings = Profile and settings
+pta.navigation.businessTaxAccount = Business tax account
+
+bta.navigation.manageAccount = Manage account
+bta.navigation.messages = Messages
+bta.navigation.helpAndContact = Help and contact

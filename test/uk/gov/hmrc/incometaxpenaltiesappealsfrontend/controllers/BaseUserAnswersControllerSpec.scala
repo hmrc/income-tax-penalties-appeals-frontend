@@ -59,7 +59,8 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
           mtdItId = "123456789",
           nino = testNino,
           userAnswers = UserAnswers("1234").setAnswer(testPage, "foo"),
-          penaltyData = penaltyDataLSP
+          penaltyData = penaltyDataLSP,
+          serviceNavigationPartial = None
         )(FakeRequest())
 
         "execute the function with that answer" in {
@@ -77,7 +78,8 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
           mtdItId = "123456789",
           nino = testNino,
           userAnswers = UserAnswers("1234"),
-          penaltyData = penaltyDataLSP
+          penaltyData = penaltyDataLSP,
+          serviceNavigationPartial = None
         )(FakeRequest())
 
         //TODO: In future, redirect to SessionTimeout, or JourneyExpired page???

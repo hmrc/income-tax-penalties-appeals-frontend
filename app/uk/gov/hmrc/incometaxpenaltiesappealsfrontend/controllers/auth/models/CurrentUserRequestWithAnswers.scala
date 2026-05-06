@@ -19,6 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models
 import play.api.libs.json.{JsObject, Json, Reads}
 import play.api.mvc.{Request, WrappedRequest}
 import play.twirl.api.Html
+import uk.gov.hmrc.govukfrontend.views.Aliases.ServiceNavigation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Bereavement
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
@@ -34,7 +35,8 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
                                             arn: Option[String] = None,
                                             override val navBar: Option[Html] = None,
                                             userAnswers: UserAnswers,
-                                            penaltyData: PenaltyData)(implicit val request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
+                                            penaltyData: PenaltyData,
+                                            serviceNavigationPartial: Option[ServiceNavigation])(implicit val request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
 
   val journeyId: String = userAnswers.journeyId
   val isAgent: Boolean = arn.isDefined
@@ -111,5 +113,5 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
 
 object CurrentUserRequestWithAnswers {
   def apply[A](userAnswers: UserAnswers, penaltyData: PenaltyData)(implicit userRequest: CurrentUserRequest[A]): CurrentUserRequestWithAnswers[A] =
-    CurrentUserRequestWithAnswers(userRequest.mtdItId, userRequest.nino, userRequest.arn, userRequest.navBar, userAnswers, penaltyData)
+    CurrentUserRequestWithAnswers(userRequest.mtdItId, userRequest.nino, userRequest.arn, userRequest.navBar, userAnswers, penaltyData, userRequest.serviceNavigationPartial)
 }

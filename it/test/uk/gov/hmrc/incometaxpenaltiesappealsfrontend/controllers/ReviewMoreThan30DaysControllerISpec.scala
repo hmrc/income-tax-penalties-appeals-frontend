@@ -97,6 +97,7 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
             document.title() should include(ReviewMoreThan30DaysMessages.English.headingAndTitle)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe ReviewMoreThan30DaysMessages.English.lspCaption(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)
@@ -120,6 +121,7 @@ class ReviewMoreThan30DaysControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe ReviewMoreThan30DaysMessages.English.serviceName
             document.title() should include(ReviewMoreThan30DaysMessages.English.headingAndTitleMultiple)
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe ReviewMoreThan30DaysMessages.English.lppCaptionMultiple(
               dateToString(lateSubmissionAppealData.startDate),
               dateToString(lateSubmissionAppealData.endDate)

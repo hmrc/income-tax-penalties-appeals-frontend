@@ -16,25 +16,23 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc._
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.mvc.*
+import uk.gov.hmrc.govukfrontend.views.Aliases.{ServiceNavigationItem, Text}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.servicenavigation.ServiceNavigation
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.MessageCountConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledIndividual, CurrentUserRequest}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.BtaNavBarService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.navBar.PtaNavBar
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountConnector,
-                                      val btaNavBarService: BtaNavBarService,
-                                      val ptaNavBar: PtaNavBar)
+class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountConnector)
                                      (implicit val appConfig: AppConfig,
                                       val executionContext: ExecutionContext,
                                       val messagesApi: MessagesApi) extends ActionRefiner[CurrentUserRequest, CurrentUserRequest] with I18nSupport {
@@ -46,7 +44,7 @@ class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountCon
     request match {
       case _req: AuthorisedAndEnrolledIndividual[A] => request.session.get(IncomeTaxSessionKeys.origin) match {
         case Some("PTA") => handlePtaNavBar()(_req, implicitly)
-        case Some("BTA") => handleBtaNavBar()(_req, implicitly)
+        case Some("BTA") => handleBtaNavBar()(_req)
         case _ =>
           logger.info("[NavBarRetrievalAction][refine] No origin found in session, not constructing a Nav Bar as can't determine PTA or BTA")
           Future.successful(Right(request))
@@ -56,17 +54,55 @@ class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountCon
   }
 
   private def handlePtaNavBar[A]()(implicit request: AuthorisedAndEnrolledIndividual[A], hc: HeaderCarrier): Future[Either[Result, CurrentUserRequest[A]]] = {
-    messageCountConnector.getMessageCount().map {
-      case Right(count) =>
-        Right(request.addNavBar(ptaNavBar(count.count)))
-      case _ =>
-        logger.warn("[NavBarRetrievalAction][refine] Failed to retrieve message count from 'message' microservice, continuing with 0 messages to continue gracefully")
-        Right(request.addNavBar(ptaNavBar(0)))
+    messageCountConnector.getMessageCount().map { _ =>
+      Right(request.addServiceNavigation(createPtaServiceNavigation()))
+    }.recover { case ex =>
+      logger.warn(s"[NavBarRetrievalAction][refine] Failed to retrieve message count from 'message' microservice, continuing with 0 messages to continue gracefully. Error: ${ex.getMessage}")
+      Right(request.addServiceNavigation(createPtaServiceNavigation()))
     }
   }
 
-  private def handleBtaNavBar[A]()(implicit request: AuthorisedAndEnrolledIndividual[A], hc: HeaderCarrier): Future[Right[Result, CurrentUserRequest[A]]] =
-    btaNavBarService.retrieveBtaLinksAndRenderNavBar().map(btaNavBarHtml =>
-      Right(btaNavBarHtml.fold[CurrentUserRequest[A]](request)(content => request.addNavBar(content)))
+  private def handleBtaNavBar[A]()(implicit request: AuthorisedAndEnrolledIndividual[A]): Future[Right[Result, CurrentUserRequest[A]]] =
+    Future.successful(Right(request.addServiceNavigation(createBtaServiceNavigation())))
+
+
+  private def createPtaServiceNavigation()(implicit messages: Messages): ServiceNavigation = {
+    ServiceNavigation(
+      navigation = Seq(
+        ServiceNavigationItem(
+          content = Text(messages("pta.navigation.messages")),
+          href = appConfig.personalTaxAccountMessagesUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("pta.navigation.checkProgress")),
+          href = appConfig.personalTaxAccountCheckProgressUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("pta.navigation.profileAndSettings")),
+          href = appConfig.personalTaxAccountProfileUrl
+        )
+      ),
+      navigationId = "pta-service-navigation"
     )
+  }
+
+  private def createBtaServiceNavigation()(implicit messages: Messages): ServiceNavigation = {
+    ServiceNavigation(
+      navigation = Seq(
+        ServiceNavigationItem(
+          content = Text(messages("bta.navigation.manageAccount")),
+          href = appConfig.businessTaxAccountManageAccountUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("bta.navigation.messages")),
+          href = appConfig.businessTaxAccountMessagesUrl
+        ),
+        ServiceNavigationItem(
+          content = Text(messages("bta.navigation.helpAndContact")),
+          href = appConfig.businessTaxAccountHelpUrl
+        )
+      ),
+      navigationId = "bta-service-navigation"
+    )
+  }
 }

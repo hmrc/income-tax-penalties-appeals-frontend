@@ -60,7 +60,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
       "redirect to Page Not Found page" in {
 
-        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
         val result = testAction.invokeBlock(userRequest, block)
 
@@ -81,7 +81,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
           mockGetUserAnswers(testJourneyId)(Future.successful(None))
 
-          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+          val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
           val result = testAction.invokeBlock(userRequest, block)
 
@@ -104,7 +104,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
             mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
 
-            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
             val result = testAction.invokeBlock(userRequest, block)
 
@@ -125,7 +125,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
             mockGetUserAnswers(testJourneyId)(Future.successful(Some(testUserAnswers)))
 
-            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+            val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
             val result = testAction.invokeBlock(userRequest, block)
 
@@ -144,7 +144,7 @@ class UserAnswersActionSpec extends AnyWordSpec with should.Matchers with GuiceO
 
         mockGetUserAnswersMongoFailure(testJourneyId)
 
-        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None)
+        val userRequest = AuthorisedAndEnrolledIndividual(testMtdItId, testNino, None, None)
 
         val result = testAction.invokeBlock(userRequest, block)
 

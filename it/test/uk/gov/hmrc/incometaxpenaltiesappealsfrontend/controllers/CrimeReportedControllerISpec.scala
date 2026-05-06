@@ -99,6 +99,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
+        document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
@@ -117,6 +118,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
+        document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
@@ -227,6 +229,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
+        document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)
@@ -245,6 +248,7 @@ class CrimeReportedControllerISpec extends ControllerISpecHelper {
 
         document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
         document.title() shouldBe "Has this crime been reported to the police? - Manage your Self Assessment - GOV.UK"
+        document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
         document.getElementById("captionSpan").text() shouldBe CrimeReportedMessages.English.lspCaption(
           dateToString(lateSubmissionAppealData.startDate),
           dateToString(lateSubmissionAppealData.endDate)

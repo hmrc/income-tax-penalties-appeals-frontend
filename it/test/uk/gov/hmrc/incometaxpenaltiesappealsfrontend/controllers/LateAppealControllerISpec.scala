@@ -424,6 +424,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
               document.title() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days - Manage your Self Assessment - GOV.UK"
+              document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
@@ -443,6 +444,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
               document.title() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days - Manage your Self Assessment - GOV.UK"
+              document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
               document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lspCaption(
                 dateToString(lateSubmissionAppealData.startDate),
                 dateToString(lateSubmissionAppealData.endDate)
@@ -465,6 +467,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days - Manage your Self Assessment - GOV.UK"
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaption(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)
@@ -487,6 +490,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
 
             document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
             document.title() shouldBe s"Tell us why you have not asked for a review within ${reason._2} days - Manage your Self Assessment - GOV.UK"
+            document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
             document.getElementById("captionSpan").text() shouldBe LateAppealMessages.English.lppCaptionMultiple(
               dateToString(latePaymentAppealData.startDate),
               dateToString(latePaymentAppealData.endDate)

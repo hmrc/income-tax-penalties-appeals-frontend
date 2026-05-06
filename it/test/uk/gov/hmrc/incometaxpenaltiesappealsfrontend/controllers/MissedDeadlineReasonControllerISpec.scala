@@ -166,7 +166,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
                 document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
                 document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)} - Manage your Self Assessment - GOV.UK"
-
+                document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
                 document.getElementById("captionSpan").text() shouldBe whichCaption
 
                 document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = true, is2ndStageAppeal = is2ndStageAppeal, isJointAppeal = isJointAppeal)
@@ -220,6 +220,7 @@ class MissedDeadlineReasonControllerISpec extends ControllerISpecHelper {
 
               document.getServiceName.get(0).text() shouldBe "Manage your Self Assessment"
               document.title() shouldBe s"${MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)} - Manage your Self Assessment - GOV.UK"
+              document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
               document.getElementById("captionSpan").text() shouldBe caption(false)
 
               document.getElementsByAttributeValue("for", s"${MissedDeadlineReasonForm.key}").text() shouldBe MissedDeadlineReasonMessages.English.headingAndTitle(isLPP = false, is2ndStageAppeal = is2ndStageAppeal)

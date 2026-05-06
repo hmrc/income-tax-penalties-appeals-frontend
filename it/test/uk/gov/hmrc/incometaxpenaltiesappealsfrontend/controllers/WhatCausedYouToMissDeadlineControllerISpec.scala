@@ -74,6 +74,7 @@ class WhatCausedYouToMissDeadlineControllerISpec extends ControllerISpecHelper {
 
           document.getServiceName.get(0).text() shouldBe WhatCausedYouToMissDeadlineMessages.English.serviceName
           document.title() should include(WhatCausedYouToMissDeadlineMessages.English.titleAndHeading)
+          document.getElementsByClass("govuk-back-link").text() shouldBe "Back"
           document.getElementById("captionSpan").text() shouldBe WhatCausedYouToMissDeadlineMessages.English.lspCaption(
             dateToString(lateSubmissionAppealData.startDate),
             dateToString(lateSubmissionAppealData.endDate)

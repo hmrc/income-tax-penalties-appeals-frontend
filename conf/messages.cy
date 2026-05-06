@@ -661,3 +661,13 @@ unauthorised.page.bullet3 = y ffioedd sy'n ddyledus nesaf
 unauthorised.page.bullet4 = cosbau ac apeliadau
 unauthorised.page.read.more = Darllenwch ragor am y gwahaniaeth rhwng prif asiantau ac asiantau ategol ar
 unauthorised.page.link.text = GOV.UK
+
+## Rebrand Service Navigation
+pta.navigation.messages = Negeseuon
+pta.navigation.checkProgress = Gwirio cynnydd
+pta.navigation.profileAndSettings = Proffil a gosodiadau
+pta.navigation.businessTaxAccount = Cyfrif treth busnes
+
+bta.navigation.manageAccount = Rheoli’r cyfrif
+bta.navigation.messages = Negeseuon
+bta.navigation.helpAndContact = Cymorth a chysylltu
