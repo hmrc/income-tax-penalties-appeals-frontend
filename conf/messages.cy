@@ -488,18 +488,18 @@ checkYourAnswers.acceptAndSend = Derbyn ac anfon
 appealConfirmation.headingAndTitle = Apêl wedi dod i law
 appealConfirmation.typeAndPeriod = Blwyddyn dreth {0}: {1}
 appealConfirmation.p1 = Does dim angen cyfeirnod arnoch.
-appealConfirmation.p2 = Mae’ch apêl wedi’i chofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr apêl hon.
-appealConfirmation.p2.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn eich rhif Yswiriant Gwladol. Nodwch y rhif hwn os byddwch yn cysylltu â CThEF ynghylch yr adolygiad hwn.
+appealConfirmation.p2 = Mae’r apêl hon wedi’i chofnodi yn erbyn y rhif Yswiriant Gwladol {0}. Nodwch y rhif hwn os ydych yn cysylltu â CThEF ynghylch yr apêl hon.
+appealConfirmation.p2.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn y rhif Yswiriant Gwladol {0}. Nodwch y rhif hwn os ydych yn cysylltu â CThEF ynghylch yr apêl hon.
 appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd).
 appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2 = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.link1 = Yn ôl i’ch cosbau Hunanasesiad.
+appealConfirmation.whatHappensNext.link1 = Bwrw golwg dros gosbau ac apeliadau.
 appealConfirmation.whatHappensNext.link2 = Bwrw golwg dros eich cyfrif Hunanasesiad.
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
 appealConfirmation.feedback.p = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
-appealConfirmation.feedback.link = Llenwch arolwg byr.
+appealConfirmation.feedback.link = Llenwch arolwg byr
 appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
 appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd).
 
