@@ -499,7 +499,7 @@ appealConfirmation.whatHappensNext.link2 = Bwrw golwg dros eich cyfrif Hunanases
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
 appealConfirmation.feedback.p = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
-appealConfirmation.feedback.link = Llenwch arolwg byr.
+appealConfirmation.feedback.link = Llenwch arolwg byr
 appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
 appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd).
 
