@@ -31,7 +31,7 @@ appeal.start.cessation.link = Ychwanegu, rheoli neu ddod â busnes neu ffynhonne
 appeal.start.evidence.h2 = Anfon tystiolaeth gydag apêl
 appeal.start.li2 = y dyddiadau sy’n berthnasol i’r esgus rhesymol hwn
 appeal.start.li3 = rheswm dros beidio ag apelio’n gynt
-appeal.start.guidanceLink = Darllenwch yr arweiniad ynghylch esgusodion rhesymol (yn agor tab newydd).
+appeal.start.guidanceLink = Darllenwch yr arweiniad ynghylch esgusodion rhesymol (yn agor tab newydd)
 appeal.start.p4 = Mewn rhai achosion, bydd gennych yr opsiwn i uwchlwytho tystiolaeth er mwyn ategu’ch apêl. Dylech fynd ati i gasglu’r dystiolaeth hon cyn parhau, gan na fydd modd i chi gadw’r apêl a dod yn ôl ato yn nes ymlaen.
 appeal.start.p5 = Os na fydd gennych yr opsiwn i uwchlwytho tystiolaeth ychwanegol, mae hyn oherwydd, yn eich achos chi, nid oes angen unrhyw dystiolaeth arnom i wneud penderfyniad.
 appeal.start.p6 = Os byddwn yn penderfynu bod angen tystiolaeth ychwanegol arnom ar ôl adolygu’ch apêl, byddwn yn cysylltu â chi.
@@ -490,18 +490,18 @@ appealConfirmation.typeAndPeriod = Blwyddyn dreth {0}: {1}
 appealConfirmation.p1 = Does dim angen cyfeirnod arnoch.
 appealConfirmation.p2 = Mae’r apêl hon wedi’i chofnodi yn erbyn y rhif Yswiriant Gwladol {0}. Nodwch y rhif hwn os ydych yn cysylltu â CThEF ynghylch yr apêl hon.
 appealConfirmation.p2.review = Mae’r cais hwn am adolygiad wedi’i gofnodi yn erbyn y rhif Yswiriant Gwladol {0}. Nodwch y rhif hwn os ydych yn cysylltu â CThEF ynghylch yr apêl hon.
-appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd).
+appealConfirmation.viewOrPrint = Bwrw golwg dros fanylion eich apêl, neu eu hargraffu (yn agor tab newydd)
 appealConfirmation.whatHappensNext.h2 = Yr hyn sy’n digwydd nesaf
 appealConfirmation.whatHappensNext.p1 = Rydym yn bwriadu i wneud penderfyniad ynghylch apeliadau cyn pen 45 diwrnod.
 appealConfirmation.whatHappensNext.p2 = Unwaith i’r penderfyniad gael ei wneud, byddwch yn cael gwybod am ganlyniad yr apêl hon a’r rhesymau dros ein penderfyniad.
-appealConfirmation.whatHappensNext.link1 = Bwrw golwg dros gosbau ac apeliadau.
-appealConfirmation.whatHappensNext.link2 = Bwrw golwg dros eich cyfrif Hunanasesiad.
+appealConfirmation.whatHappensNext.link1 = Bwrw golwg dros gosbau ac apeliadau
+appealConfirmation.whatHappensNext.link2 = Bwrw golwg dros eich cyfrif Hunanasesiad
 
 appealConfirmation.feedback.h2 = Cyn i chi fynd
 appealConfirmation.feedback.p = Mae’ch adborth yn ein helpu i wella ein gwasanaeth.
 appealConfirmation.feedback.link = Llenwch arolwg byr
 appealConfirmation.feedback.link.text = i rannu’ch adborth ar y gwasanaeth.
-appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd).
+appealConfirmation.viewOrPrint.review = Bwrw golwg dros fanylion yr adolygiad hwn, neu eu hargraffu (yn agor tab newydd)
 
 appealConfirmation.review.headingAndTitle = Cais am adolygiad wedi dod i law
 appealConfirmation.whatHappensNext.p1.review = Rydym yn bwriadu i wneud penderfyniad ynghylch adolygiadau cyn pen 45 diwrnod.
@@ -643,14 +643,14 @@ common.unsure = Dydw i ddim yn siŵr
 
 duplicateAppeal.headingAndTitle = Apêl eisoes ar y gweill
 duplicateAppeal.p1 = Ni allwch gyflwyno mwy nag un apêl ar gyfer yr un gosb ar yr un pryd.
-duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad.
+duplicateAppeal.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
 
 # Page not found
 # ----------------------------------------------------------
 page.not.found.headingAndTitle = Heb ddod o hyd i’r dudalen
 page.not.found.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.
 page.not.found.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi copïo’r cyfeiriad yn llawn.
-page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad.
+page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
 
 # Unauthorised Error View
 unauthorised.page.h1 = Nid ydych wedi'ch awdurdodi i gael mynediad at y dudalen hon
