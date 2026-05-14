@@ -26,14 +26,15 @@ object UploadDocumentForm {
   val key = "file"
   val form: Form[String] = Form[String](key -> text)
 
-  def errorMessages(code: String)(implicit messages: Messages, appConfig: AppConfig): String = code match {
-    case "EntityTooSmall" => messages("uploadEvidence.error.fileTooSmall")
-    case "EntityTooLarge" => messages("uploadEvidence.error.fileTooLarge", appConfig.upscanMaxFileSizeMB)
-    case "InvalidArgument" => messages("uploadEvidence.error.noFileSpecified")
-    case "QUARANTINE" => messages(s"uploadEvidence.error.QUARANTINE")
-    case "REJECTED" => messages(s"uploadEvidence.error.REJECTED")
-    case "INVALID_FILENAME" => messages(s"uploadEvidence.error.INVALID_FILENAME")
-    case "PASSWORD_PROTECTED" => messages(s"uploadEvidence.error.PASSWORD_PROTECTED")
+  def errorMessages(code: String, errorMessage: Option[String] = None)(implicit messages: Messages, appConfig: AppConfig): String = (code, errorMessage) match {
+    case ("EntityTooSmall", _) => messages("uploadEvidence.error.fileTooSmall")
+    case ("EntityTooLarge", _) => messages("uploadEvidence.error.fileTooLarge", appConfig.upscanMaxFileSizeMB)
+    case ("InvalidArgument", Some("'file' invalid file format")) => messages("uploadEvidence.error.REJECTED")
+    case ("InvalidArgument", _) => messages("uploadEvidence.error.noFileSpecified")
+    case ("QUARANTINE", _) => messages(s"uploadEvidence.error.QUARANTINE")
+    case ("REJECTED", _) => messages(s"uploadEvidence.error.REJECTED")
+    case ("INVALID_FILENAME", _) => messages(s"uploadEvidence.error.INVALID_FILENAME")
+    case ("PASSWORD_PROTECTED", _) => messages(s"uploadEvidence.error.PASSWORD_PROTECTED")
     case _ => messages("uploadEvidence.error.unableToUpload")
   }
 }
