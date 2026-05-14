@@ -66,7 +66,7 @@
                 </ul>
                 @p("uploadEvidence.fileName.p1")
 
-                <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data">
+                <form method="POST" action="@upscanFormFields.href" id="file-upload-form" enctype="multipart/form-data" novalidate>
                     @for((key, value) <- upscanFormFields.fields) {
                         <input type="hidden" name="@key" value="@value"/>
                     }
