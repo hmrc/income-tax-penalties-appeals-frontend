@@ -29,8 +29,8 @@ object UploadDocumentForm {
   def errorMessages(code: String, errorMessage: Option[String] = None)(implicit messages: Messages, appConfig: AppConfig): String = (code, errorMessage) match {
     case ("EntityTooSmall", _) => messages("uploadEvidence.error.fileTooSmall")
     case ("EntityTooLarge", _) => messages("uploadEvidence.error.fileTooLarge", appConfig.upscanMaxFileSizeMB)
+    case ("InvalidArgument", Some("'file' field not found")) => messages("uploadEvidence.error.noFileSpecified")
     case ("InvalidArgument", Some("'file' invalid file format")) => messages("uploadEvidence.error.REJECTED")
-    case ("InvalidArgument", _) => messages("uploadEvidence.error.noFileSpecified")
     case ("QUARANTINE", _) => messages(s"uploadEvidence.error.QUARANTINE")
     case ("REJECTED", _) => messages(s"uploadEvidence.error.REJECTED")
     case ("INVALID_FILENAME", _) => messages(s"uploadEvidence.error.INVALID_FILENAME")
