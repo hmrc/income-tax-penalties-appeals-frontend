@@ -40,7 +40,7 @@ class UpscanInitiateRequestSpec extends AnyWordSpec with Matchers with GuiceOneA
           callbackUrl = "http://localhost:9188" + internalRoutes.UpscanCallbackController.callbackFromUpscan(testJourneyId).url,
           successRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent, mode).url.replace("?key=", "")),
           errorRedirect = Some("http://localhost:9188" + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode).url),
-          minimumFileSize = Some(1),
+          minimumFileSize = None,
           maximumFileSize = Some(10485760)
         )
 
