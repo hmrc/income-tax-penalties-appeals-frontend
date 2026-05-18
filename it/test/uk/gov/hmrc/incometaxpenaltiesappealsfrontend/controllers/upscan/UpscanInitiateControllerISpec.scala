@@ -127,6 +127,42 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                   Some(waitingFile.copy(lastUpdated = testDate.atStartOfDay()))
               }
             }
+
+            "an errorCode and errorMessage are provided" should {
+
+              "render a BadRequest with the correct error message for InvalidArgument with 'file' field not found" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+
+                val result = get(s"${url(isAgent, mode)}?errorCode=InvalidArgument&errorMessage='file' field not found", isAgent = isAgent)
+                result.status shouldBe BAD_REQUEST
+
+                val document: Document = Jsoup.parse(result.body)
+                document.select(".govuk-error-message").text() shouldBe "Error: Select a file"
+              }
+
+              "render a BadRequest with the correct error message for InvalidArgument with 'file' invalid file format" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+
+                val result = get(s"${url(isAgent, mode)}?errorCode=InvalidArgument&errorMessage='file' invalid file format", isAgent = isAgent)
+                result.status shouldBe BAD_REQUEST
+
+                val document: Document = Jsoup.parse(result.body)
+                document.select(".govuk-error-message").text() shouldBe "Error: The selected file must be a JPG, PNG, TIFF, PDF, TXT, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file"
+              }
+
+              "render a BadRequest with the correct error message for EntityTooSmall (empty file)" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+
+                val result = get(s"${url(isAgent, mode)}?errorCode=EntityTooSmall", isAgent = isAgent)
+                result.status shouldBe BAD_REQUEST
+
+                val document: Document = Jsoup.parse(result.body)
+                document.select(".govuk-error-message").text() shouldBe "Error: The selected file is empty. Choose another file"
+              }
+            }
           }
         }
 
@@ -152,6 +188,21 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                     val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
                     result.status shouldBe SEE_OTHER
                     result.header(LOCATION) shouldBe Some(routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal, mode).url)
+                  }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
+                }
+              }
+
+              "the file status is 'READY' but the file is empty (size == 0)" should {
+
+                s"redirect to the file upload page with the EntityTooSmall errorCode after a configured artificial delay of ${appConfig.upscanCheckInterval.toMillis}ms" in {
+
+                  stubAuthRequests(isAgent)
+                  fileUploadRepo.upsertFileUpload(testJourneyId, callbackModelEmptyFile).futureValue
+
+                  calculateRuntime {
+                    val result = get(s"$successRedirectPath?key=$fileRef1", isAgent = isAgent)
+                    result.status shouldBe SEE_OTHER
+                    result.header(LOCATION) shouldBe Some(routes.UpscanInitiateController.onPageLoad(Some(fileRef1), Some("EntityTooSmall"), isAgent, is2ndStageAppeal, mode).url)
                   }.shouldTakeAtLeast(appConfig.upscanCheckInterval)
                 }
               }

@@ -82,6 +82,8 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
   def onSubmitSuccessRedirect(key: String, isAgent: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     waitForUpscanResponse(user.isAgent, user.is2ndStageAppeal, user.journeyId, key, mode = mode) { uploadJourney =>
       (uploadJourney.fileStatus, uploadJourney.failureDetails) match {
+        case (READY, _) if uploadJourney.uploadDetails.exists(_.size == 0) =>
+          Future.successful(Redirect(routes.UpscanInitiateController.onPageLoad(Some(key), Some("EntityTooSmall"), isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode)))
         case (READY, _) =>
           Future.successful(Redirect(routes.UpscanCheckAnswersController.onPageLoad(isAgent = user.isAgent, is2ndStageAppeal = user.is2ndStageAppeal, mode)))
         case (FAILED, Some(error)) =>

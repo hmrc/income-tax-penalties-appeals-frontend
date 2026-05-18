@@ -89,6 +89,19 @@ trait FileUploadFixtures extends BaseFixtures {
     ))
   )
 
+  val callbackModelEmptyFile: UploadJourney = UploadJourney(
+    reference = fileRef1,
+    fileStatus = UploadStatusEnum.READY,
+    downloadUrl = Some("download.file/url"),
+    uploadDetails = Some(UploadDetails(
+      fileName = "empty.txt",
+      fileMimeType = "text/plain",
+      uploadTimestamp = LocalDateTime.of(2023, 1, 1, 1, 1),
+      checksum = "check1234",
+      size = 0
+    ))
+  )
+
   val callbackModelFailed: UploadJourney = callbackModel.copy(
     fileStatus = UploadStatusEnum.FAILED,
     downloadUrl = None,

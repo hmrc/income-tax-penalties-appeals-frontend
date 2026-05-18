@@ -102,7 +102,6 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val host: String = config.get[String]("income-tax-penalties-appeals-frontend-host")
   lazy val upscanCallbackBaseUrl: String = config.get[String]("upscan.callback.base")
 
-  lazy val upscanMinFileSize: Int = config.get[Int]("upscan.minFileSize")
   lazy val upscanMaxFileSize: Int = config.get[Int]("upscan.maxFileSize")
   lazy val upscanMaxFileSizeMB: Int = upscanMaxFileSize / 1024 / 1024
   lazy val upscanMaxNumberOfFiles: Int = config.get[Int]("upscan.maxNumberOfFiles")

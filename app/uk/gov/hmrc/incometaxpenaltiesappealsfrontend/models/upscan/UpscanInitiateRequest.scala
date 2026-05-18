@@ -36,7 +36,7 @@ object UpscanInitiateRequest {
     callbackUrl     = appConfig.upscanCallbackBaseUrl + internalRoutes.UpscanCallbackController.callbackFromUpscan(journeyId).url,
     successRedirect = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onSubmitSuccessRedirect("", isAgent, mode = mode).url.replace("?key=", "")),
     errorRedirect   = Some(appConfig.host + upscanRoutes.UpscanInitiateController.onPageLoad(isAgent = isAgent, is2ndStageAppeal = is2ndStageAppeal, mode = mode).url),
-    minimumFileSize = Some(appConfig.upscanMinFileSize),
+    minimumFileSize = None,
     maximumFileSize = Some(appConfig.upscanMaxFileSize)
   )
 }
