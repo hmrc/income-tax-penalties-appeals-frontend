@@ -114,9 +114,9 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
 
   lazy val viewAndChangeSAHomepageUrl: Boolean => String = isAgent => {
     if (isAgent) {
-      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/agents/your-self-assessment-charges"
+      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/agents/your-tasks"
     } else {
-      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/your-self-assessment-charges"
+      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/your-tasks"
     }
   }
 
