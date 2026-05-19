@@ -130,7 +130,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
 
             "an errorCode is provided" should {
 
-              "render a BadRequest with the correct error message for EntityTooSmall (empty file)" in {
+              "render a BadRequest with the correct error message for EntityTooSmall (no file selected)" in {
                 stubAuthRequests(isAgent)
                 stubUpscanInitiate(status = OK, body = initiateResponse)
 
@@ -138,7 +138,7 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 result.status shouldBe BAD_REQUEST
 
                 val document: Document = Jsoup.parse(result.body)
-                document.select(".govuk-error-message").text() shouldBe "Error: The selected file is empty. Choose another file"
+                document.select(".govuk-error-message").text() shouldBe "Error: Select a file"
               }
             }
           }

@@ -36,7 +36,7 @@ class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with Guice
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
       "have the correct error message for the EntityTooSmall code" in {
-        UploadDocumentForm.errorMessages("EntityTooSmall") shouldBe messagesForLanguage.errorFileTooSmall
+        UploadDocumentForm.errorMessages("EntityTooSmall") shouldBe messagesForLanguage.errorNoFileSelected
       }
 
       "have the correct error message for the EntityTooLarge code" in {
