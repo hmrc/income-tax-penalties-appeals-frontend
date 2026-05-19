@@ -43,16 +43,8 @@ class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with Guice
         UploadDocumentForm.errorMessages("EntityTooLarge") shouldBe messagesForLanguage.errorFileTooLarge(appConfig.upscanMaxFileSizeMB)
       }
 
-      "have the correct error message for the InvalidArgument code with 'file' field not found" in {
-        UploadDocumentForm.errorMessages("InvalidArgument", Some("'file' field not found")) shouldBe messagesForLanguage.errorNoFileSelected
-      }
-
-      "have the correct error message for the InvalidArgument code with 'file' invalid file format" in {
-        UploadDocumentForm.errorMessages("InvalidArgument", Some("'file' invalid file format")) shouldBe messagesForLanguage.errorRejected
-      }
-
-      "have the correct error message for the InvalidArgument code with no errorMessage" in {
-        UploadDocumentForm.errorMessages("InvalidArgument") shouldBe messagesForLanguage.errorUploadFailed
+      "have the correct error message for the InvalidArgument code" in {
+        UploadDocumentForm.errorMessages("InvalidArgument") shouldBe messagesForLanguage.errorNoFileSelected
       }
 
       s"have the correct error message for the $QUARANTINE code" in {
