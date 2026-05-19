@@ -27,13 +27,20 @@ object UploadDocumentForm {
   val form: Form[String] = Form[String](key -> text)
 
   def errorMessages(code: String)(implicit messages: Messages, appConfig: AppConfig): String = code match {
-    case "EntityTooSmall" => messages("uploadEvidence.error.fileTooSmall")
-    case "EntityTooLarge" => messages("uploadEvidence.error.fileTooLarge", appConfig.upscanMaxFileSizeMB)
-    case "InvalidArgument" => messages("uploadEvidence.error.noFileSpecified")
-    case "QUARANTINE" => messages(s"uploadEvidence.error.QUARANTINE")
-    case "REJECTED" => messages(s"uploadEvidence.error.REJECTED")
-    case "INVALID_FILENAME" => messages(s"uploadEvidence.error.INVALID_FILENAME")
+    // S3 (via errorRedirect in staging): file is 0 bytes because no file was selected, violating minimumFileSize=1 in the signed S3 policy
+    case "EntityTooSmall"     => messages("uploadEvidence.error.noFileSpecified")
+    // S3 (via errorRedirect in staging): file exceeds the maximumFileSize limit in the signed S3 policy
+    case "EntityTooLarge"     => messages("uploadEvidence.error.fileTooLarge", appConfig.upscanMaxFileSizeMB)
+    // upscan-stub (locally): returned when the 'file' field is not found in the multipart form submission
+    case "InvalidArgument"    => messages("uploadEvidence.error.noFileSpecified")
+    // upscan-verify (via upscan-notify callback): ClamAV virus scan detected a virus in the file
+    case "QUARANTINE"         => messages(s"uploadEvidence.error.QUARANTINE")
+    // upscan-verify (via upscan-notify callback): file MIME type or extension is not on the allowed list
+    case "REJECTED"           => messages(s"uploadEvidence.error.REJECTED")
+    // UpscanCallbackController: filename contains characters outside [a-zA-Z0-9-_.]
+    case "INVALID_FILENAME"   => messages(s"uploadEvidence.error.INVALID_FILENAME")
+    // UpscanCallbackController: upscan-verify returned QUARANTINE with an "Encrypted" message, indicating a password-protected file
     case "PASSWORD_PROTECTED" => messages(s"uploadEvidence.error.PASSWORD_PROTECTED")
-    case _ => messages("uploadEvidence.error.unableToUpload")
+    case _                    => messages("uploadEvidence.error.unableToUpload")
   }
 }
