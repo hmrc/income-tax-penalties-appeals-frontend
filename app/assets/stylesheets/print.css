@@ -13,6 +13,7 @@
     .hmrc-language-select,
     .hmrc-account-menu,
     .govuk-phase-banner,
+    .govuk-service-navigation__list,
     .print-hidden {
         display: none !important;
     }
