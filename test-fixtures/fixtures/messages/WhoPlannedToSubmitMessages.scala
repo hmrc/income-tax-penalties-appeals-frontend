@@ -22,8 +22,8 @@ object WhoPlannedToSubmitMessages {
     val titleAndHeading = "Before the deadline, who planned to send the submission?"
     val agent: String = "I did"
     val client: String = "My client did"
-    val errorRequired: String = "Tell us who planned to send the submission"
-    val errorInvalid: String = "Tell us who planned to send the submission"
+    val errorRequired: String = "Select who planned to send the submission"
+    val errorInvalid: String = "Select who planned to send the submission"
 
     val cyaKey = "Before the deadline, who planned to send the submission?"
     val cyaHidden = "before the deadline, who planned to send the submission"
@@ -35,8 +35,8 @@ object WhoPlannedToSubmitMessages {
     override val titleAndHeading = "Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad?"
     override val agent: String = "Fi"
     override val client: String = 	"Fy nghleient"
-    override val errorRequired: String = "Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad"
-    override val errorInvalid: String = "Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad"
+    override val errorRequired: String = "Dewiswch pwy oedd yn bwriadu anfon y cyflwyniad"
+    override val errorInvalid: String = "Dewiswch pwy oedd yn bwriadu anfon y cyflwyniad"
 
     override val cyaKey = "Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad?"
     override val cyaHidden = "Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad"

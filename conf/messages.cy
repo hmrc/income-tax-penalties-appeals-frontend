@@ -526,8 +526,8 @@ viewAppealDetails.printThisPage = Argraffu’r dudalen hon
 agents.whoPlannedToSubmit.headingAndTitle = Cyn y dyddiad cau, pwy oedd yn bwriadu anfon y cyflwyniad?
 agents.whoPlannedToSubmit.agent = Fi
 agents.whoPlannedToSubmit.client = Fy nghleient
-agents.whoPlannedToSubmit.error.required = Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad
-agents.whoPlannedToSubmit.error.invalid = Rhowch wybod i ni pwy oedd yn bwriadu cyflwyno’r cyflwyniad
+agents.whoPlannedToSubmit.error.required = Dewiswch pwy oedd yn bwriadu anfon y cyflwyniad
+agents.whoPlannedToSubmit.error.invalid = Dewiswch pwy oedd yn bwriadu anfon y cyflwyniad
 
 # Agents 'What caused you to miss the deadline?'
 # ----------------------------------------------------------
