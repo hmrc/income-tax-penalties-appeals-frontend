@@ -19,10 +19,10 @@ package fixtures.messages
 object JointAppealMessages {
 
   sealed trait Messages { this: i18n =>
-    val errorRequired = "Tell us if you want to appeal both penalties for the same reason"
-    val errorInvalid = "Tell us if you want to appeal both penalties for the same reason"
-    val errorRequiredReview = "Tell us if you want both appeal decisions to be reviewed at the same time"
-    val errorInvalidReview = "Tell us if you want both appeal decisions to be reviewed at the same time"
+    val errorRequired = "Select yes if you want to appeal both penalties for the same reason"
+    val errorInvalid = "Select yes if you want to appeal both penalties for the same reason"
+    val errorRequiredReview = "Select yes if you want both appeal decisions to be reviewed at the same time"
+    val errorInvalidReview = "Select yes if you want both appeal decisions to be reviewed at the same time"
 
     val cyaKey = "Do you want to appeal both penalties for the same reason?"
     val cyaHidden = "do you want to appeal both penalties for the same reason"
@@ -33,10 +33,10 @@ object JointAppealMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val errorRequired = "Rhowch wybod i ni a ydych am apelio yn erbyn y ddwy gosb am yr un rheswm"
-    override val errorInvalid = "Rhowch wybod i ni a ydych am apelio yn erbyn y ddwy gosb am yr un rheswm"
-    override val errorRequiredReview = "Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd"
-    override val errorInvalidReview = "Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd"
+    override val errorRequired = "Dewiswch ‘Iawn’ os ydych am apelio yn erbyn y ddwy gosb am yr un rheswm"
+    override val errorInvalid = "Dewiswch ‘Iawn’ os ydych am apelio yn erbyn y ddwy gosb am yr un rheswm"
+    override val errorRequiredReview = "Dewiswch ‘Iawn’ os ydych am i ddau benderfyniad yr apêl gael eu hadolygu ar yr un pryd"
+    override val errorInvalidReview = "Dewiswch ‘Iawn’ os ydych am i ddau benderfyniad yr apêl gael eu hadolygu ar yr un pryd"
 
     override val cyaKey = "A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm?"
     override val cyaHidden = "A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm"

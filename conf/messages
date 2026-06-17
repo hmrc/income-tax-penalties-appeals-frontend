@@ -76,8 +76,8 @@ jointAppeal.l1 = £{0} first late payment penalty
 jointAppeal.l2 = £{0} second late payment penalty
 jointAppeal.p2 = You can appeal both penalties at the same time if the reason why you did not make the tax payment is the same for each penalty.
 jointAppeal.p2.review = You can ask for these appeal decisions to be reviewed at the same time if your evidence applies to both of the original appeals.
-jointAppeal.error.required = Tell us if you want to appeal both penalties for the same reason
-jointAppeal.error.required.review = Tell us if you want both appeal decisions to be reviewed at the same time
+jointAppeal.error.required = Select yes if you want to appeal both penalties for the same reason
+jointAppeal.error.required.review = Select yes if you want both appeal decisions to be reviewed at the same time
 
 # Multiple Appeals LPP
 # ----------------------------------------------------------

@@ -76,8 +76,8 @@ jointAppeal.l1 = £{0} y gosb gyntaf am dalu’n hwyr
 jointAppeal.l2 = £{0} yr ail gosb am dalu’n hwyr
 jointAppeal.p2 = Gallwch apelio yn erbyn y cosbau hyn ar yr un pryd os yw’r rheswm dros fethu’r dyddiad cau ar gyfer talu’r dreth yr un peth ar gyfer y ddwy gosb.
 jointAppeal.p2.review = Gallwch ofyn i’r penderfyniadau hyn gael eu hadolygu ar yr un pryd os yw’ch tystiolaeth yn berthnasol i’r ddwy apêl wreiddiol.
-jointAppeal.error.required = Rhowch wybod i ni a ydych am apelio yn erbyn y ddwy gosb am yr un rheswm
-jointAppeal.error.required.review = Rhowch wybod i ni os ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd
+jointAppeal.error.required = Dewiswch ‘Iawn’ os ydych am apelio yn erbyn y ddwy gosb am yr un rheswm
+jointAppeal.error.required.review = Dewiswch ‘Iawn’ os ydych am i ddau benderfyniad yr apêl gael eu hadolygu ar yr un pryd
 
 # Multiple Appeals LPP
 # ----------------------------------------------------------
