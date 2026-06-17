@@ -111,8 +111,8 @@ clientSubmitted.honestyDeclaration.li.health.lsp = because of a serious or life-
 clientSubmitted.honestyDeclaration.li.health.lpp = because of a serious or life-threatening health issue, I was not able to make the payment due on {0}
 agentPlanned.honestyDeclaration.li.health.lpp = because my client had a serious or life-threatening health issue, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.technicalIssue.lsp = because of software or technology issues, I was not able to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.technicalIssue.lpp = because of software or technology issues, I was not able to make the payment due on {0}
+clientSubmitted.honestyDeclaration.li.technicalIssue.lsp = because of a software or technology issue, I was not able to send the submission due on {0}
+clientSubmitted.honestyDeclaration.li.technicalIssue.lpp = because of a software or technology issue, I was not able to make the payment due on {0}
 agentPlanned.honestyDeclaration.li.technicalIssue.lpp = because my client was affected by software or technology issues, they were not able to make the payment due on {0}
 
 clientSubmitted.honestyDeclaration.li.unexpectedHospital.lsp = because of a stay in hospital, I was not able to send the submission due on {0}
