@@ -20,8 +20,8 @@ object CrimeReportedMessages {
 
   sealed trait Messages { this: i18n =>
     val unkownOption = "I do not know"
-    val errorRequired = "Tell us if the police have been told about the crime"
-    val errorInvalid = "Tell us if the police have been told about the crime"
+    val errorRequired = "Select yes if the crime has been reported to the police"
+    val errorInvalid = "Select yes if the crime has been reported to the police"
 
     val cyaKey = "Has this crime been reported to the police?"
     val cyaHidden = "has this crime been reported to the police"
@@ -31,8 +31,8 @@ object CrimeReportedMessages {
 
   object Welsh extends Messages with Cy {
     override val unkownOption = "Nid wyf yn gwybod"
-    override val errorRequired = "Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd"
-    override val errorInvalid = "Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd"
+    override val errorRequired = "Dewiswch ‘Iawn’ os yw’r heddlu wedi cael gwybod am y drosedd hon"
+    override val errorInvalid = "Dewiswch ‘Iawn’ os yw’r heddlu wedi cael gwybod am y drosedd hon"
 
     override val cyaKey = "A roddwyd gwybod i’r heddlu am y drosedd hon?"
     override val cyaHidden = "A roddwyd gwybod i’r heddlu am y drosedd hon"

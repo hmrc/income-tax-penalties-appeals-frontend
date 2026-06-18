@@ -362,8 +362,8 @@ crime.headingAndTitle = A roddwyd gwybod i’r heddlu am y drosedd hon?
 crime.yes = Iawn
 crime.no = Na
 crime.unknown = Nid wyf yn gwybod
-crime.error.required = Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd
-crime.error.invalid = Rhowch wybod i ni os yw’r heddlu wedi’i hysbysu am y drosedd
+crime.error.required = Dewiswch ‘Iawn’ os yw’r heddlu wedi cael gwybod am y drosedd hon
+crime.error.invalid = Dewiswch ‘Iawn’ os yw’r heddlu wedi cael gwybod am y drosedd hon
 
 # Extra evidence page
 # ----------------------------------------------------------

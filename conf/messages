@@ -362,8 +362,8 @@ crime.headingAndTitle = Has this crime been reported to the police?
 crime.yes = Yes
 crime.no = No
 crime.unknown = I do not know
-crime.error.required = Tell us if the police have been told about the crime
-crime.error.invalid = Tell us if the police have been told about the crime
+crime.error.required = Select yes if the crime has been reported to the police
+crime.error.invalid = Select yes if the crime has been reported to the police
 
 # Extra evidence page
 # ----------------------------------------------------------
