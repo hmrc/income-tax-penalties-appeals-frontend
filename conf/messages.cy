@@ -609,7 +609,7 @@ single.appeal.can.still.appeal.other.review = Gallwch ddal ofyn am adolygiadau o
 # Has Hospital Stay Ended
 # ----------------------------------------------------------
 hasHospitalStayEnded.headingAndTitle = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
-hasHospitalStayEnded.error.required = Dewiswch ‘Iawn’ os yw’r arhosiad yn yr ysbyty wedi dod i ben
+hasHospitalStayEnded.error.required = Rhowch wybod i ni a yw’r arhosiad yn yr ysbyty wedi dod i ben
 
 # Months
 # -----------------------------------------------------------
