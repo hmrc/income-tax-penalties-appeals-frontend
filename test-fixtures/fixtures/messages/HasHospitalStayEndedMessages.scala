@@ -21,8 +21,8 @@ object HasHospitalStayEndedMessages {
   sealed trait Messages { this: i18n =>
     
     val headingAndTitle = "Has the hospital stay ended?"
-    val errorRequired = "Tell us if the hospital stay has ended"
-    val errorInvalid = "Tell us if the hospital stay has ended"
+    val errorRequired = "Select yes if the hospital stay has ended"
+    val errorInvalid = "Select yes if the hospital stay has ended"
 
     val cyaKey = "Has the hospital stay ended?"
     val cyaHidden = "has the hospital stay ended"
@@ -33,8 +33,8 @@ object HasHospitalStayEndedMessages {
   object Welsh extends Messages with Cy {
     
     override val headingAndTitle = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
-    override val errorRequired = "Rhowch wybod i ni a yw’r arhosiad yn yr ysbyty wedi dod i ben"
-    override val errorInvalid = "Rhowch wybod i ni a yw’r arhosiad yn yr ysbyty wedi dod i ben"
+    override val errorRequired = "Dewiswch ‘Iawn’ os yw’r arhosiad yn yr ysbyty wedi dod i ben"
+    override val errorInvalid = "Dewiswch ‘Iawn’ os yw’r arhosiad yn yr ysbyty wedi dod i ben"
 
     override val cyaKey = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
     override val cyaHidden = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
