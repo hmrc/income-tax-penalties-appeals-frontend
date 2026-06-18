@@ -38,7 +38,7 @@ class LateAppealController @Inject()(lateAppeal: LateAppealView,
 
   def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent) { implicit user =>
     Ok(lateAppeal(
-      form = fillForm(LateAppealForm.form(user.isAppealingMultipleLPPs, user.is2ndStageAppeal), LateAppealPage),
+      form = fillForm(LateAppealForm.form(user.is2ndStageAppeal), LateAppealPage),
       isLPP = user.isLPP,
       isAppealingMultipleLPPs = user.isAppealingMultipleLPPs,
       isSecondStageAppeal = is2ndStageAppeal,
@@ -48,7 +48,7 @@ class LateAppealController @Inject()(lateAppeal: LateAppealView,
   }
 
   def submit(isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
-    LateAppealForm.form(user.isAppealingMultipleLPPs, is2ndStageAppeal).bindFromRequest().fold(
+    LateAppealForm.form(is2ndStageAppeal).bindFromRequest().fold(
       formWithErrors =>
         Future(BadRequest(lateAppeal(
           form = formWithErrors,

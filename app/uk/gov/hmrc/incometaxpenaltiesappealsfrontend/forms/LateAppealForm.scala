@@ -20,24 +20,25 @@ import play.api.data.Form
 import play.api.data.Forms.single
 import play.api.i18n.Messages
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms.mappings.Mappings
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Regexes
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.LateAppealHelper.messageKeyPrefix
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.LateAppealHelper.messageKeyPrefixSimple
 
 
 object LateAppealForm extends Mappings {
 
   val key = "delayReason"
 
-  def form(isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages): Form[String] = Form[String](
+  def form(isSecondStageAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages, user: CurrentUserRequestWithAnswers[_]): Form[String] = Form[String](
     single(
-      key -> text(messages(s"lateAppeal.error.required${messageKeyPrefix(isAppealingMultipleLPPs, isSecondStageAppeal)}"))
+      key -> textWithArgs(s"lateAppeal.error.required${messageKeyPrefixSimple(isSecondStageAppeal)}", user.lateAppealDays())
         .verifying(
-          error = messages("lateAppeal.error.length", appConfig.numberOfCharsInTextArea),
+          error = messages(s"lateAppeal.error.length${messageKeyPrefixSimple(isSecondStageAppeal)}", user.lateAppealDays(), appConfig.numberOfCharsInTextArea),
           constraint = _.length <= appConfig.numberOfCharsInTextArea
         )
         .verifying(
-          error = messages("lateAppeal.error.regex"),
+          error = messages(s"lateAppeal.error.regex${messageKeyPrefixSimple(isSecondStageAppeal)}", user.lateAppealDays()),
           constraint = _.matches(Regexes.textArea)
         )
     )

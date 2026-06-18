@@ -311,12 +311,15 @@ lateAppeal.headingAndTitle.multiple.review = Rhowch wybod i ni pam na wnaethoch 
 lateAppeal.headingAndTitle.multiple.lpp = Rhowch wybod i ni pam na wnaethoch apelio cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.review.lpp = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
 lateAppeal.headingAndTitle.multiple.review.lpp = Rhowch wybod i ni pam na wnaethoch ofyn am adolygiad cyn pen {0} diwrnod
-lateAppeal.error.required =  Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
-lateAppeal.error.required.multiple = Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt
-lateAppeal.error.required.review = Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt
-lateAppeal.error.required.multiple.review = Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt
-lateAppeal.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
-lateAppeal.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
+
+lateAppeal.error.required =  Nodwch y rheswm pam nad oeddech yn gallu apelio cyn pen {0} o ddiwrnodau
+lateAppeal.error.required.review = Nodwch y rheswm pam nad ydych wedi gofyn am adolygiad cyn pen {0} o ddiwrnodau
+
+lateAppeal.error.length = Mae’n rhaid i’r rheswm pam nad oeddech yn gallu apelio cyn pen {0} o ddiwrnodau fod yn {1} o gymeriadau neu’n llai
+lateAppeal.error.length.review = Mae’n rhaid i’r rheswm pam nad ydych wedi gofyn am adolygiad cyn pen {0} o ddiwrnodau fod yn {1} o gymeriadau neu’n llai
+
+lateAppeal.error.regex = Mae’n rhaid i’r rheswm pam nad oeddech yn gallu apelio cyn pen {0} o ddiwrnodau gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
+lateAppeal.error.regex.review = Mae’n rhaid i’r rheswm pam nad ydych wedi gofyn am adolygiad cyn pen {0} o ddiwrnodau gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 # Missed deadline reason page - LSP
 # ----------------------------------------------------------

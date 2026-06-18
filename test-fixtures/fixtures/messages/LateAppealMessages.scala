@@ -19,10 +19,12 @@ package fixtures.messages
 object LateAppealMessages {
 
   sealed trait Messages { this: i18n =>
-    val errorRequired: String = "You must provide some information about why you did not appeal sooner"
-    val errorRequiredReview: String = "You must provide some information about why you did not ask for a review sooner"
-    val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer"
-    val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
+    val errorRequired: Int => String = days => s"Enter why you could not appeal within $days days"
+    val errorRequiredReview: Int => String = days => s"Enter why you have not asked for a review within $days days"
+    val errorLength: (Int, Int) => String = (days, chars) => s"Why you could not appeal within $days days must be ${"%,d".format(chars)} characters or less"
+    val errorLengthReview: (Int, Int) => String = (days, chars) => s"Why you have not ask for a review within $days days must be ${"%,d".format(chars)} characters or less"
+    val errorRegex: Int => String = days => s"Why you could not appeal within $days days must only include letters a to z, numbers 0 to 9 and standard special characters"
+    val errorRegexReview: Int => String = days => s"Why you have not ask for a review within $days days must only include letters a to z, numbers 0 to 9, and standard special characters"
 
     val cyaKey: Int => String = i => s"Reason for appealing after $i days"
     val cyaHidden: Int => String = i => s"reason for appealing after $i days"
@@ -31,11 +33,13 @@ object LateAppealMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val errorRequired: String = "Mae’n rhaid i chi roi ychydig o wybodaeth i ni ynglŷn â pham nad oeddech wedi apelio’n gynt"
-    override val errorRequiredReview: String = "Mae’n rhaid i chi roi gwybodaeth i ni ynghylch pam nad oeddech wedi gofyn am adolygiad yn gynt"
+    override val errorRequired: Int => String = days => s"Nodwch y rheswm pam nad oeddech yn gallu apelio cyn pen $days o ddiwrnodau"
+    override val errorRequiredReview: Int => String = days => s"Nodwch y rheswm pam nad ydych wedi gofyn am adolygiad cyn pen $days o ddiwrnodau"
 
-    override val errorLength: Int => String = n => s"Esboniwch y rheswm gan ddefnyddio ${"%,d".format(n)} o gymeriadau neu lai"
-    override val errorRegex: String = "Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig"
+    override val errorLength: (Int, Int) => String = (days, chars) => s"Mae’n rhaid i’r rheswm pam nad oeddech yn gallu apelio cyn pen $days o ddiwrnodau fod yn ${"%,d".format(chars)} o gymeriadau neu’n llai"
+    override val errorLengthReview: (Int, Int) => String = (days, chars) => s"Mae’n rhaid i’r rheswm pam nad ydych wedi gofyn am adolygiad cyn pen $days o ddiwrnodau fod yn ${"%,d".format(chars)} o gymeriadau neu’n llai"
+    override val errorRegex: Int => String = days => s"Mae’n rhaid i’r rheswm pam nad oeddech yn gallu apelio cyn pen $days o ddiwrnodau gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig"
+    override val errorRegexReview: Int => String = days => s"Mae’n rhaid i’r rheswm pam nad ydych wedi gofyn am adolygiad cyn pen $days o ddiwrnodau gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig"
 
     override val cyaKey: Int => String = i => s"Rheswm dros apelio ar ôl $i o ddiwrnodau"
     override val cyaHidden: Int => String = i => s"rheswm dros apelio ar ôl $i o ddiwrnodau"

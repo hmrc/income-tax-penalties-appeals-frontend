@@ -311,12 +311,15 @@ lateAppeal.headingAndTitle.multiple.review = Tell us why you have not asked for 
 lateAppeal.headingAndTitle.multiple.lpp = Tell us why you could not appeal within {0} days
 lateAppeal.headingAndTitle.review.lpp = Tell us why you have not asked for a review within {0} days
 lateAppeal.headingAndTitle.multiple.review.lpp = Tell us why you have not asked for a review within {0} days
-lateAppeal.error.required = You must provide some information about why you did not appeal sooner
-lateAppeal.error.required.multiple = You must provide some information about why you did not appeal sooner
-lateAppeal.error.required.review = You must provide some information about why you did not ask for a review sooner
-lateAppeal.error.required.multiple.review = You must provide some information about why you did not ask for a review sooner
-lateAppeal.error.length = Explain the reason in {0} characters or fewer
-lateAppeal.error.regex = The text must contain only letters, numbers and standard special characters
+
+lateAppeal.error.required = Enter why you could not appeal within {0} days
+lateAppeal.error.required.review = Enter why you have not asked for a review within {0} days
+
+lateAppeal.error.length = Why you could not appeal within {0} days must be {1} characters or less
+lateAppeal.error.length.review = Why you have not ask for a review within {0} days must be {1} characters or less
+
+lateAppeal.error.regex = Why you could not appeal within {0} days must only include letters a to z, numbers 0 to 9 and standard special characters
+lateAppeal.error.regex.review = Why you have not ask for a review within {0} days must only include letters a to z, numbers 0 to 9, and standard special characters
 
 # Missed deadline reason page - LSP
 # ----------------------------------------------------------
