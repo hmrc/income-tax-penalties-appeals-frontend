@@ -534,8 +534,8 @@ agents.whoPlannedToSubmit.error.invalid = Rhowch wybod i ni pwy oedd yn bwriadu 
 agents.whatCausedYouToMissTheDeadline.headingAndTitle = Beth oedd wedi’ch achosi i fethu’r dyddiad cau?
 agents.whatCausedYouToMissTheDeadline.client = Nid oedd fy nghleient wedi rhoi’r wybodaeth i mi mewn pryd
 agents.whatCausedYouToMissTheDeadline.agent = Rheswm arall
-agents.whatCausedYouToMissTheDeadline.error.required = Rhowch y rheswm dros gyflwyno’r cyflwyniad yn hwyr
-agents.whatCausedYouToMissTheDeadline.error.invalid = Rhowch y rheswm dros gyflwyno’r cyflwyniad yn hwyr
+agents.whatCausedYouToMissTheDeadline.error.required = Dewiswch beth oedd wedi’ch achosi i fethu’r dyddiad cau
+agents.whatCausedYouToMissTheDeadline.error.invalid = Dewiswch beth oedd wedi’ch achosi i fethu’r dyddiad cau
 
 # Date input fields
 # ----------------------------------------------------------

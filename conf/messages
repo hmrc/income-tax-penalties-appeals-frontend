@@ -534,8 +534,8 @@ agents.whoPlannedToSubmit.error.invalid = Tell us who planned to send the submis
 agents.whatCausedYouToMissTheDeadline.headingAndTitle = What caused you to miss the deadline?
 agents.whatCausedYouToMissTheDeadline.client = My client did not get information to me on time
 agents.whatCausedYouToMissTheDeadline.agent = Something else happened to delay me
-agents.whatCausedYouToMissTheDeadline.error.required = Tell us the reason the return was submitted late
-agents.whatCausedYouToMissTheDeadline.error.invalid = Tell us the reason the return was submitted late
+agents.whatCausedYouToMissTheDeadline.error.required = Select what caused you to miss the deadline
+agents.whatCausedYouToMissTheDeadline.error.invalid = Select what caused you to miss the deadline
 
 # Date input fields
 # ----------------------------------------------------------
