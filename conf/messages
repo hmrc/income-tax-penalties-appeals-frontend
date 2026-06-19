@@ -53,7 +53,7 @@ reviewAppeal.start.p5 = If it’s been more than 30 days since the review decisi
 # ----------------------------------------------------------
 reasonableExcuses.headingAndTitleSubmissions = What was the reason for missing the submission deadline?
 reasonableExcuses.headingAndTitlePayments = What was the reason for missing the payment deadline?
-reasonableExcuses.hintText = Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline.
+reasonableExcuses.hintText = Select one reason. If more than one reason applies, choose the main reason the deadline was missed.
 reasonableExcuses.bereavement = Bereavement (someone died)
 reasonableExcuses.cessation = Cessation of income source
 reasonableExcuses.crime = Crime
