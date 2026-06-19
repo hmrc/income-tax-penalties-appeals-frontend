@@ -609,7 +609,7 @@ single.appeal.can.still.appeal.other.review = You can still ask for other penalt
 # Has Hospital Stay Ended
 # ----------------------------------------------------------
 hasHospitalStayEnded.headingAndTitle = Has the hospital stay ended?
-hasHospitalStayEnded.error.required = Tell us if the hospital stay has ended
+hasHospitalStayEnded.error.required = Select yes if the hospital stay has ended
 
 # Months
 # -----------------------------------------------------------
