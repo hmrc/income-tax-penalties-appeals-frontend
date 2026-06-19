@@ -29,9 +29,6 @@ trait Mappings extends Formatters {
   protected def text(message: String = "error.required"): FieldMapping[String] =
     Forms.of(stringFormatter(message))
 
-  protected def textWithArgs(message: String = "error.required", arg1: Int)(implicit messages: Messages): FieldMapping[String] =
-    Forms.of(stringFormatter(messages(message, arg1)))
-
   protected def localDate(
                            invalidKey: String,
                            allRequiredKey: String,

@@ -32,7 +32,7 @@ object LateAppealForm extends Mappings {
 
   def form(isSecondStageAppeal: Boolean)(implicit appConfig: AppConfig, messages: Messages, user: CurrentUserRequestWithAnswers[_]): Form[String] = Form[String](
     single(
-      key -> textWithArgs(s"lateAppeal.error.required${messageKeyPrefixSimple(isSecondStageAppeal)}", user.lateAppealDays())
+      key -> text(messages(s"lateAppeal.error.required${messageKeyPrefixSimple(isSecondStageAppeal)}", user.lateAppealDays()))
         .verifying(
           error = messages(s"lateAppeal.error.length${messageKeyPrefixSimple(isSecondStageAppeal)}", user.lateAppealDays(), appConfig.numberOfCharsInTextArea),
           constraint = _.length <= appConfig.numberOfCharsInTextArea
