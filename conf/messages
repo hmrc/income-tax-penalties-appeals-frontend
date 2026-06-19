@@ -362,8 +362,8 @@ crime.headingAndTitle = Has this crime been reported to the police?
 crime.yes = Yes
 crime.no = No
 crime.unknown = I do not know
-crime.error.required = Tell us if the police have been told about the crime
-crime.error.invalid = Tell us if the police have been told about the crime
+crime.error.required = Select yes if the crime has been reported to the police
+crime.error.invalid = Select yes if the crime has been reported to the police
 
 # Extra evidence page
 # ----------------------------------------------------------
@@ -526,8 +526,8 @@ viewAppealDetails.printThisPage = Print this page
 agents.whoPlannedToSubmit.headingAndTitle = Before the deadline, who planned to send the submission?
 agents.whoPlannedToSubmit.agent = I did
 agents.whoPlannedToSubmit.client = My client did
-agents.whoPlannedToSubmit.error.required = Tell us who planned to send the submission
-agents.whoPlannedToSubmit.error.invalid = Tell us who planned to send the submission
+agents.whoPlannedToSubmit.error.required = Select who planned to send the submission
+agents.whoPlannedToSubmit.error.invalid = Select who planned to send the submission
 
 # Agents What caused you to miss the deadline?
 # ----------------------------------------------------------
