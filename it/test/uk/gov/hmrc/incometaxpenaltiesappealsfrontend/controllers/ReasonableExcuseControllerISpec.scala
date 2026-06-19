@@ -106,7 +106,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the main reason the deadline was missed."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
@@ -130,7 +130,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the main reason the deadline was missed."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
@@ -272,7 +272,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the main reason the deadline was missed."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
@@ -297,7 +297,7 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
             dateToString(lateSubmissionAppealData.endDate)
           )
           document.getH1Elements.text() shouldBe "What was the reason for missing the submission deadline?"
-          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the one that most affected your ability to meet the deadline."
+          document.getHintText.get(0).text() shouldBe "Select one reason. If more than one reason applies, choose the main reason the deadline was missed."
           document.getElementsByAttributeValue("for", s"$Bereavement").text() shouldBe "Bereavement (someone died)"
           document.getElementsByAttributeValue("for", s"$Crime").text() shouldBe "Crime"
           document.getElementsByAttributeValue("for", s"$FireOrFlood").text() shouldBe "Fire or flood"
