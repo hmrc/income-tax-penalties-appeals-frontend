@@ -380,10 +380,10 @@ extraEvidence.hint = We will still review your appeal if you do not upload evide
 extraEvidence.hint.multiple = We will still review your appeal if you do not upload evidence.
 extraEvidence.hint.review = Uploading evidence is optional. We will still review the original appeal decision if you do not upload evidence.
 extraEvidence.hint.multiple.review = Uploading evidence is optional. We will still review the original appeal decisions if you do not upload evidence.
-extraEvidence.error.required = Tell us if you want to upload evidence to support your appeal
-extraEvidence.error.required.review = Tell us if you want to upload evidence to support this review
-extraEvidence.error.invalid = Tell us if you want to upload evidence to support your appeal
-extraEvidence.error.invalid.review = Tell us if you want to upload evidence to support this review
+extraEvidence.error.required = Select yes if you want to upload evidence to support your appeal
+extraEvidence.error.required.review = Select yes if you want to upload evidence to support this review
+extraEvidence.error.invalid = Select yes if you want to upload evidence to support your appeal
+extraEvidence.error.invalid.review = Select yes if you want to upload evidence to support this review
 
 # Check your answers page
 # ----------------------------------------------------------

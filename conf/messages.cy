@@ -380,10 +380,10 @@ extraEvidence.hint = Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwyt
 extraEvidence.hint.multiple = Byddwn yn dal i adolygu’ch apêl os nad ydych yn uwchlwytho tystiolaeth.
 extraEvidence.hint.review = Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r penderfyniad ynghylch yr apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth.
 extraEvidence.hint.multiple.review = Mae uwchlwytho tystiolaeth yn ddewisol. Byddwn yn dal i adolygu’r penderfyniadau ynghylch yr apêl wreiddiol os nad ydych yn uwchlwytho tystiolaeth.
-extraEvidence.error.required = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl
-extraEvidence.error.required.review = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad
-extraEvidence.error.invalid = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl
-extraEvidence.error.invalid.review = Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad
+extraEvidence.error.required = Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’ch apêl
+extraEvidence.error.required.review = Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn
+extraEvidence.error.invalid = Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’ch apêl
+extraEvidence.error.invalid.review = Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn
 
 # Check your answers page
 # ----------------------------------------------------------

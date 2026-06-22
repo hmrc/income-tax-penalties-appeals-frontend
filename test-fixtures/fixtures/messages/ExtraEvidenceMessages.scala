@@ -40,16 +40,16 @@ object ExtraEvidenceMessages {
       }
     }
 
-    val errorRequired = "Tell us if you want to upload evidence to support your appeal"
-    val errorInvalid = "Tell us if you want to upload evidence to support your appeal"
-    val errorRequiredReview = "Tell us if you want to upload evidence to support this review"
-    val errorInvalidReview = "Tell us if you want to upload evidence to support this review"
+    val errorRequired = "Select yes if you want to upload evidence to support your appeal"
+    val errorInvalid = "Select yes if you want to upload evidence to support your appeal"
+    val errorRequiredReview = "Select yes if you want to upload evidence to support this review"
+    val errorInvalidReview = "Select yes if you want to upload evidence to support this review"
 
     def errorMessage(is2ndStage: Boolean): String = {
       if (is2ndStage) {
-        "Tell us if you want to upload evidence to support this review"
+        "Select yes if you want to upload evidence to support this review"
       } else {
-        "Tell us if you want to upload evidence to support your appeal"
+        "Select yes if you want to upload evidence to support your appeal"
       }
     }
 
@@ -79,10 +79,10 @@ object ExtraEvidenceMessages {
       }
     }
 
-    override val errorRequired = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl"
-    override val errorInvalid = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r apêl"
-    override val errorRequiredReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
-    override val errorInvalidReview = "Rhowch wybod i ni os ydych am uwchlwytho tystiolaeth i ategu’r adolygiad"
+    override val errorRequired = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’ch apêl"
+    override val errorInvalid = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’ch apêl"
+    override val errorRequiredReview = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn"
+    override val errorInvalidReview = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn"
 
     override val cyaKey = "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
     override val cyaHidden = "a ydych am uwchlwytho tystiolaeth i ategu’ch apêl"
