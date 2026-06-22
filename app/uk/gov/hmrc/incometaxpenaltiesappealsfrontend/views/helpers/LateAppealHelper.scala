@@ -20,6 +20,10 @@ trait LateAppealHelper {
 
   def messageKeyPrefix(isAppealingMultipleLPPs: Boolean, isSecondStageAppeal: Boolean): String = {
     s"${if(isAppealingMultipleLPPs){".multiple"}else{""}}${if(isSecondStageAppeal){".review"} else {""}}"
+  }  
+  
+  def messageKeyPrefixSimple(isSecondStageAppeal: Boolean): String = {
+    s"${if(isSecondStageAppeal){".review"} else {""}}"
   }
 }
 

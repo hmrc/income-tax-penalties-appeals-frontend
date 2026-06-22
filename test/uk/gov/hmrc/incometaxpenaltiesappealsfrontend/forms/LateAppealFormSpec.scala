@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.forms
 
+import fixtures.BaseFixtures
 import fixtures.messages.LateAppealMessages
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
@@ -23,8 +24,9 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.data.{Form, FormError}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 
-class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours {
+class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours with BaseFixtures {
 
   implicit lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -34,19 +36,23 @@ class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneA
     s"rendering the form in '${messagesForLanguage.lang.name}'" when {
 
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
+      implicit lazy val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
       for (isAppealingMultipleLPPs <- Seq(true, false)) {
 
         for (isSecondStageAppeal <- Seq(true, false)) {
 
-          val form: Form[String] = LateAppealForm.form(isAppealingMultipleLPPs,isSecondStageAppeal)
+          val form: Form[String] = LateAppealForm.form(isSecondStageAppeal)
 
           s"bind with isAppealingMultipleLPPs = $isAppealingMultipleLPPs and isSecondStageAppeal = $isSecondStageAppeal" when {
 
             behave like mandatoryField(
               form = form,
               fieldName = LateAppealForm.key,
-              requiredError = FormError(LateAppealForm.key, if(isSecondStageAppeal)messagesForLanguage.errorRequiredReview else messagesForLanguage.errorRequired)
+              requiredError = FormError(
+                LateAppealForm.key,
+                if (isSecondStageAppeal) messagesForLanguage.errorRequiredReview(user.lateAppealDays()) else messagesForLanguage.errorRequired(user.lateAppealDays())
+              )
             )
 
             s"allow a text value with length <= ${appConfig.numberOfCharsInTextArea}" in {
@@ -65,7 +71,7 @@ class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneA
 
               result.errors.headOption shouldBe Some(FormError(
                 key = LateAppealForm.key,
-                message = messagesForLanguage.errorLength(appConfig.numberOfCharsInTextArea)
+                message = if (isSecondStageAppeal) messagesForLanguage.errorLengthReview(user.lateAppealDays(), appConfig.numberOfCharsInTextArea) else messagesForLanguage.errorLength(user.lateAppealDays(), appConfig.numberOfCharsInTextArea)
               ))
             }
 
@@ -73,7 +79,10 @@ class LateAppealFormSpec extends AnyWordSpec with should.Matchers with GuiceOneA
 
               val result = form.bind(Map(LateAppealForm.key -> invalidChars))
 
-              result.errors.headOption shouldBe Some(FormError(LateAppealForm.key, messagesForLanguage.errorRegex))
+              result.errors.headOption shouldBe Some(FormError(
+                LateAppealForm.key,
+                if (isSecondStageAppeal) messagesForLanguage.errorRegexReview(user.lateAppealDays()) else messagesForLanguage.errorRegex(user.lateAppealDays())
+              ))
             }
           }
         }

@@ -542,7 +542,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
         document.select(".govuk-error-summary__title").text() shouldBe LateAppealMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe LateAppealMessages.English.errorRequired
+        error1Link.text() shouldBe LateAppealMessages.English.errorRequired(appConfig.bereavementLateDays)
         error1Link.attr("href") shouldBe s"#${LateAppealForm.key}"
       }
     }
@@ -584,7 +584,7 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
         document.select(".govuk-error-summary__title").text() shouldBe LateAppealMessages.English.thereIsAProblem
 
         val error1Link = document.select(".govuk-error-summary__list li:nth-of-type(1) a")
-        error1Link.text() shouldBe LateAppealMessages.English.errorRequired
+        error1Link.text() shouldBe LateAppealMessages.English.errorRequired(appConfig.bereavementLateDays)
         error1Link.attr("href") shouldBe s"#${LateAppealForm.key}"
       }
     }
