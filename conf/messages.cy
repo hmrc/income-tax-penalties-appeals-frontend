@@ -296,10 +296,10 @@ review.decision.30.days.hint = Fel arfer, mae’n rhaid i chi ofyn am adolygiad 
 review.decision.30.days.yes = Iawn
 review.decision.30.days.no = Na
 review.decision.30.days.unsure = Dydw i ddim yn siŵr
-review.decision.30.days.error.required = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
-review.decision.30.days.error.invalid = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
-review.decision.30.days.error.required.multiple = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers i’r penderfyniadau apêl gael eu cyhoeddi
-review.decision.30.days.error.invalid.multiple = Rhowch wybod i ni os yw mwy na 30 diwrnod wedi mynd heibio ers i’r penderfyniadau apêl gael eu cyhoeddi
+review.decision.30.days.error.required = Nodwch ‘Iawn’ os yw mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
+review.decision.30.days.error.invalid = Nodwch ‘Iawn’ os yw mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
+review.decision.30.days.error.required.multiple = Nodwch ‘Iawn’ os yw mwy na 30 diwrnod wedi mynd heibio ers i benderfyniadau’r apêl gael eu cyhoeddi
+review.decision.30.days.error.invalid.multiple = Nodwch ‘Iawn’ os yw mwy na 30 diwrnod wedi mynd heibio ers i benderfyniadau’r apêl gael eu cyhoeddi
 
 # Late appeal page
 # ----------------------------------------------------------
