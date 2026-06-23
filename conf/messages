@@ -273,12 +273,12 @@ agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the is
 # ----------------------------------------------------------
 # Technical Issues content
 whenDidEventEnd.technicalIssue.headingAndTitle = When did the software or technology issues end?
-whenDidEventEnd.technicalIssue.end.date.error.required.all = Tell us when the software or technology issues ended
+whenDidEventEnd.technicalIssue.end.date.error.required.all = Enter the date when the software or technology issues ended
 whenDidEventEnd.technicalIssue.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
 whenDidEventEnd.technicalIssue.end.date.error.required = The date the software or technology issues ended must include a {0}
 whenDidEventEnd.technicalIssue.end.date.error.invalid = The date the software or technology issues ended must be a real date
 whenDidEventEnd.technicalIssue.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
-whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
+whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issue ended must be the same as or after {0}
 
 whenDidEventEnd.unexpectedHospital.headingAndTitle = When did the hospital stay end?
 whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Enter the date that the hospital stay ended
@@ -286,7 +286,7 @@ whenDidEventEnd.unexpectedHospital.end.date.error.required.two = The date that t
 whenDidEventEnd.unexpectedHospital.end.date.error.required = The date that the hospital stay ended must include a {0}
 whenDidEventEnd.unexpectedHospital.end.date.error.invalid = The date that the hospital stay ended must be a real date
 whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = The date that the hospital stay ended must be today or in the past
-whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date that the hospital stay ended must be {0} or later
+whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date the hospital stay ended must be the same as or after {0}
 
 # Review decision more then 30 days page
 # ----------------------------------------------------------

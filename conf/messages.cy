@@ -273,12 +273,12 @@ agent.whenDidEventHappen.other.lpp.date.error.notInFuture = Mae’n rhaid i’r 
 # ----------------------------------------------------------
 # Technical Issues Content
 whenDidEventEnd.technicalIssue.headingAndTitle = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben?
-whenDidEventEnd.technicalIssue.end.date.error.required.all = Rhowch wybod i ni pryd y daeth y problemau technoleg neu’r problemau meddalwedd i ben
+whenDidEventEnd.technicalIssue.end.date.error.required.all = Nodwch y dyddiad pryd y gwnaeth y problemau gyda’r feddalwedd neu’r dechnoleg ddod i ben
 whenDidEventEnd.technicalIssue.end.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys {0} a {1}
 whenDidEventEnd.technicalIssue.end.date.error.required = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys {0}
 whenDidEventEnd.technicalIssue.end.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod yn ddyddiad go iawn
 whenDidEventEnd.technicalIssue.end.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod heddiw neu yn y gorffennol
-whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y daeth y trafferthion technoleg i ben fod ar {0} neu’n hwyrach
+whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y gwnaeth y broblem gyda’r feddalwedd neu’r dechnoleg ddod i ben naill ai ar fod yr un peth â {0} neu ar ôl y dyddiad hwnnw
 
 whenDidEventEnd.unexpectedHospital.headingAndTitle = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?
 whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben
@@ -286,7 +286,7 @@ whenDidEventEnd.unexpectedHospital.end.date.error.required.two = Mae’n rhaid i
 whenDidEventEnd.unexpectedHospital.end.date.error.required = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys {0}
 whenDidEventEnd.unexpectedHospital.end.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn
 whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol
-whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y daeth yr arhosiad yn yr ysbyty i ben fod ar {0} neu’n hwyrach
+whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = Mae’n rhaid i’r dyddiad y gwnaeth yr arhosiad yn yr ysbyty ddod i ben fod yr un peth â {0} neu ar ôl y dyddiad hwnnw
 
 # Review decision more then 30 days page
 # ----------------------------------------------------------
