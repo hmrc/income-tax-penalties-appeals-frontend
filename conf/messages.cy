@@ -325,39 +325,43 @@ lateAppeal.error.regex.review = Mae’n rhaid i’r rheswm pam nad ydych wedi go
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
 missedDeadlineReason.lsp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn cosbau eraill ar wahân.
-missedDeadlineReason.lsp.error.required = Rhowch reswm dros fethu’r dyddiad cau ar gyfer cyflwyno
-missedDeadlineReason.lsp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
-missedDeadlineReason.lsp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
+missedDeadlineReason.lsp.error.required = Nodwch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
+missedDeadlineReason.lsp.error.length = Mae’n rhaid i’r rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno fod yn {0} o gymeriadau neu’n llai
+missedDeadlineReason.lsp.error.regex = Mae’n rhaid i’r rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 # Missed deadline reason for review page - LSP
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.review.headingAndTitle = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 missedDeadlineReason.lsp.review.hint = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir.
-missedDeadlineReason.lsp.error.review.required = Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn
+missedDeadlineReason.lsp.error.review.required = Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniad hwn
+missedDeadlineReason.lsp.error.review.length = Mae’n rhaid i’r rheswm dros ofyn am adolygiad fod yn {0} o gymeriadau neu’n llai
+missedDeadlineReason.lsp.error.review.regex = Mae’n rhaid i’r rheswm dros ofyn i ni adolygu’r penderfyniad hwn gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 missedDeadlineReason.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
-missedDeadlineReason.agent.lpp.hint = Dim ond y gosb hon y mae angen i ni wybod amdani. Dylech apelio yn erbyn unrhyw gosb arall sy’n gysylltiedig â’r cyfnod diweddaru hwn ar wahân.
-missedDeadlineReason.lpp.error.required = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
-missedDeadlineReason.lpp.error.length = Esboniwch y rheswm gan ddefnyddio {0} o gymeriadau neu lai
-missedDeadlineReason.lpp.error.regex = Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig
+missedDeadlineReason.lpp.error.required = Nodwch y rheswm dros fethu’r dyddiad cau ar gyfer talu
+missedDeadlineReason.lpp.error.length = Mae’n rhaid i’r rheswm dros fethu’r dyddiad cau ar gyfer talu fod yn {0} o gymeriadau neu’n llai
+missedDeadlineReason.lpp.error.regex = Mae’n rhaid i’r rheswm dros fethu’r dyddiad cau ar gyfer talu gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 missedDeadlineReason.lpp.headingAndTitle.multiple = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 missedDeadlineReason.lpp.hint.multiple = Rhowch wybod i ni pam gwnaethoch fethu’r dyddiadau cau  ar gyfer talu ar gyfer y ddwy gosb.
-missedDeadlineReason.lpp.error.required.multiple = Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu
+missedDeadlineReason.lpp.error.required.multiple = Nodwch y rheswm dros fethu’r dyddiad cau ar gyfer talu
+missedDeadlineReason.lpp.error.regex.multiple = Mae’n rhaid i’r rheswm dros fethu’r dyddiad cau ar gyfer talu gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 missedDeadlineReason.lpp.review.hint = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniad gwreiddiol yn anghywir.
-missedDeadlineReason.lpp.error.review.required = Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn
+missedDeadlineReason.lpp.error.review.required = Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniad hwn
+missedDeadlineReason.lpp.error.review.length = Mae’n rhaid i’r rheswm dros ofyn am adolygiad fod yn {0} o gymeriadau neu’n llai
+missedDeadlineReason.lpp.error.review.regex = Mae’n rhaid i’r rheswm dros ofyn i ni adolygu’r penderfyniad hwn gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 missedDeadlineReason.lpp.review.hint.multiple = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir.
-missedDeadlineReason.lpp.error.review.required.multiple = Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn
-
+missedDeadlineReason.lpp.error.review.required.multiple = Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniadau hyn
+missedDeadlineReason.lpp.error.review.regex.multiple = Why you are asking us to review these decisions must only include letters a to z, numbers 0 to 9, and standard special characters (Welsh)
 
 # Has the crime been reported page
 # ----------------------------------------------------------
