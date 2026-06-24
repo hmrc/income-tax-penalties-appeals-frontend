@@ -69,13 +69,14 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
             document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
-            document.getParagraphs.get(3).text() shouldBe "If you have received a penalty for an update period that started after the income source had stopped permanently (ceased), you may be able to get that point removed."
-            document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the date that a particular income source was ceased to HMRC."
+            document.getParagraphs.get(3).text() shouldBe "You may be able to get a penalty point removed if the update period started after the income source stopped permanently (ceased)."
+            document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the dates that a particular income source was ceased to HMRC."
+            document.getParagraphs.get(5).text() shouldBe "A penalty point will stay active and will not be removed if more than one income source was missing or late in the same update period, and only one income source ceased before the update period started."
             document.getLink("cessationLink").text() shouldBe "Add, manage or cease a business or income source"
 
             document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
-            document.getParagraphs.get(6).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
-            document.getParagraphs.get(7).text() shouldBe "If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case."
+            document.getParagraphs.get(7).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
+            document.getParagraphs.get(8).text() shouldBe "If we do not ask for extra evidence, we do not need it to make a decision."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
 
             document.getSubmitButton.text() shouldBe "Start an appeal"
@@ -109,7 +110,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
             document.getParagraphs.get(3).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
-            document.getParagraphs.get(4).text() shouldBe "If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case."
+            document.getParagraphs.get(4).text() shouldBe "If we do not ask for extra evidence, we do not need it to make a decision."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
             document.getSubmitButton.text() shouldBe "Continue"
             document.getSubmitButton.attr("href") shouldBe routes.ReasonableExcuseController.onPageLoad(isAgent, NormalMode).url
@@ -139,7 +140,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
             document.getParagraphs.get(3).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
-            document.getParagraphs.get(4).text() shouldBe "If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case."
+            document.getParagraphs.get(4).text() shouldBe "If we do not ask for extra evidence, we do not need it to make a decision."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
 
             document.getSubmitButton.text() shouldBe "Continue"
@@ -166,7 +167,6 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             )
             document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
             document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
-            document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
             document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
             document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
@@ -193,7 +193,6 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             )
             document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
             document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
-            document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
             document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
             document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4
@@ -221,7 +220,6 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             )
             document.getH1Elements.text() shouldBe ReviewAppealStartMessages.English.headingAndTitle
             document.getParagraphs.get(0).text() shouldBe ReviewAppealStartMessages.English.p1
-            document.getParagraphs.get(1).text() shouldBe ReviewAppealStartMessages.English.p2
             document.getH2Elements.get(0).text() shouldBe ReviewAppealStartMessages.English.h2
             document.getParagraphs.get(2).text() shouldBe ReviewAppealStartMessages.English.p3
             document.getParagraphs.get(3).text() shouldBe ReviewAppealStartMessages.English.p4

@@ -20,23 +20,21 @@ object ReviewAppealStartMessages {
 
   sealed trait Messages { this: i18n =>
     val headingAndTitle = "Review an appeal decision"
-    val p1 = "If you disagree with the decision of your penalty appeal, you can ask for your case to be reviewed again."
-    val p2 = "This service is for requesting a review for appeal decisions given for individual submissions."
+    val p1 = "If you disagree with the decision about the penalty appeal, you can ask for a review."
     val h2 = "Before you start"
-    val p3 = "You’ll need to collect any evidence that you believe shows why the appeal decision was incorrect."
-    val p4 = "You will be asked to upload this evidence as part of this request to review."
-    val p5 = "If it’s been more than 30 days since the review decision, you’ll need to explain why you did not ask for a review sooner."
+    val p2 = "Collect any evidence that you believe shows why the appeal decision was incorrect."
+    val p3 = "You can upload this evidence as part of this request to review."
+    val p4 = "If it’s been more than 30 days since the review decision, you’ll need to explain why you did not ask for a review sooner."
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Adolygu penderfyniad ynghylch apêl"
-    override val p1 = "Os ydych yn anghytuno â’r penderfyniad ynghylch eich apêl, gallwch ofyn am i’ch achos gael ei adolygu eto."
-    override val p2 = "Mae’r gwasanaeth hwn ar gyfer gofyn am adolygiad o benderfyniadau ynghylch apeliadau sy’n gysylltiedig â chyflwyniadau a wnaed gan unigolyn."
+    override val p1 = "Os ydych chi’n anghytuno â’r penderfyniad ynghylch yr apêl yn erbyn cosb, gallwch ofyn am adolygiad."
     override val h2 = "Cyn i chi ddechrau"
-    override val p3 = "Bydd angen i chi gasglu unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi."
-    override val p4 = "Bydd gofyn i chi uwchlwytho’r dystiolaeth hon fel rhan o’ch cais i gael adolygiad."
-    override val p5 = "Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt."
+    override val p2 = "Casglwch unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi."
+    override val p3 = "Gallwch uwchlwythor dystiolaeth hon fel rhan or cais hwn i gael adolygiad."
+    override val p4 = "Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt."
   }
 }
