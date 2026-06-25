@@ -401,12 +401,12 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Rheswm arall
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = Nid oedd fy nghleient wedi rhoi’r wybodaeth i mi mewn pryd
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = Beth oedd wedi’ch achosi i fethu’r dyddiad cau
 
-checkYourAnswers.jointAppeal.key = A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm?
+checkYourAnswers.jointAppeal.key = Adolygu penderfyniadau’r ddwy apêl ar yr un pryd
 checkYourAnswers.jointAppeal.change.hidden = A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm
-checkYourAnswers.jointAppeal.key.review = A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
+checkYourAnswers.jointAppeal.key.review = Nodwch y rhif hwn os ydych yn cysylltu â CThEF ynghylch yr apêl hon
 checkYourAnswers.jointAppeal.change.hidden.review = A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?
 
-checkYourAnswers.reasonableExcuse.key = Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
+checkYourAnswers.reasonableExcuse.key = Rheswm dros fethu’r dyddiad cau
 checkYourAnswers.reasonableExcuse.change.hidden = Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.reasonableExcuse.value.bereavement = Profedigaeth (roedd rhywun wedi marw)
 checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source (Welsh)
@@ -418,59 +418,59 @@ checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff (
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Aros yn yr ysbyty yn annisgwyl
 checkYourAnswers.reasonableExcuse.value.other = Rheswm arall
 
-checkYourAnswers.crimeReported.key = A roddwyd gwybod i’r heddlu am y drosedd hon?
+checkYourAnswers.crimeReported.key = Wedi rhoi gwybod i’r heddlu
 checkYourAnswers.crimeReported.change.hidden = A roddwyd gwybod i’r heddlu am y drosedd hon
 
-checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
+checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = Daeth yr arhosiad yn yr ysbyty i ben
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = A yw’r arhosiad yn yr ysbyty wedi dod i ben?
 
-checkYourAnswers.ReviewMoreThan30Days.key = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?
+checkYourAnswers.ReviewMoreThan30Days.key = Mwy na 30 diwrnod ers penderfyniad yr apêl
 checkYourAnswers.ReviewMoreThan30Days.change.hidden = oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
-checkYourAnswers.ReviewMoreThan30Days.key.multiple = Oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl?
+checkYourAnswers.ReviewMoreThan30Days.key.multiple = Mwy na 30 diwrnod ers penderfyniad yr apêl
 checkYourAnswers.ReviewMoreThan30Days.change.hidden.multiple = oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl
 
-checkYourAnswers.whenDidEventHappen.bereavement.key =  Pryd y bu farw’r person?
+checkYourAnswers.whenDidEventHappen.bereavement.key = Dyddiad y bu farw’r person
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  Pryd y bu farw’r person
 checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation (Welsh)
 checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation (Welsh)
-checkYourAnswers.whenDidEventHappen.crime.key =  Pryd ddigwyddodd y drosedd?
+checkYourAnswers.whenDidEventHappen.crime.key =  Dyddiad y drosedd
 checkYourAnswers.whenDidEventHappen.crime.change.hidden =  Pryd ddigwyddodd y drosedd
-checkYourAnswers.whenDidEventHappen.fireandflood.key =  Pryd ddigwyddodd y tân neu lifogydd?
+checkYourAnswers.whenDidEventHappen.fireandflood.key =  Dyddiad y tân neu’r llifogydd
 checkYourAnswers.whenDidEventHappen.fireandflood.change.hidden =  Pryd ddigwyddodd y tân neu lifogydd
-checkYourAnswers.whenDidEventHappen.health.key = Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?
+checkYourAnswers.whenDidEventHappen.health.key = Dyddiad y gwnaeth problem iechyd eich atal rhag cyrraedd y dyddiad cau
 checkYourAnswers.whenDidEventHappen.health.lsp.headingAndTitle.change.hidden = pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.whenDidEventHappen.health.lpp.headingAndTitle.change.hidden = pryd y gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad
-checkYourAnswers.whenDidEventHappen.technicalIssue.key = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau?
+checkYourAnswers.whenDidEventHappen.technicalIssue.key = Dyddiad y dechreuodd y broblem meddalwedd neu dechnoleg
 checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau
-checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Dyddiad dechrau arhosiad yn yr ysbyty
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = Pryd y dechreuodd yr arhosiad yn yr ysbyty?
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff (Welsh)
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff (Welsh)
-checkYourAnswers.whenDidEventHappen.other.key = TBC other (Welsh)
+checkYourAnswers.whenDidEventHappen.other.key = Fe wnaeth problem dyddiad eich atal rhag cyrraedd y dyddiad cau
 checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other (Welsh)
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.whenDidEventHappen.other.lpp.headingAndTitle.change.hidden = Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag gwneud y taliad
 
-checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben?
+checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = Dyddiad y daeth problem meddalwedd neu dechnoleg i ben
 checkYourAnswers.whenDidTheEventEnd.technicalIssue.change.hidden = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben
-checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = Dyddiad daeth yr arhosiad yn yr ysbyty i ben
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben
 
-checkYourAnswers.lateAppeal.key = Rheswm dros apelio ar ôl {0} o ddiwrnodau
+checkYourAnswers.lateAppeal.key = Pam nad oeddech wedi gallu apelio cyn pen {0} diwrnod
 checkYourAnswers.lateAppeal.change.hidden = rheswm dros apelio ar ôl {0} o ddiwrnodau
 
-checkYourAnswers.missedDeadlineReason.lpp.key =  Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
+checkYourAnswers.missedDeadlineReason.lpp.key =  Apelio’r ddwy gosb am yr un rheswm
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden =  beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
-checkYourAnswers.missedDeadlineReason.lsp.key = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?
+checkYourAnswers.missedDeadlineReason.lsp.key = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
-checkYourAnswers.missedDeadlineReason.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
+checkYourAnswers.missedDeadlineReason.review.key = Pam wnaethoch ofyn am adolygiad
 checkYourAnswers.missedDeadlineReason.review.change.hidden = beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
 checkYourAnswers.missedDeadlineReason.joint.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
 
-checkYourAnswers.uploadedDocuments.key = Tystiolaeth i ategu’r apêl hon
+checkYourAnswers.uploadedDocuments.key = Tystiolaeth
 checkYourAnswers.uploadedDocuments.change.hidden = Tystiolaeth i ategu’r apêl hon
-checkYourAnswers.uploadedDocuments.key.review = Tystiolaeth i gefnogi’r adolygiad hwn
+checkYourAnswers.uploadedDocuments.key.review = Tystiolaeth
 checkYourAnswers.uploadedDocuments.change.hidden.review = tystiolaeth i gefnogi’r adolygiad hwn
 
 checkYourAnswers.declaration.h2 = Datganiad
@@ -478,9 +478,9 @@ checkYourAnswers.declaration.text.1 = Wrth gyflwyno’r apêl hon, rydych yn gwn
 checkYourAnswers.declaration.text.1.review = Wrth gyflwyno’r cais hwn i gael adolygiad, rydych yn gwneud datganiad cyfreithlon bod yr wybodaeth yn gywir ac yn gyflawn hyd eithaf eich gwybodaeth a’ch cred.
 checkYourAnswers.declaration.text.2 = Gall datganiad ffug arwain at erlyniad.
 
-checkYourAnswers.extraEvidence.key = A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?
+checkYourAnswers.extraEvidence.key = Tystiolaeth wedi’i uwchlwytho
 checkYourAnswers.extraEvidence.change.hidden = a ydych am uwchlwytho tystiolaeth i ategu’ch apêl
-checkYourAnswers.extraEvidence.key.review = A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?
+checkYourAnswers.extraEvidence.key.review = Tystiolaeth wedi’i uwchlwytho
 checkYourAnswers.extraEvidence.change.hidden.review = a ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn
 
 checkYourAnswers.acceptAndSend = Derbyn ac anfon
@@ -656,11 +656,11 @@ page.not.found.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi
 page.not.found.link.text = Dychwelyd i’r dudalen cosbau ac apeliadau Hunanasesiad
 
 # Unauthorised Error View
-unauthorised.page.h1 = Nid ydych wedi'ch awdurdodi i gael mynediad at y dudalen hon
-unauthorised.page.p = Rydych yn asiant ategol ar gyfer y cleient hyn. Y prif asiant yn unig sy'n gallu cael mynediad at gofnodion sy'n dangos:
+unauthorised.page.h1 = Nid ydych wedi’ch awdurdodi i gael mynediad at y dudalen hon
+unauthorised.page.p = Rydych yn asiant ategol ar gyfer y cleient hyn. Y prif asiant yn unig sy’n gallu cael mynediad at gofnodion sy’n dangos:
 unauthorised.page.bullet1 = taliadau, credydau ac ad-daliadau
 unauthorised.page.bullet2 = Ffurflenni Treth
-unauthorised.page.bullet3 = y ffioedd sy'n ddyledus nesaf
+unauthorised.page.bullet3 = y ffioedd sy’n ddyledus nesaf
 unauthorised.page.bullet4 = cosbau ac apeliadau
 unauthorised.page.read.more = Darllenwch ragor am y gwahaniaeth rhwng prif asiantau ac asiantau ategol ar
 unauthorised.page.link.text = GOV.UK

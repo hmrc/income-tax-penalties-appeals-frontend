@@ -52,7 +52,7 @@
 
 
 
-@heading = @{if(reasonableExcuse.toString == "health") {healthHeading} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle")}}
+@heading = @{if(reasonableExcuse.toString == "health") {healthHeading} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP, false)}.headingAndTitle")}}
 
 @layout(Some(titleBuilder(heading.toString, Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 
