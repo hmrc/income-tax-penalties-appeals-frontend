@@ -18,22 +18,23 @@ service.lpp.multiple.caption = Cosbau am dalu’n hwyr: {0} i {1}
 # Appeal Start page
 # ----------------------------------------------------------
 appeal.start.header = Apelio yn erbyn cosb Hunanasesiad
-appeal.start.p1.lsp = Er mwyn apelio yn erbyn cosb am gyflwyno Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros eich achos eto.
-appeal.start.p1.lpp = Er mwyn apelio yn erbyn cosb am dalu Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros eich achos eto.
+appeal.start.p1.lsp = Er mwyn apelio yn erbyn cosb am gyflwyno Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros yr achos eto.
+appeal.start.p1.lpp = Er mwyn apelio yn erbyn cosb am dalu Hunanasesiad yn hwyr, bydd angen i chi ofyn i CThEF fwrw golwg dros yr achos eto.
 appeal.start.h2 = Cyn i chi ddechrau
 appeal.start.p3 = Bydd angen y canlynol arnoch:
 appeal.start.li1.lsp = rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno’r diweddariad chwarterol neu’r Ffurflen Dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.li1.lpp = rheswm dros fethu’r dyddiad cau ar gyfer talu’r dreth (mae CThEF yn galw hyn yn ‘esgus rhesymol’)
 appeal.start.cessation.h2 = Ffynonellau incwm sydd wedi dod i ben
-appeal.start.cessation.p1 = Os cawsoch gosb am gyfnod diweddaru a ddechreuodd ar ôl i’r ffynhonnell incwm ddod i ben yn barhaol, mae’n bosibl y gall y pwynt hwnnw gael ei dynnu.
+appeal.start.cessation.p1 = Mae’n bosibl y gallwch gael pwynt cosb wedi’i ddileu os dechreuodd y cyfnod diweddaru ar ôl i ffynhonnell yr incwm stopio yn barhaol (dod i ben).
 appeal.start.cessation.p2 = Er mwyn gwneud hyn, bydd angen i chi gadarnhau gyda CThEF y dyddiad pan ddaeth ffynhonnell incwm benodol i ben.
+appeal.start.cessation.p3 = Bydd pwynt cosb yn aros yn weithredol ac ni fydd yn cael ei dynnu os oedd mwy nag un ffynhonnell incwm ar goll neu’n hwyr yn ystod yr un cyfnod diweddaru, a dim ond un ffynhonnell incwm a ddaeth i ben cyn i’r cyfnod diweddaru ddechrau.
 appeal.start.cessation.link = Ychwanegu, rheoli neu ddod â busnes neu ffynhonnell incwm i ben
 appeal.start.evidence.h2 = Anfon tystiolaeth gydag apêl
 appeal.start.li2 = y dyddiadau sy’n berthnasol i’r esgus rhesymol hwn
 appeal.start.li3 = rheswm dros beidio ag apelio’n gynt
 appeal.start.guidanceLink = Darllenwch yr arweiniad ynghylch esgusodion rhesymol (yn agor tab newydd)
 appeal.start.p4 = Mewn rhai achosion, bydd gennych yr opsiwn i uwchlwytho tystiolaeth er mwyn ategu’ch apêl. Dylech fynd ati i gasglu’r dystiolaeth hon cyn parhau, gan na fydd modd i chi gadw’r apêl a dod yn ôl ato yn nes ymlaen.
-appeal.start.p5 = Os na fydd gennych yr opsiwn i uwchlwytho tystiolaeth ychwanegol, mae hyn oherwydd, yn eich achos chi, nid oes angen unrhyw dystiolaeth arnom i wneud penderfyniad.
+appeal.start.p5 = Os na fyddwn yn gofyn am ragor o wybodaeth, ni fydd ei hangen arnom er mwyn gwneud penderfyniad.
 appeal.start.p6 = Os byddwn yn penderfynu bod angen tystiolaeth ychwanegol arnom ar ôl adolygu’ch apêl, byddwn yn cysylltu â chi.
 appeal.start.button.lsp = Dechrau apêl
 appeal.start.button.lpp = Parhau
@@ -41,12 +42,11 @@ appeal.start.button.lpp = Parhau
 # Review Appeal Start page
 # ----------------------------------------------------------
 reviewAppeal.start.header = Adolygu penderfyniad ynghylch apêl
-reviewAppeal.start.p1 = Os ydych yn anghytuno â’r penderfyniad ynghylch eich apêl, gallwch ofyn am i’ch achos gael ei adolygu eto.
-reviewAppeal.start.p2 = Mae’r gwasanaeth hwn ar gyfer gofyn am adolygiad o benderfyniadau ynghylch apeliadau sy’n gysylltiedig â chyflwyniadau a wnaed gan unigolyn.
+reviewAppeal.start.p1 = Os ydych chi’n anghytuno â’r penderfyniad ynghylch yr apêl yn erbyn cosb, gallwch ofyn am adolygiad.
 reviewAppeal.start.h2 = Cyn i chi ddechrau
-reviewAppeal.start.p3 = Bydd angen i chi gasglu unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi.
-reviewAppeal.start.p4 = Bydd gofyn i chi uwchlwytho’r dystiolaeth hon fel rhan o’ch cais i gael adolygiad.
-reviewAppeal.start.p5 = Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt.
+reviewAppeal.start.p2 = Casglwch unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi.
+reviewAppeal.start.p3 = Gallwch uwchlwytho'r dystiolaeth hon fel rhan o'r cais hwn i gael adolygiad.
+reviewAppeal.start.p4 = Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt.
 
 
 # Reasonable excuse
