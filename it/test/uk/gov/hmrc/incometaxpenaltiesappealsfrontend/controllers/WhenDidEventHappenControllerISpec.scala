@@ -19,7 +19,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import fixtures.messages.WhenDidEventHappenMessages
 import org.jsoup.Jsoup
 import org.mongodb.scala.{Document, SingleObservableFuture}
-import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
+import org.scalatest.concurrent.ScalaFutures._
 import play.api.http.Status.{BAD_REQUEST, OK, SEE_OTHER}
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.libs.ws.WSResponse
@@ -32,11 +32,15 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMo
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{ReasonableExcusePage, WhenDidEventHappenPage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
-
+import org.scalatest.time.{Millis, Seconds, Span}
 import java.time.LocalDate
 
 class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
-
+  implicit val patienceConfig: PatienceConfig =
+    PatienceConfig(
+      timeout = Span(5, Seconds),
+      interval = Span(50, Millis)
+    )
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   lazy val timeMachine: TimeMachine = app.injector.instanceOf[TimeMachine]
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
