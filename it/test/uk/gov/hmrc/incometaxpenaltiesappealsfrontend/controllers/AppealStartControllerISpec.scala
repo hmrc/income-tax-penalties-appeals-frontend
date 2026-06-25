@@ -61,7 +61,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               dateToString(lateSubmissionAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
-            document.getParagraphs.get(0).text() shouldBe "To appeal a late submission penalty for Self Assessment, you will need to ask HMRC to look at your case again."
+            document.getParagraphs.get(0).text() shouldBe "To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at the case again."
             document.getH2Elements.get(0).text() shouldBe "Before you start"
             document.getParagraphs.get(1).text() shouldBe "You will need:"
             document.getBulletPoints.get(0).text() shouldBe "a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)"
@@ -102,7 +102,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               dateToString(latePaymentAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
-            document.getParagraphs.get(0).text() shouldBe "To appeal a late payment penalty for Self Assessment, you will need to ask HMRC to look at your case again."
+            document.getParagraphs.get(0).text() shouldBe "To appeal a late payment penalty for Self Assessment, you’ll need to ask HMRC to look at the case again."
             document.getH2Elements.get(0).text() shouldBe "Before you start"
             document.getParagraphs.get(1).text() shouldBe "You will need:"
             document.getBulletPoints.get(0).text() shouldBe "a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)"
@@ -132,7 +132,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
               dateToString(latePaymentAppealData.endDate)
             )
             document.getH1Elements.text() shouldBe "Appeal a Self Assessment penalty"
-            document.getParagraphs.get(0).text() shouldBe "To appeal a late payment penalty for Self Assessment, you will need to ask HMRC to look at your case again."
+            document.getParagraphs.get(0).text() shouldBe "To appeal a late payment penalty for Self Assessment, you’ll need to ask HMRC to look at the case again."
             document.getH2Elements.get(0).text() shouldBe "Before you start"
             document.getParagraphs.get(1).text() shouldBe "You will need:"
             document.getBulletPoints.get(0).text() shouldBe "a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)"
