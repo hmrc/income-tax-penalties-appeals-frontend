@@ -24,8 +24,8 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Health, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours with BaseFixtures {
@@ -48,7 +48,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
 
             s"WhenDidEventHappenForm with $reason and isLPP='$isLPP' and isAgent='$isAgent'" should {
 
-              if(reason == Other) {
+              if(reason == Other || reason == Health) {
                 implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
                 val infix = if (isLPP) ".lpp" else ".lsp"
@@ -64,7 +64,7 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
                     args = args
                   )
                 )
-              } else { //Reason is NOT 'other'
+              } else { //Reason is NOT 'other' or 'health'
 
                 implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
 
