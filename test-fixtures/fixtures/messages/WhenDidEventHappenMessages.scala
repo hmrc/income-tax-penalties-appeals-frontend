@@ -111,26 +111,26 @@ object WhenDidEventHappenMessages {
       }
     }
 
-    val cyaKeyBereavement: String = "When did the person die?"
-    val cyaKeyCrime: String = "When did the crime happen?"
-    val cyaKeyFireOrFlood: String = "When did the fire or flood happen?"
-    val cyaKeyTechnical: String = "When did the software or technology issues begin?"
+    val cyaKeyBereavement: String = "Date person died"
+    val cyaKeyCrime: String = "Date of crime"
+    val cyaKeyFireOrFlood: String = "Date of fire or flood"
+    val cyaKeyTechnical: String = "Date software or technology issue started"
     val cyaKeyCessation: String = "TBC cessation"
-    val cyaKeyHealth: String = "When did the health issue first stop you making the payment?"
+    val cyaKeyHealth: String = "Date health issue stopped you from meeting the deadline"
     val cyaKeyLossOfStaff: String = "TBC lossOfStaff"
-    val cyaKeyOther: String = "TBC other"
-    val cyaKeyUnexpectedHospital: String = "When did the hospital stay begin?"
+    val cyaKeyOther: String = "Date issue stopped you from meeting the deadline"
+    val cyaKeyUnexpectedHospital: String = "Date hospital stay started"
 
     def cyaKey(reasonableExcuse: ReasonableExcuse, isLPP: Boolean = false, isAgent: Boolean = false, wasClientInformationIssue: Boolean = false): String = reasonableExcuse match {
       case Bereavement => cyaKeyBereavement
       case Cessation => cyaKeyCessation
       case Crime => cyaKeyCrime
       case FireOrFlood => cyaKeyFireOrFlood
-      case Health => headingAndTitle(Health, isLPP, wasClientInformationIssue)
+      case Health => cyaKeyHealth
       case TechnicalIssues => cyaKeyTechnical
       case UnexpectedHospital => cyaKeyUnexpectedHospital
       case LossOfStaff => cyaKeyLossOfStaff
-      case Other => otherHeadingAndTitle(isLPP)
+      case Other => cyaKeyOther
     }
 
     val cyaHiddenBereavement: String = "when did the person die"
@@ -296,15 +296,15 @@ object WhenDidEventHappenMessages {
       if (isLPP) "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag talu’r bil treth erbyn y dyddiad cau ar gyfer talu fod heddiw neu yn y gorffennol" else "Mae’n rhaid i’r dyddiad pan wnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno fod heddiw neu yn y gorffennol"
     }
 
-    override val cyaKeyBereavement: String = "Pryd y bu farw’r person?"
-    override val cyaKeyCrime: String = "Pryd ddigwyddodd y drosedd?"
-    override val cyaKeyFireOrFlood: String = "Pryd ddigwyddodd y tân neu lifogydd?"
-    override val cyaKeyTechnical: String = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau?"
+    override val cyaKeyBereavement: String = "Dyddiad y bu farw’r person"
+    override val cyaKeyCrime: String = "Dyddiad y drosedd"
+    override val cyaKeyFireOrFlood: String = "Dyddiad y tân neu’r llifogydd"
+    override val cyaKeyTechnical: String = "Dyddiad y dechreuodd y broblem meddalwedd neu dechnoleg"
     override val cyaKeyCessation: String = "TBC cessation (Welsh)"
-    override val cyaKeyHealth: String = "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?"
-    override val cyaKeyUnexpectedHospital: String = "Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?"
+    override val cyaKeyHealth: String = "Dyddiad y gwnaeth problem iechyd eich atal rhag cyrraedd y dyddiad cau"
+    override val cyaKeyUnexpectedHospital: String = "Dyddiad dechrau arhosiad yn yr ysbyty"
     override val cyaKeyLossOfStaff: String = "TBC lossOfStaff (Welsh)"
-    override val cyaKeyOther: String = "Pryd y gwnaeth y broblem eich rhwystro am y tro cyntaf rhag bodloni’r dyddiad cau ar gyfer cyflwyno"
+    override val cyaKeyOther: String = "Fe wnaeth problem dyddiad eich atal rhag cyrraedd y dyddiad cau"
 
     override val cyaHiddenBereavement: String = "Pryd y bu farw’r person"
     override val cyaHiddenCrime: String = "Pryd ddigwyddodd y drosedd"

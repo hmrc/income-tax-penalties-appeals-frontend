@@ -24,9 +24,9 @@ object JointAppealMessages {
     val errorRequiredReview = "Select yes if you want both appeal decisions to be reviewed at the same time"
     val errorInvalidReview = "Select yes if you want both appeal decisions to be reviewed at the same time"
 
-    val cyaKey = "Do you want to appeal both penalties for the same reason?"
+    val cyaKey = "Appeal both penalties for the same reason"
     val cyaHidden = "do you want to appeal both penalties for the same reason"
-    val cyaKeyReview = "Do you want both appeal decisions to be reviewed at the same time?"
+    val cyaKeyReview = "Review both appeal decisions at the same time"
     val cyaHiddenReview = "do you want both appeal decisions to be reviewed at the same time"
   }
 
@@ -38,9 +38,9 @@ object JointAppealMessages {
     override val errorRequiredReview = "Dewiswch ‘Iawn’ os ydych am i ddau benderfyniad yr apêl gael eu hadolygu ar yr un pryd"
     override val errorInvalidReview = "Dewiswch ‘Iawn’ os ydych am i ddau benderfyniad yr apêl gael eu hadolygu ar yr un pryd"
 
-    override val cyaKey = "A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm?"
+    override val cyaKey = "Adolygu penderfyniadau’r ddwy apêl ar yr un pryd"
     override val cyaHidden = "A ydych am apelio yn erbyn y ddwy gosb am yr un rheswm"
-    override val cyaKeyReview = "A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?"
+    override val cyaKeyReview = "Nodwch y rhif hwn os ydych yn cysylltu â CThEF ynghylch yr apêl hon"
     override val cyaHiddenReview = "A ydych am i’r ddau benderfyniad gael eu hadolygu ar yr un pryd?"
   }
 }

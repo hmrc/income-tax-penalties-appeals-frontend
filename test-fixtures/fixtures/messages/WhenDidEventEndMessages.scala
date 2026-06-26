@@ -51,8 +51,8 @@ object WhenDidEventEndMessages {
       case reason => throw new UnsupportedOperationException("No message content exists for this ReasonableExcuse: " + reason)
     }
     
-    val cyaKeyTechnical = "When did the software or technology issues end?"
-    val cyaKeyHospital = "When did the hospital stay end?"
+    val cyaKeyTechnical = "Date software or technology issue ended"
+    val cyaKeyHospital = "Date hospital stay ended"
 
     def cyaKey(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => cyaKeyTechnical
@@ -102,8 +102,8 @@ object WhenDidEventEndMessages {
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol"
     override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y daeth yr arhosiad yn yr ysbyty i ben fod ar $startDate neu’n hwyrach"
 
-    override val cyaKeyTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben?"
-    override val cyaKeyHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben?"
+    override val cyaKeyTechnical = "Dyddiad y daeth problem meddalwedd neu dechnoleg i ben"
+    override val cyaKeyHospital = "Dyddiad daeth yr arhosiad yn yr ysbyty i ben"
 
     override val cyaHiddenTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben"
     override val cyaHiddenHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben"

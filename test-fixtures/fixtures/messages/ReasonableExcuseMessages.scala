@@ -36,7 +36,7 @@ object ReasonableExcuseMessages {
     val errorRequiredLsp: String = "Select the reason for missing the submission deadline"
     val errorRequiredLpp: String = "Select the reason for missing the payment deadline"
 
-    val cyaKey = "Reason for missing the submission deadline"
+    val cyaKey = "Reason for missing deadline"
     def cyaValue(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case Bereavement => bereavement
       case Cessation => cessation
@@ -71,7 +71,7 @@ object ReasonableExcuseMessages {
     override val errorRequiredLsp: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
     override val errorRequiredLpp: String = "Select the reason for missing the payment deadline (Welsh)"
 
-    override val cyaKey = "Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+    override val cyaKey = "Rheswm dros fethu’r dyddiad cau"
     override val cyaHidden = "Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
   }
 }

@@ -26,7 +26,7 @@ object LateAppealMessages {
     val errorRegex: Int => String = days => s"Why you could not appeal within $days days must only include letters a to z, numbers 0 to 9 and standard special characters"
     val errorRegexReview: Int => String = days => s"Why you have not ask for a review within $days days must only include letters a to z, numbers 0 to 9, and standard special characters"
 
-    val cyaKey: Int => String = i => s"Reason for appealing after $i days"
+    val cyaKey: Int => String = i => s"Why you could not appeal within $i days"
     val cyaHidden: Int => String = i => s"reason for appealing after $i days"
   }
 
@@ -41,7 +41,7 @@ object LateAppealMessages {
     override val errorRegex: Int => String = days => s"Mae’n rhaid i’r rheswm pam nad oeddech yn gallu apelio cyn pen $days o ddiwrnodau gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig"
     override val errorRegexReview: Int => String = days => s"Mae’n rhaid i’r rheswm pam nad ydych wedi gofyn am adolygiad cyn pen $days o ddiwrnodau gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig"
 
-    override val cyaKey: Int => String = i => s"Rheswm dros apelio ar ôl $i o ddiwrnodau"
+    override val cyaKey: Int => String = i => s"Pam nad oeddech wedi gallu apelio cyn pen $i diwrnod"
     override val cyaHidden: Int => String = i => s"rheswm dros apelio ar ôl $i o ddiwrnodau"
   }
 }
