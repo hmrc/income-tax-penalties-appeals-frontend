@@ -161,11 +161,11 @@ honestyDeclaration.li.review = I confirm that I will provide honest and accurate
 # ----------------------------------------------------------
 # Bereavement Messages
 whenDidEventHappen.bereavement.headingAndTitle = When did the person die?
-whenDidEventHappen.bereavement.date.error.invalid = The date must be a real date
+whenDidEventHappen.bereavement.date.error.invalid = The date the person died must be a real date
 whenDidEventHappen.bereavement.date.error.required.all = Enter the date when the person died
-whenDidEventHappen.bereavement.date.error.required.two = The date must include a {0} and a {1}
-whenDidEventHappen.bereavement.date.error.required = The date must include a {0}
-whenDidEventHappen.bereavement.date.error.notInFuture = The date must be today or in the past
+whenDidEventHappen.bereavement.date.error.required.two = The date the person died must include a {0} and a {1}
+whenDidEventHappen.bereavement.date.error.required = The date the person died must include a {0}
+whenDidEventHappen.bereavement.date.error.notInFuture = The date the person died must be today or in the past
 
 # Cessation Messages
 whenDidEventHappen.cessation.headingAndTitle = TBC cessation

@@ -158,7 +158,7 @@ object WhenDidEventHappenMessages {
     val crimeInvalid = "The date of the crime must be a real date"
     val fireOrFloodInvalid = "The date of the fire or flood must be a real date"
     val technicalIssueInvalid = "The date the software or technology issues began must be a real date"
-    val bereavementInvalid = "The date must be a real date"
+    val bereavementInvalid = "The date the person died must be a real date"
     val cessationInvalid = "TBC"
     def healthInvalid(isLPP: Boolean = false): String = {
       if (isLPP) "The date the health issue first stopped payment being made must be a real date" else "The date the health issue first stopped the submission deadline being met must be a real date"
@@ -186,7 +186,7 @@ object WhenDidEventHappenMessages {
     def crimeRequiredTwo(missing: String, missingTwo: String) = s"The date of the crime must include a $missing and a $missingTwo"
     def fireOrFloodRequiredTwo(missing: String, missingTwo: String) = s"The date of the fire or flood must include a $missing and a $missingTwo"
     def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues began must include a $missing and a $missingTwo"
-    def bereavementRequiredTwo(missing: String, missingTwo: String) = s"The date must include a $missing and a $missingTwo"
+    def bereavementRequiredTwo(missing: String, missingTwo: String): String = s"The date the person died must include a $missing and a $missingTwo"
     def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def healthRequiredTwo(isLPP: Boolean, missing: String, missingTwo: String): String = {
       if (isLPP) s"The date the health issue first stopped payment being made must include a $missing and a $missingTwo" else s"The date the health issue first stopped the submission deadline being met must include a $missing and a $missingTwo"
@@ -200,7 +200,7 @@ object WhenDidEventHappenMessages {
     def crimeRequired(missing: String) = s"The date of the crime must include a $missing"
     def fireOrFloodRequired(missing: String) = s"The date of the fire or flood must include a $missing"
     def technicalIssueRequired(missing: String) = s"The date the software or technology issues began must include a $missing"
-    def bereavementRequired(missing: String) = s"The date must include a $missing"
+    def bereavementRequired(missing: String) = s"The date the person died must include a $missing"
     def cessationRequired(missing: String) = "TBC"
     def healthRequired(isLPP: Boolean, missing: String): String = {
       if (isLPP) s"The date the health issue first stopped payment being made must include a $missing" else s"The date the health issue first stopped the submission deadline being met must include a $missing"
@@ -214,7 +214,7 @@ object WhenDidEventHappenMessages {
     val crimeNotInFuture = "The date of the crime must be today or in the past"
     val fireOrFloodNotInFuture = "The date of the fire or flood must be today or in the past"
     val technicalIssueNotInFuture = "The date the software or technology issues began must be today or in the past"
-    val bereavementNotInFuture = "The date must be today or in the past"
+    val bereavementNotInFuture = "The date the person died must be today or in the past"
     val cessationNotInFuture = "TBC"
     def healthNotInFuture(isLPP: Boolean = false): String = {
       if (isLPP) "The date the issue first stopped payment being made must be today or in the past" else "The date the issue first stopped the submission deadline being met must be today or in the past"
@@ -249,7 +249,7 @@ object WhenDidEventHappenMessages {
     override val crimeInvalid = "Mae’n rhaid i ddyddiad y drosedd fod yn ddyddiad go iawn"
     override val fireOrFloodInvalid = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod yn ddyddiad go iawn"
     override val technicalIssueInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod yn ddyddiad go iawn"
-    override val bereavementInvalid = "Mae’n rhaid i’r dyddiad fod yn ddyddiad go iawn"
+    override val bereavementInvalid = "Mae’n rhaid i’r dyddiad y bu farw’r person fod yn ddyddiad go iawn"
     override val cessationInvalid = "TBC (Welsh)"
     override def healthInvalid(isLPP: Boolean = false): String = {
       if (isLPP) "Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod yn ddyddiad go iawn" else "Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn fod yn ddyddiad go iawn"
@@ -277,7 +277,7 @@ object WhenDidEventHappenMessages {
     override def crimeRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing a $missingTwo"
     override def fireOrFloodRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing a $missingTwo"
     override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys $missing and a $missingTwo"
-    override def bereavementRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad gynnwys $missing a $missingTwo"
+    override def bereavementRequiredTwo(missing: String, missingTwo: String): String = s"Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys $missing a $missingTwo"
     override def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def healthRequiredTwo(isLPP: Boolean, missing: String, missingTwo: String): String = {
       if (isLPP) s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing a $missingTwo" else s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing a $missingTwo"
@@ -291,7 +291,7 @@ object WhenDidEventHappenMessages {
     override def crimeRequired(missing: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing"
     override def fireOrFloodRequired(missing: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing"
     override def technicalIssueRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys $missing"
-    override def bereavementRequired(missing: String) = s"Mae’n rhaid i’r dyddiad gynnwys $missing"
+    override def bereavementRequired(missing: String) = s"Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys $missing"
     override def cessationRequired(missing: String) = "TBC (Welsh)"
     override def healthRequired(isLPP: Boolean, missing: String): String = {
       if (isLPP) s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing" else s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing"
@@ -305,7 +305,7 @@ object WhenDidEventHappenMessages {
     override val crimeNotInFuture = "Mae’n rhaid i ddyddiad y drosedd fod heddiw neu yn y gorffennol"
     override val fireOrFloodNotInFuture = "Mae’n rhaid i ddyddiad y tân neu lifogydd fod heddiw neu yn y gorffennol"
     override val technicalIssueNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod heddiw neu yn y gorffennol"
-    override val bereavementNotInFuture = "Mae’n rhaid i’r dyddiad fod heddiw neu yn y gorffennol"
+    override val bereavementNotInFuture = "Mae’n rhaid i’r dyddiad y bu farw’r person fod heddiw neu yn y gorffennol"
     override val cessationNotInFuture = "TBC (Welsh)"
     override def healthNotInFuture(isLPP: Boolean = false): String = {
       if (isLPP) "Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol" else "Y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol"

@@ -161,11 +161,11 @@ honestyDeclaration.li.review = Rwy’n cadarnhau y byddaf yn rhoi gwybodaeth one
 # ----------------------------------------------------------
 # Bereavement Messages
 whenDidEventHappen.bereavement.headingAndTitle = Pryd y bu farw’r person?
-whenDidEventHappen.bereavement.date.error.invalid = Mae’n rhaid i’r dyddiad fod yn ddyddiad go iawn
+whenDidEventHappen.bereavement.date.error.invalid = Mae’n rhaid i’r dyddiad y bu farw’r person fod yn ddyddiad go iawn
 whenDidEventHappen.bereavement.date.error.required.all = Nodwch y dyddiad y bu farw’r person
-whenDidEventHappen.bereavement.date.error.required.two = Mae’n rhaid i’r dyddiad gynnwys {0} a {1}
-whenDidEventHappen.bereavement.date.error.required = Mae’n rhaid i’r dyddiad gynnwys {0}
-whenDidEventHappen.bereavement.date.error.notInFuture = Mae’n rhaid i’r dyddiad fod heddiw neu yn y gorffennol
+whenDidEventHappen.bereavement.date.error.required.two = Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys {0} a {1}
+whenDidEventHappen.bereavement.date.error.required = Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys {0}
+whenDidEventHappen.bereavement.date.error.notInFuture = Mae’n rhaid i’r dyddiad y bu farw’r person fod heddiw neu yn y gorffennol
 
 # Cessation Messages
 whenDidEventHappen.cessation.headingAndTitle = TBC cessation (Welsh)
