@@ -171,7 +171,7 @@ object WhenDidEventHappenMessages {
 
     val crimeRequiredAll = "Enter the date of the crime"
     val fireOrFloodRequiredAll = "Enter the date of the fire or flood"
-    val technicalIssueRequiredAll = "Enter the date the software and technology issue began"
+    val technicalIssueRequiredAll = "Enter the date the software or technology issues began"
     val bereavementRequiredAll = "Enter the date when the person died"
     val cessationRequiredAll = "TBC"
     def healthRequiredAll(isLPP: Boolean = false): String = {
@@ -262,7 +262,7 @@ object WhenDidEventHappenMessages {
 
     override val crimeRequiredAll = "Nodwch ddyddiad y drosedd"
     override val fireOrFloodRequiredAll = "Nodwch ddyddiad y tân neu lifogydd"
-    override val technicalIssueRequiredAll = "Nodwch y dyddiad y gwnaeth y broblem gyda’r feddalwedd a’r dechnoleg ddechrau"
+    override val technicalIssueRequiredAll = "Enter the date the software or technology issues began (Welsh)"
     override val bereavementRequiredAll = "Nodwch y dyddiad y bu farw’r person"
     override val cessationRequiredAll = "TBC (Welsh)"
     override def healthRequiredAll(isLPP: Boolean = false): String = {

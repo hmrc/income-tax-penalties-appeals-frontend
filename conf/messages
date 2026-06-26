@@ -194,7 +194,7 @@ whenDidEventHappen.fireandflood.date.error.notInFuture = The date of the fire or
 # Technical Error Messages
 whenDidEventHappen.technicalIssue.headingAndTitle = When did the software or technology issues begin?
 whenDidEventHappen.technicalIssue.date.error.invalid = The date the software or technology issues began must be a real date
-whenDidEventHappen.technicalIssue.date.error.required.all = Enter the date the software and technology issue began
+whenDidEventHappen.technicalIssue.date.error.required.all = Enter the date the software or technology issues began
 whenDidEventHappen.technicalIssue.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
 whenDidEventHappen.technicalIssue.date.error.required = The date the software or technology issues began must include a {0}
 whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past
