@@ -1,18 +1,18 @@
 @*
- * Copyright 2024 HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *@
+* Copyright 2024 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.hmrcfrontend.views.Implicits.RichErrorSummary
@@ -34,25 +34,25 @@
 @(reasonableExcuse: ReasonableExcuse, form: Form[LocalDate], isLPP: Boolean, mode: Mode)(implicit user: CurrentUserRequestWithAnswers[_], messages: Messages)
 
 @healthHeading = {
-    @if(isLPP) {
-        @if(user.isAgent){@messages("client.whenDidEventHappen.health.lpp.headingAndTitle")} else {@messages("whenDidEventHappen.health.lpp.headingAndTitle")}
+@if(isLPP) {
+    @if(user.isAgent){@messages("client.whenDidEventHappen.health.lpp.headingAndTitle")} else {@messages("whenDidEventHappen.health.lpp.headingAndTitle")}
 
-    } else {
-        @if(user.isAgent) {
-            @if(user.whoPlannedToSubmit.getOrElse("").toString == "client") {
-                @messages("client.whenDidEventHappen.health.lsp.headingAndTitle")
-            } else {
-                @messages("whenDidEventHappen.health.lsp.headingAndTitle")
-            }
+} else {
+    @if(user.isAgent) {
+        @if(user.whoPlannedToSubmit.getOrElse("").toString == "client") {
+            @messages("client.whenDidEventHappen.health.lsp.headingAndTitle")
         } else {
             @messages("whenDidEventHappen.health.lsp.headingAndTitle")
         }
+    } else {
+        @messages("whenDidEventHappen.health.lsp.headingAndTitle")
     }
+}
 }
 
 
 
-@heading = @{if(reasonableExcuse.toString == "health") {healthHeading} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP, false)}.headingAndTitle")}}
+@heading = @{if(reasonableExcuse.toString == "health") {healthHeading} else {messages(s"${messageKeyPrefix(reasonableExcuse, isLPP)}.headingAndTitle")}}
 
 @layout(Some(titleBuilder(heading.toString, Some(form))), backLinkEnabled = true, isAgent = user.isAgent) {
 

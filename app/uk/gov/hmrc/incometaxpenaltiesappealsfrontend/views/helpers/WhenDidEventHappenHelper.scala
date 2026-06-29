@@ -21,23 +21,17 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
 
 trait WhenDidEventHappenHelper {
-  
-  def healthHeading(isLPP: Boolean, isCYA: Boolean = false)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
-    if(isCYA) s"checkYourAnswers.whenDidEventHappen.health.key" else {
-      s"whenDidEventHappen.health${if (isLPP) ".lpp" else ".lsp"}.headingAndTitle"
-    }
+
+  def healthHeading(isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
+    s"whenDidEventHappen.health${if(isLPP) ".lpp" else ".lsp"}.headingAndTitle"
   }
 
-  def messageKeyPrefix(reason: ReasonableExcuse, isLPP: Boolean, isCYA: Boolean = false)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
+  def messageKeyPrefix(reason: ReasonableExcuse, isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
     // messageKeyPrefix is used in WhenDidEventHappenForm and in WhenDidEventHappenSummary, the form needs to have a different message key for the error messages than the summary does for the label when the reason is Other, as the summary needs to use the heading and title message key which includes "other" in it
     if(reason != Other) s"whenDidEventHappen.$reason" else {
-      if(isCYA) s"checkYourAnswers.whenDidEventHappen.other.key" else
       s"whenDidEventHappen.other${if (isLPP) ".lpp" else ".lsp"}"
     }
   }
 }
 
 object WhenDidEventHappenHelper extends WhenDidEventHappenHelper
-
-
-

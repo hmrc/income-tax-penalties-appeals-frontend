@@ -35,7 +35,7 @@ object WhenDidEventHappenSummary extends SummaryListRowHelper with DateFormatter
     ReasonableExcusePage.value.flatMap { reasonableExcuse =>
       WhenDidEventHappenPage.value.map { whenDidEventHappen =>
         summaryListRow(
-          label = if(reasonableExcuse == Health)messages(healthHeading(user.isLPP, true)) else if(reasonableExcuse == Other)messages(s"${messageKeyPrefix(reasonableExcuse, user.isLPP, true)}") else messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.key"),
+          label = messages(s"checkYourAnswers.whenDidEventHappen.$reasonableExcuse.key"),
           value = Html(dateToString(whenDidEventHappen)),
           actions = Option.when(showActionLinks)(Actions(
             items = Seq(
