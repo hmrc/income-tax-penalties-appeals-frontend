@@ -383,12 +383,12 @@ agent.checkYourAnswers.whatCausedYouToMissDeadline.value.agent = Something else 
 agent.checkYourAnswers.whatCausedYouToMissDeadline.value.client = My client did not get information to me on time
 agent.checkYourAnswers.whatCausedYouToMissDeadline.change.hidden = what caused you to miss the deadline
 
-checkYourAnswers.jointAppeal.key = Do you want to appeal both penalties for the same reason?
+checkYourAnswers.jointAppeal.key = Appeal both penalties for the same reason
 checkYourAnswers.jointAppeal.change.hidden = do you want to appeal both penalties for the same reason
-checkYourAnswers.jointAppeal.key.review = Do you want both appeal decisions to be reviewed at the same time?
+checkYourAnswers.jointAppeal.key.review = Review both appeal decisions at the same time
 checkYourAnswers.jointAppeal.change.hidden.review = do you want both appeal decisions to be reviewed at the same time
 
-checkYourAnswers.reasonableExcuse.key = Reason for missing the submission deadline
+checkYourAnswers.reasonableExcuse.key = Reason for missing deadline
 checkYourAnswers.reasonableExcuse.change.hidden = reason for missing the submission deadline
 checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died)
 checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source
@@ -400,59 +400,59 @@ checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital
 checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff
 checkYourAnswers.reasonableExcuse.value.other = Other reason that is not covered by any other category
 
-checkYourAnswers.crimeReported.key = Has this crime been reported to the police?
+checkYourAnswers.crimeReported.key = Reported to the police
 checkYourAnswers.crimeReported.change.hidden = has this crime been reported to the police
 
-checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = Has the hospital stay ended?
+checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.key = Hospital stay ended
 checkYourAnswers.hasHospitalStayEnded.unexpectedHospital.change.hidden = has the hospital stay ended
 
-checkYourAnswers.ReviewMoreThan30Days.key = Has it been more than 30 days since the appeal decision was issued?
+checkYourAnswers.ReviewMoreThan30Days.key = More than 30 days since appeal decision
 checkYourAnswers.ReviewMoreThan30Days.change.hidden = has it been more than 30 days since the appeal decision was issued
-checkYourAnswers.ReviewMoreThan30Days.key.multiple = Has it been more than 30 days since the appeal decisions were issued?
+checkYourAnswers.ReviewMoreThan30Days.key.multiple = More than 30 days since appeal decision
 checkYourAnswers.ReviewMoreThan30Days.change.hidden.multiple = has it been more than 30 days since the appeal decisions were issued
 
-checkYourAnswers.whenDidEventHappen.bereavement.key =  When did the person die?
+checkYourAnswers.whenDidEventHappen.bereavement.key =  Date person died
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden =  when did the person die
 checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation
 checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation
-checkYourAnswers.whenDidEventHappen.crime.key =  When did the crime happen?
+checkYourAnswers.whenDidEventHappen.crime.key =  Date of crime
 checkYourAnswers.whenDidEventHappen.crime.change.hidden =  when did the crime happen
-checkYourAnswers.whenDidEventHappen.fireandflood.key =  When did the fire or flood happen?
+checkYourAnswers.whenDidEventHappen.fireandflood.key =  Date of fire or flood
 checkYourAnswers.whenDidEventHappen.fireandflood.change.hidden =  when did the fire or flood happen
-checkYourAnswers.whenDidEventHappen.health.key = When did the health issue first stop you making the payment?
+checkYourAnswers.whenDidEventHappen.health.key = Date health issue stopped you from meeting the deadline
 checkYourAnswers.whenDidEventHappen.health.lsp.headingAndTitle.change.hidden = when did the health issue first stop you from meeting the submission deadline
 checkYourAnswers.whenDidEventHappen.health.lpp.headingAndTitle.change.hidden = when did the health issue first stop you making the payment
-checkYourAnswers.whenDidEventHappen.technicalIssue.key = When did the software or technology issues begin?
+checkYourAnswers.whenDidEventHappen.technicalIssue.key = Date software or technology issue started
 checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = when did the software or technology issues begin
-checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = When did the hospital stay begin?
+checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Date hospital stay started
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = when did the hospital stay begin
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff
 checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff
-checkYourAnswers.whenDidEventHappen.other.key = TBC other
+checkYourAnswers.whenDidEventHappen.other.key = Date issue stopped you from meeting the deadline
 checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = when did the issue first stop you from meeting the submission deadline
 checkYourAnswers.whenDidEventHappen.other.lpp.headingAndTitle.change.hidden = when did the issue first stop you making the payment
 
-checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = When did the software or technology issues end?
+checkYourAnswers.whenDidTheEventEnd.technicalIssue.key = Date software or technology issue ended
 checkYourAnswers.whenDidTheEventEnd.technicalIssue.change.hidden = when did the software or technology issues end
-checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = When did the hospital stay end?
+checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = Date hospital stay ended
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = when did the hospital stay end
 
-checkYourAnswers.lateAppeal.key = Reason for appealing after {0} days
+checkYourAnswers.lateAppeal.key = Why you could not appeal within {0} days
 checkYourAnswers.lateAppeal.change.hidden = reason for appealing after {0} days
 
-checkYourAnswers.missedDeadlineReason.lpp.key = Why was the payment deadline missed?
+checkYourAnswers.missedDeadlineReason.lpp.key = Why the deadline was missed
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden = why was the payment deadline missed
-checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed?
+checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline missed
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
-checkYourAnswers.missedDeadlineReason.review.key = Why are you asking us to review this decision?
+checkYourAnswers.missedDeadlineReason.review.key = Why you asked for a review
 checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision
-checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions?
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why you asked for a review
 checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions
 
-checkYourAnswers.uploadedDocuments.key = Evidence to support this appeal
+checkYourAnswers.uploadedDocuments.key = Evidence
 checkYourAnswers.uploadedDocuments.change.hidden = evidence to support this appeal
-checkYourAnswers.uploadedDocuments.key.review = Evidence to support this review
+checkYourAnswers.uploadedDocuments.key.review = Evidence
 checkYourAnswers.uploadedDocuments.change.hidden.review = evidence to support this review
 
 checkYourAnswers.declaration.h2 = Declaration
@@ -460,9 +460,9 @@ checkYourAnswers.declaration.text.1 = By submitting this appeal, you are making 
 checkYourAnswers.declaration.text.1.review = By submitting this request for a review, you are making a legal declaration that the information is correct and complete to the best of your knowledge.
 checkYourAnswers.declaration.text.2 = A false declaration can result in prosecution.
 
-checkYourAnswers.extraEvidence.key = Do you want to upload evidence to support your appeal?
+checkYourAnswers.extraEvidence.key = Evidence uploaded
 checkYourAnswers.extraEvidence.change.hidden = do you want to upload evidence to support your appeal
-checkYourAnswers.extraEvidence.key.review = Do you want to upload evidence to support this review?
+checkYourAnswers.extraEvidence.key.review = Evidence uploaded
 checkYourAnswers.extraEvidence.change.hidden.review = do you want to upload evidence to support this review?
 
 checkYourAnswers.acceptAndSend = Accept and send

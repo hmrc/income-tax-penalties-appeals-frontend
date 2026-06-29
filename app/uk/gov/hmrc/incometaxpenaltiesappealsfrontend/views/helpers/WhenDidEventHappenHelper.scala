@@ -21,7 +21,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Health, Other}
 
 trait WhenDidEventHappenHelper {
-  
+
   def healthHeading(isLPP: Boolean)(implicit user: CurrentUserRequestWithAnswers[_]): String = {
     s"whenDidEventHappen.health${if(isLPP) ".lpp" else ".lsp"}.headingAndTitle"
   }
@@ -35,6 +35,3 @@ trait WhenDidEventHappenHelper {
 }
 
 object WhenDidEventHappenHelper extends WhenDidEventHappenHelper
-
-
-

@@ -23,7 +23,7 @@ object CrimeReportedMessages {
     val errorRequired = "Select yes if the crime has been reported to the police"
     val errorInvalid = "Select yes if the crime has been reported to the police"
 
-    val cyaKey = "Has this crime been reported to the police?"
+    val cyaKey = "Reported to the police"
     val cyaHidden = "has this crime been reported to the police"
   }
 
@@ -34,7 +34,7 @@ object CrimeReportedMessages {
     override val errorRequired = "Dewiswch ‘Iawn’ os yw’r heddlu wedi cael gwybod am y drosedd hon"
     override val errorInvalid = "Dewiswch ‘Iawn’ os yw’r heddlu wedi cael gwybod am y drosedd hon"
 
-    override val cyaKey = "A roddwyd gwybod i’r heddlu am y drosedd hon?"
+    override val cyaKey = "Wedi rhoi gwybod i’r heddlu"
     override val cyaHidden = "A roddwyd gwybod i’r heddlu am y drosedd hon"
   }
 }

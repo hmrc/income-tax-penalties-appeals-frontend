@@ -53,9 +53,9 @@ object ExtraEvidenceMessages {
       }
     }
 
-    val cyaKey = "Do you want to upload evidence to support your appeal?"
+    val cyaKey = "Evidence uploaded"
     val cyaHidden = "do you want to upload evidence to support your appeal"
-    val cyaKeyReview = "Do you want to upload evidence to support this review?"
+    val cyaKeyReview = "Evidence uploaded"
     val cyaHiddenReview = "do you want to upload evidence to support this review?"
   }
 
@@ -84,9 +84,9 @@ object ExtraEvidenceMessages {
     override val errorRequiredReview = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn"
     override val errorInvalidReview = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn"
 
-    override val cyaKey = "A ydych am uwchlwytho tystiolaeth i ategu’ch apêl?"
+    override val cyaKey = "Tystiolaeth wedi’i uwchlwytho"
     override val cyaHidden = "a ydych am uwchlwytho tystiolaeth i ategu’ch apêl"
-    override val cyaKeyReview = "A ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn?"
+    override val cyaKeyReview = "Tystiolaeth wedi’i uwchlwytho"
     override val cyaHiddenReview = "a ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn"
   }
 }

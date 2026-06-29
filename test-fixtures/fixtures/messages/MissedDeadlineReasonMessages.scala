@@ -51,10 +51,10 @@ object MissedDeadlineReasonMessages {
     val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
 
     def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
-      else if(is2ndStageAppeal) "Why are you asking us to review this decision?"
-      else if(isLPP) "Why was the payment deadline missed?"
-      else "Why was the submission deadline missed?"
+      if(is2ndStageAppeal && isJointAppeal) "Why you asked for a review"
+      else if(is2ndStageAppeal) "Why you asked for a review"
+      else if(isLPP) "Why the deadline was missed"
+      else "Why was the submission deadline missed"
 
     def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions"
@@ -100,10 +100,10 @@ object MissedDeadlineReasonMessages {
     override val errorRegex: String = "Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig"
 
     override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-      else if(is2ndStageAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
-      else if(isLPP) "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?"
-      else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
+      if(is2ndStageAppeal && isJointAppeal) "Pam wnaethoch ofyn am adolygiad"
+      else if(is2ndStageAppeal) "Pam wnaethoch ofyn am adolygiad"
+      else if(isLPP) "Apelio’r ddwy gosb am yr un rheswm"
+      else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
 
     override def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
       if(is2ndStageAppeal && isJointAppeal) "beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"

@@ -24,7 +24,7 @@ object HasHospitalStayEndedMessages {
     val errorRequired = "Select yes if the hospital stay has ended"
     val errorInvalid = "Select yes if the hospital stay has ended"
 
-    val cyaKey = "Has the hospital stay ended?"
+    val cyaKey = "Hospital stay ended"
     val cyaHidden = "has the hospital stay ended"
   }
 
@@ -36,7 +36,7 @@ object HasHospitalStayEndedMessages {
     override val errorRequired = "Dewiswch ‘Iawn’ os yw’r arhosiad yn yr ysbyty wedi dod i ben"
     override val errorInvalid = "Dewiswch ‘Iawn’ os yw’r arhosiad yn yr ysbyty wedi dod i ben"
 
-    override val cyaKey = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
+    override val cyaKey = "Daeth yr arhosiad yn yr ysbyty i ben"
     override val cyaHidden = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
   }
 }

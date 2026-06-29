@@ -19,18 +19,18 @@ package fixtures.messages
 object UploadedDocumentsSummaryMessages {
 
   sealed trait Messages { this: i18n =>
-    val cyaKey = "Evidence to support this appeal"
+    val cyaKey = "Evidence"
     val cyaHidden = "evidence to support this appeal"
-    val cyaKeyReview = "Evidence to support this review"
+    val cyaKeyReview = "Evidence"
     val cyaHiddenReview = "evidence to support this review"
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val cyaKey = "Tystiolaeth i ategu’r apêl hon"
+    override val cyaKey = "Tystiolaeth"
     override val cyaHidden = "Tystiolaeth i ategu’r apêl hon"
-    override val cyaKeyReview = "Tystiolaeth i gefnogi’r adolygiad hwn"
+    override val cyaKeyReview = "Tystiolaeth"
     override val cyaHiddenReview = "tystiolaeth i gefnogi’r adolygiad hwn"
   }
 }
