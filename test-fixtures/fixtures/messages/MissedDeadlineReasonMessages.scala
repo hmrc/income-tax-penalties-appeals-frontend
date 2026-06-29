@@ -51,7 +51,7 @@ object MissedDeadlineReasonMessages {
     val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
 
     def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "Why are you asking us to review these appeal decisions?"
+      if(is2ndStageAppeal && isJointAppeal) "Why you asked for a review"
       else if(is2ndStageAppeal) "Why you asked for a review"
       else if(isLPP) "Why the deadline was missed"
       else "Why was the submission deadline missed"
@@ -100,7 +100,7 @@ object MissedDeadlineReasonMessages {
     override val errorRegex: String = "Mae’n rhaid i’r testun gynnwys llythrennau, rhifau a chymeriadau arbennig safonol yn unig"
 
     override def cyaKey(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?"
+      if(is2ndStageAppeal && isJointAppeal) "Pam wnaethoch ofyn am adolygiad"
       else if(is2ndStageAppeal) "Pam wnaethoch ofyn am adolygiad"
       else if(isLPP) "Apelio’r ddwy gosb am yr un rheswm"
       else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"

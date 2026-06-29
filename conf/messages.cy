@@ -447,7 +447,7 @@ checkYourAnswers.missedDeadlineReason.lsp.key = Beth oedd y rheswm dros fethu’
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 checkYourAnswers.missedDeadlineReason.review.key = Pam wnaethoch ofyn am adolygiad
 checkYourAnswers.missedDeadlineReason.review.change.hidden = beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
-checkYourAnswers.missedDeadlineReason.joint.review.key = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
+checkYourAnswers.missedDeadlineReason.joint.review.key = Pam wnaethoch ofyn am adolygiad
 checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn
 
 checkYourAnswers.uploadedDocuments.key = Tystiolaeth

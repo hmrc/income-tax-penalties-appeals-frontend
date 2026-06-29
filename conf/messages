@@ -447,7 +447,7 @@ checkYourAnswers.missedDeadlineReason.lsp.key = Why was the submission deadline 
 checkYourAnswers.missedDeadlineReason.lsp.change.hidden = why was the submission deadline missed
 checkYourAnswers.missedDeadlineReason.review.key = Why you asked for a review
 checkYourAnswers.missedDeadlineReason.review.change.hidden = why are you asking us to review this decision
-checkYourAnswers.missedDeadlineReason.joint.review.key = Why are you asking us to review these appeal decisions?
+checkYourAnswers.missedDeadlineReason.joint.review.key = Why you asked for a review
 checkYourAnswers.missedDeadlineReason.joint.review.change.hidden = why are you asking us to review these appeal decisions
 
 checkYourAnswers.uploadedDocuments.key = Evidence
