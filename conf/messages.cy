@@ -195,7 +195,7 @@ whenDidEventHappen.fireandflood.date.error.notInFuture = Mae’n rhaid i ddyddia
 whenDidEventHappen.technicalIssue.headingAndTitle = Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau?
 whenDidEventHappen.technicalIssue.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod yn ddyddiad go iawn
 whenDidEventHappen.technicalIssue.date.error.required.all = Enter the date the software or technology issues began (Welsh)
-whenDidEventHappen.technicalIssue.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys {0} and a {1}
+whenDidEventHappen.technicalIssue.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys {0} a {1}
 whenDidEventHappen.technicalIssue.date.error.required = Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys {0}
 whenDidEventHappen.technicalIssue.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd fod heddiw neu yn y gorffennol
 
@@ -216,7 +216,7 @@ whenDidEventHappen.health.lpp.date.error.required = Y dyddiad y gwnaeth y broble
 whenDidEventHappen.health.lpp.date.error.notInFuture = Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol
 
 # Hospital Messages
-whenDidEventHappen.unexpectedHospital.headingAndTitle = Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?
+whenDidEventHappen.unexpectedHospital.headingAndTitle = Pryd y dechreuodd yr arhosiad yn yr ysbyty?
 whenDidEventHappen.unexpectedHospital.date.error.invalid = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod yn ddyddiad go iawn
 whenDidEventHappen.unexpectedHospital.date.error.required.all = Nodwch y dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty
 whenDidEventHappen.unexpectedHospital.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys {0} a {1}

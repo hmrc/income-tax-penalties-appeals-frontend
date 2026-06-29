@@ -237,7 +237,7 @@ object WhenDidEventHappenMessages {
       case TechnicalIssues => "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddechrau?"
       case Cessation => "TBC cessation (Welsh)"
       case Health => if(isLPP) "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?" else "Pryd gwnaeth y broblem iechyd rhwystro’r cyflwyniad rhag bodloni’r dyddiad cau am y tro cyntaf?"
-      case UnexpectedHospital => "Pryd y gwnaeth yr arhosiad yn yr ysbyty ddechrau?"
+      case UnexpectedHospital => "Pryd y dechreuodd yr arhosiad yn yr ysbyty?"
       case LossOfStaff => "TBC lossOfStaff (Welsh)"
       case Other => otherHeadingAndTitle(isLPP)
     }
@@ -276,7 +276,7 @@ object WhenDidEventHappenMessages {
 
     override def crimeRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y drosedd gynnwys $missing a $missingTwo"
     override def fireOrFloodRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i ddyddiad y tân neu lifogydd gynnwys $missing a $missingTwo"
-    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys $missing and a $missingTwo"
+    override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd y problemau technoleg neu’r problemau meddalwedd gynnwys $missing a $missingTwo"
     override def bereavementRequiredTwo(missing: String, missingTwo: String): String = s"Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys $missing a $missingTwo"
     override def cessationRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def healthRequiredTwo(isLPP: Boolean, missing: String, missingTwo: String): String = {
