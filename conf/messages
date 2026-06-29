@@ -161,11 +161,11 @@ honestyDeclaration.li.review = I confirm that I will provide honest and accurate
 # ----------------------------------------------------------
 # Bereavement Messages
 whenDidEventHappen.bereavement.headingAndTitle = When did the person die?
-whenDidEventHappen.bereavement.date.error.invalid = The date must be a real date
+whenDidEventHappen.bereavement.date.error.invalid = The date the person died must be a real date
 whenDidEventHappen.bereavement.date.error.required.all = Enter the date when the person died
-whenDidEventHappen.bereavement.date.error.required.two = The date must include a {0} and a {1}
-whenDidEventHappen.bereavement.date.error.required = The date must include a {0}
-whenDidEventHappen.bereavement.date.error.notInFuture = The date must be today or in the past
+whenDidEventHappen.bereavement.date.error.required.two = The date the person died must include a {0} and a {1}
+whenDidEventHappen.bereavement.date.error.required = The date the person died must include a {0}
+whenDidEventHappen.bereavement.date.error.notInFuture = The date the person died must be today or in the past
 
 # Cessation Messages
 whenDidEventHappen.cessation.headingAndTitle = TBC cessation
@@ -194,23 +194,26 @@ whenDidEventHappen.fireandflood.date.error.notInFuture = The date of the fire or
 # Technical Error Messages
 whenDidEventHappen.technicalIssue.headingAndTitle = When did the software or technology issues begin?
 whenDidEventHappen.technicalIssue.date.error.invalid = The date the software or technology issues began must be a real date
-whenDidEventHappen.technicalIssue.date.error.required.all = Tell us when the software or technology issues began
+whenDidEventHappen.technicalIssue.date.error.required.all = Enter the date the software or technology issues began
 whenDidEventHappen.technicalIssue.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
 whenDidEventHappen.technicalIssue.date.error.required = The date the software or technology issues began must include a {0}
 whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past
 
 # Health Messages LSP
-whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop you from meeting the submission deadline?
-whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop you making the payment?
-whenDidEventHappen.health.date.error.invalid = The date of the health issue must be a real date
-whenDidEventHappen.health.date.error.required.all = Enter the date that the health issue began
-whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a {0} and a {1}
-whenDidEventHappen.health.date.error.required = The date of the health issue must include a {0}
-whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past
+whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop the submission deadline being met?
+whenDidEventHappen.health.lsp.date.error.invalid = The date the health issue first stopped the submission deadline being met must be a real date
+whenDidEventHappen.health.lsp.date.error.required.all = Enter the date the health issue first stopped the submission deadline being met
+whenDidEventHappen.health.lsp.date.error.required.two = The date the health issue first stopped the submission deadline being met must include a {0} and a {1}
+whenDidEventHappen.health.lsp.date.error.required = The date the health issue first stopped the submission deadline being met must include a {0}
+whenDidEventHappen.health.lsp.date.error.notInFuture = The date the issue first stopped the submission deadline being met must be today or in the past
 
-# Health Messages LSP Agent
-client.whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop your client from meeting the submission deadline?
-client.whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop your client making the payment?
+# Health Messages LPP
+whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop the payment being made?
+whenDidEventHappen.health.lpp.date.error.invalid = The date the health issue first stopped payment being made must be a real date
+whenDidEventHappen.health.lpp.date.error.required.all = Enter the date the health issue first stopped payment being made
+whenDidEventHappen.health.lpp.date.error.required.two = The date the health issue first stopped payment being made must include a {0} and a {1}
+whenDidEventHappen.health.lpp.date.error.required = The date the health issue first stopped payment being made must include a {0}
+whenDidEventHappen.health.lpp.date.error.notInFuture = The date the issue first stopped payment being made must be today or in the past
 
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
@@ -229,45 +232,20 @@ whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC
 whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC
 
 # Other Messages - LSP
-whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you from meeting the submission deadline?
-whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped you meeting the submission deadline must be a real date
-whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped you meeting the submission deadline
-whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped you meeting the submission deadline must include a {0} and a {1}
-whenDidEventHappen.other.lsp.date.error.required = The date the issue first stopped you meeting the submission deadline must include a {0}
-whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped you meeting the submission deadline must be today or in the past
+whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop the submission deadline being met?
+whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped the submission deadline being met must be a real date
+whenDidEventHappen.other.lsp.date.error.required.all = Enter the date the issue first stopped the submission deadline being met
+whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped the submission deadline being met must include a {0} and a {1}
+whenDidEventHappen.other.lsp.date.error.required = The date the issue first stopped the submission deadline being met must include a {0}
+whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped the submission deadline being met must be today or in the past
 
 # Other Messages - LPP
-whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you making the payment?
-whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped you paying the tax bill by the due date must be a real date
-whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped you paying the tax bill by the due date
-whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped you paying the tax bill by the due date must include a {0} and a {1}
-whenDidEventHappen.other.lpp.date.error.required = The date the issue first stopped you paying the tax bill by the due date must include a {0}
-whenDidEventHappen.other.lpp.date.error.notInFuture = The date the issue first stopped you paying the tax bill by the due date must be today or in the past
-
-# Agent - Other Messages - Client information issue
-agent.whenDidEventHappen.other.clientInformation.headingAndTitle = When did the issue first stop your client getting information to you?
-agent.whenDidEventHappen.other.clientInformation.date.error.invalid = The date when the issue first stopped your client getting information to you must be a real date
-agent.whenDidEventHappen.other.clientInformation.date.error.required.all = Tell us when the issue first stopped your client getting information to you
-agent.whenDidEventHappen.other.clientInformation.date.error.required.two = The date when the issue first stopped your client getting information to you must include a {0} and a {1}
-agent.whenDidEventHappen.other.clientInformation.date.error.required = The date when the issue first stopped your client getting information to you must include a {0}
-agent.whenDidEventHappen.other.clientInformation.date.error.notInFuture = The date when the issue first stopped your client getting information to you must be today or in the past
-
-# Agent - Other Messages - LSP
-agent.whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop your client from meeting the submission deadline?
-agent.whenDidEventHappen.other.lsp.date.error.invalid = The date when the issue first stopped your client from meeting the submission deadline must be a real date
-agent.whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped your client from meeting the submission deadline?
-agent.whenDidEventHappen.other.lsp.date.error.required.two = The date when the issue first stopped your client from meeting the submission deadline must include a {0} and a {1}
-agent.whenDidEventHappen.other.lsp.date.error.required = The date when the issue first stopped your client from meeting the submission deadline must include a {0}
-agent.whenDidEventHappen.other.lsp.date.error.notInFuture = The date when the issue first stopped your client from meeting the submission deadline must be today or in the past
-
-# Agent - Other Messages - LPP
-agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client making the payment?
-agent.whenDidEventHappen.other.lpp.date.error.invalid = The date when the issue first stopped your client paying the tax bill by the due date must be a real date
-agent.whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped your client paying the tax bill by the due date
-agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
-agent.whenDidEventHappen.other.lpp.date.error.required = The date when the issue first stopped your client paying the tax bill by the due date must include a {0}
-agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past
-
+whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop the payment being made?
+whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped payment being made must be a real date
+whenDidEventHappen.other.lpp.date.error.required.all = Enter the date the issue first stopped payment being made
+whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped payment being made must include a {0} and a {1}
+whenDidEventHappen.other.lpp.date.error.required = The date the issue first stopped payment being made must include a {0}
+whenDidEventHappen.other.lpp.date.error.notInFuture = The date the issue first stopped payment being made must be today or in the past
 
 # When did the event end page
 # ----------------------------------------------------------
