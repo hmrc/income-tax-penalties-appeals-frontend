@@ -36,11 +36,11 @@ object MissedDeadlineReasonForm extends Mappings {
       single(
         key -> text(messages(s"${messageKeyPrefix(isLPP)}.error$prefix.required$multipleAppeal"))
           .verifying(
-            error = messages(s"${messageKeyPrefix(isLPP)}.error.length", appConfig.numberOfCharsInTextArea),
+            error = messages(s"${messageKeyPrefix(isLPP)}.error$prefix.length", appConfig.numberOfCharsInTextArea),
             constraint = _.length <= appConfig.numberOfCharsInTextArea
           )
           .verifying(
-            error = messages(s"${messageKeyPrefix(isLPP)}.error.regex"),
+            error = messages(s"${messageKeyPrefix(isLPP)}.error$prefix.regex$multipleAppeal"),
             constraint = _.matches(Regexes.textArea)
           )
       )

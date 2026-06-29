@@ -18,22 +18,23 @@ service.lpp.multiple.caption = Late payment penalties: {0} to {1}
 # Appeal Start page
 # ----------------------------------------------------------
 appeal.start.header = Appeal a Self Assessment penalty
-appeal.start.p1.lsp = To appeal a late submission penalty for Self Assessment, you will need to ask HMRC to look at your case again.
-appeal.start.p1.lpp = To appeal a late payment penalty for Self Assessment, you will need to ask HMRC to look at your case again.
+appeal.start.p1.lsp = To appeal a late submission penalty for Self Assessment, you’ll need to ask HMRC to look at the case again.
+appeal.start.p1.lpp = To appeal a late payment penalty for Self Assessment, you’ll need to ask HMRC to look at the case again.
 appeal.start.h2 = Before you start
 appeal.start.p3 = You will need:
 appeal.start.li1.lsp = a reason why the quarterly update or tax return was not submitted by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.li1.lpp = a reason why the tax payment was not made by the due date (HMRC calls this ‘a reasonable excuse’)
 appeal.start.cessation.h2 = Income sources that have ceased
-appeal.start.cessation.p1 = If you have received a penalty for an update period that started after the income source had stopped permanently (ceased), you may be able to get that point removed.
-appeal.start.cessation.p2 = To do this, you will need to confirm the date that a particular income source was ceased to HMRC.
+appeal.start.cessation.p1 = You may be able to get a penalty point removed if the update period started after the income source stopped permanently (ceased).
+appeal.start.cessation.p2 = To do this, you will need to confirm the dates that a particular income source was ceased to HMRC.
+appeal.start.cessation.p3 = A penalty point will stay active and will not be removed if more than one income source was missing or late in the same update period, and only one income source ceased before the update period started.
 appeal.start.cessation.link = Add, manage or cease a business or income source
 appeal.start.evidence.h2 = Sending evidence with an appeal
 appeal.start.li2 = the dates related to this reasonable excuse
 appeal.start.li3 = details of why you did not appeal sooner
 appeal.start.guidanceLink = Read the guidance about reasonable excuses (opens in new tab)
 appeal.start.p4 = In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later.
-appeal.start.p5 = If you are not asked for extra evidence, this is because we do not need any to make a decision in your particular case.
+appeal.start.p5 = If we do not ask for extra evidence, we do not need it to make a decision.
 appeal.start.p6 = If we decide we need extra evidence after reviewing your appeal, we will contact you.
 appeal.start.button.lsp = Start an appeal
 appeal.start.button.lpp = Continue
@@ -41,12 +42,11 @@ appeal.start.button.lpp = Continue
 # Review Appeal Start page
 # ----------------------------------------------------------
 reviewAppeal.start.header = Review an appeal decision
-reviewAppeal.start.p1 = If you disagree with the decision of your penalty appeal, you can ask for your case to be reviewed again.
-reviewAppeal.start.p2 = This service is for requesting a review for appeal decisions given for individual submissions.
+reviewAppeal.start.p1 = If you disagree with the decision about the penalty appeal, you can ask for a review.
 reviewAppeal.start.h2 = Before you start
-reviewAppeal.start.p3 = You’ll need to collect any evidence that you believe shows why the appeal decision was incorrect.
-reviewAppeal.start.p4 = You will be asked to upload this evidence as part of this request to review.
-reviewAppeal.start.p5 = If it’s been more than 30 days since the review decision, you’ll need to explain why you did not ask for a review sooner.
+reviewAppeal.start.p2 = Collect any evidence that you believe shows why the appeal decision was incorrect.
+reviewAppeal.start.p3 = You can upload this evidence as part of this request to review.
+reviewAppeal.start.p4 = If it’s been more than 30 days since the review decision, you’ll need to explain why you did not ask for a review sooner.
 
 
 # Reasonable excuse
@@ -161,11 +161,11 @@ honestyDeclaration.li.review = I confirm that I will provide honest and accurate
 # ----------------------------------------------------------
 # Bereavement Messages
 whenDidEventHappen.bereavement.headingAndTitle = When did the person die?
-whenDidEventHappen.bereavement.date.error.invalid = The date must be a real date
+whenDidEventHappen.bereavement.date.error.invalid = The date the person died must be a real date
 whenDidEventHappen.bereavement.date.error.required.all = Enter the date when the person died
-whenDidEventHappen.bereavement.date.error.required.two = The date must include a {0} and a {1}
-whenDidEventHappen.bereavement.date.error.required = The date must include a {0}
-whenDidEventHappen.bereavement.date.error.notInFuture = The date must be today or in the past
+whenDidEventHappen.bereavement.date.error.required.two = The date the person died must include a {0} and a {1}
+whenDidEventHappen.bereavement.date.error.required = The date the person died must include a {0}
+whenDidEventHappen.bereavement.date.error.notInFuture = The date the person died must be today or in the past
 
 # Cessation Messages
 whenDidEventHappen.cessation.headingAndTitle = TBC cessation
@@ -194,23 +194,26 @@ whenDidEventHappen.fireandflood.date.error.notInFuture = The date of the fire or
 # Technical Error Messages
 whenDidEventHappen.technicalIssue.headingAndTitle = When did the software or technology issues begin?
 whenDidEventHappen.technicalIssue.date.error.invalid = The date the software or technology issues began must be a real date
-whenDidEventHappen.technicalIssue.date.error.required.all = Tell us when the software or technology issues began
+whenDidEventHappen.technicalIssue.date.error.required.all = Enter the date the software or technology issues began
 whenDidEventHappen.technicalIssue.date.error.required.two = The date the software or technology issues began must include a {0} and a {1}
 whenDidEventHappen.technicalIssue.date.error.required = The date the software or technology issues began must include a {0}
 whenDidEventHappen.technicalIssue.date.error.notInFuture = The date the software or technology issues began must be today or in the past
 
 # Health Messages LSP
-whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop you from meeting the submission deadline?
-whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop you making the payment?
-whenDidEventHappen.health.date.error.invalid = The date of the health issue must be a real date
-whenDidEventHappen.health.date.error.required.all = Enter the date that the health issue began
-whenDidEventHappen.health.date.error.required.two = The date of the health issue must include a {0} and a {1}
-whenDidEventHappen.health.date.error.required = The date of the health issue must include a {0}
-whenDidEventHappen.health.date.error.notInFuture = The date of the health issue must be today or in the past
+whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop the submission deadline being met?
+whenDidEventHappen.health.lsp.date.error.invalid = The date the health issue first stopped the submission deadline being met must be a real date
+whenDidEventHappen.health.lsp.date.error.required.all = Enter the date the health issue first stopped the submission deadline being met
+whenDidEventHappen.health.lsp.date.error.required.two = The date the health issue first stopped the submission deadline being met must include a {0} and a {1}
+whenDidEventHappen.health.lsp.date.error.required = The date the health issue first stopped the submission deadline being met must include a {0}
+whenDidEventHappen.health.lsp.date.error.notInFuture = The date the issue first stopped the submission deadline being met must be today or in the past
 
-# Health Messages LSP Agent
-client.whenDidEventHappen.health.lsp.headingAndTitle = When did the health issue first stop your client from meeting the submission deadline?
-client.whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop your client making the payment?
+# Health Messages LPP
+whenDidEventHappen.health.lpp.headingAndTitle = When did the health issue first stop the payment being made?
+whenDidEventHappen.health.lpp.date.error.invalid = The date the health issue first stopped payment being made must be a real date
+whenDidEventHappen.health.lpp.date.error.required.all = Enter the date the health issue first stopped payment being made
+whenDidEventHappen.health.lpp.date.error.required.two = The date the health issue first stopped payment being made must include a {0} and a {1}
+whenDidEventHappen.health.lpp.date.error.required = The date the health issue first stopped payment being made must include a {0}
+whenDidEventHappen.health.lpp.date.error.notInFuture = The date the issue first stopped payment being made must be today or in the past
 
 # Hospital Messages
 whenDidEventHappen.unexpectedHospital.headingAndTitle = When did the hospital stay begin?
@@ -229,56 +232,31 @@ whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC
 whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC
 
 # Other Messages - LSP
-whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop you from meeting the submission deadline?
-whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped you meeting the submission deadline must be a real date
-whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped you meeting the submission deadline
-whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped you meeting the submission deadline must include a {0} and a {1}
-whenDidEventHappen.other.lsp.date.error.required = The date the issue first stopped you meeting the submission deadline must include a {0}
-whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped you meeting the submission deadline must be today or in the past
+whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop the submission deadline being met?
+whenDidEventHappen.other.lsp.date.error.invalid = The date the issue first stopped the submission deadline being met must be a real date
+whenDidEventHappen.other.lsp.date.error.required.all = Enter the date the issue first stopped the submission deadline being met
+whenDidEventHappen.other.lsp.date.error.required.two = The date the issue first stopped the submission deadline being met must include a {0} and a {1}
+whenDidEventHappen.other.lsp.date.error.required = The date the issue first stopped the submission deadline being met must include a {0}
+whenDidEventHappen.other.lsp.date.error.notInFuture = The date the issue first stopped the submission deadline being met must be today or in the past
 
 # Other Messages - LPP
-whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop you making the payment?
-whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped you paying the tax bill by the due date must be a real date
-whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped you paying the tax bill by the due date
-whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped you paying the tax bill by the due date must include a {0} and a {1}
-whenDidEventHappen.other.lpp.date.error.required = The date the issue first stopped you paying the tax bill by the due date must include a {0}
-whenDidEventHappen.other.lpp.date.error.notInFuture = The date the issue first stopped you paying the tax bill by the due date must be today or in the past
-
-# Agent - Other Messages - Client information issue
-agent.whenDidEventHappen.other.clientInformation.headingAndTitle = When did the issue first stop your client getting information to you?
-agent.whenDidEventHappen.other.clientInformation.date.error.invalid = The date when the issue first stopped your client getting information to you must be a real date
-agent.whenDidEventHappen.other.clientInformation.date.error.required.all = Tell us when the issue first stopped your client getting information to you
-agent.whenDidEventHappen.other.clientInformation.date.error.required.two = The date when the issue first stopped your client getting information to you must include a {0} and a {1}
-agent.whenDidEventHappen.other.clientInformation.date.error.required = The date when the issue first stopped your client getting information to you must include a {0}
-agent.whenDidEventHappen.other.clientInformation.date.error.notInFuture = The date when the issue first stopped your client getting information to you must be today or in the past
-
-# Agent - Other Messages - LSP
-agent.whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop your client from meeting the submission deadline?
-agent.whenDidEventHappen.other.lsp.date.error.invalid = The date when the issue first stopped your client from meeting the submission deadline must be a real date
-agent.whenDidEventHappen.other.lsp.date.error.required.all = Tell us when the issue first stopped your client from meeting the submission deadline?
-agent.whenDidEventHappen.other.lsp.date.error.required.two = The date when the issue first stopped your client from meeting the submission deadline must include a {0} and a {1}
-agent.whenDidEventHappen.other.lsp.date.error.required = The date when the issue first stopped your client from meeting the submission deadline must include a {0}
-agent.whenDidEventHappen.other.lsp.date.error.notInFuture = The date when the issue first stopped your client from meeting the submission deadline must be today or in the past
-
-# Agent - Other Messages - LPP
-agent.whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop your client making the payment?
-agent.whenDidEventHappen.other.lpp.date.error.invalid = The date when the issue first stopped your client paying the tax bill by the due date must be a real date
-agent.whenDidEventHappen.other.lpp.date.error.required.all = Tell us when the issue first stopped your client paying the tax bill by the due date
-agent.whenDidEventHappen.other.lpp.date.error.required.two = The date when the issue first stopped your client paying the tax bill by the due date must include a {0} and a {1}
-agent.whenDidEventHappen.other.lpp.date.error.required = The date when the issue first stopped your client paying the tax bill by the due date must include a {0}
-agent.whenDidEventHappen.other.lpp.date.error.notInFuture = The date when the issue first stopped your client paying the tax bill by the due date must be today or in the past
-
+whenDidEventHappen.other.lpp.headingAndTitle = When did the issue first stop the payment being made?
+whenDidEventHappen.other.lpp.date.error.invalid = The date the issue first stopped payment being made must be a real date
+whenDidEventHappen.other.lpp.date.error.required.all = Enter the date the issue first stopped payment being made
+whenDidEventHappen.other.lpp.date.error.required.two = The date the issue first stopped payment being made must include a {0} and a {1}
+whenDidEventHappen.other.lpp.date.error.required = The date the issue first stopped payment being made must include a {0}
+whenDidEventHappen.other.lpp.date.error.notInFuture = The date the issue first stopped payment being made must be today or in the past
 
 # When did the event end page
 # ----------------------------------------------------------
 # Technical Issues content
 whenDidEventEnd.technicalIssue.headingAndTitle = When did the software or technology issues end?
-whenDidEventEnd.technicalIssue.end.date.error.required.all = Tell us when the software or technology issues ended
+whenDidEventEnd.technicalIssue.end.date.error.required.all = Enter the date when the software or technology issues ended
 whenDidEventEnd.technicalIssue.end.date.error.required.two = The date the software or technology issues ended must include a {0} and a {1}
 whenDidEventEnd.technicalIssue.end.date.error.required = The date the software or technology issues ended must include a {0}
 whenDidEventEnd.technicalIssue.end.date.error.invalid = The date the software or technology issues ended must be a real date
 whenDidEventEnd.technicalIssue.end.date.error.notInFuture = The date the software or technology issues ended must be today or in the past
-whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issues ended must be {0} or later
+whenDidEventEnd.technicalIssue.end.date.error.endDateLessThanStartDate = The date the software or technology issue ended must be the same as or after {0}
 
 whenDidEventEnd.unexpectedHospital.headingAndTitle = When did the hospital stay end?
 whenDidEventEnd.unexpectedHospital.end.date.error.required.all = Enter the date that the hospital stay ended
@@ -286,7 +264,7 @@ whenDidEventEnd.unexpectedHospital.end.date.error.required.two = The date that t
 whenDidEventEnd.unexpectedHospital.end.date.error.required = The date that the hospital stay ended must include a {0}
 whenDidEventEnd.unexpectedHospital.end.date.error.invalid = The date that the hospital stay ended must be a real date
 whenDidEventEnd.unexpectedHospital.end.date.error.notInFuture = The date that the hospital stay ended must be today or in the past
-whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date that the hospital stay ended must be {0} or later
+whenDidEventEnd.unexpectedHospital.end.date.error.endDateLessThanStartDate = The date the hospital stay ended must be the same as or after {0}
 
 # Review decision more then 30 days page
 # ----------------------------------------------------------
@@ -325,39 +303,43 @@ lateAppeal.error.regex.review = Why you have not ask for a review within {0} day
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.headingAndTitle = Why was the submission deadline missed?
 missedDeadlineReason.lsp.hint = We only need to know about this penalty. Other penalties should be appealed separately.
-missedDeadlineReason.lsp.error.required = Explain why the submission deadline was missed
-missedDeadlineReason.lsp.error.length = Explain the reason in {0} characters or fewer
-missedDeadlineReason.lsp.error.regex = The text must contain only letters, numbers and standard special characters
+missedDeadlineReason.lsp.error.required = Enter why the submission deadline was missed
+missedDeadlineReason.lsp.error.length = Why the submission deadline was missed must be {0} characters or less
+missedDeadlineReason.lsp.error.regex = Why the submission deadline was missed must only include letters a to z, numbers 0 to 9, and standard special characters
 
 # Missed deadline reason for review page - LSP
 # ----------------------------------------------------------
 missedDeadlineReason.lsp.review.headingAndTitle = Why are you asking us to review this decision?
 missedDeadlineReason.lsp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
-missedDeadlineReason.lsp.error.review.required = You must provide some information about why you are asking us to review this decision
+missedDeadlineReason.lsp.error.review.required = Enter why you are asking us to review this decision
+missedDeadlineReason.lsp.error.review.length = Why you are asking for a review must be {0} characters or less
+missedDeadlineReason.lsp.error.review.regex = Why you are asking us to review this decision must only include letters a to z, numbers 0 to 9, and standard special characters
 
 # Missed deadline reason page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.headingAndTitle = Why was the payment deadline missed?
 missedDeadlineReason.lpp.hint = We only need to know about this penalty. Any other penalty related to this update period should be appealed separately.
-missedDeadlineReason.lpp.error.required = Explain why the payment deadline was missed
-missedDeadlineReason.lpp.error.length = Explain the reason in {0} characters or fewer
-missedDeadlineReason.lpp.error.regex = The text must contain only letters, numbers and standard special characters
+missedDeadlineReason.lpp.error.required = Enter why the payment deadline was missed
+missedDeadlineReason.lpp.error.length = Why the payment deadline was missed must be {0} characters or less
+missedDeadlineReason.lpp.error.regex = Why the payment deadline was missed must only include letters a to z, numbers 0 to 9, and standard special characters
 
 missedDeadlineReason.lpp.headingAndTitle.multiple = Why was the payment deadline missed?
 missedDeadlineReason.lpp.hint.multiple = Tell us why you missed the payment deadline for both penalties.
-missedDeadlineReason.lpp.error.required.multiple = Explain why the payment deadline was missed
+missedDeadlineReason.lpp.error.required.multiple = Enter why the payment deadline was missed
+missedDeadlineReason.lpp.error.regex.multiple = Why the payment deadline was missed must only include letters a to z, numbers 0 to 9, and standard special characters
 
 # Missed deadline reason for review page - LPP
 # ----------------------------------------------------------
 missedDeadlineReason.lpp.review.headingAndTitle = Why are you asking us to review this decision?
 missedDeadlineReason.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
-missedDeadlineReason.agent.lpp.review.hint = Briefly explain why you feel that the original appeal decision was incorrect.
-missedDeadlineReason.lpp.error.review.required = You must provide some information about why you are asking us to review this decision
+missedDeadlineReason.lpp.error.review.required = Enter why you are asking us to review this decision
+missedDeadlineReason.lpp.error.review.length = Why you are asking for a review must be {0} characters or less
+missedDeadlineReason.lpp.error.review.regex = Why you are asking us to review this decision must only include letters a to z, numbers 0 to 9, and standard special characters
 
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Why are you asking us to review these appeal decisions?
 missedDeadlineReason.lpp.review.hint.multiple = Briefly explain why you feel that the original appeal decisions were incorrect.
-missedDeadlineReason.lpp.error.review.required.multiple = You must provide some information about why you are asking us to review these decisions
-
+missedDeadlineReason.lpp.error.review.required.multiple = Enter why you are asking us to review these decisions
+missedDeadlineReason.lpp.error.review.regex.multiple = Why you are asking us to review these decisions must only include letters a to z, numbers 0 to 9, and standard special characters
 
 # Has the crime been reported page
 # ----------------------------------------------------------

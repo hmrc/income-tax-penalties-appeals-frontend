@@ -35,17 +35,17 @@ object MissedDeadlineReasonMessages {
     }
 
     def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
-      if(is2ndStageAppeal && isJointAppeal && isLPP) "You must provide some information about why you are asking us to review these decisions"
-      else if(is2ndStageAppeal) "You must provide some information about why you are asking us to review this decision"
-      else if(isLPP) "Explain why the payment deadline was missed"
-      else "Explain why the submission deadline was missed"
+      if(is2ndStageAppeal && isJointAppeal && isLPP) "Enter why you are asking us to review these decisions"
+      else if(is2ndStageAppeal) "Enter why you are asking us to review this decision"
+      else if(isLPP) "Enter why the payment deadline was missed"
+      else "Enter why the submission deadline was missed"
     }
 
     def errorRequiredSecondStage: String = {
-      "You must provide some information about why you are asking us to review this decision"
+      "Enter why you are asking us to review this decision"
     }
     def errorRequiredMultiple: String = {
-      "You must provide some information about why you are asking us to review these decisions"
+      "Enter why you are asking us to review these decisions"
     }
     val errorLength: Int => String = n => s"Explain the reason in ${"%,d".format(n)} characters or fewer"
     val errorRegex: String = "The text must contain only letters, numbers and standard special characters"
@@ -82,18 +82,18 @@ object MissedDeadlineReasonMessages {
     }
 
     override def errorRequired(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean = false): String = {
-      if(is2ndStageAppeal && isJointAppeal) "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn"
-      else if(is2ndStageAppeal) "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn"
-      else if(isLPP) "Rhowch reswm dros fethu’r dyddiad cau ar gyfer talu"
-      else "Rhowch reswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+      if(is2ndStageAppeal && isJointAppeal && isLPP) "Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniadau hyn"
+      else if(is2ndStageAppeal) "Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
+      else if(isLPP) "Nodwch y rheswm dros fethu’r dyddiad cau ar gyfer talu"
+      else "Nodwch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
     }
 
     override def errorRequiredSecondStage: String = {
-      "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniad hwn"
+      "Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
     }
 
     override def errorRequiredMultiple: String = {
-      "Mae’n rhaid i chi roi gwybodaeth ynghylch pam yr ydych yn gofyn i ni adolygu’r penderfyniadau hyn"
+      "Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniadau hyn"
     }
 
     override val errorLength: Int => String = n => s"Esboniwch y rheswm gan ddefnyddio ${"%,d".format(n)} o gymeriadau neu lai"

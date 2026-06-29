@@ -70,18 +70,18 @@ object WhenDidEventEndMessages {
     }
 
     val technicalIssueInvalid = "The date the software or technology issues ended must be a real date"
-    val technicalIssueRequiredAll = "Tell us when the software or technology issues ended"
+    val technicalIssueRequiredAll = "Enter the date when the software or technology issues ended"
     def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"The date the software or technology issues ended must include a $missing and a $missingTwo"
     def technicalIssueRequired(missing: String) = s"The date the software or technology issues ended must include a $missing"
     val technicalIssueNotInFuture = "The date the software or technology issues ended must be today or in the past"
-    def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issues ended must be $startDate or later"
+    def technicalIssueEndDateLessThanStartDate(startDate:String) = s"The date the software or technology issue ended must be the same as or after $startDate"
 
     val unexpectedHospitalInvalid = "The date that the hospital stay ended must be a real date"
     val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay ended"
     def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay ended must include a $missing and a $missingTwo"
     def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay ended must include a $missing"
     val unexpectedHospitalNotInFuture = "The date that the hospital stay ended must be today or in the past"
-    def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"The date that the hospital stay ended must be $startDate or later"
+    def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"The date the hospital stay ended must be the same as or after $startDate"
   }
 
   object English extends Messages with En
@@ -89,18 +89,18 @@ object WhenDidEventEndMessages {
   object Welsh extends Messages with Cy {
 
     override val technicalIssueInvalid = "Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod yn ddyddiad go iawn"
-    override val technicalIssueRequiredAll = "Rhowch wybod i ni pryd y daeth y problemau technoleg neu’r problemau meddalwedd i ben"
+    override val technicalIssueRequiredAll = "Nodwch y dyddiad pryd y gwnaeth y problemau gyda’r feddalwedd neu’r dechnoleg ddod i ben"
     override def technicalIssueRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys $missing a $missingTwo"
     override def technicalIssueRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben gynnwys $missing"
     override val technicalIssueNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth y problemau technoleg neu’r problemau meddalwedd i ben fod heddiw neu yn y gorffennol"
-    override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y daeth y trafferthion technoleg i ben fod ar $startDate neu’n hwyrach"
+    override def technicalIssueEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y gwnaeth y broblem gyda’r feddalwedd neu’r dechnoleg ddod i ben naill ai ar fod yr un peth â $startDate neu ar ôl y dyddiad hwnnw"
 
     override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod yn ddyddiad go iawn"
     override val unexpectedHospitalRequiredAll = "Nodwch y dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben"
     override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing a $missingTwo"
     override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben gynnwys $missing"
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddaeth yr arhosiad yn yr ysbyty i ben fod heddiw neu yn y gorffennol"
-    override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y daeth yr arhosiad yn yr ysbyty i ben fod ar $startDate neu’n hwyrach"
+    override def unexpectedHospitalEndDateLessThanStartDate(startDate:String) = s"Mae’n rhaid i’r dyddiad y gwnaeth yr arhosiad yn yr ysbyty ddod i ben fod yr un peth â $startDate neu ar ôl y dyddiad hwnnw"
 
     override val cyaKeyTechnical = "Dyddiad y daeth problem meddalwedd neu dechnoleg i ben"
     override val cyaKeyHospital = "Dyddiad daeth yr arhosiad yn yr ysbyty i ben"
