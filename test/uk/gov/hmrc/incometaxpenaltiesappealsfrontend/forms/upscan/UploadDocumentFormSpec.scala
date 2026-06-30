@@ -36,35 +36,43 @@ class UploadDocumentFormSpec extends AnyWordSpec with should.Matchers with Guice
       implicit lazy val messages: Messages = messagesApi.preferred(Seq(Lang(messagesForLanguage.lang.code)))
 
       "have the correct error message for the EntityTooSmall code" in {
-        UploadDocumentForm.errorMessages("EntityTooSmall") shouldBe messagesForLanguage.errorNoFileSelected
+        UploadDocumentForm.errorMessages("EntityTooSmall", isSecondStageAppeal = false) shouldBe messagesForLanguage.errorNoFileSelected
+      }
+
+      "have the correct review error message for the EntityTooSmall code" in {
+        UploadDocumentForm.errorMessages("EntityTooSmall", isSecondStageAppeal = true) shouldBe messagesForLanguage.errorNoFileSelectedReview
       }
 
       "have the correct error message for the EntityTooLarge code" in {
-        UploadDocumentForm.errorMessages("EntityTooLarge") shouldBe messagesForLanguage.errorFileTooLarge(appConfig.upscanMaxFileSizeMB)
+        UploadDocumentForm.errorMessages("EntityTooLarge", isSecondStageAppeal = false) shouldBe messagesForLanguage.errorFileTooLarge(appConfig.upscanMaxFileSizeMB)
       }
 
       "have the correct error message for the InvalidArgument code" in {
-        UploadDocumentForm.errorMessages("InvalidArgument") shouldBe messagesForLanguage.errorNoFileSelected
+        UploadDocumentForm.errorMessages("InvalidArgument", isSecondStageAppeal = false) shouldBe messagesForLanguage.errorNoFileSelected
+      }
+
+      "have the correct review error message for the InvalidArgument code" in {
+        UploadDocumentForm.errorMessages("InvalidArgument", isSecondStageAppeal = true) shouldBe messagesForLanguage.errorNoFileSelectedReview
       }
 
       s"have the correct error message for the $QUARANTINE code" in {
-        UploadDocumentForm.errorMessages(QUARANTINE.toString) shouldBe messagesForLanguage.errorQuarantine
+        UploadDocumentForm.errorMessages(QUARANTINE.toString, isSecondStageAppeal = false) shouldBe messagesForLanguage.errorQuarantine
       }
 
       s"have the correct error message for the $REJECTED code" in {
-        UploadDocumentForm.errorMessages(REJECTED.toString) shouldBe messagesForLanguage.errorRejected
+        UploadDocumentForm.errorMessages(REJECTED.toString, isSecondStageAppeal = false) shouldBe messagesForLanguage.errorRejected
       }
 
       s"have the correct error message for the $UNKNOWN code" in {
-        UploadDocumentForm.errorMessages(UNKNOWN.toString) shouldBe messagesForLanguage.errorUploadFailed
+        UploadDocumentForm.errorMessages(UNKNOWN.toString, isSecondStageAppeal = false) shouldBe messagesForLanguage.errorUploadFailed
       }
 
       s"have the correct error message for the $INVALID_FILENAME code" in {
-        UploadDocumentForm.errorMessages(INVALID_FILENAME.toString) shouldBe messagesForLanguage.errorFilename
+        UploadDocumentForm.errorMessages(INVALID_FILENAME.toString, isSecondStageAppeal = false) shouldBe messagesForLanguage.errorFilename
       }
 
       "have the correct error message for any other code" in {
-        UploadDocumentForm.errorMessages("UnableToUpload") shouldBe messagesForLanguage.errorUploadFailed
+        UploadDocumentForm.errorMessages("UnableToUpload", isSecondStageAppeal = false) shouldBe messagesForLanguage.errorUploadFailed
       }
     }
   }

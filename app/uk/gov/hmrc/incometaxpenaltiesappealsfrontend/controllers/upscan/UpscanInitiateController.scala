@@ -50,7 +50,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
       withFileUploadFormFields(mode, key) { formFields =>
         errorCode match {
           case Some(code) =>
-            Future.successful(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code)), formFields, cancelLink, mode)))
+            Future.successful(BadRequest(nonJsFileUpload(form.withError(UploadDocumentForm.key, UploadDocumentForm.errorMessages(code, is2ndStageAppeal)), formFields, cancelLink, mode)))
           case _ =>
             Future.successful(Ok(nonJsFileUpload(form, formFields, cancelLink, mode)))
         }
@@ -91,7 +91,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
     }
   }
 
-   def getCancelRedirectUrl(fileCount: Int, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): String = {
+   private def getCancelRedirectUrl(fileCount: Int, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): String = {
     if (fileCount > 0) routes.UpscanCheckAnswersController.onPageLoad(isAgent, is2ndStageAppeal, mode).url
     else
       ExtraEvidenceController.onPageLoad(isAgent, is2ndStageAppeal, mode).url

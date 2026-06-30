@@ -552,14 +552,15 @@ uploadEvidence.fileName.p1 = Dim ond llythrennau a i z, rhifau 0 i 9, cysylltnod
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------
-uploadEvidence.error.fileTooSmall = Mae’r ffeil dan sylw yn wag. Dewiswch ffeil arall
-uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na {0}MB. Dewiswch ffeil arall
-uploadEvidence.error.noFileSpecified = Dewiswch ffeil
-uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw. Dewiswch ffeil arall
+uploadEvidence.error.fileTooSmall = Mae’r ffeil dan sylw yn wag
+uploadEvidence.error.fileTooLarge = Mae’n rhaid i’r ffeil dan sylw fod yn llai na {0}MB
+uploadEvidence.error.noFileSpecified = Dewiswch dystiolaeth i gefnogi’r apêl hon
+uploadEvidence.error.noFileSpecified.review = Dewiswch dystiolaeth i gefnogi’r adolygiad hwn
+uploadEvidence.error.unableToUpload = Nid oedd modd uwchlwytho’r ffeil dan sylw – rhowch gynnig arall arni
 
 # Asynchronous Upscan Error
 # ----------------------------------------------------------
-uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw. Dewiswch ffeil arall
+uploadEvidence.error.QUARANTINE = Mae feirws yn y ffeil dan sylw
 uploadEvidence.error.REJECTED = Mae’n rhaid i’r ffeil dan sylw fod yn JPG, PNG, TIFF, PDF, TXT, Word, Excel, Powerpoint neu Fformat Dogfen Agored (ODF)
 uploadEvidence.error.INVALID_FILENAME = Gall enw’r ffeil dim ond cynnwys llythrennau mawr a bach, rhifau 0-9, cysylltnodau, tanlinellau ac atalnodau llawn
 uploadEvidence.error.PASSWORD_PROTECTED = Mae’r ffeil dan sylw wedi’i diogelu gan gyfrinair
