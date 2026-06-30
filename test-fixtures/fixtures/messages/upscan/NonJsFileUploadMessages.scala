@@ -36,9 +36,9 @@ object NonJsFileUploadMessages {
   object Welsh extends Messages with Cy {
     override val headingAndTitle = "Uwchlwythwch dystiolaeth i gefnogi’r apêl hon"
     override val headingAndTitleReview = "Uwchlwythwch dystiolaeth i gefnogi’r adolygiad hwn"
-    override val p1LSP = "Upload evidence that explains why the submission deadline was missed. Evidence could be a letter or email. (Welsh)"
+    override val p1LSP = "Uwchlwythwch dystiolaeth sy’n esbonio’r rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno. Gallai tystiolaeth fod yn llythyr neu e-bost."
     override val heading3 = "Ffeiliau y mae modd i chi eu huwchlwytho"
-    override val p1LPP = "Upload evidence that explains why the payment deadline was missed. Evidence could be a letter or email. (Welsh)"
+    override val p1LPP = "Uwchlwythwch dystiolaeth sy’n esbonio’r rheswm dros fethu’r dyddiad cau ar gyfer talu. Gallai tystiolaeth fod yn llythyr neu e-bost."
     override val p3: (Int, Int) => String = (n, m) => s"Gallwch uwchlwytho hyd at $n ffeil. Mae’n rhaid i bob ffeil fod yn llai na ${m}MB."
     override val label: String = "Uwchlwytho ffeil"
   }
