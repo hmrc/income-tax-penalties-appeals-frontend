@@ -18,6 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.upscan
 
 import fixtures.FileUploadFixtures
 import fixtures.messages.HonestyDeclarationMessages.fakeRequestForBereavementJourney.is2ndStageAppeal
+import fixtures.messages.UpscanErrorMessages
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
@@ -138,7 +139,22 @@ class UpscanInitiateControllerISpec extends ControllerISpecHelper
                 result.status shouldBe BAD_REQUEST
 
                 val document: Document = Jsoup.parse(result.body)
-                document.select(".govuk-error-message").text() shouldBe "Error: Select a file"
+                document.select(".govuk-error-message").text() shouldBe s"Error: ${UpscanErrorMessages.English.errorNoFileSelected}"
+              }
+
+              "render a BadRequest with the correct error message for EntityTooSmall when the appeal is second stage" in {
+                stubAuthRequests(isAgent)
+                stubUpscanInitiate(status = OK, body = initiateResponse)
+                userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP2ndStage).futureValue
+
+                val reviewUrlPath = if (isAgent) "/upload-evidence/agent-upload-file-for-review" else "/upload-evidence/upload-file-for-review"
+                val reviewUrl = reviewUrlPath + (if (mode == CheckMode) "/check" else "") + "?errorCode=EntityTooSmall"
+
+                val result = get(reviewUrl, isAgent = isAgent)
+                result.status shouldBe BAD_REQUEST
+
+                val document: Document = Jsoup.parse(result.body)
+                document.select(".govuk-error-message").text() shouldBe s"Error: ${UpscanErrorMessages.English.errorNoFileSelectedReview}"
               }
             }
           }

@@ -552,14 +552,15 @@ uploadEvidence.fileName.p1 = File names can only include letters a to z, numbers
 
 # Synchronous Upscan Error
 # ----------------------------------------------------------
-uploadEvidence.error.fileTooSmall = The selected file is empty. Choose another file
-uploadEvidence.error.fileTooLarge = The selected file must be smaller than {0}MB. Choose another file
-uploadEvidence.error.noFileSpecified = Select a file
-uploadEvidence.error.unableToUpload = The selected file could not be uploaded. Choose another file
+uploadEvidence.error.fileTooSmall = The selected file is empty
+uploadEvidence.error.fileTooLarge = The selected file must be smaller than {0}MB
+uploadEvidence.error.noFileSpecified = Select evidence to support this appeal
+uploadEvidence.error.noFileSpecified.review = Select evidence to support this review
+uploadEvidence.error.unableToUpload = The selected file could not be uploaded – try again
 
 # Asynchronous Upscan Failure
 # ----------------------------------------------------------
-uploadEvidence.error.QUARANTINE = The selected file contains a virus. Choose another file
+uploadEvidence.error.QUARANTINE = The selected file contains a virus
 uploadEvidence.error.REJECTED = The selected file must be a JPG, PNG, TIFF, PDF, TXT, Word, Excel, Powerpoint or Open Document Format (ODF). Choose another file
 uploadEvidence.error.INVALID_FILENAME = Filenames can only contain upper and lower case letters, digits from 0-9, hyphens, underscores and full stops
 uploadEvidence.error.PASSWORD_PROTECTED = The selected file is password protected
