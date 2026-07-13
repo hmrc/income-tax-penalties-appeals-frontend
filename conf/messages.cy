@@ -439,7 +439,7 @@ checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.key = Dyddiad daeth yr ar
 checkYourAnswers.whenDidTheEventEnd.unexpectedHospital.change.hidden = y dyddiad y daeth yr arhosiad yn yr ysbyty i ben
 
 checkYourAnswers.lateAppeal.key = Pam nad oeddech wedi gallu apelio cyn pen {0} diwrnod
-checkYourAnswers.lateAppeal.change.hidden = y rheswm pam nad oeddech yn gallu apelio cyn pen 30 diwrnod
+checkYourAnswers.lateAppeal.change.hidden = y rheswm pam nad oeddech yn gallu apelio cyn pen {0} diwrnod
 
 checkYourAnswers.missedDeadlineReason.lpp.key =  Apelio’r ddwy gosb am yr un rheswm
 checkYourAnswers.missedDeadlineReason.lpp.change.hidden =  y rheswm dros fethu’r dyddiad cau

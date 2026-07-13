@@ -49,13 +49,13 @@ object ReasonableExcuseMessages {
       case Other => other
     }
 
-    val cyaHidden = "reason for missing the submission deadline"
+    val cyaHidden = "the reason for missing the deadline"
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val titleAndHeading = "What was the reason for missing the submission deadline? (Welsh)"
+    override val titleAndHeading = "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     override val bereavement: String = "Profedigaeth (roedd rhywun wedi marw)"
     override val cessation: String = "Cessation of income source (Welsh)"
     override val crime: String = "Trosedd"
@@ -72,6 +72,6 @@ object ReasonableExcuseMessages {
     override val errorRequiredLpp: String = "Select the reason for missing the payment deadline (Welsh)"
 
     override val cyaKey = "Rheswm dros fethu’r dyddiad cau"
-    override val cyaHidden = "Rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+    override val cyaHidden = "y rheswm dros fethu’r dyddiad cau"
   }
 }

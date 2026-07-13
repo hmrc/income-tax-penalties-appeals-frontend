@@ -20,17 +20,17 @@ object UploadedDocumentsSummaryMessages {
 
   sealed trait Messages { this: i18n =>
     val cyaKey = "Evidence"
-    val cyaHidden = "evidence to support this appeal"
+    val cyaHidden = "the evidence you uploaded"
     val cyaKeyReview = "Evidence"
-    val cyaHiddenReview = "evidence to support this review"
+    val cyaHiddenReview = "the evidence you uploaded"
   }
 
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
     override val cyaKey = "Tystiolaeth"
-    override val cyaHidden = "Tystiolaeth i ategu’r apêl hon"
+    override val cyaHidden = "y dystiolaeth y gwnaethoch ei huwchlwytho"
     override val cyaKeyReview = "Tystiolaeth"
-    override val cyaHiddenReview = "tystiolaeth i gefnogi’r adolygiad hwn"
+    override val cyaHiddenReview = "y dystiolaeth y gwnaethoch ei huwchlwytho"
   }
 }

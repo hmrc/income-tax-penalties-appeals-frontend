@@ -25,7 +25,7 @@ object HasHospitalStayEndedMessages {
     val errorInvalid = "Select yes if the hospital stay has ended"
 
     val cyaKey = "Hospital stay ended"
-    val cyaHidden = "has the hospital stay ended"
+    val cyaHidden = "whether the hospital stay has ended"
   }
 
   object English extends Messages with En
@@ -37,6 +37,6 @@ object HasHospitalStayEndedMessages {
     override val errorInvalid = "Dewiswch ‘Iawn’ os yw’r arhosiad yn yr ysbyty wedi dod i ben"
 
     override val cyaKey = "Daeth yr arhosiad yn yr ysbyty i ben"
-    override val cyaHidden = "A yw’r arhosiad yn yr ysbyty wedi dod i ben?"
+    override val cyaHidden = "a yw’r arhosiad yn yr ysbyty wedi dod i ben"
   }
 }

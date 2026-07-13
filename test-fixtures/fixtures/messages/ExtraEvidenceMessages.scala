@@ -54,9 +54,9 @@ object ExtraEvidenceMessages {
     }
 
     val cyaKey = "Evidence uploaded"
-    val cyaHidden = "do you want to upload evidence to support your appeal"
+    val cyaHidden = "whether you want to upload evidence"
     val cyaKeyReview = "Evidence uploaded"
-    val cyaHiddenReview = "do you want to upload evidence to support this review?"
+    val cyaHiddenReview = "whether you want to upload evidence"
   }
 
   object English extends Messages with En
@@ -85,8 +85,8 @@ object ExtraEvidenceMessages {
     override val errorInvalidReview = "Dewiswch ‘Iawn’ os ydych am uwchlwytho tystiolaeth i gefnogi’r adolygiad hwn"
 
     override val cyaKey = "Tystiolaeth wedi’i uwchlwytho"
-    override val cyaHidden = "a ydych am uwchlwytho tystiolaeth i ategu’ch apêl"
+    override val cyaHidden = "a ydych am uwchlwytho tystiolaeth"
     override val cyaKeyReview = "Tystiolaeth wedi’i uwchlwytho"
-    override val cyaHiddenReview = "a ydych am uwchlwytho tystiolaeth i ategu’r adolygiad hwn"
+    override val cyaHiddenReview = "a ydych am uwchlwytho tystiolaeth"
   }
 }
