@@ -30,7 +30,7 @@ object ReviewMoreThan30DaysMessages {
     val errorInvalidMultiple = "Select yes if it has been more than 30 days since the appeal decisions were issued"
 
     val cyaKey = "More than 30 days since appeal decision"
-    val cyaHidden = "has it been more than 30 days since the appeal decision was issued"
+    val cyaHidden = "whether it is more than 30 days since the appeal decision"
   }
 
   object English extends Messages with En
@@ -46,6 +46,6 @@ object ReviewMoreThan30DaysMessages {
     override val errorInvalidMultiple = "Nodwch ‘Iawn’ os yw mwy na 30 diwrnod wedi mynd heibio ers i benderfyniadau’r apêl gael eu cyhoeddi"
 
     override val cyaKey = "Mwy na 30 diwrnod ers penderfyniad yr apêl"
-    override val cyaHidden = "oes mwy na 30 diwrnod wedi mynd heibio ers cyhoeddi penderfyniad yr apêl"
+    override val cyaHidden = "a yw’n fwy na 30 diwrnod ers penderfyniad yr apêl"
   }
 }

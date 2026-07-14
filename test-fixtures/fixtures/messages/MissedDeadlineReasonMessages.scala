@@ -57,10 +57,10 @@ object MissedDeadlineReasonMessages {
       else "Why was the submission deadline missed"
 
     def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "why are you asking us to review these appeal decisions"
-      else if(is2ndStageAppeal) "why are you asking us to review this decision"
-      else if(isLPP) "why was the payment deadline missed"
-      else "why was the submission deadline missed"
+      if(is2ndStageAppeal && isJointAppeal) "why you asked for a review"
+      else if(is2ndStageAppeal) "why you asked for a review"
+      else if(isLPP) "why the deadline was missed"
+      else "why the deadline was missed"
   }
 
   object English extends Messages with En
@@ -106,9 +106,9 @@ object MissedDeadlineReasonMessages {
       else "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
 
     override def cyaHidden(isLPP: Boolean, is2ndStageAppeal: Boolean, isJointAppeal: Boolean): String =
-      if(is2ndStageAppeal && isJointAppeal) "beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
-      else if(is2ndStageAppeal) "beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn"
-      else if(isLPP) "beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?"
-      else "beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
+      if(is2ndStageAppeal && isJointAppeal) "pam y gwnaethoch ofyn am adolygiad"
+      else if(is2ndStageAppeal) "pam y gwnaethoch ofyn am adolygiad"
+      else if(isLPP) "y rheswm dros fethu’r dyddiad cau"
+      else "y rheswm dros fethu’r dyddiad cau"
   }
 }

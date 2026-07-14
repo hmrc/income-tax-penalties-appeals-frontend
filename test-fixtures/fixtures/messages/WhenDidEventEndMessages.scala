@@ -60,8 +60,8 @@ object WhenDidEventEndMessages {
       case reason => throw new UnsupportedOperationException("No message content exists for this ReasonableExcuse: " + reason)
     }
 
-    val cyaHiddenTechnical = "when did the software or technology issues end"
-    val cyaHiddenHospital = "when did the hospital stay end"
+    val cyaHiddenTechnical = "the date the software or technology issue ended"
+    val cyaHiddenHospital = "the date the hospital stay ended"
 
     def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => cyaHiddenTechnical
@@ -105,8 +105,8 @@ object WhenDidEventEndMessages {
     override val cyaKeyTechnical = "Dyddiad y daeth problem meddalwedd neu dechnoleg i ben"
     override val cyaKeyHospital = "Dyddiad daeth yr arhosiad yn yr ysbyty i ben"
 
-    override val cyaHiddenTechnical = "Pryd y gwnaeth y problemau technegol neu’r problemau meddalwedd ddod i ben"
-    override val cyaHiddenHospital = "Pryd gwnaeth yr arhosiad yn yr ysbyty ddod i ben"
+    override val cyaHiddenTechnical = "y dyddiad y daeth y broblem gyda’r feddalwedd neu’r dechnoleg i ben"
+    override val cyaHiddenHospital = "y dyddiad y daeth yr arhosiad yn yr ysbyty i ben"
 
     override def headingAndTitle(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case TechnicalIssues => "When did the software or technology issues end?"
