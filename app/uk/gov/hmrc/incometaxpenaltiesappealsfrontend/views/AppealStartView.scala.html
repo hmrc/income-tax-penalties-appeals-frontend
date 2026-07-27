@@ -50,7 +50,7 @@
         }
     </ul>
 
-    @link(link = "#", messageKey = "appeal.start.guidanceLink",id = Some("guidanceLink"))
+    @link(link = appConfig.reasonableExcuseUrl, attrTarget = true, messageKey = "appeal.start.guidanceLink",id = Some("guidanceLink"))
 
     @if(!isLPP){
         @h2("appeal.start.cessation.h2", elmId = "cessationH2")
