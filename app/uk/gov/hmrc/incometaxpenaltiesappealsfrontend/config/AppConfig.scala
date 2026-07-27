@@ -161,5 +161,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
   lazy val personalTaxAccountCheckProgressUrl: String = s"$trackingBase/track"
   lazy val personalTaxAccountProfileUrl: String = s"$ptaFrontendBase/profile-and-settings"
   lazy val personalTaxAccountBtaUrl: String = s"$btaFrontendBase"
+  
+  val reasonableExcuseUrl: String = "https://www.gov.uk/tax-appeals/reasonable-excuses"
 
 }

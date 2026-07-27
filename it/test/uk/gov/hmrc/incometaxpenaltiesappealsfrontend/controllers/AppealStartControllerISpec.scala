@@ -68,6 +68,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getLink("guidanceLink").attr("href") shouldBe "https://www.gov.uk/tax-appeals/reasonable-excuses"
             document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
             document.getParagraphs.get(3).text() shouldBe "You may be able to get a penalty point removed if the update period started after the income source stopped permanently (ceased)."
             document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the dates that a particular income source was ceased to HMRC."
