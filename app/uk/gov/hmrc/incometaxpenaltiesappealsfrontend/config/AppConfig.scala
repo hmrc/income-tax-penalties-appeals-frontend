@@ -89,7 +89,7 @@ class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesCon
     if (isAgent) {
       viewAndChangeBaseUrl + "/manage-self-assessment/businesses/agents/manage-your-businesses"
     } else {
-      viewAndChangeBaseUrl + "/report-quarterly/income-and-expenses/view/manage-your-businesses"
+      viewAndChangeBaseUrl + "/manage-self-assessment/businesses/manage-your-businesses"
     }
   }
 
