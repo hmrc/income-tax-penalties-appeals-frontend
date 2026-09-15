@@ -49,6 +49,9 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
           "render the page has the correct elements" in {
             stubAuthRequests(isAgent)
             userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
+            val expectedPath: String =
+              if (isAgent) "/manage-self-assessment/businesses/agents/manage-your-businesses"
+              else "/manage-self-assessment/businesses/manage-your-businesses"
 
             val result = get(path, isAgent = isAgent)
 
@@ -68,13 +71,13 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
-            document.getLink("guidanceLink").attr("href") shouldBe "https://www.gov.uk/tax-appeals/reasonable-excuses"
+            document.getLink("guidanceLink").attr("href") shouldBe appConfig.reasonableExcuseUrl
             document.getH2Elements.get(1).text() shouldBe "Income sources that have ceased"
             document.getParagraphs.get(3).text() shouldBe "You may be able to get a penalty point removed if the update period started after the income source stopped permanently (ceased)."
             document.getParagraphs.get(4).text() shouldBe "To do this, you will need to confirm the dates that a particular income source was ceased to HMRC."
             document.getParagraphs.get(5).text() shouldBe "A penalty point will stay active and will not be removed if more than one income source was missing or late in the same update period, and only one income source ceased before the update period started."
             document.getLink("cessationLink").text() shouldBe "Add, manage or cease a business or income source"
-
+            document.getLink("cessationLink").attr("href") shouldBe appConfig.viewAndChangeBaseUrl + expectedPath
             document.getH2Elements.get(2).text() shouldBe "Sending evidence with an appeal"
             document.getParagraphs.get(7).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(8).text() shouldBe "If we do not ask for extra evidence, we do not need it to make a decision."
@@ -110,6 +113,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getLink("guidanceLink").attr("href") shouldBe appConfig.reasonableExcuseUrl
             document.getParagraphs.get(3).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(4).text() shouldBe "If we do not ask for extra evidence, we do not need it to make a decision."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
@@ -140,6 +144,7 @@ class AppealStartControllerISpec extends ControllerISpecHelper {
             document.getBulletPoints.get(1).text() shouldBe "the dates related to this reasonable excuse"
             document.getBulletPoints.get(2).text() shouldBe "details of why you did not appeal sooner"
             document.getLink("guidanceLink").text() shouldBe "Read the guidance about reasonable excuses (opens in new tab)"
+            document.getLink("guidanceLink").attr("href") shouldBe appConfig.reasonableExcuseUrl
             document.getParagraphs.get(3).text() shouldBe "In some cases, you will be asked if you want to upload evidence to support your appeal. You should gather this evidence before you continue, as you will not be able to save this appeal and complete it later."
             document.getParagraphs.get(4).text() shouldBe "If we do not ask for extra evidence, we do not need it to make a decision."
             document.getWarningText.get(0).text() shouldBe "Warning If we decide we need extra evidence after reviewing your appeal, we will contact you."
