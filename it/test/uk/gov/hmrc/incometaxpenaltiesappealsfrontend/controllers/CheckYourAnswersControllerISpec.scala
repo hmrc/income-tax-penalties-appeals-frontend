@@ -30,7 +30,7 @@ import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.En
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CrimeReportedEnum, ReasonableExcuse}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, CrimeReportedEnum, ReasonableExcuse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.PenaltiesStub
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.DateFormatter.dateToString
@@ -162,6 +162,7 @@ CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub
     }
   }
 
+
   "POST /check-your-answers" when {
     "the user is an authorised individual" when {
       "the Appeals Submission model can be constructed successfully" when {
@@ -219,5 +220,15 @@ CheckYourAnswersControllerISpec extends ControllerISpecHelper with PenaltiesStub
         }
       }
     }
+
+        "redirect when the journey is incomplete" should {
+          "redirect to the reasonable excuse page" in {
+            stubAuthRequests(false)
+            userAnswersRepo.upsertUserAnswer(emptyUserAnswersWithLSP).futureValue
+            val result = get("/check-your-answers")
+            result.status shouldBe SEE_OTHER
+            result.header(LOCATION) shouldBe Some(routes.ReasonableExcuseController.onPageLoad(isAgent = false, CheckMode).url)
+          }
+        }
   }
 }
