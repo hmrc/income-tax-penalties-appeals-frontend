@@ -262,7 +262,7 @@ object WhenDidEventHappenMessages {
 
     override val crimeRequiredAll = "Nodwch ddyddiad y drosedd"
     override val fireOrFloodRequiredAll = "Nodwch ddyddiad y tân neu lifogydd"
-    override val technicalIssueRequiredAll = "Enter the date the software or technology issues began (Welsh)"
+    override val technicalIssueRequiredAll = "Nodwch y dyddiad y gwnaeth y broblem gyda’r feddalwedd a’r dechnoleg ddechrau"
     override val bereavementRequiredAll = "Nodwch y dyddiad y bu farw’r person"
     override val cessationRequiredAll = "TBC (Welsh)"
     override def healthRequiredAll(isLPP: Boolean = false): String = {
