@@ -25,6 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Crime
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.requiredAnswers.CYAJourneyStep.*
@@ -104,6 +105,12 @@ class SecondStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFa
             testJourney.next(qPage, ReviewMoreThan30DaysEnum.no, None) shouldBe End
           }
         }
+        s"given a page that is not part of the journey, isAgent= $isAgent, isLPP=$isLPP" should {
+          "return End" in  new Setup(isAgent, isLPP) {
+            val qPage = QuestionPages.whenDidEventHappen(isAgent)
+            testJourney.next(qPage,LocalDate.of(2024, 1, 1), None) shouldBe End
+          }
+        }
       }
     }
   }
@@ -124,5 +131,7 @@ class SecondStageAppealJourneySpec extends AnyWordSpec with Matchers with MockFa
     def jointAppeal(isAgent: Boolean) = QuestionPage(JointAppealPage, routes.JointAppealController.onPageLoad(isAgent, isSecondStageAppeal, mode))
 
     def reasonForLateAppeal(isAgent: Boolean) = QuestionPage(LateAppealPage, routes.LateAppealController.onPageLoad(isAgent, isSecondStageAppeal, mode))
+    
+    def whenDidEventHappen(isAgent: Boolean) = QuestionPage(WhenDidEventHappenPage, routes.WhenDidEventHappenController.onPageLoad(Crime, isAgent, mode))
   }
 }
