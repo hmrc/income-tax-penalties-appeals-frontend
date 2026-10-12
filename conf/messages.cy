@@ -339,7 +339,7 @@ missedDeadlineReason.lpp.error.review.regex = Mae’n rhaid i’r rheswm dros of
 missedDeadlineReason.lpp.review.headingAndTitle.multiple = Beth yw’ch rheswm dros ofyn i ni adolygu’r penderfyniad hwn?
 missedDeadlineReason.lpp.review.hint.multiple = Yn fras, nodwch pam eich bod o’r farn bod y penderfyniadau gwreiddiol yn anghywir.
 missedDeadlineReason.lpp.error.review.required.multiple = Nodwch y rheswm dros ofyn i ni adolygu’r penderfyniadau hyn
-missedDeadlineReason.lpp.error.review.regex.multiple = Why you are asking us to review these decisions must only include letters a to z, numbers 0 to 9, and standard special characters (Welsh)
+missedDeadlineReason.lpp.error.review.regex.multiple = Mae’n rhaid i’r rheswm dros ofyn i ni adolygu’r penderfyniadau hyn gynnwys y llythrennau a i z, y rhifau 0 i 9 a chymeriadau arbennig safonol yn unig
 
 # Has the crime been reported page
 # ----------------------------------------------------------
