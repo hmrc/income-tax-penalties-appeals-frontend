@@ -34,7 +34,7 @@ object ReviewAppealStartMessages {
     override val p1 = "Os ydych chi’n anghytuno â’r penderfyniad ynghylch yr apêl yn erbyn cosb, gallwch ofyn am adolygiad."
     override val h2 = "Cyn i chi ddechrau"
     override val p2 = "Casglwch unrhyw dystiolaeth sy’n dangos bod y penderfyniad ynghylch eich apêl yn anghywir, yn eich barn chi."
-    override val p3 = "Gallwch uwchlwythor dystiolaeth hon fel rhan or cais hwn i gael adolygiad."
+    override val p3 = "Gallwch uwchlwytho’r dystiolaeth hon fel rhan o’r cais hwn i gael adolygiad."
     override val p4 = "Os oes mwy na 30 diwrnod wedi mynd heibio ers penderfyniad yr adolygiad, bydd angen i chi roi manylion dros beidio â gofyn am adolygiad yn gynt."
   }
 }

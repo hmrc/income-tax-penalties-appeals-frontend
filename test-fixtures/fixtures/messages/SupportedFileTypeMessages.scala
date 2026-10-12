@@ -36,7 +36,7 @@ object SupportedFileTypeMessages {
     override val p1 = "Gall eich ffeiliau fod yn un o’r canlynol:"
     override val bullet1 = "delweddau (.jpg, .jpeg, .png neu .tiff)"
     override val bullet2 = "PDF (.pdf)"
-    override val bullet3 = "text (.txt) (Welsh)"
+    override val bullet3 = "text (.txt)"
     override val bullet4 = "Microsoft Word, Excel, neu PowerPoint (.doc, .docx, .xls, .xlsx, .ppt, neu .pptx)"
     override val bullet5 = "Ffeiliau Fformat Dogfen Agored (.odt, .ods neu .odp)"
     override val cancelLink: String = "Canslo"
