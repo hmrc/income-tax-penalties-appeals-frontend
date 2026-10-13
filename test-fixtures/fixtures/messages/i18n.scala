@@ -75,6 +75,16 @@ trait Cy extends i18n {
     val message = s"Cosb am dalu’n hwyr: $from i $to"
     if (removeNBSP) message.replace("\u00A0", " ") else message
   }
+
+  override def lppCaptionAppealStart(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Cosb am dalu’n hwyr: $from i $to"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
+  
+  override  def lppCaptionMultiple(from: String, to: String, removeNBSP: Boolean = true): String = {
+    val message = s"Cosbau am dalu’n hwyr: $from i $to"
+    if (removeNBSP) message.replace("\u00A0", " ") else message
+  }
   override val serviceName = "Rheoli’ch Hunanasesiad"
   override def titleWithSuffix(title: String): String = s"$title - Rheoli’ch Hunanasesiad - GOV.UK"
   override val continue = "Parhau"
