@@ -27,6 +27,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.Cur
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Health, Other}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.WhenDidEventHappenHelper
 
 class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with GuiceOneAppPerSuite with FormBehaviours with BaseFixtures {
 
@@ -84,6 +85,15 @@ class WhenDidEventHappenFormSpec extends AnyWordSpec with should.Matchers with G
           }
         }
       }
+    }
+  }
+  "the heading for whenDidEventHappen" should {
+    implicit val user: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(emptyUserAnswersWithLSP)
+    "return the LPP heading key when isLPP is true" in {
+      WhenDidEventHappenHelper.healthHeading(isLPP = true) shouldBe "whenDidEventHappen.health.lpp.headingAndTitle"
+    }
+    "return the LSP heading key when isLPP is false" in {
+      WhenDidEventHappenHelper.healthHeading(isLPP = false) shouldBe "whenDidEventHappen.health.lsp.headingAndTitle"
     }
   }
 }

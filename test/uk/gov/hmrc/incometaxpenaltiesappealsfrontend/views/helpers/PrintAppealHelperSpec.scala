@@ -85,6 +85,49 @@ class PrintAppealHelperSpec extends AnyWordSpec with Matchers with GuiceOneAppPe
               ) ++ checkAnswersHelper.constructSummaryListRows(uploads, showActionLinks = false)
             }
           }
+        
+        
+        
+        "it's a single LPP appeal" should {
+          val userAnswers = emptyUserAnswersWithMultipleLPPs
+            .setAnswer(JointAppealPage, false)
+
+          implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
+
+          "return the single LPP penalty row" in {
+            val rows = printAppealHelper.constructPrintSummaryRows(uploads, testNino)
+
+            rows(2) shouldBe summaryListRow(
+              label = messagesForLanguage.penaltyAppealed,
+              value = Html(messagesForLanguage.lppCaptionAppealStart(
+                dateToString(latePaymentAppealData.startDate),
+                dateToString(latePaymentAppealData.endDate),
+                removeNBSP = false
+              ))
+            )
+
+          }
+        }
+        "it's multiple LPP appeal" should {
+          val userAnswers = emptyUserAnswersWithMultipleLPPs
+            .setAnswer(JointAppealPage, true)
+
+          implicit val request: CurrentUserRequestWithAnswers[_] = userRequestWithAnswers(userAnswers)
+
+          "return multiple LPP penalty row" in {
+            val rows = printAppealHelper.constructPrintSummaryRows(uploads, testNino)
+
+            rows(2) shouldBe summaryListRow(
+              label = messagesForLanguage.penaltyAppealedMultiple,
+              value = Html(messagesForLanguage.lppCaptionMultiple(
+                dateToString(latePaymentAppealData.startDate),
+                dateToString(latePaymentAppealData.endDate),
+                removeNBSP = false
+              ))
+            )
+
+          }
+        }
 
         "it's a 2nd Stage Appeal (Review)" should {
 

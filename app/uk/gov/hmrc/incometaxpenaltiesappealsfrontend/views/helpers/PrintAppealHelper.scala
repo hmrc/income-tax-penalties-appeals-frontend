@@ -58,7 +58,9 @@ class PrintAppealHelper @Inject()(checkAnswersHelper: CheckAnswersHelper,
     summaryListRow(
       label = messages(s"viewAppealDetails.penaltyAppealed$msgSuffix"),
       value = Html {
-        val messageKey = if(user.isLPP) "service.lpp.caption" else "service.lsp.caption"
+        val messageKey =  if (user.isLPP && user.isAppealingMultipleLPPs) "service.lpp.multiple.caption"
+        else if (user.isLPP) "service.lpp.caption"
+        else "service.lsp.caption"
         messages(messageKey, dateToString(user.periodStartDate), dateToString(user.periodEndDate))
       },
       actions = None
