@@ -33,7 +33,7 @@ trait BtaNavLinksHttpParser {
           response.json.validateOpt[NavContent] match {
             case JsSuccess(navLinks, _) =>
               navLinks
-            case JsError(_) =>
+            case JsError(errors) =>
               PagerDutyHelper.log("BtaNavLinksReads", "read", INVALID_JSON_RECEIVED_FROM_BTA)
               logger.error("[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model, returning None to continue gracefully")
               None

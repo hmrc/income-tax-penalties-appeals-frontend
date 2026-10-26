@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
+import play.api.Logging
+
 object PagerDutyHelper extends Logging {
 
   object PagerDutyKeys extends Enumeration {

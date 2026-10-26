@@ -52,7 +52,7 @@ object MessageCountHttpParser extends Logging {
             case JsSuccess(model, _) =>
               logger.info(s"[GetMessageCount][read] Successful call to retrieve messages count, count was: ${model.count}.")
               Right(model)
-            case JsError(_) =>
+            case JsError(errors) =>
               logger.debug("[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model")
               logger.error("[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model")
               PagerDutyHelper.log("GetMessageCount", "read", INVALID_JSON_RECEIVED_FROM_MESSAGE_FRONTEND)
