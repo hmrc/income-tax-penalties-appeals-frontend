@@ -20,6 +20,7 @@ import fixtures.BaseFixtures
 import org.scalatest.matchers.should
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.Logger
 import play.api.http.Status.OK
 import play.api.mvc.Results.Ok
 import play.api.mvc.{MessagesControllerComponents, Result}
@@ -29,7 +30,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
@@ -44,6 +44,7 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
     override val controllerComponents: MessagesControllerComponents = stubMessagesControllerComponents()
     override val errorHandler: ErrorHandler = errHandler
   }
+  private lazy val logger = Logger(testBaseController.getClass)
 
   val testPage: Page[String] = new Page[String] { val key: String = "testPageKey" }
 
@@ -91,7 +92,7 @@ class BaseUserAnswersControllerSpec extends AnyWordSpec with should.Matchers wit
             status(result) shouldBe INTERNAL_SERVER_ERROR
             contentAsString(result) shouldBe await(errHandler.internalServerErrorTemplate).toString
 
-            logs.exists(_.getMessage.contains(s"[BaseUserAnswersController][withAnswer] No answer found for pageKey: ${testPage.key}, mtditid: ${user.mtdItId}"))
+            logs.exists(_.getMessage.contains(s"[BaseUserAnswersController][withAnswer] No answer found for pageKey: ${testPage.key}")) shouldBe true
           }
         }
       }

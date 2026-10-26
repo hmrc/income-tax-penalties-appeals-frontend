@@ -23,12 +23,12 @@ import play.api.mvc.Result
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.ErrorHandler
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.Page
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait BaseUserAnswersController extends FrontendBaseController with I18nSupport {
+trait BaseUserAnswersController extends FrontendBaseController with I18nSupport with Logging {
 
   val errorHandler: ErrorHandler
 
@@ -37,7 +37,7 @@ trait BaseUserAnswersController extends FrontendBaseController with I18nSupport 
     user.userAnswers.getAnswer[A](page) match {
       case Some(value) => f(value)
       case None =>
-        logger.warn(s"[BaseUserAnswersController][withAnswer] No answer found for pageKey: ${page.key}, mtditid: ${user.mtdItId}")
+        logger.warn(s"[BaseUserAnswersController][withAnswer] No answer found for pageKey: ${page.key}")
         //TODO: In future, redirect to a SessionTimeout page, or JourneyExpired page that the User can recover from???
         errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
     }

@@ -16,12 +16,12 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait ExceptionHandlingUtil {
+trait ExceptionHandlingUtil extends Logging {
 
   lazy val className: String = this.getClass.getSimpleName.replace("$", "")
 
@@ -32,7 +32,7 @@ trait ExceptionHandlingUtil {
       case e: Throwable =>
         val formattedIdentifiers = identifiers.map { case (key, value) => s"$key: $value" }.mkString(", ")
         val errorMessage = s"[$className][$methodName] An exception of type ${e.getClass.getSimpleName} occurred for $formattedIdentifiers"
-        logger.debug(errorMessage + ", exception message: " + e.getMessage)
+        logger.debug(errorMessage)
         pagerDutyTriggerKey.fold {
           logger.warn(errorMessage)
         }{ pdTriggerKey =>

@@ -22,6 +22,7 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import play.api.Logger
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -30,7 +31,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.mocks.MockUpscan
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureReasonEnum, UploadStatus, UploadStatusEnum, UpscanInitiateRequest}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{CheckMode, NormalMode}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.mocks.MockFileUploadJourneyRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -44,6 +44,8 @@ class UpscanServiceSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSui
   with MockFactory
   with FileUploadFixtures
   with LogCapturing {
+
+  private val logger = Logger(classOf[UpscanService])
 
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]

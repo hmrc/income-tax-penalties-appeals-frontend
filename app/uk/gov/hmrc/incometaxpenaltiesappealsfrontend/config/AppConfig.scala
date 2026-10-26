@@ -18,7 +18,7 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config
 
 import play.api.Configuration
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{EnableTimeMachineBanner, FeatureSwitching, UseStubForBackend, UseStubForMessageFrontend}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
+import play.api.Logging
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
@@ -27,7 +27,7 @@ import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
 
 @Singleton
-class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesConfig) extends FeatureSwitching {
+class AppConfig @Inject()(val config: Configuration, servicesConfig: ServicesConfig) extends FeatureSwitching with Logging {
 
   val appConfig: AppConfig = this
 

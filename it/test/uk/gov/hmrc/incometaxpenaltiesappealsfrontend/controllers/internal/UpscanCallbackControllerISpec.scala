@@ -17,17 +17,19 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.internal
 
 import fixtures.FileUploadFixtures
+import play.api.Logger
 import play.api.test.Helpers.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, FailureReasonEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReasonEnum.INVALID_FILENAME
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.FAILED
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.ComponentSpecHelper
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 
 
 class UpscanCallbackControllerISpec extends ComponentSpecHelper with FileUploadFixtures with LogCapturing {
+
+  private val logger = Logger("uk.gov.hmrc.incometaxpenaltiesappealsfrontend")
 
   lazy val fileUploadRepository: FileUploadJourneyRepository = app.injector.instanceOf[FileUploadJourneyRepository]
 

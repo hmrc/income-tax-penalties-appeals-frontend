@@ -16,6 +16,6 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-object Logger {
-  val logger: play.api.Logger = play.api.Logger("incomeTaxPenaltiesAppealsFrontendLogger")
+trait Logging {
+  protected lazy val logger: play.api.Logger = play.api.Logger(getClass)
 }

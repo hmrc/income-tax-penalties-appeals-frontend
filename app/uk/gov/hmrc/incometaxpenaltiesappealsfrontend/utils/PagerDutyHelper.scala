@@ -16,9 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils
 
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
-
-object PagerDutyHelper {
+object PagerDutyHelper extends Logging {
 
   object PagerDutyKeys extends Enumeration {
     final val RECEIVED_4XX_FROM_PENALTIES = Value
