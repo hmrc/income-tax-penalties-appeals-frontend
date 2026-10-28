@@ -30,11 +30,13 @@ trait BtaNavLinksHttpParser {
     override def read(method: String, url: String, response: HttpResponse): Option[NavContent] =
       response.status match {
         case OK =>
+          logger.debug(s"[BtaNavLinksReads][read] Successful call to retrieve BTA Nav Links.")
           response.json.validateOpt[NavContent] match {
             case JsSuccess(navLinks, _) =>
               navLinks
             case JsError(errors) =>
               PagerDutyHelper.log("BtaNavLinksReads", "read", INVALID_JSON_RECEIVED_FROM_BTA)
+              logger.debug(s"[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model")
               logger.error("[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model, returning None to continue gracefully")
               None
           }
