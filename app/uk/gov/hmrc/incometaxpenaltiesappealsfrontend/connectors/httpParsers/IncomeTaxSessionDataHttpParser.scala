@@ -36,6 +36,7 @@ object IncomeTaxSessionDataHttpParser extends Logging {
             case JsSuccess(model, _) =>
               Right(Some(model))
             case JsError(errors) =>
+              logger.debug(s"[GetSessionData][read] Failed to parse session data response")
               logger.error(s"[GetSessionData][read] Failed to parse session data response")
               PagerDutyHelper.log("GetSessionData", "read", INVALID_JSON_RECEIVED_FROM_INCOME_TAX_SESSION_DATA)
               Left(InvalidJson)
