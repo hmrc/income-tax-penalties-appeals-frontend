@@ -20,11 +20,11 @@ import play.api.http.Status._
 import play.api.libs.json.{JsError, JsSuccess}
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.messageCount.MessageCount
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys.{INVALID_JSON_RECEIVED_FROM_MESSAGE_FRONTEND, RECEIVED_4XX_FROM_MESSAGE_FRONTEND, RECEIVED_5XX_FROM_MESSAGE_FRONTEND}
 
-object MessageCountHttpParser {
+object MessageCountHttpParser extends Logging {
 
   sealed trait MessagesCountFailure {
     val message: String
@@ -53,17 +53,17 @@ object MessageCountHttpParser {
               logger.info(s"[GetMessageCount][read] Successful call to retrieve messages count, count was: ${model.count}.")
               Right(model)
             case JsError(errors) =>
-              logger.debug(s"[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model - failures: $errors")
+              logger.debug("[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model")
               logger.error("[GetMessageCount][read] Failed to parse messages count response from message-frontend to MessageCount model")
               PagerDutyHelper.log("GetMessageCount", "read", INVALID_JSON_RECEIVED_FROM_MESSAGE_FRONTEND)
               Left(MessagesCountResponseMalformed)
           }
         case BAD_REQUEST =>
-          logger.error(s"[GetMessageCount][read]: Bad request returned with reason: ${response.body}")
+          logger.error("[GetMessageCount][read]: Bad request returned")
           PagerDutyHelper.log("GetMessageCount", "read", RECEIVED_4XX_FROM_MESSAGE_FRONTEND)
           Left(MessagesCountResponseBadRequest)
         case status =>
-          logger.error(s"[GetMessageCount][read]: Unexpected response, status $status returned with reason: ${response.body}")
+          logger.error(s"[GetMessageCount][read]: Unexpected response, status $status returned")
           PagerDutyHelper.logStatusCode("GetMessageCount", "read", status)(RECEIVED_4XX_FROM_MESSAGE_FRONTEND, RECEIVED_5XX_FROM_MESSAGE_FRONTEND)
           Left(MessagesCountUnexpectedFailure(status))
       }

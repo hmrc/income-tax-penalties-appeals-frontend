@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.services.FeatureSwitchRetrievalService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.frontend.views.html.feature_switch
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import java.time.LocalDate
@@ -35,7 +35,7 @@ class FeatureSwitchFrontendController @Inject()(featureSwitchService: FeatureSwi
                                                 featureSwitchView: feature_switch,
                                                 mcc: MessagesControllerComponents
                                                )(implicit ec: ExecutionContext,
-                                                 val appConfig: AppConfig) extends FrontendController(mcc) with FeatureSwitching with I18nSupport {
+                                                 val appConfig: AppConfig) extends FrontendController(mcc) with FeatureSwitching with I18nSupport with Logging {
 
 
   def show(): Action[AnyContent] = Action.async {
@@ -64,7 +64,7 @@ class FeatureSwitchFrontendController @Inject()(featureSwitchService: FeatureSwi
         val timeMachineStringDate = dateAsString.replace("/", "-")
         Try(LocalDate.parse(timeMachineStringDate, timeMachineDateFormatter)).fold(
           err => {
-            logger.error(s"[FeatureSwitchController][setFeatureDate] - Exception was thrown when setting time machine date: ${err.getMessage}")
+            logger.error("[FeatureSwitchController][setFeatureDate] - Invalid time machine date format")
             BadRequest("The date provided is in an invalid format")
           },
           date => {

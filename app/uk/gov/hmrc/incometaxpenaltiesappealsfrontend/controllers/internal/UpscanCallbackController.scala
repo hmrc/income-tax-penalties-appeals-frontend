@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.FailureReason
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{FailureDetails, FailureReasonEnum, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.FAILED
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
@@ -31,7 +31,7 @@ import scala.util.matching.Regex
 
 class UpscanCallbackController @Inject()(service: UpscanService,
                                          override val controllerComponents: MessagesControllerComponents)
-                                        (implicit ec: ExecutionContext) extends FrontendBaseController {
+                                        (implicit ec: ExecutionContext) extends FrontendBaseController with Logging {
 
   def callbackFromUpscan(journeyId: String): Action[JsValue] = Action.async(parse.json) { implicit request =>
     withJsonBody[UploadJourney] { callbackModel =>
@@ -61,7 +61,6 @@ class UpscanCallbackController @Inject()(service: UpscanService,
         case Some(_) => callbackModel
         case _ =>
           logger.warn(s"[UpscanCallbackController][validateFilename] Callback from Upscan received with invalid filename")
-          logger.debug(s"[UpscanCallbackController][validateFilename] Invalid Filename: ${uploadDetails.fileName}")
           callbackModel.copy(
             fileStatus = FAILED,
             failureDetails = Some(FailureDetails(

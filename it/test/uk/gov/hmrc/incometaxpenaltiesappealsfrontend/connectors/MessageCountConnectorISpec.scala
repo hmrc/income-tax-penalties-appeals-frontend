@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
+import play.api.Logger
 import play.api.http.Status.{BAD_REQUEST, INTERNAL_SERVER_ERROR}
 import play.api.libs.json.Json
 import play.api.test.Helpers.*
@@ -24,7 +25,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.MessageCountHttpParser.{GetMessageCountResponse, MessagesCountResponseBadRequest, MessagesCountResponseMalformed, MessagesCountUnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.{FeatureSwitching, UseStubForMessageFrontend}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.messageCount.MessageCount
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, WiremockMethods}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -34,6 +34,7 @@ import scala.concurrent.ExecutionContext
 class MessageCountConnectorISpec extends ComponentSpecHelper with LogCapturing with WiremockMethods with FeatureSwitching {
 
   val connector: MessageCountConnector = app.injector.instanceOf[MessageCountConnector]
+  private val logger = Logger("uk.gov.hmrc.incometaxpenaltiesappealsfrontend")
 
   override val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
   implicit val hc: HeaderCarrier = HeaderCarrier()

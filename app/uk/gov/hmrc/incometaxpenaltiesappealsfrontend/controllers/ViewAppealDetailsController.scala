@@ -23,7 +23,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmis
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.ViewStatusAuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.ReasonableExcusePage
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AuditService, UpscanService}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.helpers.PrintAppealHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html._
@@ -39,7 +39,7 @@ class ViewAppealDetailsController @Inject()(viewAppealDetails: ViewAppealDetails
                                             auditService: AuditService,
                                             override val errorHandler: ErrorHandler,
                                             override val controllerComponents: MessagesControllerComponents,
-                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController {
+                                           )(implicit ec: ExecutionContext, val appConfig: AppConfig, timeMachine: TimeMachine) extends BaseUserAnswersController with Logging {
 
   def onPageLoad(isAgent: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     withAnswer(ReasonableExcusePage) { reasonableExcuse =>

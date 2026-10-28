@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.MessageCountConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledIndividual, CurrentUserRequest}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import javax.inject.{Inject, Singleton}
@@ -35,7 +35,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountConnector)
                                      (implicit val appConfig: AppConfig,
                                       val executionContext: ExecutionContext,
-                                      val messagesApi: MessagesApi) extends ActionRefiner[CurrentUserRequest, CurrentUserRequest] with I18nSupport {
+                                      val messagesApi: MessagesApi) extends ActionRefiner[CurrentUserRequest, CurrentUserRequest] with I18nSupport with Logging {
 
   override def refine[A](request: CurrentUserRequest[A]): Future[Either[Result, CurrentUserRequest[A]]] = {
 
@@ -57,7 +57,7 @@ class NavBarRetrievalAction @Inject()(val messageCountConnector: MessageCountCon
     messageCountConnector.getMessageCount().map { _ =>
       Right(request.addServiceNavigation(createPtaServiceNavigation()))
     }.recover { case ex =>
-      logger.warn(s"[NavBarRetrievalAction][refine] Failed to retrieve message count from 'message' microservice, continuing with 0 messages to continue gracefully. Error: ${ex.getMessage}")
+      logger.warn("[NavBarRetrievalAction][refine] Failed to retrieve message count from 'message' microservice, continuing with 0 messages")
       Right(request.addServiceNavigation(createPtaServiceNavigation()))
     }
   }

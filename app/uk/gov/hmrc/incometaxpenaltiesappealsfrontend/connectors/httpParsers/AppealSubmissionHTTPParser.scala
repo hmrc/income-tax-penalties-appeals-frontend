@@ -17,14 +17,14 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers
 
 import play.api.http.Status.{CONFLICT, MULTI_STATUS, OK}
+import play.api.Logging
 import play.api.libs.json.JsSuccess
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.AppealSubmissionResponseModel
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
 
-object AppealSubmissionHTTPParser {
+object AppealSubmissionHTTPParser extends Logging {
   type AppealSubmissionResponse = Either[ErrorResponse, AppealSubmissionResponseModel]
 
   implicit object AppealSubmissionReads extends HttpReads[AppealSubmissionResponse] {
@@ -41,11 +41,11 @@ object AppealSubmissionHTTPParser {
               Left(InvalidJson)
           }
         case CONFLICT =>
-          logger.warn(s"$startOfLogging Conflict status has been returned with body: ${response.body}")
+          logger.warn(s"$startOfLogging Conflict status has been returned")
           Left(UnexpectedFailure(CONFLICT, response.body))
         case status =>
           PagerDutyHelper.logStatusCode("AppealSubmissionReads", "read", status)(RECEIVED_4XX_FROM_PENALTIES, RECEIVED_5XX_FROM_PENALTIES)
-          logger.warn(s"$startOfLogging Unexpected response, status $status returned with body: ${response.body}")
+          logger.warn(s"$startOfLogging Unexpected response, status $status returned")
           Left(UnexpectedFailure(status, response.body))
       }
     }
