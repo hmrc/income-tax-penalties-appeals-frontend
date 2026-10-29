@@ -6,6 +6,7 @@
 
 GET        /timed-out                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SessionExpiredController.onPageLoad(isAgent: Boolean = false)
 GET        /agent-timed-out                uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.SessionExpiredController.onPageLoad(isAgent: Boolean = true)
+GET        /cannot-access-service          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.NotEnrolledController.onPageLoad(isAgent: Boolean = false)
 
 GET        /logout                          uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ServiceController.logout
 GET        /keep-alive                      uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.ServiceController.keepAlive
