@@ -18,15 +18,16 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import com.google.inject.Singleton
 import play.api.Logging
-import play.api.mvc.Results.{InternalServerError, Redirect}
-import play.api.mvc._
-import uk.gov.hmrc.auth.core._
+import play.api.mvc.Results.Redirect
+import play.api.mvc.*
+import uk.gov.hmrc.auth.core.*
 import uk.gov.hmrc.auth.core.authorise.Predicate
-import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals._
+import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals.*
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledIndividual, CurrentUserRequest}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.EnrolmentUtil.{AuthReferenceExtractor, incomeTaxEnrolmentKey}
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
@@ -72,17 +73,17 @@ class AuthoriseAndRetrieveMTDIndividual @Inject()(override val authConnector: Au
             )
             case None =>
               logger.error("Auth check - User does not have an HMRC-MTD-IT enrolment")
-            // ToDo this needs updating for unenrolled error when implemented
-              errorHandler.internalServerErrorTemplate.map(html => Left(
-                InternalServerError(html)
-              ))
+              Future.successful(
+                Left(Redirect(routes.NotEnrolledController.onPageLoad()))
+              )
           }
         case _ =>
+
           logger.error("Auth check - User does not have an nino enrolment")
-          // ToDo this needs updating for user without nino error when implemented
-          errorHandler.internalServerErrorTemplate.map(html => Left(
-            InternalServerError(html)
-          ))
+          Future.successful(
+            Left(Redirect(routes.NotEnrolledController.onPageLoad()))
+          )
+
       }.recoverWith {
         case authorisationException: AuthorisationException =>
           handleAuthFailure(authorisationException, isAgent = false)(implicitly, implicitly, logger)
