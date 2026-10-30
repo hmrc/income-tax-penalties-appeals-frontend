@@ -76,7 +76,7 @@ class AuthoriseAndRetrieveMDTIndividualSpec extends AnyWordSpec with should.Matc
             "return an error" in {
               mockAuthenticatedMTDIndorOrg(affinityGroup, hasEnrolment = false)
               val result = testAction.invokeBlock(FakeRequest(),block)
-              status(result) shouldBe INTERNAL_SERVER_ERROR
+              redirectLocation(result).get should include("/cannot-access-service")
             }
           }
 
@@ -84,7 +84,7 @@ class AuthoriseAndRetrieveMDTIndividualSpec extends AnyWordSpec with should.Matc
             "return an error" in {
               mockAuthenticatedMTDIndorOrg(affinityGroup, hasNino = false)
               val result = testAction.invokeBlock(FakeRequest(),block)
-              status(result) shouldBe INTERNAL_SERVER_ERROR
+              redirectLocation(result).get should include("/cannot-access-service")
             }
           }
         }
@@ -103,7 +103,7 @@ class AuthoriseAndRetrieveMDTIndividualSpec extends AnyWordSpec with should.Matc
       "handle the failure" in {
         mockAuthenticatedWithNoMTDEnrolment()
         val result = testAction.invokeBlock(FakeRequest(),block)
-        status(result) shouldBe INTERNAL_SERVER_ERROR
+        redirectLocation(result).get should include("/cannot-access-service")
       }
     }
 
