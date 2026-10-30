@@ -648,6 +648,11 @@ unauthorised.page.bullet4 = cosbau ac apeliadau
 unauthorised.page.read.more = Darllenwch ragor am y gwahaniaeth rhwng prif asiantau ac asiantau ategol ar
 unauthorised.page.link.text = GOV.UK
 
+# No Access
+noAccess.heading = Ni allwch gael mynediad at y dudalen hon
+noAccess.p1 = Nid oes gan eich cyfrif gwasanaethau ar-lein CThEF fynediad i’r dudalen hon.
+noAccess.p2 = Gwiriwch eich bod wedi mewngofnodi gyda’r manylion mewngofnodi cywir.
+
 ## Rebrand Service Navigation
 pta.navigation.messages = Negeseuon
 pta.navigation.checkProgress = Gwirio cynnydd

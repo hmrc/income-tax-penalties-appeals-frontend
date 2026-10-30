@@ -648,6 +648,11 @@ unauthorised.page.bullet4 = penalties and appeals
 unauthorised.page.read.more = Read more about the difference between main and supporting agents on
 unauthorised.page.link.text = GOV.UK
 
+## No Access
+ noAccess.heading = You cannot access this page
+ noAccess.p1 = Your HMRC online services account does not have access to this page.
+ noAccess.p2 = Check you’re signed in with the correct sign in details.
+
 ## Rebrand Service Navigation
 pta.navigation.messages = Messages
 pta.navigation.checkProgress = Check progress
