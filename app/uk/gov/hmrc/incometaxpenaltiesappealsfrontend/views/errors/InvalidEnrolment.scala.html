@@ -27,10 +27,10 @@ p: P
 
 @(isAgent: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@layout(pageTitle = Some(messages("noAccess.heading")), isAgent = false) {
+@layout(pageTitle = Some(messages("invalidEnrolment.heading")), isAgent = false) {
 
-@h1("noAccess.heading")
-@p("noAccess.p1")
-@p("noAccess.p2")
+@h1("invalidEnrolment.heading")
+@p("invalidEnrolment.p1")
+@p("invalidEnrolment.p2")
 
 }

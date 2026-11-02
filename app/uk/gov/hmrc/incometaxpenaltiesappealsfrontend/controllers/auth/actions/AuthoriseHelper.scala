@@ -17,7 +17,7 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions
 
 import play.api.Logger
-import play.api.mvc.Results.{InternalServerError, Redirect}
+import play.api.mvc.Results.Redirect
 import play.api.mvc._
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.{AppConfig, ErrorHandler}
@@ -41,17 +41,15 @@ trait AuthoriseHelper {
         Future.successful(Redirect(routes.SessionExpiredController.onPageLoad(isAgent)))
       case insufficientEnrolments: InsufficientEnrolments if insufficientEnrolments.msg.contains(agentEnrolmentKey) =>
         logger.warn(s"Agent enrolment missing")
-        //ToDo need create not an agent page
-        errorHandler.internalServerErrorTemplate.map(html =>
-          InternalServerError(html)
-        )
+        Future.successful(Redirect(routes.InvalidEnrolmentController.onPageLoad()))
+        
       case insufficientEnrolments: InsufficientEnrolments if !isAgent=>
         logger.warn(s"Insufficient enrolments: ${insufficientEnrolments.msg}")
-        Future.successful(Redirect(routes.NotEnrolledController.onPageLoad()))
+        Future.successful(Redirect(routes.InvalidEnrolmentController.onPageLoad()))
 
       case insufficientEnrolments: InsufficientEnrolments =>
         logger.warn(s"Insufficient enrolments: ${insufficientEnrolments.msg}")
-        Future.successful(Redirect(routes.NotEnrolledController.onPageLoad()))
+        Future.successful(Redirect(routes.InvalidEnrolmentController.onPageLoad()))
 
       case authorisationException: AuthorisationException =>
         logger.error(s"Unauthorised request: ${authorisationException.reason}. Redirect to Sign In.")

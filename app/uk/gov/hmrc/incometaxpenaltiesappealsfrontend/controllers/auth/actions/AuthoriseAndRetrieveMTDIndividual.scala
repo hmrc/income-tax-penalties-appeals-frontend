@@ -74,14 +74,14 @@ class AuthoriseAndRetrieveMTDIndividual @Inject()(override val authConnector: Au
             case None =>
               logger.error("Auth check - User does not have an HMRC-MTD-IT enrolment")
               Future.successful(
-                Left(Redirect(routes.NotEnrolledController.onPageLoad()))
+                Left(Redirect(routes.InvalidEnrolmentController.onPageLoad()))
               )
           }
         case _ =>
 
           logger.error("Auth check - User does not have an nino enrolment")
           Future.successful(
-            Left(Redirect(routes.NotEnrolledController.onPageLoad()))
+            Left(Redirect(routes.InvalidEnrolmentController.onPageLoad()))
           )
 
       }.recoverWith {

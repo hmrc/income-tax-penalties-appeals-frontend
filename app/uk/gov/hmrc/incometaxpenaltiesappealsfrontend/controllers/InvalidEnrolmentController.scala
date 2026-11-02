@@ -19,16 +19,16 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.errors.NotEnrolled
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.errors.InvalidEnrolment
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import javax.inject.Inject
 
-class NotEnrolledController @Inject()(notEnrolledView: NotEnrolled,
-                                      override val controllerComponents: MessagesControllerComponents
+class InvalidEnrolmentController @Inject()(invalidEnrolmentView: InvalidEnrolment,
+                                           override val controllerComponents: MessagesControllerComponents
                                      )(implicit val appConfig: AppConfig) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(isAgent: Boolean = false): Action[AnyContent] = Action {
-    implicit request => Ok(notEnrolledView(isAgent))
+    implicit request => Ok(invalidEnrolmentView(isAgent))
   }
 }
