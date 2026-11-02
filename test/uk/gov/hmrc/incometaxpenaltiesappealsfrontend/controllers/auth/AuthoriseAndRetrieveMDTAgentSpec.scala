@@ -90,7 +90,7 @@ class AuthoriseAndRetrieveMDTAgentSpec extends AnyWordSpec with should.Matchers 
           mockAgentWithoutDelegatedEnrolment()
           mockAgentWithoutDelegatedEnrolment()
           val result = testAction.invokeBlock(authorisedAndEnrolledAgent, block)
-          status(result) shouldBe INTERNAL_SERVER_ERROR
+          redirectLocation(result).get should include("/cannot-access-service")
         }
       }
     }
