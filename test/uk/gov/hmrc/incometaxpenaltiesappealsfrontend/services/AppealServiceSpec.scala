@@ -22,8 +22,8 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.Logger
 import play.api.libs.json.Json
+import play.api.Logger
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -382,8 +382,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
               appealSubmission = lpp2Capture.value
             )(fakeRequestForCrimeJourneyMultiple))
 
-            logs.exists(_.getMessage == "MULTI_APPEAL_FAILURE Multiple appeal submission failed") shouldBe true
-            logs.exists(log => log.getMessage.contains("123456789") || log.getMessage.contains("Some issue with submission") || log.getMessage.contains("REV-5678")) shouldBe false
+            logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
+              s"LPP1 appeal was not submitted successfully, Reason given Some issue with submission. Correlation ID for LPP1: uuid-1. " +
+              s"LPP2 appeal was submitted successfully (case ID is REV-5678). Correlation ID for LPP2: uuid-2. ") shouldBe true
           }
         }
       }
@@ -456,8 +457,9 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
               appealSubmission = lpp2Capture.value
             )(fakeRequestForCrimeJourneyMultiple))
 
-            logs.exists(_.getMessage == "MULTI_APPEAL_FAILURE Multiple appeal submission failed") shouldBe true
-            logs.exists(log => log.getMessage.contains("123456789") || log.getMessage.contains("Some issue with submission") || log.getMessage.contains("REV-1234")) shouldBe false
+            logs.exists(_.getMessage == s"MULTI_APPEAL_FAILURE Multiple appeal covering 2024-01-01-2024-01-31 for user with MTDITID 123456789 failed. " +
+              s"LPP1 appeal was submitted successfully (case ID is REV-1234). Correlation ID for LPP1: uuid-1. " +
+              s"LPP2 appeal was not submitted successfully, Reason given Some issue with submission. Correlation ID for LPP2: uuid-2. ") shouldBe true
           }
         }
       }

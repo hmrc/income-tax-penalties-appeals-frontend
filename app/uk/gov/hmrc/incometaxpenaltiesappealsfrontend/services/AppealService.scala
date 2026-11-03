@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -25,8 +25,8 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Erro
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AppealSubmissionAuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
@@ -49,13 +49,13 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                                       (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[AppealData]] = {
     penaltiesConnector.getAppealsDataForPenalty(penaltyId, nino, isLPP, isAdditional).map {
       case None =>
-        logger.warn("[AppealService][validatePenaltyIdForEnrolmentKey] - Found no appeal data for penalty")
+        logger.warn(s"[AppealService][validatePenaltyIdForEnrolmentKey] - Found no appeal data for penalty ID: $penaltyId")
         None
       case Some(json) =>
         val parsedAppealDataModel = Json.fromJson(json)(AppealData.format)
         parsedAppealDataModel.fold(
-          _ => {
-            logger.warn("[AppealService][validatePenaltyIdForEnrolmentKey] - Failed to parse appeal data")
+          failure => {
+            logger.warn(s"[AppealService][validatePenaltyIdForEnrolmentKey] - Failed to parse to model with error(s): $failure")
             None
           },
           parsedModel => Some(parsedModel)
@@ -70,7 +70,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
         logger.info(s"[AppealService][validateMultiplePenaltyDataForEnrolmentKey] - Received Right with parsed model")
         Some(model)
       case Left(e) =>
-        logger.error(s"[AppealService][validateMultiplePenaltyDataForEnrolmentKey] - received an error response with status ${e.status}")
+        logger.error(s"[AppealService][validateMultiplePenaltyDataForEnrolmentKey] - received Left with error $e")
         None
     }
   }
@@ -108,7 +108,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
       case Left(error) if error.status == Status.CONFLICT =>
         logger.error(s"[AppealService][singleAppeal] - Appeal already in progress: ${error.status}")
-          Left(DuplicateAppealInProgress)
+        Left(DuplicateAppealInProgress)
 
       case Left(error) =>
         logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
@@ -140,7 +140,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     for {
       lpp1Response <- submitLPP1
       lpp2Response <- submitLPP2
-      _ = logMultipleAppeal(lpp1Response, lpp2Response)
+      _ = logMultipleAppeal(lpp1Response, lpp2Response, firstCorrelationId, secondCorrelationId)
       _ = auditSubmission(lpp1Response, PenaltyTypeEnum.Late_Payment, firstCorrelationId)
       _ = auditSubmission(lpp2Response, PenaltyTypeEnum.Additional, secondCorrelationId)
     } yield (lpp1Response, lpp2Response) match {
@@ -190,19 +190,26 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
 
   private def logMultipleAppeal(lpp1Response: Either[ErrorResponse, AppealSubmissionResponseModel],
-                                lpp2Response: Either[ErrorResponse, AppealSubmissionResponseModel]): Unit = {
-    lpp1Response match {
-      case Right(model) if model.status != OK && model.status != MULTI_STATUS => throw new MatchError("unknown lpp1 response")
-      case _ =>
-    }
-    lpp2Response match {
-      case Right(model) if model.status != OK && model.status != MULTI_STATUS => throw new MatchError("unknown lpp2 response")
-      case _ =>
-    }
-
+                                lpp2Response: Either[ErrorResponse, AppealSubmissionResponseModel],
+                                firstCorrelationId: String,
+                                secondCorrelationId: String)(implicit request: CurrentUserRequestWithAnswers[_]): Unit = {
+    logger.debug(s"[AppealService][multipleAppeal] - First penalty was $lpp1Response, second penalty was $lpp2Response")
     val isSuccess = lpp1Response.exists(_.status == OK) && lpp2Response.exists(_.status == OK)
+    val logCaseId: Option[String] => String = _.fold("")(id => s"(case ID is $id)")
     if (!isSuccess) {
-      logger.error(s"${PagerDutyKeys.MULTI_APPEAL_FAILURE} Multiple appeal submission failed")
+      val lpp1Message = lpp1Response match {
+        case Right(model) if model.status == OK => s"LPP1 appeal was submitted successfully ${logCaseId(model.caseId)}. Correlation ID for LPP1: $firstCorrelationId. "
+        case Right(model) if model.status == MULTI_STATUS => s"LPP1 appeal was submitted successfully ${logCaseId(model.caseId)} but there was an issue storing the notification for uploaded files, response body (${model.error}). Correlation ID for LPP1: $firstCorrelationId. "
+        case Left(model) => s"LPP1 appeal was not submitted successfully, Reason given ${model.body}. Correlation ID for LPP1: $firstCorrelationId. "
+        case _ => throw new MatchError(s"[AppealService][multipleAppeal] - unknown lpp1 response $lpp1Response")
+      }
+      val lpp2Message = lpp2Response match {
+        case Right(model) if model.status == OK => s"LPP2 appeal was submitted successfully ${logCaseId(model.caseId)}. Correlation ID for LPP2: $secondCorrelationId. "
+        case Right(model) if model.status == MULTI_STATUS => s"LPP2 appeal was submitted successfully ${logCaseId(model.caseId)} but there was an issue storing the notification for uploaded files, response body (${model.error}). Correlation ID for LPP2: $secondCorrelationId. "
+        case Left(model) => s"LPP2 appeal was not submitted successfully, Reason given ${model.body}. Correlation ID for LPP2: $secondCorrelationId. "
+        case _ => throw new MatchError(s"[AppealService][multipleAppeal] - unknown lpp2 response $lpp2Response")
+      }
+      logger.error(s"${PagerDutyKeys.MULTI_APPEAL_FAILURE} Multiple appeal covering ${request.periodStartDate}-${request.periodEndDate} for user with MTDITID ${request.mtdItId} failed. " + lpp1Message + lpp2Message)
     }
   }
 
