@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePena
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AppealData, PenaltyData}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UserAnswersService}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{IncomeTaxSessionKeys, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
@@ -38,7 +38,7 @@ class InitialisationController @Inject()(val authActions: AuthActions,
                                          appealService: AppealService,
                                          errorHandler: ErrorHandler,
                                          uuid: UUIDGenerator
-                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   def onPageLoad(penaltyId: String, isAgent: Boolean, isLPP: Boolean, isAdditional: Boolean, is2ndStageAppeal: Boolean): Action[AnyContent] = authActions.asMTDUser(isAgent).async { implicit user =>
     for {
@@ -48,7 +48,7 @@ class InitialisationController @Inject()(val authActions: AuthActions,
         case Some(data) =>
           storyPenaltyDataAndRedirect(penaltyId, is2ndStageAppeal, data, multiPenaltyData)
         case None =>
-          logger.warn(s"[InitialisationController][onPageLoad] No appeal data found for penaltyId: $penaltyId")
+          logger.warn("[InitialisationController][onPageLoad] No appeal data found for penalty")
           errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
       }
     } yield result
@@ -60,7 +60,7 @@ class InitialisationController @Inject()(val authActions: AuthActions,
                                           multiPenaltiesModel: Option[MultiplePenaltiesData])(implicit user: CurrentUserRequest[_]): Future[Result] = {
 
     val journeyId = uuid.generateUUID
-    logger.debug(s"[InitialisationController][onPageLoad] Starting journey for penaltyId: $penaltyId, created journeyId: $journeyId")
+    logger.debug("[InitialisationController][onPageLoad] Starting appeal journey")
 
     val answers = UserAnswers(journeyId).setAnswerForKey[PenaltyData](
       IncomeTaxSessionKeys.penaltyData,

@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
-import play.api.http.Status._
+import play.api.http.Status.*
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -25,12 +25,12 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.Erro
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.CurrentUserRequestWithAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config.FeatureSwitching
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Other
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals._
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.*
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AppealSubmissionAuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadJourney
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.JointAppealPage
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
 import play.api.http.Status
@@ -43,7 +43,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
                               upscanService: UpscanService,
                               idGenerator: UUIDGenerator,
                               auditService: AuditService
-                             )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FeatureSwitching {
+                             )(implicit timeMachine: TimeMachine, val appConfig: AppConfig) extends FeatureSwitching with Logging {
 
   def validatePenaltyIdForEnrolmentKey(penaltyId: String, isLPP: Boolean, isAdditional: Boolean, nino: String)
                                       (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[AppealData]] = {
@@ -108,7 +108,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
 
       case Left(error) if error.status == Status.CONFLICT =>
         logger.error(s"[AppealService][singleAppeal] - Appeal already in progress: ${error.status}")
-          Left(DuplicateAppealInProgress)
+        Left(DuplicateAppealInProgress)
 
       case Left(error) =>
         logger.error(s"[AppealService][singleAppeal] - Received unknown status code from connector: ${error.status}")
@@ -116,7 +116,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }.recover {
     case e =>
-      logger.error(s"[AppealService][singleAppeal] - An unknown error occurred, error message: ${e.getMessage}")
+      logger.error(s"[AppealService][singleAppeal] - An unknown error occurred, exception type: ${e.getClass.getSimpleName}")
       Left(UnexpectedFailedFuture(e))
   }
 
@@ -161,7 +161,7 @@ class AppealService @Inject()(penaltiesConnector: PenaltiesConnector,
     }
   }.recover {
     case e =>
-      logger.error(s"[AppealService][multipleAppeal] - An unknown error occurred, error message: ${e.getMessage}")
+      logger.error(s"[AppealService][multipleAppeal] - An unknown error occurred, exception type: ${e.getClass.getSimpleName}")
       Left(UnexpectedFailedFuture(e))
   }
 

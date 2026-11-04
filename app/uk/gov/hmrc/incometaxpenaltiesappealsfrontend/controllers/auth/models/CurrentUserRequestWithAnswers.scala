@@ -25,7 +25,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.Ber
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.{AgentClientEnum, PenaltyData, RequestWithNavBar, ReviewMoreThan30DaysEnum}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.*
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 
 import java.time.LocalDate
@@ -36,7 +36,7 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
                                             override val navBar: Option[Html] = None,
                                             userAnswers: UserAnswers,
                                             penaltyData: PenaltyData,
-                                            serviceNavigationPartial: Option[ServiceNavigation])(implicit val request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar {
+                                            serviceNavigationPartial: Option[ServiceNavigation])(implicit val request: Request[A]) extends WrappedRequest[A](request) with RequestWithNavBar with Logging {
 
   val journeyId: String = userAnswers.journeyId
   val isAgent: Boolean = arn.isDefined
@@ -66,8 +66,8 @@ case class CurrentUserRequestWithAnswers[A](mtdItId: String,
     userAnswers.getAnswer(page) match {
       case Some(value) => value
       case None =>
-        logger.error(s"[AppealSubmission][mandatoryAnswer] Missing mandatory answer for page key ${page.key}, mtditid: $mtdItId")
-        throw new NoSuchFieldError(s"Missing mandatory answer for page key ${page.key}, mtditid: $mtdItId")
+        logger.error(s"[AppealSubmission][mandatoryAnswer] Missing mandatory answer for page key ${page.key}")
+        throw new NoSuchFieldError(s"Missing mandatory answer for page key ${page.key}")
     }
 
   def lateAppealDays()(implicit appConfig: AppConfig): Int =

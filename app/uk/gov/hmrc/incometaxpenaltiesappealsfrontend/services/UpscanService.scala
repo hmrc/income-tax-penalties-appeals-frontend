@@ -16,14 +16,13 @@
 
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services
 
-import play.api.libs.json.Json
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.repositories.FileUploadJourneyRepository
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ExceptionHandlingUtil, TimeMachine}
 
@@ -34,7 +33,7 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
                               uploadRepo: FileUploadJourneyRepository,
                               appConfig: AppConfig,
                               timeMachine: TimeMachine)
-                             (implicit ec: ExecutionContext) extends ExceptionHandlingUtil {
+                             (implicit ec: ExecutionContext) extends ExceptionHandlingUtil with Logging {
 
   def initiateNewFileUpload(journeyId: String, isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode)(implicit hc: HeaderCarrier): Future[UpscanInitiateResponse] =
     withExceptionHandling(
@@ -64,8 +63,8 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
       identifiers = Map("journeyId" -> journeyId, "fileReference" -> uploadJourney.reference),
       pagerDutyTriggerKey = Some(FAILED_UPSERT_FILE_UPSCAN)
     ) {
-      uploadRepo.upsertFileUpload(journeyId, uploadJourney).map { cacheItem =>
-        logger.debug(s"[UpscanService][upsertFileUpload] Upserted file for journeyId: $journeyId, JSON:\n\n" + Json.toJson(cacheItem.data))
+      uploadRepo.upsertFileUpload(journeyId, uploadJourney).map { _ =>
+        logger.debug(s"[UpscanService][upsertFileUpload] Upserted file for journeyId: $journeyId")
         uploadJourney
       }
     }
@@ -74,7 +73,7 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
     withExceptionHandling("getFile", Map("journeyId" -> journeyId, "fileReference" -> fileReference)) {
       uploadRepo.getFile(journeyId, fileReference).map {
         case Some(file) =>
-          logger.debug(s"[UpscanService][getFile] Found a file for journeyId: $journeyId and fileReference: $fileReference, JSON:\n\n" + Json.toJson(file))
+          logger.debug(s"[UpscanService][getFile] Found a file for journeyId: $journeyId and fileReference: $fileReference")
           Some(file)
         case None =>
           logger.debug(s"[UpscanService][getFile] No file found for journeyId: $journeyId and fileReference: $fileReference")
@@ -85,14 +84,14 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
   def getAllFiles(journeyId: String): Future[Seq[UploadJourney]] =
     withExceptionHandling("getAllFiles", Map("journeyId" -> journeyId)) {
       uploadRepo.getAllFiles(journeyId).map { files =>
-        logger.debug(s"[UpscanService][getAllFiles] Found ${files.size} files for journeyId: $journeyId\n" + Json.toJson(files))
+        logger.debug(s"[UpscanService][getAllFiles] Found ${files.size} files for journeyId: $journeyId")
         files
       }
     }
 
   def getAllReadyFiles(journeyId: String): Future[Seq[UploadJourney]] =
     getAllFiles(journeyId).map(_.filter(_.fileStatus == UploadStatusEnum.READY)).map { files =>
-      logger.debug(s"[UpscanService][getAllReadyFiles] Found ${files.size} with status ${UploadStatusEnum.READY} files for journeyId: $journeyId\n" + Json.toJson(files))
+      logger.debug(s"[UpscanService][getAllReadyFiles] Found ${files.size} with status ${UploadStatusEnum.READY} files for journeyId: $journeyId")
       files
     }
 
@@ -119,7 +118,7 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
           logger.debug(s"[UpscanService][getStatusOfFileUpload] File upload status '${upload.fileStatus}' for journeyId: $journeyId and fileReference: $fileReference")
           UploadStatus(upload.fileStatus.toString)
         } { failure =>
-          logger.debug(s"[UpscanService][getStatusOfFileUpload] File upload failed reason '${failure.failureReason}' for journeyId: $journeyId and fileReference: $fileReference with message: " + failure.message)
+          logger.debug(s"[UpscanService][getStatusOfFileUpload] File upload failed reason '${failure.failureReason}' for journeyId: $journeyId and fileReference: $fileReference")
           UploadStatus(failure.failureReason.toString, Some(failure.message))
         }
       })
@@ -128,7 +127,7 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
   def reinitialiseFileAndReturnFormFields(journeyId: String, fileReference: String): Future[Option[UploadFormFields]] =
     getFile(journeyId, fileReference).flatMap{
       case Some(uploadJourney) if uploadJourney.uploadFields.isDefined =>
-        logger.debug(s"[UpscanService][getFormFieldsForFile] Form fields for journeyId: $journeyId and fileReference: $fileReference\n\n" + uploadJourney.uploadFields.map("\n" + _))
+        logger.debug(s"[UpscanService][getFormFieldsForFile] Retrieved form fields for journeyId: $journeyId and fileReference: $fileReference")
         val resetUploadJourney = uploadJourney.copy(
           fileStatus = UploadStatusEnum.WAITING,
           failureDetails = None,
@@ -169,7 +168,7 @@ class UpscanService @Inject()(upscanConnector: UpscanInitiateConnector,
       pagerDutyTriggerKey = Some(FILE_NAME_RETRIEVAL_FAILURE_UPSCAN)
     ) {
       getFile(journeyId, fileReference).map(_.flatMap(_.uploadDetails.map(_.fileName))).map { fileName =>
-        if (fileName.isDefined) logger.debug(s"[UpscanService][getFileNameForJourney] File name: ${fileName.get}, for journeyId: $journeyId and fileReference: $fileReference")
+        if (fileName.isDefined) logger.debug(s"[UpscanService][getFileNameForJourney] Retrieved file name for journeyId: $journeyId and fileReference: $fileReference")
         fileName
       }
     }

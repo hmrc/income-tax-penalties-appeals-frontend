@@ -18,12 +18,12 @@ package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.config
 
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.featureswitch.core.models.{CheckboxFeatureSwitch, FeatureSwitch}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-trait FeatureSwitching {
+trait FeatureSwitching extends Logging {
 
   val appConfig: AppConfig
 

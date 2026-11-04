@@ -28,7 +28,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.Mode
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UploadStatusEnum.{FAILED, READY, WAITING}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.{UploadFormFields, UploadJourney}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UpscanService
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.upscan.NonJsFileUploadView
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.routes.ExtraEvidenceController
 
@@ -41,7 +41,7 @@ class UpscanInitiateController @Inject()(nonJsFileUpload: NonJsFileUploadView,
                                          actor: ActorSystem,
                                          override val errorHandler: ErrorHandler,
                                          override val controllerComponents: MessagesControllerComponents
-                                        )(implicit ec: ExecutionContext, appConfig: AppConfig) extends BaseUserAnswersController {
+                                        )(implicit ec: ExecutionContext, appConfig: AppConfig) extends BaseUserAnswersController with Logging {
 
   def onPageLoad(key: Option[String], errorCode: Option[String], isAgent: Boolean, is2ndStageAppeal: Boolean, mode: Mode): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     val form = UploadDocumentForm.form

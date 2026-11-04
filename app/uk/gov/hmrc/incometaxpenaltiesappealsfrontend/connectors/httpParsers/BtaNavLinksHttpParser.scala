@@ -20,30 +20,29 @@ import play.api.http.Status._
 import play.api.libs.json.{JsError, JsSuccess}
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.NavContent
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys.{INVALID_JSON_RECEIVED_FROM_BTA, RECEIVED_4XX_FROM_BTA, RECEIVED_5XX_FROM_BTA}
 
 trait BtaNavLinksHttpParser {
 
-  implicit object BtaNavLinksReads extends HttpReads[Option[NavContent]] {
+  implicit object BtaNavLinksReads extends HttpReads[Option[NavContent]] with Logging {
     override def read(method: String, url: String, response: HttpResponse): Option[NavContent] =
       response.status match {
         case OK =>
-          logger.debug(s"[BtaNavLinksReads][read] Successful call to retrieve BTA Nav Links. Response: \n\n ${response.json}")
+          logger.debug(s"[BtaNavLinksReads][read] Successful call to retrieve BTA Nav Links.")
           response.json.validateOpt[NavContent] match {
             case JsSuccess(navLinks, _) =>
               navLinks
             case JsError(errors) =>
               PagerDutyHelper.log("BtaNavLinksReads", "read", INVALID_JSON_RECEIVED_FROM_BTA)
-              logger.debug(s"[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model - failures: $errors")
+              logger.debug(s"[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model")
               logger.error("[BtaNavLinksReads][read] Failed to parse response from BTA to NavLinks model, returning None to continue gracefully")
               None
           }
         case status =>
           PagerDutyHelper.logStatusCode("BtaNavLinksReads", "read", status)(RECEIVED_4XX_FROM_BTA, RECEIVED_5XX_FROM_BTA)
-          logger.error(s"[BtaNavLinksReads][read] Received unexpected response when calling BTA for NavLinks" +
-            s", status code: $status and body: ${response.body}, returning None to continue gracefully")
+          logger.error(s"[BtaNavLinksReads][read] Received unexpected response when calling BTA for NavLinks, status code: $status; returning None to continue gracefully")
           None
       }
   }

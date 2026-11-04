@@ -22,7 +22,7 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.actions.Au
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.DuplicateAppealError
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.pages.{AppealConfirmationPage, ReasonableExcusePage}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.{AppealService, UpscanService, UserAnswersService}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.requiredAnswers.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.views.html.*
@@ -39,7 +39,7 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
                                            userAnswersService: UserAnswersService,
                                            override val errorHandler: ErrorHandler,
                                            override val controllerComponents: MessagesControllerComponents,
-                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig, val tm: TimeMachine) extends BaseUserAnswersController {
+                                          )(implicit ec: ExecutionContext, val appConfig: AppConfig, val tm: TimeMachine) extends BaseUserAnswersController with Logging {
 
   def onPageLoad(isAgent: Boolean): Action[AnyContent] = authActions.asMTDUserWithUserAnswers(isAgent).async { implicit user =>
     upscanService.getAllReadyFiles(user.journeyId).map { uploadedFiles =>
@@ -55,7 +55,7 @@ class CheckYourAnswersController @Inject()(checkYourAnswers: CheckYourAnswersVie
       withAnswer(ReasonableExcusePage) { reasonableExcuse =>
         appealService.submitAppeal(reasonableExcuse).flatMap(_.fold(
           status => {
-            logger.error(s"[CheckYourAnswersController][submit] Received error status '$status' when submitting appeal for MTDITID: ${user.mtdItId}, journey: ${user.journeyId}")
+            logger.error(s"[CheckYourAnswersController][submit] Received error status '$status' when submitting appeal")
             status match {
               case _: DuplicateAppealError =>
                 Future.successful(Redirect(routes.DuplicateAppealController.onPageLoad(isAgent = user.isAgent)))

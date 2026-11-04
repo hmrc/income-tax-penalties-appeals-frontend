@@ -23,7 +23,7 @@ import org.mongodb.scala.result.DeleteResult
 import play.api.libs.json.Format
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.UserAnswers
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.TimeMachine
 import uk.gov.hmrc.mongo.MongoComponent
 import uk.gov.hmrc.mongo.play.json.PlayMongoRepository
@@ -39,7 +39,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class UserAnswersRepository @Inject()(mongo: MongoComponent,
                                       appConfig: AppConfig,
                                       timeMachine: TimeMachine)
-                                     (implicit ec: ExecutionContext) extends PlayMongoRepository[UserAnswers](
+                                     (implicit ec: ExecutionContext) extends PlayMongoRepository[UserAnswers] (
   collectionName = "user-answers",
   mongoComponent = mongo,
   domainFormat = UserAnswers.format,
@@ -56,7 +56,7 @@ class UserAnswersRepository @Inject()(mongo: MongoComponent,
         .name("user-answers-last-updated-index")
         .expireAfter(appConfig.mongoTTL.toSeconds, TimeUnit.SECONDS)
     )
-  )) {
+  )) with Logging {
 
   implicit val instantFormat: Format[Instant] = MongoJavatimeFormats.instantFormat
 
@@ -71,7 +71,7 @@ class UserAnswersRepository @Inject()(mongo: MongoComponent,
       ).toFuture().map(_.wasAcknowledged())
       .recover {
         case e => {
-          logger.error(s"[UserAnswersRepository][upsertUserAnswer] - Failed to insert or update data with message: ${e.getMessage}")
+          logger.error(s"[UserAnswersRepository][upsertUserAnswer] - Failed to insert or update data, exception type: ${e.getClass.getSimpleName}")
           false
         }
       }

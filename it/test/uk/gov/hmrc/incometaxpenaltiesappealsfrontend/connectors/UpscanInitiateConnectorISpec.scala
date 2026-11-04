@@ -17,13 +17,13 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
 import fixtures.FileUploadFixtures
+import play.api.Logger
 import play.api.http.Status.{BAD_REQUEST, INTERNAL_SERVER_ERROR}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.{BadRequest, InvalidJson, UnexpectedFailure}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.upscan.UpscanInitiateConnector
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.stubs.UpscanStub
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, WiremockMethods}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -35,6 +35,7 @@ class UpscanInitiateConnectorISpec extends ComponentSpecHelper with LogCapturing
   with FileUploadFixtures {
 
   val connector: UpscanInitiateConnector = app.injector.instanceOf[UpscanInitiateConnector]
+  private val logger = Logger("uk.gov.hmrc.incometaxpenaltiesappealsfrontend")
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global

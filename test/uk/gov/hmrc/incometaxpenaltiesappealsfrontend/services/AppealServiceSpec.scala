@@ -23,6 +23,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
+import play.api.Logger
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
@@ -34,7 +35,6 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.submission.OtherAppealInformation
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.audit.AppealSubmissionAuditModel
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.mocks.{MockAuditService, MockUpscanService}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{TimeMachine, UUIDGenerator}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
 
@@ -46,6 +46,8 @@ class AppealServiceSpec extends AnyWordSpec with Matchers with MockFactory with 
   with MockUpscanService
   with MockAuditService
   with FileUploadFixtures {
+
+  private val logger = Logger(classOf[AppealService])
 
   val mockPenaltiesConnector: PenaltiesConnector = mock[PenaltiesConnector]
   val mockTimeMachine: TimeMachine = mock[TimeMachine]

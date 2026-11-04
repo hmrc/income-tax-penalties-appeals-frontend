@@ -20,11 +20,11 @@ import play.api.http.Status.{BAD_REQUEST, OK}
 import play.api.libs.json.JsSuccess
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.upscan.UpscanInitiateResponse
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys.{INVALID_JSON_RECEIVED_FROM_UPSCAN, RECEIVED_4XX_FROM_UPSCAN, RECEIVED_5XX_FROM_UPSCAN}
 
-trait UpscanInitiateHttpParser {
+trait UpscanInitiateHttpParser extends Logging {
 
   def read(journeyId: String): HttpReads[Either[ErrorResponse, UpscanInitiateResponse]] =
     (_: String, _: String, response: HttpResponse) =>
@@ -37,7 +37,7 @@ trait UpscanInitiateHttpParser {
               Left(InvalidJson)
           }
         case BAD_REQUEST =>
-          logger.debug(s"[UpScanInitiateResponseReads][read] Bad request returned with reason: ${response.body}")
+          logger.debug("[UpScanInitiateResponseReads][read] Bad request returned")
           PagerDutyHelper.log("UpscanInitiateHttpParser", "read", RECEIVED_4XX_FROM_UPSCAN, Map("journeyId" -> journeyId))
           Left(BadRequest)
         case status =>

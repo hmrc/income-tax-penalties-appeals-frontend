@@ -21,14 +21,14 @@ import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.config.AppConfig
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors.httpParsers.BtaNavLinksHttpParser
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.btaNavBar.NavContent
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class BtaNavLinksConnector @Inject()(val http: HttpClientV2,
-                                     val config: AppConfig) extends BtaNavLinksHttpParser {
+                                     val config: AppConfig) extends BtaNavLinksHttpParser with Logging {
 
   def getBtaNavLinks()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[NavContent]] = {
     implicit val hcwc: HeaderCarrier = hc.copy(extraHeaders = hc.headers(Seq(play.api.http.HeaderNames.COOKIE)))

@@ -17,11 +17,11 @@
 package uk.gov.hmrc.incometaxpenaltiesappealsfrontend.connectors
 
 import fixtures.BtaNavContentFixture
+import play.api.Logger
 import play.api.http.Status.{BAD_REQUEST, INTERNAL_SERVER_ERROR}
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.{ComponentSpecHelper, WiremockMethods}
 import uk.gov.hmrc.play.bootstrap.tools.LogCapturing
@@ -31,6 +31,7 @@ import scala.concurrent.ExecutionContext
 class BtaNavLinkConnectorISpec extends ComponentSpecHelper with LogCapturing with WiremockMethods with BtaNavContentFixture {
 
   val connector: BtaNavLinksConnector = app.injector.instanceOf[BtaNavLinksConnector]
+  private val logger = Logger("uk.gov.hmrc.incometaxpenaltiesappealsfrontend")
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global

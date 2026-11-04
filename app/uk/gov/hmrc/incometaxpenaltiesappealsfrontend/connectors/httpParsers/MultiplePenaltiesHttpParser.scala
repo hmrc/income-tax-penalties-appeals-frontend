@@ -20,12 +20,12 @@ import play.api.http.Status._
 import play.api.libs.json.JsSuccess
 import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.PagerDutyHelper.PagerDutyKeys._
 
 
-object MultiplePenaltiesHttpParser {
+object MultiplePenaltiesHttpParser  extends Logging {
   type MultiplePenaltiesResponse = Either[ErrorResponse, MultiplePenaltiesData]
 
 
@@ -46,7 +46,7 @@ object MultiplePenaltiesHttpParser {
           logger.debug(s"$startOfLogging $NO_CONTENT returned from penalties backend")
           Left(NoContent)
         case CONFLICT =>
-          logger.warn(s"$startOfLogging Conflict status has been returned with body: ${response.body}")
+          logger.warn(s"$startOfLogging Conflict status has been returned")
           Left(UnexpectedFailure(CONFLICT, response.body))
         case status =>
           PagerDutyHelper.logStatusCode("MultiplePenaltiesResponseReads", "read", status)(RECEIVED_4XX_FROM_PENALTIES, RECEIVED_5XX_FROM_PENALTIES)

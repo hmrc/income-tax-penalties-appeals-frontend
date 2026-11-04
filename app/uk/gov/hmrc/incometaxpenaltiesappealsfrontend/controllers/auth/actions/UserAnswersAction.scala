@@ -25,19 +25,19 @@ import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.PenaltyData.*
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.services.UserAnswersService
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.IncomeTaxSessionKeys
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.utils.Logger.logger
+import play.api.Logging
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class UserAnswersAction @Inject()(sessionService: UserAnswersService,
                                   errorHandler: ErrorHandler)
-                                 (implicit val executionContext: ExecutionContext) extends ActionRefiner[CurrentUserRequest, CurrentUserRequestWithAnswers] {
+                                 (implicit val executionContext: ExecutionContext) extends ActionRefiner[CurrentUserRequest, CurrentUserRequestWithAnswers] with Logging {
 
   override protected def refine[A](request: CurrentUserRequest[A]): Future[Either[Result, CurrentUserRequestWithAnswers[A]]] = {
     request.session.get(IncomeTaxSessionKeys.journeyId).fold[Future[Either[Result, CurrentUserRequestWithAnswers[A]]]](
       {
-        logger.warn(s"[DataRetrievalAction][refine] No journey ID was found in the session for MTDITID: ${request.mtdItId}")
+        logger.warn("[DataRetrievalAction][refine] No journey ID was found in the session")
         Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
       }
 
@@ -56,16 +56,16 @@ class UserAnswersAction @Inject()(sessionService: UserAnswersService,
                   Future(Right(CurrentUserRequestWithAnswers(storedAnswers, penaltyData)(request)))
                 }
               case None =>
-                logger.warn(s"[DataRetrievalActionImpl][refine] No Penalty Appeal Data found in User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
+                logger.warn("[DataRetrievalActionImpl][refine] No Penalty Appeal Data found in User Answers")
                 Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
 
             }
           case None =>
-            logger.warn(s"[DataRetrievalActionImpl][refine] No User Answers found for MTDITID: ${request.mtdItId}, journey ID: $journeyId")
+            logger.warn("[DataRetrievalActionImpl][refine] No User Answers found")
             Future.successful(Left(Redirect(PageNotFoundController.onPageLoad(isAgent = request.isAgent))))
         }.recoverWith {
           case e =>
-            logger.error(s"[DataRetrievalActionImpl][refine] Failed to query mongo for journey data with message: ${e.getMessage}")
+            logger.error(s"[DataRetrievalActionImpl][refine] Failed to query mongo for journey data, exception type: ${e.getClass.getSimpleName}")
             errorHandler.internalServerErrorTemplate(request).map(page => Left(InternalServerError(page)))
         }
       }
