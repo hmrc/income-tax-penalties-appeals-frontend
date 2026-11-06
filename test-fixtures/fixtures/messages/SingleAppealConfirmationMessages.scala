@@ -35,13 +35,13 @@ object SingleAppealConfirmationMessages {
   object English extends Messages with En
 
   object Welsh extends Messages with Cy {
-    override val headingAndTitle = "The appeal will cover a single penalty (Welsh)"
-    override def p1_LPP1(amount: BigDecimal): String = s"You have chosen to appeal the £${CurrencyFormatter.uiFormat(amount)} first penalty for late payment. (Welsh)"
-    override def p1_LPP2(amount: BigDecimal): String = s"You have chosen to appeal the £${CurrencyFormatter.uiFormat(amount)} second penalty for late payment. (Welsh)"
-    override val p2 = "You can still appeal other penalties separately. (Welsh)"
-    override val headingAndTitleReview = "This review will cover a single penalty (Welsh)"
-    override def p1_LPP1Review(amount: BigDecimal): String = s"You have asked for the appeal decision for the £${CurrencyFormatter.uiFormat(amount)} first late payment penalty to be reviewed. (Welsh)"
-    override def p1_LPP2Review(amount: BigDecimal): String = s"You have asked for the appeal decision for the £${CurrencyFormatter.uiFormat(amount)} second late payment penalty to be reviewed. (Welsh)"
-    override val p2Review = "You can still ask for other penalties to be reviewed separately. (Welsh)"
+    override val headingAndTitle = "Bydd yr apêl yn delio ag un gosb unigol"
+    override def p1_LPP1(amount: BigDecimal): String = s"Rydych wedi penderfynu apelio yn erbyn y gosb gyntaf am dalu’n hwyr, sef £${CurrencyFormatter.uiFormat(amount)}."
+    override def p1_LPP2(amount: BigDecimal): String = s"Rydych wedi penderfynu apelio yn erbyn yr ail gosb am dalu’n hwyr, sef £${CurrencyFormatter.uiFormat(amount)}."
+    override val p2 = "Gallwch ddal i apelio yn erbyn cosbau eraill ar wahân."
+    override val headingAndTitleReview = "Bydd yr adolygiad hwn yn delio ag un gosb unigol"
+    override def p1_LPP1Review(amount: BigDecimal): String = s"Rydych wedi gofyn am adolygiad o benderfyniad ynghylch y gosb gyntaf am dalu’n hwyr, sef £${CurrencyFormatter.uiFormat(amount)}."
+    override def p1_LPP2Review(amount: BigDecimal): String = s"Rydych wedi gofyn am adolygiad o benderfyniad ynghylch yr ail gosb am dalu’n hwyr, sef £${CurrencyFormatter.uiFormat(amount)}."
+    override val p2Review = "Gallwch ddal ofyn am adolygiadau o benderfyniadau eraill ar wahân."
   }
 }
