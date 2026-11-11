@@ -91,18 +91,6 @@ POST       /when-did-the-person-die/check                     uk.gov.hmrc.income
 GET        /agent-when-did-the-person-die/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true, mode: Mode = CheckMode)
 POST       /agent-when-did-the-person-die/check               uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Bereavement, isAgent:Boolean = true, mode: Mode = CheckMode)
 
-# TBC cessation
-GET        /cessation                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = NormalMode)
-POST       /cessation                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = NormalMode)
-
-GET        /agent-cessation                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = NormalMode)
-POST       /agent-cessation                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = NormalMode)
-
-GET        /cessation/check                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = CheckMode)
-POST       /cessation/check                                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = false, mode: Mode = CheckMode)
-
-GET        /agent-cessation/check                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = CheckMode)
-POST       /agent-cessation/check                             uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.submit(reasonableExcuse: ReasonableExcuse = Cessation, isAgent:Boolean = true, mode: Mode = CheckMode)
 
 # When did the crime happen
 GET        /when-did-the-crime-happen                   uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.WhenDidEventHappenController.onPageLoad(reasonableExcuse: ReasonableExcuse = Crime, isAgent:Boolean = false, mode: Mode = NormalMode)

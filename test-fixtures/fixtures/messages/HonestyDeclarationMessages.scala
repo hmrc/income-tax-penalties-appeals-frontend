@@ -26,7 +26,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val confirmParagraph:String = "I confirm that:"
     
     val bereavementMessageLSP: String = "because I was affected by someone’s death, I was not able to send the submission due on 1 January 2022"
-    val cessationMessageLSP: String = "TBC cessation - I was not able to send the submission due on 1 January 2022"
     val crimeMessageLSP: String = "because I was affected by a crime, I was not able to send the submission due on 1 January 2022"
     val fireOrFloodReasonMessageLSP: String = "because of a fire or flood, I was not able to send the submission due on 1 January 2022"
     val healthMessageLSP: String = "because of a serious or life-threatening health issue, I was not able to send the submission due on 1 January 2022"
@@ -35,7 +34,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val otherMessageLSP: String = "I was not able to send the submission due on 1 January 2022"
 
     val bereavementMessageLPP: String = "because I was affected by someone’s death, I was not able to make the payment due on 1 January 2022"
-    val cessationMessageLPP: String = "TBC cessation - I was not able to make the payment due on 1 January 2022"
     val crimeMessageLPP: String = "because I was affected by a crime, I was not able to make the payment due on 1 January 2022"
     val fireOrFloodReasonMessageLPP: String = "because of a fire or flood, I was not able to make the payment due on 1 January 2022"
     val healthMessageLPP: String = "because of a serious or life-threatening health issue, I was not able to make the payment due on 1 January 2022"
@@ -44,7 +42,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val otherMessageLPP: String = "I was not able to make the payment due on 1 January 2022"
 
     val agentBereavementMessageLPP: String = "because my client was affected by someone’s death, they were not able to make the payment due on 1 January 2022"
-    val agentCessationMessageLPP: String = "TBC cessation - they were not able to make the payment due on 1 January 2022"
     val agentCrimeMessageLPP: String = "because my client was affected by a crime, they were not able to make the payment due on 1 January 2022"
     val agentFireOrFloodReasonMessageLPP: String = "because my client was affected by a fire or flood, they were not able to make the payment due on 1 January 2022"
     val agentHealthMessageLPP: String = "because my client had a serious or life-threatening health issue, they were not able to make the payment due on 1 January 2022"
@@ -53,7 +50,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val agentOtherMessageLPP: String = "my client was not able to make the payment due on 1 January 2022"
 
     val clientPlannedBereavementMessageLSP: String = "because my client was affected by someone’s death, they were not able to send the submission due on 1 January 2022"
-    val clientPlannedCessationMessageLSP: String = "TBC cessation - they were not able to send the submission due on 1 January 2022"
     val clientPlannedCrimeMessageLSP: String = "because my client was affected by a crime, they were not able to send the submission due on 1 January 2022"
     val clientPlannedFireOrFloodReasonMessageLSP: String = "because of a fire or flood, my client was not able to send the submission due on 1 January 2022"
     val clientPlannedHealthMessageLSP: String = "because my client had a serious or life-threatening health issue, they were not able to send the submission due on 1 January 2022"
@@ -62,7 +58,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val clientPlannedOtherMessageLSP: String = "my client was not able to send the submission due on 1 January 2022"
     
     val agentPlannedClientAffectedBereavementMessageLSP: String = "because my client was affected by someone’s death, I was not able to send the submission due on 1 January 2022"
-    val agentPlannedClientAffectedCessationMessageLSP: String = "TBC cessation - I was not able to send the submission due on 1 January 2022"
     val agentPlannedClientAffectedCrimeMessageLSP: String = "because my client was affected by a crime, I was not able to send the submission due on 1 January 2022"
     val agentPlannedClientAffectedFireOrFloodReasonMessageLSP: String = "because my client was affected by a fire or flood, I was not able to send the submission due on 1 January 2022"
     val agentPlannedClientAffectedHealthMessageLSP: String = "because my client had a serious or life-threatening health issue, I was not able to send the submission due on 1 January 2022"
@@ -71,7 +66,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     val agentPlannedClientAffectedOtherMessageLSP: String = "because of an issue affecting my client, I was not able to send the submission due on 1 January 2022"
     
     val agentPlannedAgentAffectedBereavementMessageLSP: String = "because I was affected by someone’s death, I was not able to send the submission due on 1 January 2022"
-    val agentPlannedAgentAffectedCessationMessageLSP: String = "TBC cessation - I was not able to send the submission due on 1 January 2022"
     val agentPlannedAgentAffectedCrimeMessageLSP: String = "because I was affected by a crime, I was not able to send the submission due on 1 January 2022"
     val agentPlannedAgentAffectedFireOrFloodReasonMessageLSP: String = "because of a fire or flood, I was not able to send the submission due on 1 January 2022"
     val agentPlannedAgentAffectedHealthMessageLSP: String = "because of a serious or life-threatening health issue, I was not able to send the submission due on 1 January 2022"
@@ -94,7 +88,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val confirmParagraph:String = "Rwy’n cadarnhau’r canlynol:"
     
     override val bereavementMessageLSP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
-    override val cessationMessageLSP: String = "TBC cessation - I was not able to send the submission due on 1 January 2022 (Welsh)"
     override val crimeMessageLSP: String = "oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val fireOrFloodReasonMessageLSP: String = "oherwydd tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val healthMessageLSP: String = "oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
@@ -103,7 +96,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val otherMessageLSP: String = "nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
 
     override val bereavementMessageLPP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi dalu erbyn y dyddiad cau, 1 Ionawr 2022"
-    override val cessationMessageLPP: String = "TBC cessation - I was not able to make the payment due on 1 January 2022 (Welsh)"
     override val crimeMessageLPP: String = "oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi dalu erbyn y dyddiad cau, 1 Ionawr 2022"
     override val fireOrFloodReasonMessageLPP: String = "oherwydd tân neu lifogydd, nid oedd modd i mi dalu erbyn y dyddiad cau, 1 Ionawr 2022"
     override val healthMessageLPP: String = "oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi dalu erbyn y dyddiad cau, 1 Ionawr 2022"
@@ -112,7 +104,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val otherMessageLPP: String = "nid oedd modd i mi dalu erbyn y dyddiad cau, 1 Ionawr 2022"
 
     override val agentBereavementMessageLPP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, 1 Ionawr 2022"
-    override val agentCessationMessageLPP: String = "TBC cessation - they were not able to make the payment due on 1 January 2022 (Welsh)"
     override val agentCrimeMessageLPP: String = "oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentFireOrFloodReasonMessageLPP: String = "oherwydd bod tân neu lifogydd wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentHealthMessageLPP: String = "oherwydd bod gan fy nghleient salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd iddo dalu erbyn y dyddiad cau, 1 Ionawr 2022"
@@ -121,7 +112,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val agentOtherMessageLPP: String = "nid oedd modd i fy nghleient dalu erbyn y dyddiad cau, 1 Ionawr 2022"
 
     override val clientPlannedBereavementMessageLSP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
-    override val clientPlannedCessationMessageLSP: String = "TBC cessation - they were not able to send the submission due on 1 January 2022 (Welsh)"
     override val clientPlannedCrimeMessageLSP: String = "oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val clientPlannedFireOrFloodReasonMessageLSP: String = "oherwydd tân neu lifogydd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val clientPlannedHealthMessageLSP: String = "oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
@@ -130,7 +120,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val clientPlannedOtherMessageLSP: String = "nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     
     override val agentPlannedClientAffectedBereavementMessageLSP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
-    override val agentPlannedClientAffectedCessationMessageLSP: String = "TBC cessation - I was not able to send the submission due on 1 January 2022 (Welsh)"
     override val agentPlannedClientAffectedCrimeMessageLSP: String = "oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentPlannedClientAffectedFireOrFloodReasonMessageLSP: String = "oherwydd bod tân neu lifogydd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentPlannedClientAffectedHealthMessageLSP: String = "oherwydd bod gan fy nghleient salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
@@ -138,7 +127,6 @@ object HonestyDeclarationMessages extends BaseFixtures {
     override val agentPlannedClientAffectedUnexpectedHospitalMessageLSP: String = "oherwydd bod fy nghleient wedi aros yn yr ysbyty yn annisgwyl, nid oedd modd iddo dalu erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentPlannedClientAffectedOtherMessageLSP: String = "oherwydd bod fy nghleient wedi wynebu problem, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentPlannedAgentAffectedBereavementMessageLSP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
-    override val agentPlannedAgentAffectedCessationMessageLSP: String = "TBC cessation - I was not able to send the submission due on 1 January 2022 (Welsh)"
     override val agentPlannedAgentAffectedCrimeMessageLSP: String = "oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentPlannedAgentAffectedFireOrFloodReasonMessageLSP: String = "oherwydd tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"
     override val agentPlannedAgentAffectedHealthMessageLSP: String = "oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, 1 Ionawr 2022"

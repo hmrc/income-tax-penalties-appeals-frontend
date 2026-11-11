@@ -55,7 +55,6 @@ reasonableExcuses.headingAndTitleSubmissions = Beth oedd y rheswm dros fethu’r
 reasonableExcuses.headingAndTitlePayments = Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer talu?
 reasonableExcuses.hintText = Dewiswch un rheswm. Os oes mwy nag un rheswm yn berthnasol, dewiswch y prif reswm dros fethu’r dyddiad cau.
 reasonableExcuses.bereavement = Profedigaeth (roedd rhywun wedi marw)
-reasonableExcuses.cessation = Cessation of income source (Welsh)
 reasonableExcuses.crime = Trosedd
 reasonableExcuses.fireandflood = Tân neu lifogydd
 reasonableExcuses.health = Salwch difrifol neu salwch a oedd yn berygl i fywyd
@@ -94,10 +93,6 @@ clientSubmitted.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth 
 clientSubmitted.honestyDeclaration.li.bereavement.lpp = oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
 agentPlanned.honestyDeclaration.li.bereavement.lpp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
 
-clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
-agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
-
 clientSubmitted.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientSubmitted.honestyDeclaration.li.crime.lpp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi dalu erbyn y dyddiad cau, {0}
 agentPlanned.honestyDeclaration.li.crime.lpp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd iddo dalu erbyn y dyddiad cau, {0}
@@ -123,7 +118,6 @@ clientSubmitted.honestyDeclaration.li.other.lpp = nid oedd modd i mi dalu erbyn 
 agentPlanned.honestyDeclaration.li.other.lpp = nid oedd modd i fy nghleient dalu erbyn y dyddiad cau, {0}
 
 clientPlanned.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
-clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd iddo anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
 clientPlanned.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
@@ -132,7 +126,6 @@ clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = oherwydd bod fy ngh
 clientPlanned.honestyDeclaration.li.other.lsp = nid oedd modd i fy nghleient anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
 agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd bod tân neu lifogydd wedi cael effaith ar fy nghleient, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = oherwydd bod gan fy nghleient salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
@@ -141,7 +134,6 @@ agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = oherw
 agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = oherwydd bod fy nghleient wedi wynebu problem, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 
 agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = oherwydd bod marwolaeth rhywun wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
-agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = oherwydd bod trosedd wedi cael effaith arna i, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau,  {0}
 agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = oherwydd tân neu lifogydd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
 agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = oherwydd salwch difrifol neu salwch a oedd yn berygl i fywyd, nid oedd modd i mi anfon y cyflwyniad erbyn y dyddiad cau, {0}
@@ -165,14 +157,6 @@ whenDidEventHappen.bereavement.date.error.required.all = Nodwch y dyddiad y bu f
 whenDidEventHappen.bereavement.date.error.required.two = Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys {0} a {1}
 whenDidEventHappen.bereavement.date.error.required = Mae’n rhaid i’r dyddiad y bu farw’r person gynnwys {0}
 whenDidEventHappen.bereavement.date.error.notInFuture = Mae’n rhaid i’r dyddiad y bu farw’r person fod heddiw neu yn y gorffennol
-
-# Cessation Messages
-whenDidEventHappen.cessation.headingAndTitle = TBC cessation (Welsh)
-whenDidEventHappen.cessation.date.error.invalid = TBC (Welsh)
-whenDidEventHappen.cessation.date.error.required.all = TBC (Welsh)
-whenDidEventHappen.cessation.date.error.required.two = TBC (Welsh)
-whenDidEventHappen.cessation.date.error.required = TBC (Welsh)
-whenDidEventHappen.cessation.date.error.notInFuture = TBC (Welsh)
 
 # Crime Messages
 whenDidEventHappen.crime.headingAndTitle = Pryd ddigwyddodd y drosedd?
@@ -382,7 +366,6 @@ checkYourAnswers.jointAppeal.change.hidden.review = a ydych am adolygiad o bende
 checkYourAnswers.reasonableExcuse.key = Rheswm dros fethu’r dyddiad cau
 checkYourAnswers.reasonableExcuse.change.hidden = y rheswm dros fethu’r dyddiad cau
 checkYourAnswers.reasonableExcuse.value.bereavement = Profedigaeth (roedd rhywun wedi marw)
-checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source (Welsh)
 checkYourAnswers.reasonableExcuse.value.crime =  Trosedd
 checkYourAnswers.reasonableExcuse.value.fireandflood =  Tân neu lifogydd
 checkYourAnswers.reasonableExcuse.value.health = Salwch difrifol neu salwch a oedd yn berygl i fywyd
@@ -403,8 +386,6 @@ checkYourAnswers.ReviewMoreThan30Days.change.hidden.multiple = a yw’n fwy na 3
 
 checkYourAnswers.whenDidEventHappen.bereavement.key = Dyddiad y bu farw’r person
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden = y dyddiad y bu farw’r person
-checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation (Welsh)
-checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation (Welsh)
 checkYourAnswers.whenDidEventHappen.crime.key =  Dyddiad y drosedd
 checkYourAnswers.whenDidEventHappen.crime.change.hidden = y dyddiad y digwyddodd y drosedd
 checkYourAnswers.whenDidEventHappen.fireandflood.key =  Dyddiad y tân neu’r llifogydd
@@ -417,7 +398,6 @@ checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = y dyddiad y d
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Dyddiad dechrau arhosiad yn yr ysbyty
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = y dyddiad y dechreuodd yr arhosiad yn yr ysbyty
 checkYourAnswers.whenDidEventHappen.other.key = Fe wnaeth problem dyddiad eich atal rhag cyrraedd y dyddiad cau
-checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other (Welsh)
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = y dyddiad y dechreuodd y broblem
 checkYourAnswers.whenDidEventHappen.other.lpp.headingAndTitle.change.hidden = y dyddiad y dechreuodd y broblem
 

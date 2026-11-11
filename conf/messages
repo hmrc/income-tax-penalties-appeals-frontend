@@ -55,7 +55,6 @@ reasonableExcuses.headingAndTitleSubmissions = What was the reason for missing t
 reasonableExcuses.headingAndTitlePayments = What was the reason for missing the payment deadline?
 reasonableExcuses.hintText = Select one reason. If more than one reason applies, choose the main reason the deadline was missed.
 reasonableExcuses.bereavement = Bereavement (someone died)
-reasonableExcuses.cessation = Cessation of income source
 reasonableExcuses.crime = Crime
 reasonableExcuses.fireandflood = Fire or flood
 reasonableExcuses.health = Serious or life-threatening ill health
@@ -94,10 +93,6 @@ clientSubmitted.honestyDeclaration.li.bereavement.lsp = because I was affected b
 clientSubmitted.honestyDeclaration.li.bereavement.lpp = because I was affected by someone’s death, I was not able to make the payment due on {0}
 agentPlanned.honestyDeclaration.li.bereavement.lpp = because my client was affected by someone’s death, they were not able to make the payment due on {0}
 
-clientSubmitted.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0}
-clientSubmitted.honestyDeclaration.li.cessation.lpp = TBC cessation - I was not able to make the payment due on {0}
-agentPlanned.honestyDeclaration.li.cessation.lpp = TBC cessation - they were not able to make the payment due on {0}
-
 clientSubmitted.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was not able to send the submission due on {0}
 clientSubmitted.honestyDeclaration.li.crime.lpp = because I was affected by a crime, I was not able to make the payment due on {0}
 agentPlanned.honestyDeclaration.li.crime.lpp = because my client was affected by a crime, they were not able to make the payment due on {0}
@@ -123,7 +118,6 @@ clientSubmitted.honestyDeclaration.li.other.lpp = I was not able to make the pay
 agentPlanned.honestyDeclaration.li.other.lpp = my client was not able to make the payment due on {0}
 
 clientPlanned.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, they were not able to send the submission due on {0}
-clientPlanned.honestyDeclaration.li.cessation.lsp = TBC cessation - they were not able to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, they were not able to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, my client was not able to send the submission due on {0}
 clientPlanned.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, they were not able to send the submission due on {0}
@@ -132,7 +126,6 @@ clientPlanned.honestyDeclaration.li.unexpectedHospital.lsp = because my client h
 clientPlanned.honestyDeclaration.li.other.lsp = my client was not able to send the submission due on {0}
 
 agentPlanned.clientAffected.honestyDeclaration.li.bereavement.lsp = because my client was affected by someone’s death, I was not able to send the submission due on {0}
-agentPlanned.clientAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.crime.lsp = because my client was affected by a crime, I was not able to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.fireandflood.lsp = because my client was affected by a fire or flood, I was not able to send the submission due on {0}
 agentPlanned.clientAffected.honestyDeclaration.li.health.lsp = because my client had a serious or life-threatening health issue, I was not able to send the submission due on {0}
@@ -141,7 +134,6 @@ agentPlanned.clientAffected.honestyDeclaration.li.unexpectedHospital.lsp = becau
 agentPlanned.clientAffected.honestyDeclaration.li.other.lsp = because of an issue affecting my client, I was not able to send the submission due on  {0}
 
 agentPlanned.agentAffected.honestyDeclaration.li.bereavement.lsp = because I was affected by someone’s death, I was not able to send the submission due on {0}
-agentPlanned.agentAffected.honestyDeclaration.li.cessation.lsp = TBC cessation - I was not able to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.crime.lsp = because I was affected by a crime, I was not able to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.fireandflood.lsp = because of a fire or flood, I was not able to send the submission due on {0}
 agentPlanned.agentAffected.honestyDeclaration.li.health.lsp = because of a serious or life-threatening health issue, I was not able to send the submission due on {0}
@@ -165,14 +157,6 @@ whenDidEventHappen.bereavement.date.error.required.all = Enter the date when the
 whenDidEventHappen.bereavement.date.error.required.two = The date the person died must include a {0} and a {1}
 whenDidEventHappen.bereavement.date.error.required = The date the person died must include a {0}
 whenDidEventHappen.bereavement.date.error.notInFuture = The date the person died must be today or in the past
-
-# Cessation Messages
-whenDidEventHappen.cessation.headingAndTitle = TBC cessation
-whenDidEventHappen.cessation.date.error.invalid = TBC
-whenDidEventHappen.cessation.date.error.required.all = TBC
-whenDidEventHappen.cessation.date.error.required.two = TBC
-whenDidEventHappen.cessation.date.error.required = TBC
-whenDidEventHappen.cessation.date.error.notInFuture = TBC
 
 # Crime Messages
 whenDidEventHappen.crime.headingAndTitle = When did the crime happen?
@@ -382,7 +366,6 @@ checkYourAnswers.jointAppeal.change.hidden.review = whether you want a review of
 checkYourAnswers.reasonableExcuse.key = Reason for missing deadline
 checkYourAnswers.reasonableExcuse.change.hidden = the reason for missing the deadline
 checkYourAnswers.reasonableExcuse.value.bereavement = Bereavement (someone died)
-checkYourAnswers.reasonableExcuse.value.cessation = Cessation of income source
 checkYourAnswers.reasonableExcuse.value.crime = Crime
 checkYourAnswers.reasonableExcuse.value.fireandflood = Fire or flood
 checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill health
@@ -403,8 +386,6 @@ checkYourAnswers.ReviewMoreThan30Days.change.hidden.multiple = whether it is mor
 
 checkYourAnswers.whenDidEventHappen.bereavement.key =  Date person died
 checkYourAnswers.whenDidEventHappen.bereavement.change.hidden = the date the person died
-checkYourAnswers.whenDidEventHappen.cessation.key = TBC cessation
-checkYourAnswers.whenDidEventHappen.cessation.change.hidden = TBC cessation
 checkYourAnswers.whenDidEventHappen.crime.key =  Date of crime
 checkYourAnswers.whenDidEventHappen.crime.change.hidden = the date the crime happened
 checkYourAnswers.whenDidEventHappen.fireandflood.key =  Date of fire or flood
@@ -417,7 +398,6 @@ checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = the date the 
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Date hospital stay started
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = the date the hospital stay started
 checkYourAnswers.whenDidEventHappen.other.key = Date issue stopped you from meeting the deadline
-checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = the date the issue happened
 checkYourAnswers.whenDidEventHappen.other.lpp.headingAndTitle.change.hidden = the date the issue happened
 

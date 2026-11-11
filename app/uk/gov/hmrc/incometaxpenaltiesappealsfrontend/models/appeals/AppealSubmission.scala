@@ -61,8 +61,6 @@ object AppealSubmission {
         Json.toJson(payload.asInstanceOf[HealthAppealInformation])(HealthAppealInformation.healthAppealWrites)
       case Other =>
         Json.toJson(payload.asInstanceOf[OtherAppealInformation])(OtherAppealInformation.otherAppealInformationWrites)
-      case reason =>
-        throw new UnsupportedOperationException(s"$reason is not supported")
     }
 
   //scalastyle:off
@@ -187,8 +185,6 @@ object AppealSubmission {
           isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission,
           uploadedFiles = uploadedFiles
         ))
-      case reason =>
-        throw new UnsupportedOperationException(s"$reason is not supported and cannot be constructed to AppealInformation model")
     }
   }
 

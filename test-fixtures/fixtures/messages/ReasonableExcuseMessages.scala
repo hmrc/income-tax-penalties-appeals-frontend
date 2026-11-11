@@ -24,7 +24,6 @@ object ReasonableExcuseMessages {
   sealed trait Messages { this: i18n =>
     val titleAndHeading = "What was the reason for missing the submission deadline?"
     val bereavement: String = "Bereavement (someone died)"
-    val cessation: String = "Cessation of income source"
     val crime: String = "Crime"
     val fireOrFlood: String = "Fire or flood"
     val health: String = "Serious or life-threatening ill health"
@@ -38,7 +37,6 @@ object ReasonableExcuseMessages {
     val cyaKey = "Reason for missing deadline"
     def cyaValue(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case Bereavement => bereavement
-      case Cessation => cessation
       case Crime => crime
       case FireOrFlood => fireOrFlood
       case Health => health
@@ -55,7 +53,6 @@ object ReasonableExcuseMessages {
   object Welsh extends Messages with Cy {
     override val titleAndHeading = "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     override val bereavement: String = "Profedigaeth (roedd rhywun wedi marw)"
-    override val cessation: String = "Cessation of income source (Welsh)"
     override val crime: String = "Trosedd"
     override val fireOrFlood: String = "Tân neu lifogydd"
     override val health: String = "Salwch difrifol neu salwch a oedd yn berygl i fywyd"
