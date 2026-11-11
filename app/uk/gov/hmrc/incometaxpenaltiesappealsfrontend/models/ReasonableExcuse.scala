@@ -40,7 +40,6 @@ object ReasonableExcuse {
   case object Health             extends WithName("health")               with ReasonableExcuse
   case object TechnicalIssues    extends WithName("technicalIssue")       with ReasonableExcuse
   case object UnexpectedHospital extends WithName("unexpectedHospital")   with ReasonableExcuse
-  case object LossOfStaff        extends WithName("lossOfEssentialStaff") with ReasonableExcuse
   case object Other              extends WithName("other")                with ReasonableExcuse
 
   val allReasonableExcuses: Seq[ReasonableExcuse] = {
@@ -52,7 +51,6 @@ object ReasonableExcuse {
       Health,
       TechnicalIssues,
       UnexpectedHospital,
-      LossOfStaff,
       Other
     )
   }
@@ -86,7 +84,6 @@ object ReasonableExcuse {
     case "health"               => Health
     case "technicalIssue"       => TechnicalIssues
     case "unexpectedHospital"   => UnexpectedHospital
-    case "lossOfEssentialStaff" => LossOfStaff
     case "other"                => Other
     case _ => throw new IllegalArgumentException(s"Invalid ReasonableExcuse: $name")
   }

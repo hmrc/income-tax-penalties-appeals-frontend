@@ -54,7 +54,6 @@ class WhenDidEventHappenControllerISpec extends ControllerISpecHelper {
     (Health, "/when-did-the-health-issue-begin", "/agent-when-did-the-health-issue-begin"),
     (TechnicalIssues, "/when-did-the-technology-issues-begin", "/agent-when-did-the-technology-issues-begin"),
     (UnexpectedHospital, "/when-did-the-hospital-stay-begin", "/agent-when-did-the-hospital-stay-begin"),
-    (LossOfStaff, "/lossOfStaff", "/agent-lossOfStaff"),
     (Other, "/when-did-the-issue-cause-missed-deadline", "/agent-when-did-the-issue-cause-missed-deadline")
   )
 

@@ -61,7 +61,6 @@ reasonableExcuses.fireandflood = Tân neu lifogydd
 reasonableExcuses.health = Salwch difrifol neu salwch a oedd yn berygl i fywyd
 reasonableExcuses.technicalIssue = Problemau technoleg neu broblemau meddalwedd
 reasonableExcuses.unexpectedHospital = Aros yn yr ysbyty yn annisgwyl
-reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 reasonableExcuses.other = Rheswm arall
 reasonableExcuse.error.message.lsp = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno
 reasonableExcuse.error.message.lpp = Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer talu
@@ -222,14 +221,6 @@ whenDidEventHappen.unexpectedHospital.date.error.required.all = Nodwch y dyddiad
 whenDidEventHappen.unexpectedHospital.date.error.required.two = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys {0} a {1}
 whenDidEventHappen.unexpectedHospital.date.error.required = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys {0}
 whenDidEventHappen.unexpectedHospital.date.error.notInFuture = Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod heddiw neu yn y gorffennol
-
-# Loss of Staff Messages
-whenDidEventHappen.lossOfEssentialStaff.headingAndTitle = TBC lossOfStaff (Welsh)
-whenDidEventHappen.lossOfEssentialStaff.date.error.invalid = TBC (Welsh)
-whenDidEventHappen.lossOfEssentialStaff.date.error.required.all = TBC (Welsh)
-whenDidEventHappen.lossOfEssentialStaff.date.error.required.two = TBC (Welsh)
-whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC (Welsh)
-whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC (Welsh)
 
 # Other Messages - LSP
 whenDidEventHappen.other.lsp.headingAndTitle = Pryd gwnaeth y broblem rhwystro’r cyflwyniad rhag bodloni’r dyddiad cau am y tro cyntaf?
@@ -396,7 +387,6 @@ checkYourAnswers.reasonableExcuse.value.crime =  Trosedd
 checkYourAnswers.reasonableExcuse.value.fireandflood =  Tân neu lifogydd
 checkYourAnswers.reasonableExcuse.value.health = Salwch difrifol neu salwch a oedd yn berygl i fywyd
 checkYourAnswers.reasonableExcuse.value.technicalIssue = Problemau technoleg neu broblemau meddalwedd
-checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff (Welsh)
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Aros yn yr ysbyty yn annisgwyl
 checkYourAnswers.reasonableExcuse.value.other = Rheswm arall
 
@@ -426,8 +416,6 @@ checkYourAnswers.whenDidEventHappen.technicalIssue.key = Dyddiad y dechreuodd y 
 checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = y dyddiad y dechreuodd y broblem gyda’r feddalwedd neu’r dechnoleg
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Dyddiad dechrau arhosiad yn yr ysbyty
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = y dyddiad y dechreuodd yr arhosiad yn yr ysbyty
-checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff (Welsh)
-checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff (Welsh)
 checkYourAnswers.whenDidEventHappen.other.key = Fe wnaeth problem dyddiad eich atal rhag cyrraedd y dyddiad cau
 checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other (Welsh)
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = y dyddiad y dechreuodd y broblem

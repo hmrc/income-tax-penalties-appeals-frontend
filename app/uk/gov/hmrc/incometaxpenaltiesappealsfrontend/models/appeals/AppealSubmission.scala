@@ -53,8 +53,6 @@ object AppealSubmission {
         Json.toJson(payload.asInstanceOf[CrimeAppealInformation])(CrimeAppealInformation.crimeAppealWrites)
       case FireOrFlood =>
         Json.toJson(payload.asInstanceOf[FireOrFloodAppealInformation])(FireOrFloodAppealInformation.fireOrFloodAppealWrites)
-      case LossOfStaff =>
-        Json.toJson(payload.asInstanceOf[LossOfStaffAppealInformation])(LossOfStaffAppealInformation.lossOfStaffAppealWrites)
       case TechnicalIssues =>
         Json.toJson(payload.asInstanceOf[TechnicalIssuesAppealInformation])(TechnicalIssuesAppealInformation.technicalIssuesAppealWrites)
       case Health =>
@@ -117,18 +115,6 @@ object AppealSubmission {
 
       case FireOrFlood =>
         baseAppealSubmission(FireOrFloodAppealInformation(
-          reasonableExcuse = reasonableExcuse,
-          honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
-          startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
-          statement = None,
-          lateAppeal = request.isLateFirstStage(),
-          lateAppealReason = if (request.isLateFirstStage()) request.userAnswers.getAnswer(LateAppealPage) else None,
-          isClientResponsibleForSubmission = isClientResponsibleForSubmission,
-          isClientResponsibleForLateSubmission = isClientResponsibleForLateSubmission
-        ))
-
-      case LossOfStaff =>
-        baseAppealSubmission(LossOfStaffAppealInformation(
           reasonableExcuse = reasonableExcuse,
           honestyDeclaration = request.getMandatoryAnswer(HonestyDeclarationPage),
           startDateOfEvent = request.getMandatoryAnswer(WhenDidEventHappenPage).atStartOfDay(),
@@ -240,8 +226,6 @@ object AppealSubmission {
         Json.toJson(info)(CrimeAppealInformation.auditWrites)
       case info: FireOrFloodAppealInformation =>
         Json.toJson(info)(FireOrFloodAppealInformation.auditWrites)
-      case info: LossOfStaffAppealInformation =>
-        Json.toJson(info)(LossOfStaffAppealInformation.auditWrites)
       case info: TechnicalIssuesAppealInformation =>
         Json.toJson(info)(TechnicalIssuesAppealInformation.auditWrites)
       case info: HealthAppealInformation =>

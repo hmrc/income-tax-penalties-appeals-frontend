@@ -31,7 +31,6 @@ object WhenDidEventHappenMessages {
       case Cessation => "TBC cessation"
       case Health => if(isLPP) "When did the health issue first stop the payment being made?" else "When did the health issue first stop the submission deadline being met?"
       case UnexpectedHospital => "When did the hospital stay begin?"
-      case LossOfStaff => "TBC lossOfStaff"
       case Other => otherHeadingAndTitle(isLPP)
     }
 
@@ -94,13 +93,7 @@ object WhenDidEventHappenMessages {
           case "required" => unexpectedHospitalRequired(args.head)
           case "notInFuture" => unexpectedHospitalNotInFuture
         }
-        case LossOfStaff => suffix match {
-          case "invalid" => lossOfStaffInvalid
-          case "required.all" => lossOfStaffRequiredAll
-          case "required.two" => lossOfStaffRequiredTwo(args.head, args(1))
-          case "required" => lossOfStaffRequired(args.head)
-          case "notInFuture" => lossOfStaffNotInFuture
-        }
+
         case Other => suffix match {
           case "invalid" => otherInvalid(isLPP)
           case "required.all" => otherRequiredAll(isLPP)
@@ -117,7 +110,6 @@ object WhenDidEventHappenMessages {
     val cyaKeyTechnical: String = "Date software or technology issue started"
     val cyaKeyCessation: String = "TBC cessation"
     val cyaKeyHealth: String = "Date health issue stopped you from meeting the deadline"
-    val cyaKeyLossOfStaff: String = "TBC lossOfStaff"
     val cyaKeyOther: String = "Date issue stopped you from meeting the deadline"
     val cyaKeyUnexpectedHospital: String = "Date hospital stay started"
 
@@ -129,7 +121,6 @@ object WhenDidEventHappenMessages {
       case Health => cyaKeyHealth
       case TechnicalIssues => cyaKeyTechnical
       case UnexpectedHospital => cyaKeyUnexpectedHospital
-      case LossOfStaff => cyaKeyLossOfStaff
       case Other => cyaKeyOther
     }
 
@@ -140,7 +131,6 @@ object WhenDidEventHappenMessages {
     val cyaHiddenCessation: String = "TBC cessation"
     val cyaHiddenHealth: String = "the date the health issue stopped you meeting the deadline"
     val cyaHiddenUnexpectedHospital: String = "the date the hospital stay started"
-    val cyaHiddenLossOfStaff: String = "TBC lossOfStaff"
     val cyaHiddenOther: String = "the date the issue happened"
 
     def cyaHidden(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
@@ -151,7 +141,6 @@ object WhenDidEventHappenMessages {
       case Health => cyaHiddenHealth
       case TechnicalIssues => cyaHiddenTechnical
       case UnexpectedHospital => cyaHiddenUnexpectedHospital
-      case LossOfStaff => cyaHiddenLossOfStaff
       case Other => cyaHiddenOther
     }
 
@@ -164,7 +153,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) "The date the health issue first stopped payment being made must be a real date" else "The date the health issue first stopped the submission deadline being met must be a real date"
     }
     val unexpectedHospitalInvalid = "The date that the hospital stay began must be a real date"
-    val lossOfStaffInvalid = "TBC"
     def otherInvalid(isLPP: Boolean = false): String = {
       if (isLPP) "The date the issue first stopped payment being made must be a real date" else "The date the issue first stopped the submission deadline being met must be a real date"
     }
@@ -178,7 +166,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) "Enter the date the health issue first stopped payment being made" else "Enter the date the health issue first stopped the submission deadline being met"
     }
     val unexpectedHospitalRequiredAll = "Enter the date that the hospital stay began"
-    val lossOfStaffRequiredAll = "TBC"
     def otherRequiredAll(isLPP: Boolean = false): String = {
       if (isLPP) "Enter the date the issue first stopped payment being made" else "Enter the date the issue first stopped the submission deadline being met"
     }
@@ -192,7 +179,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) s"The date the health issue first stopped payment being made must include a $missing and a $missingTwo" else s"The date the health issue first stopped the submission deadline being met must include a $missing and a $missingTwo"
     }
     def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"The date that the hospital stay began must include a $missing and a $missingTwo"
-    def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC"
     def otherRequiredTwo(isLPP: Boolean, missing: String, missingTwo: String): String = {
       if (isLPP) s"The date the issue first stopped payment being made must include a $missing and a $missingTwo" else s"The date the issue first stopped the submission deadline being met must include a $missing and a $missingTwo"
     }
@@ -206,7 +192,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) s"The date the health issue first stopped payment being made must include a $missing" else s"The date the health issue first stopped the submission deadline being met must include a $missing"
     }
     def unexpectedHospitalRequired(missing: String) = s"The date that the hospital stay began must include a $missing"
-    def lossOfStaffRequired(missing: String) = "TBC"
     def otherRequired(isLPP: Boolean, missing: String): String = {
       if (isLPP) s"The date the issue first stopped payment being made must include a $missing" else s"The date the issue first stopped the submission deadline being met must include a $missing"
     }
@@ -220,7 +205,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) "The date the issue first stopped payment being made must be today or in the past" else "The date the issue first stopped the submission deadline being met must be today or in the past"
     }
     val unexpectedHospitalNotInFuture = "The date that the hospital stay began must be today or in the past"
-    val lossOfStaffNotInFuture = "TBC"
     def otherNotInFuture(isLPP: Boolean): String = {
       if (isLPP) "The date the issue first stopped payment being made must be today or in the past" else "The date the issue first stopped the submission deadline being met must be today or in the past"
     }
@@ -238,7 +222,6 @@ object WhenDidEventHappenMessages {
       case Cessation => "TBC cessation (Welsh)"
       case Health => if(isLPP) "Pryd gwnaeth y broblem iechyd eich rhwystro am y tro cyntaf rhag gwneud y taliad?" else "Pryd gwnaeth y broblem iechyd rhwystro’r cyflwyniad rhag bodloni’r dyddiad cau am y tro cyntaf?"
       case UnexpectedHospital => "Pryd y dechreuodd yr arhosiad yn yr ysbyty?"
-      case LossOfStaff => "TBC lossOfStaff (Welsh)"
       case Other => otherHeadingAndTitle(isLPP)
     }
 
@@ -255,7 +238,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) "Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod yn ddyddiad go iawn" else "Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn fod yn ddyddiad go iawn"
     }
     override val unexpectedHospitalInvalid = "Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod yn ddyddiad go iawn"
-    override val lossOfStaffInvalid = "TBC (Welsh)"
     override def otherInvalid(isLPP: Boolean = false): String = {
       if (isLPP) "Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod yn ddyddiad go iawn" else "Y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn fod yn ddyddiad go iawn"
     }
@@ -269,7 +251,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) "Nodwch y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf" else "Nodwch y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf"
     }
     override val unexpectedHospitalRequiredAll = "Nodwch y dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty"
-    override val lossOfStaffRequiredAll = "TBC (Welsh)"
     override def otherRequiredAll(isLPP: Boolean = false): String = {
       if (isLPP) "Nodwch y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf" else "Nodwch y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf"
     }
@@ -283,7 +264,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing a $missingTwo" else s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing a $missingTwo"
     }
     override def unexpectedHospitalRequiredTwo(missing: String, missingTwo: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys $missing a $missingTwo"
-    override def lossOfStaffRequiredTwo(missing: String, missingTwo: String) = "TBC (Welsh)"
     override def otherRequiredTwo(isLPP: Boolean, missing: String, missingTwo: String): String = {
       if (isLPP) s"Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing a $missingTwo" else s"Y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing a $missingTwo"
     }
@@ -297,7 +277,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing" else s"Y dyddiad y gwnaeth y broblem iechyd eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing"
     }
     override def unexpectedHospitalRequired(missing: String) = s"Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty gynnwys $missing"
-    override def lossOfStaffRequired(missing: String) = "TBC (Welsh)"
     override def otherRequired(isLPP: Boolean, missing: String): String = {
       if (isLPP) s"Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing" else s"Y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn gynnwys $missing"
     }
@@ -311,7 +290,6 @@ object WhenDidEventHappenMessages {
       if (isLPP) "Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol" else "Y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol"
     }
     override val unexpectedHospitalNotInFuture = "Mae’n rhaid i’r dyddiad pan ddechreuodd yr arhosiad yn yr ysbyty fod heddiw neu yn y gorffennol"
-    override val lossOfStaffNotInFuture = "TBC (Welsh)"
     override def otherNotInFuture(isLPP: Boolean): String = {
       if (isLPP) "Y dyddiad y gwnaeth y broblem eich rhwystro rhag gwneud taliad am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol" else "Y dyddiad y gwnaeth y broblem eich rhwystro rhag bodloni’r dyddiad cyflwyno am y tro cyntaf: mae’n rhaid i hyn fod heddiw neu yn y gorffennol"
     }
@@ -323,7 +301,6 @@ object WhenDidEventHappenMessages {
     override val cyaKeyCessation: String = "TBC cessation (Welsh)"
     override val cyaKeyHealth: String = "Dyddiad y gwnaeth problem iechyd eich atal rhag cyrraedd y dyddiad cau"
     override val cyaKeyUnexpectedHospital: String = "Dyddiad dechrau arhosiad yn yr ysbyty"
-    override val cyaKeyLossOfStaff: String = "TBC lossOfStaff (Welsh)"
     override val cyaKeyOther: String = "Fe wnaeth problem dyddiad eich atal rhag cyrraedd y dyddiad cau"
 
     override val cyaHiddenBereavement: String = "y dyddiad y bu farw’r person"
@@ -333,7 +310,6 @@ object WhenDidEventHappenMessages {
     override val cyaHiddenCessation: String = "TBC cessation (Welsh)"
     override val cyaHiddenHealth: String = "y dyddiad y gwnaeth y broblem iechyd eich atal rhag bodloni’r dyddiad cau"
     override val cyaHiddenUnexpectedHospital: String = "y dyddiad y dechreuodd yr arhosiad yn yr ysbyty"
-    override val cyaHiddenLossOfStaff: String = "TBC lossOfStaff (Welsh)"
     override val cyaHiddenOther: String = "y dyddiad y dechreuodd y broblem"
   }
 }

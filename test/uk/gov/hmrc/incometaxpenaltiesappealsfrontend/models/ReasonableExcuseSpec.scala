@@ -46,7 +46,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
     Health.toString             shouldBe "health"
     TechnicalIssues.toString    shouldBe "technicalIssue"
     UnexpectedHospital.toString shouldBe "unexpectedHospital"
-    LossOfStaff.toString        shouldBe "lossOfEssentialStaff"
     Other.toString              shouldBe "other"
   }
 
@@ -58,7 +57,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
     Json.toJson[ReasonableExcuse](Health)             shouldBe JsString("health")
     Json.toJson[ReasonableExcuse](TechnicalIssues)    shouldBe JsString("technicalIssue")
     Json.toJson[ReasonableExcuse](UnexpectedHospital) shouldBe JsString("unexpectedHospital")
-    Json.toJson[ReasonableExcuse](LossOfStaff)        shouldBe JsString("lossOfEssentialStaff")
     Json.toJson[ReasonableExcuse](Other)              shouldBe JsString("other")
   }
 
@@ -70,7 +68,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
     JsString("health").as[ReasonableExcuse]               shouldBe Health
     JsString("technicalIssue").as[ReasonableExcuse]       shouldBe TechnicalIssues
     JsString("unexpectedHospital").as[ReasonableExcuse]   shouldBe UnexpectedHospital
-    JsString("lossOfEssentialStaff").as[ReasonableExcuse] shouldBe LossOfStaff
     JsString("other").as[ReasonableExcuse]                shouldBe Other
   }
 
@@ -122,11 +119,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
                 content = Text(messagesForLang.unexpectedHospital),
                 value = Some(UnexpectedHospital.toString),
                 id = Some(UnexpectedHospital.toString)
-              ),
-              RadioItem(
-                content = Text(messagesForLang.lossOfStaff),
-                value = Some(LossOfStaff.toString),
-                id = Some(LossOfStaff.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.other),

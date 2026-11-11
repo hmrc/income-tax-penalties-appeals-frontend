@@ -61,7 +61,6 @@ reasonableExcuses.fireandflood = Fire or flood
 reasonableExcuses.health = Serious or life-threatening ill health
 reasonableExcuses.technicalIssue = Software or technology issues
 reasonableExcuses.unexpectedHospital = Unexpected hospital stay
-reasonableExcuses.lossOfEssentialStaff = TBC lossOfStaff
 reasonableExcuses.other = Other reason that is not covered by any other category
 reasonableExcuse.error.message.lsp = Select the reason for missing the submission deadline
 reasonableExcuse.error.message.lpp = Select the reason for missing the payment deadline
@@ -222,14 +221,6 @@ whenDidEventHappen.unexpectedHospital.date.error.required.all = Enter the date t
 whenDidEventHappen.unexpectedHospital.date.error.required.two = The date that the hospital stay began must include a {0} and a {1}
 whenDidEventHappen.unexpectedHospital.date.error.required = The date that the hospital stay began must include a {0}
 whenDidEventHappen.unexpectedHospital.date.error.notInFuture = The date that the hospital stay began must be today or in the past
-
-# Loss of Staff Messages
-whenDidEventHappen.lossOfEssentialStaff.headingAndTitle = TBC lossOfStaff
-whenDidEventHappen.lossOfEssentialStaff.date.error.invalid = TBC
-whenDidEventHappen.lossOfEssentialStaff.date.error.required.all = TBC
-whenDidEventHappen.lossOfEssentialStaff.date.error.required.two = TBC
-whenDidEventHappen.lossOfEssentialStaff.date.error.required = TBC
-whenDidEventHappen.lossOfEssentialStaff.date.error.notInFuture = TBC
 
 # Other Messages - LSP
 whenDidEventHappen.other.lsp.headingAndTitle = When did the issue first stop the submission deadline being met?
@@ -397,7 +388,6 @@ checkYourAnswers.reasonableExcuse.value.fireandflood = Fire or flood
 checkYourAnswers.reasonableExcuse.value.health = Serious or life-threatening ill health
 checkYourAnswers.reasonableExcuse.value.technicalIssue = Software or technology issues
 checkYourAnswers.reasonableExcuse.value.unexpectedHospital = Unexpected hospital stay
-checkYourAnswers.reasonableExcuse.value.lossOfEssentialStaff = TBC lossOfStaff
 checkYourAnswers.reasonableExcuse.value.other = Other reason that is not covered by any other category
 
 checkYourAnswers.crimeReported.key = Reported to the police
@@ -426,8 +416,6 @@ checkYourAnswers.whenDidEventHappen.technicalIssue.key = Date software or techno
 checkYourAnswers.whenDidEventHappen.technicalIssue.change.hidden = the date the software or technology issue started
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.key = Date hospital stay started
 checkYourAnswers.whenDidEventHappen.unexpectedHospital.change.hidden = the date the hospital stay started
-checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.key = TBC lossOfStaff
-checkYourAnswers.whenDidEventHappen.lossOfEssentialStaff.change.hidden = TBC lossOfStaff
 checkYourAnswers.whenDidEventHappen.other.key = Date issue stopped you from meeting the deadline
 checkYourAnswers.whenDidEventHappen.other.change.hidden = TBC other
 checkYourAnswers.whenDidEventHappen.other.lsp.headingAndTitle.change.hidden = the date the issue happened
