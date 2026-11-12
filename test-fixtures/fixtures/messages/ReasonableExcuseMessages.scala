@@ -30,7 +30,6 @@ object ReasonableExcuseMessages {
     val technical: String = "Software or technology issues"
     val unexpectedHospital: String = "Unexpected hospital stay"
     val other: String = "Other reason that is not covered by any other category"
-    val otherHint: String = "You should only choose this if the reason is not covered by any of the other options."
     val errorRequiredLsp: String = "Select the reason for missing the submission deadline"
     val errorRequiredLpp: String = "Select the reason for missing the payment deadline"
 
@@ -60,8 +59,6 @@ object ReasonableExcuseMessages {
     override val unexpectedHospital: String = "Aros yn yr ysbyty yn annisgwyl"
 
     override val other: String = "Rheswm arall"
-
-    override val otherHint: String = "You should only choose this if the reason is not covered by any of the other options. (Welsh)"
     override val errorRequiredLsp: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
     override val errorRequiredLpp: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer talu"
 
