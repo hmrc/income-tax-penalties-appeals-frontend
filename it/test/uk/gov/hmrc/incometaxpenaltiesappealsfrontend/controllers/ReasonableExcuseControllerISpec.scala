@@ -81,7 +81,6 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
           document.select(s"#$Bereavement").hasAttr("checked") shouldBe true
-          document.select(s"#$Cessation").hasAttr("checked") shouldBe false
         }
 
         "the user is an authorised agent" in {
@@ -246,7 +245,6 @@ class ReasonableExcuseControllerISpec extends ControllerISpecHelper {
           result.status shouldBe OK
           val document = Jsoup.parse(result.body)
           document.select(s"#$Bereavement").hasAttr("checked") shouldBe true
-          document.select(s"#$Cessation").hasAttr("checked") shouldBe false
         }
 
         "the user is an authorised agent" in {

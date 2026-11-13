@@ -40,37 +40,31 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
 
   "should have the correct names" in {
     Bereavement.toString        shouldBe "bereavement"
-    Cessation.toString          shouldBe "cessation"
     Crime.toString              shouldBe "crime"
     FireOrFlood.toString        shouldBe "fireandflood"
     Health.toString             shouldBe "health"
     TechnicalIssues.toString    shouldBe "technicalIssue"
     UnexpectedHospital.toString shouldBe "unexpectedHospital"
-    LossOfStaff.toString        shouldBe "lossOfEssentialStaff"
     Other.toString              shouldBe "other"
   }
 
   "serialise to JSON" in {
     Json.toJson[ReasonableExcuse](Bereavement)        shouldBe JsString(Bereavement.toString)
-    Json.toJson[ReasonableExcuse](Cessation)          shouldBe JsString("cessation")
     Json.toJson[ReasonableExcuse](Crime)              shouldBe JsString("crime")
     Json.toJson[ReasonableExcuse](FireOrFlood)        shouldBe JsString("fireandflood")
     Json.toJson[ReasonableExcuse](Health)             shouldBe JsString("health")
     Json.toJson[ReasonableExcuse](TechnicalIssues)    shouldBe JsString("technicalIssue")
     Json.toJson[ReasonableExcuse](UnexpectedHospital) shouldBe JsString("unexpectedHospital")
-    Json.toJson[ReasonableExcuse](LossOfStaff)        shouldBe JsString("lossOfEssentialStaff")
     Json.toJson[ReasonableExcuse](Other)              shouldBe JsString("other")
   }
 
   "deserialise from JSON" in {
     JsString(Bereavement.toString).as[ReasonableExcuse]          shouldBe Bereavement
-    JsString("cessation").as[ReasonableExcuse]            shouldBe Cessation
     JsString("crime").as[ReasonableExcuse]                shouldBe Crime
     JsString("fireandflood").as[ReasonableExcuse]         shouldBe FireOrFlood
     JsString("health").as[ReasonableExcuse]               shouldBe Health
     JsString("technicalIssue").as[ReasonableExcuse]       shouldBe TechnicalIssues
     JsString("unexpectedHospital").as[ReasonableExcuse]   shouldBe UnexpectedHospital
-    JsString("lossOfEssentialStaff").as[ReasonableExcuse] shouldBe LossOfStaff
     JsString("other").as[ReasonableExcuse]                shouldBe Other
   }
 
@@ -92,11 +86,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
                 Text(messagesForLang.bereavement),
                 value = Some(Bereavement.toString),
                 id = Some(Bereavement.toString)
-              ),
-              RadioItem(
-                content = Text(messagesForLang.cessation),
-                value = Some(Cessation.toString),
-                id = Some(Cessation.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.crime),
@@ -124,11 +113,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
                 id = Some(UnexpectedHospital.toString)
               ),
               RadioItem(
-                content = Text(messagesForLang.lossOfStaff),
-                value = Some(LossOfStaff.toString),
-                id = Some(LossOfStaff.toString)
-              ),
-              RadioItem(
                 content = Text(messagesForLang.other),
                 value = Some(Other.toString),
                 id = Some(Other.toString)
@@ -145,7 +129,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
               ReasonableExcusesEnabled,
               Seq(
                 Bereavement.toString,
-                Cessation.toString,
                 Crime.toString,
                 Other.toString
               )
@@ -156,11 +139,6 @@ class ReasonableExcuseSpec extends AnyWordSpec with Matchers with GuiceOneAppPer
                 Text(messagesForLang.bereavement),
                 value = Some(Bereavement.toString),
                 id = Some(Bereavement.toString)
-              ),
-              RadioItem(
-                content = Text(messagesForLang.cessation),
-                value = Some(Cessation.toString),
-                id = Some(Cessation.toString)
               ),
               RadioItem(
                 content = Text(messagesForLang.crime),

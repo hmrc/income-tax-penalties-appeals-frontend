@@ -38,7 +38,6 @@ class LateAppealControllerISpec extends ControllerISpecHelper {
   
   val reasonsList: List[(ReasonableExcuse, Int)] = List(
     (Bereavement, appConfig.bereavementLateDays),
-    (Cessation, appConfig.lateDays),
     (Crime, appConfig.lateDays),
     (FireOrFlood, appConfig.lateDays),
     (Health, appConfig.lateDays),

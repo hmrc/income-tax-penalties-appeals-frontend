@@ -20,7 +20,7 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.AnyContent
 import play.api.test.FakeRequest
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.controllers.auth.models.{AuthorisedAndEnrolledAgent, AuthorisedAndEnrolledIndividual, CurrentUserRequestWithAnswers}
-import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, FireOrFlood, Health, LossOfStaff, Other, TechnicalIssues, UnexpectedHospital}
+import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.ReasonableExcuse.{Bereavement, Crime, FireOrFlood, Health, Other, TechnicalIssues, UnexpectedHospital}
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models._
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.appeals.MultiplePenaltiesData
 import uk.gov.hmrc.incometaxpenaltiesappealsfrontend.models.session.{SessionData, UserAnswers}
@@ -148,19 +148,6 @@ trait BaseFixtures {
       userAnswers = emptyUserAnswersWithLSP
         .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
         .setAnswer(ReasonableExcusePage, FireOrFlood)
-        .setAnswer(HonestyDeclarationPage, true)
-        .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
-      penaltyData = penaltyDataLSP,
-      serviceNavigationPartial = None
-    )(FakeRequest())
-
-  val fakeRequestForLossOfStaffJourney: CurrentUserRequestWithAnswers[AnyContent] =
-    CurrentUserRequestWithAnswers(
-      mtdItId = testMtdItId,
-      nino = testNino,
-      userAnswers = emptyUserAnswersWithLSP
-        .setAnswerForKey[PenaltyData](IncomeTaxSessionKeys.penaltyData, penaltyDataLSP)
-        .setAnswer(ReasonableExcusePage, LossOfStaff)
         .setAnswer(HonestyDeclarationPage, true)
         .setAnswer(WhenDidEventHappenPage, LocalDate.of(2022, 1, 1)),
       penaltyData = penaltyDataLSP,

@@ -24,28 +24,23 @@ object ReasonableExcuseMessages {
   sealed trait Messages { this: i18n =>
     val titleAndHeading = "What was the reason for missing the submission deadline?"
     val bereavement: String = "Bereavement (someone died)"
-    val cessation: String = "Cessation of income source"
     val crime: String = "Crime"
     val fireOrFlood: String = "Fire or flood"
     val health: String = "Serious or life-threatening ill health"
     val technical: String = "Software or technology issues"
     val unexpectedHospital: String = "Unexpected hospital stay"
-    val lossOfStaff: String = "TBC lossOfStaff"
     val other: String = "Other reason that is not covered by any other category"
-    val otherHint: String = "You should only choose this if the reason is not covered by any of the other options."
     val errorRequiredLsp: String = "Select the reason for missing the submission deadline"
     val errorRequiredLpp: String = "Select the reason for missing the payment deadline"
 
     val cyaKey = "Reason for missing deadline"
     def cyaValue(reasonableExcuse: ReasonableExcuse): String = reasonableExcuse match {
       case Bereavement => bereavement
-      case Cessation => cessation
       case Crime => crime
       case FireOrFlood => fireOrFlood
       case Health => health
       case TechnicalIssues => technical
       case UnexpectedHospital => unexpectedHospital
-      case LossOfStaff => lossOfStaff
       case Other => other
     }
 
@@ -57,19 +52,15 @@ object ReasonableExcuseMessages {
   object Welsh extends Messages with Cy {
     override val titleAndHeading = "Beth oedd y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno?"
     override val bereavement: String = "Profedigaeth (roedd rhywun wedi marw)"
-    override val cessation: String = "Cessation of income source (Welsh)"
     override val crime: String = "Trosedd"
     override val fireOrFlood: String = "Tân neu lifogydd"
     override val health: String = "Salwch difrifol neu salwch a oedd yn berygl i fywyd"
     override val technical: String = "Problemau technoleg neu broblemau meddalwedd"
     override val unexpectedHospital: String = "Aros yn yr ysbyty yn annisgwyl"
-    override val lossOfStaff: String = "TBC lossOfStaff (Welsh)"
 
     override val other: String = "Rheswm arall"
-
-    override val otherHint: String = "You should only choose this if the reason is not covered by any of the other options. (Welsh)"
     override val errorRequiredLsp: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer cyflwyno"
-    override val errorRequiredLpp: String = "Select the reason for missing the payment deadline (Welsh)"
+    override val errorRequiredLpp: String = "Dewiswch y rheswm dros fethu’r dyddiad cau ar gyfer talu"
 
     override val cyaKey = "Rheswm dros fethu’r dyddiad cau"
     override val cyaHidden = "y rheswm dros fethu’r dyddiad cau"
