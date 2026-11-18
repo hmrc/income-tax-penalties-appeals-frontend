@@ -71,13 +71,14 @@
                     @for((key, value) <- upscanFormFields.fields) {
                         <input type="hidden" name="@key" value="@value"/>
                     }
-
+                   <div class="govuk-form-group">
                     @govukFileUpload(FileUpload(
                         id = UploadDocumentForm.key,
                         name = UploadDocumentForm.key,
                         noFileChosenText = Some(messages("uploadEvidence.nonJs.noFileChosen")),
                         chooseFilesButtonText = Some(messages("uploadEvidence.nonJs.chooseFile")),
                         dropInstructionText =Some(messages("uploadEvidence.nonJs.dropFile")),
+                        classes = "govuk-label--l",
                         label = Label(
                             content = Text(messages(s"uploadEvidence.nonJs.label")),
 
@@ -93,7 +94,7 @@
                             "data-min-file-size" -> appConfig.upscanMinFileSize.toString
                         )
                     ))
-
+                   </div>
 
                     <div class="govuk-button-group">
                         @govukButton(Button(
